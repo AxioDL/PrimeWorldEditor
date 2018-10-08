@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>SpindleOrientation</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x1B4962BF">
+                <DefaultValue>786432</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x609C0608" Archetype="SpindlePositionInterpolant"/>
+            <Element Type="Struct" ID="0xF6C828C0" Archetype="SpindlePositionInterpolant"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

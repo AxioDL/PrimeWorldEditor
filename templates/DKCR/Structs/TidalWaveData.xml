@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TidalWaveData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xB4783F01">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xD381E63E">
+                <DefaultValue>0x6E6E8A1A</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x6E6E8A1A"/>
+                    <Element Name="Unknown 2" ID="0xA2FE50F9"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0x75A29DF1">
+                <DefaultValue>0x59AD38F8</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x59AD38F8"/>
+                    <Element Name="Unknown 2" ID="0xC0A46942"/>
+                    <Element Name="Unknown 3" ID="0x40B609B9"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xCCB532DB">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x278289D8">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x2AC21A04">
+                <DefaultValue>0x13520720</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x13520720"/>
+                    <Element Name="Unknown 2" ID="0x7A138CB0"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0x8CE161CB">
+                <DefaultValue>0x24067FD8</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x24067FD8"/>
+                    <Element Name="Unknown 2" ID="0x3D1D4E99"/>
+                    <Element Name="Unknown 3" ID="0xBD0F2E62"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xA40A895">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE1771396">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

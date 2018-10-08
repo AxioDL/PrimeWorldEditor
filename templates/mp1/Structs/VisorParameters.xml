@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="VisorParameters" type="multi">
-    <properties>
-        <property ID="0x00" name="Unknown 1" type="bool"/>
-        <property ID="0x01" name="Unknown 2" type="bool"/>
-        <bitfield ID="0x02" name="Visor Flags">
-            <flags>
-                <flag mask="0x00000001" name="Combat"/>
-                <flag mask="0x00000002" name="Scan"/>
-                <flag mask="0x00000004" name="Thermal"/>
-                <flag mask="0x00000008" name="X-Ray"/>
-            </flags>
-        </bitfield>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>VisorParameters</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x0">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Flags" ID="0x2">
+                <Name>Visor Flags</Name>
+                <Flags>
+                    <Element Name="Combat" Mask="0x1"/>
+                    <Element Name="Scan" Mask="0x2"/>
+                    <Element Name="Thermal" Mask="0x4"/>
+                    <Element Name="X-Ray" Mask="0x8"/>
+                </Flags>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,126 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>MetroidHopper</name>
-    <modules>
-        <module>RSO_MetroidHopper.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xD9488FBD" type="multi">
-            <properties>
-                <property ID="0xC5407757" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x25474550" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xE6496376" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x87C38060" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xF2782501" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x7F38DCCB" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x01B7D6B1" type="float">
-                    <default>8.0</default>
-                </property>
-                <property ID="0x052DE79B" type="float">
-                    <default>11.0</default>
-                </property>
-                <property ID="0x68E4097E" type="float">
-                    <default>0.5</default>
-                </property>
-                <struct ID="0x2B76B9F1" template="Structs/DamageInfo.xml"/>
-                <struct ID="0x9EF4A101" template="Structs/DamageInfo.xml"/>
-                <property ID="0x500683FC" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x0708D3BF" type="float">
-                    <default>20.0</default>
-                </property>
-                <struct ID="0xF9EF8D5D" template="Structs/LaunchProjectileData.xml">
-                    <properties>
-                        <property ID="0x053AE4A7">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xCF201BFA">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x88137FA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xB2D02323">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF344C0B0">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x056B20B2">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF78469D6">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xAECFEA2D" type="float">
-                    <default>0.6</default>
-                </property>
-                <property ID="0x2A7D0101" type="float">
-                    <default>0.3</default>
-                </property>
-                <struct ID="0xD5A8E2DA" template="Structs/MetroidHopperStruct.xml"/>
-                <struct ID="0x184991DA" template="Structs/MetroidHopperStruct.xml"/>
-                <struct ID="0x7B07ACA3" template="Structs/MetroidHopperStruct.xml"/>
-                <property ID="0x5DDE5B25" type="asset" extensions="ELSC"/>
-                <property ID="0xF95D2033" type="asset" extensions="CAUD"/>
-                <property ID="0x1DA1B117" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xE0700022" type="asset" extensions="PART"/>
-                <struct ID="0xD1F6C520" template="Structs/DamageInfo.xml"/>
-                <struct ID="0xFB648831" type="multi">
-                    <properties>
-                        <enum ID="0x94D97B5A">
-                            <default>0xFC1B1B4F</default>
-                            <enumerators>
-                                <enumerator ID="0xFC1B1B4F" name="Unknown 1"/>
-                                <enumerator ID="0xAD41759A" name="Unknown 2"/>
-                                <enumerator ID="0x0C8D35A3" name="Unknown 3"/>
-                                <enumerator ID="0xC349790F" name="Unknown 4"/>
-                            </enumerators>
-                        </enum>
-                    </properties>
-                </struct>
-                <property ID="0xBB389A82" type="bool">
-                    <default>false</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_MetroidHopper.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>MetroidHopper</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xD9488FBD" Archetype="MetroidHopperData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

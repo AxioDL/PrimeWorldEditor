@@ -1,79 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>WorldTeleporter</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x31EC14BC" type="asset" extensions="MLVL"/>
-        <property ID="0xE0C17804" type="asset" extensions="MREA"/>
-        <property ID="0x4044D9E5" type="character"/>
-        <property ID="0xE56BA365" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x9703F961" type="asset" extensions="CMDL"/>
-        <property ID="0xCA1D9615" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x09F4B212" type="asset" extensions="CMDL"/>
-        <property ID="0x84B43BC6" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x2E997E0B" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x3B3E42E3" type="asset" extensions="UNKN"/>
-        <property ID="0xC7A7F189" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xDF4353A3" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xEA974B08" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x6C176DD6" type="asset" extensions="FONT"/>
-        <property ID="0x9182250C" type="asset" extensions="STRG"/>
-        <property ID="0xC54082E8" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xD9B2394F" type="float">
-            <default>0.01</default>
-        </property>
-        <property ID="0x353582BD" type="float">
-            <default>8.0</default>
-        </property>
-        <property ID="0x196E17D9" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xB28F37B1" type="string"/>
-        <property ID="0xA1C4E7F8" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x79CDA57C" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x0B5240E3" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x71786711" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x5657CA1C" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>WorldTeleporter</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Asset" ID="0x31EC14BC">
+                <TypeFilter>
+                    <Element>MLVL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE0C17804">
+                <TypeFilter>
+                    <Element>MREA</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0x4044D9E5"/>
+            <Element Type="Vector" ID="0xE56BA365">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x9703F961">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0xCA1D9615">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x9F4B212">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0x84B43BC6">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2E997E0B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x3B3E42E3"/>
+            <Element Type="Float" ID="0xC7A7F189">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDF4353A3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xEA974B08">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x6C176DD6">
+                <TypeFilter>
+                    <Element>FONT</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9182250C">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0xC54082E8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9B2394F">
+                <DefaultValue>0.0099999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x353582BD">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x196E17D9">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xB28F37B1"/>
+            <Element Type="Bool" ID="0xA1C4E7F8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x79CDA57C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB5240E3">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x71786711">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5657CA1C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

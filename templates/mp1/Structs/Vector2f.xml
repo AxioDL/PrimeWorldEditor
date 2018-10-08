@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="Vector2f" type="single">
-    <properties>
-        <property ID="0x00" name="X" type="float"/>
-        <property ID="0x01" name="Y" type="float"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>Vector2f</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>X</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>Y</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

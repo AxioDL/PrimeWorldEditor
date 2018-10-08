@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct293</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x6EFDAB2">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x4266606E" Archetype="VolcanoBossBodyPartStructD"/>
+            <Element Type="Struct" ID="0x6C74576" Archetype="VolcanoBossBodyPartStructD"/>
+            <Element Type="Struct" ID="0x3AA7A67E" Archetype="VolcanoBossBodyPartStructD"/>
+            <Element Type="Struct" ID="0x8F850F46" Archetype="VolcanoBossBodyPartStructD"/>
+            <Element Type="Struct" ID="0xB3E5EC4E" Archetype="VolcanoBossBodyPartStructD"/>
+            <Element Type="Struct" ID="0xF744C956" Archetype="VolcanoBossBodyPartStructD"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

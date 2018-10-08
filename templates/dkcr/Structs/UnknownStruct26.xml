@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct26" type="multi">
-    <properties>
-        <property ID="0xF9E0D0FB" type="color">
-            <default>0.996078, 0.976471, 0.607843, 1.0</default>
-        </property>
-        <property ID="0xE0417E89" type="color">
-            <default>0.956863, 0.788235, 0.32549, 1.0</default>
-        </property>
-        <property ID="0xF2E13506" type="color">
-            <default>0.764706, 0.047059, 0.031373, 1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct26</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0xF9E0D0FB">
+                <DefaultValue>
+                    <R>0.99607801</R>
+                    <G>0.97647101</G>
+                    <B>0.60784298</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xE0417E89">
+                <DefaultValue>
+                    <R>0.95686299</R>
+                    <G>0.78823501</G>
+                    <B>0.32549</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF2E13506">
+                <DefaultValue>
+                    <R>0.76470602</R>
+                    <G>0.047059</G>
+                    <B>0.031373002</B>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SeedBoss1OrbData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x29DF61E1" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xED8F36CF" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x922EF2CD" Archetype="GrappleBlock"/>
+            <Element Type="Color" ID="0x9F4149AF">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>1.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5319E29B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA0285357">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x53CF49F6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x88474244">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB3187A53">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x46E661F7">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCF1456CA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

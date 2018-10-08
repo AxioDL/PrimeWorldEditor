@@ -1,30 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>HUDMemo</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="First message timer" type="float"/>
-        <property ID="0x02" name="Unknown 1" type="bool"/>
-        <enum ID="0x03" name="Memo Type">
-            <enumerators>
-                <enumerator ID="0x00" name="Status Message"/>
-                <enumerator ID="0x01" name="Message Box"/>
-            </enumerators>
-        </enum>
-        <property ID="0x04" name="STRG" type="asset" extensions="STRG"/>
-        <property ID="0x05" name="Active" type="bool"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Active" ID="0x05"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/HUDMemo.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>HUDMemo</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>First message timer</Name>
+            </Element>
+            <Element Type="Bool" ID="0x2">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Enum" ID="0x3">
+                <Name>Memo Type</Name>
+                <Values>
+                    <Element Name="Status Message" ID="0x0"/>
+                    <Element Name="Message Box" ID="0x1"/>
+                </Values>
+            </Element>
+            <Element Type="Asset" ID="0x4">
+                <Name>STRG</Name>
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x5">
+                <Name>Active</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x05</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/HUDMemo.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+</ScriptObject>

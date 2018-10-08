@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ForestBossStructA" type="multi">
-    <properties>
-        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
-        <property ID="0x8A939379" type="MayaSpline"/>
-        <property ID="0x0E727FC4" type="MayaSpline"/>
-        <property ID="0xF3FBE484" type="MayaSpline"/>
-        <property ID="0xE2973405" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0xA3800B83" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ForestBossStructA</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xA55DACF6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0x8A939379"/>
+            <Element Type="Spline" ID="0xE727FC4"/>
+            <Element Type="Spline" ID="0xF3FBE484"/>
+            <Element Type="Float" ID="0xE2973405">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA3800B83">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

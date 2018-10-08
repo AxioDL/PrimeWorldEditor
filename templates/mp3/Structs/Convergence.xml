@@ -1,78 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="Convergence" type="multi">
-    <properties>
-        <enum ID="0x2EF22401">
-            <default>0x0BCC8352</default>
-            <enumerators>
-                <enumerator ID="0x0BCC8352" name="Unknown 1"/>
-                <enumerator ID="0x00A569D6" name="Unknown 2"/>
-                <enumerator ID="0xADD84D7B" name="Unknown 3"/>
-                <enumerator ID="0x6DF9B393" name="Unknown 4"/>
-                <enumerator ID="0x9E3CD754" name="Unknown 5"/>
-            </enumerators>
-        </enum>
-        <struct ID="0x6F9D9B33" type="multi">
-            <properties>
-                <property ID="0x82DB0CBE" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x39FB7978" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x1A111725" type="float">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x0CF33816" type="multi">
-            <properties>
-                <property ID="0x6FA2F8BC" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0xB3823863" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xB122A18D" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x8E1B83F9" type="float">
-                    <default>0.01</default>
-                </property>
-                <property ID="0xACB1CDCB" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x74D11538" type="float">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xF9E402EF" type="multi">
-            <properties>
-                <enum ID="0xD0810123">
-                    <default>0x5A778792</default>
-                    <enumerators>
-                        <enumerator ID="0x48C2287C" name="Unknown 1"/>
-                        <enumerator ID="0x5A778792" name="Unknown 2"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xE82B99E1" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xCCF2CAB2" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x706CD96C" type="float">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x085648BC" type="multi">
-            <properties>
-                <property ID="0x02F01683" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xF7FBA2BF" type="MayaSpline"/>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>Convergence</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x2EF22401">
+                <DefaultValue>0xBCC8352</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xBCC8352"/>
+                    <Element Name="Unknown 2" ID="0xA569D6"/>
+                    <Element Name="Unknown 3" ID="0xADD84D7B"/>
+                    <Element Name="Unknown 4" ID="0x6DF9B393"/>
+                    <Element Name="Unknown 5" ID="0x9E3CD754"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0x6F9D9B33" Archetype="Velocity"/>
+            <Element Type="Struct" ID="0xCF33816" Archetype="SpringConvergence"/>
+            <Element Type="Struct" ID="0xF9E402EF" Archetype="PIDConvergence"/>
+            <Element Type="Struct" ID="0x85648BC" Archetype="ProportionalConvergence"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

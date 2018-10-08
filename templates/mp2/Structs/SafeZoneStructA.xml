@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SafeZoneStructA" type="multi">
-    <properties>
-        <property ID="0x29C77D27" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x09AD63DE" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x37C7D09D" type="color">
-            <default>0.0, 0.0, 0.0, 0.0</default>
-        </property>
-        <struct ID="0x652008DA" template="Structs/Vector2f.xml">
-            <properties>
-                <property ID="0xA1677D4E">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x29AB4727" type="float">
-            <default>0.0</default>
-        </property>
-        <struct ID="0xCC8E0F98" template="Structs/Vector2f.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>SafeZoneStructA</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x29C77D27">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9AD63DE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x37C7D09D">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x652008DA" Archetype="Vector2f">
+                <SubProperties>
+                    <Element Type="Float" ID="0xA1677D4E">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x29AB4727">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCC8E0F98" Archetype="Vector2f"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

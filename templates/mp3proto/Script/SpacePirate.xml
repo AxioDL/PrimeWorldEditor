@@ -1,252 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SpacePirate</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x43BBB1DD" template="Structs/PatternedAITypedef.xml">
-            <properties>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xE0CDC7E3">
-                    <default>3.0</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>150.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>2.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x8A6AB139">
-                    <default>0.8</default>
-                </property>
-                <property ID="0x3011B5DF">
-                    <default>3.0</default>
-                </property>
-                <property ID="0xD9355674">
-                    <default>0.3</default>
-                </property>
-                <property ID="0x4BC4C4D9">
-                    <default>1</default>
-                </property>
-                <property ID="0x020C78BB">
-                    <default>360.0</default>
-                </property>
-                <property ID="0x83DFC40F">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xB0CFE015">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xC80E329B">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xF0790C1B">
-                    <default>0.2</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xE677AF2C" template="Structs/FriendlyData.xml"/>
-        <struct ID="0xDDA1CACE" type="multi">
-            <properties>
-                <property ID="0xA40CB847" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x7428A29F" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x87929C41" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x9A0CE9B2" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x4D61342A" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x2D8264EA" type="float">
-                    <default>50.0</default>
-                </property>
-                <property ID="0x6697712A" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x97C95A99" type="bool">
-                    <default>true</default>
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x9579B1F2" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xF89AB419" type="float">
-                    <default>50.0</default>
-                </property>
-                <property ID="0xED9BF5A3" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xED69488F" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x3CB99B1E" type="float">
-                    <default>1000.0</default>
-                </property>
-                <property ID="0x03FDBE4A" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xDC36E745" type="float">
-                    <default>80.0</default>
-                </property>
-                <property ID="0x4EAD288E" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xF11EC8EE" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x808576EE" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x6BC22735" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0xA5912430" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>5.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x71587B45" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x7903312E" type="float">
-                    <default>0.05</default>
-                </property>
-                <property ID="0x1B454A27" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xB2AC2D96" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x7A4B4AEA" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x477AD4F9" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x5BC6F1D5" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x7C021D7E" type="float">
-                    <default>0.75</default>
-                </property>
-                <property ID="0xE527CDE8" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x61E801D4" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xF19B113E" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x80C6880F" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0xC245A874" type="asset" extensions="CAUD"/>
-                <property ID="0xC192E357" type="asset" extensions="CAUD"/>
-                <property ID="0x1B412C4B" type="asset" extensions="CAUD"/>
-                <property ID="0x8A36B5D5" type="long">
-                    <default>10000</default>
-                </property>
-                <struct ID="0xC3B6103B" template="Structs/SpacePirateWeaponData.xml"/>
-                <property ID="0x07C1DE29" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x4AEE5C47" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0xD34F1323" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0xC699AD35" type="character"/>
-                <struct ID="0xBE1AFBC0" template="Structs/GrappleData.xml">
-                    <properties>
-                        <property ID="0x5DCF91E1">
-                            <default>1</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x9D24604F" template="Structs/GrappleBlock.xml"/>
-                <property ID="0xFDE9C4DF" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0xF18384D4" template="Structs/HealthInfo.xml">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>100.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>5.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x896D5BD9" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x36950BCB" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x68002BD7" type="asset" extensions="CMDL"/>
-                <property ID="0xAD315C7C" type="asset" extensions="CMDL"/>
-                <property ID="0x042A25ED" type="asset" extensions="CMDL"/>
-                <property ID="0xE39B8B1E" type="asset" extensions="CMDL"/>
-                <property ID="0x356C166A" type="asset" extensions="CMDL"/>
-                <property ID="0x1CA4A298" type="asset" extensions="CMDL"/>
-                <property ID="0xDF44507E" type="asset" extensions="CMDL"/>
-                <property ID="0xD2C9A656" type="asset" extensions="CMDL"/>
-                <property ID="0xD4E26A8E" type="asset" extensions="CMDL"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x43BBB1DD:0xA244C9D8</animparams>
-            <animparams source="property">0xDDA1CACE:0xC699AD35</animparams>
-            <model source="property">0xE677AF2C:0x50340852</model>
-            <model source="property">0xDDA1CACE:0xC3B6103B:0x2245A396</model>
-            <model source="property">0xDDA1CACE:0x68002BD7</model>
-            <model source="property">0xDDA1CACE:0xAD315C7C</model>
-            <model source="property">0xDDA1CACE:0x042A25ED</model>
-            <model source="property">0xDDA1CACE:0xE39B8B1E</model>
-            <model source="property">0xDDA1CACE:0x356C166A</model>
-            <model source="property">0xDDA1CACE:0x1CA4A298</model>
-            <model source="property">0xDDA1CACE:0xDF44507E</model>
-            <model source="property">0xDDA1CACE:0xD2C9A656</model>
-            <model source="property">0xDDA1CACE:0xD4E26A8E</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>SpacePirate</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x43BBB1DD" Archetype="PatternedAITypedef">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>10.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>10.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xE0CDC7E3">
+                        <DefaultValue>3.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>150.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x8A6AB139">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>3.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xD9355674">
+                        <DefaultValue>0.30000001</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>360.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x83DFC40F">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB0CFE015">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC80E329B">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF0790C1B">
+                        <DefaultValue>0.2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xE677AF2C" Archetype="FriendlyData"/>
+            <Element Type="Struct" ID="0xDDA1CACE" Archetype="SpacePirateData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x43BBB1DD:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0xDDA1CACE:0xC699AD35"/>
+        <Element Type="Model" Source="Property" Location="0xE677AF2C:0x50340852"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0xC3B6103B:0x2245A396"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0x68002BD7"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0xAD315C7C"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0x042A25ED"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0xE39B8B1E"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0x356C166A"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0x1CA4A298"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0xDF44507E"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0xD2C9A656"/>
+        <Element Type="Model" Source="Property" Location="0xDDA1CACE:0xD4E26A8E"/>
+    </Assets>
+</ScriptObject>

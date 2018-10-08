@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>RainProperties</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0x37C7D09D">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                    <A>0.14902</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F01683">
+                <DefaultValue>-40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC616093D">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7F30924C">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAEAD5259">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF4F4E856">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x708DFE03">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x3399D65B"/>
+            <Element Type="Struct" ID="0x8476C57C" Archetype="LayerInfo"/>
+            <Element Type="Bool" ID="0x5DEB4D57">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x35355A0B">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0x1A59B781"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

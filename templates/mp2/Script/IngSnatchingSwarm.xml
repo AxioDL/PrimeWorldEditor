@@ -1,91 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>IngSnatchingSwarm</name>
-    <modules>
-        <module>IngSnatchingSwarm.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x55744160" type="asset" extensions="AFSM,FSM2"/>
-        <property ID="0x83CF6509" type="asset" extensions="PART,SRSC"/>
-        <property ID="0x7CAE2ED5" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x35A88FA1" type="asset" extensions="PART"/>
-        <property ID="0xF65E7EC5" type="float">
-            <default>0.35</default>
-        </property>
-        <property ID="0x32DC67F6" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x563D6D13" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xF549E733" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x0B5C3C1A" type="float">
-            <default>2000.0</default>
-        </property>
-        <property ID="0xDFFDF5A2" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x7755F349" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xE6B57A25" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x830966D5" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0x2DE5A19A" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x4E79F717" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0xE8E0B5A6" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xFCD8057B" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x2D2AFC26" type="asset" extensions="PART"/>
-        <struct ID="0xB16D553E" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x0000000B</default>
-                </enum>
-                <property ID="0xF2D02613">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>10.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x1BB16EA5" type="sound"/>
-        <property ID="0xAF38968E" type="sound"/>
-        <property ID="0x6C101854" type="sound"/>
-        <property ID="0xF0668919" type="float">
-            <default>50.0</default>
-        </property>
-        <struct ID="0x8792A2B0" template="Structs/DamageVulnerability.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>IngSnatchingSwarm.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>IngSnatchingSwarm</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Asset" ID="0x55744160">
+                <TypeFilter>
+                    <Element>AFSM</Element>
+                    <Element>FSM2</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x83CF6509">
+                <TypeFilter>
+                    <Element>PART</Element>
+                    <Element>SRSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x7CAE2ED5">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x35A88FA1">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xF65E7EC5">
+                <DefaultValue>0.34999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32DC67F6">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x563D6D13">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF549E733">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB5C3C1A">
+                <DefaultValue>2000.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDFFDF5A2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7755F349">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE6B57A25">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x830966D5">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2DE5A19A">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4E79F717">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE8E0B5A6">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFCD8057B">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x2D2AFC26">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xB16D553E" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Sound" ID="0x1BB16EA5">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xAF38968E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x6C101854">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0668919">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8792A2B0" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

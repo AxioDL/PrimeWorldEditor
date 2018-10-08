@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct246</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xBE7CA9E">
+                <DefaultValue>0xC8E4D939</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xEEE1C344"/>
+                    <Element Name="Unknown 2" ID="0x7F6CA664"/>
+                    <Element Name="Unknown 3" ID="0x10D337D4"/>
+                    <Element Name="Unknown 4" ID="0x168A0613"/>
+                    <Element Name="Unknown 5" ID="0x3EAD524"/>
+                    <Element Name="Unknown 6" ID="0xC8E4D939"/>
+                    <Element Name="Unknown 7" ID="0xC141103B"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

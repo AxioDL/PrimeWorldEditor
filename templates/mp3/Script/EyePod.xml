@@ -1,131 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>EyePod</name>
-    <modules>
-        <module>RSO_EyePod.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB718B831" template="Structs/WallCrawlerData.xml"/>
-        <struct ID="0x9214A518" type="multi">
-            <properties>
-                <property ID="0x25474550" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xF6B051B3" type="float">
-                    <default>40.0</default>
-                </property>
-                <property ID="0xF8B0C2BB" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x95E7A2C2" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x76BA1C18" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x64D482D5" type="long">
-                    <default>1</default>
-                </property>
-                <property ID="0xC3E002AC" type="long">
-                    <default>4</default>
-                </property>
-                <property ID="0x4DA7906B" type="float">
-                    <default>0.25</default>
-                </property>
-                <property ID="0xA2258E11" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xB6A0464C" type="float">
-                    <default>0.25</default>
-                </property>
-                <property ID="0xE5065EA8" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x88F13A51" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x6773242B" type="float">
-                    <default>7.0</default>
-                </property>
-                <property ID="0xE8C819E6" type="asset" extensions="WPSC"/>
-                <property ID="0xB14FEA52" type="asset" extensions="WPSC"/>
-                <struct ID="0xC93109E7" template="Structs/DamageInfo.xml"/>
-                <struct ID="0x37A6F562" template="Structs/DamageInfo.xml"/>
-                <property ID="0xD75F9CF2" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x7076D432" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x3DB05763" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x190CB8D7" type="float">
-                    <default>2.0</default>
-                </property>
-                <struct ID="0x5B0A8C8A" template="Structs/EyePodStruct.xml"/>
-                <struct ID="0x0CE679BB" template="Structs/EyePodStruct.xml"/>
-                <struct ID="0xF9BBCC33" template="Structs/EyePodStruct.xml"/>
-                <property ID="0xF1C247FF" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xA1ED5408" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0x511961D4" template="Structs/StaticGeometryTest.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>100.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>2.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xD9355674">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xFF77C96F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x3FAE47EB">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x13F0B18F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x7D5A0487">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_EyePod.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>EyePod</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB718B831" Archetype="WallCrawlerData"/>
+            <Element Type="Struct" ID="0x9214A518" Archetype="EyePodData"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>100.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xD9355674">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xFF77C96F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x3FAE47EB">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x13F0B18F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x7D5A0487">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

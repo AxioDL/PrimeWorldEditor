@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="OrientationInterpolationMethod" type="multi">
-    <properties>
-        <enum ID="0x5C72A964">
-            <default>0x355476D5</default>
-            <enumerators>
-                <enumerator ID="0x355476D5" name="Unknown 1"/>
-                <enumerator ID="0x65861080" name="Unknown 2"/>
-                <enumerator ID="0x9087E681" name="Unknown 3"/>
-                <enumerator ID="0x11782B2C" name="Unknown 4"/>
-                <enumerator ID="0x3F448DD2" name="Unknown 5"/>
-            </enumerators>
-        </enum>
-        <struct ID="0x8654B081" template="Structs/InterpolationMethod.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>OrientationInterpolationMethod</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x5C72A964">
+                <DefaultValue>0x355476D5</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x355476D5"/>
+                    <Element Name="Unknown 2" ID="0x65861080"/>
+                    <Element Name="Unknown 3" ID="0x9087E681"/>
+                    <Element Name="Unknown 4" ID="0x11782B2C"/>
+                    <Element Name="Unknown 5" ID="0x3F448DD2"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0x8654B081" Archetype="InterpolationMethod"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

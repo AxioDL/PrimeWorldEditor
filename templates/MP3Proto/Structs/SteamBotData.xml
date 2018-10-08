@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>SteamBotData</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0xBE5E86B9"/>
+            <Element Type="Struct" ID="0xAB247451" Archetype="LaunchProjectileData"/>
+            <Element Type="Float" ID="0x55C19435">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB3A13BD4">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x588C742">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB98CBA47" Archetype="LaunchProjectileData"/>
+            <Element Type="Float" ID="0x296B1195">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCF0BBE74">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA0D2AF02">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD7B53CDB">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8DBAEEF2" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x582B9B3B">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBE4B34DA">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEBB134B5">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCA91ECB0" Archetype="LaunchProjectileData"/>
+            <Element Type="Float" ID="0xA296206A">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10C7FD02">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF6A752E3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x802B706E">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x699DA662">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8FFD0983">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC80AC7DB">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E6A683A">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x48BA8EB1"/>
+            <Element Type="Spline" ID="0x180C38B0"/>
+            <Element Type="Spline" ID="0xF762790"/>
+            <Element Type="Spline" ID="0x564BD8CD"/>
+            <Element Type="Float" ID="0x9AA90B6B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7626EC89">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50A9BD0D">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7FC827A2">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDEDD30A4">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF8243D17">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

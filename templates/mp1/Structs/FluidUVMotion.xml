@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="FluidUVMotion" type="single">
-    <properties>
-        <struct ID="0x00" name="Fluid Layer Motion 1" template="Structs/FluidLayerMotion.xml"/>
-        <struct ID="0x01" name="Fluid Layer Motion 2" template="Structs/FluidLayerMotion.xml"/>
-        <struct ID="0x02" name="Fluid Layer Motion 3" template="Structs/FluidLayerMotion.xml"/>
-        <property ID="0x03" name="Unknown 1" type="float"/>
-        <property ID="0x04" name="Unknown 2" type="float"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>FluidUVMotion</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Struct" ID="0x0" Archetype="FluidLayerMotion">
+                <Name>Fluid Layer Motion 1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1" Archetype="FluidLayerMotion">
+                <Name>Fluid Layer Motion 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x2" Archetype="FluidLayerMotion">
+                <Name>Fluid Layer Motion 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Unknown 2</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

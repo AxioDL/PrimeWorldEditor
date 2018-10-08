@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ContextActionCombinationLockStruct" type="multi">
-    <properties>
-        <property ID="0x90AC8041" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x89C4CC5F" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x992C2DF5" type="float">
-            <default>-90.0</default>
-        </property>
-        <property ID="0xD9635583" type="float">
-            <default>90.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>ContextActionCombinationLockStruct</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x90AC8041">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x89C4CC5F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x992C2DF5">
+                <DefaultValue>-90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9635583">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

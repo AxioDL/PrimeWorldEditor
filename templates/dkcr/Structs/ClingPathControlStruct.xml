@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ClingPathControlStruct" type="multi">
-    <properties>
-        <enum ID="0x95A68D4C" template="Enums/UnknownEnum1.xml">
-            <default>0xD086634A</default>
-        </enum>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ClingPathControlStruct</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x95A68D4C" Archetype="UnknownEnum1">
+                <DefaultValue>0xD086634A</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

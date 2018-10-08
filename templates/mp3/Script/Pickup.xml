@@ -1,94 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Pickup</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x16D9A75D" template="Structs/SavedStateID.xml"/>
-        <property ID="0x3A3E03BA" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x2E686C2A" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <enum ID="0xA02EF0C4" template="Enums/Item.xml">
-            <default>0xFB73F2B8</default>
-        </enum>
-        <property ID="0x28C71B54" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x165AB069" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x94AF1445" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xF7FBAAA5" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xC80FC827" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x32DC67F6" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x56E3CEEF" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
-        <property ID="0xA244C9D8" type="character"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xE585F166" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xA9FE872A" type="asset" extensions="PART"/>
-        <property ID="0xE10BCB96" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xCE33239F" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x2DE4A294" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xA6EA280D" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xC2B11CFD" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x2DB59FCF" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x961C0D17" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xA755EB02" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x850115E4" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xA09D4A1F" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xA244C9D8</animparams>
-            <model source="property">0xC27FFA8F</model>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>Pickup</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x16D9A75D" Archetype="SavedStateID"/>
+            <Element Type="Vector" ID="0x3A3E03BA">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xA02EF0C4" Archetype="Item">
+                <DefaultValue>0xFB73F2B8</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x28C71B54">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x165AB069">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x94AF1445">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF7FBAAA5">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC80FC827">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32DC67F6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x56E3CEEF">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Float" ID="0xE585F166">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA9FE872A">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0xE10BCB96">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCE33239F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2DE4A294">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA6EA280D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC2B11CFD">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2DB59FCF">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x961C0D17">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA755EB02">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x850115E4">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA09D4A1F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

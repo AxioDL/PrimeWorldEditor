@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct248</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x9A6210D3">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7466F048">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB0AF3909">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3DD8389">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBBD6172C">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6F332701">
+                <DefaultValue>2.1500001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD3C7A4FA">
+                <DefaultValue>3.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F9DED4B">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x984AF3ED">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2BD2AE32"/>
+            <Element Type="Asset" ID="0x7C519662">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

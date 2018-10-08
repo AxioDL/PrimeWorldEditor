@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="CameraShakerData" type="multi">
-    <properties>
-        <property ID="0xC3E75C5F" type="long">
-            <default>16</default>
-        </property>
-        <property ID="0x4D283AC5" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xF122CD97" type="MayaSpline"/>
-        <property ID="0x2927E544" type="MayaSpline"/>
-        <property ID="0x7CFA4678" type="MayaSpline"/>
-        <property ID="0x8B51E23F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x388D2E46" type="sound"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraShakerData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xC3E75C5F">
+                <DefaultValue>16</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D283AC5">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xF122CD97"/>
+            <Element Type="Spline" ID="0x2927E544"/>
+            <Element Type="Spline" ID="0x7CFA4678"/>
+            <Element Type="Float" ID="0x8B51E23F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x388D2E46">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

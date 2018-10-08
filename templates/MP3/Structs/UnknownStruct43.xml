@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct43</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xDE7E9F94">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAD98E16D">
+                <DefaultValue>0.34999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x81D699B0">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA265383C">
+                <DefaultValue>0.02</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAD08E189">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE776332A">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1169CCB">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x1A9C4C4C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x98536DD"/>
+            <Element Type="Struct" ID="0xF6206A12" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xA233ACCD">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

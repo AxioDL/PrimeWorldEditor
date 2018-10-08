@@ -177,6 +177,13 @@ void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u
         {
             mFlags |= EPropertyFlag::IsArrayArchetype;
         }
+
+        // MP1 has some weirdness we need to account for, most likely due to incorrect templates
+        // The templates we have right now have non-atomic structs inside atomic structs...
+        if (Game() <= EGame::Prime && mpParent->IsAtomic() && mpArchetype && !mpArchetype->IsAtomic())
+        {
+            mFlags.ClearFlag(EPropertyFlag::IsAtomic);
+        }
     }
     else if (!mpScriptTemplate)
     {
@@ -322,16 +329,7 @@ void IProperty::SetSuffix(const TString& rkNewSuffix)
 
 void IProperty::MarkDirty()
 {
-    // This property is either part of a script template, or a property archetype.
-    // Figure out which one, set the dirty flag as needed
-    if (mpScriptTemplate)
-    {
-        mpScriptTemplate->MarkDirty();
-    }
-    else
-    {
-        RootParent()->mFlags |= EPropertyFlag::IsDirty;
-    }
+    RootParent()->mFlags |= EPropertyFlag::IsDirty;
 }
 
 void IProperty::ClearDirtyFlag()

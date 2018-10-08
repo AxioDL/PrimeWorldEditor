@@ -1,186 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>ReptilicusHunter</name>
-    <modules>
-        <module>RSO_ReptilicusHunter.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x020C78BB">
-                    <default>360.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x3B7085AD" type="multi">
-            <properties>
-                <property ID="0x217E944A" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x0C81681A" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0xE9553FFA" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x1C893F54" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x369D0874" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0x91A9880D" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x11286BD3" type="float">
-                    <default>40.0</default>
-                </property>
-                <property ID="0xB7E53921" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x5867275B" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0x388BC31F" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x4319C840" type="float">
-                    <default>0.25</default>
-                </property>
-                <property ID="0x052BF617" type="asset" extensions="CAUD"/>
-                <property ID="0xFE842879" type="asset" extensions="CAUD"/>
-                <property ID="0x221C7EC1" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x41AF5EEB" type="float">
-                    <default>300.0</default>
-                </property>
-                <property ID="0x0CF887F1" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x18A9876B" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x164F8CA8" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xCDF0DF4F" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xF77E2AE2" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x14239438" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xE6C24412" type="float">
-                    <default>7.5</default>
-                </property>
-                <property ID="0x583C1B1E" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0xA77F6212" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x9579B1F2" type="float">
-                    <default>10.0</default>
-                </property>
-                <struct ID="0x9C5E7D6F" template="Structs/ReptilicusHunterStruct.xml"/>
-                <struct ID="0xAA2BEE9A" template="Structs/ReptilicusHunterStruct.xml"/>
-                <struct ID="0xE27A4E87" template="Structs/ReptilicusHunterStruct.xml"/>
-                <struct ID="0x87B10A69" type="multi">
-                    <properties>
-                        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <struct ID="0xB3DABF84" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x2ED25F50" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0xE9C8E2BD" type="asset" extensions="PART,ELSC"/>
-                        <property ID="0x7E192395" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x5D1652E2" type="float">
-                            <default>25.0</default>
-                        </property>
-                        <property ID="0xE33A996D" type="asset" extensions="CAUD"/>
-                    </properties>
-                </struct>
-                <struct ID="0xD7548E97" type="multi">
-                    <properties>
-                        <property ID="0x5C1FFC8D" type="character"/>
-                        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <struct ID="0xB3DABF84" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x894C2B5D" type="float">
-                            <default>2.5</default>
-                        </property>
-                        <property ID="0x2ED25F50" type="float">
-                            <default>15.0</default>
-                        </property>
-                        <property ID="0xB154F3FD" type="asset" extensions="PART"/>
-                        <property ID="0xE33A996D" type="asset" extensions="CAUD"/>
-                        <property ID="0xDE12B1D5" type="bool">
-                            <default>false</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x19A58C31" type="multi">
-                    <properties>
-                        <property ID="0x66AB57A4" type="asset" extensions="CMDL"/>
-                        <property ID="0x14143470" type="asset" extensions="PART"/>
-                        <property ID="0x36EEE791" type="asset" extensions="PART"/>
-                        <property ID="0x52F89BF7" type="asset" extensions="PART"/>
-                        <property ID="0x1A092829" type="asset" extensions="CAUD"/>
-                        <property ID="0xE33A996D" type="asset" extensions="CAUD"/>
-                        <property ID="0xDF64C67A" type="asset" extensions="CAUD"/>
-                        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <struct ID="0xB3DABF84" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x6392404E" type="float">
-                            <default>50.0</default>
-                        </property>
-                        <property ID="0x508C48D7" type="float">
-                            <default>50.0</default>
-                        </property>
-                        <property ID="0x8B4AF5C4" type="float">
-                            <default>720.0</default>
-                        </property>
-                        <property ID="0x7C269EBC" type="float">
-                            <default>0.5</default>
-                        </property>
-                        <property ID="0xE9C8E2BD" type="asset" extensions="PART,ELSC"/>
-                        <property ID="0x7E192395" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x2F79B3D0" type="float">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x11CC7B58" type="float">
-                            <default>60.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0x3B7085AD:0xD7548E97:0x5C1FFC8D</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <model source="property">0x3B7085AD:0x19A58C31:0x66AB57A4</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_ReptilicusHunter.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>ReptilicusHunter</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>360.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x3B7085AD" Archetype="ReptilicusHunterData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x3B7085AD:0xD7548E97:0x5C1FFC8D"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Model" Source="Property" Location="0x3B7085AD:0x19A58C31:0x66AB57A4"/>
+    </Assets>
+</ScriptObject>

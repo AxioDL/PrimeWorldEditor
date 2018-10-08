@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>VisControl</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xDDECEE96">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x87DCD2B9"/>
+            <Element Type="String" ID="0xB634C824"/>
+            <Element Type="String" ID="0x1043C390"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

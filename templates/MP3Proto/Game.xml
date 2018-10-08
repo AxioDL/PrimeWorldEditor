@@ -1,0 +1,2263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Game ArchiveVer="4" Game="CorruptionProto">
+    <ScriptObjects>
+        <Element>
+            <Key>ACKF</Key>
+            <Value ID="ACKF" Path="Script/ActorKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>ACTR</Key>
+            <Value ID="ACTR" Path="Script/Actor.xml"/>
+        </Element>
+        <Element>
+            <Key>ADMG</Key>
+            <Value ID="ADMG" Path="Script/AreaDamage.xml"/>
+        </Element>
+        <Element>
+            <Key>AIHT</Key>
+            <Value ID="AIHT" Path="Script/AIHint.xml"/>
+        </Element>
+        <Element>
+            <Key>AIKF</Key>
+            <Value ID="AIKF" Path="Script/ActorKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>AITP</Key>
+            <Value ID="AITP" Path="Script/AITaskPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>AIWP</Key>
+            <Value ID="AIWP" Path="Script/AIWaypoint.xml"/>
+        </Element>
+        <Element>
+            <Key>AJMP</Key>
+            <Value ID="AJMP" Path="Script/AiJumpPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>AMIA</Key>
+            <Value ID="AMIA" Path="Script/AmbientAI.xml"/>
+        </Element>
+        <Element>
+            <Key>AMOR</Key>
+            <Value ID="AMOR" Path="Script/ActorMorph.xml"/>
+        </Element>
+        <Element>
+            <Key>ATMA</Key>
+            <Value ID="ATMA" Path="Script/AtomicAlpha.xml"/>
+        </Element>
+        <Element>
+            <Key>ATRN</Key>
+            <Value ID="ATRN" Path="Script/ActorTransform.xml"/>
+        </Element>
+        <Element>
+            <Key>BALS</Key>
+            <Value ID="BALS" Path="Script/SpiderBallAttractionSurface.xml"/>
+        </Element>
+        <Element>
+            <Key>BALT</Key>
+            <Value ID="BALT" Path="Script/BallTrigger.xml"/>
+        </Element>
+        <Element>
+            <Key>BALW</Key>
+            <Value ID="BALW" Path="Script/SpiderBallWaypoint.xml"/>
+        </Element>
+        <Element>
+            <Key>BLUR</Key>
+            <Value ID="BLUR" Path="Script/CameraBlurKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>BLWF</Key>
+            <Value ID="BLWF" Path="Script/BlinkWolf.xml"/>
+        </Element>
+        <Element>
+            <Key>BSKR</Key>
+            <Value ID="BSKR" Path="Script/Berserker.xml"/>
+        </Element>
+        <Element>
+            <Key>BSTR</Key>
+            <Value ID="BSTR" Path="Script/BeastRider.xml"/>
+        </Element>
+        <Element>
+            <Key>CABL</Key>
+            <Value ID="CABL" Path="Script/Cable.xml"/>
+        </Element>
+        <Element>
+            <Key>CAMH</Key>
+            <Value ID="CAMH" Path="Script/CameraHint.xml"/>
+        </Element>
+        <Element>
+            <Key>CAMP</Key>
+            <Value ID="CAMP" Path="Script/CameraPitch.xml"/>
+        </Element>
+        <Element>
+            <Key>CAMS</Key>
+            <Value ID="CAMS" Path="Script/CameraShaker.xml"/>
+        </Element>
+        <Element>
+            <Key>CANB</Key>
+            <Value ID="CANB" Path="Script/CannonBall.xml"/>
+        </Element>
+        <Element>
+            <Key>CINE</Key>
+            <Value ID="CINE" Path="Script/CinematicCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>CLRM</Key>
+            <Value ID="CLRM" Path="Script/ColorModulate.xml"/>
+        </Element>
+        <Element>
+            <Key>CNTA</Key>
+            <Value ID="CNTA" Path="Script/ControllerAction.xml"/>
+        </Element>
+        <Element>
+            <Key>CNTR</Key>
+            <Value ID="CNTR" Path="Script/Counter.xml"/>
+        </Element>
+        <Element>
+            <Key>COVR</Key>
+            <Value ID="COVR" Path="Script/CoverPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>CRAR</Key>
+            <Value ID="CRAR" Path="Script/CrossAreaRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>CRLY</Key>
+            <Value ID="CRLY" Path="Script/ConditionalRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>CSAC</Key>
+            <Value ID="CSAC" Path="Script/ContextSensitiveAction.xml"/>
+        </Element>
+        <Element>
+            <Key>CSAT</Key>
+            <Value ID="CSAT" Path="Script/ContextSensitiveActivator.xml"/>
+        </Element>
+        <Element>
+            <Key>CTLH</Key>
+            <Value ID="CTLH" Path="Script/ControlHint.xml"/>
+        </Element>
+        <Element>
+            <Key>DBAR</Key>
+            <Value ID="DBAR" Path="Script/DestructibleBarrier.xml"/>
+        </Element>
+        <Element>
+            <Key>DEBR</Key>
+            <Value ID="DEBR" Path="Script/Debris.xml"/>
+        </Element>
+        <Element>
+            <Key>DEFM</Key>
+            <Value ID="DEFM" Path="Script/DefenseMechanoid.xml"/>
+        </Element>
+        <Element>
+            <Key>DFOG</Key>
+            <Value ID="DFOG" Path="Script/DistanceFog.xml"/>
+        </Element>
+        <Element>
+            <Key>DLHT</Key>
+            <Value ID="DLHT" Path="Script/DynamicLight.xml"/>
+        </Element>
+        <Element>
+            <Key>DMGA</Key>
+            <Value ID="DMGA" Path="Script/DamageActor.xml"/>
+        </Element>
+        <Element>
+            <Key>DOCK</Key>
+            <Value ID="DOCK" Path="Script/Dock.xml"/>
+        </Element>
+        <Element>
+            <Key>DOOR</Key>
+            <Value ID="DOOR" Path="Script/Door.xml"/>
+        </Element>
+        <Element>
+            <Key>DRKS</Key>
+            <Value ID="DRKS" Path="Script/DarkSamus.xml"/>
+        </Element>
+        <Element>
+            <Key>DTRG</Key>
+            <Value ID="DTRG" Path="Script/DamageableTrigger.xml"/>
+        </Element>
+        <Element>
+            <Key>DTRO</Key>
+            <Value ID="DTRO" Path="Script/DamageableTriggerOrientated.xml"/>
+        </Element>
+        <Element>
+            <Key>EFCT</Key>
+            <Value ID="EFCT" Path="Script/Effect.xml"/>
+        </Element>
+        <Element>
+            <Key>EFTR</Key>
+            <Value ID="EFTR" Path="Script/EffectRepulsor.xml"/>
+        </Element>
+        <Element>
+            <Key>EMPU</Key>
+            <Value ID="EMPU" Path="Script/ElectroMagneticPulse.xml"/>
+        </Element>
+        <Element>
+            <Key>EYEP</Key>
+            <Value ID="EYEP" Path="Script/EyePod.xml"/>
+        </Element>
+        <Element>
+            <Key>FGHS</Key>
+            <Value ID="FGHS" Path="Script/FargullHatcherSwarm.xml"/>
+        </Element>
+        <Element>
+            <Key>FGHT</Key>
+            <Value ID="FGHT" Path="Script/FargullHatcher.xml"/>
+        </Element>
+        <Element>
+            <Key>FILT</Key>
+            <Value ID="FILT" Path="Script/CameraFilterKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>FISH</Key>
+            <Value ID="FISH" Path="Script/FishCloud.xml"/>
+        </Element>
+        <Element>
+            <Key>FLAR</Key>
+            <Value ID="FLAR" Path="Script/VisorFlare.xml"/>
+        </Element>
+        <Element>
+            <Key>FLPS</Key>
+            <Value ID="FLPS" Path="Script/FalsePerspective.xml"/>
+        </Element>
+        <Element>
+            <Key>FLYP</Key>
+            <Value ID="FLYP" Path="Script/FlyingPirate.xml"/>
+        </Element>
+        <Element>
+            <Key>FNWK</Key>
+            <Value ID="FNWK" Path="Script/FrontEndDataNetwork.xml"/>
+        </Element>
+        <Element>
+            <Key>FOGO</Key>
+            <Value ID="FOGO" Path="Script/FogOverlay.xml"/>
+        </Element>
+        <Element>
+            <Key>FOGV</Key>
+            <Value ID="FOGV" Path="Script/FogVolume.xml"/>
+        </Element>
+        <Element>
+            <Key>FRND</Key>
+            <Value ID="FRND" Path="Script/Friendly.xml"/>
+        </Element>
+        <Element>
+            <Key>FSHM</Key>
+            <Value ID="FSHM" Path="Script/FishCloudModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>FSWM</Key>
+            <Value ID="FSWM" Path="Script/FlyerSwarm.xml"/>
+        </Element>
+        <Element>
+            <Key>FXDC</Key>
+            <Value ID="FXDC" Path="Script/EnvFxDensityController.xml"/>
+        </Element>
+        <Element>
+            <Key>GENR</Key>
+            <Value ID="GENR" Path="Script/Generator.xml"/>
+        </Element>
+        <Element>
+            <Key>GMNU</Key>
+            <Value ID="GMNU" Path="Script/GuiMenu.xml"/>
+        </Element>
+        <Element>
+            <Key>GNTB</Key>
+            <Value ID="GNTB" Path="Script/GunTurretBase.xml"/>
+        </Element>
+        <Element>
+            <Key>GNTT</Key>
+            <Value ID="GNTT" Path="Script/GunTurretTop.xml"/>
+        </Element>
+        <Element>
+            <Key>GOBD</Key>
+            <Value ID="GOBD" Path="Script/GeneratedObjectDeleter.xml"/>
+        </Element>
+        <Element>
+            <Key>GPJN</Key>
+            <Value ID="GPJN" Path="Script/GuiPlayerJoinManager.xml"/>
+        </Element>
+        <Element>
+            <Key>GRAP</Key>
+            <Value ID="GRAP" Path="Script/GrapplePoint.xml"/>
+        </Element>
+        <Element>
+            <Key>GRFL</Key>
+            <Value ID="GRFL" Path="Script/GragnolFlyer.xml"/>
+        </Element>
+        <Element>
+            <Key>GSCR</Key>
+            <Value ID="GSCR" Path="Script/GuiScreen.xml"/>
+        </Element>
+        <Element>
+            <Key>GSLD</Key>
+            <Value ID="GSLD" Path="Script/GuiSlider.xml"/>
+        </Element>
+        <Element>
+            <Key>GWIG</Key>
+            <Value ID="GWIG" Path="Script/GuiWidget.xml"/>
+        </Element>
+        <Element>
+            <Key>HHNT</Key>
+            <Value ID="HHNT" Path="Script/HUDHint.xml"/>
+        </Element>
+        <Element>
+            <Key>HINT</Key>
+            <Value ID="HINT" Path="Script/PlayerHint.xml"/>
+        </Element>
+        <Element>
+            <Key>KRAK</Key>
+            <Value ID="KRAK" Path="Script/Korakk.xml"/>
+        </Element>
+        <Element>
+            <Key>KRBA</Key>
+            <Value ID="KRBA" Path="Script/KorbaSnatcherSwarm.xml"/>
+        </Element>
+        <Element>
+            <Key>KRBM</Key>
+            <Value ID="KRBM" Path="Script/KorbaMaw.xml"/>
+        </Element>
+        <Element>
+            <Key>LUAX</Key>
+            <Value ID="LUAX" Path="Script/LUAScript.xml"/>
+        </Element>
+        <Element>
+            <Key>MANT</Key>
+            <Value ID="MANT" Path="Script/Mantha.xml"/>
+        </Element>
+        <Element>
+            <Key>MEMO</Key>
+            <Value ID="MEMO" Path="Script/HUDMemo.xml"/>
+        </Element>
+        <Element>
+            <Key>MHAT</Key>
+            <Value ID="MHAT" Path="Script/MetroidHatcher.xml"/>
+        </Element>
+        <Element>
+            <Key>MHOP</Key>
+            <Value ID="MHOP" Path="Script/MetroidHopper.xml"/>
+        </Element>
+        <Element>
+            <Key>MOVI</Key>
+            <Value ID="MOVI" Path="Script/StreamedMovie.xml"/>
+        </Element>
+        <Element>
+            <Key>MRLY</Key>
+            <Value ID="MRLY" Path="Script/MemoryRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>MYSF</Key>
+            <Value ID="MYSF" Path="Script/MysteryFlyer.xml"/>
+        </Element>
+        <Element>
+            <Key>NOTU</Key>
+            <Value ID="NOTU" Path="Script/PTCNoseTurret.xml"/>
+        </Element>
+        <Element>
+            <Key>OPAA</Key>
+            <Value ID="OPAA" Path="Script/OptionalAreaAsset.xml"/>
+        </Element>
+        <Element>
+            <Key>PCKP</Key>
+            <Value ID="PCKP" Path="Script/Pickup.xml"/>
+        </Element>
+        <Element>
+            <Key>PCTL</Key>
+            <Value ID="PCTL" Path="Script/PathControl.xml"/>
+        </Element>
+        <Element>
+            <Key>PDBR</Key>
+            <Value ID="PDBR" Path="Script/PhysicsDebris.xml"/>
+        </Element>
+        <Element>
+            <Key>PDRN</Key>
+            <Value ID="PDRN" Path="Script/PirateDrone.xml"/>
+        </Element>
+        <Element>
+            <Key>PGVS</Key>
+            <Value ID="PGVS" Path="Script/PlayerGravityScalar.xml"/>
+        </Element>
+        <Element>
+            <Key>PHZS</Key>
+            <Value ID="PHZS" Path="Script/PhazonFlyerSwarm.xml"/>
+        </Element>
+        <Element>
+            <Key>PIRT</Key>
+            <Value ID="PIRT" Path="Script/SpacePirate.xml"/>
+        </Element>
+        <Element>
+            <Key>PLAC</Key>
+            <Value ID="PLAC" Path="Script/PlayerActor.xml"/>
+        </Element>
+        <Element>
+            <Key>PLAT</Key>
+            <Value ID="PLAT" Path="Script/Platform.xml"/>
+        </Element>
+        <Element>
+            <Key>PLCH</Key>
+            <Value ID="PLCH" Path="Script/PhazonLeech.xml"/>
+        </Element>
+        <Element>
+            <Key>PLCT</Key>
+            <Value ID="PLCT" Path="Script/PlayerController.xml"/>
+        </Element>
+        <Element>
+            <Key>PLRT</Key>
+            <Value ID="PLRT" Path="Script/PlayerTurret.xml"/>
+        </Element>
+        <Element>
+            <Key>PMCT</Key>
+            <Value ID="PMCT" Path="Script/PathMeshCtrl.xml"/>
+        </Element>
+        <Element>
+            <Key>POIN</Key>
+            <Value ID="POIN" Path="Script/PointOfInterest.xml"/>
+        </Element>
+        <Element>
+            <Key>PPDL</Key>
+            <Value ID="PPDL" Path="Script/PhazonPuddle.xml"/>
+        </Element>
+        <Element>
+            <Key>PSSM</Key>
+            <Value ID="PSSM" Path="Script/PlantScarabSwarm.xml"/>
+        </Element>
+        <Element>
+            <Key>PUAP</Key>
+            <Value ID="PUAP" Path="Script/PlayerUserAnimPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>RADD</Key>
+            <Value ID="RADD" Path="Script/RadialDamage.xml"/>
+        </Element>
+        <Element>
+            <Key>REAA</Key>
+            <Value ID="REAA" Path="Script/AreaAttributes.xml"/>
+        </Element>
+        <Element>
+            <Key>REPH</Key>
+            <Value ID="REPH" Path="Script/ReptilicusHunter.xml"/>
+        </Element>
+        <Element>
+            <Key>REPL</Key>
+            <Value ID="REPL" Path="Script/Repulsor.xml"/>
+        </Element>
+        <Element>
+            <Key>RID1</Key>
+            <Value ID="RID1" Path="Script/Ridley1.xml"/>
+        </Element>
+        <Element>
+            <Key>RIPL</Key>
+            <Value ID="RIPL" Path="Script/Ripple.xml"/>
+        </Element>
+        <Element>
+            <Key>RMAC</Key>
+            <Value ID="RMAC" Path="Script/RoomAcoustics.xml"/>
+        </Element>
+        <Element>
+            <Key>RRLY</Key>
+            <Value ID="RRLY" Path="Script/RelayRandom.xml"/>
+        </Element>
+        <Element>
+            <Key>RUMB</Key>
+            <Value ID="RUMB" Path="Script/RumbleEffect.xml"/>
+        </Element>
+        <Element>
+            <Key>RUND</Key>
+            <Value ID="RUND" Path="Script/Rundas.xml"/>
+        </Element>
+        <Element>
+            <Key>SBO1</Key>
+            <Value ID="SBO1" Path="Script/SeedBoss1Orb.xml"/>
+        </Element>
+        <Element>
+            <Key>SCTL</Key>
+            <Value ID="SCTL" Path="Script/SurfaceControl.xml"/>
+        </Element>
+        <Element>
+            <Key>SDB1</Key>
+            <Value ID="SDB1" Path="Script/SeedBoss1.xml"/>
+        </Element>
+        <Element>
+            <Key>SHCI</Key>
+            <Value ID="SHCI" Path="Script/ShipCommandIcon.xml"/>
+        </Element>
+        <Element>
+            <Key>SHCP</Key>
+            <Value ID="SHCP" Path="Script/ShipCommandPath.xml"/>
+        </Element>
+        <Element>
+            <Key>SHDW</Key>
+            <Value ID="SHDW" Path="Script/ShadowProjector.xml"/>
+        </Element>
+        <Element>
+            <Key>SHIP</Key>
+            <Value ID="SHIP" Path="Script/Ship.xml"/>
+        </Element>
+        <Element>
+            <Key>SHPX</Key>
+            <Value ID="SHPX" Path="Script/ShipProxy.xml"/>
+        </Element>
+        <Element>
+            <Key>SKRP</Key>
+            <Value ID="SKRP" Path="Script/SkyRipple.xml"/>
+        </Element>
+        <Element>
+            <Key>SLCT</Key>
+            <Value ID="SLCT" Path="Script/LayerController.xml"/>
+        </Element>
+        <Element>
+            <Key>SNDM</Key>
+            <Value ID="SNDM" Path="Script/SoundModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>SOND</Key>
+            <Value ID="SOND" Path="Script/Sound.xml"/>
+        </Element>
+        <Element>
+            <Key>SPFN</Key>
+            <Value ID="SPFN" Path="Script/SpecialFunction.xml"/>
+        </Element>
+        <Element>
+            <Key>SPIN</Key>
+            <Value ID="SPIN" Path="Script/Spinner.xml"/>
+        </Element>
+        <Element>
+            <Key>SPRL</Key>
+            <Value ID="SPRL" Path="Script/PositionRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>SPWN</Key>
+            <Value ID="SPWN" Path="Script/SpawnPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>SQTR</Key>
+            <Value ID="SQTR" Path="Script/SequenceTimer.xml"/>
+        </Element>
+        <Element>
+            <Key>SRLY</Key>
+            <Value ID="SRLY" Path="Script/Relay.xml"/>
+        </Element>
+        <Element>
+            <Key>STAU</Key>
+            <Value ID="STAU" Path="Script/StreamedAudio.xml"/>
+        </Element>
+        <Element>
+            <Key>STEM</Key>
+            <Value ID="STEM" Path="Script/Steam.xml"/>
+        </Element>
+        <Element>
+            <Key>STMB</Key>
+            <Value ID="STMB" Path="Script/SteamBot.xml"/>
+        </Element>
+        <Element>
+            <Key>STML</Key>
+            <Value ID="STML" Path="Script/SteamLord.xml"/>
+        </Element>
+        <Element>
+            <Key>SUBT</Key>
+            <Value ID="SUBT" Path="Script/Subtitles.xml"/>
+        </Element>
+        <Element>
+            <Key>SWBT</Key>
+            <Value ID="SWBT" Path="Script/SwarmBot.xml"/>
+        </Element>
+        <Element>
+            <Key>SWJT</Key>
+            <Value ID="SWJT" Path="Script/ScrewAttackWallJumpTarget.xml"/>
+        </Element>
+        <Element>
+            <Key>SWTC</Key>
+            <Value ID="SWTC" Path="Script/Switch.xml"/>
+        </Element>
+        <Element>
+            <Key>TEL1</Key>
+            <Value ID="TEL1" Path="Script/WorldTeleporter.xml"/>
+        </Element>
+        <Element>
+            <Key>TGPT</Key>
+            <Value ID="TGPT" Path="Script/TargetingPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>TIMR</Key>
+            <Value ID="TIMR" Path="Script/Timer.xml"/>
+        </Element>
+        <Element>
+            <Key>TKEY</Key>
+            <Value ID="TKEY" Path="Script/TimeKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>TMAI</Key>
+            <Value ID="TMAI" Path="Script/TeamAiMgr.xml"/>
+        </Element>
+        <Element>
+            <Key>TRGR</Key>
+            <Value ID="TRGR" Path="Script/Trigger.xml"/>
+        </Element>
+        <Element>
+            <Key>TXPN</Key>
+            <Value ID="TXPN" Path="Script/TextPane.xml"/>
+        </Element>
+        <Element>
+            <Key>VGOO</Key>
+            <Value ID="VGOO" Path="Script/VisorGoo.xml"/>
+        </Element>
+        <Element>
+            <Key>WATR</Key>
+            <Value ID="WATR" Path="Script/Water.xml"/>
+        </Element>
+        <Element>
+            <Key>WAYP</Key>
+            <Value ID="WAYP" Path="Script/Waypoint.xml"/>
+        </Element>
+        <Element>
+            <Key>WLIT</Key>
+            <Value ID="WLIT" Path="Script/WorldLightFader.xml"/>
+        </Element>
+        <Element>
+            <Key>WPNG</Key>
+            <Value ID="WPNG" Path="Script/WeaponGenerator.xml"/>
+        </Element>
+    </ScriptObjects>
+    <PropertyArchetypes>
+        <Element>
+            <Key>Abilities</Key>
+            <Value Path="Structs/Abilities.xml"/>
+        </Element>
+        <Element>
+            <Key>ActorParameters</Key>
+            <Value Path="Structs/ActorParameters.xml"/>
+        </Element>
+        <Element>
+            <Key>Armor</Key>
+            <Value Path="Structs/Armor.xml"/>
+        </Element>
+        <Element>
+            <Key>Ball</Key>
+            <Value Path="Structs/Ball.xml"/>
+        </Element>
+        <Element>
+            <Key>BeastRiderData</Key>
+            <Value Path="Structs/BeastRiderData.xml"/>
+        </Element>
+        <Element>
+            <Key>BerserkerData</Key>
+            <Value Path="Structs/BerserkerData.xml"/>
+        </Element>
+        <Element>
+            <Key>BlinkWolfData</Key>
+            <Value Path="Structs/BlinkWolfData.xml"/>
+        </Element>
+        <Element>
+            <Key>CableProperties</Key>
+            <Value Path="Structs/CableProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraConstraints</Key>
+            <Value Path="Structs/CameraConstraints.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraFieldOfView</Key>
+            <Value Path="Structs/CameraFieldOfView.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraInterpolation</Key>
+            <Value Path="Structs/CameraInterpolation.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraMotion</Key>
+            <Value Path="Structs/CameraMotion.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraNavigation</Key>
+            <Value Path="Structs/CameraNavigation.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraOrientation</Key>
+            <Value Path="Structs/CameraOrientation.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraPosition</Key>
+            <Value Path="Structs/CameraPosition.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraRotation</Key>
+            <Value Path="Structs/CameraRotation.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraShakerEnvelope</Key>
+            <Value Path="Structs/CameraShakerEnvelope.xml"/>
+        </Element>
+        <Element>
+            <Key>CattleProd</Key>
+            <Value Path="Structs/CattleProd.xml"/>
+        </Element>
+        <Element>
+            <Key>Chakram</Key>
+            <Value Path="Structs/Chakram.xml"/>
+        </Element>
+        <Element>
+            <Key>ChasePosition</Key>
+            <Value Path="Structs/ChasePosition.xml"/>
+        </Element>
+        <Element>
+            <Key>CinematicBlend</Key>
+            <Value Path="Structs/CinematicBlend.xml"/>
+        </Element>
+        <Element>
+            <Key>ColliderPosition</Key>
+            <Value Path="Structs/ColliderPosition.xml"/>
+        </Element>
+        <Element>
+            <Key>CommandData</Key>
+            <Value Path="Structs/CommandData.xml"/>
+        </Element>
+        <Element>
+            <Key>ConditionalTest</Key>
+            <Value Path="Structs/ConditionalTest.xml"/>
+        </Element>
+        <Element>
+            <Key>Connection</Key>
+            <Value Path="Structs/Connection.xml"/>
+        </Element>
+        <Element>
+            <Key>ControlCommands</Key>
+            <Value Path="Structs/ControlCommands.xml"/>
+        </Element>
+        <Element>
+            <Key>Convergence</Key>
+            <Value Path="Structs/Convergence.xml"/>
+        </Element>
+        <Element>
+            <Key>CounterConditions</Key>
+            <Value Path="Structs/CounterConditions.xml"/>
+        </Element>
+        <Element>
+            <Key>DamageInfo</Key>
+            <Value Path="Structs/DamageInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>DamageVulnerability</Key>
+            <Value Path="Structs/DamageVulnerability.xml"/>
+        </Element>
+        <Element>
+            <Key>DarkSamusData</Key>
+            <Value Path="Structs/DarkSamusData.xml"/>
+        </Element>
+        <Element>
+            <Key>DebrisProperties</Key>
+            <Value Path="Structs/DebrisProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>DebrisPropertiesOrientationEnum</Key>
+            <Value Path="Structs/DebrisPropertiesOrientationEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>DefenseMechanoidData</Key>
+            <Value Path="Structs/DefenseMechanoidData.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightFalloff</Key>
+            <Value Path="Structs/DynamicLightFalloff.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightIntensity</Key>
+            <Value Path="Structs/DynamicLightIntensity.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightMotionSpline</Key>
+            <Value Path="Structs/DynamicLightMotionSpline.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightParent</Key>
+            <Value Path="Structs/DynamicLightParent.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightSpotlight</Key>
+            <Value Path="Structs/DynamicLightSpotlight.xml"/>
+        </Element>
+        <Element>
+            <Key>EditorProperties</Key>
+            <Value Path="Structs/EditorProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>ElectricBeamInfo</Key>
+            <Value Path="Structs/ElectricBeamInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>EnergyWhip</Key>
+            <Value Path="Structs/EnergyWhip.xml"/>
+        </Element>
+        <Element>
+            <Key>EyePodData</Key>
+            <Value Path="Structs/EyePodData.xml"/>
+        </Element>
+        <Element>
+            <Key>FOVInterpolationMethod</Key>
+            <Value Path="Structs/FOVInterpolationMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>FargullHatcherData</Key>
+            <Value Path="Structs/FargullHatcherData.xml"/>
+        </Element>
+        <Element>
+            <Key>FargullHatcherSwarmData</Key>
+            <Value Path="Structs/FargullHatcherSwarmData.xml"/>
+        </Element>
+        <Element>
+            <Key>FederationData</Key>
+            <Value Path="Structs/FederationData.xml"/>
+        </Element>
+        <Element>
+            <Key>FishCloudAggressionData</Key>
+            <Value Path="Structs/FishCloudAggressionData.xml"/>
+        </Element>
+        <Element>
+            <Key>FlareDef</Key>
+            <Value Path="Structs/FlareDef.xml"/>
+        </Element>
+        <Element>
+            <Key>FluidProperties</Key>
+            <Value Path="Structs/FluidProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>FlyerSwarmData</Key>
+            <Value Path="Structs/FlyerSwarmData.xml"/>
+        </Element>
+        <Element>
+            <Key>FlyingPirateData</Key>
+            <Value Path="Structs/FlyingPirateData.xml"/>
+        </Element>
+        <Element>
+            <Key>FlyingPirateHelixMissileData</Key>
+            <Value Path="Structs/FlyingPirateHelixMissileData.xml"/>
+        </Element>
+        <Element>
+            <Key>FriendlyData</Key>
+            <Value Path="Structs/FriendlyData.xml"/>
+        </Element>
+        <Element>
+            <Key>GeneratedObjectDeleterProperties</Key>
+            <Value Path="Structs/GeneratedObjectDeleterProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>GragnolFlyerData</Key>
+            <Value Path="Structs/GragnolFlyerData.xml"/>
+        </Element>
+        <Element>
+            <Key>GrappleBlock</Key>
+            <Value Path="Structs/GrappleBlock.xml"/>
+        </Element>
+        <Element>
+            <Key>GrappleData</Key>
+            <Value Path="Structs/GrappleData.xml"/>
+        </Element>
+        <Element>
+            <Key>GrappleInfo</Key>
+            <Value Path="Structs/GrappleInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>GuiWidgetProperties</Key>
+            <Value Path="Structs/GuiWidgetProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>GunTurretBaseData</Key>
+            <Value Path="Structs/GunTurretBaseData.xml"/>
+        </Element>
+        <Element>
+            <Key>GunTurretTopData</Key>
+            <Value Path="Structs/GunTurretTopData.xml"/>
+        </Element>
+        <Element>
+            <Key>HealthInfo</Key>
+            <Value Path="Structs/HealthInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>HyperMode</Key>
+            <Value Path="Structs/HyperMode.xml"/>
+        </Element>
+        <Element>
+            <Key>InterpolationMethod</Key>
+            <Value Path="Structs/InterpolationMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>Inventory</Key>
+            <Value Path="Structs/Inventory.xml"/>
+        </Element>
+        <Element>
+            <Key>Item</Key>
+            <Value Path="Enums/Item.xml"/>
+        </Element>
+        <Element>
+            <Key>JetPack</Key>
+            <Value Path="Structs/JetPack.xml"/>
+        </Element>
+        <Element>
+            <Key>KorakkData</Key>
+            <Value Path="Structs/KorakkData.xml"/>
+        </Element>
+        <Element>
+            <Key>KorbaMawData</Key>
+            <Value Path="Structs/KorbaMawData.xml"/>
+        </Element>
+        <Element>
+            <Key>KorbaSnatcherData</Key>
+            <Value Path="Structs/KorbaSnatcherData.xml"/>
+        </Element>
+        <Element>
+            <Key>LaunchProjectileData</Key>
+            <Value Path="Structs/LaunchProjectileData.xml"/>
+        </Element>
+        <Element>
+            <Key>LayerInfo</Key>
+            <Value Path="Structs/LayerInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>LayerSwitch</Key>
+            <Value Path="Structs/LayerSwitch.xml"/>
+        </Element>
+        <Element>
+            <Key>LightParameters</Key>
+            <Value Path="Structs/LightParameters.xml"/>
+        </Element>
+        <Element>
+            <Key>LocationOfEffect1</Key>
+            <Value Path="Enums/LocationOfEffect1.xml"/>
+        </Element>
+        <Element>
+            <Key>ManthaData</Key>
+            <Value Path="Structs/ManthaData.xml"/>
+        </Element>
+        <Element>
+            <Key>MetroidHatcherData</Key>
+            <Value Path="Structs/MetroidHatcherData.xml"/>
+        </Element>
+        <Element>
+            <Key>MetroidHopperData</Key>
+            <Value Path="Structs/MetroidHopperData.xml"/>
+        </Element>
+        <Element>
+            <Key>Misc</Key>
+            <Value Path="Structs/Misc.xml"/>
+        </Element>
+        <Element>
+            <Key>MotionInterpolationMethod</Key>
+            <Value Path="Structs/MotionInterpolationMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>MysteryFlyerData</Key>
+            <Value Path="Structs/MysteryFlyerData.xml"/>
+        </Element>
+        <Element>
+            <Key>NonSlowdown</Key>
+            <Value Path="Structs/NonSlowdown.xml"/>
+        </Element>
+        <Element>
+            <Key>OffsetInterpolant</Key>
+            <Value Path="Structs/OffsetInterpolant.xml"/>
+        </Element>
+        <Element>
+            <Key>OffsetPosition</Key>
+            <Value Path="Structs/OffsetPosition.xml"/>
+        </Element>
+        <Element>
+            <Key>OffsetSplines</Key>
+            <Value Path="Structs/OffsetSplines.xml"/>
+        </Element>
+        <Element>
+            <Key>OptionalAreaAssetTypes</Key>
+            <Value Path="Structs/OptionalAreaAssetTypes.xml"/>
+        </Element>
+        <Element>
+            <Key>Orientation</Key>
+            <Value Path="Enums/Orientation.xml"/>
+        </Element>
+        <Element>
+            <Key>OrientationInterpolationMethod</Key>
+            <Value Path="Structs/OrientationInterpolationMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>PIDConvergence</Key>
+            <Value Path="Structs/PIDConvergence.xml"/>
+        </Element>
+        <Element>
+            <Key>PTCNoseTurretData</Key>
+            <Value Path="Structs/PTCNoseTurretData.xml"/>
+        </Element>
+        <Element>
+            <Key>ParticleBlaster</Key>
+            <Value Path="Structs/ParticleBlaster.xml"/>
+        </Element>
+        <Element>
+            <Key>PathDetermination</Key>
+            <Value Path="Structs/PathDetermination.xml"/>
+        </Element>
+        <Element>
+            <Key>PathDeterminationMethodType</Key>
+            <Value Path="Structs/PathDeterminationMethodType.xml"/>
+        </Element>
+        <Element>
+            <Key>PathPosition</Key>
+            <Value Path="Structs/PathPosition.xml"/>
+        </Element>
+        <Element>
+            <Key>PathType</Key>
+            <Value Path="Structs/PathType.xml"/>
+        </Element>
+        <Element>
+            <Key>PatternedAITypedef</Key>
+            <Value Path="Structs/PatternedAITypedef.xml"/>
+        </Element>
+        <Element>
+            <Key>PhazonFlyerSwarmData</Key>
+            <Value Path="Structs/PhazonFlyerSwarmData.xml"/>
+        </Element>
+        <Element>
+            <Key>PhazonLeechData</Key>
+            <Value Path="Structs/PhazonLeechData.xml"/>
+        </Element>
+        <Element>
+            <Key>PhazonPuddleData</Key>
+            <Value Path="Structs/PhazonPuddleData.xml"/>
+        </Element>
+        <Element>
+            <Key>PhysicsDebrisProperties</Key>
+            <Value Path="Structs/PhysicsDebrisProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>PhysicsDebrisPropertiesOrientationEnum</Key>
+            <Value Path="Structs/PhysicsDebrisPropertiesOrientationEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>PirateDroneData</Key>
+            <Value Path="Structs/PirateDroneData.xml"/>
+        </Element>
+        <Element>
+            <Key>PlasmaBeamInfo</Key>
+            <Value Path="Structs/PlasmaBeamInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>PlatformMotionProperties</Key>
+            <Value Path="Structs/PlatformMotionProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerInventoryItem</Key>
+            <Value Path="Structs/PlayerInventoryItem.xml"/>
+        </Element>
+        <Element>
+            <Key>ProportionalConvergence</Key>
+            <Value Path="Structs/ProportionalConvergence.xml"/>
+        </Element>
+        <Element>
+            <Key>PuddleControlData</Key>
+            <Value Path="Structs/PuddleControlData.xml"/>
+        </Element>
+        <Element>
+            <Key>PuddleControlPhaseData</Key>
+            <Value Path="Structs/PuddleControlPhaseData.xml"/>
+        </Element>
+        <Element>
+            <Key>RagDollData</Key>
+            <Value Path="Structs/RagDollData.xml"/>
+        </Element>
+        <Element>
+            <Key>ReptilicusHunterData</Key>
+            <Value Path="Structs/ReptilicusHunterData.xml"/>
+        </Element>
+        <Element>
+            <Key>Ridley1Data</Key>
+            <Value Path="Structs/Ridley1Data.xml"/>
+        </Element>
+        <Element>
+            <Key>RotationSplines</Key>
+            <Value Path="Structs/RotationSplines.xml"/>
+        </Element>
+        <Element>
+            <Key>RundasData</Key>
+            <Value Path="Structs/RundasData.xml"/>
+        </Element>
+        <Element>
+            <Key>ScaleSplines</Key>
+            <Value Path="Structs/ScaleSplines.xml"/>
+        </Element>
+        <Element>
+            <Key>ScanBeamInfo</Key>
+            <Value Path="Structs/ScanBeamInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>ScannableParameters</Key>
+            <Value Path="Structs/ScannableParameters.xml"/>
+        </Element>
+        <Element>
+            <Key>SeedBoss1Action</Key>
+            <Value Path="Structs/SeedBoss1Action.xml"/>
+        </Element>
+        <Element>
+            <Key>SeedBoss1Data</Key>
+            <Value Path="Structs/SeedBoss1Data.xml"/>
+        </Element>
+        <Element>
+            <Key>SeedBoss1HandData</Key>
+            <Value Path="Structs/SeedBoss1HandData.xml"/>
+        </Element>
+        <Element>
+            <Key>SeedBoss1OrbData</Key>
+            <Value Path="Structs/SeedBoss1OrbData.xml"/>
+        </Element>
+        <Element>
+            <Key>SeedBoss1Shield</Key>
+            <Value Path="Structs/SeedBoss1Shield.xml"/>
+        </Element>
+        <Element>
+            <Key>SeedBoss1Stage</Key>
+            <Value Path="Structs/SeedBoss1Stage.xml"/>
+        </Element>
+        <Element>
+            <Key>ShakerData</Key>
+            <Value Path="Structs/ShakerData.xml"/>
+        </Element>
+        <Element>
+            <Key>Ship</Key>
+            <Value Path="Structs/Ship.xml"/>
+        </Element>
+        <Element>
+            <Key>ShipData</Key>
+            <Value Path="Structs/ShipData.xml"/>
+        </Element>
+        <Element>
+            <Key>ShockWaveInfo</Key>
+            <Value Path="Structs/ShockWaveInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>SpacePirateData</Key>
+            <Value Path="Structs/SpacePirateData.xml"/>
+        </Element>
+        <Element>
+            <Key>SpacePirateWeaponData</Key>
+            <Value Path="Structs/SpacePirateWeaponData.xml"/>
+        </Element>
+        <Element>
+            <Key>SpindleOrientation</Key>
+            <Value Path="Structs/SpindleOrientation.xml"/>
+        </Element>
+        <Element>
+            <Key>SpindlePosition</Key>
+            <Value Path="Structs/SpindlePosition.xml"/>
+        </Element>
+        <Element>
+            <Key>SpindlePositionInterpolant</Key>
+            <Value Path="Structs/SpindlePositionInterpolant.xml"/>
+        </Element>
+        <Element>
+            <Key>SplineType</Key>
+            <Value Path="Structs/SplineType.xml"/>
+        </Element>
+        <Element>
+            <Key>SpringConvergence</Key>
+            <Value Path="Structs/SpringConvergence.xml"/>
+        </Element>
+        <Element>
+            <Key>StaticGeometryTest</Key>
+            <Value Path="Structs/StaticGeometryTest.xml"/>
+        </Element>
+        <Element>
+            <Key>SteamBotData</Key>
+            <Value Path="Structs/SteamBotData.xml"/>
+        </Element>
+        <Element>
+            <Key>SteamLordData</Key>
+            <Value Path="Structs/SteamLordData.xml"/>
+        </Element>
+        <Element>
+            <Key>SurfaceOrientation</Key>
+            <Value Path="Structs/SurfaceOrientation.xml"/>
+        </Element>
+        <Element>
+            <Key>SurfacePosition</Key>
+            <Value Path="Structs/SurfacePosition.xml"/>
+        </Element>
+        <Element>
+            <Key>SurroundPan</Key>
+            <Value Path="Structs/SurroundPan.xml"/>
+        </Element>
+        <Element>
+            <Key>SwarmBasicsData</Key>
+            <Value Path="Structs/SwarmBasicsData.xml"/>
+        </Element>
+        <Element>
+            <Key>SwarmBotData</Key>
+            <Value Path="Structs/SwarmBotData.xml"/>
+        </Element>
+        <Element>
+            <Key>TeamAIDebugEnum</Key>
+            <Value Path="Structs/TeamAIDebugEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>TextProperties</Key>
+            <Value Path="Structs/TextProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>Transform</Key>
+            <Value Path="Structs/Transform.xml"/>
+        </Element>
+        <Element>
+            <Key>TranslationSplines</Key>
+            <Value Path="Structs/TranslationSplines.xml"/>
+        </Element>
+        <Element>
+            <Key>TriggerInfo</Key>
+            <Value Path="Structs/TriggerInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>Vector2f</Key>
+            <Value Path="Structs/Vector2f.xml"/>
+        </Element>
+        <Element>
+            <Key>Velocity</Key>
+            <Value Path="Structs/Velocity.xml"/>
+        </Element>
+        <Element>
+            <Key>VisorParameters</Key>
+            <Value Path="Structs/VisorParameters.xml"/>
+        </Element>
+        <Element>
+            <Key>Visors</Key>
+            <Value Path="Structs/Visors.xml"/>
+        </Element>
+        <Element>
+            <Key>WallCrawlerData</Key>
+            <Value Path="Structs/WallCrawlerData.xml"/>
+        </Element>
+        <Element>
+            <Key>WeaponGeneratorProperties</Key>
+            <Value Path="Structs/WeaponGeneratorProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>WeaponVulnerability</Key>
+            <Value Path="Structs/WeaponVulnerability.xml"/>
+        </Element>
+        <Element>
+            <Key>Weapons</Key>
+            <Value Path="Structs/Weapons.xml"/>
+        </Element>
+    </PropertyArchetypes>
+    <States>
+        <Element>
+            <Key>!ZER</Key>
+            <Value>NonZero</Value>
+        </Element>
+        <Element>
+            <Key>ACQU</Key>
+            <Value>ACQU</Value>
+        </Element>
+        <Element>
+            <Key>ACTV</Key>
+            <Value>Active</Value>
+        </Element>
+        <Element>
+            <Key>AIS1</Key>
+            <Value>AILogicState1</Value>
+        </Element>
+        <Element>
+            <Key>AIS2</Key>
+            <Value>AILogicState2</Value>
+        </Element>
+        <Element>
+            <Key>AIS3</Key>
+            <Value>AILogicState3</Value>
+        </Element>
+        <Element>
+            <Key>ANMO</Key>
+            <Value>AnimOver</Value>
+        </Element>
+        <Element>
+            <Key>ANMS</Key>
+            <Value>AnimStart</Value>
+        </Element>
+        <Element>
+            <Key>APRC</Key>
+            <Value>Approach</Value>
+        </Element>
+        <Element>
+            <Key>ARRV</Key>
+            <Value>Arrived</Value>
+        </Element>
+        <Element>
+            <Key>ATCL</Key>
+            <Value>AttachedCollisionObject</Value>
+        </Element>
+        <Element>
+            <Key>ATOB</Key>
+            <Value>AttachedAnimatedObject</Value>
+        </Element>
+        <Element>
+            <Key>ATPA</Key>
+            <Value>ATPA</Value>
+        </Element>
+        <Element>
+            <Key>ATTK</Key>
+            <Value>Attack</Value>
+        </Element>
+        <Element>
+            <Key>BEZR</Key>
+            <Value>BEZR</Value>
+        </Element>
+        <Element>
+            <Key>BIDG</Key>
+            <Value>BallIceXDamage</Value>
+        </Element>
+        <Element>
+            <Key>BSCN</Key>
+            <Value>BeginScan</Value>
+        </Element>
+        <Element>
+            <Key>BSPL</Key>
+            <Value>BSPL</Value>
+        </Element>
+        <Element>
+            <Key>BXDG</Key>
+            <Value>BallXDamage</Value>
+        </Element>
+        <Element>
+            <Key>CINT</Key>
+            <Value>CINT</Value>
+        </Element>
+        <Element>
+            <Key>CLOS</Key>
+            <Value>Closed</Value>
+        </Element>
+        <Element>
+            <Key>CONN</Key>
+            <Value>Connect</Value>
+        </Element>
+        <Element>
+            <Key>CPTH</Key>
+            <Value>CameraPath</Value>
+        </Element>
+        <Element>
+            <Key>CROM</Key>
+            <Value>CROM</Value>
+        </Element>
+        <Element>
+            <Key>CTGT</Key>
+            <Value>CameraTarget</Value>
+        </Element>
+        <Element>
+            <Key>CTIM</Key>
+            <Value>CameraTime</Value>
+        </Element>
+        <Element>
+            <Key>DAMG</Key>
+            <Value>Damage</Value>
+        </Element>
+        <Element>
+            <Key>DBMB</Key>
+            <Value>DBMB</Value>
+        </Element>
+        <Element>
+            <Key>DEAD</Key>
+            <Value>Dead</Value>
+        </Element>
+        <Element>
+            <Key>DGNR</Key>
+            <Value>DeGenerate</Value>
+        </Element>
+        <Element>
+            <Key>DOWN</Key>
+            <Value>Down</Value>
+        </Element>
+        <Element>
+            <Key>DRKX</Key>
+            <Value>DarkXDamage</Value>
+        </Element>
+        <Element>
+            <Key>ENTR</Key>
+            <Value>Entered</Value>
+        </Element>
+        <Element>
+            <Key>ESCN</Key>
+            <Value>EndScan</Value>
+        </Element>
+        <Element>
+            <Key>EXIT</Key>
+            <Value>Exited</Value>
+        </Element>
+        <Element>
+            <Key>FOOT</Key>
+            <Value>Footstep</Value>
+        </Element>
+        <Element>
+            <Key>FOVP</Key>
+            <Value>FOVP</Value>
+        </Element>
+        <Element>
+            <Key>FREZ</Key>
+            <Value>Freeze</Value>
+        </Element>
+        <Element>
+            <Key>GRN0</Key>
+            <Value>GRN0</Value>
+        </Element>
+        <Element>
+            <Key>GRN1</Key>
+            <Value>GRN1</Value>
+        </Element>
+        <Element>
+            <Key>GRNT</Key>
+            <Value>Generate</Value>
+        </Element>
+        <Element>
+            <Key>IBND</Key>
+            <Value>InheritBounds</Value>
+        </Element>
+        <Element>
+            <Key>ICTV</Key>
+            <Value>Inactive</Value>
+        </Element>
+        <Element>
+            <Key>IDMG</Key>
+            <Value>IceXDamage</Value>
+        </Element>
+        <Element>
+            <Key>INSD</Key>
+            <Value>Inside</Value>
+        </Element>
+        <Element>
+            <Key>IS00</Key>
+            <Value>InternalState0</Value>
+        </Element>
+        <Element>
+            <Key>IS01</Key>
+            <Value>InternalState1</Value>
+        </Element>
+        <Element>
+            <Key>IS02</Key>
+            <Value>InternalState2</Value>
+        </Element>
+        <Element>
+            <Key>IS03</Key>
+            <Value>InternalState3</Value>
+        </Element>
+        <Element>
+            <Key>IS04</Key>
+            <Value>InternalState4</Value>
+        </Element>
+        <Element>
+            <Key>IS05</Key>
+            <Value>InternalState5</Value>
+        </Element>
+        <Element>
+            <Key>IS06</Key>
+            <Value>InternalState6</Value>
+        </Element>
+        <Element>
+            <Key>IS07</Key>
+            <Value>InternalState7</Value>
+        </Element>
+        <Element>
+            <Key>IS08</Key>
+            <Value>InternalState8</Value>
+        </Element>
+        <Element>
+            <Key>IS09</Key>
+            <Value>InternalState9</Value>
+        </Element>
+        <Element>
+            <Key>IS10</Key>
+            <Value>InternalState10</Value>
+        </Element>
+        <Element>
+            <Key>IS11</Key>
+            <Value>InternalState11</Value>
+        </Element>
+        <Element>
+            <Key>IS12</Key>
+            <Value>InternalState12</Value>
+        </Element>
+        <Element>
+            <Key>IS13</Key>
+            <Value>InternalState13</Value>
+        </Element>
+        <Element>
+            <Key>IS14</Key>
+            <Value>InternalState14</Value>
+        </Element>
+        <Element>
+            <Key>IS15</Key>
+            <Value>InternalState15</Value>
+        </Element>
+        <Element>
+            <Key>IS16</Key>
+            <Value>InternalState16</Value>
+        </Element>
+        <Element>
+            <Key>IS17</Key>
+            <Value>InternalState17</Value>
+        </Element>
+        <Element>
+            <Key>IS18</Key>
+            <Value>InternalState18</Value>
+        </Element>
+        <Element>
+            <Key>IS19</Key>
+            <Value>InternalState19</Value>
+        </Element>
+        <Element>
+            <Key>IS20</Key>
+            <Value>IS20</Value>
+        </Element>
+        <Element>
+            <Key>IS21</Key>
+            <Value>IS21</Value>
+        </Element>
+        <Element>
+            <Key>IS22</Key>
+            <Value>IS22</Value>
+        </Element>
+        <Element>
+            <Key>IS23</Key>
+            <Value>IS23</Value>
+        </Element>
+        <Element>
+            <Key>IS24</Key>
+            <Value>IS24</Value>
+        </Element>
+        <Element>
+            <Key>IS25</Key>
+            <Value>IS25</Value>
+        </Element>
+        <Element>
+            <Key>IS26</Key>
+            <Value>IS26</Value>
+        </Element>
+        <Element>
+            <Key>IS27</Key>
+            <Value>IS27</Value>
+        </Element>
+        <Element>
+            <Key>IS28</Key>
+            <Value>IS28</Value>
+        </Element>
+        <Element>
+            <Key>IS29</Key>
+            <Value>IS29</Value>
+        </Element>
+        <Element>
+            <Key>IS30</Key>
+            <Value>IS30</Value>
+        </Element>
+        <Element>
+            <Key>IS31</Key>
+            <Value>IS31</Value>
+        </Element>
+        <Element>
+            <Key>IS32</Key>
+            <Value>IS32</Value>
+        </Element>
+        <Element>
+            <Key>IS33</Key>
+            <Value>IS33</Value>
+        </Element>
+        <Element>
+            <Key>IS34</Key>
+            <Value>IS34</Value>
+        </Element>
+        <Element>
+            <Key>IS35</Key>
+            <Value>IS35</Value>
+        </Element>
+        <Element>
+            <Key>IS36</Key>
+            <Value>IS36</Value>
+        </Element>
+        <Element>
+            <Key>IS37</Key>
+            <Value>IS37</Value>
+        </Element>
+        <Element>
+            <Key>IS38</Key>
+            <Value>IS38</Value>
+        </Element>
+        <Element>
+            <Key>IS39</Key>
+            <Value>IS39</Value>
+        </Element>
+        <Element>
+            <Key>IS40</Key>
+            <Value>IS40</Value>
+        </Element>
+        <Element>
+            <Key>IS41</Key>
+            <Value>IS41</Value>
+        </Element>
+        <Element>
+            <Key>IS44</Key>
+            <Value>IS44</Value>
+        </Element>
+        <Element>
+            <Key>IS45</Key>
+            <Value>IS45</Value>
+        </Element>
+        <Element>
+            <Key>IS46</Key>
+            <Value>IS46</Value>
+        </Element>
+        <Element>
+            <Key>IS47</Key>
+            <Value>IS47</Value>
+        </Element>
+        <Element>
+            <Key>IS48</Key>
+            <Value>IS48</Value>
+        </Element>
+        <Element>
+            <Key>LDWA</Key>
+            <Value>DrawAfter</Value>
+        </Element>
+        <Element>
+            <Key>LDWB</Key>
+            <Value>DrawBefore</Value>
+        </Element>
+        <Element>
+            <Key>LEFT</Key>
+            <Value>Left</Value>
+        </Element>
+        <Element>
+            <Key>LINR</Key>
+            <Value>LINR</Value>
+        </Element>
+        <Element>
+            <Key>LOCK</Key>
+            <Value>Locked</Value>
+        </Element>
+        <Element>
+            <Key>LTKA</Key>
+            <Value>ThinkAfter</Value>
+        </Element>
+        <Element>
+            <Key>LTKB</Key>
+            <Value>ThinkBefore</Value>
+        </Element>
+        <Element>
+            <Key>MAXR</Key>
+            <Value>MaxReached</Value>
+        </Element>
+        <Element>
+            <Key>MDFY</Key>
+            <Value>Modify</Value>
+        </Element>
+        <Element>
+            <Key>MOTP</Key>
+            <Value>MOTP</Value>
+        </Element>
+        <Element>
+            <Key>MOTS</Key>
+            <Value>MOTS</Value>
+        </Element>
+        <Element>
+            <Key>NEXT</Key>
+            <Value>NEXT</Value>
+        </Element>
+        <Element>
+            <Key>OPEN</Key>
+            <Value>Open</Value>
+        </Element>
+        <Element>
+            <Key>ORBO</Key>
+            <Value>ORBO</Value>
+        </Element>
+        <Element>
+            <Key>PLAY</Key>
+            <Value>Play</Value>
+        </Element>
+        <Element>
+            <Key>PLRP</Key>
+            <Value>PLRP</Value>
+        </Element>
+        <Element>
+            <Key>PRSA</Key>
+            <Value>PressA</Value>
+        </Element>
+        <Element>
+            <Key>PRSB</Key>
+            <Value>PressB</Value>
+        </Element>
+        <Element>
+            <Key>PRST</Key>
+            <Value>PressStart</Value>
+        </Element>
+        <Element>
+            <Key>PRSX</Key>
+            <Value>PressX</Value>
+        </Element>
+        <Element>
+            <Key>PRSY</Key>
+            <Value>PressY</Value>
+        </Element>
+        <Element>
+            <Key>PRSZ</Key>
+            <Value>PressZ</Value>
+        </Element>
+        <Element>
+            <Key>PTRL</Key>
+            <Value>Patrol</Value>
+        </Element>
+        <Element>
+            <Key>RATL</Key>
+            <Value>DeathRattle</Value>
+        </Element>
+        <Element>
+            <Key>RCRM</Key>
+            <Value>RCRM</Value>
+        </Element>
+        <Element>
+            <Key>RDUE</Key>
+            <Value>SpawnResidue</Value>
+        </Element>
+        <Element>
+            <Key>REFD</Key>
+            <Value>ReflectedDamage</Value>
+        </Element>
+        <Element>
+            <Key>RESD</Key>
+            <Value>ResistedDamage</Value>
+        </Element>
+        <Element>
+            <Key>RGHT</Key>
+            <Value>Right</Value>
+        </Element>
+        <Element>
+            <Key>RLAY</Key>
+            <Value>Relay</Value>
+        </Element>
+        <Element>
+            <Key>ROTO</Key>
+            <Value>RotationOver</Value>
+        </Element>
+        <Element>
+            <Key>ROTS</Key>
+            <Value>RotationStart</Value>
+        </Element>
+        <Element>
+            <Key>RTRT</Key>
+            <Value>Retreat</Value>
+        </Element>
+        <Element>
+            <Key>SCND</Key>
+            <Value>ScanDone</Value>
+        </Element>
+        <Element>
+            <Key>SCNS</Key>
+            <Value>ScanSource</Value>
+        </Element>
+        <Element>
+            <Key>SE01</Key>
+            <Value>SE01</Value>
+        </Element>
+        <Element>
+            <Key>SE02</Key>
+            <Value>SE02</Value>
+        </Element>
+        <Element>
+            <Key>SE03</Key>
+            <Value>SE03</Value>
+        </Element>
+        <Element>
+            <Key>SLAV</Key>
+            <Value>Slave</Value>
+        </Element>
+        <Element>
+            <Key>SLCR</Key>
+            <Value>SpawnLargeCreatures</Value>
+        </Element>
+        <Element>
+            <Key>SMCR</Key>
+            <Value>SpawnMediumCreatures</Value>
+        </Element>
+        <Element>
+            <Key>SQNC</Key>
+            <Value>Sequence</Value>
+        </Element>
+        <Element>
+            <Key>SSCR</Key>
+            <Value>SpawnSmallCreatures</Value>
+        </Element>
+        <Element>
+            <Key>TGTO</Key>
+            <Value>TGTO</Value>
+        </Element>
+        <Element>
+            <Key>TGTP</Key>
+            <Value>TGTP</Value>
+        </Element>
+        <Element>
+            <Key>TGTS</Key>
+            <Value>TGTS</Value>
+        </Element>
+        <Element>
+            <Key>UFRZ</Key>
+            <Value>UnFreeze</Value>
+        </Element>
+        <Element>
+            <Key>ULCK</Key>
+            <Value>Unlocked</Value>
+        </Element>
+        <Element>
+            <Key>UP  </Key>
+            <Value>Up</Value>
+        </Element>
+        <Element>
+            <Key>WLTE</Key>
+            <Value>WLTE</Value>
+        </Element>
+        <Element>
+            <Key>XB2F</Key>
+            <Value>BackToFront</Value>
+        </Element>
+        <Element>
+            <Key>XDMG</Key>
+            <Value>XDamage</Value>
+        </Element>
+        <Element>
+            <Key>XF2B</Key>
+            <Value>FrontToBack</Value>
+        </Element>
+        <Element>
+            <Key>XINB</Key>
+            <Value>InBack</Value>
+        </Element>
+        <Element>
+            <Key>XINF</Key>
+            <Value>InFront</Value>
+        </Element>
+        <Element>
+            <Key>XOUT</Key>
+            <Value>Outside</Value>
+        </Element>
+        <Element>
+            <Key>ZERO</Key>
+            <Value>Zero</Value>
+        </Element>
+    </States>
+    <Messages>
+        <Element>
+            <Key>ACTN</Key>
+            <Value>Action</Value>
+        </Element>
+        <Element>
+            <Key>ACTV</Key>
+            <Value>Activate</Value>
+        </Element>
+        <Element>
+            <Key>ALRT</Key>
+            <Value>Alert</Value>
+        </Element>
+        <Element>
+            <Key>ARRV</Key>
+            <Value>ARRV</Value>
+        </Element>
+        <Element>
+            <Key>ATCH</Key>
+            <Value>Attach</Value>
+        </Element>
+        <Element>
+            <Key>ATCI</Key>
+            <Value>AttachInstance</Value>
+        </Element>
+        <Element>
+            <Key>CLOS</Key>
+            <Value>Close</Value>
+        </Element>
+        <Element>
+            <Key>CORG</Key>
+            <Value>ClearOriginator</Value>
+        </Element>
+        <Element>
+            <Key>DCTV</Key>
+            <Value>Deactivate</Value>
+        </Element>
+        <Element>
+            <Key>DECR</Key>
+            <Value>Decrement</Value>
+        </Element>
+        <Element>
+            <Key>DOWN</Key>
+            <Value>Down</Value>
+        </Element>
+        <Element>
+            <Key>ESCP</Key>
+            <Value>Escape</Value>
+        </Element>
+        <Element>
+            <Key>FADI</Key>
+            <Value>FadeIn</Value>
+        </Element>
+        <Element>
+            <Key>FADO</Key>
+            <Value>FadeOut</Value>
+        </Element>
+        <Element>
+            <Key>FOLW</Key>
+            <Value>Follow</Value>
+        </Element>
+        <Element>
+            <Key>IM00</Key>
+            <Value>InternalMessage0</Value>
+        </Element>
+        <Element>
+            <Key>IM01</Key>
+            <Value>InternalMessage1</Value>
+        </Element>
+        <Element>
+            <Key>IM02</Key>
+            <Value>InternalMessage2</Value>
+        </Element>
+        <Element>
+            <Key>IM03</Key>
+            <Value>InternalMessage3</Value>
+        </Element>
+        <Element>
+            <Key>IM04</Key>
+            <Value>InternalMessage4</Value>
+        </Element>
+        <Element>
+            <Key>IM05</Key>
+            <Value>InternalMessage5</Value>
+        </Element>
+        <Element>
+            <Key>IM06</Key>
+            <Value>InternalMessage6</Value>
+        </Element>
+        <Element>
+            <Key>IM07</Key>
+            <Value>InternalMessage7</Value>
+        </Element>
+        <Element>
+            <Key>IM08</Key>
+            <Value>InternalMessage8</Value>
+        </Element>
+        <Element>
+            <Key>IM09</Key>
+            <Value>InternalMessage9</Value>
+        </Element>
+        <Element>
+            <Key>IM10</Key>
+            <Value>InternalMessage10</Value>
+        </Element>
+        <Element>
+            <Key>IM11</Key>
+            <Value>InternalMessage11</Value>
+        </Element>
+        <Element>
+            <Key>IM12</Key>
+            <Value>InternalMessage12</Value>
+        </Element>
+        <Element>
+            <Key>IM13</Key>
+            <Value>InternalMessage13</Value>
+        </Element>
+        <Element>
+            <Key>IM14</Key>
+            <Value>InternalMessage14</Value>
+        </Element>
+        <Element>
+            <Key>IM15</Key>
+            <Value>InternalMessage15</Value>
+        </Element>
+        <Element>
+            <Key>IM16</Key>
+            <Value>InternalMessage16</Value>
+        </Element>
+        <Element>
+            <Key>IM17</Key>
+            <Value>InternalMessage17</Value>
+        </Element>
+        <Element>
+            <Key>IM18</Key>
+            <Value>InternalMessage18</Value>
+        </Element>
+        <Element>
+            <Key>IM19</Key>
+            <Value>InternalMessage19</Value>
+        </Element>
+        <Element>
+            <Key>IM20</Key>
+            <Value>IM20</Value>
+        </Element>
+        <Element>
+            <Key>IM21</Key>
+            <Value>IM21</Value>
+        </Element>
+        <Element>
+            <Key>IM22</Key>
+            <Value>IM22</Value>
+        </Element>
+        <Element>
+            <Key>IM23</Key>
+            <Value>IM23</Value>
+        </Element>
+        <Element>
+            <Key>IM24</Key>
+            <Value>IM24</Value>
+        </Element>
+        <Element>
+            <Key>IM25</Key>
+            <Value>IM25</Value>
+        </Element>
+        <Element>
+            <Key>IM26</Key>
+            <Value>IM26</Value>
+        </Element>
+        <Element>
+            <Key>IM27</Key>
+            <Value>IM27</Value>
+        </Element>
+        <Element>
+            <Key>IM28</Key>
+            <Value>IM28</Value>
+        </Element>
+        <Element>
+            <Key>IM42</Key>
+            <Value>IM42</Value>
+        </Element>
+        <Element>
+            <Key>IM43</Key>
+            <Value>IM43</Value>
+        </Element>
+        <Element>
+            <Key>INCR</Key>
+            <Value>Increment</Value>
+        </Element>
+        <Element>
+            <Key>KILL</Key>
+            <Value>Kill</Value>
+        </Element>
+        <Element>
+            <Key>LEFT</Key>
+            <Value>Left</Value>
+        </Element>
+        <Element>
+            <Key>LOAD</Key>
+            <Value>Load</Value>
+        </Element>
+        <Element>
+            <Key>LOCK</Key>
+            <Value>Lock</Value>
+        </Element>
+        <Element>
+            <Key>NEXT</Key>
+            <Value>Next</Value>
+        </Element>
+        <Element>
+            <Key>NONE</Key>
+            <Value>None</Value>
+        </Element>
+        <Element>
+            <Key>OFF </Key>
+            <Value>OFF </Value>
+        </Element>
+        <Element>
+            <Key>ON  </Key>
+            <Value>ON  </Value>
+        </Element>
+        <Element>
+            <Key>OPEN</Key>
+            <Value>OPEN</Value>
+        </Element>
+        <Element>
+            <Key>PLAY</Key>
+            <Value>PLAY</Value>
+        </Element>
+        <Element>
+            <Key>RGHT</Key>
+            <Value>Right</Value>
+        </Element>
+        <Element>
+            <Key>RMOV</Key>
+            <Value>RMOV</Value>
+        </Element>
+        <Element>
+            <Key>RSAN</Key>
+            <Value>RSAN</Value>
+        </Element>
+        <Element>
+            <Key>RSET</Key>
+            <Value>Reset</Value>
+        </Element>
+        <Element>
+            <Key>RSTP</Key>
+            <Value>RSTP</Value>
+        </Element>
+        <Element>
+            <Key>RSTS</Key>
+            <Value>ResetAndStart</Value>
+        </Element>
+        <Element>
+            <Key>SALL</Key>
+            <Value>StopAllSounds</Value>
+        </Element>
+        <Element>
+            <Key>SALP</Key>
+            <Value>StopAllLoopedSounds</Value>
+        </Element>
+        <Element>
+            <Key>SMAX</Key>
+            <Value>SetToMax</Value>
+        </Element>
+        <Element>
+            <Key>SORG</Key>
+            <Value>SetOriginator</Value>
+        </Element>
+        <Element>
+            <Key>STOP</Key>
+            <Value>Stop</Value>
+        </Element>
+        <Element>
+            <Key>STPR</Key>
+            <Value>StopAndReset</Value>
+        </Element>
+        <Element>
+            <Key>STRT</Key>
+            <Value>Start</Value>
+        </Element>
+        <Element>
+            <Key>TCTV</Key>
+            <Value>ToggleActive</Value>
+        </Element>
+        <Element>
+            <Key>TOPN</Key>
+            <Value>ToggleOpen</Value>
+        </Element>
+        <Element>
+            <Key>ULCK</Key>
+            <Value>Unlock</Value>
+        </Element>
+        <Element>
+            <Key>ULOD</Key>
+            <Value>Unload</Value>
+        </Element>
+        <Element>
+            <Key>UP  </Key>
+            <Value>Up</Value>
+        </Element>
+        <Element>
+            <Key>XALD</Key>
+            <Value>AreaLoaded</Value>
+        </Element>
+        <Element>
+            <Key>XAOV</Key>
+            <Value>AcidOnVisor</Value>
+        </Element>
+        <Element>
+            <Key>XAUD</Key>
+            <Value>AIUpdateDisabled</Value>
+        </Element>
+        <Element>
+            <Key>XAUL</Key>
+            <Value>AreaUnloading</Value>
+        </Element>
+        <Element>
+            <Key>XCLR</Key>
+            <Value>Clear</Value>
+        </Element>
+        <Element>
+            <Key>XCRT</Key>
+            <Value>Create</Value>
+        </Element>
+        <Element>
+            <Key>XDEL</Key>
+            <Value>Delete</Value>
+        </Element>
+        <Element>
+            <Key>XDMG</Key>
+            <Value>XDMG</Value>
+        </Element>
+        <Element>
+            <Key>XENF</Key>
+            <Value>EnteredFluid</Value>
+        </Element>
+        <Element>
+            <Key>XENT</Key>
+            <Value>XENT</Value>
+        </Element>
+        <Element>
+            <Key>XEPZ</Key>
+            <Value>EnteredPhazonPool</Value>
+        </Element>
+        <Element>
+            <Key>XEXF</Key>
+            <Value>ExitedFluid</Value>
+        </Element>
+        <Element>
+            <Key>XFAL</Key>
+            <Value>Falling</Value>
+        </Element>
+        <Element>
+            <Key>XHIT</Key>
+            <Value>HitObject</Value>
+        </Element>
+        <Element>
+            <Key>XINF</Key>
+            <Value>InsideFluid</Value>
+        </Element>
+        <Element>
+            <Key>XINS</Key>
+            <Value>InShrubbery</Value>
+        </Element>
+        <Element>
+            <Key>XIPZ</Key>
+            <Value>InsidePhazonPool</Value>
+        </Element>
+        <Element>
+            <Key>XLAU</Key>
+            <Value>Launching</Value>
+        </Element>
+        <Element>
+            <Key>XLND</Key>
+            <Value>Landed</Value>
+        </Element>
+        <Element>
+            <Key>XLSG</Key>
+            <Value>LandedOnStaticGround</Value>
+        </Element>
+        <Element>
+            <Key>XOFF</Key>
+            <Value>OffGround</Value>
+        </Element>
+        <Element>
+            <Key>XOND</Key>
+            <Value>OnDirt</Value>
+        </Element>
+        <Element>
+            <Key>XONI</Key>
+            <Value>OnIce</Value>
+        </Element>
+        <Element>
+            <Key>XONO</Key>
+            <Value>OnOrganic</Value>
+        </Element>
+        <Element>
+            <Key>XONP</Key>
+            <Value>OnPlatform</Value>
+        </Element>
+        <Element>
+            <Key>XRDG</Key>
+            <Value>XRDG</Value>
+        </Element>
+        <Element>
+            <Key>XWLD</Key>
+            <Value>WorldLoaded</Value>
+        </Element>
+        <Element>
+            <Key>XXDG</Key>
+            <Value>XXDG</Value>
+        </Element>
+        <Element>
+            <Key>XXPZ</Key>
+            <Value>ExitedPhazonPool</Value>
+        </Element>
+        <Element>
+            <Key>ZERO</Key>
+            <Value>SetToZero</Value>
+        </Element>
+    </Messages>
+</Game>

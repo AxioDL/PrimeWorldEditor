@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="WaterStruct" type="multi">
-    <properties>
-        <property ID="0xE94F7E87" type="long">
-            <default>-2143184152</default>
-        </property>
-        <property ID="0x3C5B0C98" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x912954E6" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x89E3D294" type="float">
-            <default>-0.0</default>
-        </property>
-        <property ID="0x080C7499" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>WaterStruct</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xE94F7E87">
+                <DefaultValue>-2143184152</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3C5B0C98">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x912954E6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x89E3D294">
+                <DefaultValue>-0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x80C7499">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>ReptilicusHunterData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xE9553FFA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1C893F54">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x388BC31F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4319C840">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x52BF617">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFE842879">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xCF887F1">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x18A9876B">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6349314F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x29D9D9C9">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA77F6212">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9579B1F2">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x87B10A69" Archetype="CattleProd"/>
+            <Element Type="Struct" ID="0xD7548E97" Archetype="EnergyWhip"/>
+            <Element Type="Struct" ID="0x19A58C31" Archetype="Chakram"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

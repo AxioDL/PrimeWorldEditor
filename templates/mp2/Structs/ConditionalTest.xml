@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ConditionalTest" type="multi">
-    <properties>
-        <enum ID="0xDE3E40A3">
-            <default>0x00000001</default>
-            <enumerators>
-                <enumerator ID="0x00" name="Unknown"/>
-                <enumerator ID="0x01" name="And"/>
-                <enumerator ID="0x02" name="Or"/>
-            </enumerators>
-        </enum>
-        <enum ID="0xD3AF8D72" template="Enums/Item.xml">
-            <default>0x00000000</default>
-        </enum>
-        <enum ID="0x03BDEA98">
-            <default>0x00000000</default>
-            <enumerators>
-                <enumerator ID="0x00" name="Amount"/>
-                <enumerator ID="0x01" name="Capacity"/>
-            </enumerators>
-        </enum>
-        <enum ID="0x70729364">
-            <default>0x00000000</default>
-            <enumerators>
-                <enumerator ID="0x00" name="Equal To"/>
-                <enumerator ID="0x01" name="Not Equal To"/>
-                <enumerator ID="0x02" name="Greater Than"/>
-                <enumerator ID="0x03" name="Less Than"/>
-                <enumerator ID="0x04" name="Greater Than or Equal To"/>
-                <enumerator ID="0x05" name="Less Than or Equal To"/>
-                <enumerator ID="0x06" name="Unknown"/>
-            </enumerators>
-        </enum>
-        <property ID="0x8DB9398A" type="long">
-            <default>0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>ConditionalTest</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xDE3E40A3">
+                <DefaultValue>0x1</DefaultValue>
+                <Values>
+                    <Element Name="Unknown" ID="0x0"/>
+                    <Element Name="And" ID="0x1"/>
+                    <Element Name="Or" ID="0x2"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0xD3AF8D72" Archetype="Item"/>
+            <Element Type="Enum" ID="0x3BDEA98">
+                <DefaultValue>0x0</DefaultValue>
+                <Values>
+                    <Element Name="Amount" ID="0x0"/>
+                    <Element Name="Capacity" ID="0x1"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0x70729364">
+                <DefaultValue>0x0</DefaultValue>
+                <Values>
+                    <Element Name="Equal To" ID="0x0"/>
+                    <Element Name="Not Equal To" ID="0x1"/>
+                    <Element Name="Greater Than" ID="0x2"/>
+                    <Element Name="Less Than" ID="0x3"/>
+                    <Element Name="Greater Than or Equal To" ID="0x4"/>
+                    <Element Name="Less Than or Equal To" ID="0x5"/>
+                    <Element Name="Unknown" ID="0x6"/>
+                </Values>
+            </Element>
+            <Element Type="Int" ID="0x8DB9398A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

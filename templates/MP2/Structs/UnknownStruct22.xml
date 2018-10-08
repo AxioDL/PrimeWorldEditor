@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct22</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x4A7C4EC2">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xF10B6EF6"/>
+            <Element Type="Struct" ID="0x946016A9" Archetype="DamageInfo"/>
+            <Element Type="Int" ID="0xECFAB026">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x94880277">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x1C3E84B6">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xA93F0198">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

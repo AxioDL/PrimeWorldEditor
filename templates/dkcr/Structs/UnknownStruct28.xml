@@ -1,20 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct28" type="multi">
-    <properties>
-        <property ID="0xF2299ED6" type="asset" extensions="FRME"/>
-        <property ID="0xC02C234F" type="asset" extensions="CAUD"/>
-        <property ID="0x277C04FF" type="asset" extensions="CAUD"/>
-        <property ID="0x108D9071" type="asset" extensions="CAUD"/>
-        <property ID="0x75AC683C" type="asset" extensions="CAUD"/>
-        <property ID="0x0C9C9C3B" type="asset" extensions="CAUD"/>
-        <property ID="0x6A6AA42E" type="asset" extensions="CAUD"/>
-        <property ID="0x078C819F" type="asset" extensions="CAUD"/>
-        <property ID="0x4B883E6B" type="asset" extensions="STRG"/>
-        <property ID="0x393D5C78" type="asset" extensions="STRG"/>
-        <property ID="0x40017917" type="asset" extensions="STRG"/>
-        <property ID="0x10922293" type="asset" extensions="STRG"/>
-        <property ID="0x766E77C9" type="asset" extensions="STRG"/>
-        <property ID="0xF15823C2" type="asset" extensions="STRG"/>
-        <struct ID="0x6A598A9B" template="Structs/UnknownStruct26.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct28</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xF2299ED6">
+                <TypeFilter>
+                    <Element>FRME</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC02C234F">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x277C04FF">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x108D9071">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x75AC683C">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC9C9C3B">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6A6AA42E">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x78C819F">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4B883E6B">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x393D5C78">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x40017917">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x10922293">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x766E77C9">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF15823C2">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x6A598A9B" Archetype="UnknownStruct26"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

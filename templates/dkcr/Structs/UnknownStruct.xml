@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct" type="multi">
-    <properties>
-        <property ID="0x2B3B3B7D" type="asset" extensions="UNKN"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x2B3B3B7D"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

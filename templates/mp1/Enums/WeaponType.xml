@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="WeaponType">
-    <enumerators>
-        <enumerator ID="0x00" name="Power"/>
-        <enumerator ID="0x01" name="Ice"/>
-        <enumerator ID="0x02" name="Wave"/>
-        <enumerator ID="0x03" name="Plasma"/>
-        <enumerator ID="0x04" name="Bomb"/>
-        <enumerator ID="0x05" name="Power Bomb"/>
-        <enumerator ID="0x06" name="Missile"/>
-        <enumerator ID="0x07" name="Boost Ball"/>
-        <enumerator ID="0x08" name="Phazon"/>
-        <enumerator ID="0x09" name="AI"/>
-        <enumerator ID="0x0A" name="Poison Water"/>
-        <enumerator ID="0x0B" name="Lava"/>
-        <enumerator ID="0x0C" name="Hot"/>
-        <enumerator ID="0x0D" name="Unused Weapon 1"/>
-        <enumerator ID="0x0E" name="Unused Weapon 2"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Enum">
+        <Name>WeaponType</Name>
+        <Values>
+            <Element Name="Power" ID="0x0"/>
+            <Element Name="Ice" ID="0x1"/>
+            <Element Name="Wave" ID="0x2"/>
+            <Element Name="Plasma" ID="0x3"/>
+            <Element Name="Bomb" ID="0x4"/>
+            <Element Name="Power Bomb" ID="0x5"/>
+            <Element Name="Missile" ID="0x6"/>
+            <Element Name="Boost Ball" ID="0x7"/>
+            <Element Name="Phazon" ID="0x8"/>
+            <Element Name="AI" ID="0x9"/>
+            <Element Name="Poison Water" ID="0xA"/>
+            <Element Name="Lava" ID="0xB"/>
+            <Element Name="Hot" ID="0xC"/>
+            <Element Name="Unused Weapon 1" ID="0xD"/>
+            <Element Name="Unused Weapon 2" ID="0xE"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

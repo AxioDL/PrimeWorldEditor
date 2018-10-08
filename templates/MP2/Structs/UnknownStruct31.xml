@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct31</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x152DB484" Archetype="IngSpiderballGuardianStruct"/>
+            <Element Type="Struct" ID="0x2D163FF7" Archetype="IngSpiderballGuardianStruct"/>
+            <Element Type="Struct" ID="0x8C2FBB19" Archetype="IngSpiderballGuardianStruct"/>
+            <Element Type="Struct" ID="0x5D612911" Archetype="IngSpiderballGuardianStruct"/>
+            <Element Type="Struct" ID="0xFC58ADFF" Archetype="IngSpiderballGuardianStruct"/>
+            <Element Type="Struct" ID="0xC463268C" Archetype="IngSpiderballGuardianStruct"/>
+            <Element Type="Float" ID="0xF598739">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xBA78D281" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>40.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x32133B39">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xAED23ABC" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x3A5E2F52" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0xCEE38F10" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x796FA303" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0xD5F3E9C4" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x44C1F241" Archetype="AudioPlaybackParms"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

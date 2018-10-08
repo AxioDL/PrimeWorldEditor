@@ -1,378 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>IslandHUD</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x0F94806A" type="asset" extensions="CMDL"/>
-        <property ID="0xD02FB1A1" type="asset" extensions="CMDL"/>
-        <property ID="0xA74065CE" type="asset" extensions="CMDL"/>
-        <struct ID="0x1743B770" type="multi">
-            <properties>
-                <struct ID="0xD85524DB" template="Structs/UnknownStruct35.xml"/>
-                <struct ID="0xBAB90759" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <property ID="0xE9AE9114" type="asset" extensions="STRG"/>
-                        <property ID="0x8F321BE8" type="asset" extensions="STRG"/>
-                        <property ID="0xE7572064" type="asset" extensions="STRG"/>
-                        <property ID="0xC022B7A6" type="asset" extensions="STRG"/>
-                        <property ID="0xCC4EB20D" type="asset" extensions="STRG"/>
-                        <property ID="0xF7E675FE" type="asset" extensions="UNKN"/>
-                    </properties>
-                </struct>
-                <struct ID="0xF9674517" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <property ID="0xF5CB9F32" type="asset" extensions="STRG"/>
-                        <property ID="0x21CB2D81" type="asset" extensions="STRG"/>
-                        <property ID="0xE8AC748D" type="asset" extensions="STRG"/>
-                        <property ID="0xFEBBC04E" type="asset" extensions="STRG"/>
-                        <property ID="0x5EEB7F9D" type="asset" extensions="STRG"/>
-                        <property ID="0xCBC01154" type="asset" extensions="STRG"/>
-                        <property ID="0x777CF37F" type="asset" extensions="STRG"/>
-                        <property ID="0x66B1160B" type="asset" extensions="STRG"/>
-                        <property ID="0x7F1E6DEC" type="asset" extensions="STRG"/>
-                        <property ID="0xB7990651" type="asset" extensions="STRG"/>
-                        <property ID="0x6B016DB2" type="asset" extensions="STRG"/>
-                        <property ID="0x8ED65283" type="asset" extensions="CAUD,STRG"/>
-                        <property ID="0xA40D410E" type="asset" extensions="STRG"/>
-                        <property ID="0xEACBA755" type="asset" extensions="STRG"/>
-                        <property ID="0xA18EDF2D" type="asset" extensions="STRG"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0xE119319B" type="asset" extensions="TXTR"/>
-                    </properties>
-                </struct>
-                <struct ID="0x2C7916EC" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <struct ID="0x1145AE1B" template="Structs/UnknownStruct29.xml"/>
-                        <struct ID="0x67A7C770" template="Structs/UnknownStruct28.xml"/>
-                        <struct ID="0x308B92DD" type="multi">
-                            <properties>
-                                <struct ID="0x44F57507" template="Structs/UnknownStruct29.xml"/>
-                                <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                                <property ID="0x013180F0" type="asset" extensions="STRG"/>
-                                <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
-                                <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                                <property ID="0x8ED65283" type="asset" extensions="CAUD,STRG"/>
-                                <property ID="0x7B084AB6" type="asset" extensions="CAUD"/>
-                                <property ID="0x6667C9B1" type="asset" extensions="CAUD"/>
-                                <property ID="0x79D450B1" type="asset" extensions="CAUD"/>
-                                <property ID="0x3CF94770" type="asset" extensions="CAUD"/>
-                                <property ID="0xA0C913A9" type="asset" extensions="CAUD"/>
-                            </properties>
-                        </struct>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0x4D4749A8" type="asset" extensions="CAUD"/>
-                        <property ID="0xDEBFBD6E" type="asset" extensions="CAUD"/>
-                        <property ID="0xC9E1C63A" type="asset" extensions="CAUD"/>
-                        <property ID="0xCF363B64" type="asset" extensions="CAUD"/>
-                        <property ID="0xF49C4C1A" type="asset" extensions="CAUD"/>
-                        <property ID="0x73538A50" type="asset" extensions="STRG"/>
-                        <property ID="0x3A1AFF1F" type="asset" extensions="STRG"/>
-                        <property ID="0xFE4D493F" type="asset" extensions="STRG"/>
-                        <property ID="0x00B4FFDB" type="asset" extensions="STRG"/>
-                        <property ID="0xE2366EEF" type="asset" extensions="STRG"/>
-                        <property ID="0x8ED65283" type="asset" extensions="CAUD,STRG"/>
-                        <property ID="0xA40D410E" type="asset" extensions="STRG"/>
-                        <property ID="0x471FEA86" type="asset" extensions="STRG"/>
-                        <property ID="0xA01E0887" type="asset" extensions="STRG"/>
-                        <property ID="0x4BEC8291" type="asset" extensions="UNKN"/>
-                        <property ID="0xA0DB3992" type="asset" extensions="UNKN"/>
-                        <property ID="0x4F1952AC" type="asset" extensions="UNKN"/>
-                        <property ID="0xADC549D5" type="asset" extensions="UNKN"/>
-                        <property ID="0x420722EB" type="asset" extensions="UNKN"/>
-                    </properties>
-                </struct>
-                <struct ID="0x4CEA53F4" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
-                        <property ID="0xA099CA34" type="asset" extensions="STRG"/>
-                        <property ID="0xE8BF8BB4" type="asset" extensions="STRG"/>
-                        <property ID="0xEF59EA4F" type="asset" extensions="STRG"/>
-                        <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                        <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                        <property ID="0x8ED65283" type="asset" extensions="CAUD,STRG"/>
-                        <property ID="0xA40D410E" type="asset" extensions="STRG"/>
-                        <property ID="0xE119319B" type="asset" extensions="TXTR"/>
-                        <struct ID="0x07BAA11B" template="Structs/UnknownStruct31.xml"/>
-                        <struct ID="0xCB2FF702" template="Structs/UnknownStruct30.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0x90A6AE10" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
-                        <property ID="0x1CE76B90" type="asset" extensions="STRG"/>
-                        <property ID="0xBB19D2F3" type="asset" extensions="STRG"/>
-                        <property ID="0x39665BC8" type="asset" extensions="STRG"/>
-                        <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                        <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                        <property ID="0xE119319B" type="asset" extensions="TXTR"/>
-                        <struct ID="0x800073B8" template="Structs/IslandHudStruct.xml"/>
-                        <struct ID="0x5F71338F" template="Structs/IslandHudStruct.xml"/>
-                        <struct ID="0x01BE492E" template="Structs/IslandHudStruct.xml"/>
-                        <struct ID="0x98E01824" type="multi">
-                            <properties>
-                                <struct ID="0x305B3232" template="Structs/UnknownStruct29.xml"/>
-                                <property ID="0x17C847C0" type="asset" extensions="STRG"/>
-                                <property ID="0x37FD1913" type="asset" extensions="STRG"/>
-                                <property ID="0xA14F34CA" type="asset" extensions="STRG"/>
-                                <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                                <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                                <property ID="0x3DC0F2BE" type="asset" extensions="STRG"/>
-                                <property ID="0x6FDABAD6" type="asset" extensions="STRG"/>
-                                <property ID="0x9C24F6C5" type="asset" extensions="STRG"/>
-                                <property ID="0xE119319B" type="asset" extensions="TXTR"/>
-                            </properties>
-                        </struct>
-                        <struct ID="0xF8E5788C" type="multi">
-                            <properties>
-                                <struct ID="0x305B3232" template="Structs/UnknownStruct29.xml"/>
-                                <property ID="0x17C847C0" type="asset" extensions="STRG"/>
-                                <property ID="0x37FD1913" type="asset" extensions="STRG"/>
-                                <property ID="0xA14F34CA" type="asset" extensions="STRG"/>
-                                <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                                <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                                <property ID="0xFA581F67" type="asset" extensions="STRG"/>
-                                <property ID="0x773A8912" type="asset" extensions="STRG"/>
-                            </properties>
-                        </struct>
-                        <struct ID="0x4983B29A" type="multi">
-                            <properties>
-                                <struct ID="0x305B3232" template="Structs/UnknownStruct29.xml"/>
-                                <property ID="0x119E75AC" type="asset" extensions="STRG"/>
-                                <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                                <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                                <property ID="0x314CDC24" type="asset" extensions="STRG"/>
-                                <property ID="0xD1918347" type="asset" extensions="STRG"/>
-                                <property ID="0xB4510EFE" type="asset" extensions="STRG"/>
-                                <property ID="0x54CD1874" type="asset" extensions="STRG"/>
-                                <property ID="0xC42B68C9" type="asset" extensions="CAUD"/>
-                                <property ID="0x52F82F2F" type="asset" extensions="CAUD"/>
-                                <property ID="0xE119319B" type="asset" extensions="TXTR"/>
-                            </properties>
-                        </struct>
-                        <struct ID="0x851BE4BE" type="multi">
-                            <properties>
-                                <struct ID="0x305B3232" template="Structs/UnknownStruct29.xml"/>
-                                <property ID="0x17C847C0" type="asset" extensions="STRG"/>
-                                <property ID="0x37FD1913" type="asset" extensions="STRG"/>
-                                <property ID="0xA14F34CA" type="asset" extensions="STRG"/>
-                                <property ID="0x1BD63859" type="asset" extensions="STRG"/>
-                                <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                                <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                                <property ID="0xE119319B" type="asset" extensions="TXTR"/>
-                            </properties>
-                        </struct>
-                    </properties>
-                </struct>
-                <struct ID="0x6362F910" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
-                        <property ID="0xAB783F75" type="asset" extensions="STRG"/>
-                        <property ID="0x951DA97E" type="asset" extensions="STRG"/>
-                        <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                        <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                        <property ID="0xF3EA47E7" type="asset" extensions="STRG"/>
-                        <property ID="0xE7C6E905" type="asset" extensions="STRG"/>
-                        <property ID="0x7AC5B370" type="asset" extensions="CAUD"/>
-                        <property ID="0x2E39DD12" type="asset" extensions="CAUD"/>
-                        <property ID="0x22128D84" type="asset" extensions="CAUD"/>
-                        <property ID="0xC24B1FDC" type="asset" extensions="CAUD"/>
-                        <property ID="0x7666757E" type="asset" extensions="CAUD"/>
-                        <property ID="0x59743F72" type="asset" extensions="STRG"/>
-                        <property ID="0xABC95500" type="asset" extensions="STRG"/>
-                        <property ID="0xFE60DCDF" type="asset" extensions="STRG"/>
-                        <property ID="0x75D129E8" type="asset" extensions="STRG"/>
-                        <property ID="0x3A127E2D" type="asset" extensions="STRG"/>
-                        <property ID="0x36A4312B" type="asset" extensions="STRG"/>
-                        <property ID="0xA03D67DF" type="asset" extensions="STRG"/>
-                        <property ID="0xFE4CB2BC" type="asset" extensions="STRG"/>
-                        <property ID="0xAADE9068" type="asset" extensions="STRG"/>
-                        <property ID="0xF14D911D" type="asset" extensions="STRG"/>
-                        <property ID="0xAEDBCC3D" type="asset" extensions="STRG"/>
-                        <property ID="0xB0D747B5" type="asset" extensions="STRG"/>
-                        <property ID="0x4ECA6603" type="asset" extensions="STRG"/>
-                        <property ID="0x6AF2A9FB" type="asset" extensions="STRG"/>
-                        <struct ID="0x5365CF39" template="Structs/UnknownStruct28.xml"/>
-                        <property ID="0xE119319B" type="asset" extensions="TXTR"/>
-                    </properties>
-                </struct>
-                <struct ID="0x372866D4" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
-                        <property ID="0x31449704" type="asset" extensions="STRG"/>
-                        <property ID="0x46DA45F4" type="asset" extensions="STRG"/>
-                        <property ID="0xF139AF99" type="asset" extensions="STRG"/>
-                        <property ID="0xACE4067E" type="asset" extensions="STRG"/>
-                        <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                        <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                        <property ID="0x43054F47" type="asset" extensions="STRG"/>
-                        <property ID="0xD6F9A70F" type="asset" extensions="CAUD"/>
-                        <property ID="0x4F1BC10E" type="asset" extensions="CAUD"/>
-                        <property ID="0xCAC25316" type="asset" extensions="CAUD"/>
-                        <property ID="0xEA119B2C" type="asset" extensions="CAUD"/>
-                        <struct ID="0x8C9C574C" template="Structs/UnknownStruct28.xml"/>
-                        <property ID="0xE119319B" type="asset" extensions="TXTR"/>
-                    </properties>
-                </struct>
-                <struct ID="0xEA2F750A" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0xC8B7DBD5" type="asset" extensions="STRG"/>
-                        <property ID="0x46993681" type="asset" extensions="STRG"/>
-                        <property ID="0xACE4067E" type="asset" extensions="STRG"/>
-                        <property ID="0xD27FCA30" type="asset" extensions="STRG"/>
-                        <property ID="0xB85AEF47" type="asset" extensions="STRG"/>
-                        <property ID="0x8ED65283" type="asset" extensions="CAUD,STRG"/>
-                        <property ID="0xA40D410E" type="asset" extensions="STRG"/>
-                        <property ID="0x471FEA86" type="asset" extensions="STRG"/>
-                        <property ID="0xA01E0887" type="asset" extensions="STRG"/>
-                    </properties>
-                </struct>
-                <struct ID="0x51ADB968" template="Structs/UnknownStruct34.xml"/>
-                <struct ID="0xD8BA1E9A" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <property ID="0x1DD553A2" type="asset" extensions="STRG"/>
-                        <property ID="0x765F0301" type="asset" extensions="STRG"/>
-                    </properties>
-                </struct>
-                <struct ID="0x2AA48723" type="multi">
-                    <properties>
-                        <struct ID="0xC68BC9EC" template="Structs/UnknownStruct28.xml"/>
-                        <struct ID="0x569D9045" template="Structs/UnknownStruct28.xml"/>
-                        <struct ID="0x67A7C770" template="Structs/UnknownStruct28.xml"/>
-                        <struct ID="0x8C9C574C" template="Structs/UnknownStruct28.xml"/>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0x9BF39933" type="asset" extensions="CAUD"/>
-                        <property ID="0x7F33C52C" type="asset" extensions="CAUD"/>
-                        <property ID="0xD239B11F" type="asset" extensions="CAUD"/>
-                        <property ID="0xF5427FD9" type="asset" extensions="CAUD"/>
-                        <property ID="0x970E5F4F" type="asset" extensions="STRG"/>
-                        <property ID="0xA0EFB8DC" type="asset" extensions="STRG"/>
-                        <property ID="0x04E45235" type="asset" extensions="STRG"/>
-                        <property ID="0x8ED65283" type="asset" extensions="CAUD,STRG"/>
-                        <property ID="0xA40D410E" type="asset" extensions="STRG"/>
-                        <property ID="0xE9336455" type="asset" extensions="STRG"/>
-                        <property ID="0x770BCD3B" type="asset" extensions="STRG"/>
-                        <property ID="0x43054F47" type="asset" extensions="STRG"/>
-                        <property ID="0xE2EBE3B3" type="asset" extensions="STRG"/>
-                        <property ID="0xBE564845" type="asset" extensions="STRG"/>
-                        <property ID="0xE8DCBC00" type="asset" extensions="STRG"/>
-                        <property ID="0xA6A38996" type="asset" extensions="STRG"/>
-                        <property ID="0x364C5EFA" type="asset" extensions="STRG"/>
-                        <property ID="0xF5340E52" type="asset" extensions="STRG"/>
-                        <property ID="0x708EB465" type="asset" extensions="STRG"/>
-                        <property ID="0x56245AFC" type="asset" extensions="STRG"/>
-                        <property ID="0x6930C945" type="asset" extensions="STRG"/>
-                        <property ID="0xBAB119D6" type="asset" extensions="STRG"/>
-                        <property ID="0x022805FF" type="asset" extensions="STRG"/>
-                        <property ID="0x1B9678DF" type="asset" extensions="STRG"/>
-                        <property ID="0x23EF5C35" type="asset" extensions="STRG"/>
-                        <property ID="0xD590F85D" type="asset" extensions="STRG"/>
-                        <property ID="0x3A512115" type="asset" extensions="STRG"/>
-                        <property ID="0xCC2E857D" type="asset" extensions="STRG"/>
-                        <property ID="0x8ABAD426" type="asset" extensions="STRG"/>
-                        <property ID="0xC92542E8" type="asset" extensions="STRG"/>
-                        <property ID="0x9CBFA0BC" type="asset" extensions="STRG"/>
-                        <property ID="0xAF9A52CC" type="asset" extensions="STRG"/>
-                    </properties>
-                </struct>
-                <struct ID="0xC6476C7D" type="multi">
-                    <properties>
-                        <property ID="0x806052CB" type="asset" extensions="FRME"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
-                        <property ID="0x78A2B4B0" type="asset" extensions="STRG"/>
-                        <property ID="0x314CDC24" type="asset" extensions="STRG"/>
-                        <property ID="0xB4510EFE" type="asset" extensions="STRG"/>
-                        <property ID="0xD1918347" type="asset" extensions="STRG"/>
-                        <property ID="0x54CD1874" type="asset" extensions="STRG"/>
-                        <property ID="0x471FEA86" type="asset" extensions="STRG"/>
-                        <property ID="0xA01E0887" type="asset" extensions="STRG"/>
-                    </properties>
-                </struct>
-                <struct ID="0xBC2379A9" type="multi">
-                    <properties>
-                        <property ID="0xF2299ED6" type="asset" extensions="FRME"/>
-                        <struct ID="0x73E2819B" template="Structs/UnknownStruct27.xml"/>
-                        <struct ID="0x67A7C770" template="Structs/UnknownStruct28.xml"/>
-                        <struct ID="0xC68BC9EC" template="Structs/UnknownStruct28.xml"/>
-                        <property ID="0x9BE6A5D6" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x9EBE812D" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x531F1CE0" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0xF34D7C81" type="long">
-                            <default>3</default>
-                        </property>
-                        <property ID="0x200EBC5E" type="asset" extensions="STRG"/>
-                        <property ID="0xABC01C18" type="asset" extensions="STRG"/>
-                        <property ID="0x3DAF3B6A" type="asset" extensions="STRG"/>
-                        <property ID="0x8F61A255" type="asset" extensions="STRG"/>
-                        <property ID="0xC25F2E19" type="asset" extensions="STRG"/>
-                        <property ID="0x70CCA12D" type="asset" extensions="STRG"/>
-                        <property ID="0x7F2A409C" type="asset" extensions="STRG"/>
-                        <property ID="0x2EB4A90D" type="asset" extensions="STRG"/>
-                        <property ID="0x891A741F" type="asset" extensions="STRG"/>
-                        <property ID="0x70A28554" type="asset" extensions="STRG"/>
-                        <property ID="0x7642EF52" type="asset" extensions="STRG"/>
-                        <property ID="0x8ED65283" type="asset" extensions="CAUD,STRG"/>
-                        <property ID="0xA40D410E" type="asset" extensions="STRG"/>
-                        <property ID="0x9585B587" type="asset" extensions="STRG"/>
-                        <property ID="0x9C31D707" type="asset" extensions="STRG"/>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x3F88E900" template="Structs/UnknownStruct36.xml"/>
-        <struct ID="0xEB7C1BF2" type="multi">
-            <properties>
-                <property ID="0x472BF35F" type="asset" extensions="STRG"/>
-                <property ID="0x4CB7E35D" type="asset" extensions="STRG"/>
-                <property ID="0x38A22AC5" type="asset" extensions="STRG"/>
-                <property ID="0x71280E23" type="asset" extensions="STRG"/>
-                <property ID="0x2754537C" type="asset" extensions="STRG"/>
-                <property ID="0xE2E62EE5" type="asset" extensions="STRG"/>
-            </properties>
-        </struct>
-        <struct ID="0xC68BC9EC" template="Structs/UnknownStruct28.xml"/>
-        <struct ID="0x6BDD8B7A" template="Structs/UnknownStruct28.xml"/>
-        <struct ID="0xCC53C738" template="Structs/UnknownStruct28.xml"/>
-        <struct ID="0xBCF93A2A" template="Structs/UnknownStruct28.xml"/>
-        <struct ID="0x6549E3F9" template="Structs/UnknownStruct28.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <model source="property">0x0F94806A</model>
-            <model source="property">0xD02FB1A1</model>
-            <model source="property">0xA74065CE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>IslandHUD</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Asset" ID="0xF94806A">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD02FB1A1">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA74065CE">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1743B770" Archetype="UnknownStruct182"/>
+            <Element Type="Struct" ID="0x3F88E900" Archetype="UnknownStruct36"/>
+            <Element Type="Struct" ID="0xEB7C1BF2" Archetype="UnknownStruct183"/>
+            <Element Type="Struct" ID="0xC68BC9EC" Archetype="UnknownStruct28"/>
+            <Element Type="Struct" ID="0x6BDD8B7A" Archetype="UnknownStruct28"/>
+            <Element Type="Struct" ID="0xCC53C738" Archetype="UnknownStruct28"/>
+            <Element Type="Struct" ID="0xBCF93A2A" Archetype="UnknownStruct28"/>
+            <Element Type="Struct" ID="0x6549E3F9" Archetype="UnknownStruct28"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Model" Source="Property" Location="0x0F94806A"/>
+        <Element Type="Model" Source="Property" Location="0xD02FB1A1"/>
+        <Element Type="Model" Source="Property" Location="0xA74065CE"/>
+    </Assets>
+</ScriptObject>

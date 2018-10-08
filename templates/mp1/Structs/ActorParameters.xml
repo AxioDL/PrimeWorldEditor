@@ -1,19 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ActorParameters" type="multi">
-    <properties>
-        <struct ID="0x00" name="LightParameters" template="Structs/LightParameters.xml"/>
-        <struct ID="0x01" name="ScannableParameters" template="Structs/ScannableParameters.xml"/>
-        <property ID="0x02" name="X-Ray Visor Model" type="asset" extensions="CMDL"/>
-        <property ID="0x03" name="X-Ray Visor Skin" type="asset" extensions="CSKR"/>
-        <property ID="0x04" name="Thermal Visor Model" type="asset" extensions="CMDL"/>
-        <property ID="0x05" name="Thermal Visor Skin" type="asset" extensions="CSKR"/>
-        <property ID="0x06" name="Unknown 1" type="bool"/>
-        <property ID="0x07" name="Unknown 2" type="float"/>
-        <property ID="0x08" name="Unknown 3" type="float"/>
-        <struct ID="0x09" name="VisorParameters" template="Structs/VisorParameters.xml"/>
-        <property ID="0x0A" name="Enable Thermal Heat" type="bool"/>
-        <property ID="0x0B" name="Unknown 4" type="bool"/>
-        <property ID="0x0C" name="Unknown 5" type="bool"/>
-        <property ID="0x0D" name="Unknown 6" type="float"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>ActorParameters</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x0" Archetype="LightParameters"/>
+            <Element Type="Struct" ID="0x1" Archetype="ScannableParameters"/>
+            <Element Type="Asset" ID="0x2">
+                <Name>X-Ray Visor Model</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3">
+                <Name>X-Ray Visor Skin</Name>
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4">
+                <Name>Thermal Visor Model</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5">
+                <Name>Thermal Visor Skin</Name>
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x6">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Struct" ID="0x9" Archetype="VisorParameters"/>
+            <Element Type="Bool" ID="0xA">
+                <Name>Enable Thermal Heat</Name>
+            </Element>
+            <Element Type="Bool" ID="0xB">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Bool" ID="0xC">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>Unknown 6</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

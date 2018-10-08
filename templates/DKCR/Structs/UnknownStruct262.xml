@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct262</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x26ECB939">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x41DA172">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F2AE3E5">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39FB7978">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9EC4FC10">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x140EF2CC">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE46E8D01">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xEA0569D2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8B12F3B0">
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68DAE7E9">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD2D92D71">
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1CC6B88D">
+                <DefaultValue>0.87</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9605AAD3">
+                <DefaultValue>20</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x806DC773">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x101ED799">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBBD7C692">
+                <DefaultValue>13.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xE84AA51C" Archetype="RobotChickenFlyerStructA"/>
+            <Element Type="Struct" ID="0xA152F46F" Archetype="RobotChickenFlyerStructA"/>
+            <Element Type="Struct" ID="0x1F59E2C1" Archetype="RobotChickenFlyerStructA"/>
+            <Element Type="Struct" ID="0xC4D0E557" Archetype="RobotChickenFlyerStructA"/>
+            <Element Type="Struct" ID="0xF8011EC5" Archetype="UnknownStruct260"/>
+            <Element Type="Struct" ID="0x68FD49AE" Archetype="AnimGridModifierData"/>
+            <Element Type="Struct" ID="0x420151F6" Archetype="UnknownStruct261"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

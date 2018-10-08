@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="HealthInfo" type="multi">
-    <properties>
-        <property ID="0xF0668919" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x3A2D17E4" type="float">
-            <default>1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>HealthInfo</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xF0668919">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3A2D17E4">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

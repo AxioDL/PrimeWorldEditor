@@ -1,195 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>DigitalGuardian</name>
-    <modules>
-        <module>DigitalGuardian.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x020C78BB">
-                    <default>360.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <default>0.0</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>150.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xC55918CC" type="multi">
-            <properties>
-                <property ID="0x2AA63FC4" type="asset" extensions="SCAN"/>
-                <property ID="0x0FAF6A8E" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xD3056808" type="float">
-                    <default>17.0</default>
-                </property>
-                <property ID="0x304B47EE" type="float">
-                    <default>5.0</default>
-                </property>
-                <struct ID="0xEFACFA50" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <enum ID="0x119FBD31">
-                            <default>0x0000000B</default>
-                        </enum>
-                        <property ID="0xF2D02613">
-                            <default>50.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xB4561F28" type="float">
-                    <default>75.0</default>
-                </property>
-                <property ID="0xBB06DD83" type="asset" extensions="CMDL"/>
-                <property ID="0x783635A6" type="asset" extensions="PART"/>
-                <struct ID="0x13845A66" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0xA305DCBA" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0xC6EC1630" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0x98419EAC" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0x4691C9AB" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0x8F4787CB" template="Structs/ShockWaveInfo.xml"/>
-                <property ID="0x76527E01" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xD210DFDB" type="float">
-                    <default>50.0</default>
-                </property>
-                <property ID="0x348BFF02" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x84FEF16F" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x93A74A46" type="float">
-                    <default>20.0</default>
-                </property>
-                <struct ID="0x5CA612AA" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <enum ID="0x119FBD31">
-                            <default>0x0000000B</default>
-                        </enum>
-                        <property ID="0xF2D02613">
-                            <default>50.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xFB5263E8" type="long">
-                    <default>-5734</default>
-                </property>
-                <property ID="0x6AAF33E3" type="long">
-                    <default>8191</default>
-                </property>
-                <property ID="0x4F5D725C" type="float">
-                    <default>100.0</default>
-                </property>
-                <struct ID="0x7BFAB420" template="Structs/AudioPlaybackParms.xml"/>
-                <property ID="0xC0A86488" type="asset" extensions="CMDL"/>
-                <property ID="0x8DDD85CA" type="asset" extensions="CMDL"/>
-                <property ID="0xE3DD61E6" type="float">
-                    <default>100.0</default>
-                </property>
-                <struct ID="0x91D2A042" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0x9386D22B" template="Structs/AudioPlaybackParms.xml"/>
-                <property ID="0x5EF8B288" type="asset" extensions="CMDL"/>
-                <struct ID="0x7B5B7312" template="Structs/EchoParameters.xml"/>
-                <property ID="0xA324E26C" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x6A754EBD" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xC9FC9977" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x8106CDA9" type="float">
-                    <default>0.7</default>
-                </property>
-                <property ID="0x9E1B8105" type="float">
-                    <default>0.7</default>
-                </property>
-                <property ID="0xA08FCC70" type="float">
-                    <default>0.7</default>
-                </property>
-                <property ID="0x3254A16B" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x5796A143" type="asset" extensions="CMDL"/>
-                <property ID="0x3FA7DF1C" type="asset" extensions="PART"/>
-                <struct ID="0x021B6F9D" template="Structs/EchoParameters.xml"/>
-                <struct ID="0x55A8011C" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0x7AE73FB3" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0xA9E55C8E" template="Structs/AudioPlaybackParms.xml"/>
-                <property ID="0x4F6D27D3" type="float">
-                    <default>500.0</default>
-                </property>
-                <property ID="0x71F0C674" type="asset" extensions="PART"/>
-                <property ID="0xC8EC315B" type="asset" extensions="PART"/>
-                <struct ID="0xEED5B990" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0x535F6FEC" template="Structs/AudioPlaybackParms.xml"/>
-                <struct ID="0x6DBAD233" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0xF1259E3A" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0xF14F3237" template="Structs/DamageVulnerability.xml"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-            <model source="property">0xC55918CC:0xBB06DD83</model>
-            <model source="property">0xC55918CC:0xC0A86488</model>
-            <model source="property">0xC55918CC:0x8DDD85CA</model>
-            <model source="property">0xC55918CC:0x5EF8B288</model>
-            <model source="property">0xC55918CC:0x5796A143</model>
-        </assets>
-        <attachments>
-            <attachment propertyID="0xC55918CC:0xBB06DD83" locator="L_front_ankle"/>
-            <attachment propertyID="0xC55918CC:0xBB06DD83" locator="R_front_ankle"/>
-            <attachment propertyID="0xC55918CC:0xBB06DD83" locator="L_back_ankle"/>
-            <attachment propertyID="0xC55918CC:0xBB06DD83" locator="R_back_ankle"/>
-            <attachment propertyID="0xC55918CC:0xC0A86488" locator="L_front_knee_2"/>
-            <attachment propertyID="0xC55918CC:0xC0A86488" locator="R_front_knee_2"/>
-            <attachment propertyID="0xC55918CC:0xC0A86488" locator="L_back_knee_2"/>
-            <attachment propertyID="0xC55918CC:0xC0A86488" locator="R_back_knee_2"/>
-            <attachment propertyID="0xC55918CC:0x8DDD85CA" locator="L_front_knee_2"/>
-            <attachment propertyID="0xC55918CC:0x8DDD85CA" locator="R_front_knee_2"/>
-            <attachment propertyID="0xC55918CC:0x8DDD85CA" locator="L_back_knee_2"/>
-            <attachment propertyID="0xC55918CC:0x8DDD85CA" locator="R_back_knee_2"/>
-            <attachment propertyID="0xC55918CC:0x5EF8B288" locator="L_front_knee_2"/>
-            <attachment propertyID="0xC55918CC:0x5EF8B288" locator="R_front_knee_2"/>
-            <attachment propertyID="0xC55918CC:0x5EF8B288" locator="L_back_knee_2"/>
-            <attachment propertyID="0xC55918CC:0x5EF8B288" locator="R_back_knee_2"/>
-        </attachments>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>DigitalGuardian.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>DigitalGuardian</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>360.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>150.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xC55918CC" Archetype="DigitalGuardianData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+        <Element Type="Model" Source="Property" Location="0xC55918CC:0xBB06DD83"/>
+        <Element Type="Model" Source="Property" Location="0xC55918CC:0xC0A86488"/>
+        <Element Type="Model" Source="Property" Location="0xC55918CC:0x8DDD85CA"/>
+        <Element Type="Model" Source="Property" Location="0xC55918CC:0x5EF8B288"/>
+        <Element Type="Model" Source="Property" Location="0xC55918CC:0x5796A143"/>
+    </Assets>
+    <Attachments>
+        <Element AttachProperty="0xC55918CC:0xBB06DD83" LocatorName="L_front_ankle" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0xBB06DD83" LocatorName="R_front_ankle" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0xBB06DD83" LocatorName="L_back_ankle" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0xBB06DD83" LocatorName="R_back_ankle" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0xC0A86488" LocatorName="L_front_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0xC0A86488" LocatorName="R_front_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0xC0A86488" LocatorName="L_back_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0xC0A86488" LocatorName="R_back_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0x8DDD85CA" LocatorName="L_front_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0x8DDD85CA" LocatorName="R_front_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0x8DDD85CA" LocatorName="L_back_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0x8DDD85CA" LocatorName="R_back_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0x5EF8B288" LocatorName="L_front_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0x5EF8B288" LocatorName="R_front_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0x5EF8B288" LocatorName="L_back_knee_2" AttachType="Attach"/>
+        <Element AttachProperty="0xC55918CC:0x5EF8B288" LocatorName="R_back_knee_2" AttachType="Attach"/>
+    </Attachments>
+</ScriptObject>

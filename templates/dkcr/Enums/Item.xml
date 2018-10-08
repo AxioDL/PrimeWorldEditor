@@ -1,50 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="Item">
-    <enumerators>
-        <enumerator ID="0xB22FD89B" name="Banana"/>
-        <enumerator ID="0x0AB70F9F" name="Banana Coin"/>
-        <enumerator ID="0x7EC6E111" name="Player 1 Dead"/>
-        <enumerator ID="0x556483BA" name="Player 2 Dead"/>
-        <enumerator ID="0x28B8C79F" name="Unknown 1"/>
-        <enumerator ID="0x288E1995" name="Unknown 2"/>
-        <enumerator ID="0x20452B38" name="1UP"/>
-        <enumerator ID="0xA08E45BD" name="Unknown 3"/>
-        <enumerator ID="0x9302608B" name="Puzzle Piece"/>
-        <enumerator ID="0x6242D55B" name="KONG - K"/>
-        <enumerator ID="0x652F1142" name="KONG - O"/>
-        <enumerator ID="0x122821D4" name="KONG - N"/>
-        <enumerator ID="0x6BF49970" name="KONG - G"/>
-        <enumerator ID="0x67AD9570" name="Super Guide Available"/>
-        <enumerator ID="0xAF376DBC" name="Unknown 4"/>
-        <enumerator ID="0xC2614252" name="Unknown 5"/>
-        <enumerator ID="0xE6880EBF" name="Unknown 6"/>
-        <enumerator ID="0x4CE83DAB" name="Unknown 7"/>
-        <enumerator ID="0x3132788C" name="Unknown 8"/>
-        <enumerator ID="0x13F9BA3C" name="Unknown 9"/>
-        <enumerator ID="0x0B678DCF" name="Key 1 (Jungle)"/>
-        <enumerator ID="0x926EDC75" name="Key 2 (Beach)"/>
-        <enumerator ID="0xE569ECE3" name="Key 3 (Ruins)"/>
-        <enumerator ID="0x7B0D7940" name="Key 4 (Cave)"/>
-        <enumerator ID="0x0C0A49D6" name="Key 5 (Forest)"/>
-        <enumerator ID="0x9503186C" name="Key 6 (Cliff)"/>
-        <enumerator ID="0xE20428FA" name="Key 7 (Factory)"/>
-        <enumerator ID="0x72BB356B" name="Key 8 (Volcano)"/>
-        <enumerator ID="0x58839E3B" name="Factory Key L5"/>
-        <enumerator ID="0xC18ACF81" name="Factory Key L6"/>
-        <enumerator ID="0xB68DFF17" name="Factory Key L7"/>
-        <enumerator ID="0x5D1C98AE" name="Unknown 10"/>
-        <enumerator ID="0xC415C914" name="Unknown 11"/>
-        <enumerator ID="0xB312F982" name="Unknown 12"/>
-        <enumerator ID="0x2D766C21" name="Unknown 13"/>
-        <enumerator ID="0x5A715CB7" name="Unknown 14"/>
-        <enumerator ID="0xC3780D0D" name="Unknown 15"/>
-        <enumerator ID="0xB47F3D9B" name="Unknown 16"/>
-        <enumerator ID="0x24C0200A" name="Unknown 17"/>
-        <enumerator ID="0xF1925BC3" name="Unknown 18"/>
-        <enumerator ID="0xB82D38C0" name="Unknown 19"/>
-        <enumerator ID="0x00F1201C" name="Unknown 20"/>
-        <enumerator ID="0xE3006233" name="Mirror Mode"/>
-        <enumerator ID="0xBCF65B69" name="Tiki Tong Award"/>
-        <enumerator ID="0x7F7E9C47" name="Heart"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>Item</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="Banana" ID="0xB22FD89B"/>
+            <Element Name="Banana Coin" ID="0xAB70F9F"/>
+            <Element Name="Player 1 Dead" ID="0x7EC6E111"/>
+            <Element Name="Player 2 Dead" ID="0x556483BA"/>
+            <Element Name="Unknown 1" ID="0x28B8C79F"/>
+            <Element Name="Unknown 2" ID="0x288E1995"/>
+            <Element Name="1UP" ID="0x20452B38"/>
+            <Element Name="Unknown 3" ID="0xA08E45BD"/>
+            <Element Name="Puzzle Piece" ID="0x9302608B"/>
+            <Element Name="KONG - K" ID="0x6242D55B"/>
+            <Element Name="KONG - O" ID="0x652F1142"/>
+            <Element Name="KONG - N" ID="0x122821D4"/>
+            <Element Name="KONG - G" ID="0x6BF49970"/>
+            <Element Name="Super Guide Available" ID="0x67AD9570"/>
+            <Element Name="Unknown 4" ID="0xAF376DBC"/>
+            <Element Name="Unknown 5" ID="0xC2614252"/>
+            <Element Name="Unknown 6" ID="0xE6880EBF"/>
+            <Element Name="Unknown 7" ID="0x4CE83DAB"/>
+            <Element Name="Unknown 8" ID="0x3132788C"/>
+            <Element Name="Unknown 9" ID="0x13F9BA3C"/>
+            <Element Name="Key 1 (Jungle)" ID="0xB678DCF"/>
+            <Element Name="Key 2 (Beach)" ID="0x926EDC75"/>
+            <Element Name="Key 3 (Ruins)" ID="0xE569ECE3"/>
+            <Element Name="Key 4 (Cave)" ID="0x7B0D7940"/>
+            <Element Name="Key 5 (Forest)" ID="0xC0A49D6"/>
+            <Element Name="Key 6 (Cliff)" ID="0x9503186C"/>
+            <Element Name="Key 7 (Factory)" ID="0xE20428FA"/>
+            <Element Name="Key 8 (Volcano)" ID="0x72BB356B"/>
+            <Element Name="Factory Key L5" ID="0x58839E3B"/>
+            <Element Name="Factory Key L6" ID="0xC18ACF81"/>
+            <Element Name="Factory Key L7" ID="0xB68DFF17"/>
+            <Element Name="Unknown 10" ID="0x5D1C98AE"/>
+            <Element Name="Unknown 11" ID="0xC415C914"/>
+            <Element Name="Unknown 12" ID="0xB312F982"/>
+            <Element Name="Unknown 13" ID="0x2D766C21"/>
+            <Element Name="Unknown 14" ID="0x5A715CB7"/>
+            <Element Name="Unknown 15" ID="0xC3780D0D"/>
+            <Element Name="Unknown 16" ID="0xB47F3D9B"/>
+            <Element Name="Unknown 17" ID="0x24C0200A"/>
+            <Element Name="Unknown 18" ID="0xF1925BC3"/>
+            <Element Name="Unknown 19" ID="0xB82D38C0"/>
+            <Element Name="Unknown 20" ID="0xF1201C"/>
+            <Element Name="Mirror Mode" ID="0xE3006233"/>
+            <Element Name="Tiki Tong Award" ID="0xBCF65B69"/>
+            <Element Name="Heart" ID="0x7F7E9C47"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

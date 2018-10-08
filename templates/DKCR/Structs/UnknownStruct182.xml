@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct182</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD85524DB" Archetype="UnknownStruct35"/>
+            <Element Type="Struct" ID="0xBAB90759" Archetype="UnknownStruct165"/>
+            <Element Type="Struct" ID="0xF9674517" Archetype="UnknownStruct166"/>
+            <Element Type="Struct" ID="0x2C7916EC" Archetype="UnknownStruct168"/>
+            <Element Type="Struct" ID="0x4CEA53F4" Archetype="UnknownStruct169"/>
+            <Element Type="Struct" ID="0x90A6AE10" Archetype="UnknownStruct174"/>
+            <Element Type="Struct" ID="0x6362F910" Archetype="UnknownStruct175"/>
+            <Element Type="Struct" ID="0x372866D4" Archetype="UnknownStruct176"/>
+            <Element Type="Struct" ID="0xEA2F750A" Archetype="UnknownStruct177"/>
+            <Element Type="Struct" ID="0x51ADB968" Archetype="UnknownStruct34"/>
+            <Element Type="Struct" ID="0xD8BA1E9A" Archetype="UnknownStruct178"/>
+            <Element Type="Struct" ID="0x2AA48723" Archetype="UnknownStruct179"/>
+            <Element Type="Struct" ID="0xC6476C7D" Archetype="UnknownStruct180"/>
+            <Element Type="Struct" ID="0xBC2379A9" Archetype="UnknownStruct181"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

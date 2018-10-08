@@ -1,123 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>PhazonHarvester</name>
-    <modules>
-        <module>RSO_PhazonHarvester.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x8DB77EE4">
-                    <default>15.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xD2DFD524" type="multi">
-            <properties>
-                <property ID="0x1CE8F439" type="bool">
-                    <default>true</default>
-                </property>
-                <struct ID="0x2036077F" template="Structs/LaunchProjectileData.xml">
-                    <properties>
-                        <property ID="0x053AE4A7">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xCF201BFA">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x88137FA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xB2D02323">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF344C0B0">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x056B20B2">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF78469D6">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xAE22E0DC" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x4FDC1683" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x6B554A8D" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0x08772297" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0xEE178D76" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0x75608ED3" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x352FF6A5" type="float">
-                    <default>-90.0</default>
-                </property>
-                <property ID="0xCD8AB1E3" type="float">
-                    <default>70.0</default>
-                </property>
-                <property ID="0xF0E64D85" type="float">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x2B3449F5" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x1DD9E8BF" type="float">
-                    <default>2.0</default>
-                </property>
-                <struct ID="0x130CF1A1" template="Structs/FlyerMovementMode.xml">
-                    <properties>
-                        <property ID="0x50A9BD0D">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xFC51DF90" template="Structs/FlyerMovementMode.xml">
-                    <properties>
-                        <property ID="0x50A9BD0D">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x7A154E49" type="asset" extensions="CMDL"/>
-                <property ID="0xC7426B90" type="asset" extensions="CMDL"/>
-                <property ID="0xE2EFEE98" type="asset" extensions="CMDL"/>
-                <property ID="0x155BF24B" type="asset" extensions="CMDL"/>
-                <property ID="0xD757CB94" type="asset" extensions="CMDL"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <model source="property">0xD2DFD524:0x7A154E49</model>
-            <model source="property">0xD2DFD524:0xC7426B90</model>
-            <model source="property">0xD2DFD524:0xE2EFEE98</model>
-            <model source="property">0xD2DFD524:0x155BF24B</model>
-            <model source="property">0xD2DFD524:0xD757CB94</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_PhazonHarvester.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>PhazonHarvester</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x8DB77EE4">
+                        <DefaultValue>15.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xD2DFD524" Archetype="UnknownStruct49"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Model" Source="Property" Location="0xD2DFD524:0x7A154E49"/>
+        <Element Type="Model" Source="Property" Location="0xD2DFD524:0xC7426B90"/>
+        <Element Type="Model" Source="Property" Location="0xD2DFD524:0xE2EFEE98"/>
+        <Element Type="Model" Source="Property" Location="0xD2DFD524:0x155BF24B"/>
+        <Element Type="Model" Source="Property" Location="0xD2DFD524:0xD757CB94"/>
+    </Assets>
+</ScriptObject>

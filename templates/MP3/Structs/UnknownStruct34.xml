@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct34</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x6552BCC0">
+                <DefaultValue>1.2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC8A1EAC8" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0xEDE35A42">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFEA6BCE9">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x86064471">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2132C408">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x587FA387">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3E9AC5F3">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC9416034" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x5F11893B" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x37ED6EBB" Archetype="DamageInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

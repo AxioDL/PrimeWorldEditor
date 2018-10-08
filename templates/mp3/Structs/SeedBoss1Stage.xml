@@ -1,70 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SeedBoss1Stage" type="multi">
-    <properties>
-        <property ID="0x1B0E75B3" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xDFEA46B3" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x95E7A2C2" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x76BA1C18" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xCD4EDCA2" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xF9B082B0" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x2362C4E2" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x905063F4" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xBAE5EABB" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x1E3A9394" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x40C60CFC" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x69B8F1E4" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0xAE7DD037" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x90C818BF" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xC31D15EE" type="float">
-            <default>0.25</default>
-        </property>
-        <property ID="0xA059D75F" type="float">
-            <default>0.25</default>
-        </property>
-        <struct ID="0x1E857439" template="Structs/SeedBoss1Action.xml"/>
-        <struct ID="0xBAF37BAA" template="Structs/SeedBoss1Action.xml"/>
-        <property ID="0xAF8C9223" type="float">
-            <default>0.06</default>
-        </property>
-        <struct ID="0xD83D4564" template="Structs/SeedBoss1Action.xml"/>
-        <struct ID="0x95B6D3B7" template="Structs/SeedBoss1Action.xml"/>
-        <struct ID="0x46AA8016" template="Structs/SeedBoss1Action.xml"/>
-        <property ID="0x4432C4FE" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x2AC6AA4B" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0xDBF10D5E" type="float">
-            <default>1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SeedBoss1Stage</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x1B0E75B3">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDFEA46B3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95E7A2C2">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76BA1C18">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCD4EDCA2">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF9B082B0">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2362C4E2">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x905063F4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBAE5EABB">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1E3A9394">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x40C60CFC">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x69B8F1E4">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAE7DD037">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90C818BF">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC31D15EE">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA059D75F">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x1E857439" Archetype="SeedBoss1Action"/>
+            <Element Type="Struct" ID="0xBAF37BAA" Archetype="SeedBoss1Action"/>
+            <Element Type="Float" ID="0xAF8C9223">
+                <DefaultValue>0.059999999</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD83D4564" Archetype="SeedBoss1Action"/>
+            <Element Type="Struct" ID="0x95B6D3B7" Archetype="SeedBoss1Action"/>
+            <Element Type="Struct" ID="0x46AA8016" Archetype="SeedBoss1Action"/>
+            <Element Type="Int" ID="0x4432C4FE">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2AC6AA4B">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDBF10D5E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,71 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>ContextActionWelding</name>
-    <modules>
-        <module>RSO_ScriptContextActionWelding.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x2F74DC89" type="multi">
-            <properties>
-                <property ID="0x6ADE8B91" type="character"/>
-                <property ID="0xFBF9569B" type="asset" extensions="PART"/>
-                <property ID="0x8E14567B" type="asset" extensions="PART"/>
-                <property ID="0xEA2C7744" type="asset" extensions="PART"/>
-                <property ID="0x5A3ED5A0" type="asset" extensions="PART"/>
-                <property ID="0x70BED427" type="asset" extensions="PART"/>
-                <property ID="0xACD369C1" type="asset" extensions="PART"/>
-                <property ID="0x1DAD13A3" type="asset" extensions="PART"/>
-                <property ID="0x5B468021" type="asset" extensions="PART"/>
-                <property ID="0xCECAD2C3" type="asset" extensions="CMDL"/>
-                <property ID="0x7E542EAA" type="asset" extensions="PART"/>
-                <property ID="0xBFACE762" type="color">
-                    <default>1.0, 0.0, 0.0, 1.0</default>
-                </property>
-                <property ID="0x3761C8E8" type="color">
-                    <default>1.0, 1.0, 1.0, 1.0</default>
-                </property>
-                <property ID="0x31C8BCAA" type="asset" extensions="CAUD"/>
-                <property ID="0x1E1A49D5" type="asset" extensions="CAUD"/>
-                <property ID="0x4A8CF2F7" type="asset" extensions="CAUD"/>
-                <property ID="0xFBF28895" type="asset" extensions="CAUD"/>
-                <property ID="0x1961D4A5" type="asset" extensions="UNKN"/>
-                <property ID="0x1FE966F1" type="asset" extensions="UNKN"/>
-                <property ID="0x7DEC1AEF" type="asset" extensions="CAUD"/>
-                <property ID="0xB3B5C8CB" type="asset" extensions="CAUD"/>
-                <property ID="0x902D66F9" type="float">
-                    <default>0.25</default>
-                </property>
-                <property ID="0xEDF4020E" type="float">
-                    <default>0.4</default>
-                </property>
-                <property ID="0x9CF48EFC" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xE698941F" type="float">
-                    <default>10.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x2F74DC89:0x6ADE8B91</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <model source="property">0x2F74DC89:0xCECAD2C3</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_ScriptContextActionWelding.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>ContextActionWelding</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x2F74DC89" Archetype="UnknownStruct24"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x2F74DC89:0x6ADE8B91"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Model" Source="Property" Location="0x2F74DC89:0xCECAD2C3"/>
+    </Assets>
+</ScriptObject>

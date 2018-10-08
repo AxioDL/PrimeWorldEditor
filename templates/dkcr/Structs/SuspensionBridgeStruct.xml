@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SuspensionBridgeStruct" type="multi">
-    <properties>
-        <property ID="0xD5699264" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xAB1F5423" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xECF830EE" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xE9D2FF49" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>SuspensionBridgeStruct</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xD5699264">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xAB1F5423">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xECF830EE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE9D2FF49">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -170,7 +170,7 @@ public:
 
     inline void SetVisible(bool Visible)    { mVisible = Visible; }
     inline void MarkDirty()                 { mDirty = true; }
-    inline bool IsDirty() const             { return mDirty; }
+    inline bool IsDirty() const             { return mDirty || mpProperties->IsDirty(); }
 
     // Object Tracking
     u32 NumObjects() const;

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct241</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x2E7C745F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC03EC271">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE687518">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xEA8D54F4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C269EBC">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC7A7F189">
+                <DefaultValue>-6.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD74245A4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x196E17D9">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xFB8F0B1F" Archetype="MusicEnumB">
+                <DefaultValue>0xCBF698CA</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x9558711E" Archetype="MusicEnumA">
+                <DefaultValue>0x28D5A7D7</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

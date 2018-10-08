@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="BerserkerEnum">
-    <enumerators>
-        <enumerator ID="0x9275262C" name="Unknown 1"/>
-        <enumerator ID="0x8CD01A7E" name="Unknown 2"/>
-        <enumerator ID="0x80DA56BD" name="Unknown 3"/>
-        <enumerator ID="0xF12A35C6" name="Unknown 4"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Enum">
+        <Name>BerserkerEnum</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="Unknown 1" ID="0x9275262C"/>
+            <Element Name="Unknown 2" ID="0x8CD01A7E"/>
+            <Element Name="Unknown 3" ID="0x80DA56BD"/>
+            <Element Name="Unknown 4" ID="0xF12A35C6"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,3435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Game ArchiveVer="4" Game="DKCReturns">
+    <ScriptObjects>
+        <Element>
+            <Key>AAGM</Key>
+            <Value ID="AAGM" Path="Script/ActorAnimGridModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>ACKF</Key>
+            <Value ID="ACKF" Path="Script/ActorKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>ACOU</Key>
+            <Value ID="ACOU" Path="Script/Acoustics.xml"/>
+        </Element>
+        <Element>
+            <Key>ACTR</Key>
+            <Value ID="ACTR" Path="Script/Actor.xml"/>
+        </Element>
+        <Element>
+            <Key>ADMG</Key>
+            <Value ID="ADMG" Path="Script/AreaDamage.xml"/>
+        </Element>
+        <Element>
+            <Key>AIHT</Key>
+            <Value ID="AIHT" Path="Script/AIHint.xml"/>
+        </Element>
+        <Element>
+            <Key>AIKF</Key>
+            <Value ID="AIKF" Path="Script/AIKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>AIWP</Key>
+            <Value ID="AIWP" Path="Script/AIWaypoint.xml"/>
+        </Element>
+        <Element>
+            <Key>AMKF</Key>
+            <Value ID="AMKF" Path="Script/ActorMultiKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>AOCL</Key>
+            <Value ID="AOCL" Path="Script/AudioOccluder.xml"/>
+        </Element>
+        <Element>
+            <Key>ARNO</Key>
+            <Value ID="ARNO" Path="Script/AreaNode.xml"/>
+        </Element>
+        <Element>
+            <Key>ARPA</Key>
+            <Value ID="ARPA" Path="Script/AreaPath.xml"/>
+        </Element>
+        <Element>
+            <Key>ASAS</Key>
+            <Value ID="ASAS" Path="Script/AreaStreamedAudioState.xml"/>
+        </Element>
+        <Element>
+            <Key>ATRN</Key>
+            <Value ID="ATRN" Path="Script/ActorTransform.xml"/>
+        </Element>
+        <Element>
+            <Key>AVIS</Key>
+            <Value ID="AVIS" Path="Script/AVIS.xml"/>
+        </Element>
+        <Element>
+            <Key>BABL</Key>
+            <Value ID="BABL" Path="Script/BarrelBalloon.xml"/>
+        </Element>
+        <Element>
+            <Key>BARL</Key>
+            <Value ID="BARL" Path="Script/BarrelCannon.xml"/>
+        </Element>
+        <Element>
+            <Key>BIRD</Key>
+            <Value ID="BIRD" Path="Script/BirdBoss.xml"/>
+        </Element>
+        <Element>
+            <Key>BLME</Key>
+            <Value ID="BLME" Path="Script/BloomEffect.xml"/>
+        </Element>
+        <Element>
+            <Key>BLMV</Key>
+            <Value ID="BLMV" Path="Script/BloomVolume.xml"/>
+        </Element>
+        <Element>
+            <Key>BLUR</Key>
+            <Value ID="BLUR" Path="Script/CameraBlurKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>BONU</Key>
+            <Value ID="BONU" Path="Script/BonusRoom.xml"/>
+        </Element>
+        <Element>
+            <Key>BTYR</Key>
+            <Value ID="BTYR" Path="Script/BouncyTire.xml"/>
+        </Element>
+        <Element>
+            <Key>BUHA</Key>
+            <Value ID="BUHA" Path="Script/BeatUpHandler.xml"/>
+        </Element>
+        <Element>
+            <Key>CABL</Key>
+            <Value ID="CABL" Path="Script/Cable.xml"/>
+        </Element>
+        <Element>
+            <Key>CAMH</Key>
+            <Value ID="CAMH" Path="Script/CameraHint.xml"/>
+        </Element>
+        <Element>
+            <Key>CAMS</Key>
+            <Value ID="CAMS" Path="Script/CameraShaker.xml"/>
+        </Element>
+        <Element>
+            <Key>CART</Key>
+            <Value ID="CART" Path="Script/MineCart.xml"/>
+        </Element>
+        <Element>
+            <Key>CINE</Key>
+            <Value ID="CINE" Path="Script/CinematicCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>CKPT</Key>
+            <Value ID="CKPT" Path="Script/Checkpoint.xml"/>
+        </Element>
+        <Element>
+            <Key>CLPC</Key>
+            <Value ID="CLPC" Path="Script/ClingPathControl.xml"/>
+        </Element>
+        <Element>
+            <Key>CLRM</Key>
+            <Value ID="CLRM" Path="Script/ColorModulate.xml"/>
+        </Element>
+        <Element>
+            <Key>CMAN</Key>
+            <Value ID="CMAN" Path="Script/CameraManager.xml"/>
+        </Element>
+        <Element>
+            <Key>CMGR</Key>
+            <Value ID="CMGR" Path="Script/PirateCrabManager.xml"/>
+        </Element>
+        <Element>
+            <Key>CMOD</Key>
+            <Value ID="CMOD" Path="Script/CameraModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>CNTA</Key>
+            <Value ID="CNTA" Path="Script/ControllerAction.xml"/>
+        </Element>
+        <Element>
+            <Key>CNTR</Key>
+            <Value ID="CNTR" Path="Script/Counter.xml"/>
+        </Element>
+        <Element>
+            <Key>CRAB</Key>
+            <Value ID="CRAB" Path="Script/PirateCrab.xml"/>
+        </Element>
+        <Element>
+            <Key>CRED</Key>
+            <Value ID="CRED" Path="Script/CreditsScreen.xml"/>
+        </Element>
+        <Element>
+            <Key>CRLY</Key>
+            <Value ID="CRLY" Path="Script/ConditionalRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>CSGO</Key>
+            <Value ID="CSGO" Path="Script/GameOverDisplay.xml"/>
+        </Element>
+        <Element>
+            <Key>CSTI</Key>
+            <Value ID="CSTI" Path="Script/CustomInterpolation.xml"/>
+        </Element>
+        <Element>
+            <Key>DEBR</Key>
+            <Value ID="DEBR" Path="Script/Debris.xml"/>
+        </Element>
+        <Element>
+            <Key>DFOG</Key>
+            <Value ID="DFOG" Path="Script/DistanceFog.xml"/>
+        </Element>
+        <Element>
+            <Key>DLHT</Key>
+            <Value ID="DLHT" Path="Script/DynamicLight.xml"/>
+        </Element>
+        <Element>
+            <Key>DMGA</Key>
+            <Value ID="DMGA" Path="Script/DamageArea.xml"/>
+        </Element>
+        <Element>
+            <Key>DMGE</Key>
+            <Value ID="DMGE" Path="Script/DamageEffect.xml"/>
+        </Element>
+        <Element>
+            <Key>DOFT</Key>
+            <Value ID="DOFT" Path="Script/DepthOfFieldTuner.xml"/>
+        </Element>
+        <Element>
+            <Key>DTRG</Key>
+            <Value ID="DTRG" Path="Script/DamageableTrigger.xml"/>
+        </Element>
+        <Element>
+            <Key>DTRO</Key>
+            <Value ID="DTRO" Path="Script/DamageableTriggerOrientated.xml"/>
+        </Element>
+        <Element>
+            <Key>EFCT</Key>
+            <Value ID="EFCT" Path="Script/Effect.xml"/>
+        </Element>
+        <Element>
+            <Key>EOLD</Key>
+            <Value ID="EOLD" Path="Script/EOLDisplay.xml"/>
+        </Element>
+        <Element>
+            <Key>FILT</Key>
+            <Value ID="FILT" Path="Script/CameraFilterKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>FLPS</Key>
+            <Value ID="FLPS" Path="Script/FalsePerspective.xml"/>
+        </Element>
+        <Element>
+            <Key>FOBS</Key>
+            <Value ID="FOBS" Path="Script/ForestBoss.xml"/>
+        </Element>
+        <Element>
+            <Key>FOGO</Key>
+            <Value ID="FOGO" Path="Script/FogOverlay.xml"/>
+        </Element>
+        <Element>
+            <Key>FOGV</Key>
+            <Value ID="FOGV" Path="Script/FogVolume.xml"/>
+        </Element>
+        <Element>
+            <Key>FSWC</Key>
+            <Value ID="FSWC" Path="Script/FactorySwitch.xml"/>
+        </Element>
+        <Element>
+            <Key>FXDC</Key>
+            <Value ID="FXDC" Path="Script/EnvFxDensityController.xml"/>
+        </Element>
+        <Element>
+            <Key>GCGP</Key>
+            <Value ID="GCGP" Path="Script/GenericCreatureGroup.xml"/>
+        </Element>
+        <Element>
+            <Key>GCTR</Key>
+            <Value ID="GCTR" Path="Script/GenericCreature.xml"/>
+        </Element>
+        <Element>
+            <Key>GENR</Key>
+            <Value ID="GENR" Path="Script/Generator.xml"/>
+        </Element>
+        <Element>
+            <Key>GMGR</Key>
+            <Value ID="GMGR" Path="Script/GameManager.xml"/>
+        </Element>
+        <Element>
+            <Key>GMNU</Key>
+            <Value ID="GMNU" Path="Script/GuiMenu.xml"/>
+        </Element>
+        <Element>
+            <Key>GOBD</Key>
+            <Value ID="GOBD" Path="Script/GeneratedObjectDeleter.xml"/>
+        </Element>
+        <Element>
+            <Key>GPDT</Key>
+            <Value ID="GPDT" Path="Script/GroundPoundDetector.xml"/>
+        </Element>
+        <Element>
+            <Key>GPTR</Key>
+            <Value ID="GPTR" Path="Script/GPTR.xml"/>
+        </Element>
+        <Element>
+            <Key>GSLD</Key>
+            <Value ID="GSLD" Path="Script/GuiSlider.xml"/>
+        </Element>
+        <Element>
+            <Key>GUCH</Key>
+            <Value ID="GUCH" Path="Script/GuiCharacter.xml"/>
+        </Element>
+        <Element>
+            <Key>GWIG</Key>
+            <Value ID="GWIG" Path="Script/GuiWidget.xml"/>
+        </Element>
+        <Element>
+            <Key>HINT</Key>
+            <Value ID="HINT" Path="Script/PlayerActionHint.xml"/>
+        </Element>
+        <Element>
+            <Key>HUDD</Key>
+            <Value ID="HUDD" Path="Script/HUD.xml"/>
+        </Element>
+        <Element>
+            <Key>HUDP</Key>
+            <Value ID="HUDP" Path="Script/HUDProxy.xml"/>
+        </Element>
+        <Element>
+            <Key>IHUD</Key>
+            <Value ID="IHUD" Path="Script/IslandHUD.xml"/>
+        </Element>
+        <Element>
+            <Key>ISAR</Key>
+            <Value ID="ISAR" Path="Script/IslandArea.xml"/>
+        </Element>
+        <Element>
+            <Key>JB01</Key>
+            <Value ID="JB01" Path="Script/JungleBoss1.xml"/>
+        </Element>
+        <Element>
+            <Key>KNGP</Key>
+            <Value ID="KNGP" Path="Script/KongProxy.xml"/>
+        </Element>
+        <Element>
+            <Key>KONG</Key>
+            <Value ID="KONG" Path="Script/Kong.xml"/>
+        </Element>
+        <Element>
+            <Key>LODC</Key>
+            <Value ID="LODC" Path="Script/LODController.xml"/>
+        </Element>
+        <Element>
+            <Key>LVLD</Key>
+            <Value ID="LVLD" Path="Script/LevelDarkener.xml"/>
+        </Element>
+        <Element>
+            <Key>LVOL</Key>
+            <Value ID="LVOL" Path="Script/LightVolume.xml"/>
+        </Element>
+        <Element>
+            <Key>MEAT</Key>
+            <Value ID="MEAT" Path="Script/MEAT.xml"/>
+        </Element>
+        <Element>
+            <Key>MMDL</Key>
+            <Value ID="MMDL" Path="Script/MultiModelActor.xml"/>
+        </Element>
+        <Element>
+            <Key>MNPL</Key>
+            <Value ID="MNPL" Path="Script/MotionPlatform.xml"/>
+        </Element>
+        <Element>
+            <Key>MOLC</Key>
+            <Value ID="MOLC" Path="Script/MoleCart.xml"/>
+        </Element>
+        <Element>
+            <Key>MOLE</Key>
+            <Value ID="MOLE" Path="Script/Mole.xml"/>
+        </Element>
+        <Element>
+            <Key>MOLM</Key>
+            <Value ID="MOLM" Path="Script/MoleTrainManager.xml"/>
+        </Element>
+        <Element>
+            <Key>MOVI</Key>
+            <Value ID="MOVI" Path="Script/StreamedMovie.xml"/>
+        </Element>
+        <Element>
+            <Key>MPSR</Key>
+            <Value ID="MPSR" Path="Script/MultiplayerSyncRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>MRLY</Key>
+            <Value ID="MRLY" Path="Script/MemoryRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>MUMA</Key>
+            <Value ID="MUMA" Path="Script/MusicMaster.xml"/>
+        </Element>
+        <Element>
+            <Key>MUTR</Key>
+            <Value ID="MUTR" Path="Script/MusicTrack.xml"/>
+        </Element>
+        <Element>
+            <Key>OBRG</Key>
+            <Value ID="OBRG" Path="Script/OceanBridge.xml"/>
+        </Element>
+        <Element>
+            <Key>OPAA</Key>
+            <Value ID="OPAA" Path="Script/OptionalAreaAsset.xml"/>
+        </Element>
+        <Element>
+            <Key>PCHK</Key>
+            <Value ID="PCHK" Path="Script/PilotChicken.xml"/>
+        </Element>
+        <Element>
+            <Key>PCKP</Key>
+            <Value ID="PCKP" Path="Script/Pickup.xml"/>
+        </Element>
+        <Element>
+            <Key>PCTL</Key>
+            <Value ID="PCTL" Path="Script/PathControl.xml"/>
+        </Element>
+        <Element>
+            <Key>PLAC</Key>
+            <Value ID="PLAC" Path="Script/PlayerActor.xml"/>
+        </Element>
+        <Element>
+            <Key>PLAT</Key>
+            <Value ID="PLAT" Path="Script/Platform.xml"/>
+        </Element>
+        <Element>
+            <Key>PNUT</Key>
+            <Value ID="PNUT" Path="Script/Peanut.xml"/>
+        </Element>
+        <Element>
+            <Key>POIO</Key>
+            <Value ID="POIO" Path="Script/PoiObject.xml"/>
+        </Element>
+        <Element>
+            <Key>PRLA</Key>
+            <Value ID="PRLA" Path="Script/ProbabilityRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>PROJ</Key>
+            <Value ID="PROJ" Path="Script/Projectile.xml"/>
+        </Element>
+        <Element>
+            <Key>PRSP</Key>
+            <Value ID="PRSP" Path="Script/PlayerRespawn.xml"/>
+        </Element>
+        <Element>
+            <Key>PTOK</Key>
+            <Value ID="PTOK" Path="Script/PlayerToken.xml"/>
+        </Element>
+        <Element>
+            <Key>RACR</Key>
+            <Value ID="RACR" Path="Script/RambiCrate.xml"/>
+        </Element>
+        <Element>
+            <Key>RADD</Key>
+            <Value ID="RADD" Path="Script/RadialDamage.xml"/>
+        </Element>
+        <Element>
+            <Key>RBRL</Key>
+            <Value ID="RBRL" Path="Script/RocketBarrel.xml"/>
+        </Element>
+        <Element>
+            <Key>RCHK</Key>
+            <Value ID="RCHK" Path="Script/RobotChicken.xml"/>
+        </Element>
+        <Element>
+            <Key>RCKF</Key>
+            <Value ID="RCKF" Path="Script/RobotChickenFlyer.xml"/>
+        </Element>
+        <Element>
+            <Key>RCTL</Key>
+            <Value ID="RCTL" Path="Script/ReviewControl.xml"/>
+        </Element>
+        <Element>
+            <Key>REAA</Key>
+            <Value ID="REAA" Path="Script/AreaAttributes.xml"/>
+        </Element>
+        <Element>
+            <Key>REAC</Key>
+            <Value ID="REAC" Path="Script/ReactiveActor.xml"/>
+        </Element>
+        <Element>
+            <Key>RMBI</Key>
+            <Value ID="RMBI" Path="Script/Rambi.xml"/>
+        </Element>
+        <Element>
+            <Key>ROPE</Key>
+            <Value ID="ROPE" Path="Script/SwingRope.xml"/>
+        </Element>
+        <Element>
+            <Key>RRLY</Key>
+            <Value ID="RRLY" Path="Script/RelayRandom.xml"/>
+        </Element>
+        <Element>
+            <Key>RSBL</Key>
+            <Value ID="RSBL" Path="Script/RespawnBalloon.xml"/>
+        </Element>
+        <Element>
+            <Key>RSCL</Key>
+            <Value ID="RSCL" Path="Script/ReactiveScale.xml"/>
+        </Element>
+        <Element>
+            <Key>RTNM</Key>
+            <Value ID="RTNM" Path="Script/Retronome.xml"/>
+        </Element>
+        <Element>
+            <Key>RUMB</Key>
+            <Value ID="RUMB" Path="Script/RumbleEffect.xml"/>
+        </Element>
+        <Element>
+            <Key>SAMD</Key>
+            <Value ID="SAMD" Path="Script/MusicModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>SBMI</Key>
+            <Value ID="SBMI" Path="Script/SkyboxModInca.xml"/>
+        </Element>
+        <Element>
+            <Key>SCTL</Key>
+            <Value ID="SCTL" Path="Script/SurfaceControl.xml"/>
+        </Element>
+        <Element>
+            <Key>SHDW</Key>
+            <Value ID="SHDW" Path="Script/ShadowProjector.xml"/>
+        </Element>
+        <Element>
+            <Key>SLCT</Key>
+            <Value ID="SLCT" Path="Script/ScriptLayerController.xml"/>
+        </Element>
+        <Element>
+            <Key>SNDM</Key>
+            <Value ID="SNDM" Path="Script/SoundModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>SNMD</Key>
+            <Value ID="SNMD" Path="Script/SoundModifierData.xml"/>
+        </Element>
+        <Element>
+            <Key>SOND</Key>
+            <Value ID="SOND" Path="Script/Sound.xml"/>
+        </Element>
+        <Element>
+            <Key>SPFN</Key>
+            <Value ID="SPFN" Path="Script/SpecialFunction.xml"/>
+        </Element>
+        <Element>
+            <Key>SPIN</Key>
+            <Value ID="SPIN" Path="Script/Spinner.xml"/>
+        </Element>
+        <Element>
+            <Key>SPNW</Key>
+            <Value ID="SPNW" Path="Script/SplinePathNetwork.xml"/>
+        </Element>
+        <Element>
+            <Key>SPPA</Key>
+            <Value ID="SPPA" Path="Script/SplinePath.xml"/>
+        </Element>
+        <Element>
+            <Key>SPRL</Key>
+            <Value ID="SPRL" Path="Script/PositionRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>SPWN</Key>
+            <Value ID="SPWN" Path="Script/SpawnPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>SQTR</Key>
+            <Value ID="SQTR" Path="Script/SequenceTimer.xml"/>
+        </Element>
+        <Element>
+            <Key>SRLY</Key>
+            <Value ID="SRLY" Path="Script/Relay.xml"/>
+        </Element>
+        <Element>
+            <Key>STAU</Key>
+            <Value ID="STAU" Path="Script/StreamedAudio.xml"/>
+        </Element>
+        <Element>
+            <Key>SUBT</Key>
+            <Value ID="SUBT" Path="Script/Subtitles.xml"/>
+        </Element>
+        <Element>
+            <Key>SUSP</Key>
+            <Value ID="SUSP" Path="Script/SuspensionBridge.xml"/>
+        </Element>
+        <Element>
+            <Key>SVOL</Key>
+            <Value ID="SVOL" Path="Script/SplineModifierVolume.xml"/>
+        </Element>
+        <Element>
+            <Key>SWKP</Key>
+            <Value ID="SWKP" Path="Script/SquawkProxy.xml"/>
+        </Element>
+        <Element>
+            <Key>SWTC</Key>
+            <Value ID="SWTC" Path="Script/Switch.xml"/>
+        </Element>
+        <Element>
+            <Key>TARP</Key>
+            <Value ID="TARP" Path="Script/TarPit.xml"/>
+        </Element>
+        <Element>
+            <Key>TEOL</Key>
+            <Value ID="TEOL" Path="Script/TimeAttackEOLDisplay.xml"/>
+        </Element>
+        <Element>
+            <Key>TIDE</Key>
+            <Value ID="TIDE" Path="Script/TidalWave.xml"/>
+        </Element>
+        <Element>
+            <Key>TIMR</Key>
+            <Value ID="TIMR" Path="Script/Timer.xml"/>
+        </Element>
+        <Element>
+            <Key>TIPI</Key>
+            <Value ID="TIPI" Path="Script/TippyPlatform.xml"/>
+        </Element>
+        <Element>
+            <Key>TKEY</Key>
+            <Value ID="TKEY" Path="Script/TimeKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>TMGR</Key>
+            <Value ID="TMGR" Path="Script/TrainTrackManager.xml"/>
+        </Element>
+        <Element>
+            <Key>TPND</Key>
+            <Value ID="TPND" Path="Script/TPND.xml"/>
+        </Element>
+        <Element>
+            <Key>TRGR</Key>
+            <Value ID="TRGR" Path="Script/Trigger.xml"/>
+        </Element>
+        <Element>
+            <Key>TRSC</Key>
+            <Value ID="TRSC" Path="Script/TransitionScreen.xml"/>
+        </Element>
+        <Element>
+            <Key>TSEQ</Key>
+            <Value ID="TSEQ" Path="Script/TrainSequence.xml"/>
+        </Element>
+        <Element>
+            <Key>TUTR</Key>
+            <Value ID="TUTR" Path="Script/Tutorial.xml"/>
+        </Element>
+        <Element>
+            <Key>TXPN</Key>
+            <Value ID="TXPN" Path="Script/TextPane.xml"/>
+        </Element>
+        <Element>
+            <Key>VBPT</Key>
+            <Value ID="VBPT" Path="Script/VolcanoBossBodyPart.xml"/>
+        </Element>
+        <Element>
+            <Key>VOLG</Key>
+            <Value ID="VOLG" Path="Script/VolumeGroup.xml"/>
+        </Element>
+        <Element>
+            <Key>VRBR</Key>
+            <Value ID="VRBR" Path="Script/VerticalRocketBarrel.xml"/>
+        </Element>
+        <Element>
+            <Key>WAVE</Key>
+            <Value ID="WAVE" Path="Script/OceanWave.xml"/>
+        </Element>
+        <Element>
+            <Key>WAYP</Key>
+            <Value ID="WAYP" Path="Script/Waypoint.xml"/>
+        </Element>
+        <Element>
+            <Key>WLDA</Key>
+            <Value ID="WLDA" Path="Script/WorldAttributes.xml"/>
+        </Element>
+        <Element>
+            <Key>WLIT</Key>
+            <Value ID="WLIT" Path="Script/WorldLightFader.xml"/>
+        </Element>
+    </ScriptObjects>
+    <PropertyArchetypes>
+        <Element>
+            <Key>ActorMultiKeyframeData</Key>
+            <Value Path="Structs/ActorMultiKeyframeData.xml"/>
+        </Element>
+        <Element>
+            <Key>ActorMultiKeyframeStruct</Key>
+            <Value Path="Structs/ActorMultiKeyframeStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>ActorParameters</Key>
+            <Value Path="Structs/ActorParameters.xml"/>
+        </Element>
+        <Element>
+            <Key>AnimEnum</Key>
+            <Value Path="Enums/AnimEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>AnimGridModifierData</Key>
+            <Value Path="Structs/AnimGridModifierData.xml"/>
+        </Element>
+        <Element>
+            <Key>Animations</Key>
+            <Value Path="Structs/Animations.xml"/>
+        </Element>
+        <Element>
+            <Key>AreaPathStructA</Key>
+            <Value Path="Structs/AreaPathStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>BalloonBarrelData</Key>
+            <Value Path="Structs/BalloonBarrelData.xml"/>
+        </Element>
+        <Element>
+            <Key>BalloonData</Key>
+            <Value Path="Structs/BalloonData.xml"/>
+        </Element>
+        <Element>
+            <Key>BarrelCannonEnum</Key>
+            <Value Path="Enums/BarrelCannonEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>BeatUpHandlerStruct</Key>
+            <Value Path="Structs/BeatUpHandlerStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>BirdBossData</Key>
+            <Value Path="Structs/BirdBossData.xml"/>
+        </Element>
+        <Element>
+            <Key>BirdBossStruct</Key>
+            <Value Path="Structs/BirdBossStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>BouncyTireData</Key>
+            <Value Path="Structs/BouncyTireData.xml"/>
+        </Element>
+        <Element>
+            <Key>BouncyTireStruct</Key>
+            <Value Path="Structs/BouncyTireStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>CableEnum</Key>
+            <Value Path="Enums/CableEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>CableProperties</Key>
+            <Value Path="Structs/CableProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraConstraints</Key>
+            <Value Path="Structs/CameraConstraints.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraFieldOfView</Key>
+            <Value Path="Structs/CameraFieldOfView.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraInterpolation</Key>
+            <Value Path="Structs/CameraInterpolation.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraManagerData</Key>
+            <Value Path="Structs/CameraManagerData.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraMotion</Key>
+            <Value Path="Structs/CameraMotion.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraNavigation</Key>
+            <Value Path="Structs/CameraNavigation.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraOrientation</Key>
+            <Value Path="Structs/CameraOrientation.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraPosition</Key>
+            <Value Path="Structs/CameraPosition.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraRotation</Key>
+            <Value Path="Structs/CameraRotation.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraShakerEnvelope</Key>
+            <Value Path="Structs/CameraShakerEnvelope.xml"/>
+        </Element>
+        <Element>
+            <Key>CheckpointData</Key>
+            <Value Path="Structs/CheckpointData.xml"/>
+        </Element>
+        <Element>
+            <Key>ClingPathControlData</Key>
+            <Value Path="Structs/ClingPathControlData.xml"/>
+        </Element>
+        <Element>
+            <Key>ClingPathControlStruct</Key>
+            <Value Path="Structs/ClingPathControlStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>CollisionActors</Key>
+            <Value Path="Structs/CollisionActors.xml"/>
+        </Element>
+        <Element>
+            <Key>ConditionalTest</Key>
+            <Value Path="Structs/ConditionalTest.xml"/>
+        </Element>
+        <Element>
+            <Key>Connection</Key>
+            <Value Path="Structs/Connection.xml"/>
+        </Element>
+        <Element>
+            <Key>ControlCommands</Key>
+            <Value Path="Structs/ControlCommands.xml"/>
+        </Element>
+        <Element>
+            <Key>Convergence</Key>
+            <Value Path="Structs/Convergence.xml"/>
+        </Element>
+        <Element>
+            <Key>CounterConditions</Key>
+            <Value Path="Structs/CounterConditions.xml"/>
+        </Element>
+        <Element>
+            <Key>CrouchData</Key>
+            <Value Path="Structs/CrouchData.xml"/>
+        </Element>
+        <Element>
+            <Key>DKBarrelGlueData</Key>
+            <Value Path="Structs/DKBarrelGlueData.xml"/>
+        </Element>
+        <Element>
+            <Key>DamageEffectData</Key>
+            <Value Path="Structs/DamageEffectData.xml"/>
+        </Element>
+        <Element>
+            <Key>DamageInfo</Key>
+            <Value Path="Structs/DamageInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>DamageVulnerability</Key>
+            <Value Path="Structs/DamageVulnerability.xml"/>
+        </Element>
+        <Element>
+            <Key>DamageableTriggerEnum</Key>
+            <Value Path="Enums/DamageableTriggerEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>Data</Key>
+            <Value Path="Structs/Data.xml"/>
+        </Element>
+        <Element>
+            <Key>DebrisProperties</Key>
+            <Value Path="Structs/DebrisProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>DebrisPropertiesOrientationEnum</Key>
+            <Value Path="Structs/DebrisPropertiesOrientationEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>DespawnRules</Key>
+            <Value Path="Structs/DespawnRules.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightFalloff</Key>
+            <Value Path="Structs/DynamicLightFalloff.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightIntensity</Key>
+            <Value Path="Structs/DynamicLightIntensity.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightMotionSpline</Key>
+            <Value Path="Structs/DynamicLightMotionSpline.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightParent</Key>
+            <Value Path="Structs/DynamicLightParent.xml"/>
+        </Element>
+        <Element>
+            <Key>DynamicLightSpotlight</Key>
+            <Value Path="Structs/DynamicLightSpotlight.xml"/>
+        </Element>
+        <Element>
+            <Key>EditorProperties</Key>
+            <Value Path="Structs/EditorProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>FOVInterpolationMethod</Key>
+            <Value Path="Structs/FOVInterpolationMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>FixedDelayRules</Key>
+            <Value Path="Structs/FixedDelayRules.xml"/>
+        </Element>
+        <Element>
+            <Key>ForestBossStructA</Key>
+            <Value Path="Structs/ForestBossStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>ForestBossStructB</Key>
+            <Value Path="Structs/ForestBossStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>ForestBossStructC</Key>
+            <Value Path="Structs/ForestBossStructC.xml"/>
+        </Element>
+        <Element>
+            <Key>GeneratedObjectDeleterProperties</Key>
+            <Value Path="Structs/GeneratedObjectDeleterProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>GenericCreature</Key>
+            <Value Path="Structs/GenericCreature.xml"/>
+        </Element>
+        <Element>
+            <Key>GenericCreatureStructA</Key>
+            <Value Path="Structs/GenericCreatureStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>GenericCreatureStructB</Key>
+            <Value Path="Structs/GenericCreatureStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>GenericCreatureStructC</Key>
+            <Value Path="Structs/GenericCreatureStructC.xml"/>
+        </Element>
+        <Element>
+            <Key>GenericCreatureStructD</Key>
+            <Value Path="Structs/GenericCreatureStructD.xml"/>
+        </Element>
+        <Element>
+            <Key>GenericCreatureStructE</Key>
+            <Value Path="Structs/GenericCreatureStructE.xml"/>
+        </Element>
+        <Element>
+            <Key>GenericCreatureStructF</Key>
+            <Value Path="Structs/GenericCreatureStructF.xml"/>
+        </Element>
+        <Element>
+            <Key>GenericCreatureStructG</Key>
+            <Value Path="Structs/GenericCreatureStructG.xml"/>
+        </Element>
+        <Element>
+            <Key>GroundPoundDetectorData</Key>
+            <Value Path="Structs/GroundPoundDetectorData.xml"/>
+        </Element>
+        <Element>
+            <Key>Groups</Key>
+            <Value Path="Structs/Groups.xml"/>
+        </Element>
+        <Element>
+            <Key>GuiWidgetProperties</Key>
+            <Value Path="Structs/GuiWidgetProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>HeadTrackingData</Key>
+            <Value Path="Structs/HeadTrackingData.xml"/>
+        </Element>
+        <Element>
+            <Key>HealthInfo</Key>
+            <Value Path="Structs/HealthInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>HurlHeightRules</Key>
+            <Value Path="Structs/HurlHeightRules.xml"/>
+        </Element>
+        <Element>
+            <Key>InterpolationMethod</Key>
+            <Value Path="Structs/InterpolationMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>IslandAreaStruct</Key>
+            <Value Path="Structs/IslandAreaStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>IslandHudStruct</Key>
+            <Value Path="Structs/IslandHudStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>Item</Key>
+            <Value Path="Enums/Item.xml"/>
+        </Element>
+        <Element>
+            <Key>JungleBossStructA</Key>
+            <Value Path="Structs/JungleBossStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>JungleBossStructB</Key>
+            <Value Path="Structs/JungleBossStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>JungleBossStructC</Key>
+            <Value Path="Structs/JungleBossStructC.xml"/>
+        </Element>
+        <Element>
+            <Key>JungleBossStructD</Key>
+            <Value Path="Structs/JungleBossStructD.xml"/>
+        </Element>
+        <Element>
+            <Key>KongProxyData</Key>
+            <Value Path="Structs/KongProxyData.xml"/>
+        </Element>
+        <Element>
+            <Key>LayerToggle</Key>
+            <Value Path="Structs/LayerToggle.xml"/>
+        </Element>
+        <Element>
+            <Key>LightParameters</Key>
+            <Value Path="Structs/LightParameters.xml"/>
+        </Element>
+        <Element>
+            <Key>MeleeData</Key>
+            <Value Path="Structs/MeleeData.xml"/>
+        </Element>
+        <Element>
+            <Key>MinecartStructA</Key>
+            <Value Path="Structs/MinecartStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>MinecartStructB</Key>
+            <Value Path="Structs/MinecartStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>MinecartStructC</Key>
+            <Value Path="Structs/MinecartStructC.xml"/>
+        </Element>
+        <Element>
+            <Key>MinecartStructD</Key>
+            <Value Path="Structs/MinecartStructD.xml"/>
+        </Element>
+        <Element>
+            <Key>ModifyContactRules</Key>
+            <Value Path="Structs/ModifyContactRules.xml"/>
+        </Element>
+        <Element>
+            <Key>MoleCartStruct</Key>
+            <Value Path="Structs/MoleCartStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>MoleTrainManagerStructA</Key>
+            <Value Path="Structs/MoleTrainManagerStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>MoleTrainManagerStructB</Key>
+            <Value Path="Structs/MoleTrainManagerStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>MotionInterpolationMethod</Key>
+            <Value Path="Structs/MotionInterpolationMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>MultiModelActorStruct</Key>
+            <Value Path="Structs/MultiModelActorStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>MultiModelInformation</Key>
+            <Value Path="Structs/MultiModelInformation.xml"/>
+        </Element>
+        <Element>
+            <Key>MusicEnumA</Key>
+            <Value Path="Enums/MusicEnumA.xml"/>
+        </Element>
+        <Element>
+            <Key>MusicEnumB</Key>
+            <Value Path="Enums/MusicEnumB.xml"/>
+        </Element>
+        <Element>
+            <Key>NonSlowdown</Key>
+            <Value Path="Structs/NonSlowdown.xml"/>
+        </Element>
+        <Element>
+            <Key>OceanBridgeData</Key>
+            <Value Path="Structs/OceanBridgeData.xml"/>
+        </Element>
+        <Element>
+            <Key>OceanBridgeStructA</Key>
+            <Value Path="Structs/OceanBridgeStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>OceanBridgeStructB</Key>
+            <Value Path="Structs/OceanBridgeStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>OffsetInterpolant</Key>
+            <Value Path="Structs/OffsetInterpolant.xml"/>
+        </Element>
+        <Element>
+            <Key>OffsetPosition</Key>
+            <Value Path="Structs/OffsetPosition.xml"/>
+        </Element>
+        <Element>
+            <Key>OffsetSplines</Key>
+            <Value Path="Structs/OffsetSplines.xml"/>
+        </Element>
+        <Element>
+            <Key>OptionalAreaAssetTypes</Key>
+            <Value Path="Structs/OptionalAreaAssetTypes.xml"/>
+        </Element>
+        <Element>
+            <Key>OrientationInterpolationMethod</Key>
+            <Value Path="Structs/OrientationInterpolationMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>PIDConvergence</Key>
+            <Value Path="Structs/PIDConvergence.xml"/>
+        </Element>
+        <Element>
+            <Key>PathDetermination</Key>
+            <Value Path="Structs/PathDetermination.xml"/>
+        </Element>
+        <Element>
+            <Key>PathDeterminationMethodType</Key>
+            <Value Path="Structs/PathDeterminationMethodType.xml"/>
+        </Element>
+        <Element>
+            <Key>PathPosition</Key>
+            <Value Path="Structs/PathPosition.xml"/>
+        </Element>
+        <Element>
+            <Key>PatternedAI</Key>
+            <Value Path="Structs/PatternedAI.xml"/>
+        </Element>
+        <Element>
+            <Key>PeanutGunData</Key>
+            <Value Path="Structs/PeanutGunData.xml"/>
+        </Element>
+        <Element>
+            <Key>PeanutProperties</Key>
+            <Value Path="Structs/PeanutProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>PeanutStruct</Key>
+            <Value Path="Structs/PeanutStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>PickupData</Key>
+            <Value Path="Structs/PickupData.xml"/>
+        </Element>
+        <Element>
+            <Key>PickupRelayStruct</Key>
+            <Value Path="Structs/PickupRelayStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>PlatformMotionProperties</Key>
+            <Value Path="Structs/PlatformMotionProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>ProjectileBounceData</Key>
+            <Value Path="Structs/ProjectileBounceData.xml"/>
+        </Element>
+        <Element>
+            <Key>ProjectileCollisionData</Key>
+            <Value Path="Structs/ProjectileCollisionData.xml"/>
+        </Element>
+        <Element>
+            <Key>ProjectileData</Key>
+            <Value Path="Structs/ProjectileData.xml"/>
+        </Element>
+        <Element>
+            <Key>ProjectileMotionData</Key>
+            <Value Path="Structs/ProjectileMotionData.xml"/>
+        </Element>
+        <Element>
+            <Key>ProjectileRenderData</Key>
+            <Value Path="Structs/ProjectileRenderData.xml"/>
+        </Element>
+        <Element>
+            <Key>ProjectileRenderOptions</Key>
+            <Value Path="Structs/ProjectileRenderOptions.xml"/>
+        </Element>
+        <Element>
+            <Key>ProportionalConvergence</Key>
+            <Value Path="Structs/ProportionalConvergence.xml"/>
+        </Element>
+        <Element>
+            <Key>RagDollData</Key>
+            <Value Path="Structs/RagDollData.xml"/>
+        </Element>
+        <Element>
+            <Key>RambiCrateData</Key>
+            <Value Path="Structs/RambiCrateData.xml"/>
+        </Element>
+        <Element>
+            <Key>ReactiveObjectStruct</Key>
+            <Value Path="Structs/ReactiveObjectStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>RetronomeMessage</Key>
+            <Value Path="Structs/RetronomeMessage.xml"/>
+        </Element>
+        <Element>
+            <Key>RiseFromTheGraveData</Key>
+            <Value Path="Structs/RiseFromTheGraveData.xml"/>
+        </Element>
+        <Element>
+            <Key>RobotChickenEnum</Key>
+            <Value Path="Enums/RobotChickenEnum.xml"/>
+        </Element>
+        <Element>
+            <Key>RobotChickenFlyerStructA</Key>
+            <Value Path="Structs/RobotChickenFlyerStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>RobotChickenFlyerStructB</Key>
+            <Value Path="Structs/RobotChickenFlyerStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>RobotChickenStructA</Key>
+            <Value Path="Structs/RobotChickenStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>RobotChickenStructB</Key>
+            <Value Path="Structs/RobotChickenStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>RotationSplines</Key>
+            <Value Path="Structs/RotationSplines.xml"/>
+        </Element>
+        <Element>
+            <Key>SavedStateID</Key>
+            <Value Path="Structs/SavedStateID.xml"/>
+        </Element>
+        <Element>
+            <Key>ScaleSplines</Key>
+            <Value Path="Structs/ScaleSplines.xml"/>
+        </Element>
+        <Element>
+            <Key>Sets</Key>
+            <Value Path="Structs/Sets.xml"/>
+        </Element>
+        <Element>
+            <Key>ShadowData</Key>
+            <Value Path="Structs/ShadowData.xml"/>
+        </Element>
+        <Element>
+            <Key>ShakerData</Key>
+            <Value Path="Structs/ShakerData.xml"/>
+        </Element>
+        <Element>
+            <Key>Shape</Key>
+            <Value Path="Enums/Shape.xml"/>
+        </Element>
+        <Element>
+            <Key>ShieldData</Key>
+            <Value Path="Structs/ShieldData.xml"/>
+        </Element>
+        <Element>
+            <Key>SkinSwap</Key>
+            <Value Path="Structs/SkinSwap.xml"/>
+        </Element>
+        <Element>
+            <Key>Sound</Key>
+            <Value Path="Structs/Sound.xml"/>
+        </Element>
+        <Element>
+            <Key>SpawnPointData</Key>
+            <Value Path="Structs/SpawnPointData.xml"/>
+        </Element>
+        <Element>
+            <Key>SpindleOrientation</Key>
+            <Value Path="Structs/SpindleOrientation.xml"/>
+        </Element>
+        <Element>
+            <Key>SpindlePosition</Key>
+            <Value Path="Structs/SpindlePosition.xml"/>
+        </Element>
+        <Element>
+            <Key>SpindlePositionInterpolant</Key>
+            <Value Path="Structs/SpindlePositionInterpolant.xml"/>
+        </Element>
+        <Element>
+            <Key>SplineType</Key>
+            <Value Path="Structs/SplineType.xml"/>
+        </Element>
+        <Element>
+            <Key>SpringConvergence</Key>
+            <Value Path="Structs/SpringConvergence.xml"/>
+        </Element>
+        <Element>
+            <Key>SquawkProxyData</Key>
+            <Value Path="Structs/SquawkProxyData.xml"/>
+        </Element>
+        <Element>
+            <Key>SurfaceOrientation</Key>
+            <Value Path="Structs/SurfaceOrientation.xml"/>
+        </Element>
+        <Element>
+            <Key>SurfacePosition</Key>
+            <Value Path="Structs/SurfacePosition.xml"/>
+        </Element>
+        <Element>
+            <Key>SurroundPan</Key>
+            <Value Path="Structs/SurroundPan.xml"/>
+        </Element>
+        <Element>
+            <Key>SuspensionBridgeData</Key>
+            <Value Path="Structs/SuspensionBridgeData.xml"/>
+        </Element>
+        <Element>
+            <Key>SuspensionBridgeStruct</Key>
+            <Value Path="Structs/SuspensionBridgeStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>SwingRopeData</Key>
+            <Value Path="Structs/SwingRopeData.xml"/>
+        </Element>
+        <Element>
+            <Key>TandemBeam</Key>
+            <Value Path="Structs/TandemBeam.xml"/>
+        </Element>
+        <Element>
+            <Key>TarInteractionData</Key>
+            <Value Path="Structs/TarInteractionData.xml"/>
+        </Element>
+        <Element>
+            <Key>TeleportData</Key>
+            <Value Path="Structs/TeleportData.xml"/>
+        </Element>
+        <Element>
+            <Key>TeleportMethod</Key>
+            <Value Path="Structs/TeleportMethod.xml"/>
+        </Element>
+        <Element>
+            <Key>TeleportRenderPushAmount</Key>
+            <Value Path="Structs/TeleportRenderPushAmount.xml"/>
+        </Element>
+        <Element>
+            <Key>TextProperties</Key>
+            <Value Path="Structs/TextProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>TidalWaveData</Key>
+            <Value Path="Structs/TidalWaveData.xml"/>
+        </Element>
+        <Element>
+            <Key>TrackObjectModuleData</Key>
+            <Value Path="Structs/TrackObjectModuleData.xml"/>
+        </Element>
+        <Element>
+            <Key>TrackPlayer</Key>
+            <Value Path="Structs/TrackPlayer.xml"/>
+        </Element>
+        <Element>
+            <Key>TrainTrackManagerStructA</Key>
+            <Value Path="Structs/TrainTrackManagerStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>TrainTrackManagerStructB</Key>
+            <Value Path="Structs/TrainTrackManagerStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>Transform</Key>
+            <Value Path="Structs/Transform.xml"/>
+        </Element>
+        <Element>
+            <Key>TranslationSplines</Key>
+            <Value Path="Structs/TranslationSplines.xml"/>
+        </Element>
+        <Element>
+            <Key>TriggerInfo</Key>
+            <Value Path="Structs/TriggerInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>TriggerShape</Key>
+            <Value Path="Structs/TriggerShape.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownEnum1</Key>
+            <Value Path="Enums/UnknownEnum1.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownEnum2</Key>
+            <Value Path="Enums/UnknownEnum2.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownEnum3</Key>
+            <Value Path="Enums/UnknownEnum3.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownEnum4</Key>
+            <Value Path="Enums/UnknownEnum4.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct</Key>
+            <Value Path="Structs/UnknownStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct1</Key>
+            <Value Path="Structs/UnknownStruct1.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct10</Key>
+            <Value Path="Structs/UnknownStruct10.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct100</Key>
+            <Value Path="Structs/UnknownStruct100.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct101</Key>
+            <Value Path="Structs/UnknownStruct101.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct102</Key>
+            <Value Path="Structs/UnknownStruct102.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct103</Key>
+            <Value Path="Structs/UnknownStruct103.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct104</Key>
+            <Value Path="Structs/UnknownStruct104.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct105</Key>
+            <Value Path="Structs/UnknownStruct105.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct106</Key>
+            <Value Path="Structs/UnknownStruct106.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct107</Key>
+            <Value Path="Structs/UnknownStruct107.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct108</Key>
+            <Value Path="Structs/UnknownStruct108.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct109</Key>
+            <Value Path="Structs/UnknownStruct109.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct11</Key>
+            <Value Path="Structs/UnknownStruct11.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct110</Key>
+            <Value Path="Structs/UnknownStruct110.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct111</Key>
+            <Value Path="Structs/UnknownStruct111.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct112</Key>
+            <Value Path="Structs/UnknownStruct112.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct113</Key>
+            <Value Path="Structs/UnknownStruct113.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct114</Key>
+            <Value Path="Structs/UnknownStruct114.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct115</Key>
+            <Value Path="Structs/UnknownStruct115.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct116</Key>
+            <Value Path="Structs/UnknownStruct116.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct117</Key>
+            <Value Path="Structs/UnknownStruct117.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct118</Key>
+            <Value Path="Structs/UnknownStruct118.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct119</Key>
+            <Value Path="Structs/UnknownStruct119.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct12</Key>
+            <Value Path="Structs/UnknownStruct12.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct120</Key>
+            <Value Path="Structs/UnknownStruct120.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct121</Key>
+            <Value Path="Structs/UnknownStruct121.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct122</Key>
+            <Value Path="Structs/UnknownStruct122.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct123</Key>
+            <Value Path="Structs/UnknownStruct123.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct124</Key>
+            <Value Path="Structs/UnknownStruct124.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct125</Key>
+            <Value Path="Structs/UnknownStruct125.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct126</Key>
+            <Value Path="Structs/UnknownStruct126.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct127</Key>
+            <Value Path="Structs/UnknownStruct127.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct128</Key>
+            <Value Path="Structs/UnknownStruct128.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct129</Key>
+            <Value Path="Structs/UnknownStruct129.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct13</Key>
+            <Value Path="Structs/UnknownStruct13.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct130</Key>
+            <Value Path="Structs/UnknownStruct130.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct131</Key>
+            <Value Path="Structs/UnknownStruct131.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct132</Key>
+            <Value Path="Structs/UnknownStruct132.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct133</Key>
+            <Value Path="Structs/UnknownStruct133.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct134</Key>
+            <Value Path="Structs/UnknownStruct134.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct135</Key>
+            <Value Path="Structs/UnknownStruct135.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct136</Key>
+            <Value Path="Structs/UnknownStruct136.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct137</Key>
+            <Value Path="Structs/UnknownStruct137.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct138</Key>
+            <Value Path="Structs/UnknownStruct138.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct139</Key>
+            <Value Path="Structs/UnknownStruct139.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct14</Key>
+            <Value Path="Structs/UnknownStruct14.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct140</Key>
+            <Value Path="Structs/UnknownStruct140.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct141</Key>
+            <Value Path="Structs/UnknownStruct141.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct142</Key>
+            <Value Path="Structs/UnknownStruct142.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct143</Key>
+            <Value Path="Structs/UnknownStruct143.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct144</Key>
+            <Value Path="Structs/UnknownStruct144.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct145</Key>
+            <Value Path="Structs/UnknownStruct145.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct146</Key>
+            <Value Path="Structs/UnknownStruct146.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct147</Key>
+            <Value Path="Structs/UnknownStruct147.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct148</Key>
+            <Value Path="Structs/UnknownStruct148.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct149</Key>
+            <Value Path="Structs/UnknownStruct149.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct15</Key>
+            <Value Path="Structs/UnknownStruct15.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct150</Key>
+            <Value Path="Structs/UnknownStruct150.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct151</Key>
+            <Value Path="Structs/UnknownStruct151.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct152</Key>
+            <Value Path="Structs/UnknownStruct152.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct153</Key>
+            <Value Path="Structs/UnknownStruct153.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct154</Key>
+            <Value Path="Structs/UnknownStruct154.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct155</Key>
+            <Value Path="Structs/UnknownStruct155.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct156</Key>
+            <Value Path="Structs/UnknownStruct156.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct157</Key>
+            <Value Path="Structs/UnknownStruct157.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct158</Key>
+            <Value Path="Structs/UnknownStruct158.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct159</Key>
+            <Value Path="Structs/UnknownStruct159.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct16</Key>
+            <Value Path="Structs/UnknownStruct16.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct160</Key>
+            <Value Path="Structs/UnknownStruct160.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct161</Key>
+            <Value Path="Structs/UnknownStruct161.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct162</Key>
+            <Value Path="Structs/UnknownStruct162.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct163</Key>
+            <Value Path="Structs/UnknownStruct163.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct164</Key>
+            <Value Path="Structs/UnknownStruct164.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct165</Key>
+            <Value Path="Structs/UnknownStruct165.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct166</Key>
+            <Value Path="Structs/UnknownStruct166.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct167</Key>
+            <Value Path="Structs/UnknownStruct167.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct168</Key>
+            <Value Path="Structs/UnknownStruct168.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct169</Key>
+            <Value Path="Structs/UnknownStruct169.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct17</Key>
+            <Value Path="Structs/UnknownStruct17.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct170</Key>
+            <Value Path="Structs/UnknownStruct170.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct171</Key>
+            <Value Path="Structs/UnknownStruct171.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct172</Key>
+            <Value Path="Structs/UnknownStruct172.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct173</Key>
+            <Value Path="Structs/UnknownStruct173.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct174</Key>
+            <Value Path="Structs/UnknownStruct174.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct175</Key>
+            <Value Path="Structs/UnknownStruct175.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct176</Key>
+            <Value Path="Structs/UnknownStruct176.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct177</Key>
+            <Value Path="Structs/UnknownStruct177.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct178</Key>
+            <Value Path="Structs/UnknownStruct178.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct179</Key>
+            <Value Path="Structs/UnknownStruct179.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct18</Key>
+            <Value Path="Structs/UnknownStruct18.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct180</Key>
+            <Value Path="Structs/UnknownStruct180.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct181</Key>
+            <Value Path="Structs/UnknownStruct181.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct182</Key>
+            <Value Path="Structs/UnknownStruct182.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct183</Key>
+            <Value Path="Structs/UnknownStruct183.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct184</Key>
+            <Value Path="Structs/UnknownStruct184.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct185</Key>
+            <Value Path="Structs/UnknownStruct185.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct186</Key>
+            <Value Path="Structs/UnknownStruct186.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct187</Key>
+            <Value Path="Structs/UnknownStruct187.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct188</Key>
+            <Value Path="Structs/UnknownStruct188.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct189</Key>
+            <Value Path="Structs/UnknownStruct189.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct19</Key>
+            <Value Path="Structs/UnknownStruct19.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct190</Key>
+            <Value Path="Structs/UnknownStruct190.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct191</Key>
+            <Value Path="Structs/UnknownStruct191.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct192</Key>
+            <Value Path="Structs/UnknownStruct192.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct193</Key>
+            <Value Path="Structs/UnknownStruct193.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct194</Key>
+            <Value Path="Structs/UnknownStruct194.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct195</Key>
+            <Value Path="Structs/UnknownStruct195.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct196</Key>
+            <Value Path="Structs/UnknownStruct196.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct197</Key>
+            <Value Path="Structs/UnknownStruct197.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct198</Key>
+            <Value Path="Structs/UnknownStruct198.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct199</Key>
+            <Value Path="Structs/UnknownStruct199.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct2</Key>
+            <Value Path="Structs/UnknownStruct2.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct20</Key>
+            <Value Path="Structs/UnknownStruct20.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct200</Key>
+            <Value Path="Structs/UnknownStruct200.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct201</Key>
+            <Value Path="Structs/UnknownStruct201.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct202</Key>
+            <Value Path="Structs/UnknownStruct202.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct203</Key>
+            <Value Path="Structs/UnknownStruct203.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct204</Key>
+            <Value Path="Structs/UnknownStruct204.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct205</Key>
+            <Value Path="Structs/UnknownStruct205.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct206</Key>
+            <Value Path="Structs/UnknownStruct206.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct207</Key>
+            <Value Path="Structs/UnknownStruct207.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct208</Key>
+            <Value Path="Structs/UnknownStruct208.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct209</Key>
+            <Value Path="Structs/UnknownStruct209.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct21</Key>
+            <Value Path="Structs/UnknownStruct21.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct210</Key>
+            <Value Path="Structs/UnknownStruct210.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct211</Key>
+            <Value Path="Structs/UnknownStruct211.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct212</Key>
+            <Value Path="Structs/UnknownStruct212.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct213</Key>
+            <Value Path="Structs/UnknownStruct213.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct214</Key>
+            <Value Path="Structs/UnknownStruct214.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct215</Key>
+            <Value Path="Structs/UnknownStruct215.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct216</Key>
+            <Value Path="Structs/UnknownStruct216.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct217</Key>
+            <Value Path="Structs/UnknownStruct217.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct218</Key>
+            <Value Path="Structs/UnknownStruct218.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct219</Key>
+            <Value Path="Structs/UnknownStruct219.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct22</Key>
+            <Value Path="Structs/UnknownStruct22.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct220</Key>
+            <Value Path="Structs/UnknownStruct220.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct221</Key>
+            <Value Path="Structs/UnknownStruct221.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct222</Key>
+            <Value Path="Structs/UnknownStruct222.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct223</Key>
+            <Value Path="Structs/UnknownStruct223.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct224</Key>
+            <Value Path="Structs/UnknownStruct224.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct225</Key>
+            <Value Path="Structs/UnknownStruct225.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct226</Key>
+            <Value Path="Structs/UnknownStruct226.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct227</Key>
+            <Value Path="Structs/UnknownStruct227.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct228</Key>
+            <Value Path="Structs/UnknownStruct228.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct229</Key>
+            <Value Path="Structs/UnknownStruct229.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct23</Key>
+            <Value Path="Structs/UnknownStruct23.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct230</Key>
+            <Value Path="Structs/UnknownStruct230.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct231</Key>
+            <Value Path="Structs/UnknownStruct231.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct232</Key>
+            <Value Path="Structs/UnknownStruct232.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct233</Key>
+            <Value Path="Structs/UnknownStruct233.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct234</Key>
+            <Value Path="Structs/UnknownStruct234.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct235</Key>
+            <Value Path="Structs/UnknownStruct235.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct236</Key>
+            <Value Path="Structs/UnknownStruct236.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct237</Key>
+            <Value Path="Structs/UnknownStruct237.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct238</Key>
+            <Value Path="Structs/UnknownStruct238.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct239</Key>
+            <Value Path="Structs/UnknownStruct239.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct24</Key>
+            <Value Path="Structs/UnknownStruct24.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct240</Key>
+            <Value Path="Structs/UnknownStruct240.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct241</Key>
+            <Value Path="Structs/UnknownStruct241.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct242</Key>
+            <Value Path="Structs/UnknownStruct242.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct243</Key>
+            <Value Path="Structs/UnknownStruct243.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct244</Key>
+            <Value Path="Structs/UnknownStruct244.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct245</Key>
+            <Value Path="Structs/UnknownStruct245.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct246</Key>
+            <Value Path="Structs/UnknownStruct246.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct247</Key>
+            <Value Path="Structs/UnknownStruct247.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct248</Key>
+            <Value Path="Structs/UnknownStruct248.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct249</Key>
+            <Value Path="Structs/UnknownStruct249.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct25</Key>
+            <Value Path="Structs/UnknownStruct25.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct250</Key>
+            <Value Path="Structs/UnknownStruct250.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct251</Key>
+            <Value Path="Structs/UnknownStruct251.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct252</Key>
+            <Value Path="Structs/UnknownStruct252.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct253</Key>
+            <Value Path="Structs/UnknownStruct253.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct254</Key>
+            <Value Path="Structs/UnknownStruct254.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct255</Key>
+            <Value Path="Structs/UnknownStruct255.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct256</Key>
+            <Value Path="Structs/UnknownStruct256.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct257</Key>
+            <Value Path="Structs/UnknownStruct257.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct258</Key>
+            <Value Path="Structs/UnknownStruct258.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct259</Key>
+            <Value Path="Structs/UnknownStruct259.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct26</Key>
+            <Value Path="Structs/UnknownStruct26.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct260</Key>
+            <Value Path="Structs/UnknownStruct260.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct261</Key>
+            <Value Path="Structs/UnknownStruct261.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct262</Key>
+            <Value Path="Structs/UnknownStruct262.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct263</Key>
+            <Value Path="Structs/UnknownStruct263.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct264</Key>
+            <Value Path="Structs/UnknownStruct264.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct265</Key>
+            <Value Path="Structs/UnknownStruct265.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct266</Key>
+            <Value Path="Structs/UnknownStruct266.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct267</Key>
+            <Value Path="Structs/UnknownStruct267.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct268</Key>
+            <Value Path="Structs/UnknownStruct268.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct269</Key>
+            <Value Path="Structs/UnknownStruct269.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct27</Key>
+            <Value Path="Structs/UnknownStruct27.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct270</Key>
+            <Value Path="Structs/UnknownStruct270.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct271</Key>
+            <Value Path="Structs/UnknownStruct271.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct272</Key>
+            <Value Path="Structs/UnknownStruct272.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct273</Key>
+            <Value Path="Structs/UnknownStruct273.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct274</Key>
+            <Value Path="Structs/UnknownStruct274.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct275</Key>
+            <Value Path="Structs/UnknownStruct275.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct276</Key>
+            <Value Path="Structs/UnknownStruct276.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct277</Key>
+            <Value Path="Structs/UnknownStruct277.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct278</Key>
+            <Value Path="Structs/UnknownStruct278.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct279</Key>
+            <Value Path="Structs/UnknownStruct279.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct28</Key>
+            <Value Path="Structs/UnknownStruct28.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct280</Key>
+            <Value Path="Structs/UnknownStruct280.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct281</Key>
+            <Value Path="Structs/UnknownStruct281.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct282</Key>
+            <Value Path="Structs/UnknownStruct282.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct283</Key>
+            <Value Path="Structs/UnknownStruct283.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct284</Key>
+            <Value Path="Structs/UnknownStruct284.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct285</Key>
+            <Value Path="Structs/UnknownStruct285.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct286</Key>
+            <Value Path="Structs/UnknownStruct286.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct287</Key>
+            <Value Path="Structs/UnknownStruct287.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct288</Key>
+            <Value Path="Structs/UnknownStruct288.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct289</Key>
+            <Value Path="Structs/UnknownStruct289.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct29</Key>
+            <Value Path="Structs/UnknownStruct29.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct290</Key>
+            <Value Path="Structs/UnknownStruct290.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct291</Key>
+            <Value Path="Structs/UnknownStruct291.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct292</Key>
+            <Value Path="Structs/UnknownStruct292.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct293</Key>
+            <Value Path="Structs/UnknownStruct293.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct294</Key>
+            <Value Path="Structs/UnknownStruct294.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct295</Key>
+            <Value Path="Structs/UnknownStruct295.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct296</Key>
+            <Value Path="Structs/UnknownStruct296.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct297</Key>
+            <Value Path="Structs/UnknownStruct297.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct298</Key>
+            <Value Path="Structs/UnknownStruct298.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct299</Key>
+            <Value Path="Structs/UnknownStruct299.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct3</Key>
+            <Value Path="Structs/UnknownStruct3.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct30</Key>
+            <Value Path="Structs/UnknownStruct30.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct31</Key>
+            <Value Path="Structs/UnknownStruct31.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct32</Key>
+            <Value Path="Structs/UnknownStruct32.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct33</Key>
+            <Value Path="Structs/UnknownStruct33.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct34</Key>
+            <Value Path="Structs/UnknownStruct34.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct35</Key>
+            <Value Path="Structs/UnknownStruct35.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct36</Key>
+            <Value Path="Structs/UnknownStruct36.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct37</Key>
+            <Value Path="Structs/UnknownStruct37.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct38</Key>
+            <Value Path="Structs/UnknownStruct38.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct39</Key>
+            <Value Path="Structs/UnknownStruct39.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct4</Key>
+            <Value Path="Structs/UnknownStruct4.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct40</Key>
+            <Value Path="Structs/UnknownStruct40.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct41</Key>
+            <Value Path="Structs/UnknownStruct41.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct42</Key>
+            <Value Path="Structs/UnknownStruct42.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct43</Key>
+            <Value Path="Structs/UnknownStruct43.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct44</Key>
+            <Value Path="Structs/UnknownStruct44.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct45</Key>
+            <Value Path="Structs/UnknownStruct45.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct46</Key>
+            <Value Path="Structs/UnknownStruct46.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct47</Key>
+            <Value Path="Structs/UnknownStruct47.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct48</Key>
+            <Value Path="Structs/UnknownStruct48.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct49</Key>
+            <Value Path="Structs/UnknownStruct49.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct5</Key>
+            <Value Path="Structs/UnknownStruct5.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct50</Key>
+            <Value Path="Structs/UnknownStruct50.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct51</Key>
+            <Value Path="Structs/UnknownStruct51.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct510</Key>
+            <Value Path="Structs/UnknownStruct510.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct52</Key>
+            <Value Path="Structs/UnknownStruct52.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct53</Key>
+            <Value Path="Structs/UnknownStruct53.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct54</Key>
+            <Value Path="Structs/UnknownStruct54.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct55</Key>
+            <Value Path="Structs/UnknownStruct55.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct56</Key>
+            <Value Path="Structs/UnknownStruct56.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct57</Key>
+            <Value Path="Structs/UnknownStruct57.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct58</Key>
+            <Value Path="Structs/UnknownStruct58.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct59</Key>
+            <Value Path="Structs/UnknownStruct59.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct6</Key>
+            <Value Path="Structs/UnknownStruct6.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct60</Key>
+            <Value Path="Structs/UnknownStruct60.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct61</Key>
+            <Value Path="Structs/UnknownStruct61.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct62</Key>
+            <Value Path="Structs/UnknownStruct62.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct63</Key>
+            <Value Path="Structs/UnknownStruct63.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct64</Key>
+            <Value Path="Structs/UnknownStruct64.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct65</Key>
+            <Value Path="Structs/UnknownStruct65.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct66</Key>
+            <Value Path="Structs/UnknownStruct66.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct67</Key>
+            <Value Path="Structs/UnknownStruct67.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct68</Key>
+            <Value Path="Structs/UnknownStruct68.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct69</Key>
+            <Value Path="Structs/UnknownStruct69.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct7</Key>
+            <Value Path="Structs/UnknownStruct7.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct70</Key>
+            <Value Path="Structs/UnknownStruct70.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct71</Key>
+            <Value Path="Structs/UnknownStruct71.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct72</Key>
+            <Value Path="Structs/UnknownStruct72.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct73</Key>
+            <Value Path="Structs/UnknownStruct73.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct74</Key>
+            <Value Path="Structs/UnknownStruct74.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct75</Key>
+            <Value Path="Structs/UnknownStruct75.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct76</Key>
+            <Value Path="Structs/UnknownStruct76.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct77</Key>
+            <Value Path="Structs/UnknownStruct77.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct78</Key>
+            <Value Path="Structs/UnknownStruct78.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct79</Key>
+            <Value Path="Structs/UnknownStruct79.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct8</Key>
+            <Value Path="Structs/UnknownStruct8.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct80</Key>
+            <Value Path="Structs/UnknownStruct80.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct81</Key>
+            <Value Path="Structs/UnknownStruct81.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct82</Key>
+            <Value Path="Structs/UnknownStruct82.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct83</Key>
+            <Value Path="Structs/UnknownStruct83.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct84</Key>
+            <Value Path="Structs/UnknownStruct84.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct85</Key>
+            <Value Path="Structs/UnknownStruct85.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct86</Key>
+            <Value Path="Structs/UnknownStruct86.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct87</Key>
+            <Value Path="Structs/UnknownStruct87.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct88</Key>
+            <Value Path="Structs/UnknownStruct88.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct89</Key>
+            <Value Path="Structs/UnknownStruct89.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct9</Key>
+            <Value Path="Structs/UnknownStruct9.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct90</Key>
+            <Value Path="Structs/UnknownStruct90.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct91</Key>
+            <Value Path="Structs/UnknownStruct91.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct92</Key>
+            <Value Path="Structs/UnknownStruct92.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct93</Key>
+            <Value Path="Structs/UnknownStruct93.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct94</Key>
+            <Value Path="Structs/UnknownStruct94.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct95</Key>
+            <Value Path="Structs/UnknownStruct95.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct96</Key>
+            <Value Path="Structs/UnknownStruct96.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct97</Key>
+            <Value Path="Structs/UnknownStruct97.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct98</Key>
+            <Value Path="Structs/UnknownStruct98.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct99</Key>
+            <Value Path="Structs/UnknownStruct99.xml"/>
+        </Element>
+        <Element>
+            <Key>Vector2f</Key>
+            <Value Path="Structs/Vector2f.xml"/>
+        </Element>
+        <Element>
+            <Key>VehicleStructA</Key>
+            <Value Path="Structs/VehicleStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>VehicleStructB</Key>
+            <Value Path="Structs/VehicleStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>Velocity</Key>
+            <Value Path="Structs/Velocity.xml"/>
+        </Element>
+        <Element>
+            <Key>VisControl</Key>
+            <Value Path="Structs/VisControl.xml"/>
+        </Element>
+        <Element>
+            <Key>VolcanoBossBodyPartStructA</Key>
+            <Value Path="Structs/VolcanoBossBodyPartStructA.xml"/>
+        </Element>
+        <Element>
+            <Key>VolcanoBossBodyPartStructB</Key>
+            <Value Path="Structs/VolcanoBossBodyPartStructB.xml"/>
+        </Element>
+        <Element>
+            <Key>VolcanoBossBodyPartStructC</Key>
+            <Value Path="Structs/VolcanoBossBodyPartStructC.xml"/>
+        </Element>
+        <Element>
+            <Key>VolcanoBossBodyPartStructD</Key>
+            <Value Path="Structs/VolcanoBossBodyPartStructD.xml"/>
+        </Element>
+    </PropertyArchetypes>
+    <States>
+        <Element>
+            <Key>!ZER</Key>
+            <Value>NonZero</Value>
+        </Element>
+        <Element>
+            <Key>ACQU</Key>
+            <Value>ACQU</Value>
+        </Element>
+        <Element>
+            <Key>ACTV</Key>
+            <Value>Active</Value>
+        </Element>
+        <Element>
+            <Key>ANMO</Key>
+            <Value>AnimOver</Value>
+        </Element>
+        <Element>
+            <Key>ANMS</Key>
+            <Value>AnimStart</Value>
+        </Element>
+        <Element>
+            <Key>APRC</Key>
+            <Value>Approach</Value>
+        </Element>
+        <Element>
+            <Key>ARRV</Key>
+            <Value>Arrived</Value>
+        </Element>
+        <Element>
+            <Key>CINT</Key>
+            <Value>CINT</Value>
+        </Element>
+        <Element>
+            <Key>CLOS</Key>
+            <Value>Closed</Value>
+        </Element>
+        <Element>
+            <Key>CONN</Key>
+            <Value>Connect</Value>
+        </Element>
+        <Element>
+            <Key>CPTH</Key>
+            <Value>CameraPath</Value>
+        </Element>
+        <Element>
+            <Key>CTGT</Key>
+            <Value>CameraTarget</Value>
+        </Element>
+        <Element>
+            <Key>DAMG</Key>
+            <Value>Damage</Value>
+        </Element>
+        <Element>
+            <Key>DBNH</Key>
+            <Value>DBNH</Value>
+        </Element>
+        <Element>
+            <Key>DEAD</Key>
+            <Value>Dead</Value>
+        </Element>
+        <Element>
+            <Key>DSPN</Key>
+            <Value>DSPN</Value>
+        </Element>
+        <Element>
+            <Key>ENTR</Key>
+            <Value>Entered</Value>
+        </Element>
+        <Element>
+            <Key>EXIT</Key>
+            <Value>Exited</Value>
+        </Element>
+        <Element>
+            <Key>FOVP</Key>
+            <Value>FOVP</Value>
+        </Element>
+        <Element>
+            <Key>GIBB</Key>
+            <Value>GIBB</Value>
+        </Element>
+        <Element>
+            <Key>GRN0</Key>
+            <Value>GRN0</Value>
+        </Element>
+        <Element>
+            <Key>GRN1</Key>
+            <Value>GRN1</Value>
+        </Element>
+        <Element>
+            <Key>GRNT</Key>
+            <Value>Generate</Value>
+        </Element>
+        <Element>
+            <Key>ICTV</Key>
+            <Value>Inactive</Value>
+        </Element>
+        <Element>
+            <Key>INSD</Key>
+            <Value>Inside</Value>
+        </Element>
+        <Element>
+            <Key>IS00</Key>
+            <Value>InternalState0</Value>
+        </Element>
+        <Element>
+            <Key>IS01</Key>
+            <Value>InternalState1</Value>
+        </Element>
+        <Element>
+            <Key>IS02</Key>
+            <Value>InternalState2</Value>
+        </Element>
+        <Element>
+            <Key>IS03</Key>
+            <Value>InternalState3</Value>
+        </Element>
+        <Element>
+            <Key>IS04</Key>
+            <Value>InternalState4</Value>
+        </Element>
+        <Element>
+            <Key>IS05</Key>
+            <Value>InternalState5</Value>
+        </Element>
+        <Element>
+            <Key>IS06</Key>
+            <Value>InternalState6</Value>
+        </Element>
+        <Element>
+            <Key>IS07</Key>
+            <Value>InternalState7</Value>
+        </Element>
+        <Element>
+            <Key>IS08</Key>
+            <Value>InternalState8</Value>
+        </Element>
+        <Element>
+            <Key>IS09</Key>
+            <Value>InternalState9</Value>
+        </Element>
+        <Element>
+            <Key>IS10</Key>
+            <Value>InternalState10</Value>
+        </Element>
+        <Element>
+            <Key>IS11</Key>
+            <Value>InternalState11</Value>
+        </Element>
+        <Element>
+            <Key>IS12</Key>
+            <Value>InternalState12</Value>
+        </Element>
+        <Element>
+            <Key>IS13</Key>
+            <Value>InternalState13</Value>
+        </Element>
+        <Element>
+            <Key>IS14</Key>
+            <Value>InternalState14</Value>
+        </Element>
+        <Element>
+            <Key>IS15</Key>
+            <Value>InternalState15</Value>
+        </Element>
+        <Element>
+            <Key>IS16</Key>
+            <Value>InternalState16</Value>
+        </Element>
+        <Element>
+            <Key>IS17</Key>
+            <Value>InternalState17</Value>
+        </Element>
+        <Element>
+            <Key>IS18</Key>
+            <Value>InternalState18</Value>
+        </Element>
+        <Element>
+            <Key>IS19</Key>
+            <Value>InternalState19</Value>
+        </Element>
+        <Element>
+            <Key>IS20</Key>
+            <Value>InternalState20</Value>
+        </Element>
+        <Element>
+            <Key>IS21</Key>
+            <Value>InternalState21</Value>
+        </Element>
+        <Element>
+            <Key>IS22</Key>
+            <Value>InternalState22</Value>
+        </Element>
+        <Element>
+            <Key>IS23</Key>
+            <Value>InternalState23</Value>
+        </Element>
+        <Element>
+            <Key>IS24</Key>
+            <Value>InternalState24</Value>
+        </Element>
+        <Element>
+            <Key>IS25</Key>
+            <Value>InternalState25</Value>
+        </Element>
+        <Element>
+            <Key>IS26</Key>
+            <Value>InternalState26</Value>
+        </Element>
+        <Element>
+            <Key>IS27</Key>
+            <Value>InternalState27</Value>
+        </Element>
+        <Element>
+            <Key>IS28</Key>
+            <Value>InternalState28</Value>
+        </Element>
+        <Element>
+            <Key>IS29</Key>
+            <Value>InternalState29</Value>
+        </Element>
+        <Element>
+            <Key>IS30</Key>
+            <Value>InternalState30</Value>
+        </Element>
+        <Element>
+            <Key>IS31</Key>
+            <Value>InternalState31</Value>
+        </Element>
+        <Element>
+            <Key>IS32</Key>
+            <Value>InternalState32</Value>
+        </Element>
+        <Element>
+            <Key>IS33</Key>
+            <Value>InternalState33</Value>
+        </Element>
+        <Element>
+            <Key>IS34</Key>
+            <Value>InternalState34</Value>
+        </Element>
+        <Element>
+            <Key>IS35</Key>
+            <Value>InternalState35</Value>
+        </Element>
+        <Element>
+            <Key>IS36</Key>
+            <Value>InternalState36</Value>
+        </Element>
+        <Element>
+            <Key>IS37</Key>
+            <Value>InternalState37</Value>
+        </Element>
+        <Element>
+            <Key>IS38</Key>
+            <Value>InternalState38</Value>
+        </Element>
+        <Element>
+            <Key>IS39</Key>
+            <Value>InternalState39</Value>
+        </Element>
+        <Element>
+            <Key>IS40</Key>
+            <Value>InternalState40</Value>
+        </Element>
+        <Element>
+            <Key>IS41</Key>
+            <Value>InternalState41</Value>
+        </Element>
+        <Element>
+            <Key>IS42</Key>
+            <Value>InternalState42</Value>
+        </Element>
+        <Element>
+            <Key>IS43</Key>
+            <Value>InternalState43</Value>
+        </Element>
+        <Element>
+            <Key>IS44</Key>
+            <Value>InternalState44</Value>
+        </Element>
+        <Element>
+            <Key>IS45</Key>
+            <Value>InternalState45</Value>
+        </Element>
+        <Element>
+            <Key>IS46</Key>
+            <Value>InternalState46</Value>
+        </Element>
+        <Element>
+            <Key>IS47</Key>
+            <Value>InternalState47</Value>
+        </Element>
+        <Element>
+            <Key>IS48</Key>
+            <Value>InternalState48</Value>
+        </Element>
+        <Element>
+            <Key>IS49</Key>
+            <Value>InternalState49</Value>
+        </Element>
+        <Element>
+            <Key>IS50</Key>
+            <Value>InternalState50</Value>
+        </Element>
+        <Element>
+            <Key>IS51</Key>
+            <Value>InternalState51</Value>
+        </Element>
+        <Element>
+            <Key>IS52</Key>
+            <Value>InternalState52</Value>
+        </Element>
+        <Element>
+            <Key>IS53</Key>
+            <Value>InternalState53</Value>
+        </Element>
+        <Element>
+            <Key>IS54</Key>
+            <Value>InternalState54</Value>
+        </Element>
+        <Element>
+            <Key>IS55</Key>
+            <Value>InternalState55</Value>
+        </Element>
+        <Element>
+            <Key>IS56</Key>
+            <Value>InternalState56</Value>
+        </Element>
+        <Element>
+            <Key>IS57</Key>
+            <Value>InternalState57</Value>
+        </Element>
+        <Element>
+            <Key>IS62</Key>
+            <Value>InternalState62</Value>
+        </Element>
+        <Element>
+            <Key>IS65</Key>
+            <Value>InternalState65</Value>
+        </Element>
+        <Element>
+            <Key>IS66</Key>
+            <Value>InternalState66</Value>
+        </Element>
+        <Element>
+            <Key>IS67</Key>
+            <Value>InternalState67</Value>
+        </Element>
+        <Element>
+            <Key>IS68</Key>
+            <Value>InternalState68</Value>
+        </Element>
+        <Element>
+            <Key>IS70</Key>
+            <Value>InternalState70</Value>
+        </Element>
+        <Element>
+            <Key>IS72</Key>
+            <Value>InternalState72</Value>
+        </Element>
+        <Element>
+            <Key>IS73</Key>
+            <Value>InternalState73</Value>
+        </Element>
+        <Element>
+            <Key>IS77</Key>
+            <Value>InternalState77</Value>
+        </Element>
+        <Element>
+            <Key>IS78</Key>
+            <Value>InternalState78</Value>
+        </Element>
+        <Element>
+            <Key>IS79</Key>
+            <Value>InternalState79</Value>
+        </Element>
+        <Element>
+            <Key>KBDD</Key>
+            <Value>KBDD</Value>
+        </Element>
+        <Element>
+            <Key>KBDK</Key>
+            <Value>KBDK</Value>
+        </Element>
+        <Element>
+            <Key>LDWA</Key>
+            <Value>DrawAfter</Value>
+        </Element>
+        <Element>
+            <Key>LDWB</Key>
+            <Value>DrawBefore</Value>
+        </Element>
+        <Element>
+            <Key>LTKA</Key>
+            <Value>ThinkAfter</Value>
+        </Element>
+        <Element>
+            <Key>LTKB</Key>
+            <Value>ThinkBefore</Value>
+        </Element>
+        <Element>
+            <Key>MAXR</Key>
+            <Value>MaxReached</Value>
+        </Element>
+        <Element>
+            <Key>MOTP</Key>
+            <Value>MOTP</Value>
+        </Element>
+        <Element>
+            <Key>MOTS</Key>
+            <Value>MOTS</Value>
+        </Element>
+        <Element>
+            <Key>NEXT</Key>
+            <Value>Next</Value>
+        </Element>
+        <Element>
+            <Key>OBJP</Key>
+            <Value>OBJP</Value>
+        </Element>
+        <Element>
+            <Key>OPEN</Key>
+            <Value>Open</Value>
+        </Element>
+        <Element>
+            <Key>PLAY</Key>
+            <Value>Play</Value>
+        </Element>
+        <Element>
+            <Key>PLRP</Key>
+            <Value>PLRP</Value>
+        </Element>
+        <Element>
+            <Key>PREV</Key>
+            <Value>Previous</Value>
+        </Element>
+        <Element>
+            <Key>PTRL</Key>
+            <Value>Patrol</Value>
+        </Element>
+        <Element>
+            <Key>RATL</Key>
+            <Value>DeathRattle</Value>
+        </Element>
+        <Element>
+            <Key>RLAY</Key>
+            <Value>Relay</Value>
+        </Element>
+        <Element>
+            <Key>ROTO</Key>
+            <Value>RotationOver</Value>
+        </Element>
+        <Element>
+            <Key>ROTS</Key>
+            <Value>RotationStart</Value>
+        </Element>
+        <Element>
+            <Key>SE01</Key>
+            <Value>SE01</Value>
+        </Element>
+        <Element>
+            <Key>SE02</Key>
+            <Value>SE02</Value>
+        </Element>
+        <Element>
+            <Key>SE03</Key>
+            <Value>SE03</Value>
+        </Element>
+        <Element>
+            <Key>SE05</Key>
+            <Value>SE05</Value>
+        </Element>
+        <Element>
+            <Key>SE06</Key>
+            <Value>SE06</Value>
+        </Element>
+        <Element>
+            <Key>SE07</Key>
+            <Value>SE07</Value>
+        </Element>
+        <Element>
+            <Key>SE08</Key>
+            <Value>SE08</Value>
+        </Element>
+        <Element>
+            <Key>SE09</Key>
+            <Value>SE09</Value>
+        </Element>
+        <Element>
+            <Key>SE10</Key>
+            <Value>SE10</Value>
+        </Element>
+        <Element>
+            <Key>SLAV</Key>
+            <Value>Slave</Value>
+        </Element>
+        <Element>
+            <Key>SQNC</Key>
+            <Value>Sequence</Value>
+        </Element>
+        <Element>
+            <Key>TGTO</Key>
+            <Value>TGTO</Value>
+        </Element>
+        <Element>
+            <Key>TGTP</Key>
+            <Value>TGTP</Value>
+        </Element>
+        <Element>
+            <Key>ULCK</Key>
+            <Value>Unlocked</Value>
+        </Element>
+        <Element>
+            <Key>ZERO</Key>
+            <Value>Zero</Value>
+        </Element>
+    </States>
+    <Messages>
+        <Element>
+            <Key>ACMT</Key>
+            <Value>ACMT</Value>
+        </Element>
+        <Element>
+            <Key>ACTN</Key>
+            <Value>Action</Value>
+        </Element>
+        <Element>
+            <Key>ACTV</Key>
+            <Value>Activate</Value>
+        </Element>
+        <Element>
+            <Key>ATCH</Key>
+            <Value>Attach</Value>
+        </Element>
+        <Element>
+            <Key>CLOS</Key>
+            <Value>Close</Value>
+        </Element>
+        <Element>
+            <Key>DCTV</Key>
+            <Value>Deactivate</Value>
+        </Element>
+        <Element>
+            <Key>DECR</Key>
+            <Value>Decrement</Value>
+        </Element>
+        <Element>
+            <Key>FADI</Key>
+            <Value>FadeIn</Value>
+        </Element>
+        <Element>
+            <Key>FADO</Key>
+            <Value>FadeOut</Value>
+        </Element>
+        <Element>
+            <Key>FOLW</Key>
+            <Value>Follow</Value>
+        </Element>
+        <Element>
+            <Key>IM00</Key>
+            <Value>InternalMessage0</Value>
+        </Element>
+        <Element>
+            <Key>IM01</Key>
+            <Value>InternalMessage1</Value>
+        </Element>
+        <Element>
+            <Key>IM02</Key>
+            <Value>InternalMessage2</Value>
+        </Element>
+        <Element>
+            <Key>IM03</Key>
+            <Value>InternalMessage3</Value>
+        </Element>
+        <Element>
+            <Key>IM04</Key>
+            <Value>InternalMessage4</Value>
+        </Element>
+        <Element>
+            <Key>IM05</Key>
+            <Value>InternalMessage5</Value>
+        </Element>
+        <Element>
+            <Key>IM06</Key>
+            <Value>InternalMessage6</Value>
+        </Element>
+        <Element>
+            <Key>IM07</Key>
+            <Value>InternalMessage7</Value>
+        </Element>
+        <Element>
+            <Key>IM08</Key>
+            <Value>InternalMessage8</Value>
+        </Element>
+        <Element>
+            <Key>IM09</Key>
+            <Value>InternalMessage9</Value>
+        </Element>
+        <Element>
+            <Key>IM10</Key>
+            <Value>InternalMessage10</Value>
+        </Element>
+        <Element>
+            <Key>IM11</Key>
+            <Value>InternalMessage11</Value>
+        </Element>
+        <Element>
+            <Key>IM12</Key>
+            <Value>InternalMessage12</Value>
+        </Element>
+        <Element>
+            <Key>IM13</Key>
+            <Value>InternalMessage13</Value>
+        </Element>
+        <Element>
+            <Key>IM14</Key>
+            <Value>InternalMessage14</Value>
+        </Element>
+        <Element>
+            <Key>IM15</Key>
+            <Value>InternalMessage15</Value>
+        </Element>
+        <Element>
+            <Key>IM16</Key>
+            <Value>InternalMessage16</Value>
+        </Element>
+        <Element>
+            <Key>IM17</Key>
+            <Value>InternalMessage17</Value>
+        </Element>
+        <Element>
+            <Key>IM18</Key>
+            <Value>InternalMessage18</Value>
+        </Element>
+        <Element>
+            <Key>IM19</Key>
+            <Value>InternalMessage19</Value>
+        </Element>
+        <Element>
+            <Key>IM20</Key>
+            <Value>InternalMessage20</Value>
+        </Element>
+        <Element>
+            <Key>IM21</Key>
+            <Value>InternalMessage21</Value>
+        </Element>
+        <Element>
+            <Key>IM22</Key>
+            <Value>InternalMessage22</Value>
+        </Element>
+        <Element>
+            <Key>IM23</Key>
+            <Value>InternalMessage23</Value>
+        </Element>
+        <Element>
+            <Key>IM24</Key>
+            <Value>InternalMessage24</Value>
+        </Element>
+        <Element>
+            <Key>IM25</Key>
+            <Value>InternalMessage25</Value>
+        </Element>
+        <Element>
+            <Key>IM26</Key>
+            <Value>InternalMessage26</Value>
+        </Element>
+        <Element>
+            <Key>IM27</Key>
+            <Value>InternalMessage27</Value>
+        </Element>
+        <Element>
+            <Key>IM28</Key>
+            <Value>InternalMessage28</Value>
+        </Element>
+        <Element>
+            <Key>IM29</Key>
+            <Value>InternalMessage29</Value>
+        </Element>
+        <Element>
+            <Key>IM30</Key>
+            <Value>InternalMessage30</Value>
+        </Element>
+        <Element>
+            <Key>IM31</Key>
+            <Value>InternalMessage31</Value>
+        </Element>
+        <Element>
+            <Key>IM32</Key>
+            <Value>InternalMessage32</Value>
+        </Element>
+        <Element>
+            <Key>IM33</Key>
+            <Value>InternalMessage33</Value>
+        </Element>
+        <Element>
+            <Key>IM34</Key>
+            <Value>InternalMessage34</Value>
+        </Element>
+        <Element>
+            <Key>IM35</Key>
+            <Value>InternalMessage35</Value>
+        </Element>
+        <Element>
+            <Key>IM36</Key>
+            <Value>InternalMessage36</Value>
+        </Element>
+        <Element>
+            <Key>IM37</Key>
+            <Value>InternalMessage37</Value>
+        </Element>
+        <Element>
+            <Key>IM38</Key>
+            <Value>InternalMessage38</Value>
+        </Element>
+        <Element>
+            <Key>IM39</Key>
+            <Value>InternalMessage39</Value>
+        </Element>
+        <Element>
+            <Key>IM40</Key>
+            <Value>InternalMessage40</Value>
+        </Element>
+        <Element>
+            <Key>IM41</Key>
+            <Value>InternalMessage41</Value>
+        </Element>
+        <Element>
+            <Key>IM50</Key>
+            <Value>InternalMessage50</Value>
+        </Element>
+        <Element>
+            <Key>INCR</Key>
+            <Value>Increment</Value>
+        </Element>
+        <Element>
+            <Key>KILL</Key>
+            <Value>Kill</Value>
+        </Element>
+        <Element>
+            <Key>LOAD</Key>
+            <Value>Load</Value>
+        </Element>
+        <Element>
+            <Key>LOCK</Key>
+            <Value>Lock</Value>
+        </Element>
+        <Element>
+            <Key>NEXT</Key>
+            <Value>Next</Value>
+        </Element>
+        <Element>
+            <Key>OFF </Key>
+            <Value>Off</Value>
+        </Element>
+        <Element>
+            <Key>ON  </Key>
+            <Value>On</Value>
+        </Element>
+        <Element>
+            <Key>OPEN</Key>
+            <Value>Open</Value>
+        </Element>
+        <Element>
+            <Key>PAUS</Key>
+            <Value>Pause</Value>
+        </Element>
+        <Element>
+            <Key>PLAY</Key>
+            <Value>Play</Value>
+        </Element>
+        <Element>
+            <Key>RCMT</Key>
+            <Value>RCMT</Value>
+        </Element>
+        <Element>
+            <Key>RMOV</Key>
+            <Value>RMOV</Value>
+        </Element>
+        <Element>
+            <Key>RSAN</Key>
+            <Value>RSAN</Value>
+        </Element>
+        <Element>
+            <Key>RSET</Key>
+            <Value>Reset</Value>
+        </Element>
+        <Element>
+            <Key>RSTP</Key>
+            <Value>RSTP</Value>
+        </Element>
+        <Element>
+            <Key>RSTS</Key>
+            <Value>ResetAndStart</Value>
+        </Element>
+        <Element>
+            <Key>SMAX</Key>
+            <Value>SetToMax</Value>
+        </Element>
+        <Element>
+            <Key>STOP</Key>
+            <Value>Stop</Value>
+        </Element>
+        <Element>
+            <Key>STPR</Key>
+            <Value>StopAndReset</Value>
+        </Element>
+        <Element>
+            <Key>STRT</Key>
+            <Value>Start</Value>
+        </Element>
+        <Element>
+            <Key>TCTV</Key>
+            <Value>ToggleActive</Value>
+        </Element>
+        <Element>
+            <Key>ULCK</Key>
+            <Value>Unlock</Value>
+        </Element>
+        <Element>
+            <Key>ULOD</Key>
+            <Value>Unload</Value>
+        </Element>
+        <Element>
+            <Key>XCLR</Key>
+            <Value>Clear</Value>
+        </Element>
+        <Element>
+            <Key>XDEL</Key>
+            <Value>Delete</Value>
+        </Element>
+        <Element>
+            <Key>ZERO</Key>
+            <Value>SetToZero</Value>
+        </Element>
+    </Messages>
+</Game>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct289</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x28F49A53" Archetype="VolcanoBossBodyPartStructA"/>
+            <Element Type="Float" ID="0x1B030466">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

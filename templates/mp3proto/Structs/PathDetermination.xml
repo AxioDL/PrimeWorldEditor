@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PathDetermination" type="multi">
-    <properties>
-        <enum ID="0x559542AB">
-            <default>0x571AA317</default>
-            <enumerators>
-                <enumerator ID="0xEBC96FEE" name="Unknown 1"/>
-                <enumerator ID="0xE52BC0C1" name="Unknown 2"/>
-                <enumerator ID="0x571AA317" name="Unknown 3"/>
-                <enumerator ID="0xED705EB1" name="Unknown 4"/>
-            </enumerators>
-        </enum>
-        <struct ID="0x4150490C" type="multi">
-            <properties>
-                <enum ID="0xB80D00A8">
-                    <default>0x15F0534B</default>
-                    <enumerators>
-                        <enumerator ID="0x15F0534B" name="Unknown 1"/>
-                        <enumerator ID="0x33AD3911" name="Unknown 2"/>
-                        <enumerator ID="0x4F4E2D3F" name="Unknown 3"/>
-                        <enumerator ID="0x69134765" name="Unknown 4"/>
-                    </enumerators>
-                </enum>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>PathDetermination</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x559542AB">
+                <DefaultValue>0x571AA317</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xEBC96FEE"/>
+                    <Element Name="Unknown 2" ID="0xE52BC0C1"/>
+                    <Element Name="Unknown 3" ID="0x571AA317"/>
+                    <Element Name="Unknown 4" ID="0xED705EB1"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0x4150490C" Archetype="PathDeterminationMethodType"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

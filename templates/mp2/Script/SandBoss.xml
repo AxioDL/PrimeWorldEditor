@@ -1,251 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SandBoss</name>
-    <modules>
-        <module>SandBoss.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x020C78BB">
-                    <default>60.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <default>12.0</default>
-                </property>
-                <property ID="0xFF77C96F">
-                    <default>37.0</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>150.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x91E88D81" type="multi">
-            <properties>
-                <property ID="0x72124842" type="asset" extensions="SCAN"/>
-                <property ID="0xE34D7C49" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xE47262F5" type="asset" extensions="CMDL"/>
-                <property ID="0x62E6105B" type="asset" extensions="CMDL"/>
-                <property ID="0xA9BAC3FE" type="asset" extensions="CMDL"/>
-                <struct ID="0x19C91AAA" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <enum ID="0x119FBD31">
-                            <default>0x0000000B</default>
-                        </enum>
-                        <property ID="0xF2D02613">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x58889364" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <enum ID="0x119FBD31">
-                            <default>0x0000000B</default>
-                        </enum>
-                        <property ID="0xF2D02613">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xBF88FE4F" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0x74C702B3" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x35EE175D" type="asset" extensions="WPSC"/>
-                <struct ID="0x94C2150F" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <enum ID="0x119FBD31">
-                            <default>0x00000001</default>
-                        </enum>
-                        <property ID="0xF2D02613">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x2B42DDDF" type="float">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x1562E0D6" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xD0DB2574" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xF1AED43D" type="float">
-                    <default>7.0</default>
-                </property>
-                <property ID="0x3055DD0E" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x6F135965" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xC49086D9" type="asset" extensions="PART"/>
-                <struct ID="0x95371A32" type="multi">
-                    <properties>
-                        <property ID="0xBED8A4BA" type="float">
-                            <default>1.5</default>
-                        </property>
-                        <property ID="0xC2B98161" type="float">
-                            <default>2.5</default>
-                        </property>
-                        <property ID="0x5FB66017" type="float">
-                            <default>3.0</default>
-                        </property>
-                        <property ID="0xBAB42316" type="float">
-                            <default>150.0</default>
-                        </property>
-                        <property ID="0x8F06342A" type="asset" extensions="PART"/>
-                        <property ID="0xD8B11129" type="sound"/>
-                        <property ID="0xE99E5316" type="sound"/>
-                        <struct ID="0x1440D152" template="Structs/DamageInfo.xml">
-                            <properties>
-                                <enum ID="0x119FBD31">
-                                    <default>0x0000000B</default>
-                                </enum>
-                                <property ID="0xF2D02613">
-                                    <default>20.0</default>
-                                </property>
-                                <property ID="0xEE1BE914">
-                                    <default>13.0</default>
-                                </property>
-                                <property ID="0x555FF80A">
-                                    <default>10.0</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0x686489FD" type="asset" extensions="PART"/>
-                    </properties>
-                </struct>
-                <struct ID="0x7619E561" type="multi">
-                    <properties>
-                        <struct ID="0xB9784F0E" template="Structs/SandBossStructB.xml"/>
-                        <struct ID="0xB8AE1BDC" template="Structs/SandBossStructB.xml"/>
-                        <struct ID="0x94DA6435" template="Structs/PlasmaBeamInfo.xml">
-                            <properties>
-                                <property ID="0xC26C291C">
-                                    <default>500.0</default>
-                                </property>
-                                <property ID="0x78C507EB">
-                                    <default>1.0</default>
-                                </property>
-                                <property ID="0xEC773D1D">
-                                    <default>4.0</default>
-                                </property>
-                                <property ID="0xB02DE555">
-                                    <default>1.0</default>
-                                </property>
-                                <property ID="0x5180181E">
-                                    <default>20.0</default>
-                                </property>
-                                <property ID="0x72A96252">
-                                    <default>0.25</default>
-                                </property>
-                                <property ID="0xB8652FE4">
-                                    <default>2.0</default>
-                                </property>
-                                <property ID="0x1AFB2B73">
-                                    <default>0.498039, 0.498039, 0.498039, 0.498039</default>
-                                </property>
-                                <property ID="0x9FD338FC">
-                                    <default>0.6, 0.6, 0.0, 0.498039</default>
-                                </property>
-                            </properties>
-                        </struct>
-                    </properties>
-                </struct>
-                <struct ID="0x8B452A19" template="Structs/SandBossStructA.xml"/>
-                <struct ID="0x0CF8C54C" template="Structs/SandBossStructA.xml"/>
-                <property ID="0xBBD84681" type="asset" extensions="CMDL"/>
-                <property ID="0xDF6DA1A2" type="asset" extensions="CSKR"/>
-                <struct ID="0xB7ECDCF9" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0x844ED79C" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0x77210167" template="Structs/DamageVulnerability.xml"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-            <model source="property">0x91E88D81:0xE47262F5</model>
-            <model source="property">0x91E88D81:0xA9BAC3FE</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x07D8CC4F</model>
-            <model source="property">0x91E88D81:0x8B452A19:0xAE30AE06</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x656C7DA3</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x78694D1B</model>
-            <model source="property">0x91E88D81:0x8B452A19:0xB3359EBE</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x35A1EC10</model>
-            <model source="property">0x91E88D81:0x8B452A19:0xFEFD3FB5</model>
-            <model source="property">0x91E88D81:0x8B452A19:0x37E99C23</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x07D8CC4F</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0xAE30AE06</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x656C7DA3</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x78694D1B</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0xB3359EBE</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x35A1EC10</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0xFEFD3FB5</model>
-            <model source="property">0x91E88D81:0x0CF8C54C:0x37E99C23</model>
-            <model source="property">0x91E88D81:0xBBD84681</model>
-        </assets>
-        <attachments>
-            <attachment propertyID="0x91E88D81:0x8B452A19:0x07D8CC4F" locator="Head_1">
-                <attach_type>follow</attach_type>
-            </attachment>
-            <attachment propertyID="0x91E88D81:0x8B452A19:0xAE30AE06" locator="Spine_6">
-                <attach_type>follow</attach_type>
-            </attachment>
-            <attachment propertyID="0x91E88D81:0x8B452A19:0x656C7DA3" locator="Spine_5">
-                <attach_type>follow</attach_type>
-            </attachment>
-            <attachment propertyID="0x91E88D81:0x8B452A19:0x78694D1B" locator="Spine_4">
-                <attach_type>follow</attach_type>
-            </attachment>
-            <attachment propertyID="0x91E88D81:0x8B452A19:0xB3359EBE" locator="Spine_3">
-                <attach_type>follow</attach_type>
-            </attachment>
-            <attachment propertyID="0x91E88D81:0x8B452A19:0x35A1EC10" locator="Spine_2">
-                <attach_type>follow</attach_type>
-            </attachment>
-            <attachment propertyID="0x91E88D81:0x8B452A19:0xFEFD3FB5" locator="Spine_1">
-                <attach_type>follow</attach_type>
-            </attachment>
-        </attachments>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>SandBoss.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>SandBoss</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>60.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <DefaultValue>12.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xFF77C96F">
+                        <DefaultValue>37.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>150.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x91E88D81" Archetype="SandBossData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0xE47262F5"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0xA9BAC3FE"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x8B452A19:0x07D8CC4F"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x8B452A19:0xAE30AE06"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x8B452A19:0x656C7DA3"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x8B452A19:0x78694D1B"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x8B452A19:0xB3359EBE"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x8B452A19:0x35A1EC10"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x8B452A19:0xFEFD3FB5"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x8B452A19:0x37E99C23"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x0CF8C54C:0x07D8CC4F"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x0CF8C54C:0xAE30AE06"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x0CF8C54C:0x656C7DA3"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x0CF8C54C:0x78694D1B"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x0CF8C54C:0xB3359EBE"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x0CF8C54C:0x35A1EC10"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x0CF8C54C:0xFEFD3FB5"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0x0CF8C54C:0x37E99C23"/>
+        <Element Type="Model" Source="Property" Location="0x91E88D81:0xBBD84681"/>
+    </Assets>
+    <Attachments>
+        <Element AttachProperty="0x91E88D81:0x8B452A19:0x07D8CC4F" LocatorName="Head_1" AttachType="Follow"/>
+        <Element AttachProperty="0x91E88D81:0x8B452A19:0xAE30AE06" LocatorName="Spine_6" AttachType="Follow"/>
+        <Element AttachProperty="0x91E88D81:0x8B452A19:0x656C7DA3" LocatorName="Spine_5" AttachType="Follow"/>
+        <Element AttachProperty="0x91E88D81:0x8B452A19:0x78694D1B" LocatorName="Spine_4" AttachType="Follow"/>
+        <Element AttachProperty="0x91E88D81:0x8B452A19:0xB3359EBE" LocatorName="Spine_3" AttachType="Follow"/>
+        <Element AttachProperty="0x91E88D81:0x8B452A19:0x35A1EC10" LocatorName="Spine_2" AttachType="Follow"/>
+        <Element AttachProperty="0x91E88D81:0x8B452A19:0xFEFD3FB5" LocatorName="Spine_1" AttachType="Follow"/>
+    </Attachments>
+</ScriptObject>

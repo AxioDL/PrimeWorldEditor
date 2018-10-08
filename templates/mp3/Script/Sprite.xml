@@ -1,80 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Sprite</name>
-    <modules>
-        <module>RSO_Sprite.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xD42B76FF" type="multi">
-            <properties>
-                <struct ID="0xCCDD3ACA" template="Structs/FlyerMovementMode.xml">
-                    <properties>
-                        <property ID="0x6392404E">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x39FB7978">
-                            <default>0.5</default>
-                        </property>
-                        <property ID="0x6C6426C8">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0xC0AC271E">
-                            <default>180.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x2CBB438B" template="Structs/SpriteStruct.xml"/>
-                <struct ID="0xA80227E6" template="Structs/SpriteStruct.xml"/>
-                <struct ID="0x34799811" template="Structs/SpriteStruct.xml"/>
-                <property ID="0x26945E20" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x7F878C1C" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x6E575D67" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x8EBEA596" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x429C66D3" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x04290E24" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x7FC827A2" type="float">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x8DB77EE4">
-                    <default>50.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_Sprite.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>Sprite</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xD42B76FF" Archetype="UnknownStruct64"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x8DB77EE4">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

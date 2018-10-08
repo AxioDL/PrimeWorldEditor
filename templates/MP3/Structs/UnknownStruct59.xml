@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct59</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xBEA74138">
+                <DefaultValue>30</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB3F4EE57">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x116920B8">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0x4C64D3A6"/>
+            <Element Type="Struct" ID="0xDD06CC" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0xB64ED093">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x8FE03C41">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC90CDA8C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4D9ED8E1">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x21DC4C35">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x18F91880" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xFCB5A8C3" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xE9C8E2BD">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x86FFB3F6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,163 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>BarrelCannon</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xF344C0B0" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x2E686C2A" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
-        <property ID="0xA3D63F44" type="character"/>
-        <property ID="0x1B21EEB2" type="asset" extensions="FSMC"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
-        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
-        <property ID="0xDCD56FE8" type="long">
-            <default>200</default>
-        </property>
-        <property ID="0x682DE15C" type="long">
-            <default>20</default>
-        </property>
-        <property ID="0xAC3ADDA6" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF203BC81" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x0A9DBF91" template="Structs/PlatformMotionProperties.xml">
-            <properties>
-                <property ID="0xAE80628F">
-                    <default>262176</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x24FDEEA1" type="vector3f">
-            <default>0.0, 0.15, 0.0</default>
-        </property>
-        <property ID="0xBF69C03E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x6B5E87A7" type="float">
-            <default>1800.0</default>
-        </property>
-        <property ID="0x3DC75733" type="float">
-            <default>30.0</default>
-        </property>
-        <struct ID="0xF04C61F3" type="multi">
-            <properties>
-                <property ID="0x89664723" type="float">
-                    <default>1.5</default>
-                </property>
-                <property ID="0x2B2F4519" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0xFB35A95A" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x49D8E65A" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x2D2A4AD6" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0xD5ED0F77" type="float">
-                    <default>0.15</default>
-                </property>
-                <property ID="0x89D7791E" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x31381A17" type="float">
-                    <default>21.0</default>
-                </property>
-                <property ID="0xC440842B" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x9BB1543F" type="float">
-                    <default>1.05</default>
-                </property>
-                <property ID="0x061321AE" type="float">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x32FAB97E" type="long">
-                    <default>0</default>
-                </property>
-                <property ID="0x97AD5BEE" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x094B5AD6" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x25967162" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x26B5FCDF" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x6C2AD8B4" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x36051905" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0xFC4118DD" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x06D1B8C7" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x341F63F8" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x4D6847E5" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x2255A13D" type="bool">
-                    <default>false</default>
-                </property>
-                <enum ID="0x98501823" template="Enums/BarrelCannonEnum.xml">
-                    <default>0xA61445EB</default>
-                </enum>
-                <enum ID="0x098ECAB6" template="Enums/BarrelCannonEnum.xml">
-                    <default>0x0009FA85</default>
-                </enum>
-            </properties>
-        </struct>
-        <property ID="0xFAF13D08" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xC9D225C7" type="multi">
-            <properties>
-                <property ID="0x21970404" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x10D28308" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x27654F46" type="float">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xA3D63F44</animparams>
-            <model source="property">0xC27FFA8F</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>BarrelCannon</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Vector" ID="0xF344C0B0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA3D63F44"/>
+            <Element Type="Asset" ID="0x1B21EEB2">
+                <TypeFilter>
+                    <Element>FSMC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0xFC966DC">
+                <TypeFilter>
+                    <Element>DCLN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Int" ID="0xDCD56FE8">
+                <DefaultValue>200</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x682DE15C">
+                <DefaultValue>20</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xAC3ADDA6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF203BC81">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA9DBF91" Archetype="PlatformMotionProperties">
+                <SubProperties>
+                    <Element Type="Int" ID="0xAE80628F">
+                        <DefaultValue>262176</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Vector" ID="0x24FDEEA1">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.15000001</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBF69C03E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6B5E87A7">
+                <DefaultValue>1800.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3DC75733">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF04C61F3" Archetype="UnknownStruct21"/>
+            <Element Type="Bool" ID="0xFAF13D08">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC9D225C7" Archetype="UnknownStruct22"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA3D63F44"/>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+    </Assets>
+</ScriptObject>

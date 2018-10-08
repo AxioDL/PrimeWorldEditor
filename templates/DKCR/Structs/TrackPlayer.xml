@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TrackPlayer</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB297F186">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCA3E85C5">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x36DC8DD">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x37A12336">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x87F624CE">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC46A562B">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x58D29F3F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE0029E4A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x69FC4177">
+                <DefaultValue>0xEC782F50</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xEC782F50"/>
+                    <Element Name="Unknown 2" ID="0x41744CAE"/>
+                    <Element Name="Unknown 3" ID="0xAF7A2D82"/>
+                    <Element Name="Unknown 4" ID="0x1801E4F8"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xA57469D3">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE8BCC8D8">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5E300B3F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x63564BA2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xFBC6C110"/>
+            <Element Type="Bool" ID="0x30C30368">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x3C3862F3" Archetype="UnknownEnum2">
+                <DefaultValue>0x291D74B</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x2F711429" Archetype="UnknownEnum2">
+                <DefaultValue>0x3BB45C07</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

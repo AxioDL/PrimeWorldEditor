@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraHintStruct</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x0">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Bool" ID="0x2">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Bool" ID="0x3">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Bool" ID="0x4">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5">
+                <Name>Unknown 6</Name>
+            </Element>
+            <Element Type="Bool" ID="0x6">
+                <Name>Unknown 7</Name>
+            </Element>
+            <Element Type="Bool" ID="0x7">
+                <Name>Unknown 8</Name>
+            </Element>
+            <Element Type="Bool" ID="0x8">
+                <Name>Unknown 9</Name>
+            </Element>
+            <Element Type="Bool" ID="0x9">
+                <Name>Unknown 10</Name>
+            </Element>
+            <Element Type="Bool" ID="0xA">
+                <Name>Unknown 11</Name>
+            </Element>
+            <Element Type="Bool" ID="0xB">
+                <Name>Unknown 12</Name>
+            </Element>
+            <Element Type="Bool" ID="0xC">
+                <Name>Unknown 13</Name>
+            </Element>
+            <Element Type="Bool" ID="0xD">
+                <Name>Unknown 14</Name>
+            </Element>
+            <Element Type="Bool" ID="0xE">
+                <Name>Unknown 15</Name>
+            </Element>
+            <Element Type="Bool" ID="0xF">
+                <Name>Unknown 16</Name>
+            </Element>
+            <Element Type="Bool" ID="0x10">
+                <Name>Unknown 17</Name>
+            </Element>
+            <Element Type="Bool" ID="0x11">
+                <Name>Unknown 18</Name>
+            </Element>
+            <Element Type="Bool" ID="0x12">
+                <Name>Unknown 19</Name>
+            </Element>
+            <Element Type="Bool" ID="0x13">
+                <Name>Unknown 21</Name>
+            </Element>
+            <Element Type="Bool" ID="0x14">
+                <Name>Unknown 22</Name>
+            </Element>
+            <Element Type="Bool" ID="0x15">
+                <Name>Unknown 23</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

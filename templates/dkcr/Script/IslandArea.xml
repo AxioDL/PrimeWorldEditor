@@ -1,121 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>IslandArea</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xF344C0B0" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x2E686C2A" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
-        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
-        <property ID="0xA244C9D8" type="character"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x3B83DD31" type="asset" extensions="STRG"/>
-        <property ID="0x6A02F05F" type="string"/>
-        <enum ID="0x28E29F9B">
-            <default>0x9DCDF5E0</default>
-            <enumerators>
-                <enumerator ID="0x9DCDF5E0" name="Unknown 1"/>
-                <enumerator ID="0x4CD7A1F7" name="Unknown 2"/>
-                <enumerator ID="0x49791B20" name="Unknown 3"/>
-                <enumerator ID="0x7AE6F698" name="Unknown 4"/>
-                <enumerator ID="0xC9C98F46" name="Unknown 5"/>
-                <enumerator ID="0x2AFAD23B" name="Unknown 6"/>
-                <enumerator ID="0x9CECD3E4" name="Unknown 7"/>
-                <enumerator ID="0x709136D7" name="Unknown 8"/>
-                <enumerator ID="0x3D363417" name="Unknown 9"/>
-            </enumerators>
-        </enum>
-        <struct ID="0xDF692967" type="multi">
-            <properties>
-                <property ID="0xA4F20C17" type="asset" extensions="STRG"/>
-                <property ID="0x8067FE4E" type="asset" extensions="STRG"/>
-                <property ID="0xB9B18EF6" type="asset" extensions="STRG"/>
-                <property ID="0x241839D4" type="asset" extensions="STRG"/>
-                <property ID="0xF9529B46" type="asset" extensions="STRG"/>
-                <property ID="0x1359360D" type="asset" extensions="STRG"/>
-                <struct ID="0x57CB6052" template="Structs/IslandAreaStruct.xml">
-                    <properties>
-                        <property ID="0x5FED5C9D">
-                            <default>1</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x4C256CD9" template="Structs/IslandAreaStruct.xml">
-                    <properties>
-                        <property ID="0x5FED5C9D">
-                            <default>30</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xFA4DC52C" template="Structs/IslandAreaStruct.xml">
-                    <properties>
-                        <property ID="0x5FED5C9D">
-                            <default>10</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x7803AE46" template="Structs/IslandAreaStruct.xml">
-                    <properties>
-                        <property ID="0x5FED5C9D">
-                            <default>20</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x2ED30BDD" template="Structs/IslandAreaStruct.xml">
-                    <properties>
-                        <property ID="0x5FED5C9D">
-                            <default>7</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xCFBDCF70" template="Structs/IslandAreaStruct.xml">
-                    <properties>
-                        <property ID="0x5FED5C9D">
-                            <default>20</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xD611406B" template="Structs/IslandAreaStruct.xml">
-                    <properties>
-                        <property ID="0x5FED5C9D">
-                            <default>40</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x0F722357" type="multi">
-            <properties>
-                <property ID="0xA28B199D" type="asset" extensions="CAUD"/>
-                <property ID="0x003E7991" type="asset" extensions="CAUD"/>
-                <property ID="0x87501D31" type="asset" extensions="CAUD"/>
-                <property ID="0x72679165" type="asset" extensions="CAUD"/>
-                <property ID="0xCC70E91C" type="asset" extensions="UNKN"/>
-                <property ID="0xB2B02A99" type="asset" extensions="UNKN"/>
-                <property ID="0x4392D0C4" type="asset" extensions="CAUD"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xA244C9D8</animparams>
-            <model source="property">0xC27FFA8F</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>IslandArea</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Vector" ID="0xF344C0B0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFC966DC">
+                <TypeFilter>
+                    <Element>DCLN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0x3B83DD31">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x6A02F05F"/>
+            <Element Type="Enum" ID="0x28E29F9B">
+                <DefaultValue>0x9DCDF5E0</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x9DCDF5E0"/>
+                    <Element Name="Unknown 2" ID="0x4CD7A1F7"/>
+                    <Element Name="Unknown 3" ID="0x49791B20"/>
+                    <Element Name="Unknown 4" ID="0x7AE6F698"/>
+                    <Element Name="Unknown 5" ID="0xC9C98F46"/>
+                    <Element Name="Unknown 6" ID="0x2AFAD23B"/>
+                    <Element Name="Unknown 7" ID="0x9CECD3E4"/>
+                    <Element Name="Unknown 8" ID="0x709136D7"/>
+                    <Element Name="Unknown 9" ID="0x3D363417"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0xDF692967" Archetype="UnknownStruct184"/>
+            <Element Type="Struct" ID="0xF722357" Archetype="UnknownStruct185"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+    </Assets>
+</ScriptObject>

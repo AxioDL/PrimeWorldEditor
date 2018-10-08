@@ -1,89 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>BouncyTire</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xC4D5BFDE" type="multi">
-            <properties>
-                <property ID="0xA3D63F44" type="character"/>
-                <property ID="0xA2A5B38F" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x0D584A11" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0xCB1931F5" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x6462907A" type="long">
-                    <default>-1</default>
-                </property>
-                <property ID="0x2F524FD4" type="float">
-                    <default>3.1402</default>
-                </property>
-                <struct ID="0x19287737" template="Structs/BouncyTireStruct.xml"/>
-                <struct ID="0x6A3AFC9E" template="Structs/BouncyTireStruct.xml"/>
-                <property ID="0x83A5293A" type="float">
-                    <default>9.0</default>
-                </property>
-                <property ID="0x75DBB375" type="float">
-                    <default>80.0</default>
-                </property>
-                <property ID="0x4F6A5403" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xA8E46EA2" type="float">
-                    <default>45.0</default>
-                </property>
-                <property ID="0x69156FBE" type="asset" extensions="CAUD"/>
-                <property ID="0xC00904C2" type="asset" extensions="CAUD"/>
-                <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
-                <property ID="0xAB2E56F4" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x74920E0E" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x592FC47E" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x82D11331" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x9D837DA5" type="bool">
-                    <default>true</default>
-                </property>
-                <property ID="0x3D04E592" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x3595D977" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xD5505EA4" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x2D6A2898" type="float">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xC4D5BFDE:0xA3D63F44</animparams>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>BouncyTire</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xC4D5BFDE" Archetype="BouncyTireData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xC4D5BFDE:0xA3D63F44"/>
+    </Assets>
+</ScriptObject>

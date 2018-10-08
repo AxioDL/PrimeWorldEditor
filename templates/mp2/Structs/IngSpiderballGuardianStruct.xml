@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="IngSpiderballGuardianStruct" type="multi">
-    <properties>
-        <property ID="0x17C5B61D" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xB0F13664" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xAF9B05F4" type="float">
-            <default>7.0</default>
-        </property>
-        <property ID="0xBCD7333F" type="float">
-            <default>720.0</default>
-        </property>
-        <property ID="0xD1D9D8BD" type="float">
-            <default>40.0</default>
-        </property>
-        <property ID="0x8D5917D4" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x8105ECFD" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xE5065EA8" type="float">
-            <default>15.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>IngSpiderballGuardianStruct</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x17C5B61D">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB0F13664">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAF9B05F4">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBCD7333F">
+                <DefaultValue>720.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD1D9D8BD">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8D5917D4">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8105ECFD">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE5065EA8">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

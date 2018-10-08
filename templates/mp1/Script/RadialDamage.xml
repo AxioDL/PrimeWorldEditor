@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>RadialDamage</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Position" type="vector3f"/>
-        <property ID="0x02" name="Active" type="bool"/>
-        <struct ID="0x03" name="DamageInfo" template="Structs/DamageInfo.xml"/>
-        <property ID="0x04" name="Radius" type="float"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Position" ID="0x01"/>
-            <property name="Active" ID="0x02"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/RadialDamage.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>RadialDamage</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Vector" ID="0x1">
+                <Name>Position</Name>
+            </Element>
+            <Element Type="Bool" ID="0x2">
+                <Name>Active</Name>
+            </Element>
+            <Element Type="Struct" ID="0x3" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x4">
+                <Name>Radius</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <PositionProperty>0x01</PositionProperty>
+        <ActiveProperty>0x02</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/RadialDamage.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

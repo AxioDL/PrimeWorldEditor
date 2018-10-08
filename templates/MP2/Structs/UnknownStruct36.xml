@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct36</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x4F904909" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x82E108DE" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0xDF090545" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x3DD5B3CF" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0xF82231BB" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x9E3658" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x62BD75B1" Archetype="AudioPlaybackParms"/>
+            <Element Type="Float" ID="0x7714BAEC">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x32969CBA" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x597D2AC9" Archetype="AudioPlaybackParms"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

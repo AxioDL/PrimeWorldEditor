@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>SeedBoss1Data</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xD3AD55B6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB33EB533" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x26FA460B" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0xAD0DE5AC">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA5BB98A6">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x50EDAE7F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x30969CFE">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5D71B85C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3D0A8ADD">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9B76AD84">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFB0D9F05">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x85635B3B">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE51869BA">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC288AE69">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCDBD44E1">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x3CE6E482" Archetype="ShockWaveInfo"/>
+            <Element Type="Struct" ID="0x1598012A" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Struct" ID="0x98821996" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x24CA57E3"/>
+            <Element Type="Struct" ID="0xB76775F8" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xDD34C3C0" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0x547B9A9A">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x36C067C2">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x261EEFE7" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x818F810B" Archetype="ShockWaveInfo"/>
+            <Element Type="Asset" ID="0x159988B6"/>
+            <Element Type="Asset" ID="0x9C139A3F"/>
+            <Element Type="Struct" ID="0xA33A5960" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x9E63065F" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xB3F30B93">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3C5C5405">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x51DF1B80">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC69F691A" Archetype="SeedBoss1HandData"/>
+            <Element Type="Color" ID="0x3196B2E7">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x77D3B386">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x14A4DDCA">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA9BE1081">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x7CE5C47C">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF9656C39">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3718EA0">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD6FA5A52">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x45694DB0" Archetype="SeedBoss1Stage"/>
+            <Element Type="Struct" ID="0x338C748D" Archetype="SeedBoss1Stage"/>
+            <Element Type="Struct" ID="0xA8FF9E59" Archetype="SeedBoss1Stage"/>
+            <Element Type="Struct" ID="0xDE4606F7" Archetype="SeedBoss1Stage"/>
+            <Element Type="Struct" ID="0x2883F972" Archetype="SeedBoss1Shield"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

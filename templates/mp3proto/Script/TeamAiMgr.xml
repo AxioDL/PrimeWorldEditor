@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>TeamAiMgr</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xBF37E518" type="long">
-            <default>20</default>
-        </property>
-        <property ID="0xCEBEE4AB" type="long">
-            <default>2</default>
-        </property>
-        <property ID="0x7555C1EA" type="long">
-            <default>2</default>
-        </property>
-        <property ID="0x9FA9C457" type="long">
-            <default>30</default>
-        </property>
-        <property ID="0x54CD2755" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xC36ED15C" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x37A20376" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xD3AD55B6" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x8D00B839" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>TeamAiMgr</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0xBF37E518">
+                <DefaultValue>20</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCEBEE4AB">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7555C1EA">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9FA9C457">
+                <DefaultValue>30</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x54CD2755">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC36ED15C">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x37A20376">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD3AD55B6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8D00B839">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

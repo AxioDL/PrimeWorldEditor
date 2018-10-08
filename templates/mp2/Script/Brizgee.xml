@@ -1,67 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Brizgee</name>
-    <modules>
-        <module>WallCrawler.rel</module>
-        <module>Parasite.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x733BD27C" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0xAC47C628" type="float">
-            <default>360.0</default>
-        </property>
-        <property ID="0x8E4F7B29" type="float">
-            <default>720.0</default>
-        </property>
-        <property ID="0x3D3C1B76" type="float">
-            <default>120.0</default>
-        </property>
-        <property ID="0xA72530E8" type="float">
-            <default>40.0</default>
-        </property>
-        <property ID="0x5E6A54B8" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x07F947F4" type="asset" extensions="CMDL"/>
-        <property ID="0x0B7325EA" type="asset" extensions="CSKR"/>
-        <struct ID="0xF573E11C" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0xAA13253A" type="float">
-            <default>2.0</default>
-        </property>
-        <struct ID="0xB482E5DD" template="Structs/DamageInfo.xml"/>
-        <property ID="0x80DA8053" type="float">
-            <default>1.5</default>
-        </property>
-        <struct ID="0x143D18C6" template="Structs/DamageInfo.xml"/>
-        <property ID="0xF78947D4" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x6A942A60" type="sound"/>
-        <property ID="0x808392EC" type="sound"/>
-        <property ID="0xDF2D8017" type="sound"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>WallCrawler.rel</Element>
+        <Element>Parasite.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>Brizgee</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Float" ID="0x733BD27C">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC47C628">
+                <DefaultValue>360.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8E4F7B29">
+                <DefaultValue>720.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D3C1B76">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA72530E8">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5E6A54B8">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x7F947F4">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB7325EA">
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xF573E11C" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0xAA13253A">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB482E5DD" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x80DA8053">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x143D18C6" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xF78947D4">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x6A942A60">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x808392EC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xDF2D8017">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

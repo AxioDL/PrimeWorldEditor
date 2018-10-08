@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="AnimEnum">
-    <enumerators>
-        <enumerator ID="0x8B3D86DC" name="Unknown 1"/>
-        <enumerator ID="0xF095D135" name="Unknown 2"/>
-        <enumerator ID="0xEF006D07" name="Unknown 3"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>AnimEnum</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="Unknown 1" ID="0x8B3D86DC"/>
+            <Element Name="Unknown 2" ID="0xF095D135"/>
+            <Element Name="Unknown 3" ID="0xEF006D07"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

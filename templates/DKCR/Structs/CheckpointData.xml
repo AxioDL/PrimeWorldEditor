@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>CheckpointData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x178EAB57">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCCB312C3">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x42087650">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFE5BBEC8">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x61AA819F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

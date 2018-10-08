@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct43" type="multi">
-    <properties>
-        <property ID="0x1FF79060" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x950A7B96" type="float">
-            <default>9.0</default>
-        </property>
-        <property ID="0x39FB7978" type="float">
-            <default>20.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct43</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x1FF79060">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x950A7B96">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39FB7978">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

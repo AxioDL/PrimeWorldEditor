@@ -1,66 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>AreaAttributes</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <property ID="0x494E414D">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x95D4BEE7" type="bool">
-            <default>false</default>
-            <description>Show the skybox. If no Skybox Model is specified, it will show the World's default skybox.</description>
-        </property>
-        <property ID="0xB24FDE1A" type="bool">
-            <default>false</default>
-            <description>Enable Dark World damage and switch to the Dark World map.</description>
-        </property>
-        <enum ID="0x9D0006AB">
-            <default>0x00000000</default>
-            <enumerators>
-                <enumerator ID="0x00" name="None"/>
-                <enumerator ID="0x01" name="Snow"/>
-                <enumerator ID="0x02" name="Rain"/>
-                <enumerator ID="0x03" name="Bubbles"/>
-                <enumerator ID="0x04" name="Dark World"/>
-                <enumerator ID="0x05" name="[Aerie]"/>
-                <enumerator ID="0x06" name="Electric Rain"/>
-            </enumerators>
-        </enum>
-        <property ID="0x56263E35" type="sound"/>
-        <property ID="0x64E5FE9F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xBA5F801E" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xD208C9FA" type="asset" extensions="CMDL"/>
-        <enum ID="0xFFEEBC46">
-            <default>0x00000000</default>
-            <enumerators>
-                <enumerator ID="0x00" name="None"/>
-                <enumerator ID="0x01" name="Blue"/>
-                <enumerator ID="0x02" name="Orange"/>
-            </enumerators>
-        </enum>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/AreaAttributes.TXTR</billboard>
-        </assets>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Properties Type="Struct">
+        <Name>AreaAttributes</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="String" ID="0x494E414D">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Bool" ID="0x95D4BEE7">
+                <Description>Show the skybox. If no Skybox Model is specified, it will show the World's default skybox.</Description>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB24FDE1A">
+                <Description>Enable Dark World damage and switch to the Dark World map.</Description>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x9D0006AB">
+                <DefaultValue>0x0</DefaultValue>
+                <Values>
+                    <Element Name="None" ID="0x0"/>
+                    <Element Name="Snow" ID="0x1"/>
+                    <Element Name="Rain" ID="0x2"/>
+                    <Element Name="Bubbles" ID="0x3"/>
+                    <Element Name="Dark World" ID="0x4"/>
+                    <Element Name="[Aerie]" ID="0x5"/>
+                    <Element Name="Electric Rain" ID="0x6"/>
+                </Values>
+            </Element>
+            <Element Type="Sound" ID="0x56263E35">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x64E5FE9F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBA5F801E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xD208C9FA">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Enum" ID="0xFFEEBC46">
+                <DefaultValue>0x0</DefaultValue>
+                <Values>
+                    <Element Name="None" ID="0x0"/>
+                    <Element Name="Blue" ID="0x1"/>
+                    <Element Name="Orange" ID="0x2"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/AreaAttributes.TXTR"/>
+    </Assets>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

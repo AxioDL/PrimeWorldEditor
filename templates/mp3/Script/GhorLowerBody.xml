@@ -1,104 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>GhorLowerBody</name>
-    <modules>
-        <module>RSO_Ghor.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml"/>
-        <struct ID="0x42691490" template="Structs/AiDifficultySettings.xml"/>
-        <struct ID="0x99FD196F" type="multi">
-            <properties>
-                <property ID="0x531A8C85" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xE9865FC0" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0x9CE31FFA" type="string"/>
-                <property ID="0xFAF186B6" type="string"/>
-                <property ID="0x5D1949B5" type="string"/>
-                <struct ID="0xAEC7546E" type="multi">
-                    <properties>
-                        <struct ID="0x8B5DB983" template="Structs/GhorStructA.xml"/>
-                        <struct ID="0x04CDC6A6" template="Structs/GhorStructA.xml"/>
-                        <struct ID="0xE451D02C" template="Structs/GhorStructA.xml"/>
-                        <struct ID="0x72F708F2" template="Structs/GhorStructA.xml"/>
-                        <struct ID="0x8CB41734" template="Structs/GhorStructA.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0x810EC49A" template="Structs/GhorStructC.xml"/>
-                <property ID="0x9B98F8CE" type="MayaSpline"/>
-                <property ID="0x3D14FB8E" type="MayaSpline"/>
-                <property ID="0x13D02889" type="string"/>
-                <property ID="0x4A744859" type="MayaSpline"/>
-                <property ID="0x9B2EA489" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0xD0475191" type="float">
-                    <default>14.0</default>
-                </property>
-                <struct ID="0x56C192F3" template="Structs/ShockWaveInfo.xml"/>
-                <struct ID="0xF55A1548" template="Structs/ShockWaveInfo.xml"/>
-                <property ID="0x8554E360" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xC51B9B16" type="float">
-                    <default>50.0</default>
-                </property>
-                <property ID="0xAFECAB12" type="float">
-                    <default>40.0</default>
-                </property>
-                <property ID="0x7CC59B31" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xD6AAD996" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xA31D0055" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x9AE279DA" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xB39C84C2" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x2A35593B" type="float">
-                    <default>8.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0x8B5DB983:0xF8BEDB63</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0x8B5DB983:0x1D5CCC2D</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0x04CDC6A6:0xF8BEDB63</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0x04CDC6A6:0x1D5CCC2D</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0xE451D02C:0xF8BEDB63</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0xE451D02C:0x1D5CCC2D</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0x72F708F2:0xF8BEDB63</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0x72F708F2:0x1D5CCC2D</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0x8CB41734:0xF8BEDB63</model>
-            <model source="property">0x99FD196F:0xAEC7546E:0x8CB41734:0x1D5CCC2D</model>
-            <model source="property">0x99FD196F:0x810EC49A:0xC27FFA8F</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_Ghor.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>GhorLowerBody</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x42691490" Archetype="AiDifficultySettings"/>
+            <Element Type="Struct" ID="0x99FD196F" Archetype="UnknownStruct36"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0x8B5DB983:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0x8B5DB983:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0x04CDC6A6:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0x04CDC6A6:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0xE451D02C:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0xE451D02C:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0x72F708F2:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0x72F708F2:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0x8CB41734:0xF8BEDB63"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0xAEC7546E:0x8CB41734:0x1D5CCC2D"/>
+        <Element Type="Model" Source="Property" Location="0x99FD196F:0x810EC49A:0xC27FFA8F"/>
+    </Assets>
+</ScriptObject>

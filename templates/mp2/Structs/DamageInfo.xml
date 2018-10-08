@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="DamageInfo" type="multi">
-    <properties>
-        <enum ID="0x119FBD31" template="Enums/WeaponType.xml">
-            <default>0x00000000</default>
-        </enum>
-        <property ID="0xF2D02613" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xEE1BE914" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x555FF80A" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>DamageInfo</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x119FBD31" Archetype="WeaponType"/>
+            <Element Type="Float" ID="0xF2D02613">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEE1BE914">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x555FF80A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

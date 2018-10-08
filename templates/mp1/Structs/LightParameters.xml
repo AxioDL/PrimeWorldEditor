@@ -1,36 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LightParameters" type="multi">
-    <properties>
-        <property ID="0x00" name="Unknown 1" type="bool"/>
-        <property ID="0x01" name="Unknown 2" type="float"/>
-        <property ID="0x02" name="Shadow Tessellation" type="long"/>
-        <property ID="0x03" name="Unknown 3" type="float"/>
-        <property ID="0x04" name="Unknown 4" type="float"/>
-        <property ID="0x05" name="Unknown 5" type="color"/>
-        <property ID="0x06" name="Unknown 6" type="bool"/>
-        <enum ID="0x07" name="World Lighting Options">
-            <enumerators>
-                <enumerator ID="0x00" name="Unknown 1"/>
-                <enumerator ID="0x01" name="Normal World Lighting"/>
-                <enumerator ID="0x02" name="Unknown 2"/>
-                <enumerator ID="0x03" name="Disable World Lighting"/>
-                <enumerator ID="0x04" name="Unknown 3"/>
-                <enumerator ID="0x05" name="Unknown 4"/>
-            </enumerators>
-        </enum>
-        <enum ID="0x08" name="Light Recalculation Options">
-            <description>Interval between light recalculation updates.</description>
-            <enumerators>
-                <enumerator ID="0x00" name="Never"/>
-                <enumerator ID="0x01" name="8 Frames"/>
-                <enumerator ID="0x02" name="4 Frames"/>
-                <enumerator ID="0x03" name="Every Frame"/>
-            </enumerators>
-        </enum>
-        <property ID="0x09" name="Unknown 7" type="vector3f"/>
-        <property ID="0x0A" name="Unknown 8" type="long"/>
-        <property ID="0x0B" name="Unknown 9" type="long"/>
-        <property ID="0x0C" name="Unknown 10" type="bool"/>
-        <property ID="0x0D" name="Light Layer Index" type="long"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>LightParameters</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x0">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Int" ID="0x2">
+                <Name>Shadow Tessellation</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Color" ID="0x5">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Bool" ID="0x6">
+                <Name>Unknown 6</Name>
+            </Element>
+            <Element Type="Enum" ID="0x7">
+                <Name>World Lighting Options</Name>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x0"/>
+                    <Element Name="Normal World Lighting" ID="0x1"/>
+                    <Element Name="Unknown 2" ID="0x2"/>
+                    <Element Name="Disable World Lighting" ID="0x3"/>
+                    <Element Name="Unknown 3" ID="0x4"/>
+                    <Element Name="Unknown 4" ID="0x5"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0x8">
+                <Name>Light Recalculation Options</Name>
+                <Description>Interval between light recalculation updates.</Description>
+                <Values>
+                    <Element Name="Never" ID="0x0"/>
+                    <Element Name="8 Frames" ID="0x1"/>
+                    <Element Name="4 Frames" ID="0x2"/>
+                    <Element Name="Every Frame" ID="0x3"/>
+                </Values>
+            </Element>
+            <Element Type="Vector" ID="0x9">
+                <Name>Unknown 7</Name>
+            </Element>
+            <Element Type="Int" ID="0xA">
+                <Name>Unknown 8</Name>
+            </Element>
+            <Element Type="Int" ID="0xB">
+                <Name>Unknown 9</Name>
+            </Element>
+            <Element Type="Bool" ID="0xC">
+                <Name>Unknown 10</Name>
+            </Element>
+            <Element Type="Int" ID="0xD">
+                <Name>Light Layer Index</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

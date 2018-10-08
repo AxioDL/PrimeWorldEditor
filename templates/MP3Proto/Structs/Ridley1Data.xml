@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>Ridley1Data</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xCCF0CC68">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9CF6186B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAFA0D295">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB93E46E5">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xE82166DB" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x1AAE3DB5" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Struct" ID="0x36307B98" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xBF4F8D8C">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xAB46A8C3">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF616D87B">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xFAB0199E" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xB5194095">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD55917A9" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xDDD0212A">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6BB8E35C" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xF4C13980">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x47D4427E" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xA4CB7B3C">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x742287F5" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xBE3B8E93">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x77EDD892" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xBD56E50">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x67DD641E">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xB6C739D2" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x51FB4542">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x79350AC0" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xCA7F8A50">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x4FA2BCE1">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC34287E4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6F888688">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

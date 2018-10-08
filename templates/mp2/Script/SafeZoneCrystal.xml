@@ -1,82 +1,146 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SafeZoneCrystal</name>
-    <modules>
-        <module>ScriptSafeZone.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xD29C031D" template="Structs/ActorParameters.xml"/>
-        <property ID="0x9B8B3323" type="asset" extensions="SCAN"/>
-        <property ID="0xE36E20A7" type="asset" extensions="SCAN"/>
-        <property ID="0xAC794DA8" type="asset" extensions="SCAN"/>
-        <property ID="0xC21F264F" type="asset" extensions="SCAN"/>
-        <property ID="0x1115FB68" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xA0D9E87F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x42A046C2" type="asset" extensions="PART"/>
-        <property ID="0x5B91FF38" type="asset" extensions="PART"/>
-        <property ID="0x5B8275BC" type="asset" extensions="PART"/>
-        <property ID="0xADACEC90" type="asset" extensions="PART"/>
-        <property ID="0x0D2E4AD3" type="asset" extensions="PART"/>
-        <property ID="0x71EFFFC4" type="asset" extensions="CMDL"/>
-        <property ID="0xC3DD9B75" type="asset" extensions="CMDL"/>
-        <property ID="0xF1F3D90F" type="asset" extensions="CMDL"/>
-        <property ID="0x1E864B83" type="asset" extensions="CMDL"/>
-        <property ID="0xBD30F7A3" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xA7BDC4F8" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xF0A45C32" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xD8116003" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x415046ED" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0xEC9C01B2" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x545540E5" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x5490E214" type="asset" extensions="PART"/>
-        <property ID="0x887E8A8B" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xB7F5646D" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x41B72B2C" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xBBBEE60B" type="MayaSpline"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <model source="property">0xD29C031D:0xC0BA9E18</model>
-            <model source="property">0xD29C031D:0x6B1FBC3A</model>
-            <model source="property">0x71EFFFC4</model>
-            <model source="property">0xF1F3D90F</model>
-            <model source="property">0x1E864B83</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>ScriptSafeZone.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>SafeZoneCrystal</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xD29C031D" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0x9B8B3323">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE36E20A7">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAC794DA8">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC21F264F">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x1115FB68">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA0D9E87F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x42A046C2">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5B91FF38">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5B8275BC">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xADACEC90">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD2E4AD3">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x71EFFFC4">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC3DD9B75">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF1F3D90F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1E864B83">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xBD30F7A3">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA7BDC4F8">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0A45C32">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD8116003">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x415046ED">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEC9C01B2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x545540E5">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x5490E214">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0x887E8A8B">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xB7F5646D">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x41B72B2C">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xBBBEE60B"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Model" Source="Property" Location="0xD29C031D:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0xD29C031D:0x6B1FBC3A"/>
+        <Element Type="Model" Source="Property" Location="0x71EFFFC4"/>
+        <Element Type="Model" Source="Property" Location="0xF1F3D90F"/>
+        <Element Type="Model" Source="Property" Location="0x1E864B83"/>
+    </Assets>
+</ScriptObject>

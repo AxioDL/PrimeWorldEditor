@@ -1,120 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>MediumIng</name>
-    <modules>
-        <module>GeomBlobV2.rel</module>
-        <module>MediumIng.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x020C78BB">
-                    <default>360.0</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>150.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0xC96AE3DF" type="long">
-            <default>0</default>
-        </property>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x9579B1F2" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0x4D1D840D" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0xD189A7AA" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xF3EA2DEF" type="float">
-            <default>20.0</default>
-        </property>
-        <struct ID="0xC9416034" template="Structs/DamageInfo.xml"/>
-        <property ID="0x636F11E5" type="float">
-            <default>10.0</default>
-        </property>
-        <struct ID="0xD2254430" template="Structs/DamageInfo.xml"/>
-        <property ID="0xB787F412" type="float">
-            <default>10.0</default>
-        </property>
-        <struct ID="0x49C8D0C7" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x15294900" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x9D3CFEB0" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0xDC2BC136" type="float">
-            <default>30.0</default>
-        </property>
-        <property ID="0x74FFED99" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x35E8D21F" type="float">
-            <default>40.0</default>
-        </property>
-        <property ID="0xB93573F7" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x8F1D597C" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x7A9F8249" type="character"/>
-        <struct ID="0x38CF133B" template="Structs/ActorParameters.xml"/>
-        <property ID="0x0767060D" type="MayaSpline"/>
-        <struct ID="0x0E6B1E70" template="Structs/CameraShakerData.xml"/>
-        <struct ID="0xF683FE08" template="Structs/DamageInfo.xml"/>
-        <property ID="0xA77F6212" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0x9CF01473" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xBD3EFE7D" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xD24B888F" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xB459C3E9" type="MayaSpline"/>
-        <property ID="0x323E4ED0" type="MayaSpline"/>
-        <property ID="0x079BC576" type="asset" extensions="PART"/>
-        <property ID="0x7CB63CD3" type="sound"/>
-        <property ID="0x0E3D3708" type="float">
-            <default>50.0</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <animparams source="property">0x7A9F8249</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-            <model source="property">0x38CF133B:0xC0BA9E18</model>
-            <model source="property">0x38CF133B:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>GeomBlobV2.rel</Element>
+        <Element>MediumIng.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>MediumIng</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>360.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>150.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Int" ID="0xC96AE3DF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Float" ID="0x9579B1F2">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D1D840D">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD189A7AA">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF3EA2DEF">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC9416034" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x636F11E5">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD2254430" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xB787F412">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x49C8D0C7" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x15294900">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9D3CFEB0">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDC2BC136">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x74FFED99">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x35E8D21F">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB93573F7">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F1D597C">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0x7A9F8249"/>
+            <Element Type="Struct" ID="0x38CF133B" Archetype="ActorParameters"/>
+            <Element Type="Spline" ID="0x767060D"/>
+            <Element Type="Struct" ID="0xE6B1E70" Archetype="CameraShakerData"/>
+            <Element Type="Struct" ID="0xF683FE08" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xA77F6212">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9CF01473">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xBD3EFE7D">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD24B888F">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xB459C3E9"/>
+            <Element Type="Spline" ID="0x323E4ED0"/>
+            <Element Type="Asset" ID="0x79BC576">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0x7CB63CD3">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE3D3708">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="AnimParams" Source="Property" Location="0x7A9F8249"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+        <Element Type="Model" Source="Property" Location="0x38CF133B:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x38CF133B:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

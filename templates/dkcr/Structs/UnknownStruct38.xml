@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct38" type="multi">
-    <properties>
-        <property ID="0xDBB13E19" type="vector3f">
-            <default>30.0, 30.0, 30.0</default>
-        </property>
-        <property ID="0x458F7B04" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0xA6A1CD8F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x3D233E53" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xA4AB00A8" type="float">
-            <default>0.5</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct38</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0xDBB13E19">
+                <DefaultValue>
+                    <X>30.0</X>
+                    <Y>30.0</Y>
+                    <Z>30.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x458F7B04">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA6A1CD8F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D233E53">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA4AB00A8">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

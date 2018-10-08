@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>PathType</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xF4AC7CAA">
+                <DefaultValue>0x8C1B1D20</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB9B7640F"/>
+                    <Element Name="Unknown 2" ID="0x461A0618"/>
+                    <Element Name="Unknown 3" ID="0xC1EC6DF9"/>
+                    <Element Name="Unknown 4" ID="0x8C1B1D20"/>
+                    <Element Name="Unknown 5" ID="0xDD1CFE2B"/>
+                    <Element Name="Unknown 6" ID="0x42187338"/>
+                    <Element Name="Unknown 7" ID="0x65A7B650"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

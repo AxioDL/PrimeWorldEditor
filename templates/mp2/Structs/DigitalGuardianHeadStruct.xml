@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="DigitalGuardianHeadStruct" type="multi">
-    <properties>
-        <property ID="0xD20288A4" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0x75DC92BC" type="float">
-            <default>1.25</default>
-        </property>
-        <property ID="0x9E1C3F6C" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xFDFCA535" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xCD03632C" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xF1548397" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xF967E246" type="float">
-            <default>25.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>DigitalGuardianHeadStruct</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xD20288A4">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75DC92BC">
+                <DefaultValue>1.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9E1C3F6C">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFDFCA535">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCD03632C">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF1548397">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF967E246">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

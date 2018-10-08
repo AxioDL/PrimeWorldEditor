@@ -1,54 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>AuroraUnit1</name>
-    <modules>
-        <module>RSO_AuroraUnit1.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x020C78BB">
-                    <default>360.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x93AEDAC3" template="Structs/AuroraUnit1Data.xml"/>
-        <struct ID="0x867AB15E" template="Structs/AuroraUnit1Data.xml"/>
-        <struct ID="0xB3C5F11B" template="Structs/AuroraUnit1Data.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0x93AEDAC3:0x5B514E8C:0xC107A48A</animparams>
-            <animparams source="property">0x93AEDAC3:0x5B514E8C:0xA229FF6A</animparams>
-            <animparams source="property">0x867AB15E:0x5B514E8C:0xC107A48A</animparams>
-            <animparams source="property">0x867AB15E:0x5B514E8C:0xA229FF6A</animparams>
-            <animparams source="property">0xB3C5F11B:0x5B514E8C:0xC107A48A</animparams>
-            <animparams source="property">0xB3C5F11B:0x5B514E8C:0xA229FF6A</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <model source="property">0x93AEDAC3:0x073842E7</model>
-            <model source="property">0x93AEDAC3:0xDDD72AAD</model>
-            <model source="property">0x93AEDAC3:0x828C2238:0xDC89CC3C:0x2245A396</model>
-            <model source="property">0x867AB15E:0x073842E7</model>
-            <model source="property">0x867AB15E:0xDDD72AAD</model>
-            <model source="property">0x867AB15E:0x828C2238:0xDC89CC3C:0x2245A396</model>
-            <model source="property">0xB3C5F11B:0x073842E7</model>
-            <model source="property">0xB3C5F11B:0xDDD72AAD</model>
-            <model source="property">0xB3C5F11B:0x828C2238:0xDC89CC3C:0x2245A396</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_AuroraUnit1.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>AuroraUnit1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>360.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x93AEDAC3" Archetype="AuroraUnit1Data"/>
+            <Element Type="Struct" ID="0x867AB15E" Archetype="AuroraUnit1Data"/>
+            <Element Type="Struct" ID="0xB3C5F11B" Archetype="AuroraUnit1Data"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x93AEDAC3:0x5B514E8C:0xC107A48A"/>
+        <Element Type="AnimParams" Source="Property" Location="0x93AEDAC3:0x5B514E8C:0xA229FF6A"/>
+        <Element Type="AnimParams" Source="Property" Location="0x867AB15E:0x5B514E8C:0xC107A48A"/>
+        <Element Type="AnimParams" Source="Property" Location="0x867AB15E:0x5B514E8C:0xA229FF6A"/>
+        <Element Type="AnimParams" Source="Property" Location="0xB3C5F11B:0x5B514E8C:0xC107A48A"/>
+        <Element Type="AnimParams" Source="Property" Location="0xB3C5F11B:0x5B514E8C:0xA229FF6A"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Model" Source="Property" Location="0x93AEDAC3:0x073842E7"/>
+        <Element Type="Model" Source="Property" Location="0x93AEDAC3:0xDDD72AAD"/>
+        <Element Type="Model" Source="Property" Location="0x93AEDAC3:0x828C2238:0xDC89CC3C:0x2245A396"/>
+        <Element Type="Model" Source="Property" Location="0x867AB15E:0x073842E7"/>
+        <Element Type="Model" Source="Property" Location="0x867AB15E:0xDDD72AAD"/>
+        <Element Type="Model" Source="Property" Location="0x867AB15E:0x828C2238:0xDC89CC3C:0x2245A396"/>
+        <Element Type="Model" Source="Property" Location="0xB3C5F11B:0x073842E7"/>
+        <Element Type="Model" Source="Property" Location="0xB3C5F11B:0xDDD72AAD"/>
+        <Element Type="Model" Source="Property" Location="0xB3C5F11B:0x828C2238:0xDC89CC3C:0x2245A396"/>
+    </Assets>
+</ScriptObject>

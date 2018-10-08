@@ -1,52 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>ActorMultiKeyframe</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x1FE44C3A" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x48B5B2A2" type="multi">
-            <properties>
-                <property ID="0x8DAA8422" type="long">
-                    <default>0</default>
-                </property>
-                <struct ID="0xE2DB9114" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x085D4C76" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xE70FFA97" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x0621F0F3" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xE9734612" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x03F59B70" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xECA72D91" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x1AD889F9" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xF58A3F18" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xDA6BA7AD" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x3539114C" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xDFBFCC2E" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x30ED7ACF" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xD1C370AB" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x3E91C64A" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xD4171B28" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x3B45ADC9" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0xCD3A09A1" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x2268BF40" template="Structs/ActorMultiKeyframeStruct.xml"/>
-                <struct ID="0x793D2104" template="Structs/ActorMultiKeyframeStruct.xml"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>ActorMultiKeyframe</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Bool" ID="0x1FE44C3A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x48B5B2A2" Archetype="ActorMultiKeyframeData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

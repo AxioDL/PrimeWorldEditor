@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="BarrelCannonEnum">
-    <enumerators>
-        <enumerator ID="0x1923DFB0" name="Unknown 1"/>
-        <enumerator ID="0xA61445EB" name="Unknown 2"/>
-        <enumerator ID="0x1CD43817" name="Unknown 3"/>
-        <enumerator ID="0x0009FA85" name="Unknown 4"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>BarrelCannonEnum</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="Unknown 1" ID="0x1923DFB0"/>
+            <Element Name="Unknown 2" ID="0xA61445EB"/>
+            <Element Name="Unknown 3" ID="0x1CD43817"/>
+            <Element Name="Unknown 4" ID="0x9FA85"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

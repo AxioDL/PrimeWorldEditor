@@ -1,38 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PowerBombGuardianStageProperties" type="multi">
-    <properties>
-        <property ID="0x95E7A2C2" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x76BA1C18" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x3EB2DE35" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xE50D8DD2" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x64D482D5" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xC3E002AC" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xBB4B6680" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xD356C997" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xCA6AC43A" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x87CC8BA4" type="long">
-            <default>10</default>
-        </property>
-        <property ID="0x6491357E" type="long">
-            <default>10</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>PowerBombGuardianStageProperties</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x95E7A2C2">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76BA1C18">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3EB2DE35">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE50D8DD2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x64D482D5">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC3E002AC">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBB4B6680">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD356C997">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCA6AC43A">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x87CC8BA4">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6491357E">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

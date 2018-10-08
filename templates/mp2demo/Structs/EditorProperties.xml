@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="EditorProperties" type="multi">
-    <properties>
-        <property ID="0x494E414D" type="string"/>
-        <struct ID="0x5846524D" template="Structs/Transform.xml"/>
-        <property ID="0x41435456" type="bool">
-            <default>true</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>EditorProperties</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x494E414D"/>
+            <Element Type="Struct" ID="0x5846524D" Archetype="Transform"/>
+            <Element Type="Bool" ID="0x41435456">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

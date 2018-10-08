@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="Item">
-    <enumerators>
-        <enumerator ID="0x00" name="Power Beam"/>
-        <enumerator ID="0x01" name="Ice Beam"/>
-        <enumerator ID="0x02" name="Wave Beam"/>
-        <enumerator ID="0x03" name="Plasma Beam"/>
-        <enumerator ID="0x04" name="Missile"/>
-        <enumerator ID="0x05" name="Scan Visor"/>
-        <enumerator ID="0x06" name="Morph Ball Bomb"/>
-        <enumerator ID="0x07" name="Power Bomb"/>
-        <enumerator ID="0x08" name="Flamethrower"/>
-        <enumerator ID="0x09" name="Thermal Visor"/>
-        <enumerator ID="0x0A" name="Charge Beam"/>
-        <enumerator ID="0x0B" name="Super Missile"/>
-        <enumerator ID="0x0C" name="Grapple Beam"/>
-        <enumerator ID="0x0D" name="X-Ray Visor"/>
-        <enumerator ID="0x0E" name="Ice Spreader"/>
-        <enumerator ID="0x0F" name="Space Jump Boots"/>
-        <enumerator ID="0x10" name="Morph Ball"/>
-        <enumerator ID="0x11" name="Combat Visor"/>
-        <enumerator ID="0x12" name="Boost Ball"/>
-        <enumerator ID="0x13" name="Spider Ball"/>
-        <enumerator ID="0x14" name="Power Suit"/>
-        <enumerator ID="0x15" name="Gravity Suit"/>
-        <enumerator ID="0x16" name="Varia Suit"/>
-        <enumerator ID="0x17" name="Phazon Suit"/>
-        <enumerator ID="0x18" name="Energy Tank"/>
-        <enumerator ID="0x19" name="Unknown Item 1"/>
-        <enumerator ID="0x1A" name="Health Refill"/>
-        <enumerator ID="0x1B" name="Unknown Item 2"/>
-        <enumerator ID="0x1C" name="Wavebuster"/>
-        <enumerator ID="0x1D" name="Artifact of Truth"/>
-        <enumerator ID="0x1E" name="Artifact of Strength"/>
-        <enumerator ID="0x1F" name="Artifact of Elder"/>
-        <enumerator ID="0x20" name="Artifact of Wild"/>
-        <enumerator ID="0x21" name="Artifact of Lifegiver"/>
-        <enumerator ID="0x22" name="Artifact of Warrior"/>
-        <enumerator ID="0x23" name="Artifact of Chozo"/>
-        <enumerator ID="0x24" name="Artifact of Nature"/>
-        <enumerator ID="0x25" name="Artifact of Sun"/>
-        <enumerator ID="0x26" name="Artifact of World"/>
-        <enumerator ID="0x27" name="Artifact of Spirit"/>
-        <enumerator ID="0x28" name="Artifact of Newborn"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Enum">
+        <Name>Item</Name>
+        <Values>
+            <Element Name="Power Beam" ID="0x0"/>
+            <Element Name="Ice Beam" ID="0x1"/>
+            <Element Name="Wave Beam" ID="0x2"/>
+            <Element Name="Plasma Beam" ID="0x3"/>
+            <Element Name="Missile" ID="0x4"/>
+            <Element Name="Scan Visor" ID="0x5"/>
+            <Element Name="Morph Ball Bomb" ID="0x6"/>
+            <Element Name="Power Bomb" ID="0x7"/>
+            <Element Name="Flamethrower" ID="0x8"/>
+            <Element Name="Thermal Visor" ID="0x9"/>
+            <Element Name="Charge Beam" ID="0xA"/>
+            <Element Name="Super Missile" ID="0xB"/>
+            <Element Name="Grapple Beam" ID="0xC"/>
+            <Element Name="X-Ray Visor" ID="0xD"/>
+            <Element Name="Ice Spreader" ID="0xE"/>
+            <Element Name="Space Jump Boots" ID="0xF"/>
+            <Element Name="Morph Ball" ID="0x10"/>
+            <Element Name="Combat Visor" ID="0x11"/>
+            <Element Name="Boost Ball" ID="0x12"/>
+            <Element Name="Spider Ball" ID="0x13"/>
+            <Element Name="Power Suit" ID="0x14"/>
+            <Element Name="Gravity Suit" ID="0x15"/>
+            <Element Name="Varia Suit" ID="0x16"/>
+            <Element Name="Phazon Suit" ID="0x17"/>
+            <Element Name="Energy Tank" ID="0x18"/>
+            <Element Name="Unknown Item 1" ID="0x19"/>
+            <Element Name="Health Refill" ID="0x1A"/>
+            <Element Name="Unknown Item 2" ID="0x1B"/>
+            <Element Name="Wavebuster" ID="0x1C"/>
+            <Element Name="Artifact of Truth" ID="0x1D"/>
+            <Element Name="Artifact of Strength" ID="0x1E"/>
+            <Element Name="Artifact of Elder" ID="0x1F"/>
+            <Element Name="Artifact of Wild" ID="0x20"/>
+            <Element Name="Artifact of Lifegiver" ID="0x21"/>
+            <Element Name="Artifact of Warrior" ID="0x22"/>
+            <Element Name="Artifact of Chozo" ID="0x23"/>
+            <Element Name="Artifact of Nature" ID="0x24"/>
+            <Element Name="Artifact of Sun" ID="0x25"/>
+            <Element Name="Artifact of World" ID="0x26"/>
+            <Element Name="Artifact of Spirit" ID="0x27"/>
+            <Element Name="Artifact of Newborn" ID="0x28"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

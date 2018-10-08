@@ -79,12 +79,16 @@ void CStructProperty::Serialize(IArchive& rArc)
     IProperty::Serialize(rArc);
 
     // Serialize atomic flag
-    bool Atomic = IsAtomic();
-    rArc << SerialParameter("Atomic", Atomic, SH_Optional, false);
-
-    if (rArc.IsReader() && Atomic)
+    // Only serialize this if we don't have an archetype. Otherwise we just inherit the archetype's atomic flag.
+    if (!mpArchetype)
     {
-        mFlags.SetFlag(EPropertyFlag::IsAtomic);
+        bool Atomic = IsAtomic();
+        rArc << SerialParameter("Atomic", Atomic, SH_Optional, false);
+
+        if (rArc.IsReader() && Atomic)
+        {
+            mFlags.SetFlag(EPropertyFlag::IsAtomic);
+        }
     }
 
     // Serialize archetype

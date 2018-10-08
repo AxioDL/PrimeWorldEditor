@@ -1,178 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SeedBoss3</name>
-    <modules>
-        <module>RSO_SeedBoss3.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xFD27ED67" template="Structs/SeedBoss3Data.xml"/>
-        <struct ID="0x5292969E" template="Structs/SeedBoss3Data.xml"/>
-        <struct ID="0xCF9D77E8" template="Structs/SeedBoss3Data.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x75DBB375">
-                    <default>1000.0</default>
-                </property>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>0.1</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xE0CDC7E3">
-                    <default>0.01</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>500.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-                <property ID="0x020C78BB">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x6D892893">
-                    <default>false</default>
-                </property>
-                <property ID="0x40AB00FA">
-                    <default>0.0, 2.0, -0.5</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x5C056CEF" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x75DBB375">
-                    <default>1000.0</default>
-                </property>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>0.1</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xE0CDC7E3">
-                    <default>0.01</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>500.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-                <property ID="0x020C78BB">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x6D892893">
-                    <default>false</default>
-                </property>
-                <property ID="0x40AB00FA">
-                    <default>0.0, 2.0, -0.5</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x8BE7ECB7" template="Structs/PatternedAI.xml">
-            <properties>
-                <property ID="0x75DBB375">
-                    <default>1000.0</default>
-                </property>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>0.1</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xE0CDC7E3">
-                    <default>0.01</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>500.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>2</default>
-                </property>
-                <property ID="0x020C78BB">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x6D892893">
-                    <default>false</default>
-                </property>
-                <property ID="0x40AB00FA">
-                    <default>0.0, 2.0, -0.5</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0x5C056CEF:0xA244C9D8</animparams>
-            <animparams source="property">0x8BE7ECB7:0xA244C9D8</animparams>
-            <model source="property">0xFD27ED67:0x4802ADD9:0x476D50F2</model>
-            <model source="property">0xFD27ED67:0xA00B9AC3:0x8E13F1F6</model>
-            <model source="property">0xFD27ED67:0xA00B9AC3:0x69A25F05</model>
-            <model source="property">0xFD27ED67:0xA00B9AC3:0x0A366C12</model>
-            <model source="property">0xFD27ED67:0xA00B9AC3:0x03B5981C</model>
-            <model source="property">0xFD27ED67:0xA00B9AC3:0xBB5658B3</model>
-            <model source="property">0x5292969E:0x4802ADD9:0x476D50F2</model>
-            <model source="property">0x5292969E:0xA00B9AC3:0x8E13F1F6</model>
-            <model source="property">0x5292969E:0xA00B9AC3:0x69A25F05</model>
-            <model source="property">0x5292969E:0xA00B9AC3:0x0A366C12</model>
-            <model source="property">0x5292969E:0xA00B9AC3:0x03B5981C</model>
-            <model source="property">0x5292969E:0xA00B9AC3:0xBB5658B3</model>
-            <model source="property">0xCF9D77E8:0x4802ADD9:0x476D50F2</model>
-            <model source="property">0xCF9D77E8:0xA00B9AC3:0x8E13F1F6</model>
-            <model source="property">0xCF9D77E8:0xA00B9AC3:0x69A25F05</model>
-            <model source="property">0xCF9D77E8:0xA00B9AC3:0x0A366C12</model>
-            <model source="property">0xCF9D77E8:0xA00B9AC3:0x03B5981C</model>
-            <model source="property">0xCF9D77E8:0xA00B9AC3:0xBB5658B3</model>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_SeedBoss3.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>SeedBoss3</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xFD27ED67" Archetype="SeedBoss3Data"/>
+            <Element Type="Struct" ID="0x5292969E" Archetype="SeedBoss3Data"/>
+            <Element Type="Struct" ID="0xCF9D77E8" Archetype="SeedBoss3Data"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x75DBB375">
+                        <DefaultValue>1000.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>0.1</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xE0CDC7E3">
+                        <DefaultValue>0.0099999998</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>500.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Bool" ID="0x6D892893">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                    <Element Type="Vector" ID="0x40AB00FA">
+                        <DefaultValue>
+                            <X>0.0</X>
+                            <Y>2.0</Y>
+                            <Z>-0.5</Z>
+                        </DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x5C056CEF" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x75DBB375">
+                        <DefaultValue>1000.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>0.1</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xE0CDC7E3">
+                        <DefaultValue>0.0099999998</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>500.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Bool" ID="0x6D892893">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                    <Element Type="Vector" ID="0x40AB00FA">
+                        <DefaultValue>
+                            <X>0.0</X>
+                            <Y>2.0</Y>
+                            <Z>-0.5</Z>
+                        </DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x8BE7ECB7" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Float" ID="0x75DBB375">
+                        <DefaultValue>1000.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>0.1</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xE0CDC7E3">
+                        <DefaultValue>0.0099999998</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>500.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Bool" ID="0x6D892893">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                    <Element Type="Vector" ID="0x40AB00FA">
+                        <DefaultValue>
+                            <X>0.0</X>
+                            <Y>2.0</Y>
+                            <Z>-0.5</Z>
+                        </DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x5C056CEF:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x8BE7ECB7:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0xFD27ED67:0x4802ADD9:0x476D50F2"/>
+        <Element Type="Model" Source="Property" Location="0xFD27ED67:0xA00B9AC3:0x8E13F1F6"/>
+        <Element Type="Model" Source="Property" Location="0xFD27ED67:0xA00B9AC3:0x69A25F05"/>
+        <Element Type="Model" Source="Property" Location="0xFD27ED67:0xA00B9AC3:0x0A366C12"/>
+        <Element Type="Model" Source="Property" Location="0xFD27ED67:0xA00B9AC3:0x03B5981C"/>
+        <Element Type="Model" Source="Property" Location="0xFD27ED67:0xA00B9AC3:0xBB5658B3"/>
+        <Element Type="Model" Source="Property" Location="0x5292969E:0x4802ADD9:0x476D50F2"/>
+        <Element Type="Model" Source="Property" Location="0x5292969E:0xA00B9AC3:0x8E13F1F6"/>
+        <Element Type="Model" Source="Property" Location="0x5292969E:0xA00B9AC3:0x69A25F05"/>
+        <Element Type="Model" Source="Property" Location="0x5292969E:0xA00B9AC3:0x0A366C12"/>
+        <Element Type="Model" Source="Property" Location="0x5292969E:0xA00B9AC3:0x03B5981C"/>
+        <Element Type="Model" Source="Property" Location="0x5292969E:0xA00B9AC3:0xBB5658B3"/>
+        <Element Type="Model" Source="Property" Location="0xCF9D77E8:0x4802ADD9:0x476D50F2"/>
+        <Element Type="Model" Source="Property" Location="0xCF9D77E8:0xA00B9AC3:0x8E13F1F6"/>
+        <Element Type="Model" Source="Property" Location="0xCF9D77E8:0xA00B9AC3:0x69A25F05"/>
+        <Element Type="Model" Source="Property" Location="0xCF9D77E8:0xA00B9AC3:0x0A366C12"/>
+        <Element Type="Model" Source="Property" Location="0xCF9D77E8:0xA00B9AC3:0x03B5981C"/>
+        <Element Type="Model" Source="Property" Location="0xCF9D77E8:0xA00B9AC3:0xBB5658B3"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

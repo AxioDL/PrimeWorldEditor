@@ -1,97 +1,121 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Actor</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xF344C0B0" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x2E686C2A" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x75DBB375" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x2F2AE3E5" type="float">
-            <default>0.0</default>
-        </property>
-        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
-        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
-        <property ID="0x0FC966DC" type="asset" extensions="DCLN"/>
-        <property ID="0xA244C9D8" type="character"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xC08D1B93" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x1E32523E" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x1D8DD846" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x7859B520" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x32FAB97E" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x97687446" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x4743294F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x261E92A4" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xA09D4A1F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF3DE9311" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xAA49B627" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xB530D7DE" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xF8DF6CD2" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xC23011D9" type="MayaSpline"/>
-        <property ID="0xBF69C03E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
-        <struct ID="0x553B1339" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x9A892818" template="Structs/StaticGeometryTest.xml"/>
-        <property ID="0x850115E4" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xE73F123D" type="bool">
-            <default>true</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xA244C9D8</animparams>
-            <model source="property">0xC27FFA8F</model>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-            <collision source="property">0x0FC966DC</collision>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>Actor</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Vector" ID="0xF344C0B0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75DBB375">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F2AE3E5">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFC966DC">
+                <TypeFilter>
+                    <Element>DCLN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Bool" ID="0xC08D1B93">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1E32523E">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1D8DD846">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7859B520">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x32FAB97E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x97687446">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4743294F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x261E92A4">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA09D4A1F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF3DE9311">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAA49B627">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB530D7DE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF8DF6CD2">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xC23011D9"/>
+            <Element Type="Float" ID="0xBF69C03E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xEF485DB9">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x553B1339" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x9A892818" Archetype="StaticGeometryTest"/>
+            <Element Type="Vector" ID="0x850115E4">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE73F123D">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+        <Element Type="Collision" Source="Property" Location="0x0FC966DC"/>
+    </Assets>
+</ScriptObject>

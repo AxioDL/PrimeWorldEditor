@@ -1,49 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SpindleCamera</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x3BF4EBA8" type="long">
-            <default>6400</default>
-        </property>
-        <struct ID="0xE56495FB" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x239DEBFC" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x27E8D703" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x2F914525" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x23AA31B7" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0xE9E388AF" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0xDE5A2C87" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x1B3B2394" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0xF5666B6E" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x66C618AA" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0xB36D0FB6" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0xCBB013CB" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x4ABFB789" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0xFB6A407A" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x3AE66F80" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x6654AE92" template="Structs/SpindleCameraStruct.xml"/>
-        <struct ID="0x5604D304" template="Structs/SplineType.xml"/>
-        <property ID="0x33B4F106" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xC4DFBFA7" type="MayaSpline"/>
-        <struct ID="0x33E4685B" template="Structs/SplineType.xml"/>
-        <property ID="0x431769C6" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Properties Type="Struct">
+        <Name>SpindleCamera</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0x3BF4EBA8">
+                <DefaultValue>6400</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xE56495FB" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x239DEBFC" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x27E8D703" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x2F914525" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x23AA31B7" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0xE9E388AF" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0xDE5A2C87" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x1B3B2394" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0xF5666B6E" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x66C618AA" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0xB36D0FB6" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0xCBB013CB" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x4ABFB789" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0xFB6A407A" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x3AE66F80" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x6654AE92" Archetype="SpindleCameraStruct"/>
+            <Element Type="Struct" ID="0x5604D304" Archetype="SplineType"/>
+            <Element Type="Bool" ID="0x33B4F106">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xC4DFBFA7"/>
+            <Element Type="Struct" ID="0x33E4685B" Archetype="SplineType"/>
+            <Element Type="Bool" ID="0x431769C6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+</ScriptObject>

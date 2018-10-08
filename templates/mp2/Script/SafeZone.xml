@@ -1,229 +1,266 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SafeZone</name>
-    <modules>
-        <module>ScriptSafeZone.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x77A27411" template="Structs/TriggerInfo.xml"/>
-        <property ID="0x8D33465F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x1C453986" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xEAD3E22E" type="float">
-            <default>0.15</default>
-        </property>
-        <property ID="0xB5CDF196" type="float">
-            <default>0.15</default>
-        </property>
-        <property ID="0x32DC67F6" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xDE169DB0" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x9BE4BBD8" type="asset" extensions="PART"/>
-        <property ID="0x822118B4" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x414379EA" type="long">
-            <default>300</default>
-        </property>
-        <property ID="0x62BAC460" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xB4A293C7" template="Structs/SafeZoneStructB.xml"/>
-        <struct ID="0xDAE8C14E" template="Structs/SafeZoneStructB.xml">
-            <properties>
-                <property ID="0x521382C7">
-                    <default>0.04</default>
-                </property>
-                <property ID="0x1BE4426E">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x34B2A190">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xAD4715A8">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x1D7A1562">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xBC3A7FD1">
-                    <default>12.0</default>
-                </property>
-                <property ID="0x47B4E863">
-                    <default>1.0, 0.737255, 0.392157, 1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x6471D643" template="Structs/SafeZoneStructB.xml">
-            <properties>
-                <property ID="0x521382C7">
-                    <default>0.04</default>
-                </property>
-                <property ID="0x1BE4426E">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x34B2A190">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xAD4715A8">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x1D7A1562">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xBC3A7FD1">
-                    <default>12.0</default>
-                </property>
-                <property ID="0x47B4E863">
-                    <default>1.0, 0.0, 0.0, 1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xEEE2B188" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x00000014</default>
-                </enum>
-            </properties>
-        </struct>
-        <struct ID="0x78A13CA0" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x00000012</default>
-                </enum>
-            </properties>
-        </struct>
-        <property ID="0x08CCFFD0" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x7FEBBFE7" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x6C14904C" type="float">
-            <default>0.25</default>
-        </property>
-        <property ID="0x48B4B865" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x452F7876" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x4FAAC896" type="sound"/>
-        <property ID="0xD5869B0B" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x222A258E" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x6C90E396" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xA7963E03" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xE71B43E1" type="color">
-            <default>0.737255, 1.0, 1.0, 0.247059</default>
-        </property>
-        <property ID="0x9F638987" type="float">
-            <default>0.2</default>
-        </property>
-        <struct ID="0x8A09F99A" template="Structs/SafeZoneStructA.xml">
-            <properties>
-                <property ID="0x29C77D27">
-                    <default>false</default>
-                </property>
-                <property ID="0x09AD63DE">
-                    <default>1</default>
-                </property>
-                <property ID="0x37C7D09D">
-                    <default>0.737255, 1.0, 1.0, 1.0</default>
-                </property>
-                <struct ID="0x652008DA">
-                    <properties>
-                        <property ID="0xA1677D4E">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x6A3BAEEB">
-                            <default>750.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x29AB4727">
-                    <default>5.0</default>
-                </property>
-                <struct ID="0xCC8E0F98">
-                    <properties>
-                        <property ID="0xA1677D4E">
-                            <default>5000.0</default>
-                        </property>
-                        <property ID="0x6A3BAEEB">
-                            <default>5000.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0xAFB855B8" template="Structs/SafeZoneStructA.xml">
-            <properties>
-                <property ID="0x29C77D27">
-                    <default>false</default>
-                </property>
-                <property ID="0x09AD63DE">
-                    <default>1</default>
-                </property>
-                <property ID="0x37C7D09D">
-                    <default>0.0, 0.098039, 0.0, 0.0</default>
-                </property>
-                <struct ID="0x652008DA">
-                    <properties>
-                        <property ID="0xA1677D4E">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x6A3BAEEB">
-                            <default>1000.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x29AB4727">
-                    <default>5.0</default>
-                </property>
-                <struct ID="0xCC8E0F98">
-                    <properties>
-                        <property ID="0xA1677D4E">
-                            <default>5000.0</default>
-                        </property>
-                        <property ID="0x6A3BAEEB">
-                            <default>5000.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x4476BED8" template="Structs/EchoParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>volume</scale_type>
-        <preview_volume shape="Conditional" propertyID="0xD5869B0B">
-            <condition value="0x00" shape="Ellipsoid"/>
-            <condition value="0x01" shape="Cylinder" scale="2"/>
-        </preview_volume>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>ScriptSafeZone.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>SafeZone</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x77A27411" Archetype="TriggerInfo"/>
+            <Element Type="Bool" ID="0x8D33465F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1C453986">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEAD3E22E">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB5CDF196">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32DC67F6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDE169DB0">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x9BE4BBD8">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x822118B4">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x414379EA">
+                <DefaultValue>300</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x62BAC460">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB4A293C7" Archetype="SafeZoneStructB"/>
+            <Element Type="Struct" ID="0xDAE8C14E" Archetype="SafeZoneStructB">
+                <SubProperties>
+                    <Element Type="Float" ID="0x521382C7">
+                        <DefaultValue>0.039999999</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1BE4426E">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x34B2A190">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xAD4715A8">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1D7A1562">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xBC3A7FD1">
+                        <DefaultValue>12.0</DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x47B4E863">
+                        <DefaultValue>
+                            <R>1.0</R>
+                            <G>0.73725498</G>
+                            <B>0.39215699</B>
+                        </DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x6471D643" Archetype="SafeZoneStructB">
+                <SubProperties>
+                    <Element Type="Float" ID="0x521382C7">
+                        <DefaultValue>0.039999999</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1BE4426E">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x34B2A190">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xAD4715A8">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1D7A1562">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xBC3A7FD1">
+                        <DefaultValue>12.0</DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x47B4E863">
+                        <DefaultValue>
+                            <R>1.0</R>
+                            <G>0.0</G>
+                            <B>0.0</B>
+                        </DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xEEE2B188" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0x14</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x78A13CA0" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0x12</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x8CCFFD0">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7FEBBFE7">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6C14904C">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x48B4B865">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x452F7876">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x4FAAC896">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD5869B0B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x222A258E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6C90E396">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xA7963E03">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xE71B43E1">
+                <DefaultValue>
+                    <R>0.73725498</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                    <A>0.247059</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9F638987">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8A09F99A" Archetype="SafeZoneStructA">
+                <SubProperties>
+                    <Element Type="Bool" ID="0x29C77D27">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x9AD63DE">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x37C7D09D">
+                        <DefaultValue>
+                            <R>0.73725498</R>
+                            <G>1.0</G>
+                            <B>1.0</B>
+                        </DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x652008DA">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xA1677D4E">
+                                <DefaultValue>0.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x6A3BAEEB">
+                                <DefaultValue>750.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x29AB4727">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCC8E0F98">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xA1677D4E">
+                                <DefaultValue>5000.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x6A3BAEEB">
+                                <DefaultValue>5000.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xAFB855B8" Archetype="SafeZoneStructA">
+                <SubProperties>
+                    <Element Type="Bool" ID="0x29C77D27">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x9AD63DE">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x37C7D09D">
+                        <DefaultValue>
+                            <R>0.0</R>
+                            <G>0.098039001</G>
+                            <B>0.0</B>
+                            <A>0.0</A>
+                        </DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x652008DA">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xA1677D4E">
+                                <DefaultValue>0.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x6A3BAEEB">
+                                <DefaultValue>1000.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x29AB4727">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCC8E0F98">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xA1677D4E">
+                                <DefaultValue>5000.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x6A3BAEEB">
+                                <DefaultValue>5000.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x4476BED8" Archetype="EchoParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <ScaleType>ScaleVolume</ScaleType>
+    <VolumeShape>ConditionalShape</VolumeShape>
+    <VolumeConditionProperty>0xD5869B0B</VolumeConditionProperty>
+    <VolumeConditions>
+        <Element>
+            <Value>0</Value>
+            <Shape>EllipsoidShape</Shape>
+        </Element>
+        <Element>
+            <Value>1</Value>
+            <Shape>CylinderShape</Shape>
+            <Scale>2.0</Scale>
+        </Element>
+    </VolumeConditions>
+</ScriptObject>

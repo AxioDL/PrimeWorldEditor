@@ -1,61 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="GenericCreatureStructD" type="multi">
-    <properties>
-        <enum ID="0x13834D6F">
-            <default>0x9FEEEB59</default>
-            <enumerators>
-                <enumerator ID="0x7450E0A7" name="Unknown 1"/>
-                <enumerator ID="0x0721B723" name="Unknown 2"/>
-                <enumerator ID="0x0F53994B" name="Unknown 3"/>
-                <enumerator ID="0x8DD0BD6E" name="Unknown 4"/>
-                <enumerator ID="0x07F6E98B" name="Unknown 5"/>
-                <enumerator ID="0x5285CC76" name="Unknown 6"/>
-                <enumerator ID="0xD66B134B" name="Unknown 7"/>
-                <enumerator ID="0x95F61A50" name="Unknown 8"/>
-                <enumerator ID="0xE3F5C8E7" name="Unknown 9"/>
-                <enumerator ID="0x9FEEEB59" name="Unknown 10"/>
-                <enumerator ID="0x06E7BAE3" name="Unknown 11"/>
-                <enumerator ID="0x71E08A75" name="Unknown 12"/>
-                <enumerator ID="0xEF841FD6" name="Unknown 13"/>
-                <enumerator ID="0x98832F40" name="Unknown 14"/>
-                <enumerator ID="0x018A7EFA" name="Unknown 15"/>
-                <enumerator ID="0x768D4E6C" name="Unknown 16"/>
-                <enumerator ID="0xE63253FD" name="Unknown 17"/>
-                <enumerator ID="0x9135636B" name="Unknown 18"/>
-                <enumerator ID="0x083C32D1" name="Unknown 19"/>
-                <enumerator ID="0x7F3B0247" name="Unknown 20"/>
-                <enumerator ID="0xE15F97E4" name="Unknown 21"/>
-                <enumerator ID="0x9658A772" name="Unknown 22"/>
-                <enumerator ID="0x0F51F6C8" name="Unknown 23"/>
-                <enumerator ID="0x7856C65E" name="Unknown 24"/>
-                <enumerator ID="0xF55ECBAB" name="Unknown 25"/>
-                <enumerator ID="0x8259FB3D" name="Unknown 26"/>
-                <enumerator ID="0x1B50AA87" name="Unknown 27"/>
-                <enumerator ID="0x6C579A11" name="Unknown 28"/>
-                <enumerator ID="0xF2330FB2" name="Unknown 29"/>
-                <enumerator ID="0x85343F24" name="Unknown 30"/>
-                <enumerator ID="0x1C3D6E9E" name="Unknown 31"/>
-                <enumerator ID="0x6B3A5E08" name="Unknown 32"/>
-                <enumerator ID="0xFB854399" name="Unknown 33"/>
-                <enumerator ID="0x8C82730F" name="Unknown 34"/>
-                <enumerator ID="0x158B22B5" name="Unknown 35"/>
-            </enumerators>
-        </enum>
-        <enum ID="0xD18215AA">
-            <default>0xDED898E0</default>
-            <enumerators>
-                <enumerator ID="0xDED898E0" name="Unknown 1"/>
-                <enumerator ID="0x29BCEF3D" name="Unknown 2"/>
-            </enumerators>
-        </enum>
-        <enum ID="0x0B3F7A00">
-            <default>0x548C9FF3</default>
-            <enumerators>
-                <enumerator ID="0x548C9FF3" name="Unknown 1"/>
-                <enumerator ID="0xCD85CE49" name="Unknown 2"/>
-                <enumerator ID="0xBA82FEDF" name="Unknown 3"/>
-                <enumerator ID="0x24E66B7C" name="Unknown 4"/>
-            </enumerators>
-        </enum>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>GenericCreatureStructD</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x13834D6F">
+                <DefaultValue>0x9FEEEB59</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x7450E0A7"/>
+                    <Element Name="Unknown 2" ID="0x721B723"/>
+                    <Element Name="Unknown 3" ID="0xF53994B"/>
+                    <Element Name="Unknown 4" ID="0x8DD0BD6E"/>
+                    <Element Name="Unknown 5" ID="0x7F6E98B"/>
+                    <Element Name="Unknown 6" ID="0x5285CC76"/>
+                    <Element Name="Unknown 7" ID="0xD66B134B"/>
+                    <Element Name="Unknown 8" ID="0x95F61A50"/>
+                    <Element Name="Unknown 9" ID="0xE3F5C8E7"/>
+                    <Element Name="Unknown 10" ID="0x9FEEEB59"/>
+                    <Element Name="Unknown 11" ID="0x6E7BAE3"/>
+                    <Element Name="Unknown 12" ID="0x71E08A75"/>
+                    <Element Name="Unknown 13" ID="0xEF841FD6"/>
+                    <Element Name="Unknown 14" ID="0x98832F40"/>
+                    <Element Name="Unknown 15" ID="0x18A7EFA"/>
+                    <Element Name="Unknown 16" ID="0x768D4E6C"/>
+                    <Element Name="Unknown 17" ID="0xE63253FD"/>
+                    <Element Name="Unknown 18" ID="0x9135636B"/>
+                    <Element Name="Unknown 19" ID="0x83C32D1"/>
+                    <Element Name="Unknown 20" ID="0x7F3B0247"/>
+                    <Element Name="Unknown 21" ID="0xE15F97E4"/>
+                    <Element Name="Unknown 22" ID="0x9658A772"/>
+                    <Element Name="Unknown 23" ID="0xF51F6C8"/>
+                    <Element Name="Unknown 24" ID="0x7856C65E"/>
+                    <Element Name="Unknown 25" ID="0xF55ECBAB"/>
+                    <Element Name="Unknown 26" ID="0x8259FB3D"/>
+                    <Element Name="Unknown 27" ID="0x1B50AA87"/>
+                    <Element Name="Unknown 28" ID="0x6C579A11"/>
+                    <Element Name="Unknown 29" ID="0xF2330FB2"/>
+                    <Element Name="Unknown 30" ID="0x85343F24"/>
+                    <Element Name="Unknown 31" ID="0x1C3D6E9E"/>
+                    <Element Name="Unknown 32" ID="0x6B3A5E08"/>
+                    <Element Name="Unknown 33" ID="0xFB854399"/>
+                    <Element Name="Unknown 34" ID="0x8C82730F"/>
+                    <Element Name="Unknown 35" ID="0x158B22B5"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0xD18215AA">
+                <DefaultValue>0xDED898E0</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xDED898E0"/>
+                    <Element Name="Unknown 2" ID="0x29BCEF3D"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0xB3F7A00">
+                <DefaultValue>0x548C9FF3</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x548C9FF3"/>
+                    <Element Name="Unknown 2" ID="0xCD85CE49"/>
+                    <Element Name="Unknown 3" ID="0xBA82FEDF"/>
+                    <Element Name="Unknown 4" ID="0x24E66B7C"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

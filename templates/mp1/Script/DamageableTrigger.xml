@@ -1,44 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>DamageableTrigger</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Position" type="vector3f"/>
-        <property ID="0x02" name="Scale" type="vector3f"/>
-        <struct ID="0x03" name="HealthInfo" template="Structs/HealthInfo.xml"/>
-        <struct ID="0x04" name="DamageVulnerability" template="Structs/DamageVulnerability.xml"/>
-        <enum ID="0x05" name="Render Side">
-            <enumerators>
-                <enumerator ID="0x00" name="Don&apos;t Render"/>
-                <enumerator ID="0x01" name="North"/>
-                <enumerator ID="0x02" name="South"/>
-                <enumerator ID="0x04" name="West"/>
-                <enumerator ID="0x08" name="East"/>
-                <enumerator ID="0x10" name="Top"/>
-                <enumerator ID="0x20" name="Bottom"/>
-            </enumerators>
-        </enum>
-        <property ID="0x06" name="Texture 1" type="asset" extensions="TXTR"/>
-        <property ID="0x07" name="Texture 2" type="asset" extensions="TXTR"/>
-        <property ID="0x08" name="Texture 3" type="asset" extensions="TXTR"/>
-        <property ID="0x09" name="Enable Lock-On" type="bool"/>
-        <property ID="0x0A" name="Active" type="bool"/>
-        <struct ID="0x0B" name="VisorParameters" template="Structs/VisorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Position" ID="0x01"/>
-            <property name="Scale" ID="0x02"/>
-            <property name="Active" ID="0x0A"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/DamageableTrigger.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>volume</scale_type>
-        <preview_volume shape="Box"/>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>DamageableTrigger</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Vector" ID="0x1">
+                <Name>Position</Name>
+            </Element>
+            <Element Type="Vector" ID="0x2">
+                <Name>Scale</Name>
+            </Element>
+            <Element Type="Struct" ID="0x3" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x4" Archetype="DamageVulnerability"/>
+            <Element Type="Enum" ID="0x5">
+                <Name>Render Side</Name>
+                <Values>
+                    <Element Name="None" ID="0x0"/>
+                    <Element Name="North" ID="0x1"/>
+                    <Element Name="South" ID="0x2"/>
+                    <Element Name="West" ID="0x4"/>
+                    <Element Name="East" ID="0x8"/>
+                    <Element Name="Top" ID="0x10"/>
+                    <Element Name="Bottom" ID="0x20"/>
+                </Values>
+            </Element>
+            <Element Type="Asset" ID="0x6">
+                <Name>Texture 1</Name>
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7">
+                <Name>Texture 2</Name>
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8">
+                <Name>Texture 3</Name>
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x9">
+                <Name>Enable Lock-On</Name>
+            </Element>
+            <Element Type="Bool" ID="0xA">
+                <Name>Active</Name>
+            </Element>
+            <Element Type="Struct" ID="0xB" Archetype="VisorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <PositionProperty>0x01</PositionProperty>
+        <ScaleProperty>0x02</ScaleProperty>
+        <ActiveProperty>0x0A</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/DamageableTrigger.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleVolume</ScaleType>
+    <VolumeShape>BoxShape</VolumeShape>
+</ScriptObject>

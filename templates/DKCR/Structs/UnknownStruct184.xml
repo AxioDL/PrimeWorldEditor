@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct184</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xA4F20C17">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8067FE4E">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB9B18EF6">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x241839D4">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF9529B46">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1359360D">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x57CB6052" Archetype="IslandAreaStruct">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5FED5C9D">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x4C256CD9" Archetype="IslandAreaStruct">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5FED5C9D">
+                        <DefaultValue>30</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xFA4DC52C" Archetype="IslandAreaStruct">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5FED5C9D">
+                        <DefaultValue>10</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7803AE46" Archetype="IslandAreaStruct">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5FED5C9D">
+                        <DefaultValue>20</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x2ED30BDD" Archetype="IslandAreaStruct">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5FED5C9D">
+                        <DefaultValue>7</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xCFBDCF70" Archetype="IslandAreaStruct">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5FED5C9D">
+                        <DefaultValue>20</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xD611406B" Archetype="IslandAreaStruct">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5FED5C9D">
+                        <DefaultValue>40</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

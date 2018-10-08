@@ -1,30 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>ColorModulate</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Unknown 1" type="color"/>
-        <property ID="0x02" name="Unknown 2" type="color"/>
-        <property ID="0x03" name="Unknown 3" type="long"/>
-        <property ID="0x04" name="Unknown 4" type="float"/>
-        <property ID="0x05" name="Unknown 5" type="float"/>
-        <property ID="0x06" name="Unknown 6" type="bool"/>
-        <property ID="0x07" name="Unknown 7" type="bool"/>
-        <property ID="0x08" name="Unknown 8" type="bool"/>
-        <property ID="0x09" name="Unknown 9" type="bool"/>
-        <property ID="0x0A" name="Unknown 10" type="bool"/>
-        <property ID="0x0B" name="Unknown 11" type="bool"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/ColorModulate.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>ColorModulate</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Color" ID="0x1">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Color" ID="0x2">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Int" ID="0x3">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Bool" ID="0x6">
+                <Name>Unknown 6</Name>
+            </Element>
+            <Element Type="Bool" ID="0x7">
+                <Name>Unknown 7</Name>
+            </Element>
+            <Element Type="Bool" ID="0x8">
+                <Name>Unknown 8</Name>
+            </Element>
+            <Element Type="Bool" ID="0x9">
+                <Name>Unknown 9</Name>
+            </Element>
+            <Element Type="Bool" ID="0xA">
+                <Name>Unknown 10</Name>
+            </Element>
+            <Element Type="Bool" ID="0xB">
+                <Name>Unknown 11</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/ColorModulate.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LightParameters" type="multi">
-    <properties>
-        <property ID="0xCD639B46" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xA33E5B0E" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xA71810E9" type="bool">
-            <default>true</default>
-        </property>
-        <enum ID="0x6B5E7509">
-            <default>0x00000001</default>
-            <enumerators>
-                <enumerator ID="0x00" name="Unknown 1"/>
-                <enumerator ID="0x01" name="Normal World Lighting"/>
-                <enumerator ID="0x02" name="Unknown 2"/>
-                <enumerator ID="0x03" name="Disable World Lighting"/>
-            </enumerators>
-        </enum>
-        <property ID="0x3DC5F0C6" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x628E6AC3" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xD19DE775" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xCAC1E778" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0x67F4D3DE" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0xFB7A7ABB" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x61A940D6" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x1F715FD3" type="long">
-            <default>0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>LightParameters</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xCD639B46">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA33E5B0E">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA71810E9">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x6B5E7509">
+                <DefaultValue>0x1</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x0"/>
+                    <Element Name="Normal World Lighting" ID="0x1"/>
+                    <Element Name="Unknown 2" ID="0x2"/>
+                    <Element Name="Disable World Lighting" ID="0x3"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0x3DC5F0C6">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x628E6AC3">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xD19DE775">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCAC1E778">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x67F4D3DE">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFB7A7ABB">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x61A940D6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1F715FD3">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

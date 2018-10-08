@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TandemBeam</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xD045A194">
+                <DefaultValue>0x87251F5B</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x87251F5B"/>
+                    <Element Name="Unknown 2" ID="0xBD566C5"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xB8D62DDF">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x92708C7E"/>
+            <Element Type="Float" ID="0xB956F379">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x67A08F89">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xCD01C0E">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC6F229C6">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1B248C33">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xAA7AE2ED">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xA5A3EF63">
+                <DefaultValue>0xC01248C8</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xC01248C8"/>
+                    <Element Name="Unknown 2" ID="0xF8138D72"/>
+                    <Element Name="Unknown 3" ID="0xC5E5AF6F"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xABF9F6FD">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDB64ABE3">
+                <DefaultValue>0.0625</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x82054423">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xADD9A3B6">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE40723FF">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F5BF05A">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA9CF82F4">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x62935151">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

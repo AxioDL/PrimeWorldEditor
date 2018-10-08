@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct35</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x8B5DB983" Archetype="GhorStructA"/>
+            <Element Type="Struct" ID="0x4CDC6A6" Archetype="GhorStructA"/>
+            <Element Type="Struct" ID="0xE451D02C" Archetype="GhorStructA"/>
+            <Element Type="Struct" ID="0x72F708F2" Archetype="GhorStructA"/>
+            <Element Type="Struct" ID="0x8CB41734" Archetype="GhorStructA"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

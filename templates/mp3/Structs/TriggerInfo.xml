@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="TriggerInfo" type="multi">
-    <properties>
-        <property ID="0x97C0611F" type="long">
-            <default>127</default>
-        </property>
-        <property ID="0x50224907" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x46CC1B48" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xFA873A67" type="MayaSpline"/>
-        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-        <property ID="0x20927E9B" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TriggerInfo</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x97C0611F">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x50224907">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x46CC1B48">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xFA873A67"/>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Vector" ID="0x20927E9B">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

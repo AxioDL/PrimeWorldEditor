@@ -1,185 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>VolcanoBossBodyPart</name>
-    <modules>
-        <module>RSO_VolcanoBoss.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <struct ID="0x5846524D">
-                    <properties>
-                        <property ID="0x01">
-                            <default>0.0, 0.0, 90.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0xBF81C83E" template="Structs/ShadowData.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <struct ID="0x7B71AE90">
-                    <properties>
-                        <property ID="0x10F37815">
-                            <default>524322</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x3011B5DF">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x84506963" type="multi">
-            <properties>
-                <struct ID="0x4AE8523D" type="multi">
-                    <properties>
-                        <enum ID="0x02F78C9A">
-                            <default>0x99761FAF</default>
-                            <enumerators>
-                                <enumerator ID="0x99761FAF" name="Unknown 1"/>
-                                <enumerator ID="0xDAE7367C" name="Unknown 2"/>
-                                <enumerator ID="0xAD7F83E3" name="Unknown 3"/>
-                            </enumerators>
-                        </enum>
-                    </properties>
-                </struct>
-                <struct ID="0x2A447166" type="multi">
-                    <properties>
-                        <property ID="0xE6892623" type="float">
-                            <default>32.0</default>
-                        </property>
-                        <property ID="0xF2EC945D" type="float">
-                            <default>8.0</default>
-                        </property>
-                        <property ID="0xCEEBC469" type="float">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x90EF04A5" type="float">
-                            <default>50.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xDD5C7083" type="multi">
-                    <properties>
-                        <struct ID="0x208C69A5" type="multi">
-                            <properties>
-                                <struct ID="0x28F49A53" template="Structs/VolcanoBossBodyPartStructA.xml"/>
-                                <property ID="0x1B030466" type="float">
-                                    <default>50.0</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0xC3E3EF00" template="Structs/VolcanoBossBodyPartStructB.xml"/>
-                        <struct ID="0xFA9B4240" template="Structs/VolcanoBossBodyPartStructB.xml"/>
-                        <struct ID="0xEDB32680" template="Structs/VolcanoBossBodyPartStructB.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xE6857328" type="multi">
-                    <properties>
-                        <property ID="0x0063BDC5" type="float">
-                            <default>3.4</default>
-                        </property>
-                        <property ID="0xFA8948CC" type="float">
-                            <default>0.5</default>
-                        </property>
-                        <property ID="0xCE1BCFD8" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x96ECF959" type="float">
-                            <default>0.5</default>
-                        </property>
-                        <property ID="0xD3C1390E" type="asset" extensions="PART"/>
-                        <struct ID="0xAE342F0F" template="Structs/DamageEffectData.xml"/>
-                        <struct ID="0x46D65682" template="Structs/DamageEffectData.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0x2B531C2F" type="multi">
-                    <properties>
-                        <property ID="0xC5CE83AF" type="asset" extensions="CMDL"/>
-                        <property ID="0xA826BD98" type="string"/>
-                        <property ID="0x46CC2FD0" type="float">
-                            <default>1.5</default>
-                        </property>
-                        <property ID="0x82B6DC81" type="float">
-                            <default>0.7</default>
-                        </property>
-                        <property ID="0x686E030B" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x68D787B4" type="float">
-                            <default>0.2</default>
-                        </property>
-                        <property ID="0x68137EA7" type="asset" extensions="PART"/>
-                        <property ID="0xEBF3B81D" type="asset" extensions="UNKN"/>
-                    </properties>
-                </struct>
-                <struct ID="0x9127FBC8" type="multi">
-                    <properties>
-                        <property ID="0x2F2AE3E5" type="float">
-                            <default>55.0</default>
-                        </property>
-                        <property ID="0xEE382651" type="float">
-                            <default>0.5</default>
-                        </property>
-                        <struct ID="0xA9B9997F" type="multi">
-                            <properties>
-                                <property ID="0x06EFDAB2" type="long">
-                                    <default>0</default>
-                                </property>
-                                <struct ID="0x4266606E" template="Structs/VolcanoBossBodyPartStructD.xml"/>
-                                <struct ID="0x06C74576" template="Structs/VolcanoBossBodyPartStructD.xml"/>
-                                <struct ID="0x3AA7A67E" template="Structs/VolcanoBossBodyPartStructD.xml"/>
-                                <struct ID="0x8F850F46" template="Structs/VolcanoBossBodyPartStructD.xml"/>
-                                <struct ID="0xB3E5EC4E" template="Structs/VolcanoBossBodyPartStructD.xml"/>
-                                <struct ID="0xF744C956" template="Structs/VolcanoBossBodyPartStructD.xml"/>
-                            </properties>
-                        </struct>
-                        <struct ID="0x7E3B3184" type="multi">
-                            <properties>
-                                <struct ID="0x92807F97" template="Structs/VolcanoBossBodyPartStructC.xml"/>
-                                <struct ID="0x7663ABF3" template="Structs/VolcanoBossBodyPartStructC.xml"/>
-                                <struct ID="0x8A4C3F96" template="Structs/VolcanoBossBodyPartStructC.xml"/>
-                                <struct ID="0x70D8CAC0" template="Structs/VolcanoBossBodyPartStructC.xml"/>
-                            </properties>
-                        </struct>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x84506963:0x2B531C2F:0xC5CE83AF</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Modules>
+        <Element>RSO_VolcanoBoss.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>VolcanoBossBodyPart</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x1">
+                                <DefaultValue>
+                                    <X>0.0</X>
+                                    <Y>0.0</Y>
+                                    <Z>90.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x7B71AE90">
+                        <SubProperties>
+                            <Element Type="Int" ID="0x10F37815">
+                                <DefaultValue>524322</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x84506963" Archetype="UnknownStruct296"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x84506963:0x2B531C2F:0xC5CE83AF"/>
+    </Assets>
+</ScriptObject>

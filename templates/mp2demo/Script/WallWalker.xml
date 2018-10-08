@@ -1,80 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>WallWalker</name>
-    <modules>
-        <module>WallCrawler.rel</module>
-        <module>WallWalker.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x4BC4C4D9">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x9F0FF852" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x733BD27C" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0x8E4F7B29" type="float">
-            <default>1080.0</default>
-        </property>
-        <property ID="0xD5C25506" type="float">
-            <default>0.4</default>
-        </property>
-        <property ID="0xA72530E8" type="float">
-            <default>40.0</default>
-        </property>
-        <struct ID="0xF6206A12" template="Structs/DamageInfo.xml"/>
-        <property ID="0x1319E077" type="asset" extensions="PART"/>
-        <property ID="0xD207FF0F" type="asset" extensions="PART"/>
-        <property ID="0x2B31C882" type="asset" extensions="PART"/>
-        <property ID="0x9A6BB47F" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0xED086CE0" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x454F16B1" type="long">
-            <default>5</default>
-        </property>
-        <property ID="0x7F1613B7" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x7050D866" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xD4903C98" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x723542BB" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
-        <struct ID="0x553B1339" template="Structs/DamageInfo.xml"/>
-        <property ID="0x68DC4D11" type="asset" extensions="PART"/>
-        <struct ID="0x22BBDD0A" template="Structs/CameraShakerData.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Modules>
+        <Element>WallCrawler.rel</Element>
+        <Element>WallWalker.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>WallWalker</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x9F0FF852" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x733BD27C">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8E4F7B29">
+                <DefaultValue>1080.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD5C25506">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA72530E8">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF6206A12" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x1319E077">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD207FF0F">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2B31C882">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x9A6BB47F">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED086CE0">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x454F16B1">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7F1613B7">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7050D866">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD4903C98">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x723542BB">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xEF485DB9">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x553B1339" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x68DC4D11">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x22BBDD0A" Archetype="CameraShakerData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

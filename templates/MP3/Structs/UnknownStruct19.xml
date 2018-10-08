@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct19</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xF0668919">
+                <DefaultValue>750.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5407757">
+                <DefaultValue>1.05</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD9230D1" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xED7EDCA3" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x295CF609" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x23DDBB55" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x5BDD1E4C">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6082430F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAF270C93">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8819688D">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1B37EDA7">
+                <DefaultValue>18.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B44FD4D">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDAC05EB5">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x673A2724">
+                <DefaultValue>24.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x815A88C5">
+                <DefaultValue>16.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD4D6A00C">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32B60FED">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x86E154B4">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20DC1C96">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFBA7C57B">
+                <DefaultValue>0.0099999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBA801F2F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE1EE4260">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8E080314">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD7D24BFA">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCCCCA97E" Archetype="UnknownStruct18"/>
+            <Element Type="Float" ID="0xA62404DC">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBF8B57BF">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x530ECF07">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8482E270">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7128F60E">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xD9C4AA53"/>
+            <Element Type="Asset" ID="0x8E13F1F6">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x71C8E644"/>
+            <Element Type="String" ID="0x8CB60FC9"/>
+            <Element Type="Asset" ID="0x69A25F05">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x967948B7"/>
+            <Element Type="Asset" ID="0xA366C12">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xF5ED7BA0"/>
+            <Element Type="Asset" ID="0x3B5981C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xFC6E8FAE"/>
+            <Element Type="Asset" ID="0xBB5658B3">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x448D4F01"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

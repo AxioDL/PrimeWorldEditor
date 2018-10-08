@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TriggerShape</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x9ECEE0C" Archetype="Shape">
+                <DefaultValue>0x482B22F1</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

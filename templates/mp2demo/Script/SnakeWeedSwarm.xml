@@ -1,87 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SnakeWeedSwarm</name>
-    <modules>
-        <module>SnakeWeedSwarm.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xE25FB08C" type="character"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x64E5FE9F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x23CEF95F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xBE02E456" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x21CDCF21" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0x89664723" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x723737BC" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x57452DD9" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x5C20B0C7" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0x6497C750" type="float">
-            <default>1.5</default>
-        </property>
-        <property ID="0x11F854E2" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0xA755C1DF" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x558C6DD7" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xC5FF7D3D" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xB2EBC23A" type="float">
-            <default>0.0</default>
-        </property>
-        <struct ID="0xD756416E" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0x119FBD31">
-                    <default>9</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0xE0CDC7E3" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xCD7D996E" type="sound"/>
-        <property ID="0x1026DB89" type="sound"/>
-        <property ID="0xCDE17346" type="sound"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>volume</scale_type>
-        <preview_volume shape="Box"/>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Modules>
+        <Element>SnakeWeedSwarm.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>SnakeWeedSwarm</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="AnimationSet" ID="0xE25FB08C"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Float" ID="0x64E5FE9F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23CEF95F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBE02E456">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21CDCF21">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x89664723">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x723737BC">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x57452DD9">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5C20B0C7">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6497C750">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11F854E2">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA755C1DF">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x558C6DD7">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5FF7D3D">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB2EBC23A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x119FBD31">
+                        <DefaultValue>9</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0xE0CDC7E3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xCD7D996E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x1026DB89">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xCDE17346">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+    <ScaleType>ScaleVolume</ScaleType>
+    <VolumeShape>BoxShape</VolumeShape>
+</ScriptObject>

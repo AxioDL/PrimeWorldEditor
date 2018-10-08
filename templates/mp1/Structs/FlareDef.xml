@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="FlareDef" type="multi">
-    <properties>
-        <property ID="0x00" name="Texture" type="asset" extensions="TXTR"/>
-        <property ID="0x01" name="Unknown 1" type="float"/>
-        <property ID="0x02" name="Unknown 2" type="float"/>
-        <property ID="0x03" name="Unknown 3" type="color"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>FlareDef</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x0">
+                <Name>Texture</Name>
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Color" ID="0x3">
+                <Name>Unknown 3</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="DebrisPropertiesOrientationEnum" type="multi">
-    <properties>
-        <enum ID="0xF4BF6637" template="Enums/Orientation.xml">
-            <default>0x76A5FBFD</default>
-        </enum>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>DebrisPropertiesOrientationEnum</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xF4BF6637" Archetype="Orientation">
+                <DefaultValue>0x76A5FBFD</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

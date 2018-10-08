@@ -1,218 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>JungleBoss1</name>
-    <modules>
-        <module>RSO_UglyBros.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <struct ID="0x5846524D">
-                    <properties>
-                        <property ID="0x01">
-                            <default>0.0, 0.0, 90.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0xBF81C83E" template="Structs/ShadowData.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAI.xml">
-            <properties>
-                <struct ID="0x7B71AE90">
-                    <properties>
-                        <property ID="0x10F37815">
-                            <default>524322</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xD756416E">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x3011B5DF">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x16212198" type="multi">
-            <properties>
-                <enum ID="0x92985FFF">
-                    <default>0x3CD4A348</default>
-                    <enumerators>
-                        <enumerator ID="0x3CD4A348" name="Unknown 1"/>
-                        <enumerator ID="0x2CBB4218" name="Unknown 2"/>
-                    </enumerators>
-                </enum>
-                <struct ID="0x039CE09A" type="multi">
-                    <properties>
-                        <property ID="0x28CA1360" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x775A0160" type="string"/>
-                        <property ID="0x06EFDAB2" type="long">
-                            <default>0</default>
-                        </property>
-                        <struct ID="0xD4292680" template="Structs/JungleBossStructB.xml"/>
-                        <struct ID="0x90880398" template="Structs/JungleBossStructB.xml"/>
-                        <struct ID="0xACE8E090" template="Structs/JungleBossStructB.xml"/>
-                        <struct ID="0x19CA49A8" template="Structs/JungleBossStructB.xml"/>
-                        <struct ID="0x25AAAAA0" template="Structs/JungleBossStructB.xml"/>
-                        <struct ID="0x610B8FB8" template="Structs/JungleBossStructB.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0xEF3E4DA5" type="multi">
-                    <properties>
-                        <struct ID="0xD9BBA58A" template="Structs/JungleBossStructA.xml"/>
-                        <struct ID="0x2BEC4872" template="Structs/JungleBossStructA.xml"/>
-                        <struct ID="0xCCF1EEE5" template="Structs/JungleBossStructA.xml"/>
-                    </properties>
-                </struct>
-                <struct ID="0x45C4C44C" type="multi">
-                    <properties>
-                        <property ID="0xDFD9AA56" type="long">
-                            <default>1</default>
-                        </property>
-                        <property ID="0xDA21386F" type="float">
-                            <default>2.0</default>
-                        </property>
-                        <property ID="0x5CB54AC1" type="float">
-                            <default>2.0</default>
-                        </property>
-                        <property ID="0x97E99964" type="float">
-                            <default>2.0</default>
-                        </property>
-                        <property ID="0x63BDD01F" type="long">
-                            <default>0</default>
-                        </property>
-                        <property ID="0x71087FF1" type="long">
-                            <default>3</default>
-                        </property>
-                        <property ID="0xC9B41894" type="long">
-                            <default>6</default>
-                        </property>
-                        <property ID="0x004297B4" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xA055A56F" type="bool">
-                            <default>false</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x9E8F9696" template="Structs/DamageInfo.xml"/>
-                <struct ID="0xCD9DE8CC" type="multi">
-                    <properties>
-                        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-                        <struct ID="0xA5CC2982" template="Structs/ProjectileData.xml"/>
-                        <struct ID="0xD90DAB09" template="Structs/ProjectileRenderData.xml"/>
-                        <struct ID="0x58D9785F" template="Structs/ProjectileCollisionData.xml"/>
-                        <struct ID="0x90DCEF98" template="Structs/ProjectileMotionData.xml"/>
-                        <property ID="0xCC4284A2" type="bool">
-                            <default>false</default>
-                        </property>
-                        <struct ID="0x50A7E94B" template="Structs/ProjectileBounceData.xml"/>
-                        <property ID="0xF726E5DA" type="vector3f">
-                            <default>1.0, 1.0, 1.0</default>
-                        </property>
-                        <struct ID="0xEA0F134D" type="multi">
-                            <properties>
-                                <property ID="0xFC8227A7" type="long">
-                                    <default>1</default>
-                                </property>
-                                <struct ID="0x6E3800D3" template="Structs/JungleBossStructC.xml"/>
-                                <struct ID="0xBDA31C28" template="Structs/JungleBossStructC.xml"/>
-                                <struct ID="0xF32A1781" template="Structs/JungleBossStructC.xml"/>
-                            </properties>
-                        </struct>
-                        <property ID="0x3180D4F3" type="float">
-                            <default>2.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x307CE7E4" type="multi">
-                    <properties>
-                        <property ID="0xC48B0356" type="float">
-                            <default>6.5</default>
-                        </property>
-                        <property ID="0x0FD7D0F3" type="float">
-                            <default>9.0</default>
-                        </property>
-                        <property ID="0x8943A25D" type="float">
-                            <default>13.5</default>
-                        </property>
-                        <property ID="0x421F71F8" type="float">
-                            <default>18.0</default>
-                        </property>
-                        <property ID="0x5F1A4140" type="float">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x944692E5" type="float">
-                            <default>27.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x2F2AE3E5" type="float">
-                    <default>55.0</default>
-                </property>
-                <property ID="0xAB9566A2" type="float">
-                    <default>35.0</default>
-                </property>
-                <property ID="0x880ADC23" type="long">
-                    <default>10</default>
-                </property>
-                <property ID="0x5D1DE4AE" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x59F65627" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x04408E47" type="float">
-                    <default>12.0</default>
-                </property>
-                <property ID="0xA54BE635" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x1E3CBFC2" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xEE382651" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xC4043234" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0x06B3EF54" type="asset" extensions="CAUD"/>
-                <property ID="0xC4DBEA19" type="asset" extensions="CAUD"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <model source="property">0x16212198:0xCD9DE8CC:0xD90DAB09:0x28E076FD:0xC27FFA8F</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Modules>
+        <Element>RSO_UglyBros.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>JungleBoss1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x1">
+                                <DefaultValue>
+                                    <X>0.0</X>
+                                    <Y>0.0</Y>
+                                    <Z>90.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x7B71AE90">
+                        <SubProperties>
+                            <Element Type="Int" ID="0x10F37815">
+                                <DefaultValue>524322</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xD756416E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x3011B5DF">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x16212198" Archetype="UnknownStruct208"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x16212198:0xCD9DE8CC:0xD90DAB09:0x28E076FD:0xC27FFA8F"/>
+    </Assets>
+</ScriptObject>

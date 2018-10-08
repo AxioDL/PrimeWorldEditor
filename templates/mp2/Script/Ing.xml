@@ -1,256 +1,340 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Ing</name>
-    <modules>
-        <module>GeomBlobV2.rel</module>
-        <module>Ing.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedInfo.xml">
-            <properties>
-                <property ID="0x020C78BB">
-                    <default>360.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <default>0.0</default>
-                </property>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>150.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x4BC4C4D9">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0x092FBAD0" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xBDCCE71B" type="asset" extensions="CMDL"/>
-        <property ID="0xED69488F" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0x95B47CF9" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x8D42A8D5" type="float">
-            <default>7.0</default>
-        </property>
-        <property ID="0x84586BFD" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0x50398A06" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xEAA3C3F8" type="float">
-            <default>360.0</default>
-        </property>
-        <property ID="0xCC5A4918" type="asset" extensions="PART"/>
-        <property ID="0x8851DC01" type="asset" extensions="PART"/>
-        <property ID="0x5D01100F" type="asset" extensions="PART"/>
-        <property ID="0x9A56892E" type="asset" extensions="PART"/>
-        <property ID="0x4CAB30A9" type="sound"/>
-        <property ID="0x8F83BE73" type="sound"/>
-        <property ID="0xB392943A" type="sound"/>
-        <property ID="0x24ECC1E9" type="sound"/>
-        <property ID="0x4489935E" type="sound"/>
-        <property ID="0x3C2D681E" type="asset" extensions="PART"/>
-        <property ID="0xD576F379" type="asset" extensions="SRSC"/>
-        <property ID="0x3DA219C7" type="asset" extensions="PART"/>
-        <property ID="0x23271976" type="float">
-            <default>0.35</default>
-        </property>
-        <property ID="0x081E9E6C" type="asset" extensions="PART"/>
-        <property ID="0xCB39ECCB" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x587CA175" type="float">
-            <default>1.5</default>
-        </property>
-        <property ID="0x0BD7D5A9" type="float">
-            <default>1.5</default>
-        </property>
-        <property ID="0xE8EA5BC8" type="sound"/>
-        <property ID="0x5650366A" type="sound"/>
-        <property ID="0xB09AF706" type="sound"/>
-        <property ID="0x0C13C5A8" type="sound"/>
-        <property ID="0x148B81E4" type="sound"/>
-        <property ID="0x5D0D2C40" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0xC620183A" type="float">
-            <default>1.5</default>
-        </property>
-        <property ID="0x7D19C3CA" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xA77F6212" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0x9579B1F2" type="float">
-            <default>10.0</default>
-        </property>
-        <struct ID="0x915DA374" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x0000000B</default>
-                </enum>
-                <property ID="0xF2D02613">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>10.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xAB258F6B" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x0000000B</default>
-                </enum>
-                <property ID="0xF2D02613">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>5.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0xA0D63374" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xDFEA60A2" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x601CC5B4" type="asset" extensions="PART"/>
-        <property ID="0xCE980820" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xB752C177" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xE6DDB662" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xB57BAE86" type="float">
-            <default>40.0</default>
-        </property>
-        <property ID="0x2025858B" type="sound"/>
-        <property ID="0x19F8FEE6" type="sound"/>
-        <property ID="0xDC741FBD" type="float">
-            <default>70.0</default>
-        </property>
-        <property ID="0xFA6EDEB5" type="float">
-            <default>40.0</default>
-        </property>
-        <property ID="0xA9C8C651" type="float">
-            <default>100.0</default>
-        </property>
-        <property ID="0xA926F8A8" type="asset" extensions="PART"/>
-        <property ID="0x4051FD1A" type="sound"/>
-        <struct ID="0x424A6D37" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x0000000B</default>
-                </enum>
-                <property ID="0xF2D02613">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>10.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x9C170968" template="Structs/PlasmaBeamInfo.xml">
-            <properties>
-                <property ID="0xC26C291C">
-                    <default>500.0</default>
-                </property>
-                <property ID="0xEC773D1D">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xB02DE555">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x5180181E">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x72A96252">
-                    <default>0.25</default>
-                </property>
-                <property ID="0xB8652FE4">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x1AFB2B73">
-                    <default>0.498039, 0.498039, 0.498039, 0.498039</default>
-                </property>
-                <property ID="0x9FD338FC">
-                    <default>0.6, 0.6, 0.0, 0.498039</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x67F6C10E" type="float">
-            <default>30.0</default>
-        </property>
-        <struct ID="0x11C36D8E" template="Structs/DamageInfo.xml">
-            <properties>
-                <enum ID="0x119FBD31">
-                    <default>0x0000000B</default>
-                </enum>
-                <property ID="0xF2D02613">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0xC2320B06" type="float">
-            <default>30.0</default>
-        </property>
-        <property ID="0x4832703B" type="sound"/>
-        <property ID="0x36B0E542" type="sound"/>
-        <property ID="0x421651F6" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x560B4A95" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x8BDCC614" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xBD3EFE7D" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xD24B888F" type="float">
-            <default>5.0</default>
-        </property>
-        <struct ID="0x1B96FF8B" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0x33737EA6" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0x23399D21" template="Structs/DamageVulnerability.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xE25FB08C</animparams>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>GeomBlobV2.rel</Element>
+        <Element>Ing.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>Ing</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0x20C78BB">
+                        <DefaultValue>360.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>150.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x4BC4C4D9">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Int" ID="0x92FBAD0">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xBDCCE71B">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xED69488F">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95B47CF9">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8D42A8D5">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x84586BFD">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50398A06">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEAA3C3F8">
+                <DefaultValue>360.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xCC5A4918">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8851DC01">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5D01100F">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9A56892E">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0x4CAB30A9">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x8F83BE73">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xB392943A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x24ECC1E9">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x4489935E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x3C2D681E">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD576F379">
+                <TypeFilter>
+                    <Element>SRSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3DA219C7">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x23271976">
+                <DefaultValue>0.34999999</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x81E9E6C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xCB39ECCB">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x587CA175">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBD7D5A9">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xE8EA5BC8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x5650366A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xB09AF706">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xC13C5A8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x148B81E4">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5D0D2C40">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC620183A">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D19C3CA">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA77F6212">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9579B1F2">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x915DA374" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xAB258F6B" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0xA0D63374">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDFEA60A2">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x601CC5B4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xCE980820">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB752C177">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE6DDB662">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB57BAE86">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x2025858B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x19F8FEE6">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDC741FBD">
+                <DefaultValue>70.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFA6EDEB5">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA9C8C651">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA926F8A8">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0x4051FD1A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x424A6D37" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x9C170968" Archetype="PlasmaBeamInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xC26C291C">
+                        <DefaultValue>500.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEC773D1D">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB02DE555">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x5180181E">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x72A96252">
+                        <DefaultValue>0.25</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB8652FE4">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x1AFB2B73">
+                        <DefaultValue>
+                            <R>0.49803901</R>
+                            <G>0.49803901</G>
+                            <B>0.49803901</B>
+                            <A>0.49803901</A>
+                        </DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x9FD338FC">
+                        <DefaultValue>
+                            <R>0.60000002</R>
+                            <G>0.60000002</G>
+                            <B>0.0</B>
+                            <A>0.49803901</A>
+                        </DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x67F6C10E">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x11C36D8E" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x119FBD31">
+                        <DefaultValue>0xB</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0xC2320B06">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x4832703B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x36B0E542">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x421651F6">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x560B4A95">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8BDCC614">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xBD3EFE7D">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD24B888F">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x1B96FF8B" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x33737EA6" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x23399D21" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

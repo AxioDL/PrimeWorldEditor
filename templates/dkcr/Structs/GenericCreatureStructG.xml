@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="GenericCreatureStructG" type="multi">
-    <properties>
-        <property ID="0x6E323295" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0xFE41227F" type="float">
-            <default>6.0</default>
-        </property>
-        <property ID="0xAACDB11C" type="long">
-            <default>-1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0x15DBA741" type="string"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>GenericCreatureStructG</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x6E323295">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFE41227F">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAACDB11C">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x15DBA741"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

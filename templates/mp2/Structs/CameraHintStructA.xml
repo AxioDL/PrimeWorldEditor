@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="CameraHintStructA" type="multi">
-    <properties>
-        <property ID="0xF53DCDD6" type="long">
-            <default>0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraHintStructA</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xF53DCDD6">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

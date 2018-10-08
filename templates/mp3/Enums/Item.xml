@@ -1,64 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="Item">
-    <enumerators>
-        <enumerator ID="0xFB73F2B8" name="PowerBeam"/>
-        <enumerator ID="0x93AD6DF9" name="PlasmaBeam"/>
-        <enumerator ID="0x50A0AAA5" name="NovaBeam"/>
-        <enumerator ID="0x35488520" name="ChargeUpgrade"/>
-        <enumerator ID="0x922DA6A8" name="Missile"/>
-        <enumerator ID="0x90F0CED4" name="IceMissile"/>
-        <enumerator ID="0xB7F4E76D" name="SeekerMissile"/>
-        <enumerator ID="0x719B5C5D" name="GrappleBeamPull"/>
-        <enumerator ID="0x1F2950DC" name="GrappleBeamSwing"/>
-        <enumerator ID="0x1FF64711" name="GrappleBeamVoltage"/>
-        <enumerator ID="0xB9876CD1" name="Bomb"/>
-        <enumerator ID="0x96664E97" name="CombatVisor"/>
-        <enumerator ID="0xB3CADC47" name="ScanVisor"/>
-        <enumerator ID="0x73D674EA" name="CommandVisor"/>
-        <enumerator ID="0x662B235A" name="XRayVisor"/>
-        <enumerator ID="0x95C0052A" name="DoubleJump"/>
-        <enumerator ID="0xD9CD9EDE" name="ScrewAttack"/>
-        <enumerator ID="0xD02B0AD8" name="SuitType"/>
-        <enumerator ID="0x26B5C6C5" name="Energy"/>
-        <enumerator ID="0x1D966CE8" name="HypermodeEnergy"/>
-        <enumerator ID="0xB36AECDD" name="EnergyTank"/>
-        <enumerator ID="0x50499B43" name="ItemPercentage"/>
-        <enumerator ID="0xABBC4C2E" name="Fuses"/>
-        <enumerator ID="0x336E6C92" name="Fuse1"/>
-        <enumerator ID="0xAA673D28" name="Fuse2"/>
-        <enumerator ID="0xDD600DBE" name="Fuse3"/>
-        <enumerator ID="0x4304981D" name="Fuse4"/>
-        <enumerator ID="0x3403A88B" name="Fuse5"/>
-        <enumerator ID="0xAD0AF931" name="Fuse6"/>
-        <enumerator ID="0xDA0DC9A7" name="Fuse7"/>
-        <enumerator ID="0x4AB2D436" name="Fuse8"/>
-        <enumerator ID="0x3DB5E4A0" name="Fuse9"/>
-        <enumerator ID="0x482F8235" name="MorphBall"/>
-        <enumerator ID="0xB21BB8C7" name="BoostBall"/>
-        <enumerator ID="0x4D415752" name="SpiderBall"/>
-        <enumerator ID="0x5568B8C9" name="HyperModeTank"/>
-        <enumerator ID="0x49E8A1AC" name="HyperModeBeam"/>
-        <enumerator ID="0x515556A0" name="HyperModeMissile"/>
-        <enumerator ID="0x8C4847AB" name="HyperModeBall"/>
-        <enumerator ID="0x87560845" name="HyperModeGrapple"/>
-        <enumerator ID="0x8FEBB10D" name="HyperModePermanent"/>
-        <enumerator ID="0xF4FFB39D" name="HyperModePhaaze"/>
-        <enumerator ID="0xE5BA1551" name="HyperModeOriginal"/>
-        <enumerator ID="0x57A20D1A" name="ShipGrapple"/>
-        <enumerator ID="0x81A153FF" name="ShipMissile"/>
-        <enumerator ID="0x7DC366E4" name="FaceCorruptionLevel"/>
-        <enumerator ID="0x51E1A9FB" name="PhazonBall"/>
-        <enumerator ID="0x7B6A8F3A" name="CannonBall"/>
-        <enumerator ID="0xB42B43DE" name="ActivateMorphballBoost"/>
-        <enumerator ID="0x898D3214" name="HyperShot"/>
-        <enumerator ID="0x3F82745E" name="CommandVisorJammed"/>
-        <enumerator ID="0xC05C27EB" name="Stat_EnemiesKilled"/>
-        <enumerator ID="0xB0D22357" name="Stat_ShotsFired"/>
-        <enumerator ID="0xE3179F1B" name="Stat_DamageReceived"/>
-        <enumerator ID="0xF99E7798" name="Stat_DataSaves"/>
-        <enumerator ID="0x4408D67B" name="Stat_HypermodeUses"/>
-        <enumerator ID="0x47E7BCEA" name="Stat_CommandoKills"/>
-        <enumerator ID="0x22390F26" name="Stat_TinCanHighScore"/>
-        <enumerator ID="0x38BE4C42" name="Stat_TinCanCurrentScore"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Enum">
+        <Name>Item</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="PowerBeam" ID="0xFB73F2B8"/>
+            <Element Name="PlasmaBeam" ID="0x93AD6DF9"/>
+            <Element Name="NovaBeam" ID="0x50A0AAA5"/>
+            <Element Name="ChargeUpgrade" ID="0x35488520"/>
+            <Element Name="Missile" ID="0x922DA6A8"/>
+            <Element Name="IceMissile" ID="0x90F0CED4"/>
+            <Element Name="SeekerMissile" ID="0xB7F4E76D"/>
+            <Element Name="GrappleBeamPull" ID="0x719B5C5D"/>
+            <Element Name="GrappleBeamSwing" ID="0x1F2950DC"/>
+            <Element Name="GrappleBeamVoltage" ID="0x1FF64711"/>
+            <Element Name="Bomb" ID="0xB9876CD1"/>
+            <Element Name="CombatVisor" ID="0x96664E97"/>
+            <Element Name="ScanVisor" ID="0xB3CADC47"/>
+            <Element Name="CommandVisor" ID="0x73D674EA"/>
+            <Element Name="XRayVisor" ID="0x662B235A"/>
+            <Element Name="DoubleJump" ID="0x95C0052A"/>
+            <Element Name="ScrewAttack" ID="0xD9CD9EDE"/>
+            <Element Name="SuitType" ID="0xD02B0AD8"/>
+            <Element Name="Energy" ID="0x26B5C6C5"/>
+            <Element Name="HypermodeEnergy" ID="0x1D966CE8"/>
+            <Element Name="EnergyTank" ID="0xB36AECDD"/>
+            <Element Name="ItemPercentage" ID="0x50499B43"/>
+            <Element Name="Fuses" ID="0xABBC4C2E"/>
+            <Element Name="Fuse1" ID="0x336E6C92"/>
+            <Element Name="Fuse2" ID="0xAA673D28"/>
+            <Element Name="Fuse3" ID="0xDD600DBE"/>
+            <Element Name="Fuse4" ID="0x4304981D"/>
+            <Element Name="Fuse5" ID="0x3403A88B"/>
+            <Element Name="Fuse6" ID="0xAD0AF931"/>
+            <Element Name="Fuse7" ID="0xDA0DC9A7"/>
+            <Element Name="Fuse8" ID="0x4AB2D436"/>
+            <Element Name="Fuse9" ID="0x3DB5E4A0"/>
+            <Element Name="MorphBall" ID="0x482F8235"/>
+            <Element Name="BoostBall" ID="0xB21BB8C7"/>
+            <Element Name="SpiderBall" ID="0x4D415752"/>
+            <Element Name="HyperModeTank" ID="0x5568B8C9"/>
+            <Element Name="HyperModeBeam" ID="0x49E8A1AC"/>
+            <Element Name="HyperModeMissile" ID="0x515556A0"/>
+            <Element Name="HyperModeBall" ID="0x8C4847AB"/>
+            <Element Name="HyperModeGrapple" ID="0x87560845"/>
+            <Element Name="HyperModePermanent" ID="0x8FEBB10D"/>
+            <Element Name="HyperModePhaaze" ID="0xF4FFB39D"/>
+            <Element Name="HyperModeOriginal" ID="0xE5BA1551"/>
+            <Element Name="ShipGrapple" ID="0x57A20D1A"/>
+            <Element Name="ShipMissile" ID="0x81A153FF"/>
+            <Element Name="FaceCorruptionLevel" ID="0x7DC366E4"/>
+            <Element Name="PhazonBall" ID="0x51E1A9FB"/>
+            <Element Name="CannonBall" ID="0x7B6A8F3A"/>
+            <Element Name="ActivateMorphballBoost" ID="0xB42B43DE"/>
+            <Element Name="HyperShot" ID="0x898D3214"/>
+            <Element Name="CommandVisorJammed" ID="0x3F82745E"/>
+            <Element Name="Stat_EnemiesKilled" ID="0xC05C27EB"/>
+            <Element Name="Stat_ShotsFired" ID="0xB0D22357"/>
+            <Element Name="Stat_DamageReceived" ID="0xE3179F1B"/>
+            <Element Name="Stat_DataSaves" ID="0xF99E7798"/>
+            <Element Name="Stat_HypermodeUses" ID="0x4408D67B"/>
+            <Element Name="Stat_CommandoKills" ID="0x47E7BCEA"/>
+            <Element Name="Stat_TinCanHighScore" ID="0x22390F26"/>
+            <Element Name="Stat_TinCanCurrentScore" ID="0x38BE4C42"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

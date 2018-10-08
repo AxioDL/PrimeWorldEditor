@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct45</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x2C83C012" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0xDB254386">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D45EC67">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEFDC8306">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x49F4C4EE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA7A47350" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x955A61EF">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x77A4EFB5">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x45134ACE">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x308D4F23">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x26797DF9">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x814DFD80">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA6BC177F">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D034498">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA4985156">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x91D5B3CA">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5EE136E3" Archetype="PuddleControlData"/>
+            <Element Type="Struct" ID="0xFD6D2B52" Archetype="PuddleControlData"/>
+            <Element Type="Struct" ID="0x17B1C55E" Archetype="PuddleControlData"/>
+            <Element Type="Asset" ID="0x2367F689">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD473158D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCCA298B4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB99C80D3">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x96EA9F4B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x21655924">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE482BCA4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x812E9CC8">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAEADE325">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x10CFFAD6">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x78685EB2">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7027EE36">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8A53608D">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF349BAAC">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x49B30DE2">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDECD5831">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1B412C4B">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5DCF91E1">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2BD2723">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Struct" ID="0x5F669BA0">
+                        <SubProperties>
+                            <Element Type="Int" ID="0x8BD240">
+                                <DefaultValue>1</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x3F3A2EEB">
+                        <CookPreference>Never</CookPreference>
+                        <SubProperties>
+                            <Element Type="Int" ID="0x8BD240">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x9D0C992F">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x8382CD42">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x8A40FD1B">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Enum" ID="0xF8A14C37">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x887FEFE">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x424928B3">
+                        <CookPreference>Never</CookPreference>
+                        <SubProperties>
+                            <Element Type="Int" ID="0x8BD240">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x9D0C992F">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x8382CD42">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x8A40FD1B">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Enum" ID="0xF8A14C37">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x887FEFE">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x5BBBE79E">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x426F2F60">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Asset" ID="0x771A3176">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xEFD287D9">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56F41CA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x4BDEE69A">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x598B045">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Int" ID="0x7648F63">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>ElectroMagneticPulse</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <property ID="0x41435456">
-                    <default>false</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x636DF2DB" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0x1E6686FE" type="float">
-            <default>34.0</default>
-        </property>
-        <property ID="0x8B51E23F" type="float">
-            <default>1.333</default>
-        </property>
-        <property ID="0x96BD6426" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xD7AA5BA0" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x15EBB6E9" type="float">
-            <default>0.4</default>
-        </property>
-        <property ID="0xCE54E50E" type="float">
-            <default>0.8</default>
-        </property>
-        <property ID="0xD8C6D15C" type="asset" extensions="PART"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>ElectroMagneticPulse</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Bool" ID="0x41435456">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x636DF2DB">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1E6686FE">
+                <DefaultValue>34.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B51E23F">
+                <DefaultValue>1.3329999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x96BD6426">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD7AA5BA0">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x15EBB6E9">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE54E50E">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xD8C6D15C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>
