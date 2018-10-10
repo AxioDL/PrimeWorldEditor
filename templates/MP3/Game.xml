@@ -840,6 +840,10 @@
             <Value Path="Structs/Abilities.xml"/>
         </Element>
         <Element>
+            <Key>ActivationTime</Key>
+            <Value Path="Structs/ActivationTime.xml"/>
+        </Element>
+        <Element>
             <Key>ActorParameters</Key>
             <Value Path="Structs/ActorParameters.xml"/>
         </Element>

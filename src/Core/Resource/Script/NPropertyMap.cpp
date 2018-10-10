@@ -132,10 +132,16 @@ SNameKey CreateKey(IProperty* pProperty)
     return Key;
 }
 
+SNameKey CreateKey(u32 ID, const char* pkTypeName)
+{
+    return SNameKey( CCRC32::StaticHashString(pkTypeName), ID );
+}
+
 /** Loads property names into memory */
 void LoadMap()
 {
     ASSERT( !gMapIsLoaded );
+    Log::Write("Loading property map");
 
     if ( gkUseLegacyMapForNameLookups )
     {
@@ -165,6 +171,7 @@ inline void ConditionalLoadMap()
 void SaveMap(bool Force /*= false*/)
 {
     ASSERT( gMapIsLoaded );
+    Log::Write("Saving property map");
 
     if( gMapIsDirty || Force )
     {
@@ -210,21 +217,67 @@ const char* GetPropertyName(u32 ID, const char* pkTypeName)
     // Does not support legacy map
     ConditionalLoadMap();
 
-    SNameKey Key( CCRC32::StaticHashString(pkTypeName), ID );
+    SNameKey Key = CreateKey(ID, pkTypeName);
     auto MapFind = gNameMap.find(Key);
     return MapFind == gNameMap.end() ? "Unknown" : *MapFind->second.Name;
 }
 
+
+/** Returns whether the specified name is in the map. */
+bool IsValidPropertyName(u32 ID, const char* pkTypeName)
+{
+    SNameKey Key = CreateKey(ID, pkTypeName);
+    auto MapFind = gNameMap.find(Key);
+    return MapFind != gNameMap.end();
+}
+
+/** Retrieves a list of all properties that match the requested property ID. */
+void RetrievePropertiesWithID(u32 ID, const char* pkTypeName, std::list<IProperty*>& OutList)
+{
+    SNameKey Key = CreateKey(ID, pkTypeName);
+    auto MapFind = gNameMap.find(Key);
+
+    if (MapFind != gNameMap.end())
+    {
+        SNameValue& Value = MapFind->second;
+        OutList = Value.PropertyList;
+    }
+}
+
+/** Retrieves a list of all XML templates that contain a given property ID. */
+void RetrieveXMLsWithProperty(u32 ID, const char* pkTypeName, std::set<TString>& OutSet)
+{
+    SNameKey Key = CreateKey(ID, pkTypeName);
+    auto MapFind = gNameMap.find(Key);
+
+    if (MapFind != gNameMap.end())
+    {
+        SNameValue& NameValue = MapFind->second;
+
+        for (auto ListIter = NameValue.PropertyList.begin(); ListIter != NameValue.PropertyList.end(); ListIter++)
+        {
+            IProperty* pProperty = *ListIter;
+            OutSet.insert( pProperty->GetTemplateFileName() );
+        }
+    }
+}
+
 /** Updates the name of a given property in the map */
-void SetPropertyName(IProperty* pProperty, const char* pkNewName)
+void SetPropertyName(u32 ID, const char* pkTypeName, const char* pkNewName)
 {
     if( gkUseLegacyMapForUpdates )
     {
-        gLegacyNameMap[pProperty->ID()] = pkNewName;
+        auto Iter = gLegacyNameMap.find(ID);
+
+        if (Iter == gLegacyNameMap.end() || Iter->second != pkNewName)
+        {
+            Iter->second = pkNewName;
+            gMapIsDirty = true;
+        }
     }
     else
     {
-        SNameKey Key = CreateKey(pProperty);
+        SNameKey Key = CreateKey(ID, pkTypeName);
         auto MapFind = gNameMap.find(Key);
 
         if (MapFind != gNameMap.end())
@@ -235,6 +288,7 @@ void SetPropertyName(IProperty* pProperty, const char* pkNewName)
             {
                 TString OldName = Value.Name;
                 Value.Name = pkNewName;
+                gMapIsDirty = true;
 
                 // Update all properties with this ID with the new name
                 for (auto Iter = Value.PropertyList.begin(); Iter != Value.PropertyList.end(); Iter++)
@@ -250,8 +304,6 @@ void SetPropertyName(IProperty* pProperty, const char* pkNewName)
             }
         }
     }
-
-    gMapIsDirty = true;
 }
 
 /** Registers a property in the name map. Should be called on all properties that use the map */

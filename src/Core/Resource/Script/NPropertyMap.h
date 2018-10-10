@@ -22,8 +22,17 @@ const char* GetPropertyName(IProperty* pProperty);
  */
 const char* GetPropertyName(u32 ID, const char* pkTypeName);
 
+/** Returns whether the specified name is in the map. */
+bool IsValidPropertyName(u32 ID, const char* pkTypeName);
+
+/** Retrieves a list of all properties that match the requested property ID. */
+void RetrievePropertiesWithID(u32 ID, const char* pkTypeName, std::list<IProperty*>& OutList);
+
+/** Retrieves a list of all XML templates that contain a given property ID. */
+void RetrieveXMLsWithProperty(u32 ID, const char* pkTypeName, std::set<TString>& OutSet);
+
 /** Updates the name of a given property in the map */
-void SetPropertyName(IProperty* pProperty, const char* pkNewName);
+void SetPropertyName(u32 ID, const char* pkTypeName, const char* pkNewName);
 
 /** Registers a property in the name map. Should be called on all properties that use the map */
 void RegisterProperty(IProperty* pProperty);

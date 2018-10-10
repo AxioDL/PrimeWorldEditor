@@ -20,7 +20,7 @@ public:
         , mMagic(Magic)
         , mOwnsStream(true)
     {
-        mArchiveFlags = AF_Binary | AF_Writer;
+        mArchiveFlags = AF_Binary | AF_Writer | AF_NoSkipping;
         mpStream = new CFileOutStream(rkFilename, IOUtil::eBigEndian);
 
         if (mpStream->IsValid())
@@ -36,7 +36,7 @@ public:
         , mOwnsStream(false)
     {
         ASSERT(pStream->IsValid());
-        mArchiveFlags = AF_Binary | AF_Writer;
+        mArchiveFlags = AF_Binary | AF_Writer | AF_NoSkipping;
         mpStream = pStream;
         SetVersion(skCurrentArchiveVersion, FileVersion, Game);
     }
@@ -46,7 +46,7 @@ public:
         , mOwnsStream(false)
     {
         ASSERT(pStream->IsValid());
-        mArchiveFlags = AF_Binary | AF_Writer;
+        mArchiveFlags = AF_Binary | AF_Writer | AF_NoSkipping;
         mpStream = pStream;
         SetVersion(rkVersion);
     }

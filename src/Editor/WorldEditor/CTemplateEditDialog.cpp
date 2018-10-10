@@ -36,14 +36,11 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     {
         NGameList::LoadAllGameTemplates();
 
-        //@FIXME
-#if 0
-        std::vector<TString> TemplateList;
-        CGameTemplate::XMLsUsingID(pProperty->ID(), TemplateList);
+        std::set<TString> Templates;
+        NPropertyMap::RetrieveXMLsWithProperty( pProperty->ID(), pProperty->HashableTypeName(), Templates );
 
-        for (u32 iTemp = 0; iTemp < TemplateList.size(); iTemp++)
-            mpUI->TemplatesListWidget->addItem(TO_QSTRING(TemplateList[iTemp]));
-#endif
+        for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)
+            mpUI->TemplatesListWidget->addItem(TO_QSTRING(*Iter));
 
         mpUI->ValidityLabel->SetValidityText("Hash match! Property name is likely correct.", "Hash mismatch! Property name is likely wrong.");
         connect(mpUI->NameLineEdit, SIGNAL( SoftValidityChanged(bool) ), mpUI->ValidityLabel, SLOT( SetValid(bool) ) );
@@ -94,7 +91,7 @@ void CTemplateEditDialog::ApplyChanges()
         // Rename properties
         if (RenameAll && (mGame >= EGame::EchoesDemo || mpProperty->Archetype() != nullptr))
         {
-            NPropertyMap::SetPropertyName(mpProperty, *NewName);
+            NPropertyMap::SetPropertyName(mpProperty->ID(), mpProperty->HashableTypeName(), *NewName);
         }
     }
 
@@ -102,10 +99,8 @@ void CTemplateEditDialog::ApplyChanges()
     UpdateDescription(NewDescription);
 
     // Resave templates
+    NGameList::SaveTemplates();
     NPropertyMap::SaveMap();
-    CGameTemplate* pGameTemplate = NGameList::GetGameTemplate( mpProperty->Game() );
-    pGameTemplate->SaveGameTemplates();
-
     close();
 }
 
@@ -115,23 +110,19 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     mpProperty->SetDescription(rkNewDesc);
 
     // Update all copies of this property in memory with the new description
-    //@FIXME
-#if 0
     TString SourceFile = mpProperty->GetTemplateFileName();
 
     if (!SourceFile.IsEmpty())
     {
-        const std::vector<IProperty*>* pkTemplates = CGameTemplate::TemplatesWithMatchingID(mpProperty);
+        std::list<IProperty*> Templates;
+        NPropertyMap::RetrievePropertiesWithID(mpProperty->ID(), mpProperty->HashableTypeName(), Templates);
 
-        if (pkTemplates)
+        for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)
         {
-            for (u32 TemplateIdx = 0; TemplateIdx < pkTemplates->size(); TemplateIdx++)
-            {
-                IProperty* pProp = pkTemplates->at(TemplateIdx);
+            IProperty* pProperty = *Iter;
 
-                if (pProp->GetTemplateFileName() == SourceFile && pProp->Description() == mOriginalDescription)
-                    pProp->SetDescription(rkNewDesc);
-            }
+            if (pProperty->GetTemplateFileName() == SourceFile && pProperty->Description() == mOriginalDescription)
+                pProperty->SetDescription(rkNewDesc);
         }
     }
 
@@ -140,73 +131,60 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     {
         pProperty->SetDescription(rkNewDesc);
     }
-#endif
 }
 
-void CTemplateEditDialog::FindEquivalentProperties(IProperty *pTemp)
+void CTemplateEditDialog::FindEquivalentProperties(IProperty* pProperty)
 {
-    //FIXME
-    /*
+    // This function creates a list of properties in other games that are equivalent to this one.
+    // In this case "equivalent" means same template file and same ID string.
+    // Since MP1 doesn't have property IDs, we don't apply this to MP1.
     if (mGame <= EGame::Prime) return;
 
-    // Find the equivalent version of this property in other games.
-    CScriptTemplate *pScript = pTemp->ScriptTemplate();
-    TString Source = pTemp->FindStructSource();
-
-    // Determine struct-relative ID string
-    TIDString IDString;
-
-    if (Source.IsEmpty())
-        IDString = pTemp->IDString(true);
-
-    else
+    // Find the lowest-level archetype and retrieve the ID string relative to that archetype's XML file.
+    while (pProperty->Archetype())
     {
-        IDString = pTemp->IDString(false);
-        CStructTemplate *pParent = pTemp->Parent();
-
-        while (pParent)
-        {
-            if (!pParent->SourceFile().IsEmpty()) break;
-            IDString.Prepend(pParent->IDString(false) + ":");
-            pParent = pParent->Parent();
-        }
+        pProperty = pProperty->Archetype();
     }
+    TString Name = pProperty->Name();
+    TIDString IDString = pProperty->IDString(true);
+    CScriptTemplate* pScript = pProperty->ScriptTemplate();
 
-    QList<CGameTemplate*> GameList = QList<CGameTemplate*>::fromStdList(CGameTemplate::GameList());
-
-    if (Source.IsEmpty())
+    // Now iterate over all games, check for an equivalent property in an equivalent XML file.
+    for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
     {
-        u32 ObjectID = pScript->ObjectID();
+        EGame Game = (EGame) GameIdx;
+        if (Game <= EGame::Prime || Game == mGame) continue;
 
-        foreach (CGameTemplate *pGame, GameList)
+        CGameTemplate* pGame = NGameList::GetGameTemplate(Game);
+
+        // Check for equivalent properties in a script template
+        CStructProperty* pStruct = nullptr;
+
+        if (pScript)
         {
-            if (pGame == pTemp->GameTemplate() || pGame->Game() <= EGame::Prime) continue;
-            CScriptTemplate *pNewScript = pGame->TemplateByID(ObjectID);
+            u32 ObjectID = pScript->ObjectID();
+            CScriptTemplate* pEquivalentScript = pGame->TemplateByID(ObjectID);
 
-            if (pNewScript)
+            if (pEquivalentScript)
             {
-                IPropertyTemplate *pNewTemp = pNewScript->BaseStruct()->PropertyByIDString(IDString);
+                pStruct = pEquivalentScript->Properties();
+            }
+        }
+        // Check for equivalent properties in a property template
+        else
+        {
+            pStruct = TPropCast<CStructProperty>( pGame->FindPropertyArchetype(Name) );
+        }
 
-                if (pNewTemp)
-                    mEquivalentProperties << pNewTemp;
+        // If we have a struct, check if thestruct contains an equivalent property.
+        if (pStruct)
+        {
+            IProperty* pEquivalentProperty = pStruct->ChildByIDString( IDString );
+
+            if (pEquivalentProperty)
+            {
+                mEquivalentProperties << pEquivalentProperty;
             }
         }
     }
-
-    else
-    {
-        foreach (CGameTemplate *pGame, GameList)
-        {
-            if (pGame == pTemp->GameTemplate() || pGame->Game() <= EGame::Prime) continue;
-            CStructTemplate *pStruct = pGame->StructAtSource(Source);
-
-            if (pStruct)
-            {
-                IPropertyTemplate *pNewTemp = pStruct->PropertyByIDString(IDString);
-
-                if (pNewTemp)
-                    mEquivalentProperties << pNewTemp;
-            }
-        }
-    }*/
 }

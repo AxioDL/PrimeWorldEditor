@@ -20,7 +20,7 @@ public:
         : IArchive()
         , mOwnsStream(true)
     {
-        mArchiveFlags = AF_Binary | AF_Reader;
+        mArchiveFlags = AF_Binary | AF_Reader | AF_NoSkipping;
         mpStream = new CFileInStream(rkFilename, IOUtil::eBigEndian);
 
         if (mpStream->IsValid())
@@ -35,7 +35,7 @@ public:
         , mMagicValid(true)
         , mOwnsStream(false)
     {
-        mArchiveFlags = AF_Binary | AF_Reader;
+        mArchiveFlags = AF_Binary | AF_Reader | AF_NoSkipping;
 
         ASSERT(pStream->IsValid());
         mpStream = pStream;
@@ -47,7 +47,7 @@ public:
         , mMagicValid(true)
         , mOwnsStream(true)
     {
-        mArchiveFlags = AF_Binary | AF_Reader;
+        mArchiveFlags = AF_Binary | AF_Reader | AF_NoSkipping;
         mpStream = new CMemoryInStream(pData, DataSize, Endian);
         SetVersion(rkVersion);
     }

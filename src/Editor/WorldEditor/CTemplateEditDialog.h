@@ -35,7 +35,7 @@ public slots:
 
 protected:
     void UpdateDescription(const TString& rkNewDesc);
-    void FindEquivalentProperties(IProperty *pTemp);
+    void FindEquivalentProperties(IProperty *pProperty);
 };
 
 #endif // CTEMPLATEEDITDIALOG_H

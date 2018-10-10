@@ -17,12 +17,6 @@ CResTypeInfo::CResTypeInfo(EResType Type, const TString& rkTypeName, const TStri
     smTypeMap[Type] = this;
 }
 
-CResTypeInfo::~CResTypeInfo()
-{
-    // shouldn't happen - we want to just create these at launch and keep them around forever
-    ASSERT(false);
-}
-
 bool CResTypeInfo::IsInGame(EGame Game) const
 {
     for (u32 iGame = 0; iGame < mCookedExtensions.size(); iGame++)
