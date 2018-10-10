@@ -35,7 +35,7 @@ void CGameTemplate::Load(const TString& kFilePath)
     {
         SScriptTemplatePath& ScriptPath = Iter->second;
         TString AbsPath = gkGameRoot + ScriptPath.Path;
-        ScriptPath.pTemplate = std::make_shared<CScriptTemplate>(this, ScriptPath.ID, AbsPath);
+        ScriptPath.pTemplate = std::make_shared<CScriptTemplate>(this, Iter->first, AbsPath);
     }
 
     for (auto Iter = mPropertyTemplates.begin(); Iter != mPropertyTemplates.end(); Iter++)
