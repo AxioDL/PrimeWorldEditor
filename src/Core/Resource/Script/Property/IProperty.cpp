@@ -275,15 +275,35 @@ IProperty* IProperty::ChildByIDString(const TIDString& rkIdString)
 
 TString IProperty::GetTemplateFileName()
 {
-    if (mpScriptTemplate)
+    // We want to return the path to the XML file that this property originally belongs to.
+    // So, for example, if this is a property of a script template, we want to return that script template.
+    // However, if this property was copied from a property archetype... If we are a direct instance of an
+    // archetype property (for instance a DamageInfo struct instance), then we want to return the template
+    // that contains the instance. However, if we are a sub-property of an archetype, then we want to return
+    // the path to that archetype instead. Hopefully that makes sense!
+    IProperty* pTemplateRoot = this;
+
+    // If our archetype has a parent, then our archetype is a sub-property of the main archetype, and we
+    // need to go deeper to find the original source XML file.
+    //
+    // If our archetype doesn't have a parent, then we are an instance of the main archetype, and we stop here.
+    while (pTemplateRoot->Archetype() && pTemplateRoot->Archetype()->Parent())
     {
-        return mpScriptTemplate->SourceFile();
+        pTemplateRoot = pTemplateRoot->Archetype();
+    }
+    pTemplateRoot = pTemplateRoot->RootParent();
+
+    // Now that we have the base property of our template, we can return the file path.
+    static const u32 kChopAmount = strlen("../templates/");
+
+    if (pTemplateRoot->ScriptTemplate())
+    {
+        return pTemplateRoot->ScriptTemplate()->SourceFile().ChopFront(kChopAmount);
     }
     else
     {
         CGameTemplate* pGameTemplate = NGameList::GetGameTemplate(Game());
-        IProperty* pTemplateRoot = (IsArchetype() ? RootParent() : mpArchetype);
-        return pGameTemplate->GetPropertyArchetypeFilePath( pTemplateRoot->Name() );
+        return pGameTemplate->GetPropertyArchetypeFilePath( pTemplateRoot->Name() ).ChopFront(kChopAmount);
     }
 }
 
@@ -304,27 +324,36 @@ bool IProperty::ShouldCook(void* pPropertyData) const
 
 void IProperty::SetName(const TString& rkNewName)
 {
-    mName = rkNewName;
-    mFlags.ClearFlag(EPropertyFlag::HasCachedNameCheck);
-
-    // in Echoes and on, since property names are referenced by ID, renaming a property
-    // doesn't directly affect the serialized data, so it doesn't need to be flagged dirty
-    if (mGame <= EGame::Prime)
+    if (mName != rkNewName)
     {
-        MarkDirty();
+        mName = rkNewName;
+        mFlags.ClearFlag(EPropertyFlag::HasCachedNameCheck);
+
+        // in Echoes and on, since property names are referenced by ID, renaming a property
+        // doesn't directly affect the serialized data, so it doesn't need to be flagged dirty
+        if (mGame <= EGame::Prime)
+        {
+            MarkDirty();
+        }
     }
 }
 
 void IProperty::SetDescription(const TString& rkNewDescription)
 {
-    mDescription = rkNewDescription;
-    MarkDirty();
+    if (mDescription != rkNewDescription)
+    {
+        mDescription = rkNewDescription;
+        MarkDirty();
+    }
 }
 
 void IProperty::SetSuffix(const TString& rkNewSuffix)
 {
-    mSuffix = rkNewSuffix;
-    MarkDirty();
+    if (mSuffix != rkNewSuffix)
+    {
+        mSuffix = rkNewSuffix;
+        MarkDirty();
+    }
 }
 
 void IProperty::MarkDirty()

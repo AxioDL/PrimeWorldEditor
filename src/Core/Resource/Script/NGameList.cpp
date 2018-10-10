@@ -1,4 +1,5 @@
 #include "NGameList.h"
+#include <Common/Log.h>
 
 namespace NGameList
 {
@@ -85,6 +86,7 @@ inline void SerializeGameList(IArchive& Arc)
 void LoadGameList()
 {
     ASSERT(!gLoadedGameList);
+    Log::Write("Loading game list");
 
     CXMLReader Reader(gkGameListPath);
     ASSERT(Reader.IsValid());
@@ -97,6 +99,7 @@ void LoadGameList()
 void SaveGameList()
 {
     ASSERT(gLoadedGameList);
+    Log::Write("Saving game list");
 
     CXMLWriter Writer(gkGameListPath, "GameList");
     ASSERT(Writer.IsValid());

@@ -211,6 +211,7 @@ public:
     inline IProperty* Parent() const;
     inline IProperty* RootParent();
     inline IProperty* Archetype() const;
+    inline IProperty* RootArchetype();
     inline CScriptTemplate* ScriptTemplate() const;
     inline TString Name() const;
     inline TString Description() const;
@@ -284,6 +285,20 @@ inline IProperty* IProperty::RootParent()
 inline IProperty* IProperty::Archetype() const
 {
     return mpArchetype;
+}
+
+inline IProperty* IProperty::RootArchetype()
+{
+    IProperty* pArchetype = Archetype();
+    IProperty* pOut = this;
+
+    while (pArchetype)
+    {
+        pOut = pArchetype;
+        pArchetype = pArchetype->Archetype();
+    }
+
+    return pOut;
 }
 
 inline CScriptTemplate* IProperty::ScriptTemplate() const

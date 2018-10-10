@@ -32,7 +32,7 @@ struct SGeneratedPropertyName
     TString Name;
     TString Type;
     u32 ID;
-    std::vector<TString> XmlList;
+    std::set<TString> XmlList;
 };
 
 /** Generates property names and validates them against know property IDs. */

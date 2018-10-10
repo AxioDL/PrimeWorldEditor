@@ -11,9 +11,11 @@ using namespace std::experimental::filesystem::v1;
 namespace FileUtil
 {
 
+#define ToPath(Path) u8path(Path)
+
 bool Exists(const TString &rkFilePath)
 {
-    return exists(*rkFilePath);
+    return exists(ToPath(*rkFilePath));
 }
 
 bool IsRoot(const TString& rkPath)
@@ -26,22 +28,22 @@ bool IsRoot(const TString& rkPath)
 
 bool IsFile(const TString& rkFilePath)
 {
-    return is_regular_file(*rkFilePath);
+    return is_regular_file(ToPath(*rkFilePath));
 }
 
 bool IsDirectory(const TString& rkDirPath)
 {
-    return is_directory(*rkDirPath);
+    return is_directory(ToPath(*rkDirPath));
 }
 
 bool IsAbsolute(const TString& rkDirPath)
 {
-    return path(*rkDirPath).is_absolute();
+    return ToPath(*rkDirPath).is_absolute();
 }
 
 bool IsRelative(const TString& rkDirPath)
 {
-    return path(*rkDirPath).is_relative();
+    return ToPath(*rkDirPath).is_relative();
 }
 
 bool IsEmpty(const TString& rkDirPath)
@@ -52,7 +54,7 @@ bool IsEmpty(const TString& rkDirPath)
         return false;
     }
 
-    return is_empty(*rkDirPath);
+    return is_empty(ToPath(*rkDirPath));
 }
 
 bool MakeDirectory(const TString& rkNewDir)
@@ -63,7 +65,7 @@ bool MakeDirectory(const TString& rkNewDir)
         return false;
     }
 
-    return create_directories(*rkNewDir);
+    return create_directories(ToPath(*rkNewDir));
 }
 
 bool CopyFile(const TString& rkOrigPath, const TString& rkNewPath)
@@ -77,7 +79,7 @@ bool CopyFile(const TString& rkOrigPath, const TString& rkNewPath)
     MakeDirectory(rkNewPath.GetFileDirectory());
     std::error_code Error;
     // call std::filesystem::copy, not std::copy
-    std::experimental::filesystem::copy(*rkOrigPath, *rkNewPath, Error);
+    std::experimental::filesystem::copy(ToPath(*rkOrigPath), ToPath(*rkNewPath), Error);
     return (Error.value() == 0);
 }
 
@@ -92,7 +94,7 @@ bool CopyDirectory(const TString& rkOrigPath, const TString& rkNewPath)
     MakeDirectory(rkNewPath.GetFileDirectory());
     std::error_code Error;
     // call std::filesystem::copy, not std::copy
-    std::experimental::filesystem::copy(*rkOrigPath, *rkNewPath, Error);
+    std::experimental::filesystem::copy(ToPath(*rkOrigPath), ToPath(*rkNewPath), Error);
     return (Error.value() == 0);
 }
 
@@ -110,8 +112,9 @@ bool MoveFile(const TString& rkOldPath, const TString& rkNewPath)
         return false;
     }
 
-    int Result = rename(*rkOldPath, *rkNewPath);
-    return (Result == 0);
+    std::error_code Error;
+    rename(ToPath(*rkOldPath), ToPath(*rkNewPath), Error);
+    return Error.value() == 0;
 }
 
 bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
@@ -128,14 +131,15 @@ bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
         return false;
     }
 
-    int Result = rename(*rkOldPath, *rkNewPath);
-    return (Result == 0);
+    std::error_code Error;
+    rename(ToPath(*rkOldPath), ToPath(*rkNewPath), Error);
+    return Error.value() == 0;
 }
 
 bool DeleteFile(const TString& rkFilePath)
 {
     if (!IsFile(rkFilePath)) return false;
-    return remove(*rkFilePath) == 1;
+    return remove(ToPath(*rkFilePath)) == 1;
 }
 
 bool DeleteDirectory(const TString& rkDirPath, bool FailIfNotEmpty)
@@ -159,7 +163,7 @@ bool DeleteDirectory(const TString& rkDirPath, bool FailIfNotEmpty)
 
     // Delete directory
     std::error_code Error;
-    remove_all(*rkDirPath, Error);
+    remove_all(ToPath(*rkDirPath), Error);
     return (Error.value() == 0);
 }
 
@@ -200,12 +204,12 @@ bool ClearDirectory(const TString& rkDirPath)
 
 u64 FileSize(const TString &rkFilePath)
 {
-    return (u64) (Exists(rkFilePath) ? file_size(*rkFilePath) : -1);
+    return (u64) (Exists(rkFilePath) ? file_size(ToPath(*rkFilePath)) : -1);
 }
 
 u64 LastModifiedTime(const TString& rkFilePath)
 {
-    return (u64) last_write_time(*rkFilePath).time_since_epoch().count();
+    return (u64) last_write_time(ToPath(*rkFilePath)).time_since_epoch().count();
 }
 
 TString WorkingDirectory()
@@ -215,7 +219,7 @@ TString WorkingDirectory()
 
 TString MakeAbsolute(TString Path)
 {
-    if (!path(*Path).has_root_name())
+    if (!ToPath(*Path).has_root_name())
         Path = WorkingDirectory() + "/" + Path;
 
     TStringList Components = Path.Split("/\\");
@@ -481,7 +485,7 @@ void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*=
 
         if (Recursive)
         {
-            for (recursive_directory_iterator It(*DirPath); It != recursive_directory_iterator(); ++It)
+            for (recursive_directory_iterator It(ToPath(*DirPath)); It != recursive_directory_iterator(); ++It)
             {
                 AddFileLambda(It->path().string());
             }
@@ -489,7 +493,7 @@ void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*=
 
         else
         {
-            for (directory_iterator It(*DirPath); It != directory_iterator(); ++It)
+            for (directory_iterator It(ToPath(*DirPath)); It != directory_iterator(); ++It)
             {
                 AddFileLambda(It->path().string());
             }
@@ -499,7 +503,7 @@ void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*=
 
 TString FindFileExtension(const TString& rkDir, const TString& rkName)
 {
-    for (directory_iterator It(*rkDir); It != directory_iterator(); ++It)
+    for (directory_iterator It(ToPath(*rkDir)); It != directory_iterator(); ++It)
     {
         TString Name = It->path().filename().string();
         if (Name.GetFileName(false) == rkName) return Name.GetFileExtension();

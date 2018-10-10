@@ -10,10 +10,7 @@
             </Element>
             <Element Type="Array" ID="0x1">
                 <Name>Activation Times</Name>
-                <ItemArchetype Type="Float" ID="0x0">
-                    <Name></Name>
-                    <DefaultValue>0.0</DefaultValue>
-                </ItemArchetype>
+                <ItemArchetype Type="Struct" Archetype="ActivationTime"/>
             </Element>
         </SubProperties>
     </PropertyArchetype>

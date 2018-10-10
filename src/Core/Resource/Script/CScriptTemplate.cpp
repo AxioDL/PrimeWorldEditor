@@ -96,8 +96,9 @@ void CScriptTemplate::Serialize(IArchive& Arc)
 
 void CScriptTemplate::Save(bool Force)
 {
-    if (mDirty || Force)
+    if (IsDirty() || Force)
     {
+        Log::Write("Saving script template: " + mSourceFile);
         CXMLWriter Writer(mSourceFile, "ScriptObject", 0, mpGame->Game());
         ASSERT(Writer.IsValid());
         Serialize(Writer);

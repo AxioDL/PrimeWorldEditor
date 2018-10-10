@@ -28,7 +28,7 @@ class CResTypeInfo
 
     // Private Methods
     CResTypeInfo(EResType Type, const TString& rkTypeName, const TString& rkRetroExtension);
-    ~CResTypeInfo();
+    ~CResTypeInfo() {}
 
     // Public Methods
 public:

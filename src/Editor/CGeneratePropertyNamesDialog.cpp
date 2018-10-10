@@ -225,13 +225,11 @@ void CGeneratePropertyNamesDialog::ApplyChanges()
     {
         QTreeWidgetItem* pItem = mCheckedItems[ItemIdx];
         u32 ID = TO_TSTRING( pItem->text(2) ).ToInt32();
+        TString Type = TO_TSTRING( pItem->text(1) );
+        TString NewName = TO_TSTRING( pItem->text(0) );
 
-        //FIXME
-#if 0
-        QString NewName = pItem->text(0);
-        NPropertyMap::SetPropertyName(::RenameProperty( ID, TO_TSTRING(NewName) );
-        pItem->setText(3, NewName);
-#endif
+        NPropertyMap::SetPropertyName( ID, *Type, *NewName );
+        pItem->setText( 3, TO_QSTRING(NewName) );
     }
 
     NPropertyMap::SaveMap();
@@ -270,9 +268,9 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
             pItem->setCheckState(0, Qt::Unchecked);
 
             // Add children items
-            for (int XmlIdx = 0; XmlIdx < rkName.XmlList.size(); XmlIdx++)
+            for (auto Iter = rkName.XmlList.begin(); Iter != rkName.XmlList.end(); Iter++)
             {
-                QString XmlName = TO_QSTRING( rkName.XmlList[XmlIdx] );
+                QString XmlName = TO_QSTRING( *Iter );
                 ColumnText.clear();
                 ColumnText << XmlName;
 

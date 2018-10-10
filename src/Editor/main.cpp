@@ -23,58 +23,78 @@ void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*/, cons
     }
 }
 
-int main(int argc, char *argv[])
+class CMain
 {
-    // Create application
-    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    CEditorApplication App(argc, argv);
-    App.setApplicationName( APP_NAME );
-    App.setApplicationVersion( APP_VERSION );
-    App.setOrganizationName("Aruki");
-    App.setWindowIcon(QIcon(":/icons/AppIcon.ico"));
-
-    // Create UI relay
-    CUIRelay UIRelay(&App);
-    gpUIRelay = &UIRelay;
-
-    // Set up dark theme
-    qApp->setStyle(QStyleFactory::create("Fusion"));
-    QPalette DarkPalette;
-    DarkPalette.setColor(QPalette::Window, QColor(53,53,53));
-    DarkPalette.setColor(QPalette::WindowText, Qt::white);
-    DarkPalette.setColor(QPalette::Base, QColor(25,25,25));
-    DarkPalette.setColor(QPalette::AlternateBase, QColor(35,35,35));
-    DarkPalette.setColor(QPalette::ToolTipBase, Qt::white);
-    DarkPalette.setColor(QPalette::ToolTipText, Qt::white);
-    DarkPalette.setColor(QPalette::Text, Qt::white);
-    DarkPalette.setColor(QPalette::Button, QColor(53,53,53));
-    DarkPalette.setColor(QPalette::ButtonText, Qt::white);
-    DarkPalette.setColor(QPalette::BrightText, Qt::red);
-    DarkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
-    DarkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-    DarkPalette.setColor(QPalette::HighlightedText, Qt::white);
-    qApp->setPalette(DarkPalette);
-
-    // Init log
-    bool Initialized = Log::InitLog("primeworldeditor.log");
-    if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
-    qInstallMessageHandler(QtLogRedirect);
-
-    // Create editor resource store
-    gpEditorStore = new CResourceStore("../resources/");
-
-    if (!gpEditorStore->AreAllEntriesValid())
+public:
+    /** Main function */
+    int Main(int argc, char *argv[])
     {
-        Log::Write("Editor store has invalid entries. Rebuilding database...");
-        gpEditorStore->RebuildFromDirectory();
-        gpEditorStore->ConditionalSaveStore();
+        // Create application
+        QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+        CEditorApplication App(argc, argv);
+        App.setApplicationName( APP_NAME );
+        App.setApplicationVersion( APP_VERSION );
+        App.setOrganizationName("Aruki");
+        App.setWindowIcon(QIcon(":/icons/AppIcon.ico"));
+
+        // Create UI relay
+        CUIRelay UIRelay(&App);
+        gpUIRelay = &UIRelay;
+
+        // Set up dark theme
+        qApp->setStyle(QStyleFactory::create("Fusion"));
+        QPalette DarkPalette;
+        DarkPalette.setColor(QPalette::Window, QColor(53,53,53));
+        DarkPalette.setColor(QPalette::WindowText, Qt::white);
+        DarkPalette.setColor(QPalette::Base, QColor(25,25,25));
+        DarkPalette.setColor(QPalette::AlternateBase, QColor(35,35,35));
+        DarkPalette.setColor(QPalette::ToolTipBase, Qt::white);
+        DarkPalette.setColor(QPalette::ToolTipText, Qt::white);
+        DarkPalette.setColor(QPalette::Text, Qt::white);
+        DarkPalette.setColor(QPalette::Button, QColor(53,53,53));
+        DarkPalette.setColor(QPalette::ButtonText, Qt::white);
+        DarkPalette.setColor(QPalette::BrightText, Qt::red);
+        DarkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
+        DarkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
+        DarkPalette.setColor(QPalette::HighlightedText, Qt::white);
+        qApp->setPalette(DarkPalette);
+
+        // Init log
+        bool Initialized = Log::InitLog("primeworldeditor.log");
+        if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
+        qInstallMessageHandler(QtLogRedirect);
+
+        // Create editor resource store
+        gpEditorStore = new CResourceStore("../resources/");
+
+        if (!gpEditorStore->AreAllEntriesValid())
+        {
+            Log::Write("Editor store has invalid entries. Rebuilding database...");
+            gpEditorStore->RebuildFromDirectory();
+            gpEditorStore->ConditionalSaveStore();
+        }
+
+        for (int i = 0; i < (int) EGame::Max; i++)
+        {
+            CGameTemplate* pGame = NGameList::GetGameTemplate( (EGame) i );
+            if (pGame) pGame->Save();
+        }
+        return 0;
+
+        // Execute application
+        App.InitEditor();
+        return App.exec();
     }
 
-    // Execute application
-    App.InitEditor();
-    int ReturnValue = App.exec();
+    /** Clean up any resources at the end of application execution */
+    ~CMain()
+    {
+        NGameList::Shutdown();
+    }
+};
 
-    // Clean up
-    NGameList::Shutdown();
-    return ReturnValue;
+int main(int argc, char *argv[])
+{
+    CMain Main;
+    return Main.Main(argc, argv);
 }

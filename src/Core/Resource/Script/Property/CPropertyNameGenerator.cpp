@@ -2,6 +2,7 @@
 #include "IUIRelay.h"
 #include "Core/Resource/Factory/CTemplateLoader.h"
 #include "Core/Resource/Script/CGameTemplate.h"
+#include "Core/Resource/Script/NPropertyMap.h"
 #include <Common/Hash/CCRC32.h>
 
 /** Default constructor */
@@ -146,17 +147,16 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
         for (int TypeIdx = 0; TypeIdx < rkParams.TypeNames.size(); TypeIdx++)
         {
             CCRC32 FullHash = BaseHash;
-            FullHash.Hash( *rkParams.TypeNames[TypeIdx] );
+            const char* pkTypeName = *rkParams.TypeNames[TypeIdx];
+            FullHash.Hash( pkTypeName );
             u32 PropertyID = FullHash.Digest();
 
-            //@FIXME
-#if 0
-            // Check if this hash is a property ID - it's valid if there are any XMLs using this ID
-            SGeneratedPropertyName PropertyName;
-            CGameTemplate::XMLsUsingID(PropertyID, PropertyName.XmlList);
-
-            if (PropertyName.XmlList.size() > 0)
+            // Check if this hash is a property ID
+            if (NPropertyMap::IsValidPropertyName(PropertyID, pkTypeName))
             {
+                SGeneratedPropertyName PropertyName;
+                NPropertyMap::RetrieveXMLsWithProperty(PropertyID, pkTypeName, PropertyName.XmlList);
+
                 // Generate a string with the complete name. (We wait to do this until now to avoid needless string allocation)
                 PropertyName.Name = rkParams.Prefix;
 
@@ -195,16 +195,15 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                 {
                     TString DelimitedXmlList;
 
-                    for (int XmlIdx = 0; XmlIdx < PropertyName.XmlList.size(); XmlIdx++)
+                    for (auto Iter = PropertyName.XmlList.begin(); Iter != PropertyName.XmlList.end(); Iter++)
                     {
-                        DelimitedXmlList += PropertyName.XmlList[XmlIdx] + "\n";
+                        DelimitedXmlList += *Iter + "\n";
                     }
 
                     TString LogMsg = TString::Format("%s [%s] : 0x%08X\n", *PropertyName.Name, *PropertyName.Type, PropertyName.ID) + DelimitedXmlList;
                     Log::Write(LogMsg);
                 }
             }
-#endif
         }
 
         // Every 250 tests, check with the progress notifier. Update the progress
