@@ -38,9 +38,6 @@ struct SObjId
 /** Struct holding a reference to a script object template */
 struct SScriptTemplatePath
 {
-    /** Script object ID */
-    SObjId ID;
-
     /** File path to the template file, relative to the game directory */
     TString Path;
 
@@ -49,26 +46,24 @@ struct SScriptTemplatePath
 
     /** Constructor */
     SScriptTemplatePath()
-        : ID(0)
     {}
 
-    SScriptTemplatePath(u32 InID, const TString& kInPath, CScriptTemplate* pInTemplate)
-        : ID(InID)
-        , Path(kInPath)
-        , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
-    {}
-
-    SScriptTemplatePath(const CFourCC& kInID, const TString& kInPath, CScriptTemplate* pInTemplate)
-        : ID(kInID)
-        , Path(kInPath)
+    SScriptTemplatePath(const TString& kInPath, CScriptTemplate* pInTemplate)
+        : Path(kInPath)
         , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
     {}
 
     /** Serializer */
     void Serialize(IArchive& Arc)
     {
-        Arc << SerialParameter("ID", ID, SH_Attribute)
-            << SerialParameter("Path", Path, SH_Attribute);
+        if (Arc.FileVersion() == 0)
+        {
+            Arc << SerialParameter("Path", Path, SH_Attribute);
+        }
+        else
+        {
+            Arc.SerializePrimitive(Path, 0);
+        }
     }
 };
 

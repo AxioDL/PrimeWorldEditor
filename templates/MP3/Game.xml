@@ -3,835 +3,835 @@
     <ScriptObjects>
         <Element>
             <Key>ACHI</Key>
-            <Value ID="ACHI" Path="Script/Achievement.xml"/>
+            <Value Path="Script/Achievement.xml"/>
         </Element>
         <Element>
             <Key>ACKF</Key>
-            <Value ID="ACKF" Path="Script/ActorKeyframe.xml"/>
+            <Value Path="Script/ActorKeyframe.xml"/>
         </Element>
         <Element>
             <Key>ACTR</Key>
-            <Value ID="ACTR" Path="Script/Actor.xml"/>
+            <Value Path="Script/Actor.xml"/>
         </Element>
         <Element>
             <Key>ADMG</Key>
-            <Value ID="ADMG" Path="Script/AreaDamage.xml"/>
+            <Value Path="Script/AreaDamage.xml"/>
         </Element>
         <Element>
             <Key>AIFZ</Key>
-            <Value ID="AIFZ" Path="Script/AIFuse.xml"/>
+            <Value Path="Script/AIFuse.xml"/>
         </Element>
         <Element>
             <Key>AIHT</Key>
-            <Value ID="AIHT" Path="Script/AIHint.xml"/>
+            <Value Path="Script/AIHint.xml"/>
         </Element>
         <Element>
             <Key>AIKF</Key>
-            <Value ID="AIKF" Path="Script/AIKeyframe.xml"/>
+            <Value Path="Script/AIKeyframe.xml"/>
         </Element>
         <Element>
             <Key>AITP</Key>
-            <Value ID="AITP" Path="Script/AITaskPoint.xml"/>
+            <Value Path="Script/AITaskPoint.xml"/>
         </Element>
         <Element>
             <Key>AIWP</Key>
-            <Value ID="AIWP" Path="Script/AIWaypoint.xml"/>
+            <Value Path="Script/AIWaypoint.xml"/>
         </Element>
         <Element>
             <Key>ALRM</Key>
-            <Value ID="ALRM" Path="Script/AlarmController.xml"/>
+            <Value Path="Script/AlarmController.xml"/>
         </Element>
         <Element>
             <Key>AMIA</Key>
-            <Value ID="AMIA" Path="Script/AmbientAI.xml"/>
+            <Value Path="Script/AmbientAI.xml"/>
         </Element>
         <Element>
             <Key>AMOR</Key>
-            <Value ID="AMOR" Path="Script/ActorMorph.xml"/>
+            <Value Path="Script/ActorMorph.xml"/>
         </Element>
         <Element>
             <Key>AOCL</Key>
-            <Value ID="AOCL" Path="Script/AudioOccluder.xml"/>
+            <Value Path="Script/AudioOccluder.xml"/>
         </Element>
         <Element>
             <Key>ASAS</Key>
-            <Value ID="ASAS" Path="Script/AreaStreamedAudioState.xml"/>
+            <Value Path="Script/AreaStreamedAudioState.xml"/>
         </Element>
         <Element>
             <Key>ATMA</Key>
-            <Value ID="ATMA" Path="Script/AtomicAlpha.xml"/>
+            <Value Path="Script/AtomicAlpha.xml"/>
         </Element>
         <Element>
             <Key>ATRN</Key>
-            <Value ID="ATRN" Path="Script/ActorTransform.xml"/>
+            <Value Path="Script/ActorTransform.xml"/>
         </Element>
         <Element>
             <Key>AUR1</Key>
-            <Value ID="AUR1" Path="Script/AuroraUnit1.xml"/>
+            <Value Path="Script/AuroraUnit1.xml"/>
         </Element>
         <Element>
             <Key>AUR2</Key>
-            <Value ID="AUR2" Path="Script/AuroraUnit2.xml"/>
+            <Value Path="Script/AuroraUnit2.xml"/>
         </Element>
         <Element>
             <Key>AVIS</Key>
-            <Value ID="AVIS" Path="Script/AVIS.xml"/>
+            <Value Path="Script/AVIS.xml"/>
         </Element>
         <Element>
             <Key>AVMC</Key>
-            <Value ID="AVMC" Path="Script/AVMC.xml"/>
+            <Value Path="Script/AVMC.xml"/>
         </Element>
         <Element>
             <Key>BALS</Key>
-            <Value ID="BALS" Path="Script/SpiderBallAttractionSurface.xml"/>
+            <Value Path="Script/SpiderBallAttractionSurface.xml"/>
         </Element>
         <Element>
             <Key>BALT</Key>
-            <Value ID="BALT" Path="Script/BallTrigger.xml"/>
+            <Value Path="Script/BallTrigger.xml"/>
         </Element>
         <Element>
             <Key>BALW</Key>
-            <Value ID="BALW" Path="Script/SpiderBallWaypoint.xml"/>
+            <Value Path="Script/SpiderBallWaypoint.xml"/>
         </Element>
         <Element>
             <Key>BEAM</Key>
-            <Value ID="BEAM" Path="Script/Beam.xml"/>
+            <Value Path="Script/Beam.xml"/>
         </Element>
         <Element>
             <Key>BLUR</Key>
-            <Value ID="BLUR" Path="Script/CameraBlurKeyframe.xml"/>
+            <Value Path="Script/CameraBlurKeyframe.xml"/>
         </Element>
         <Element>
             <Key>BLWF</Key>
-            <Value ID="BLWF" Path="Script/BlinkWolf.xml"/>
+            <Value Path="Script/BlinkWolf.xml"/>
         </Element>
         <Element>
             <Key>BOS3</Key>
-            <Value ID="BOS3" Path="Script/SeedBoss3.xml"/>
+            <Value Path="Script/SeedBoss3.xml"/>
         </Element>
         <Element>
             <Key>BSKR</Key>
-            <Value ID="BSKR" Path="Script/Berserker.xml"/>
+            <Value Path="Script/Berserker.xml"/>
         </Element>
         <Element>
             <Key>BSTR</Key>
-            <Value ID="BSTR" Path="Script/BeastRider.xml"/>
+            <Value Path="Script/BeastRider.xml"/>
         </Element>
         <Element>
             <Key>CABL</Key>
-            <Value ID="CABL" Path="Script/Cable.xml"/>
+            <Value Path="Script/Cable.xml"/>
         </Element>
         <Element>
             <Key>CABP</Key>
-            <Value ID="CABP" Path="Script/ContextActionButtonPressing.xml"/>
+            <Value Path="Script/ContextActionButtonPressing.xml"/>
         </Element>
         <Element>
             <Key>CACL</Key>
-            <Value ID="CACL" Path="Script/ContextActionCombinationLock.xml"/>
+            <Value Path="Script/ContextActionCombinationLock.xml"/>
         </Element>
         <Element>
             <Key>CAIF</Key>
-            <Value ID="CAIF" Path="Script/ContextActionImageFocus.xml"/>
+            <Value Path="Script/ContextActionImageFocus.xml"/>
         </Element>
         <Element>
             <Key>CAMH</Key>
-            <Value ID="CAMH" Path="Script/CameraHint.xml"/>
+            <Value Path="Script/CameraHint.xml"/>
         </Element>
         <Element>
             <Key>CAMP</Key>
-            <Value ID="CAMP" Path="Script/CameraPitch.xml"/>
+            <Value Path="Script/CameraPitch.xml"/>
         </Element>
         <Element>
             <Key>CAMS</Key>
-            <Value ID="CAMS" Path="Script/CameraShaker.xml"/>
+            <Value Path="Script/CameraShaker.xml"/>
         </Element>
         <Element>
             <Key>CANB</Key>
-            <Value ID="CANB" Path="Script/CannonBall.xml"/>
+            <Value Path="Script/CannonBall.xml"/>
         </Element>
         <Element>
             <Key>CAWL</Key>
-            <Value ID="CAWL" Path="Script/ContextActionWelding.xml"/>
+            <Value Path="Script/ContextActionWelding.xml"/>
         </Element>
         <Element>
             <Key>CINE</Key>
-            <Value ID="CINE" Path="Script/CinematicCamera.xml"/>
+            <Value Path="Script/CinematicCamera.xml"/>
         </Element>
         <Element>
             <Key>CLRM</Key>
-            <Value ID="CLRM" Path="Script/ColorModulate.xml"/>
+            <Value Path="Script/ColorModulate.xml"/>
         </Element>
         <Element>
             <Key>CMBT</Key>
-            <Value ID="CMBT" Path="Script/CombatTrooper.xml"/>
+            <Value Path="Script/CombatTrooper.xml"/>
         </Element>
         <Element>
             <Key>CNTA</Key>
-            <Value ID="CNTA" Path="Script/ControllerAction.xml"/>
+            <Value Path="Script/ControllerAction.xml"/>
         </Element>
         <Element>
             <Key>CNTR</Key>
-            <Value ID="CNTR" Path="Script/Counter.xml"/>
+            <Value Path="Script/Counter.xml"/>
         </Element>
         <Element>
             <Key>COVR</Key>
-            <Value ID="COVR" Path="Script/CoverPoint.xml"/>
+            <Value Path="Script/CoverPoint.xml"/>
         </Element>
         <Element>
             <Key>CRAR</Key>
-            <Value ID="CRAR" Path="Script/CrossAreaRelay.xml"/>
+            <Value Path="Script/CrossAreaRelay.xml"/>
         </Element>
         <Element>
             <Key>CRLY</Key>
-            <Value ID="CRLY" Path="Script/ConditionalRelay.xml"/>
+            <Value Path="Script/ConditionalRelay.xml"/>
         </Element>
         <Element>
             <Key>CSAC</Key>
-            <Value ID="CSAC" Path="Script/ContextSensitiveAction.xml"/>
+            <Value Path="Script/ContextSensitiveAction.xml"/>
         </Element>
         <Element>
             <Key>CSAT</Key>
-            <Value ID="CSAT" Path="Script/ContextSensitiveActivator.xml"/>
+            <Value Path="Script/ContextSensitiveActivator.xml"/>
         </Element>
         <Element>
             <Key>CTLH</Key>
-            <Value ID="CTLH" Path="Script/ControlHint.xml"/>
+            <Value Path="Script/ControlHint.xml"/>
         </Element>
         <Element>
             <Key>DEBR</Key>
-            <Value ID="DEBR" Path="Script/Debris.xml"/>
+            <Value Path="Script/Debris.xml"/>
         </Element>
         <Element>
             <Key>DEFM</Key>
-            <Value ID="DEFM" Path="Script/DefenseMechanoid.xml"/>
+            <Value Path="Script/DefenseMechanoid.xml"/>
         </Element>
         <Element>
             <Key>DFOG</Key>
-            <Value ID="DFOG" Path="Script/DistanceFog.xml"/>
+            <Value Path="Script/DistanceFog.xml"/>
         </Element>
         <Element>
             <Key>DGMN</Key>
-            <Value ID="DGMN" Path="Script/DialogueMenu.xml"/>
+            <Value Path="Script/DialogueMenu.xml"/>
         </Element>
         <Element>
             <Key>DKSE</Key>
-            <Value ID="DKSE" Path="Script/DarkSamusEcho.xml"/>
+            <Value Path="Script/DarkSamusEcho.xml"/>
         </Element>
         <Element>
             <Key>DLHT</Key>
-            <Value ID="DLHT" Path="Script/DynamicLight.xml"/>
+            <Value Path="Script/DynamicLight.xml"/>
         </Element>
         <Element>
             <Key>DMGA</Key>
-            <Value ID="DMGA" Path="Script/DamageActor.xml"/>
+            <Value Path="Script/DamageActor.xml"/>
         </Element>
         <Element>
             <Key>DOCK</Key>
-            <Value ID="DOCK" Path="Script/Dock.xml"/>
+            <Value Path="Script/Dock.xml"/>
         </Element>
         <Element>
             <Key>DOOR</Key>
-            <Value ID="DOOR" Path="Script/Door.xml"/>
+            <Value Path="Script/Door.xml"/>
         </Element>
         <Element>
             <Key>DRKS</Key>
-            <Value ID="DRKS" Path="Script/DarkSamus.xml"/>
+            <Value Path="Script/DarkSamus.xml"/>
         </Element>
         <Element>
             <Key>DTRG</Key>
-            <Value ID="DTRG" Path="Script/DamageableTrigger.xml"/>
+            <Value Path="Script/DamageableTrigger.xml"/>
         </Element>
         <Element>
             <Key>DTRO</Key>
-            <Value ID="DTRO" Path="Script/DamageableTriggerOrientated.xml"/>
+            <Value Path="Script/DamageableTriggerOrientated.xml"/>
         </Element>
         <Element>
             <Key>EFCT</Key>
-            <Value ID="EFCT" Path="Script/Effect.xml"/>
+            <Value Path="Script/Effect.xml"/>
         </Element>
         <Element>
             <Key>EFTR</Key>
-            <Value ID="EFTR" Path="Script/EffectRepulsor.xml"/>
+            <Value Path="Script/EffectRepulsor.xml"/>
         </Element>
         <Element>
             <Key>EMPU</Key>
-            <Value ID="EMPU" Path="Script/ElectroMagneticPulse.xml"/>
+            <Value Path="Script/ElectroMagneticPulse.xml"/>
         </Element>
         <Element>
             <Key>EYEP</Key>
-            <Value ID="EYEP" Path="Script/EyePod.xml"/>
+            <Value Path="Script/EyePod.xml"/>
         </Element>
         <Element>
             <Key>FGHS</Key>
-            <Value ID="FGHS" Path="Script/FargullHatcherSwarm.xml"/>
+            <Value Path="Script/FargullHatcherSwarm.xml"/>
         </Element>
         <Element>
             <Key>FGHT</Key>
-            <Value ID="FGHT" Path="Script/FargullHatcher.xml"/>
+            <Value Path="Script/FargullHatcher.xml"/>
         </Element>
         <Element>
             <Key>FILT</Key>
-            <Value ID="FILT" Path="Script/CameraFilterKeyframe.xml"/>
+            <Value Path="Script/CameraFilterKeyframe.xml"/>
         </Element>
         <Element>
             <Key>FISH</Key>
-            <Value ID="FISH" Path="Script/FishCloud.xml"/>
+            <Value Path="Script/FishCloud.xml"/>
         </Element>
         <Element>
             <Key>FLAR</Key>
-            <Value ID="FLAR" Path="Script/VisorFlare.xml"/>
+            <Value Path="Script/VisorFlare.xml"/>
         </Element>
         <Element>
             <Key>FLPS</Key>
-            <Value ID="FLPS" Path="Script/FalsePerspective.xml"/>
+            <Value Path="Script/FalsePerspective.xml"/>
         </Element>
         <Element>
             <Key>FLYP</Key>
-            <Value ID="FLYP" Path="Script/FlyingPirate.xml"/>
+            <Value Path="Script/FlyingPirate.xml"/>
         </Element>
         <Element>
             <Key>FOGO</Key>
-            <Value ID="FOGO" Path="Script/FogOverlay.xml"/>
+            <Value Path="Script/FogOverlay.xml"/>
         </Element>
         <Element>
             <Key>FOGV</Key>
-            <Value ID="FOGV" Path="Script/FogVolume.xml"/>
+            <Value Path="Script/FogVolume.xml"/>
         </Element>
         <Element>
             <Key>FRND</Key>
-            <Value ID="FRND" Path="Script/Friendly.xml"/>
+            <Value Path="Script/Friendly.xml"/>
         </Element>
         <Element>
             <Key>FSHM</Key>
-            <Value ID="FSHM" Path="Script/FishCloudModifier.xml"/>
+            <Value Path="Script/FishCloudModifier.xml"/>
         </Element>
         <Element>
             <Key>FSWM</Key>
-            <Value ID="FSWM" Path="Script/FlyerSwarm.xml"/>
+            <Value Path="Script/FlyerSwarm.xml"/>
         </Element>
         <Element>
             <Key>FXDC</Key>
-            <Value ID="FXDC" Path="Script/EnvFxDensityController.xml"/>
+            <Value Path="Script/EnvFxDensityController.xml"/>
         </Element>
         <Element>
             <Key>GAND</Key>
-            <Value ID="GAND" Path="Script/Gandrayda.xml"/>
+            <Value Path="Script/Gandrayda.xml"/>
         </Element>
         <Element>
             <Key>GENR</Key>
-            <Value ID="GENR" Path="Script/Generator.xml"/>
+            <Value Path="Script/Generator.xml"/>
         </Element>
         <Element>
             <Key>GHOR</Key>
-            <Value ID="GHOR" Path="Script/GhorLowerBody.xml"/>
+            <Value Path="Script/GhorLowerBody.xml"/>
         </Element>
         <Element>
             <Key>GHRU</Key>
-            <Value ID="GHRU" Path="Script/GhorUpperBody.xml"/>
+            <Value Path="Script/GhorUpperBody.xml"/>
         </Element>
         <Element>
             <Key>GMNU</Key>
-            <Value ID="GMNU" Path="Script/GuiMenu.xml"/>
+            <Value Path="Script/GuiMenu.xml"/>
         </Element>
         <Element>
             <Key>GNTB</Key>
-            <Value ID="GNTB" Path="Script/GunTurretBase.xml"/>
+            <Value Path="Script/GunTurretBase.xml"/>
         </Element>
         <Element>
             <Key>GNTT</Key>
-            <Value ID="GNTT" Path="Script/GunTurretTop.xml"/>
+            <Value Path="Script/GunTurretTop.xml"/>
         </Element>
         <Element>
             <Key>GOBD</Key>
-            <Value ID="GOBD" Path="Script/GeneratedObjectDeleter.xml"/>
+            <Value Path="Script/GeneratedObjectDeleter.xml"/>
         </Element>
         <Element>
             <Key>GRAP</Key>
-            <Value ID="GRAP" Path="Script/GrapplePoint.xml"/>
+            <Value Path="Script/GrapplePoint.xml"/>
         </Element>
         <Element>
             <Key>GRFL</Key>
-            <Value ID="GRFL" Path="Script/GragnolFlyer.xml"/>
+            <Value Path="Script/GragnolFlyer.xml"/>
         </Element>
         <Element>
             <Key>GSAC</Key>
-            <Value ID="GSAC" Path="Script/GellSac.xml"/>
+            <Value Path="Script/GellSac.xml"/>
         </Element>
         <Element>
             <Key>GSCR</Key>
-            <Value ID="GSCR" Path="Script/GuiScreen.xml"/>
+            <Value Path="Script/GuiScreen.xml"/>
         </Element>
         <Element>
             <Key>GSLD</Key>
-            <Value ID="GSLD" Path="Script/GuiSlider.xml"/>
+            <Value Path="Script/GuiSlider.xml"/>
         </Element>
         <Element>
             <Key>GWIG</Key>
-            <Value ID="GWIG" Path="Script/GuiWidget.xml"/>
+            <Value Path="Script/GuiWidget.xml"/>
         </Element>
         <Element>
             <Key>HHNT</Key>
-            <Value ID="HHNT" Path="Script/HUDHint.xml"/>
+            <Value Path="Script/HUDHint.xml"/>
         </Element>
         <Element>
             <Key>HINT</Key>
-            <Value ID="HINT" Path="Script/PlayerHint.xml"/>
+            <Value Path="Script/PlayerHint.xml"/>
         </Element>
         <Element>
             <Key>IFTC</Key>
-            <Value ID="IFTC" Path="Script/IFT.xml"/>
+            <Value Path="Script/IFT.xml"/>
         </Element>
         <Element>
             <Key>KRAK</Key>
-            <Value ID="KRAK" Path="Script/Korakk.xml"/>
+            <Value Path="Script/Korakk.xml"/>
         </Element>
         <Element>
             <Key>KRBA</Key>
-            <Value ID="KRBA" Path="Script/KorbaSnatcherSwarm.xml"/>
+            <Value Path="Script/KorbaSnatcherSwarm.xml"/>
         </Element>
         <Element>
             <Key>KRBM</Key>
-            <Value ID="KRBM" Path="Script/KorbaMaw.xml"/>
+            <Value Path="Script/KorbaMaw.xml"/>
         </Element>
         <Element>
             <Key>LODC</Key>
-            <Value ID="LODC" Path="Script/LODController.xml"/>
+            <Value Path="Script/LODController.xml"/>
         </Element>
         <Element>
             <Key>LUAX</Key>
-            <Value ID="LUAX" Path="Script/LUAScript.xml"/>
+            <Value Path="Script/LUAScript.xml"/>
         </Element>
         <Element>
             <Key>LVOL</Key>
-            <Value ID="LVOL" Path="Script/LightVolume.xml"/>
+            <Value Path="Script/LightVolume.xml"/>
         </Element>
         <Element>
             <Key>MEMO</Key>
-            <Value ID="MEMO" Path="Script/HUDMemo.xml"/>
+            <Value Path="Script/HUDMemo.xml"/>
         </Element>
         <Element>
             <Key>MHAT</Key>
-            <Value ID="MHAT" Path="Script/MetroidHatcher.xml"/>
+            <Value Path="Script/MetroidHatcher.xml"/>
         </Element>
         <Element>
             <Key>MHOP</Key>
-            <Value ID="MHOP" Path="Script/MetroidHopper.xml"/>
+            <Value Path="Script/MetroidHopper.xml"/>
         </Element>
         <Element>
             <Key>MIIA</Key>
-            <Value ID="MIIA" Path="Script/MiiAccessory.xml"/>
+            <Value Path="Script/MiiAccessory.xml"/>
         </Element>
         <Element>
             <Key>MINI</Key>
-            <Value ID="MINI" Path="Script/MinorIng.xml"/>
+            <Value Path="Script/MinorIng.xml"/>
         </Element>
         <Element>
             <Key>MMDL</Key>
-            <Value ID="MMDL" Path="Script/MultiModelActor.xml"/>
+            <Value Path="Script/MultiModelActor.xml"/>
         </Element>
         <Element>
             <Key>MOVI</Key>
-            <Value ID="MOVI" Path="Script/StreamedMovie.xml"/>
+            <Value Path="Script/StreamedMovie.xml"/>
         </Element>
         <Element>
             <Key>MPHZ</Key>
-            <Value ID="MPHZ" Path="Script/MetroidPhazeoid.xml"/>
+            <Value Path="Script/MetroidPhazeoid.xml"/>
         </Element>
         <Element>
             <Key>MREE</Key>
-            <Value ID="MREE" Path="Script/Metaree.xml"/>
+            <Value Path="Script/Metaree.xml"/>
         </Element>
         <Element>
             <Key>MRLY</Key>
-            <Value ID="MRLY" Path="Script/MemoryRelay.xml"/>
+            <Value Path="Script/MemoryRelay.xml"/>
         </Element>
         <Element>
             <Key>MYSF</Key>
-            <Value ID="MYSF" Path="Script/MysteryFlyer.xml"/>
+            <Value Path="Script/MysteryFlyer.xml"/>
         </Element>
         <Element>
             <Key>NBAR</Key>
-            <Value ID="NBAR" Path="Script/Nightbarb.xml"/>
+            <Value Path="Script/Nightbarb.xml"/>
         </Element>
         <Element>
             <Key>NOTU</Key>
-            <Value ID="NOTU" Path="Script/NoseTurret.xml"/>
+            <Value Path="Script/NoseTurret.xml"/>
         </Element>
         <Element>
             <Key>OPAA</Key>
-            <Value ID="OPAA" Path="Script/OptionalAreaAsset.xml"/>
+            <Value Path="Script/OptionalAreaAsset.xml"/>
         </Element>
         <Element>
             <Key>PARA</Key>
-            <Value ID="PARA" Path="Script/Parasite.xml"/>
+            <Value Path="Script/Parasite.xml"/>
         </Element>
         <Element>
             <Key>PCKP</Key>
-            <Value ID="PCKP" Path="Script/Pickup.xml"/>
+            <Value Path="Script/Pickup.xml"/>
         </Element>
         <Element>
             <Key>PCTL</Key>
-            <Value ID="PCTL" Path="Script/PathControl.xml"/>
+            <Value Path="Script/PathControl.xml"/>
         </Element>
         <Element>
             <Key>PDBR</Key>
-            <Value ID="PDBR" Path="Script/PhysicsDebris.xml"/>
+            <Value Path="Script/PhysicsDebris.xml"/>
         </Element>
         <Element>
             <Key>PDRN</Key>
-            <Value ID="PDRN" Path="Script/PirateDrone.xml"/>
+            <Value Path="Script/PirateDrone.xml"/>
         </Element>
         <Element>
             <Key>PGVS</Key>
-            <Value ID="PGVS" Path="Script/PlayerGravityScalar.xml"/>
+            <Value Path="Script/PlayerGravityScalar.xml"/>
         </Element>
         <Element>
             <Key>PHHR</Key>
-            <Value ID="PHHR" Path="Script/PhazonHarvester.xml"/>
+            <Value Path="Script/PhazonHarvester.xml"/>
         </Element>
         <Element>
             <Key>PHPF</Key>
-            <Value ID="PHPF" Path="Script/PhazonPuffer.xml"/>
+            <Value Path="Script/PhazonPuffer.xml"/>
         </Element>
         <Element>
             <Key>PHZD</Key>
-            <Value ID="PHZD" Path="Script/Phaazoid.xml"/>
+            <Value Path="Script/Phaazoid.xml"/>
         </Element>
         <Element>
             <Key>PHZS</Key>
-            <Value ID="PHZS" Path="Script/PhazonFlyerSwarm.xml"/>
+            <Value Path="Script/PhazonFlyerSwarm.xml"/>
         </Element>
         <Element>
             <Key>PILL</Key>
-            <Value ID="PILL" Path="Script/PillBug.xml"/>
+            <Value Path="Script/PillBug.xml"/>
         </Element>
         <Element>
             <Key>PIRT</Key>
-            <Value ID="PIRT" Path="Script/SpacePirate.xml"/>
+            <Value Path="Script/SpacePirate.xml"/>
         </Element>
         <Element>
             <Key>PLAC</Key>
-            <Value ID="PLAC" Path="Script/PlayerActor.xml"/>
+            <Value Path="Script/PlayerActor.xml"/>
         </Element>
         <Element>
             <Key>PLAT</Key>
-            <Value ID="PLAT" Path="Script/Platform.xml"/>
+            <Value Path="Script/Platform.xml"/>
         </Element>
         <Element>
             <Key>PLCH</Key>
-            <Value ID="PLCH" Path="Script/PhazonLeech.xml"/>
+            <Value Path="Script/PhazonLeech.xml"/>
         </Element>
         <Element>
             <Key>PLPX</Key>
-            <Value ID="PLPX" Path="Script/PlayerProxy.xml"/>
+            <Value Path="Script/PlayerProxy.xml"/>
         </Element>
         <Element>
             <Key>PMCT</Key>
-            <Value ID="PMCT" Path="Script/PathMeshCtrl.xml"/>
+            <Value Path="Script/PathMeshCtrl.xml"/>
         </Element>
         <Element>
             <Key>POIN</Key>
-            <Value ID="POIN" Path="Script/PointOfInterest.xml"/>
+            <Value Path="Script/PointOfInterest.xml"/>
         </Element>
         <Element>
             <Key>PPDL</Key>
-            <Value ID="PPDL" Path="Script/PhazonPuddle.xml"/>
+            <Value Path="Script/PhazonPuddle.xml"/>
         </Element>
         <Element>
             <Key>PSSM</Key>
-            <Value ID="PSSM" Path="Script/PlantScarabSwarm.xml"/>
+            <Value Path="Script/PlantScarabSwarm.xml"/>
         </Element>
         <Element>
             <Key>PTNT</Key>
-            <Value ID="PTNT" Path="Script/PhazonTentacle.xml"/>
+            <Value Path="Script/PhazonTentacle.xml"/>
         </Element>
         <Element>
             <Key>PUAP</Key>
-            <Value ID="PUAP" Path="Script/PlayerUserAnimPoint.xml"/>
+            <Value Path="Script/PlayerUserAnimPoint.xml"/>
         </Element>
         <Element>
             <Key>PUFR</Key>
-            <Value ID="PUFR" Path="Script/Puffer.xml"/>
+            <Value Path="Script/Puffer.xml"/>
         </Element>
         <Element>
             <Key>RADD</Key>
-            <Value ID="RADD" Path="Script/RadialDamage.xml"/>
+            <Value Path="Script/RadialDamage.xml"/>
         </Element>
         <Element>
             <Key>REAA</Key>
-            <Value ID="REAA" Path="Script/AreaAttributes.xml"/>
+            <Value Path="Script/AreaAttributes.xml"/>
         </Element>
         <Element>
             <Key>REPH</Key>
-            <Value ID="REPH" Path="Script/ReptilicusHunter.xml"/>
+            <Value Path="Script/ReptilicusHunter.xml"/>
         </Element>
         <Element>
             <Key>REPL</Key>
-            <Value ID="REPL" Path="Script/Repulsor.xml"/>
+            <Value Path="Script/Repulsor.xml"/>
         </Element>
         <Element>
             <Key>RID1</Key>
-            <Value ID="RID1" Path="Script/Ridley1.xml"/>
+            <Value Path="Script/Ridley1.xml"/>
         </Element>
         <Element>
             <Key>RIPL</Key>
-            <Value ID="RIPL" Path="Script/Ripple.xml"/>
+            <Value Path="Script/Ripple.xml"/>
         </Element>
         <Element>
             <Key>RMAC</Key>
-            <Value ID="RMAC" Path="Script/RoomAcoustics.xml"/>
+            <Value Path="Script/RoomAcoustics.xml"/>
         </Element>
         <Element>
             <Key>RRLY</Key>
-            <Value ID="RRLY" Path="Script/RandomRelay.xml"/>
+            <Value Path="Script/RandomRelay.xml"/>
         </Element>
         <Element>
             <Key>RSPL</Key>
-            <Value ID="RSPL" Path="Script/RSPL.xml"/>
+            <Value Path="Script/RSPL.xml"/>
         </Element>
         <Element>
             <Key>RUMB</Key>
-            <Value ID="RUMB" Path="Script/RumbleEffect.xml"/>
+            <Value Path="Script/RumbleEffect.xml"/>
         </Element>
         <Element>
             <Key>RUND</Key>
-            <Value ID="RUND" Path="Script/Rundas.xml"/>
+            <Value Path="Script/Rundas.xml"/>
         </Element>
         <Element>
             <Key>SAMD</Key>
-            <Value ID="SAMD" Path="Script/StreamedAudioModifier.xml"/>
+            <Value Path="Script/StreamedAudioModifier.xml"/>
         </Element>
         <Element>
             <Key>SAMF</Key>
-            <Value ID="SAMF" Path="Script/SamusForm.xml"/>
+            <Value Path="Script/SamusForm.xml"/>
         </Element>
         <Element>
             <Key>SB2G</Key>
-            <Value ID="SB2G" Path="Script/SeedBoss2GiantForm.xml"/>
+            <Value Path="Script/SeedBoss2GiantForm.xml"/>
         </Element>
         <Element>
             <Key>SB2P</Key>
-            <Value ID="SB2P" Path="Script/SeedBoss2PrimeBot.xml"/>
+            <Value Path="Script/SeedBoss2PrimeBot.xml"/>
         </Element>
         <Element>
             <Key>SB2X</Key>
-            <Value ID="SB2X" Path="Script/SeedBoss2BotSwarm.xml"/>
+            <Value Path="Script/SeedBoss2BotSwarm.xml"/>
         </Element>
         <Element>
             <Key>SBEM</Key>
-            <Value ID="SBEM" Path="Script/ScanBeam.xml"/>
+            <Value Path="Script/ScanBeam.xml"/>
         </Element>
         <Element>
             <Key>SBMI</Key>
-            <Value ID="SBMI" Path="Script/SkyboxModInca.xml"/>
+            <Value Path="Script/SkyboxModInca.xml"/>
         </Element>
         <Element>
             <Key>SBO1</Key>
-            <Value ID="SBO1" Path="Script/SeedBoss1Orb.xml"/>
+            <Value Path="Script/SeedBoss1Orb.xml"/>
         </Element>
         <Element>
             <Key>SCIC</Key>
-            <Value ID="SCIC" Path="Script/ScanIncoming.xml"/>
+            <Value Path="Script/ScanIncoming.xml"/>
         </Element>
         <Element>
             <Key>SCTL</Key>
-            <Value ID="SCTL" Path="Script/SurfaceControl.xml"/>
+            <Value Path="Script/SurfaceControl.xml"/>
         </Element>
         <Element>
             <Key>SDB1</Key>
-            <Value ID="SDB1" Path="Script/SeedBoss1.xml"/>
+            <Value Path="Script/SeedBoss1.xml"/>
         </Element>
         <Element>
             <Key>SDRN</Key>
-            <Value ID="SDRN" Path="Script/SteamDrone.xml"/>
+            <Value Path="Script/SteamDrone.xml"/>
         </Element>
         <Element>
             <Key>SHBG</Key>
-            <Value ID="SHBG" Path="Script/ShellBug.xml"/>
+            <Value Path="Script/ShellBug.xml"/>
         </Element>
         <Element>
             <Key>SHBR</Key>
-            <Value ID="SHBR" Path="Script/ShipBombingRun.xml"/>
+            <Value Path="Script/ShipBombingRun.xml"/>
         </Element>
         <Element>
             <Key>SHCI</Key>
-            <Value ID="SHCI" Path="Script/ShipCommandIcon.xml"/>
+            <Value Path="Script/ShipCommandIcon.xml"/>
         </Element>
         <Element>
             <Key>SHCP</Key>
-            <Value ID="SHCP" Path="Script/ShipCommandPath.xml"/>
+            <Value Path="Script/ShipCommandPath.xml"/>
         </Element>
         <Element>
             <Key>SHDW</Key>
-            <Value ID="SHDW" Path="Script/ShadowProjector.xml"/>
+            <Value Path="Script/ShadowProjector.xml"/>
         </Element>
         <Element>
             <Key>SHHC</Key>
-            <Value ID="SHHC" Path="Script/ShipHudControl.xml"/>
+            <Value Path="Script/ShipHudControl.xml"/>
         </Element>
         <Element>
             <Key>SHIP</Key>
-            <Value ID="SHIP" Path="Script/Ship.xml"/>
+            <Value Path="Script/Ship.xml"/>
         </Element>
         <Element>
             <Key>SHPX</Key>
-            <Value ID="SHPX" Path="Script/ShipProxy.xml"/>
+            <Value Path="Script/ShipProxy.xml"/>
         </Element>
         <Element>
             <Key>SKRP</Key>
-            <Value ID="SKRP" Path="Script/SkyRipple.xml"/>
+            <Value Path="Script/SkyRipple.xml"/>
         </Element>
         <Element>
             <Key>SLCT</Key>
-            <Value ID="SLCT" Path="Script/ScriptLayerController.xml"/>
+            <Value Path="Script/ScriptLayerController.xml"/>
         </Element>
         <Element>
             <Key>SNAG</Key>
-            <Value ID="SNAG" Path="Script/SnagVineHelper.xml"/>
+            <Value Path="Script/SnagVineHelper.xml"/>
         </Element>
         <Element>
             <Key>SNDM</Key>
-            <Value ID="SNDM" Path="Script/SoundModifier.xml"/>
+            <Value Path="Script/SoundModifier.xml"/>
         </Element>
         <Element>
             <Key>SOND</Key>
-            <Value ID="SOND" Path="Script/Sound.xml"/>
+            <Value Path="Script/Sound.xml"/>
         </Element>
         <Element>
             <Key>SPDC</Key>
-            <Value ID="SPDC" Path="Script/ShipDecalController.xml"/>
+            <Value Path="Script/ShipDecalController.xml"/>
         </Element>
         <Element>
             <Key>SPFN</Key>
-            <Value ID="SPFN" Path="Script/SpecialFunction.xml"/>
+            <Value Path="Script/SpecialFunction.xml"/>
         </Element>
         <Element>
             <Key>SPIN</Key>
-            <Value ID="SPIN" Path="Script/Spinner.xml"/>
+            <Value Path="Script/Spinner.xml"/>
         </Element>
         <Element>
             <Key>SPRL</Key>
-            <Value ID="SPRL" Path="Script/PositionRelay.xml"/>
+            <Value Path="Script/PositionRelay.xml"/>
         </Element>
         <Element>
             <Key>SPRT</Key>
-            <Value ID="SPRT" Path="Script/Sprite.xml"/>
+            <Value Path="Script/Sprite.xml"/>
         </Element>
         <Element>
             <Key>SPWN</Key>
-            <Value ID="SPWN" Path="Script/SpawnPoint.xml"/>
+            <Value Path="Script/SpawnPoint.xml"/>
         </Element>
         <Element>
             <Key>SQTR</Key>
-            <Value ID="SQTR" Path="Script/SequenceTimer.xml"/>
+            <Value Path="Script/SequenceTimer.xml"/>
         </Element>
         <Element>
             <Key>SRLY</Key>
-            <Value ID="SRLY" Path="Script/Relay.xml"/>
+            <Value Path="Script/Relay.xml"/>
         </Element>
         <Element>
             <Key>STAU</Key>
-            <Value ID="STAU" Path="Script/StreamedAudio.xml"/>
+            <Value Path="Script/StreamedAudio.xml"/>
         </Element>
         <Element>
             <Key>STEM</Key>
-            <Value ID="STEM" Path="Script/Steam.xml"/>
+            <Value Path="Script/Steam.xml"/>
         </Element>
         <Element>
             <Key>STMB</Key>
-            <Value ID="STMB" Path="Script/SteamBot.xml"/>
+            <Value Path="Script/SteamBot.xml"/>
         </Element>
         <Element>
             <Key>STML</Key>
-            <Value ID="STML" Path="Script/SteamLord.xml"/>
+            <Value Path="Script/SteamLord.xml"/>
         </Element>
         <Element>
             <Key>SUBT</Key>
-            <Value ID="SUBT" Path="Script/Subtitles.xml"/>
+            <Value Path="Script/Subtitles.xml"/>
         </Element>
         <Element>
             <Key>SWBT</Key>
-            <Value ID="SWBT" Path="Script/SwarmBot.xml"/>
+            <Value Path="Script/SwarmBot.xml"/>
         </Element>
         <Element>
             <Key>SWJT</Key>
-            <Value ID="SWJT" Path="Script/ScrewAttackWallJumpTarget.xml"/>
+            <Value Path="Script/ScrewAttackWallJumpTarget.xml"/>
         </Element>
         <Element>
             <Key>SWRM</Key>
-            <Value ID="SWRM" Path="Script/WallCrawlerSwarm.xml"/>
+            <Value Path="Script/WallCrawlerSwarm.xml"/>
         </Element>
         <Element>
             <Key>SWTC</Key>
-            <Value ID="SWTC" Path="Script/Switch.xml"/>
+            <Value Path="Script/Switch.xml"/>
         </Element>
         <Element>
             <Key>TEL1</Key>
-            <Value ID="TEL1" Path="Script/WorldTeleporter.xml"/>
+            <Value Path="Script/WorldTeleporter.xml"/>
         </Element>
         <Element>
             <Key>TGPT</Key>
-            <Value ID="TGPT" Path="Script/TargetingPoint.xml"/>
+            <Value Path="Script/TargetingPoint.xml"/>
         </Element>
         <Element>
             <Key>TIMR</Key>
-            <Value ID="TIMR" Path="Script/Timer.xml"/>
+            <Value Path="Script/Timer.xml"/>
         </Element>
         <Element>
             <Key>TKEY</Key>
-            <Value ID="TKEY" Path="Script/TimeKeyframe.xml"/>
+            <Value Path="Script/TimeKeyframe.xml"/>
         </Element>
         <Element>
             <Key>TMAI</Key>
-            <Value ID="TMAI" Path="Script/TeamAI.xml"/>
+            <Value Path="Script/TeamAI.xml"/>
         </Element>
         <Element>
             <Key>TRGR</Key>
-            <Value ID="TRGR" Path="Script/Trigger.xml"/>
+            <Value Path="Script/Trigger.xml"/>
         </Element>
         <Element>
             <Key>TXPN</Key>
-            <Value ID="TXPN" Path="Script/TextPane.xml"/>
+            <Value Path="Script/TextPane.xml"/>
         </Element>
         <Element>
             <Key>VGOO</Key>
-            <Value ID="VGOO" Path="Script/VisorGoo.xml"/>
+            <Value Path="Script/VisorGoo.xml"/>
         </Element>
         <Element>
             <Key>VOLG</Key>
-            <Value ID="VOLG" Path="Script/VolGroup.xml"/>
+            <Value Path="Script/VolGroup.xml"/>
         </Element>
         <Element>
             <Key>WATR</Key>
-            <Value ID="WATR" Path="Script/Water.xml"/>
+            <Value Path="Script/Water.xml"/>
         </Element>
         <Element>
             <Key>WAYP</Key>
-            <Value ID="WAYP" Path="Script/Waypoint.xml"/>
+            <Value Path="Script/Waypoint.xml"/>
         </Element>
         <Element>
             <Key>WEED</Key>
-            <Value ID="WEED" Path="Script/VenomWeed.xml"/>
+            <Value Path="Script/VenomWeed.xml"/>
         </Element>
         <Element>
             <Key>WLDA</Key>
-            <Value ID="WLDA" Path="Script/WorldAttributes.xml"/>
+            <Value Path="Script/WorldAttributes.xml"/>
         </Element>
         <Element>
             <Key>WLIT</Key>
-            <Value ID="WLIT" Path="Script/WorldLightFader.xml"/>
+            <Value Path="Script/WorldLightFader.xml"/>
         </Element>
         <Element>
             <Key>WPNG</Key>
-            <Value ID="WPNG" Path="Script/WeaponGenerator.xml"/>
+            <Value Path="Script/WeaponGenerator.xml"/>
         </Element>
         <Element>
             <Key>WTAT</Key>
-            <Value ID="WTAT" Path="Script/WorldTeleporterAttributes.xml"/>
+            <Value Path="Script/WorldTeleporterAttributes.xml"/>
         </Element>
         <Element>
             <Key>WTCR</Key>
-            <Value ID="WTCR" Path="Script/WorldTransitionChoiceRelay.xml"/>
+            <Value Path="Script/WorldTransitionChoiceRelay.xml"/>
         </Element>
     </ScriptObjects>
     <PropertyArchetypes>
