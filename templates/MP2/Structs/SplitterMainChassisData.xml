@@ -17,7 +17,7 @@
             </Element>
             <Element Type="Struct" ID="0xEFACFA50" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
@@ -84,7 +84,7 @@
             </Element>
             <Element Type="Struct" ID="0xCFACFF53" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">

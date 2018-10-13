@@ -154,7 +154,7 @@
             </Element>
             <Element Type="Struct" ID="0x915DA374" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
@@ -167,7 +167,7 @@
             </Element>
             <Element Type="Struct" ID="0xAB258F6B" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
@@ -226,7 +226,7 @@
             </Element>
             <Element Type="Struct" ID="0x424A6D37" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
@@ -280,7 +280,7 @@
             </Element>
             <Element Type="Struct" ID="0x11C36D8E" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">

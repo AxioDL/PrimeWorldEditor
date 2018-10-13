@@ -202,6 +202,7 @@ public:
     void ClearDirtyFlag();
     bool UsesNameMap();
     bool HasAccurateName();
+    void RecacheName();
 
     /** Accessors */
     EGame Game() const;

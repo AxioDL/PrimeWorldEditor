@@ -542,11 +542,11 @@
             <Value Name="RightArmorAttachment"/>
         </Element>
         <Element>
-            <Key ID="0x3BDEA98" Type="int"/>
+            <Key ID="0x3BDEA98" Type="choice"/>
             <Value Name="AmountOrCapacity"/>
         </Element>
         <Element>
-            <Key ID="0x3BDEA98" Type="enum"/>
+            <Key ID="0x3BDEA98" Type="int"/>
             <Value Name="AmountOrCapacity"/>
         </Element>
         <Element>
@@ -2474,11 +2474,11 @@
             <Value Name="ImageNames"/>
         </Element>
         <Element>
-            <Key ID="0x119FBD31" Type="int"/>
+            <Key ID="0x119FBD31" Type="choice"/>
             <Value Name="DI_WeaponType"/>
         </Element>
         <Element>
-            <Key ID="0x119FBD31" Type="enum"/>
+            <Key ID="0x119FBD31" Type="int"/>
             <Value Name="DI_WeaponType"/>
         </Element>
         <Element>
@@ -9414,11 +9414,11 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0x3FA164BC" Type="int"/>
+            <Key ID="0x3FA164BC" Type="choice"/>
             <Value Name="InventoryItemParm"/>
         </Element>
         <Element>
-            <Key ID="0x3FA164BC" Type="enum"/>
+            <Key ID="0x3FA164BC" Type="int"/>
             <Value Name="InventoryItemParm"/>
         </Element>
         <Element>
@@ -10463,7 +10463,7 @@
         </Element>
         <Element>
             <Key ID="0x46774985" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HorizontalSafeAngle"/>
         </Element>
         <Element>
             <Key ID="0x467C3D94" Type="int"/>
@@ -13991,7 +13991,7 @@
         </Element>
         <Element>
             <Key ID="0x5DD9004D" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="DisableDoubleJump"/>
         </Element>
         <Element>
             <Key ID="0x5DDE5B25" Type="asset"/>
@@ -15598,11 +15598,11 @@
             <Value Name="TargetRetractSound"/>
         </Element>
         <Element>
-            <Key ID="0x68ACBD86" Type="int"/>
+            <Key ID="0x68ACBD86" Type="choice"/>
             <Value Name="Effect"/>
         </Element>
         <Element>
-            <Key ID="0x68ACBD86" Type="enum"/>
+            <Key ID="0x68ACBD86" Type="int"/>
             <Value Name="Effect"/>
         </Element>
         <Element>
@@ -15850,11 +15850,11 @@
             <Value Name="Y"/>
         </Element>
         <Element>
-            <Key ID="0x6A3E9A3D" Type="int"/>
+            <Key ID="0x6A3E9A3D" Type="choice"/>
             <Value Name="FilterShape"/>
         </Element>
         <Element>
-            <Key ID="0x6A3E9A3D" Type="enum"/>
+            <Key ID="0x6A3E9A3D" Type="int"/>
             <Value Name="FilterShape"/>
         </Element>
         <Element>
@@ -15947,7 +15947,7 @@
         </Element>
         <Element>
             <Key ID="0x6AB717B5" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="CanSpawnDiddy"/>
         </Element>
         <Element>
             <Key ID="0x6AB7C2F5" Type="asset"/>
@@ -16030,7 +16030,7 @@
             <Value Name="DisableCollisionTime"/>
         </Element>
         <Element>
-            <Key ID="0x6B5E7509" Type="enum"/>
+            <Key ID="0x6B5E7509" Type="choice"/>
             <Value Name="World Lighting Options"/>
         </Element>
         <Element>
@@ -16758,11 +16758,11 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0x70729364" Type="int"/>
+            <Key ID="0x70729364" Type="choice"/>
             <Value Name="Condition"/>
         </Element>
         <Element>
-            <Key ID="0x70729364" Type="enum"/>
+            <Key ID="0x70729364" Type="int"/>
             <Value Name="Condition"/>
         </Element>
         <Element>
@@ -22402,11 +22402,11 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0x95F8D644" Type="int"/>
+            <Key ID="0x95F8D644" Type="choice"/>
             <Value Name="Function"/>
         </Element>
         <Element>
-            <Key ID="0x95F8D644" Type="enum"/>
+            <Key ID="0x95F8D644" Type="int"/>
             <Value Name="Function"/>
         </Element>
         <Element>
@@ -23271,7 +23271,7 @@
         </Element>
         <Element>
             <Key ID="0x9BC4FC8D" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="CanSpinAttack"/>
         </Element>
         <Element>
             <Key ID="0x9BD0D08A" Type="UnknownStruct110"/>
@@ -23430,11 +23430,11 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0x9D0006AB" Type="int"/>
+            <Key ID="0x9D0006AB" Type="choice"/>
             <Value Name="EnvironmentEffects"/>
         </Element>
         <Element>
-            <Key ID="0x9D0006AB" Type="enum"/>
+            <Key ID="0x9D0006AB" Type="int"/>
             <Value Name="EnvironmentEffects"/>
         </Element>
         <Element>
@@ -23834,11 +23834,11 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0xA02EF0C4" Type="int"/>
+            <Key ID="0xA02EF0C4" Type="choice"/>
             <Value Name="ItemToGive"/>
         </Element>
         <Element>
-            <Key ID="0xA02EF0C4" Type="enum"/>
+            <Key ID="0xA02EF0C4" Type="int"/>
             <Value Name="ItemToGive"/>
         </Element>
         <Element>
@@ -24515,7 +24515,7 @@
         </Element>
         <Element>
             <Key ID="0xA40CB847" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="CanInterruptTasks"/>
         </Element>
         <Element>
             <Key ID="0xA40D410E" Type="asset"/>
@@ -31734,11 +31734,11 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0xD3AF8D72" Type="int"/>
+            <Key ID="0xD3AF8D72" Type="choice"/>
             <Value Name="PlayerItem"/>
         </Element>
         <Element>
-            <Key ID="0xD3AF8D72" Type="enum"/>
+            <Key ID="0xD3AF8D72" Type="int"/>
             <Value Name="PlayerItem"/>
         </Element>
         <Element>
@@ -32615,7 +32615,7 @@
         </Element>
         <Element>
             <Key ID="0xD9D7AFA6" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="VerticalSafeAngle"/>
         </Element>
         <Element>
             <Key ID="0xD9DCD088" Type="float"/>
@@ -32943,7 +32943,7 @@
         </Element>
         <Element>
             <Key ID="0xDC89CC3C" Type="SpacePirateWeaponData"/>
-            <Value Name="SpacePirateWeaponData"/>
+            <Value Name="WeaponData"/>
         </Element>
         <Element>
             <Key ID="0xDC8D7887" Type="float"/>
@@ -33174,11 +33174,11 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0xDE3E40A3" Type="int"/>
+            <Key ID="0xDE3E40A3" Type="choice"/>
             <Value Name="Boolean"/>
         </Element>
         <Element>
-            <Key ID="0xDE3E40A3" Type="enum"/>
+            <Key ID="0xDE3E40A3" Type="int"/>
             <Value Name="Boolean"/>
         </Element>
         <Element>
@@ -38506,11 +38506,11 @@
             <Value Name="CableSegmentEffect"/>
         </Element>
         <Element>
-            <Key ID="0xFFEEBC46" Type="int"/>
+            <Key ID="0xFFEEBC46" Type="choice"/>
             <Value Name="PhazonDamage"/>
         </Element>
         <Element>
-            <Key ID="0xFFEEBC46" Type="enum"/>
+            <Key ID="0xFFEEBC46" Type="int"/>
             <Value Name="PhazonDamage"/>
         </Element>
     </PropertyMap>

@@ -10,7 +10,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Enum" ID="0x95F8D644">
+            <Element Type="Choice" ID="0x95F8D644">
                 <DefaultValue>0x0</DefaultValue>
                 <Values>
                     <Element Name="What" ID="0x0"/>
@@ -104,7 +104,7 @@
             <Element Type="Int" ID="0xB581574B">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Enum" ID="0x3FA164BC" Archetype="Item"/>
+            <Element Type="Choice" ID="0x3FA164BC" Archetype="Item"/>
             <Element Type="Sound" ID="0xA4EE16BF">
                 <DefaultValue>0</DefaultValue>
             </Element>

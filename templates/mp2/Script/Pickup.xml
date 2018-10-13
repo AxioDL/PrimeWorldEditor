@@ -18,7 +18,7 @@
                     <Z>0.0</Z>
                 </DefaultValue>
             </Element>
-            <Element Type="Enum" ID="0xA02EF0C4" Archetype="Item"/>
+            <Element Type="Choice" ID="0xA02EF0C4" Archetype="Item"/>
             <Element Type="Int" ID="0x28C71B54">
                 <DefaultValue>1</DefaultValue>
             </Element>

@@ -306,6 +306,33 @@ void SetPropertyName(u32 ID, const char* pkTypeName, const char* pkNewName)
     }
 }
 
+/** Change the type name associated with a property ID */
+void SetTypeName(u32 ID, const char* pkOldTypeName, const char* pkNewTypeName)
+{
+    u32 OldTypeHash = CCRC32::StaticHashString(pkOldTypeName);
+    u32 NewTypeHash = CCRC32::StaticHashString(pkNewTypeName);
+
+    SNameKey OldKey( OldTypeHash, ID );
+    auto MapNode = gNameMap.extract(OldKey);
+
+    if (!MapNode.empty())
+    {
+        SNameKey& Key = MapNode.key();
+        SNameValue& Value = MapNode.mapped();
+        Key.TypeHash = NewTypeHash;
+        gHashToTypeName[NewTypeHash] = pkNewTypeName;
+
+        for (auto Iter = Value.PropertyList.begin(); Iter != Value.PropertyList.end(); Iter++)
+        {
+            IProperty* pProperty = *Iter;
+            pProperty->RecacheName();
+        }
+
+        gNameMap.insert( std::move(MapNode) );
+        gMapIsDirty = true;
+    }
+}
+
 /** Registers a property in the name map. Should be called on all properties that use the map */
 void RegisterProperty(IProperty* pProperty)
 {

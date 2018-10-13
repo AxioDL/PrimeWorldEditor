@@ -218,7 +218,7 @@
             <Element Type="Struct" ID="0x58769EB2" Archetype="DamageInfo"/>
             <Element Type="Struct" ID="0x4D8E735F" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">

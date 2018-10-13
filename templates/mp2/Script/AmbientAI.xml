@@ -26,56 +26,56 @@
                 <SubProperties>
                     <Element Type="Struct" ID="0xAC8BB2A7">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x68ACBD86">
+                            <Element Type="Choice" ID="0x68ACBD86">
                                 <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0xD99C0400">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x68ACBD86">
+                            <Element Type="Choice" ID="0x68ACBD86">
                                 <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0x68AE13A0">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x68ACBD86">
+                            <Element Type="Choice" ID="0x68ACBD86">
                                 <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0xF0B2F4CF">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x68ACBD86">
+                            <Element Type="Choice" ID="0x68ACBD86">
                                 <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0xEFE8CB">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x68ACBD86">
+                            <Element Type="Choice" ID="0x68ACBD86">
                                 <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0xBB70093F">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x68ACBD86">
+                            <Element Type="Choice" ID="0x68ACBD86">
                                 <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0xA442B4A3">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x68ACBD86">
+                            <Element Type="Choice" ID="0x68ACBD86">
                                 <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0x6924B8C1">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x68ACBD86">
+                            <Element Type="Choice" ID="0x68ACBD86">
                                 <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
