@@ -12,7 +12,7 @@
             <Element Type="Bool" ID="0x2">
                 <Name>Unknown 1</Name>
             </Element>
-            <Element Type="Enum" ID="0x3">
+            <Element Type="Choice" ID="0x3">
                 <Name>Memo Type</Name>
                 <Values>
                     <Element Name="Status Message" ID="0x0"/>

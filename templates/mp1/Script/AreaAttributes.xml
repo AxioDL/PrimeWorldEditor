@@ -10,7 +10,7 @@
             <Element Type="Bool" ID="0x1">
                 <Name>Show Skybox</Name>
             </Element>
-            <Element Type="Enum" ID="0x2">
+            <Element Type="Choice" ID="0x2">
                 <Name>Environmental Effect</Name>
                 <Values>
                     <Element Name="None" ID="0x0"/>
@@ -37,7 +37,7 @@
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
-            <Element Type="Enum" ID="0x8">
+            <Element Type="Choice" ID="0x8">
                 <Name>Phazon Type</Name>
                 <Values>
                     <Element Name="None" ID="0x0"/>

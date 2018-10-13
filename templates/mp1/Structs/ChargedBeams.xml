@@ -3,19 +3,19 @@
     <PropertyArchetype Type="Struct">
         <Name>ChargedBeams</Name>
         <SubProperties>
-            <Element Type="Enum" ID="0x0" Archetype="VulnerabilityType">
+            <Element Type="Choice" ID="0x0" Archetype="VulnerabilityType">
                 <Name>Power</Name>
             </Element>
-            <Element Type="Enum" ID="0x1" Archetype="VulnerabilityType">
+            <Element Type="Choice" ID="0x1" Archetype="VulnerabilityType">
                 <Name>Ice</Name>
             </Element>
-            <Element Type="Enum" ID="0x2" Archetype="VulnerabilityType">
+            <Element Type="Choice" ID="0x2" Archetype="VulnerabilityType">
                 <Name>Wave</Name>
             </Element>
-            <Element Type="Enum" ID="0x3" Archetype="VulnerabilityType">
+            <Element Type="Choice" ID="0x3" Archetype="VulnerabilityType">
                 <Name>Plasma</Name>
             </Element>
-            <Element Type="Enum" ID="0x4" Archetype="VulnerabilityType">
+            <Element Type="Choice" ID="0x4" Archetype="VulnerabilityType">
                 <Name>Phazon</Name>
             </Element>
         </SubProperties>

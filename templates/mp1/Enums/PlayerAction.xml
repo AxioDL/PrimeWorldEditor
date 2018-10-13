@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Prime">
-    <PropertyArchetype Type="Enum">
+    <PropertyArchetype Type="Choice">
         <Name>PlayerAction</Name>
         <Values>
             <Element Name="Forward" ID="0x0"/>

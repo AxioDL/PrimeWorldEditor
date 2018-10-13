@@ -24,7 +24,7 @@
             <Element Type="Bool" ID="0x6">
                 <Name>Unknown 6</Name>
             </Element>
-            <Element Type="Enum" ID="0x7">
+            <Element Type="Choice" ID="0x7">
                 <Name>World Lighting Options</Name>
                 <Values>
                     <Element Name="Unknown 1" ID="0x0"/>
@@ -35,7 +35,7 @@
                     <Element Name="Unknown 4" ID="0x5"/>
                 </Values>
             </Element>
-            <Element Type="Enum" ID="0x8">
+            <Element Type="Choice" ID="0x8">
                 <Name>Light Recalculation Options</Name>
                 <Description>Interval between light recalculation updates.</Description>
                 <Values>
