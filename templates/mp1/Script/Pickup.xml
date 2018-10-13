@@ -21,7 +21,7 @@
             <Element Type="Vector" ID="0x5">
                 <Name>Scan/Collision Offset</Name>
             </Element>
-            <Element Type="Enum" ID="0x6" Archetype="Item"/>
+            <Element Type="Choice" ID="0x6" Archetype="Item"/>
             <Element Type="Int" ID="0x7">
                 <Name>Capacity</Name>
             </Element>

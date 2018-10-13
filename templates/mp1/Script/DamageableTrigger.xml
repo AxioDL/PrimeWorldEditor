@@ -14,7 +14,7 @@
             </Element>
             <Element Type="Struct" ID="0x3" Archetype="HealthInfo"/>
             <Element Type="Struct" ID="0x4" Archetype="DamageVulnerability"/>
-            <Element Type="Enum" ID="0x5">
+            <Element Type="Choice" ID="0x5">
                 <Name>Render Side</Name>
                 <Values>
                     <Element Name="None" ID="0x0"/>
