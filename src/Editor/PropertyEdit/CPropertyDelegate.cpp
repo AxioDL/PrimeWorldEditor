@@ -53,7 +53,9 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
 
     if (pProp)
     {
-        switch (pProp->Type())
+        EPropertyType Type = GetEffectiveFieldType(pProp);
+
+        switch (Type)
         {
 
         case EPropertyType::Bool:
@@ -166,7 +168,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
     else if (rkIndex.internalId() & 0x80000000)
     {
         pProp = mpModel->PropertyForIndex(rkIndex, true);
-        EPropertyType Type = pProp->Type();
+        EPropertyType Type = GetEffectiveFieldType(pProp);
 
         // Handle character
         if (Type == EPropertyType::AnimationSet)
@@ -206,7 +208,9 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
         {
             if (!mEditInProgress)
             {
-                switch (pProp->Type())
+                EPropertyType Type = pProp->Type();
+
+                switch (Type)
                 {
 
                 case EPropertyType::Bool:
@@ -330,11 +334,12 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
         else if (rkIndex.internalId() & 0x80000000)
         {
             pProp = mpModel->PropertyForIndex(rkIndex, true);
+            EPropertyType Type = GetEffectiveFieldType(pProp);
 
-            if (pProp->Type() == EPropertyType::AnimationSet)
+            if (Type == EPropertyType::AnimationSet)
                 SetCharacterEditorData(pEditor, rkIndex);
 
-            else if (pProp->Type() == EPropertyType::Flags)
+            else if (Type == EPropertyType::Flags)
             {
                 QCheckBox *pCheckBox = static_cast<QCheckBox*>(pEditor);
                 CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
@@ -359,7 +364,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 
     if (pProp)
     {
-        EPropertyType Type = pProp->Type();
+        EPropertyType Type = GetEffectiveFieldType(pProp);
 
         QVector<CScriptObject*> Objects;
         Objects << mpModel->GetScriptObject();
@@ -373,10 +378,10 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
             // Handle sub-properties of flags and animation sets
             if (rkIndex.internalId() & 0x80000000)
             {
-                if (pProp->Type() == EPropertyType::AnimationSet)
+                if (Type == EPropertyType::AnimationSet)
                     SetCharacterModelData(pEditor, rkIndex);
 
-                else if (pProp->Type() == EPropertyType::Flags)
+                else if (Type == EPropertyType::Flags)
                 {
                     QCheckBox* pCheckBox = static_cast<QCheckBox*>(pEditor);
                     CFlagsProperty* pFlags = static_cast<CFlagsProperty*>(pProp);
@@ -391,7 +396,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 
             else
             {
-                switch (pProp->Type())
+                switch (Type)
                 {
 
                 case EPropertyType::Bool:
@@ -668,6 +673,46 @@ EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QM
         else if (rkIndex.row() <= 2) return EPropertyType::Int;
     }
     return EPropertyType::Invalid;
+}
+
+/** Determine the effective property type to use. Allows some types to be treated as other types. */
+EPropertyType CPropertyDelegate::GetEffectiveFieldType(IProperty* pProperty) const
+{
+    EPropertyType Out = pProperty->Type();
+
+    switch (Out)
+    {
+
+    // Allow Choice/Enum properties to be edited as Int properties if they don't have any values set.
+    case EPropertyType::Choice:
+    case EPropertyType::Enum:
+    {
+        CChoiceProperty* pChoice = TPropCast<CChoiceProperty>(pProperty);
+
+        if (pChoice->NumPossibleValues() == 0)
+        {
+            Out = EPropertyType::Int;
+        }
+
+        break;
+    }
+
+    // Same deal with Flag properties
+    case EPropertyType::Flags:
+    {
+        CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProperty);
+
+        if (pFlags->NumFlags() == 0)
+        {
+            Out = EPropertyType::Int;
+        }
+
+        break;
+    }
+
+    }
+
+    return Out;
 }
 
 // ************ PUBLIC SLOTS ************

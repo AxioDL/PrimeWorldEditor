@@ -153,7 +153,7 @@
             <Element Type="Float" ID="0xD2986C43">
                 <DefaultValue>0.0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
         </SubProperties>
     </Properties>

@@ -15,6 +15,7 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     , mGame(pProperty->Game())
     , mOriginalName(pProperty->Name())
     , mOriginalDescription(pProperty->Description())
+    , mOriginalAllowTypeNameOverride(false)
     , mOriginalNameWasValid(true)
 {
     mpUI->setupUi(this);
@@ -24,6 +25,37 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     mpUI->NameLineEdit->setText(TO_QSTRING(pProperty->Name()));
     mpUI->DescriptionTextEdit->setPlainText(TO_QSTRING(pProperty->Description()));
 
+    EPropertyType Type = pProperty->Type();
+
+    // Configure type name
+    if (Type == EPropertyType::Struct || Type == EPropertyType::Choice || Type == EPropertyType::Enum || Type == EPropertyType::Flags)
+    {
+        connect( mpUI->TypenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(RefreshTypeNameOverride()) );
+        mOriginalTypeName = pProperty->RootArchetype()->Name();
+        mpUI->TypenameLineEdit->setText( TO_QSTRING(mOriginalTypeName) );
+    }
+    else
+    {
+        mpUI->TypenameLabel->setHidden(true);
+        mpUI->TypenameLineEdit->setHidden(true);
+    }
+
+    // Configure type name override option
+    if (Type == EPropertyType::Enum || Type == EPropertyType::Choice)
+    {
+        CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProperty);
+        mOriginalAllowTypeNameOverride = pEnum->OverridesTypeName();
+        mpUI->OverrideTypeNameCheckBox->setChecked( mOriginalAllowTypeNameOverride );
+        connect( mpUI->OverrideTypeNameCheckBox, SIGNAL(toggled(bool)), this, SLOT(RefreshTypeNameOverride()) );
+    }
+    else
+    {
+        mpUI->OverrideTypeNameCheckBox->setHidden(true);
+        mpUI->OverrideTypeNameCheckBox->setChecked(true);
+    }
+    RefreshTypeNameOverride();
+
+    // Hide templates list for MP1
     if (mGame <= EGame::Prime)
     {
         mpUI->TemplatesGroupBox->hide();
@@ -83,6 +115,7 @@ void CTemplateEditDialog::ApplyChanges()
 
     bool RenameAll = mpUI->RenameAllCheckBox->isChecked();
 
+    // Update name
     TString NewName = TO_TSTRING(mpUI->NameLineEdit->text());
     if (NewName.IsEmpty()) NewName = "Unknown";
 
@@ -95,13 +128,32 @@ void CTemplateEditDialog::ApplyChanges()
         }
     }
 
+    // Update description
     TString NewDescription = TO_TSTRING(mpUI->DescriptionTextEdit->toPlainText());
     UpdateDescription(NewDescription);
+
+    // Update type name
+    TString NewTypeName = TO_TSTRING(mpUI->TypenameLineEdit->text());
+    bool AllowTypeNameOverride = mpUI->OverrideTypeNameCheckBox->isChecked();
+    UpdateTypeName(NewTypeName, AllowTypeNameOverride);
 
     // Resave templates
     NGameList::SaveTemplates();
     NPropertyMap::SaveMap();
     close();
+}
+
+void CTemplateEditDialog::RefreshTypeNameOverride()
+{
+    if (mpUI->OverrideTypeNameCheckBox->isChecked())
+    {
+        QString OverrideName = mpUI->TypenameLineEdit->text();
+        mpValidator->SetTypeNameOverride(OverrideName);
+    }
+    else
+    {
+        mpValidator->SetTypeNameOverride("");
+    }
 }
 
 // ************ PROTECTED ************
@@ -130,6 +182,34 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     foreach (IProperty* pProperty, mEquivalentProperties)
     {
         pProperty->SetDescription(rkNewDesc);
+    }
+}
+
+void CTemplateEditDialog::UpdateTypeName(const TString& kNewTypeName, bool AllowOverride)
+{
+    if (mOriginalTypeName != kNewTypeName || mOriginalAllowTypeNameOverride != AllowOverride)
+    {
+        // Get a list of properties to update.
+        for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
+        {
+            CGameTemplate* pGame = NGameList::GetGameTemplate( (EGame) GameIdx );
+
+            if (pGame)
+            {
+                IProperty* pArchetype = pGame->FindPropertyArchetype(mOriginalTypeName);
+
+                if (pArchetype)
+                {
+                    pGame->RenamePropertyArchetype(mOriginalTypeName, kNewTypeName);
+
+                    if (pArchetype->Type() == EPropertyType::Enum || pArchetype->Type() == EPropertyType::Choice)
+                    {
+                        CEnumProperty* pEnum = TPropCast<CEnumProperty>(pArchetype);
+                        pEnum->SetOverrideTypeName(AllowOverride);
+                    }
+                }
+            }
+        }
     }
 }
 

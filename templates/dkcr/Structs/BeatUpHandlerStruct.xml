@@ -3,7 +3,7 @@
     <PropertyArchetype Type="Struct">
         <Name>BeatUpHandlerStruct</Name>
         <SubProperties>
-            <Element Type="Enum" ID="0xB3E3E1E3" Archetype="Item">
+            <Element Type="Enum" ID="0xB3E3E1E3" Archetype="PlayerItem">
                 <DefaultValue>0xB22FD89B</DefaultValue>
             </Element>
             <Element Type="Int" ID="0x8FA67C9E">

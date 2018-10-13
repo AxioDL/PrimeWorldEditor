@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Enum">
-        <Name>Item</Name>
+        <Name>PlayerItem</Name>
         <DefaultValue>0x0</DefaultValue>
+        <OverrideTypeName>true</OverrideTypeName>
         <Values>
             <Element Name="Banana" ID="0xB22FD89B"/>
             <Element Name="Banana Coin" ID="0xAB70F9F"/>

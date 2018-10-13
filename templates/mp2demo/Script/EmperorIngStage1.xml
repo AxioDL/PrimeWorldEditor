@@ -7,7 +7,7 @@
         <Name>EmperorIngStage1</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Int" ID="0x4BC4C4D9">
                         <DefaultValue>2</DefaultValue>

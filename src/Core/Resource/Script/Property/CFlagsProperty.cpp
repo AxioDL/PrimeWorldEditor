@@ -43,5 +43,6 @@ void CFlagsProperty::InitFromArchetype(IProperty* pOther)
  */
 u32 CFlagsProperty::HasValidValue(void* pPropertyData)
 {
+    if (!mAllFlags) return 0;
     return ValueRef(pPropertyData) & ~mAllFlags;
 }

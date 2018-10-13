@@ -7,7 +7,7 @@
         <Name>Shrieker</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x58434916">
                         <DefaultValue>4.5</DefaultValue>
@@ -33,8 +33,8 @@
             </Element>
             <Element Type="Struct" ID="0x5C072FD0" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Int" ID="0x119FBD31">
-                        <DefaultValue>9</DefaultValue>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>0x9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>10.0</DefaultValue>
@@ -54,8 +54,8 @@
             </Element>
             <Element Type="Struct" ID="0x553B1339" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Int" ID="0x119FBD31">
-                        <DefaultValue>9</DefaultValue>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>0x9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>
@@ -72,8 +72,8 @@
             </Element>
             <Element Type="Struct" ID="0xC9416034" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Int" ID="0x119FBD31">
-                        <DefaultValue>9</DefaultValue>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>0x9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>10.0</DefaultValue>

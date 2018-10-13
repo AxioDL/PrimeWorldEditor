@@ -1180,10 +1180,6 @@
             <Value Path="Structs/Inventory.xml"/>
         </Element>
         <Element>
-            <Key>Item</Key>
-            <Value Path="Enums/Item.xml"/>
-        </Element>
-        <Element>
             <Key>JetPack</Key>
             <Value Path="Structs/JetPack.xml"/>
         </Element>
@@ -1354,6 +1350,10 @@
         <Element>
             <Key>PlayerInventoryItem</Key>
             <Value Path="Structs/PlayerInventoryItem.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerItem</Key>
+            <Value Path="Enums/PlayerItem.xml"/>
         </Element>
         <Element>
             <Key>ProportionalConvergence</Key>

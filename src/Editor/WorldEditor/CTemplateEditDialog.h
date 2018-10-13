@@ -21,6 +21,8 @@ class CTemplateEditDialog : public QDialog
 
     TString mOriginalName;
     TString mOriginalDescription;
+    TString mOriginalTypeName;
+    bool mOriginalAllowTypeNameOverride;
     bool mOriginalNameWasValid;
 
     // These members help track what templates need to be updated and resaved after the user clicks OK
@@ -32,9 +34,11 @@ public:
 
 public slots:
     void ApplyChanges();
+    void RefreshTypeNameOverride();
 
 protected:
     void UpdateDescription(const TString& rkNewDesc);
+    void UpdateTypeName(const TString& kNewTypeName, bool AllowOverride);
     void FindEquivalentProperties(IProperty *pProperty);
 };
 

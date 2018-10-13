@@ -4,7 +4,7 @@
         <Name>EffectRepulsor</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Enum" ID="0xA169D424" Archetype="Item">
+            <Element Type="Enum" ID="0xA169D424" Archetype="PlayerItem">
                 <DefaultValue>0xFB73F2B8</DefaultValue>
             </Element>
             <Element Type="Asset" ID="0xB68C6D96">

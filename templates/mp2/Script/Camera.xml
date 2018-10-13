@@ -19,8 +19,8 @@
             <Element Type="Int" ID="0xD4B29446">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0x493D6A2D" Archetype="UnknownStruct1"/>
-            <Element Type="Struct" ID="0x5604D304" Archetype="UnknownStruct1"/>
+            <Element Type="Struct" ID="0x493D6A2D" Archetype="SplineType"/>
+            <Element Type="Struct" ID="0x5604D304" Archetype="SplineType"/>
             <Element Type="Spline" ID="0x27E5F874"/>
             <Element Type="Spline" ID="0xC4DFBFA7"/>
             <Element Type="Spline" ID="0x6868D4B3"/>

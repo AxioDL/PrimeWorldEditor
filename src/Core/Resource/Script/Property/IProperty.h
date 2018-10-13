@@ -193,6 +193,7 @@ public:
     void* RawValuePtr(void* pData) const;
     IProperty* ChildByID(u32 ID) const;
     IProperty* ChildByIDString(const TIDString& rkIdString);
+    void GatherAllSubInstances(std::list<IProperty*>& OutList, bool Recursive);
     TString GetTemplateFileName();
     bool ShouldCook(void* pPropertyData) const;
     void SetName(const TString& rkNewName);
@@ -202,7 +203,6 @@ public:
     void ClearDirtyFlag();
     bool UsesNameMap();
     bool HasAccurateName();
-    void RecacheName();
 
     /** Accessors */
     EGame Game() const;
@@ -221,6 +221,7 @@ public:
     inline u32 Offset() const;
     inline u32 ID() const;
 
+    inline bool IsInitialized() const       { return mFlags.HasFlag(EPropertyFlag::IsInitialized); }
     inline bool IsArchetype() const         { return mFlags.HasFlag(EPropertyFlag::IsArchetype); }
     inline bool IsArrayArchetype() const    { return mFlags.HasFlag(EPropertyFlag::IsArrayArchetype); }
     inline bool IsAtomic() const            { return mFlags.HasFlag(EPropertyFlag::IsAtomic); }

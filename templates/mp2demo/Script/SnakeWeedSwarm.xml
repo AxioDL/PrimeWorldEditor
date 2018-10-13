@@ -53,7 +53,7 @@
             </Element>
             <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Int" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>9</DefaultValue>
                     </Element>
                 </SubProperties>

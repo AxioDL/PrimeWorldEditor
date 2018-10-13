@@ -25,7 +25,7 @@
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
-            <Element Type="Enum" ID="0x8072DA5" Archetype="Item">
+            <Element Type="Enum" ID="0x8072DA5" Archetype="PlayerItem">
                 <DefaultValue>0xFB73F2B8</DefaultValue>
             </Element>
         </SubProperties>

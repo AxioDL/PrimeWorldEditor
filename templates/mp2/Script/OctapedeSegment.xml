@@ -11,7 +11,7 @@
             <Element Type="Int" ID="0xBE73724A">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedInfo">
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x75DBB375">
                         <DefaultValue>25.0</DefaultValue>

@@ -546,6 +546,10 @@
             <Value Name="AmountOrCapacity"/>
         </Element>
         <Element>
+            <Key ID="0x3BDEA98" Type="int"/>
+            <Value Name="AmountOrCapacity"/>
+        </Element>
+        <Element>
             <Key ID="0x3BEE47E" Type="asset"/>
             <Value Name="Model01"/>
         </Element>
@@ -1160,6 +1164,10 @@
         <Element>
             <Key ID="0x806C08D" Type="float"/>
             <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x8072DA5" Type="PlayerItem"/>
+            <Value Name="Item"/>
         </Element>
         <Element>
             <Key ID="0x8072DA5" Type="enum"/>
@@ -9410,6 +9418,26 @@
             <Value Name="InventoryItemParm"/>
         </Element>
         <Element>
+            <Key ID="0x3FA164BC" Type="PlayerItem"/>
+            <Value Name="InventoryItemParm"/>
+        </Element>
+        <Element>
+            <Key ID="0x3FA164BC" Type="Item"/>
+            <Value Name="InventoryItemParm"/>
+        </Element>
+        <Element>
+            <Key ID="0x3FA164BC" Type="PlayerIte"/>
+            <Value Name="InventoryItemParm"/>
+        </Element>
+        <Element>
+            <Key ID="0x3FA164BC" Type="int"/>
+            <Value Name="InventoryItemParm"/>
+        </Element>
+        <Element>
+            <Key ID="0x3FA164BC" Type="enum"/>
+            <Value Name="InventoryItemParm"/>
+        </Element>
+        <Element>
             <Key ID="0x3FA5C15B" Type="SwarmBotData"/>
             <Value Name="SwarmBotData"/>
         </Element>
@@ -11938,6 +11966,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x4F7FEC39" Type="Flags"/>
+            <Value Name="FlagsRumble"/>
+        </Element>
+        <Element>
             <Key ID="0x4F7FEC39" Type="int"/>
             <Value Name="FlagsRumble"/>
         </Element>
@@ -12879,7 +12911,7 @@
         </Element>
         <Element>
             <Key ID="0x5604D304" Type="SplineType"/>
-            <Value Name="SplineType"/>
+            <Value Name="TargetSplineType"/>
         </Element>
         <Element>
             <Key ID="0x5604D304" Type="UnknownStruct1"/>
@@ -15838,6 +15870,10 @@
             <Value Name="FilterShape"/>
         </Element>
         <Element>
+            <Key ID="0x6A3E9A3D" Type="int"/>
+            <Value Name="FilterShape"/>
+        </Element>
+        <Element>
             <Key ID="0x6A43639F" Type="asset"/>
             <Value Name="ThrusterEffect"/>
         </Element>
@@ -16011,6 +16047,10 @@
         </Element>
         <Element>
             <Key ID="0x6B5E7509" Type="choice"/>
+            <Value Name="World Lighting Options"/>
+        </Element>
+        <Element>
+            <Key ID="0x6B5E7509" Type="enum"/>
             <Value Name="World Lighting Options"/>
         </Element>
         <Element>
@@ -16739,6 +16779,10 @@
         </Element>
         <Element>
             <Key ID="0x70729364" Type="choice"/>
+            <Value Name="Condition"/>
+        </Element>
+        <Element>
+            <Key ID="0x70729364" Type="int"/>
             <Value Name="Condition"/>
         </Element>
         <Element>
@@ -22382,6 +22426,10 @@
             <Value Name="Function"/>
         </Element>
         <Element>
+            <Key ID="0x95F8D644" Type="int"/>
+            <Value Name="Function"/>
+        </Element>
+        <Element>
             <Key ID="0x9603A544" Type="asset"/>
             <Value Name="PART"/>
         </Element>
@@ -23406,6 +23454,10 @@
             <Value Name="EnvironmentEffects"/>
         </Element>
         <Element>
+            <Key ID="0x9D0006AB" Type="int"/>
+            <Value Name="EnvironmentEffects"/>
+        </Element>
+        <Element>
             <Key ID="0x9D06B0FE" Type="bool"/>
             <Value Name="EnforceRangeRequirementAtLaunchTime"/>
         </Element>
@@ -23806,6 +23858,26 @@
             <Value Name="ItemToGive"/>
         </Element>
         <Element>
+            <Key ID="0xA02EF0C4" Type="PlayerItem"/>
+            <Value Name="ItemToGive"/>
+        </Element>
+        <Element>
+            <Key ID="0xA02EF0C4" Type="Item"/>
+            <Value Name="ItemToGive"/>
+        </Element>
+        <Element>
+            <Key ID="0xA02EF0C4" Type="PlayerIte"/>
+            <Value Name="ItemToGive"/>
+        </Element>
+        <Element>
+            <Key ID="0xA02EF0C4" Type="int"/>
+            <Value Name="ItemToGive"/>
+        </Element>
+        <Element>
+            <Key ID="0xA02EF0C4" Type="enum"/>
+            <Value Name="ItemToGive"/>
+        </Element>
+        <Element>
             <Key ID="0xA0347C3F" Type="bool"/>
             <Value Name="Dummy"/>
         </Element>
@@ -24012,6 +24084,10 @@
         <Element>
             <Key ID="0xA1677D4E" Type="float"/>
             <Value Name="X"/>
+        </Element>
+        <Element>
+            <Key ID="0xA169D424" Type="PlayerItem"/>
+            <Value Name="Item"/>
         </Element>
         <Element>
             <Key ID="0xA169D424" Type="enum"/>
@@ -26791,11 +26867,11 @@
         </Element>
         <Element>
             <Key ID="0xB3774750" Type="PatternedAITypedef"/>
-            <Value Name="PatternedAITypedef"/>
+            <Value Name="Patterned"/>
         </Element>
         <Element>
             <Key ID="0xB3774750" Type="PatternedInfo"/>
-            <Value Name="PatternedAITypedef"/>
+            <Value Name="Patterned"/>
         </Element>
         <Element>
             <Key ID="0xB37C9890" Type="float"/>
@@ -26872,6 +26948,10 @@
         <Element>
             <Key ID="0xB3E150A1" Type="UnknownStruct113"/>
             <Value Name="UnknownStruct113"/>
+        </Element>
+        <Element>
+            <Key ID="0xB3E3E1E3" Type="PlayerItem"/>
+            <Value Name="Item"/>
         </Element>
         <Element>
             <Key ID="0xB3E3E1E3" Type="enum"/>
@@ -31702,6 +31782,26 @@
             <Value Name="PlayerItem"/>
         </Element>
         <Element>
+            <Key ID="0xD3AF8D72" Type="PlayerItem"/>
+            <Value Name="PlayerItem"/>
+        </Element>
+        <Element>
+            <Key ID="0xD3AF8D72" Type="Item"/>
+            <Value Name="PlayerIte"/>
+        </Element>
+        <Element>
+            <Key ID="0xD3AF8D72" Type="PlayerIte"/>
+            <Value Name="PlayerItem"/>
+        </Element>
+        <Element>
+            <Key ID="0xD3AF8D72" Type="int"/>
+            <Value Name="PlayerItem"/>
+        </Element>
+        <Element>
+            <Key ID="0xD3AF8D72" Type="enum"/>
+            <Value Name="PlayerItem"/>
+        </Element>
+        <Element>
             <Key ID="0xD3B7E6D8" Type="int"/>
             <Value Name="WhichScreen"/>
         </Element>
@@ -34500,6 +34600,10 @@
         <Element>
             <Key ID="0xE7234F72" Type="sound"/>
             <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0xE7338932" Type="PlayerItem"/>
+            <Value Name="ItemAward"/>
         </Element>
         <Element>
             <Key ID="0xE7338932" Type="enum"/>
@@ -38463,6 +38567,10 @@
         </Element>
         <Element>
             <Key ID="0xFFEEBC46" Type="choice"/>
+            <Value Name="PhazonDamage"/>
+        </Element>
+        <Element>
+            <Key ID="0xFFEEBC46" Type="int"/>
             <Value Name="PhazonDamage"/>
         </Element>
     </PropertyMap>

@@ -6,7 +6,7 @@
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
             <Element Type="Spline" ID="0x81D093B3"/>
             <Element Type="Spline" ID="0xAD9F8E3E"/>
-            <Element Type="Struct" ID="0x33E4685B" Archetype="UnknownStruct1"/>
+            <Element Type="Struct" ID="0x33E4685B" Archetype="SplineType"/>
             <Element Type="Bool" ID="0x431769C6">
                 <DefaultValue>false</DefaultValue>
             </Element>
