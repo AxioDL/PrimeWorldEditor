@@ -7,7 +7,7 @@
             <Element Type="Bool" ID="0x87C8B399">
                 <DefaultValue>false</DefaultValue>
             </Element>
-            <Element Type="Enum" ID="0xE7338932" Archetype="Item">
+            <Element Type="Enum" ID="0xE7338932" Archetype="PlayerItem">
                 <DefaultValue>0xB22FD89B</DefaultValue>
             </Element>
         </SubProperties>

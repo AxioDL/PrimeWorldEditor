@@ -9,7 +9,7 @@
             <Element Type="Bool" ID="0x1">
                 <Name>Active</Name>
             </Element>
-            <Element Type="Choice" ID="0x2" Archetype="Item"/>
+            <Element Type="Choice" ID="0x2" Archetype="PlayerItem"/>
             <Element Type="Int" ID="0x3">
                 <Name>Amount</Name>
             </Element>

@@ -47,7 +47,7 @@
             <Element Type="Bool" ID="0xF203BC81">
                 <DefaultValue>false</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xA9DBF91" Archetype="MotionProperties"/>
+            <Element Type="Struct" ID="0xA9DBF91" Archetype="PlatformMotionProperties"/>
             <Element Type="Vector" ID="0x24FDEEA1">
                 <DefaultValue>
                     <X>0.0</X>

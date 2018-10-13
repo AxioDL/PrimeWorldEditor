@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Prime">
     <PropertyArchetype Type="Choice">
-        <Name>Item</Name>
+        <Name>PlayerItem</Name>
+        <OverrideTypeName>true</OverrideTypeName>
         <Values>
             <Element Name="Power Beam" ID="0x0"/>
             <Element Name="Ice Beam" ID="0x1"/>

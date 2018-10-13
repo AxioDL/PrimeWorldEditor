@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Corruption">
     <PropertyArchetype Type="Enum">
-        <Name>Item</Name>
+        <Name>PlayerItem</Name>
         <DefaultValue>0x0</DefaultValue>
+        <OverrideTypeName>true</OverrideTypeName>
         <Values>
             <Element Name="PowerBeam" ID="0xFB73F2B8"/>
             <Element Name="PlasmaBeam" ID="0x93AD6DF9"/>

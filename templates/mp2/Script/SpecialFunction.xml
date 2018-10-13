@@ -104,7 +104,7 @@
             <Element Type="Int" ID="0xB581574B">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Choice" ID="0x3FA164BC" Archetype="Item"/>
+            <Element Type="Choice" ID="0x3FA164BC" Archetype="PlayerItem"/>
             <Element Type="Sound" ID="0xA4EE16BF">
                 <DefaultValue>0</DefaultValue>
             </Element>

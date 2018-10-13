@@ -89,7 +89,7 @@
             <Element Type="Int" ID="0xB581574B">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Enum" ID="0x3FA164BC" Archetype="Item">
+            <Element Type="Enum" ID="0x3FA164BC" Archetype="PlayerItem">
                 <DefaultValue>0xFB73F2B8</DefaultValue>
             </Element>
             <Element Type="Asset" ID="0x5ECF8F67"/>

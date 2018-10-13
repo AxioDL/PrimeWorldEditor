@@ -956,10 +956,6 @@
             <Value Path="Structs/IslandHudStruct.xml"/>
         </Element>
         <Element>
-            <Key>Item</Key>
-            <Value Path="Enums/Item.xml"/>
-        </Element>
-        <Element>
             <Key>JungleBossStructA</Key>
             <Value Path="Structs/JungleBossStructA.xml"/>
         </Element>
@@ -1122,6 +1118,10 @@
         <Element>
             <Key>PlatformMotionProperties</Key>
             <Value Path="Structs/PlatformMotionProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerItem</Key>
+            <Value Path="Enums/PlayerItem.xml"/>
         </Element>
         <Element>
             <Key>ProjectileBounceData</Key>

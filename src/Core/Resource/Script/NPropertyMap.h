@@ -34,8 +34,11 @@ void RetrieveXMLsWithProperty(u32 ID, const char* pkTypeName, std::set<TString>&
 /** Updates the name of a given property in the map */
 void SetPropertyName(u32 ID, const char* pkTypeName, const char* pkNewName);
 
-/** Change the type name associated with a property ID */
-void SetTypeName(u32 ID, const char* pkOldTypeName, const char* pkNewTypeName);
+/** Change a type name of a property. */
+void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char* pkNewTypeName);
+
+/** Change a type name. */
+void ChangeTypeNameGlobally(const char* pkOldTypeName, const char* pkNewTypeName);
 
 /** Registers a property in the name map. Should be called on all properties that use the map */
 void RegisterProperty(IProperty* pProperty);

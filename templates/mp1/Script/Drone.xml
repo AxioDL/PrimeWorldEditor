@@ -21,7 +21,7 @@
             <Element Type="Float" ID="0x5">
                 <Name>Unknown 2</Name>
             </Element>
-            <Element Type="Struct" ID="0x6" Archetype="PatternedInfo"/>
+            <Element Type="Struct" ID="0x6" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x7" Archetype="ActorParameters"/>
             <Element Type="Struct" ID="0x8" Archetype="DamageInfo">
                 <Name>DamageInfo 1</Name>

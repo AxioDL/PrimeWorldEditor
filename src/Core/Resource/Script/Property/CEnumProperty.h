@@ -42,16 +42,24 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
     };
     std::vector<SEnumValue> mValues;
 
+    /** If true, the archetype's name will be used as the type name instead of "enum" or "choice". */
+    bool mOverrideTypeName;
+
 protected:
     /** Constructor */
     TEnumPropertyBase(EGame Game)
         : TSerializeableTypedProperty(Game)
+        , mOverrideTypeName(false)
     {}
 
 public:
-    virtual const char* GetHashableTypeName() const
+    virtual const char* HashableTypeName() const
     {
-        if (TypeEnum == EPropertyType::Enum)
+        if (mpArchetype)
+            return mpArchetype->HashableTypeName();
+        else if (mOverrideTypeName)
+            return *mName;
+        else if (TypeEnum == EPropertyType::Enum)
             return "enum";
         else
             return "choice";
@@ -64,7 +72,14 @@ public:
 
         TEnumPropertyBase* pArchetype = static_cast<TEnumPropertyBase*>(mpArchetype);
         u32 DefaultValueFlags = SH_HexDisplay | (pArchetype || Game() <= EGame::Prime ? SH_Optional : 0);
+
         rArc << SerialParameter("DefaultValue", mDefaultValue, DefaultValueFlags, pArchetype ? pArchetype->mDefaultValue : 0);
+
+        // Only serialize type name override for root archetypes.
+        if (!mpArchetype)
+        {
+            rArc << SerialParameter("OverrideTypeName", mOverrideTypeName, SH_Optional, false);
+        }
 
         if (!pArchetype || !rArc.CanSkipParameters() || mValues != pArchetype->mValues)
         {
@@ -117,9 +132,32 @@ public:
 
     bool HasValidValue(void* pPropertyData)
     {
+        if (mValues.empty()) return true;
         int ID = ValueRef(pPropertyData);
         u32 Index = ValueIndex(ID);
         return Index >= 0 && Index < mValues.size();
+    }
+
+    bool OverridesTypeName() const
+    {
+        return mpArchetype ? TPropCast<TEnumPropertyBase>(mpArchetype)->OverridesTypeName() : mOverrideTypeName;
+    }
+
+    void SetOverrideTypeName(bool Override)
+    {
+        if (mpArchetype)
+        {
+            TEnumPropertyBase* pArchetype = TPropCast<TEnumPropertyBase>(RootArchetype());
+            pArchetype->SetOverrideTypeName(Override);
+        }
+        else
+        {
+            if (mOverrideTypeName != Override)
+            {
+                mOverrideTypeName = Override;
+                MarkDirty();
+            }
+        }
     }
 };
 

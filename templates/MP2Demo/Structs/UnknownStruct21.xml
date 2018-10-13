@@ -21,7 +21,7 @@
             </Element>
             <Element Type="Struct" ID="0xE18DC6FC" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Int" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
@@ -59,7 +59,7 @@
             </Element>
             <Element Type="Struct" ID="0x7184C29" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Int" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">

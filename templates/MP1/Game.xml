@@ -576,10 +576,6 @@
             <Value Path="Structs/IntBool.xml"/>
         </Element>
         <Element>
-            <Key>Item</Key>
-            <Value Path="Enums/Item.xml"/>
-        </Element>
-        <Element>
             <Key>LayerSwitch</Key>
             <Value Path="Structs/LayerSwitch.xml"/>
         </Element>
@@ -604,8 +600,8 @@
             <Value Path="Structs/PathCameraStruct.xml"/>
         </Element>
         <Element>
-            <Key>PatternedInfo</Key>
-            <Value Path="Structs/PatternedInfo.xml"/>
+            <Key>PatternedAITypedef</Key>
+            <Value Path="Structs/PatternedAITypedef.xml"/>
         </Element>
         <Element>
             <Key>PlayerAction</Key>
@@ -618,6 +614,10 @@
         <Element>
             <Key>PlayerHintStruct</Key>
             <Value Path="Structs/PlayerHintStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerItem</Key>
+            <Value Path="Enums/PlayerItem.xml"/>
         </Element>
         <Element>
             <Key>PrimeStruct1</Key>

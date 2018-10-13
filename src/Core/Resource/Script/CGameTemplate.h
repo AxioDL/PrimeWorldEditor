@@ -132,6 +132,7 @@ public:
     SMessage MessageByIndex(u32 Index);
     IProperty* FindPropertyArchetype(const TString& kTypeName);
     TString GetPropertyArchetypeFilePath(const TString& kTypeName);
+    bool RenamePropertyArchetype(const TString& kTypeName, const TString& kNewTypeName);
     TString GetGameDirectory() const;
 
     // Inline Accessors

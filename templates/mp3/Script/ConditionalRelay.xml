@@ -13,22 +13,22 @@
             <Element Type="Struct" ID="0xCEC16932" Archetype="ConditionalTest"/>
             <Element Type="Struct" ID="0xE709DDC0" Archetype="ConditionalTest">
                 <SubProperties>
-                    <Element Type="Int" ID="0xDE3E40A3">
-                        <DefaultValue>0</DefaultValue>
+                    <Element Type="Choice" ID="0xDE3E40A3">
+                        <DefaultValue>0x0</DefaultValue>
                     </Element>
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x49614C51" Archetype="ConditionalTest">
                 <SubProperties>
-                    <Element Type="Int" ID="0xDE3E40A3">
-                        <DefaultValue>0</DefaultValue>
+                    <Element Type="Choice" ID="0xDE3E40A3">
+                        <DefaultValue>0x0</DefaultValue>
                     </Element>
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0xB498B424" Archetype="ConditionalTest">
                 <SubProperties>
-                    <Element Type="Int" ID="0xDE3E40A3">
-                        <DefaultValue>0</DefaultValue>
+                    <Element Type="Choice" ID="0xDE3E40A3">
+                        <DefaultValue>0x0</DefaultValue>
                     </Element>
                 </SubProperties>
             </Element>

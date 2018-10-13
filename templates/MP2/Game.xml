@@ -880,10 +880,6 @@
             <Value Path="Structs/IngSpiderballGuardianStruct.xml"/>
         </Element>
         <Element>
-            <Key>Item</Key>
-            <Value Path="Enums/Item.xml"/>
-        </Element>
-        <Element>
             <Key>LayerSwitch</Key>
             <Value Path="Structs/LayerSwitch.xml"/>
         </Element>
@@ -892,20 +888,24 @@
             <Value Path="Structs/LightParameters.xml"/>
         </Element>
         <Element>
-            <Key>MotionProperties</Key>
-            <Value Path="Structs/MotionProperties.xml"/>
-        </Element>
-        <Element>
             <Key>MysteryFlyerData</Key>
             <Value Path="Structs/MysteryFlyerData.xml"/>
         </Element>
         <Element>
-            <Key>PatternedInfo</Key>
-            <Value Path="Structs/PatternedInfo.xml"/>
+            <Key>PatternedAITypedef</Key>
+            <Value Path="Structs/PatternedAITypedef.xml"/>
         </Element>
         <Element>
             <Key>PlasmaBeamInfo</Key>
             <Value Path="Structs/PlasmaBeamInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>PlatformMotionProperties</Key>
+            <Value Path="Structs/PlatformMotionProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerItem</Key>
+            <Value Path="Enums/PlayerItem.xml"/>
         </Element>
         <Element>
             <Key>PowerBombGuardianStageProperties</Key>
@@ -968,6 +968,10 @@
             <Value Path="Structs/SpindleCameraStruct.xml"/>
         </Element>
         <Element>
+            <Key>SplineType</Key>
+            <Value Path="Structs/SplineType.xml"/>
+        </Element>
+        <Element>
             <Key>SplitterMainChassisData</Key>
             <Value Path="Structs/SplitterMainChassisData.xml"/>
         </Element>
@@ -998,10 +1002,6 @@
         <Element>
             <Key>TriggerInfo</Key>
             <Value Path="Structs/TriggerInfo.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct1</Key>
-            <Value Path="Structs/UnknownStruct1.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct10</Key>

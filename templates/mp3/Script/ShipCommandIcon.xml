@@ -34,7 +34,7 @@
             <Element Type="AnimationSet" ID="0x6D10C987"/>
             <Element Type="AnimationSet" ID="0x97ADB194"/>
             <Element Type="AnimationSet" ID="0xA797679C"/>
-            <Element Type="Enum" ID="0x8072DA5" Archetype="Item">
+            <Element Type="Enum" ID="0x8072DA5" Archetype="PlayerItem">
                 <DefaultValue>0xFB73F2B8</DefaultValue>
             </Element>
             <Element Type="Enum" ID="0x48EF8ADE">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
     <PropertyArchetype Type="Struct">
-        <Name>MotionProperties</Name>
+        <Name>PlatformMotionProperties</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x493D6A2D" Archetype="SplineType"/>
             <Element Type="Spline" ID="0x27E5F874"/>

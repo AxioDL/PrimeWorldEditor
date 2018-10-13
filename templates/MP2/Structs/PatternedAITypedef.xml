@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
     <PropertyArchetype Type="Struct">
-        <Name>PatternedInfo</Name>
+        <Name>PatternedAITypedef</Name>
         <SubProperties>
             <Element Type="Float" ID="0x75DBB375">
                 <DefaultValue>150.0</DefaultValue>
@@ -79,8 +79,8 @@
             <Element Type="Float" ID="0x61CBE62">
                 <DefaultValue>0.0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x19F84380">
-                <DefaultValue>-1</DefaultValue>
+            <Element Type="Sound" ID="0x19F84380">
+                <DefaultValue>0</DefaultValue>
             </Element>
             <Element Type="AnimationSet" ID="0xE25FB08C"/>
             <Element Type="Asset" ID="0x55744160">
@@ -130,8 +130,14 @@
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
-            <Element Type="Int" ID="0x7344D6CD">
-                <DefaultValue>-1</DefaultValue>
+            <Element Type="Sound" ID="0x7344D6CD">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x562CF323">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xCDD9F41C">
+                <DefaultValue>0</DefaultValue>
             </Element>
             <Element Type="Asset" ID="0x87011652">
                 <TypeFilter>
@@ -140,6 +146,13 @@
             </Element>
             <Element Type="Int" ID="0x4BC4C4D9">
                 <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x4476BED8" Archetype="EchoParameters">
+                <SubProperties>
+                    <Element Type="Bool" ID="0x17ADDFC6">
+                        <DefaultValue>true</DefaultValue>
+                    </Element>
+                </SubProperties>
             </Element>
         </SubProperties>
     </PropertyArchetype>

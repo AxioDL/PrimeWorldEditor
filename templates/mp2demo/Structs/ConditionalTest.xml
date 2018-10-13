@@ -3,7 +3,7 @@
     <PropertyArchetype Type="Struct">
         <Name>ConditionalTest</Name>
         <SubProperties>
-            <Element Type="Int" ID="0xDE3E40A3">
+            <Element Type="Choice" ID="0xDE3E40A3">
                 <DefaultValue>1</DefaultValue>
             </Element>
             <Element Type="Int" ID="0xD3AF8D72">

@@ -7,7 +7,7 @@
             <Element Type="Int" ID="0x0">
                 <Name>Unknown 1</Name>
             </Element>
-            <Element Type="Struct" ID="0x1" Archetype="PatternedInfo"/>
+            <Element Type="Struct" ID="0x1" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x2" Archetype="ActorParameters"/>
             <Element Type="Int" ID="0x3">
                 <Name>Unknown 2</Name>

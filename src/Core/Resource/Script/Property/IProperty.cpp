@@ -153,7 +153,6 @@ void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u
 {
     // Make sure we only get initialized once.
     ASSERT( (mFlags & EPropertyFlag::IsInitialized) == 0 );
-    mFlags |= EPropertyFlag::IsInitialized;
 
     mpParent = pInParent;
     mOffset = InOffset;
@@ -219,6 +218,8 @@ void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u
             pChild->Initialize(this, pInTemplate, ChildOffset);
         }
     }
+
+    mFlags |= EPropertyFlag::IsInitialized;
 }
 
 void* IProperty::RawValuePtr(void* pData) const
@@ -270,6 +271,21 @@ IProperty* IProperty::ChildByIDString(const TIDString& rkIdString)
     else
     {
         return pNextChild;
+    }
+}
+
+void IProperty::GatherAllSubInstances(std::list<IProperty*>& OutList, bool Recursive)
+{
+    OutList.push_back(this);
+
+    for( u32 SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++ )
+    {
+        IProperty* pSubInstance = mSubInstances[SubIdx];
+
+        if( Recursive )
+            pSubInstance->GatherAllSubInstances( OutList, true );
+        else
+            OutList.push_back( pSubInstance );
     }
 }
 
@@ -328,13 +344,7 @@ void IProperty::SetName(const TString& rkNewName)
     {
         mName = rkNewName;
         mFlags.ClearFlag(EPropertyFlag::HasCachedNameCheck);
-
-        // in Echoes and on, since property names are referenced by ID, renaming a property
-        // doesn't directly affect the serialized data, so it doesn't need to be flagged dirty
-        if (mGame <= EGame::Prime)
-        {
-            MarkDirty();
-        }
+        MarkDirty();
     }
 }
 
@@ -358,7 +368,21 @@ void IProperty::SetSuffix(const TString& rkNewSuffix)
 
 void IProperty::MarkDirty()
 {
-    RootParent()->mFlags |= EPropertyFlag::IsDirty;
+    // Don't allow properties to be marked dirty before they are fully initialized.
+    if (IsInitialized())
+    {
+        // Mark the root parent as dirty so the template file will get resaved
+        RootParent()->mFlags |= EPropertyFlag::IsDirty;
+
+        // Clear property name cache in case something has been modified that affects the hash
+        mFlags &= ~(EPropertyFlag::HasCachedNameCheck | EPropertyFlag::HasCorrectPropertyName);
+
+        // Mark sub-instances as dirty since they may need to resave as well
+        for (u32 SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++)
+        {
+            mSubInstances[SubIdx]->MarkDirty();
+        }
+    }
 }
 
 void IProperty::ClearDirtyFlag()
@@ -414,11 +438,6 @@ bool IProperty::HasAccurateName()
     }
 
     return mFlags.HasFlag( EPropertyFlag::HasCorrectPropertyName );
-}
-
-void IProperty::RecacheName()
-{
-    mFlags.ClearFlag( EPropertyFlag::HasCachedNameCheck | EPropertyFlag::HasCorrectPropertyName );
 }
 
 /** IPropertyNew Accessors */

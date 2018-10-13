@@ -15,7 +15,7 @@
             <Element Type="Vector" ID="0x3">
                 <Name>Scale</Name>
             </Element>
-            <Element Type="Struct" ID="0x4" Archetype="PatternedInfo"/>
+            <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters">
                 <Name>ActorParameters 1</Name>
             </Element>

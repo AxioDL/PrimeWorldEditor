@@ -170,7 +170,15 @@ inline void ConditionalLoadMap()
 /** Saves property names back out to the template file */
 void SaveMap(bool Force /*= false*/)
 {
-    ASSERT( gMapIsLoaded );
+    if( !gMapIsLoaded )
+    {
+        if (Force)
+        {
+            LoadMap();
+        }
+        else return;
+    }
+
     Log::Write("Saving property map");
 
     if( gMapIsDirty || Force )
@@ -306,31 +314,94 @@ void SetPropertyName(u32 ID, const char* pkTypeName, const char* pkNewName)
     }
 }
 
-/** Change the type name associated with a property ID */
-void SetTypeName(u32 ID, const char* pkOldTypeName, const char* pkNewTypeName)
+/** Change a type name of a property. */
+void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char* pkNewTypeName)
 {
     u32 OldTypeHash = CCRC32::StaticHashString(pkOldTypeName);
     u32 NewTypeHash = CCRC32::StaticHashString(pkNewTypeName);
 
-    SNameKey OldKey( OldTypeHash, ID );
-    auto MapNode = gNameMap.extract(OldKey);
-
-    if (!MapNode.empty())
+    if (OldTypeHash == NewTypeHash)
     {
-        SNameKey& Key = MapNode.key();
-        SNameValue& Value = MapNode.mapped();
-        Key.TypeHash = NewTypeHash;
-        gHashToTypeName[NewTypeHash] = pkNewTypeName;
-
-        for (auto Iter = Value.PropertyList.begin(); Iter != Value.PropertyList.end(); Iter++)
-        {
-            IProperty* pProperty = *Iter;
-            pProperty->RecacheName();
-        }
-
-        gNameMap.insert( std::move(MapNode) );
-        gMapIsDirty = true;
+        return;
     }
+
+    // Start off with a ist of all properties in the same inheritance chain as this one.
+    std::list<IProperty*> Properties;
+    IProperty* pArchetype = pProperty->RootArchetype();
+    pArchetype->GatherAllSubInstances(Properties, true);
+
+    for (auto Iter = Properties.begin(); Iter != Properties.end(); Iter++)
+    {
+        pProperty = *Iter;
+
+        if (pProperty->UsesNameMap())
+        {
+            SNameKey OldKey(OldTypeHash, pProperty->ID());
+            SNameKey NewKey(NewTypeHash, pProperty->ID());
+
+            // Disassociate this property from the old mapping.
+            auto Find = gNameMap.find(OldKey);
+
+            if (Find != gNameMap.end())
+            {
+                SNameValue& Value = Find->second;
+                NBasics::ListRemoveOne(Value.PropertyList, pProperty);
+            }
+
+            // Create a key for the new property and add it to the list.
+            Find = gNameMap.find(NewKey);
+
+            if (Find == gNameMap.end())
+            {
+                SNameValue Value;
+                Value.Name = pProperty->Name();
+                gNameMap[NewKey] = Value;
+                Find = gNameMap.find(NewKey);
+            }
+            ASSERT(Find != gNameMap.end());
+            Find->second.PropertyList.push_back(pProperty);
+
+            gMapIsDirty = true;
+        }
+    }
+
+    gHashToTypeName[NewTypeHash] = pkNewTypeName;
+}
+
+/** Change a type name. */
+void ChangeTypeNameGlobally(const char* pkOldTypeName, const char* pkNewTypeName)
+{
+    u32 OldTypeHash = CCRC32::StaticHashString(pkOldTypeName);
+    u32 NewTypeHash = CCRC32::StaticHashString(pkNewTypeName);
+
+    if (OldTypeHash == NewTypeHash)
+    {
+        return;
+    }
+
+    // The process here is basically to find all properties with a matching typename
+    // hash and update the hashes to the new type. Not 100% sure if this is the best
+    // way to go about doing it. From what I understand, insert() does not invalidate
+    // iterators, and extract() only invalidates the iterator being extracted. So this
+    // implementation should work correctly.
+    for (auto MapIter = gNameMap.begin(); MapIter != gNameMap.end(); MapIter++)
+    {
+        if (MapIter->first.TypeHash == OldTypeHash)
+        {
+            auto PrevIter = MapIter;
+            PrevIter--;
+
+            auto MapNode = gNameMap.extract(MapIter);
+            MapIter = PrevIter;
+
+            SNameKey& Key = MapNode.key();
+            Key.TypeHash = NewTypeHash;
+            gNameMap.insert( std::move(MapNode) );
+            gMapIsDirty = true;
+        }
+    }
+
+    gHashToTypeName[NewTypeHash] = pkNewTypeName;
 }
 
 /** Registers a property in the name map. Should be called on all properties that use the map */
@@ -363,16 +434,17 @@ void RegisterProperty(IProperty* pProperty)
 
             gNameMap[Key] = Value;
             MapFind = gNameMap.find(Key);
+            ASSERT(MapFind != gNameMap.end());
 
             RegisterTypeName(Key.TypeHash, pProperty->HashableTypeName());
         }
     }
     else
     {
+        ASSERT(MapFind != gNameMap.end());
         pProperty->SetName( MapFind->second.Name );
     }
 
-    ASSERT(MapFind != gNameMap.end());
     MapFind->second.PropertyList.push_back(pProperty);
 
     // Update the property's Name field to match the mapped name.
