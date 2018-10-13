@@ -28,14 +28,9 @@ void CPropertyNameGenerator::Warmup()
 
     while (!feof(pListFile))
     {
-        char WordBuffer[256];
-        fgets(&WordBuffer[0], 256, pListFile);
-
-        // Capitalize first letter
-        if (WordBuffer[0] >= 'a' && WordBuffer[0] <= 'z')
-        {
-            WordBuffer[0] -= 0x20;
-        }
+        char WordBuffer[64];
+        fgets(&WordBuffer[0], 64, pListFile);
+        WordBuffer[0] = TString::CharToUpper(WordBuffer[0]);
 
         SWord Word;
         Word.Word = TString(WordBuffer).Trimmed();
@@ -53,8 +48,26 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     ASSERT(!mIsRunning);
     ASSERT(rkParams.TypeNames.size() > 0);
     mGeneratedNames.clear();
+    mValidTypePairMap.clear();
     mIsRunning = true;
     mFinishedRunning = false;
+
+    // Convert valid type pairs into hashes.
+    // Also, replace the normal type name list with whatever is in the ID pairs list we were given.
+    if (!rkParams.ValidIdPairs.empty())
+    {
+        mTypeNames.clear();
+
+        for (const SPropertyIdTypePair& kPair : rkParams.ValidIdPairs)
+        {
+            mValidTypePairMap[ kPair.ID ] = kPair.pkType;
+            NBasics::VectorAddUnique( mTypeNames, TString(kPair.pkType) );
+        }
+    }
+    else
+    {
+        mTypeNames = rkParams.TypeNames;
+    }
 
     // If we haven't loaded the word list yet, load it.
     // If we are still loading the word list, wait until we're finished.
@@ -132,11 +145,22 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
         {
             int Index = WordCache[RecalcIndex].WordIndex;
 
-            // Add an underscore if needed
-            if (RecalcIndex > 0 && rkParams.UseUnderscores)
-                LastValidHash.Hash("_");
+            // For camelcase, hash the first letter of the first word as lowercase
+            if (RecalcIndex == 0 && rkParams.Casing == ENameCasing::camelCase)
+            {
+                const char* pkWord = *mWords[Index].Word;
+                LastValidHash.Hash( TString::CharToLower( pkWord[0] ) );
+                LastValidHash.Hash( &pkWord[1] );
+            }
+            else
+            {
+                // Add an underscore for snake case
+                if (RecalcIndex > 0 && rkParams.Casing == ENameCasing::Snake_Case)
+                    LastValidHash.Hash("_");
 
-            LastValidHash.Hash( *mWords[Index].Word );
+                LastValidHash.Hash( *mWords[Index].Word );
+            }
+
             WordCache[RecalcIndex].Hash = LastValidHash;
         }
 
@@ -144,15 +168,15 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
         CCRC32 BaseHash = LastValidHash;
         BaseHash.Hash( *rkParams.Suffix );
 
-        for (int TypeIdx = 0; TypeIdx < rkParams.TypeNames.size(); TypeIdx++)
+        for (int TypeIdx = 0; TypeIdx < mTypeNames.size(); TypeIdx++)
         {
             CCRC32 FullHash = BaseHash;
-            const char* pkTypeName = *rkParams.TypeNames[TypeIdx];
+            const char* pkTypeName = *mTypeNames[TypeIdx];
             FullHash.Hash( pkTypeName );
             u32 PropertyID = FullHash.Digest();
 
             // Check if this hash is a property ID
-            if (NPropertyMap::IsValidPropertyName(PropertyID, pkTypeName))
+            if (IsValidPropertyID(PropertyID, pkTypeName))
             {
                 SGeneratedPropertyName PropertyName;
                 NPropertyMap::RetrieveXMLsWithProperty(PropertyID, pkTypeName, PropertyName.XmlList);
@@ -164,7 +188,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                 {
                     int Index = WordCache[WordIdx].WordIndex;
 
-                    if (WordIdx > 0 && rkParams.UseUnderscores)
+                    if (WordIdx > 0 && rkParams.Casing == ENameCasing::Snake_Case)
                     {
                         PropertyName.Name += "_";
                     }
@@ -172,8 +196,13 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                     PropertyName.Name += mWords[Index].Word;
                 }
 
+                if (rkParams.Casing == ENameCasing::camelCase)
+                {
+                    PropertyName.Name[0] = TString::CharToLower( PropertyName.Name[0] );
+                }
+
                 PropertyName.Name += rkParams.Suffix;
-                PropertyName.Type = rkParams.TypeNames[TypeIdx];
+                PropertyName.Type = mTypeNames[TypeIdx];
                 PropertyName.ID = PropertyID;
 
                 if (SaveResults)
@@ -184,7 +213,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                     // If we have too many saved results, then to avoid crashing we will force enable log output.
                     if (mGeneratedNames.size() > 9999)
                     {
-                        gpUIRelay->AsyncMessageBox("Warning", "There are over 10,000 results. To avoid memory issues, results will no longer print to the screen. Check the log for the rest of the output.");
+                        gpUIRelay->AsyncMessageBox("Warning", "There are over 10,000 results. Results will no longer print to the screen. Check the log for the remaining output.");
                         WriteToLog = true;
                         SaveResults = false;
                     }
@@ -221,4 +250,22 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
 
     mIsRunning = false;
     mFinishedRunning = true;
+}
+
+/** Returns whether a given property ID is valid */
+bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char* pkType)
+{
+    if (!mValidTypePairMap.empty())
+    {
+        auto Find = mValidTypePairMap.find(ID);
+
+        if (Find != mValidTypePairMap.end())
+        {
+            return strcmp( Find->second, pkType ) == 0;
+        }
+        else
+            return false;
+    }
+    else
+        return NPropertyMap::IsValidPropertyName(ID, pkType);
 }

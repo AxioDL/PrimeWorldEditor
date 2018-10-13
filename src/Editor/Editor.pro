@@ -201,7 +201,8 @@ HEADERS += \
     CProgressBarNotifier.h \
     Widgets/CCheckableTreeWidgetItem.h \
     Widgets/CCheckableTreeWidget.h \
-    Undo/IEditPropertyCommand.h
+    Undo/IEditPropertyCommand.h \
+    Widgets/TEnumComboBox.h
 
 # Source Files
 SOURCES += \

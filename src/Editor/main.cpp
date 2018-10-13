@@ -74,13 +74,6 @@ public:
             gpEditorStore->ConditionalSaveStore();
         }
 
-        for (int i = 0; i < (int) EGame::Max; i++)
-        {
-            CGameTemplate* pGame = NGameList::GetGameTemplate( (EGame) i );
-            if (pGame) pGame->Save();
-        }
-        return 0;
-
         // Execute application
         App.InitEditor();
         return App.exec();

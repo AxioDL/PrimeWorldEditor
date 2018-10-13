@@ -4,6 +4,21 @@
 #include "Core/IProgressNotifier.h"
 #include <Common/Common.h>
 
+/** Name casing parameter */
+enum class ENameCasing
+{
+    PascalCase,
+    Snake_Case,
+    camelCase,
+};
+
+/** ID/type pairing for ID pool */
+struct SPropertyIdTypePair
+{
+    u32 ID;
+    const char* pkType;
+};
+
 /** Parameters for using the name generator */
 struct SPropertyNameGenerationParameters
 {
@@ -16,11 +31,14 @@ struct SPropertyNameGenerationParameters
     /** Suffix to include at the end of every name */
     TString Suffix;
 
+    /** Name casing to use */
+    ENameCasing Casing;
+
     /** List of valid type suffixes */
     std::vector<TString> TypeNames;
 
-    /** Whether to separate words with underscores */
-    bool UseUnderscores;
+    /** List of ID/type pairs to check against. If empty, all properties are valid. */
+    std::vector<SPropertyIdTypePair> ValidIdPairs;
 
     /** Whether to print the output from the generation process to the log */
     bool PrintToLog;
@@ -50,6 +68,12 @@ class CPropertyNameGenerator
     /** Whether the generation process finished running */
     bool mFinishedRunning;
 
+    /** List of valid property types to check against */
+    std::vector<TString> mTypeNames;
+
+    /** Mapping of valid ID/type pairs; if empty, all property names in NPropertyMap are allowed */
+    std::unordered_map<u32, const char*> mValidTypePairMap;
+
     /** List of words */
     struct SWord
     {
@@ -73,6 +97,9 @@ public:
 
     /** Run the name generation system */
     void Generate(const SPropertyNameGenerationParameters& rkParams, IProgressNotifier* pProgressNotifier);
+
+    /** Returns whether a given property ID is valid */
+    bool IsValidPropertyID(u32 ID, const char* pkType);
 
     /** Accessors */
     bool IsRunning() const
