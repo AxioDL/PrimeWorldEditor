@@ -83,7 +83,7 @@ bool VectorContains(std::vector<T>& Vector, const T& kElement)
 template<typename T>
 bool VectorAddUnique(std::vector<T>& Vector, const T& kElement)
 {
-    if (!VectorContainsElement(Vector, kElement))
+    if (!VectorContains(Vector, kElement))
     {
         Vector.push_back(kElement);
         return true;

@@ -2,7 +2,10 @@
 #define CGENERATEPROPERTYNAMESDIALOG_H
 
 #include "CProgressBarNotifier.h"
+#include "Editor/Widgets/TEnumComboBox.h"
 #include <Core/Resource/Script/Property/CPropertyNameGenerator.h>
+#include <Core/Resource/Script/Property/IProperty.h>
+#include <Core/Resource/Script/Property/CEnumProperty.h>
 
 #include <QDialog>
 #include <QFuture>
@@ -10,6 +13,8 @@
 #include <QScopedPointer>
 #include <QTimer>
 #include <QTreeWidgetItem>
+
+using CNameCasingComboBox = TEnumComboBox<ENameCasing>;
 
 namespace Ui {
 class CGeneratePropertyNamesDialog;
@@ -28,6 +33,9 @@ class CGeneratePropertyNamesDialog : public QDialog
 
     /** Progress notifier for updating the progress bar */
     CProgressBarNotifier mNotifier;
+
+    /** List of ID/type pairs in the ID pool */
+    QVector<SPropertyIdTypePair> mIdPairs;
 
     /** Future/future watcher for name generation task */
     QFuture<void> mFuture;
@@ -52,7 +60,19 @@ public:
     explicit CGeneratePropertyNamesDialog(QWidget *pParent = 0);
     ~CGeneratePropertyNamesDialog();
 
+    /** Add a property to the ID pool */
+    void AddToIDPool(IProperty* pProperty);
+
+    /** Populate the ID pool with the children of the given property */
+    void AddChildrenToIDPool(IProperty* pProperty, bool Recursive);
+
+    /** Populate the ID pool with enum values */
+    void AddEnumValuesToIDPool(CEnumProperty* pEnum);
+
 public slots:
+    /** Show event override */
+    virtual void showEvent(QShowEvent* pEvent);
+
     /** Close event override */
     virtual void closeEvent(QCloseEvent* pEvent);
 
@@ -61,6 +81,9 @@ public slots:
 
     /** Deletes an item from the suffix list */
     void DeleteSuffix();
+
+    /** Clear the ID pool */
+    void ClearIdPool();
 
     /** Start name generation */
     void StartGeneration();

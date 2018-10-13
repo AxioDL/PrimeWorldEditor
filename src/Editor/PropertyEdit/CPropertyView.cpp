@@ -28,6 +28,13 @@ CPropertyView::CPropertyView(QWidget *pParent)
     mpEditTemplateAction = new QAction("Edit template", this);
     connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
 
+    mpGenNamesForPropertyAction = new QAction("Generate names for this property", this);
+    mpGenNamesForSiblingsAction = new QAction(this); // Text set in CreateContextMenu()
+    mpGenNamesForChildrenAction = new QAction(this); // Text set in CreateContextMenu()
+    connect(mpGenNamesForPropertyAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForProperty()));
+    connect(mpGenNamesForSiblingsAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForSiblings()));
+    connect(mpGenNamesForChildrenAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForChildren()));
+
     connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
@@ -216,9 +223,9 @@ void CPropertyView::ClosePersistentEditors(const QModelIndex& rkIndex)
 void CPropertyView::OnPropertyModified(const QModelIndex& rkIndex)
 {
     // Check for a character resource being changed. If that's the case we need to remake the persistent editors.
-    IProperty *pProp = mpModel->PropertyForIndex(rkIndex, true);
+    IProperty* pProperty = mpModel->PropertyForIndex(rkIndex, true);
 
-    if (pProp->Type() == EPropertyType::AnimationSet /*&& rkIndex.internalId() & 0x1*/)
+    if (pProperty->Type() == EPropertyType::AnimationSet /*&& rkIndex.internalId() & 0x1*/)
     {
         ClosePersistentEditors(rkIndex);
         SetPersistentEditors(rkIndex);
@@ -231,12 +238,12 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
 
     if (Index.isValid() && Index.column() == 0)
     {
-        IProperty *pProp = mpModel->PropertyForIndex(Index, true);
-        mpMenuProperty = pProp;
+        IProperty* pProperty = mpModel->PropertyForIndex(Index, true);
+        mpMenuProperty = pProperty;
 
         QMenu Menu;
 
-        if (!pProp->IsIntrinsic())
+        if (!pProperty->IsIntrinsic())
         {
             Menu.addAction(mpEditTemplateAction);
         }
@@ -244,6 +251,27 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
         if (mpEditor->CurrentGame() >= EGame::EchoesDemo)
         {
             Menu.addAction(mpShowNameValidityAction);
+        }
+
+        // Add options for generating property names
+        if (pProperty->UsesNameMap())
+        {
+            Menu.addSeparator();
+            Menu.addAction(mpGenNamesForPropertyAction);
+
+            if (!pProperty->IsRootParent())
+            {
+                QString TypeName = TO_QSTRING( pProperty->Parent()->RootArchetype()->Name() );
+                mpGenNamesForSiblingsAction->setText( QString("Generate names for %1 properties").arg(TypeName) );
+                Menu.addAction(mpGenNamesForSiblingsAction);
+            }
+
+            if (pProperty->Type() == EPropertyType::Struct && !pProperty->IsAtomic())
+            {
+                QString TypeName = TO_QSTRING( pProperty->RootArchetype()->Name() );
+                mpGenNamesForChildrenAction->setText( QString("Generate names for %1 properties").arg(TypeName) );
+                Menu.addAction(mpGenNamesForChildrenAction);
+            }
         }
 
         Menu.exec(viewport()->mapToGlobal(rkPos));
@@ -259,4 +287,26 @@ void CPropertyView::EditPropertyTemplate()
 {
     CTemplateEditDialog Dialog(mpMenuProperty, mpEditor);
     Dialog.exec();
+}
+
+
+void CPropertyView::GenerateNamesForProperty()
+{
+    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    pDialog->AddToIDPool(mpMenuProperty);
+    pDialog->show();
+}
+
+void CPropertyView::GenerateNamesForSiblings()
+{
+    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    pDialog->AddChildrenToIDPool(mpMenuProperty->Parent(), false);
+    pDialog->show();
+}
+
+void CPropertyView::GenerateNamesForChildren()
+{
+    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    pDialog->AddChildrenToIDPool(mpMenuProperty, false);
+    pDialog->show();
 }

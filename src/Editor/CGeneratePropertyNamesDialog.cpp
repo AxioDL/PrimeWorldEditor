@@ -20,6 +20,7 @@ CGeneratePropertyNamesDialog::CGeneratePropertyNamesDialog(QWidget* pParent)
 
     connect( mpUI->AddSuffixButton, SIGNAL(pressed()), this, SLOT(AddSuffix()) );
     connect( mpUI->RemoveSuffixButton, SIGNAL(pressed()), this, SLOT(DeleteSuffix()) );
+    connect( mpUI->ClearIdPoolButton, SIGNAL(pressed()), this, SLOT(ClearIdPool()) );
     connect( mpUI->StartButton, SIGNAL(pressed()), this, SLOT(StartGeneration()) );
     connect( mpUI->CancelButton, SIGNAL(pressed()), this, SLOT(CancelGeneration()) );
     connect( mpUI->CheckAllButton, SIGNAL(pressed()), this, SLOT(CheckAll()) );
@@ -45,6 +46,56 @@ CGeneratePropertyNamesDialog::~CGeneratePropertyNamesDialog()
     delete mpUI;
 }
 
+/** Add a property to the ID pool */
+void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
+{
+    if (!pProperty->UsesNameMap())
+    {
+        Log::Error("Failed to add property " + pProperty->IDString(false) + " to the generator ID pool because it doesn't use the name map");
+        return;
+    }
+
+    u32 ID = pProperty->ID();
+    const char* pkTypeName = pProperty->HashableTypeName();
+    mIdPairs << SPropertyIdTypePair { ID, pkTypeName };
+
+    QString ItemText = QString("%1 [%2]").arg( *TString::HexString(pProperty->ID(), 8, false) ).arg( pkTypeName );
+    mpUI->IdPoolList->addItem( ItemText );
+
+    // We probably don't want to call UpdateUI every single time we add a property, but
+    // we do need to call it somewhere to make sure the ID list shows up on the UI...
+    if (mpUI->IdPoolGroupBox->isHidden())
+    {
+        UpdateUI();
+    }
+}
+
+/** Populate the ID pool with the children of the given property */
+void CGeneratePropertyNamesDialog::AddChildrenToIDPool(IProperty* pProperty, bool Recursive)
+{
+    for (u32 ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
+    {
+        IProperty* pChild = pProperty->ChildByIndex(ChildIdx);
+
+        // Skip children that already have valid property names
+        if (!pChild->HasAccurateName() && pChild->UsesNameMap())
+        {
+            AddToIDPool(pChild);
+        }
+
+        if (Recursive)
+        {
+            AddChildrenToIDPool(pChild, true);
+        }
+    }
+}
+
+/** Show event override */
+void CGeneratePropertyNamesDialog::showEvent(QShowEvent*)
+{
+    UpdateUI();
+}
+
 /** Close event override */
 void CGeneratePropertyNamesDialog::closeEvent(QCloseEvent*)
 {
@@ -52,6 +103,7 @@ void CGeneratePropertyNamesDialog::closeEvent(QCloseEvent*)
     {
         CancelGeneration();
     }
+    ClearIdPool();
 }
 
 /** Add an item to the suffix list */
@@ -73,6 +125,14 @@ void CGeneratePropertyNamesDialog::DeleteSuffix()
         int Row = mpUI->TypeSuffixesListWidget->currentRow();
         delete mpUI->TypeSuffixesListWidget->takeItem(Row);
     }
+}
+
+/** Clear the ID pool */
+void CGeneratePropertyNamesDialog::ClearIdPool()
+{
+    mIdPairs.clear();
+    mpUI->IdPoolList->clear();
+    UpdateUI();
 }
 
 /** Start name generation */
@@ -100,7 +160,8 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     Params.MaxWords = mpUI->NumWordsSpinBox->value();
     Params.Prefix = TO_TSTRING( mpUI->PrefixLineEdit->text() );
     Params.Suffix = TO_TSTRING( mpUI->SuffixLineEdit->text() );
-    Params.UseUnderscores = mpUI->UseUnderscoresCheckBox->isChecked();
+    Params.Casing = mpUI->CasingComboBox->currentEnum();
+    Params.ValidIdPairs = mIdPairs.toStdVector();
     Params.PrintToLog = mpUI->LogOutputCheckBox->isChecked();
 
     // Run the task and configure ourselves so we can update correctly
@@ -287,8 +348,11 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
 /** Updates the enabled status of various widgets */
 void CGeneratePropertyNamesDialog::UpdateUI()
 {
-    mpUI->TypeSuffixesGroupBox->setEnabled( !mRunningNameGeneration );
     mpUI->SettingsGroupBox->setEnabled( !mRunningNameGeneration );
+    mpUI->TypeSuffixesGroupBox->setEnabled( !mRunningNameGeneration );
+    mpUI->TypeSuffixesGroupBox->setHidden( !mIdPairs.isEmpty() );
+    mpUI->IdPoolGroupBox->setEnabled( !mRunningNameGeneration );
+    mpUI->IdPoolGroupBox->setHidden( mIdPairs.isEmpty() );
     mpUI->StartButton->setEnabled( !mRunningNameGeneration );
     mpUI->CancelButton->setEnabled( mRunningNameGeneration && !mCanceledNameGeneration );
 

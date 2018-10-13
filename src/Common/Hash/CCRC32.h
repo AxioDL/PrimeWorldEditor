@@ -32,6 +32,7 @@ public:
     void Hash(u64 v);
     void Hash(float v);
     void Hash(double v);
+    void Hash(char v);
     void Hash(const char* pkString);
 
     static u32 StaticHashString(const char* pkString);

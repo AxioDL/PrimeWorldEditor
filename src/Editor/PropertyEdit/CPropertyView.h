@@ -18,6 +18,9 @@ class CPropertyView : public QTreeView
     IProperty *mpMenuProperty;
     QAction *mpShowNameValidityAction;
     QAction *mpEditTemplateAction;
+    QAction *mpGenNamesForPropertyAction;
+    QAction *mpGenNamesForSiblingsAction;
+    QAction *mpGenNamesForChildrenAction;
 
 public:
     CPropertyView(QWidget *pParent = 0);
@@ -38,6 +41,10 @@ public slots:
     void CreateContextMenu(const QPoint& rkPos);
     void ToggleShowNameValidity(bool ShouldShow);
     void EditPropertyTemplate();
+
+    void GenerateNamesForProperty();
+    void GenerateNamesForSiblings();
+    void GenerateNamesForChildren();
 };
 
 #endif // CPROPERTYVIEW_H

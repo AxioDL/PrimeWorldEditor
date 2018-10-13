@@ -91,6 +91,7 @@ public:
     inline CGameArea* ActiveArea() const    { return mpArea; }
     inline EGame CurrentGame() const        { return gpEdApp->CurrentGame(); }
     inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
+    inline CGeneratePropertyNamesDialog* NameGeneratorDialog() const    { return mpGeneratePropertyNamesDialog; }
     CResourceBrowser* ResourceBrowser() const;
     CSceneViewport* Viewport() const;
 

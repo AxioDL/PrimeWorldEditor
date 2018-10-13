@@ -193,7 +193,6 @@ SMessage CGameTemplate::MessageByIndex(u32 Index)
 IProperty* CGameTemplate::FindPropertyArchetype(const TString& kTypeName)
 {
     auto Iter = mPropertyTemplates.find(kTypeName);
-    ASSERT(Iter != mPropertyTemplates.end()); // Requested archetype property does not exist; missing or malformed template
 
     if (Iter == mPropertyTemplates.end())
     {

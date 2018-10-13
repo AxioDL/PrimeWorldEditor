@@ -106,6 +106,11 @@ void CCRC32::Hash(double v)
     Hash(&v, 8);
 }
 
+void CCRC32::Hash(char v)
+{
+    Hash(&v, 1);
+}
+
 void CCRC32::Hash(const char* pkString)
 {
     while (*pkString)
