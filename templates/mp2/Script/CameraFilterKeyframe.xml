@@ -7,7 +7,7 @@
             <Element Type="Int" ID="0x7975DB5B">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Enum" ID="0x6A3E9A3D">
+            <Element Type="Choice" ID="0x6A3E9A3D">
                 <DefaultValue>0x0</DefaultValue>
                 <Values>
                     <Element Name="FullScreen" ID="0x0"/>

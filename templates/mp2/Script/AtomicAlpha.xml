@@ -32,7 +32,7 @@
                     </Element>
                     <Element Type="Struct" ID="0xD756416E">
                         <SubProperties>
-                            <Element Type="Enum" ID="0x119FBD31">
+                            <Element Type="Choice" ID="0x119FBD31">
                                 <DefaultValue>0x9</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0xF2D02613">

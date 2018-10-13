@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Echoes">
-    <PropertyArchetype Type="Enum">
+    <PropertyArchetype Type="Choice">
         <Name>WeaponType</Name>
         <DefaultValue>0x0</DefaultValue>
         <Values>

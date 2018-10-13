@@ -416,6 +416,11 @@ bool IProperty::HasAccurateName()
     return mFlags.HasFlag( EPropertyFlag::HasCorrectPropertyName );
 }
 
+void IProperty::RecacheName()
+{
+    mFlags.ClearFlag( EPropertyFlag::HasCachedNameCheck | EPropertyFlag::HasCorrectPropertyName );
+}
+
 /** IPropertyNew Accessors */
 EGame IProperty::Game() const
 {

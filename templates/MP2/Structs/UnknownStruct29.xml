@@ -19,7 +19,7 @@
             <Element Type="Spline" ID="0xA25B96E1"/>
             <Element Type="Struct" ID="0xE1A78BD" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0x7</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
@@ -35,7 +35,7 @@
             </Element>
             <Element Type="Struct" ID="0x19C3D263" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0x7</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
@@ -108,7 +108,7 @@
             </Element>
             <Element Type="Struct" ID="0x5616D5F1" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
@@ -121,7 +121,7 @@
             </Element>
             <Element Type="Struct" ID="0xED685533" Archetype="DamageInfo">
                 <SubProperties>
-                    <Element Type="Enum" ID="0x119FBD31">
+                    <Element Type="Choice" ID="0x119FBD31">
                         <DefaultValue>0xB</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
