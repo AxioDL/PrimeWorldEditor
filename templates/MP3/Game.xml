@@ -1348,10 +1348,6 @@
             <Value Path="Structs/PlayerActorStruct.xml"/>
         </Element>
         <Element>
-            <Key>PlayerAlternateSkin</Key>
-            <Value Path="Structs/PlayerAlternateSkin.xml"/>
-        </Element>
-        <Element>
             <Key>PlayerInventoryItem</Key>
             <Value Path="Structs/PlayerInventoryItem.xml"/>
         </Element>
@@ -1722,6 +1718,10 @@
         <Element>
             <Key>UnknownStruct45</Key>
             <Value Path="Structs/UnknownStruct45.xml"/>
+        </Element>
+        <Element>
+            <Key>UnknownStruct46</Key>
+            <Value Path="Structs/UnknownStruct46.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct47</Key>
