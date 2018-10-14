@@ -23,7 +23,7 @@ const char* GetPropertyName(IProperty* pProperty);
 const char* GetPropertyName(u32 ID, const char* pkTypeName);
 
 /** Returns whether the specified name is in the map. */
-bool IsValidPropertyName(u32 ID, const char* pkTypeName);
+bool IsValidPropertyID(u32 ID, const char* pkTypeName);
 
 /** Retrieves a list of all properties that match the requested property ID. */
 void RetrievePropertiesWithID(u32 ID, const char* pkTypeName, std::list<IProperty*>& OutList);
