@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>PeanutGunData</Name>
+        <Name>PlayerPeanutGunData</Name>
         <SubProperties>
             <Element Type="Bool" ID="0xE0F206D">
                 <DefaultValue>false</DefaultValue>

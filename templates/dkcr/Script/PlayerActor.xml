@@ -89,7 +89,7 @@
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x6C75E2EA" Archetype="UnknownStruct8"/>
-            <Element Type="Struct" ID="0x2E9827AD" Archetype="UnknownStruct46"/>
+            <Element Type="Struct" ID="0x2E9827AD" Archetype="PlayerAlternateSkin"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

@@ -18,7 +18,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x8A6AB139">
                         <DefaultValue>0.69999999</DefaultValue>
@@ -33,7 +33,7 @@
             <Element Type="Struct" ID="0x63F638" Archetype="UnknownStruct"/>
             <Element Type="Struct" ID="0x3C38498D" Archetype="UnknownStruct45"/>
             <Element Type="Struct" ID="0xF07BEC6D" Archetype="MinecartStructA"/>
-            <Element Type="Struct" ID="0x98EFC863" Archetype="MinecartStructD"/>
+            <Element Type="Struct" ID="0x98EFC863" Archetype="PlayerMultiKillRewardData"/>
             <Element Type="Struct" ID="0x978E5BD8" Archetype="VehicleStructA"/>
             <Element Type="Struct" ID="0x7F681411" Archetype="VehicleStructB"/>
             <Element Type="Struct" ID="0xD7326912" Archetype="UnknownStruct82"/>

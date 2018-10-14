@@ -712,8 +712,8 @@
             <Value Path="Structs/BouncyTireData.xml"/>
         </Element>
         <Element>
-            <Key>BouncyTireStruct</Key>
-            <Value Path="Structs/BouncyTireStruct.xml"/>
+            <Key>BouncyTireJumpHeights</Key>
+            <Value Path="Structs/BouncyTireJumpHeights.xml"/>
         </Element>
         <Element>
             <Key>CableEnum</Key>
@@ -800,10 +800,6 @@
             <Value Path="Structs/CounterConditions.xml"/>
         </Element>
         <Element>
-            <Key>CrouchData</Key>
-            <Value Path="Structs/CrouchData.xml"/>
-        </Element>
-        <Element>
             <Key>DKBarrelGlueData</Key>
             <Value Path="Structs/DKBarrelGlueData.xml"/>
         </Element>
@@ -888,8 +884,8 @@
             <Value Path="Structs/GeneratedObjectDeleterProperties.xml"/>
         </Element>
         <Element>
-            <Key>GenericCreature</Key>
-            <Value Path="Structs/GenericCreature.xml"/>
+            <Key>GenericCreatureData</Key>
+            <Value Path="Structs/GenericCreatureData.xml"/>
         </Element>
         <Element>
             <Key>GenericCreatureStructA</Key>
@@ -912,10 +908,6 @@
             <Value Path="Structs/GenericCreatureStructE.xml"/>
         </Element>
         <Element>
-            <Key>GenericCreatureStructF</Key>
-            <Value Path="Structs/GenericCreatureStructF.xml"/>
-        </Element>
-        <Element>
             <Key>GenericCreatureStructG</Key>
             <Value Path="Structs/GenericCreatureStructG.xml"/>
         </Element>
@@ -930,10 +922,6 @@
         <Element>
             <Key>GuiWidgetProperties</Key>
             <Value Path="Structs/GuiWidgetProperties.xml"/>
-        </Element>
-        <Element>
-            <Key>HeadTrackingData</Key>
-            <Value Path="Structs/HeadTrackingData.xml"/>
         </Element>
         <Element>
             <Key>HealthInfo</Key>
@@ -984,10 +972,6 @@
             <Value Path="Structs/LightParameters.xml"/>
         </Element>
         <Element>
-            <Key>MeleeData</Key>
-            <Value Path="Structs/MeleeData.xml"/>
-        </Element>
-        <Element>
             <Key>MinecartStructA</Key>
             <Value Path="Structs/MinecartStructA.xml"/>
         </Element>
@@ -998,10 +982,6 @@
         <Element>
             <Key>MinecartStructC</Key>
             <Value Path="Structs/MinecartStructC.xml"/>
-        </Element>
-        <Element>
-            <Key>MinecartStructD</Key>
-            <Value Path="Structs/MinecartStructD.xml"/>
         </Element>
         <Element>
             <Key>ModifyContactRules</Key>
@@ -1092,12 +1072,8 @@
             <Value Path="Structs/PathPosition.xml"/>
         </Element>
         <Element>
-            <Key>PatternedAI</Key>
-            <Value Path="Structs/PatternedAI.xml"/>
-        </Element>
-        <Element>
-            <Key>PeanutGunData</Key>
-            <Value Path="Structs/PeanutGunData.xml"/>
+            <Key>PatternedAITypedef</Key>
+            <Value Path="Structs/PatternedAITypedef.xml"/>
         </Element>
         <Element>
             <Key>PeanutProperties</Key>
@@ -1120,8 +1096,48 @@
             <Value Path="Structs/PlatformMotionProperties.xml"/>
         </Element>
         <Element>
+            <Key>PlayerAlternateSkin</Key>
+            <Value Path="Structs/PlayerAlternateSkin.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerCrouchData</Key>
+            <Value Path="Structs/PlayerCrouchData.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerCrushData</Key>
+            <Value Path="Structs/PlayerCrushData.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerHeadTrackingData</Key>
+            <Value Path="Structs/PlayerHeadTrackingData.xml"/>
+        </Element>
+        <Element>
             <Key>PlayerItem</Key>
             <Value Path="Enums/PlayerItem.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerMeleeData</Key>
+            <Value Path="Structs/PlayerMeleeData.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerMultiKillRewardData</Key>
+            <Value Path="Structs/PlayerMultiKillRewardData.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerPeanutGunData</Key>
+            <Value Path="Structs/PlayerPeanutGunData.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerRiseFromTheGraveData</Key>
+            <Value Path="Structs/PlayerRiseFromTheGraveData.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerShieldData</Key>
+            <Value Path="Structs/PlayerShieldData.xml"/>
+        </Element>
+        <Element>
+            <Key>PlayerTarInteractionData</Key>
+            <Value Path="Structs/PlayerTarInteractionData.xml"/>
         </Element>
         <Element>
             <Key>ProjectileBounceData</Key>
@@ -1166,10 +1182,6 @@
         <Element>
             <Key>RetronomeMessage</Key>
             <Value Path="Structs/RetronomeMessage.xml"/>
-        </Element>
-        <Element>
-            <Key>RiseFromTheGraveData</Key>
-            <Value Path="Structs/RiseFromTheGraveData.xml"/>
         </Element>
         <Element>
             <Key>RobotChickenEnum</Key>
@@ -1218,10 +1230,6 @@
         <Element>
             <Key>Shape</Key>
             <Value Path="Enums/Shape.xml"/>
-        </Element>
-        <Element>
-            <Key>ShieldData</Key>
-            <Value Path="Structs/ShieldData.xml"/>
         </Element>
         <Element>
             <Key>SkinSwap</Key>
@@ -1286,10 +1294,6 @@
         <Element>
             <Key>TandemBeam</Key>
             <Value Path="Structs/TandemBeam.xml"/>
-        </Element>
-        <Element>
-            <Key>TarInteractionData</Key>
-            <Value Path="Structs/TarInteractionData.xml"/>
         </Element>
         <Element>
             <Key>TeleportData</Key>
@@ -2322,10 +2326,6 @@
         <Element>
             <Key>UnknownStruct45</Key>
             <Value Path="Structs/UnknownStruct45.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct46</Key>
-            <Value Path="Structs/UnknownStruct46.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct47</Key>

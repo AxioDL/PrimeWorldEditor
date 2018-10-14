@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>RiseFromTheGraveData</Name>
+        <Name>PlayerRiseFromTheGraveData</Name>
         <SubProperties>
             <Element Type="Asset" ID="0x56299562">
                 <TypeFilter>

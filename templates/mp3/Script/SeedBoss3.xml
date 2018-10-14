@@ -10,7 +10,7 @@
             <Element Type="Struct" ID="0xFD27ED67" Archetype="SeedBoss3Data"/>
             <Element Type="Struct" ID="0x5292969E" Archetype="SeedBoss3Data"/>
             <Element Type="Struct" ID="0xCF9D77E8" Archetype="SeedBoss3Data"/>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x75DBB375">
                         <DefaultValue>1000.0</DefaultValue>
@@ -56,7 +56,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0x5C056CEF" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0x5C056CEF" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x75DBB375">
                         <DefaultValue>1000.0</DefaultValue>
@@ -102,7 +102,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0x8BE7ECB7" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0x8BE7ECB7" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x75DBB375">
                         <DefaultValue>1000.0</DefaultValue>

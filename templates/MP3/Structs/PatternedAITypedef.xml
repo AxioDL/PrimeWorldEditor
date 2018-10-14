@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Corruption">
     <PropertyArchetype Type="Struct">
-        <Name>PatternedAI</Name>
+        <Name>PatternedAITypedef</Name>
         <SubProperties>
             <Element Type="Float" ID="0x75DBB375">
                 <DefaultValue>150.0</DefaultValue>

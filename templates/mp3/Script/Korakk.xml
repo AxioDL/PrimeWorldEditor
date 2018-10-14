@@ -9,7 +9,7 @@
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
             <Element Type="Struct" ID="0x85BB6891" Archetype="UnknownStruct44"/>
             <Element Type="Struct" ID="0xADB462E2" Archetype="KorakkData"/>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x20C78BB">
                         <DefaultValue>65.0</DefaultValue>
@@ -20,7 +20,7 @@
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0xC8E90B50" Archetype="KorakkData"/>
-            <Element Type="Struct" ID="0x1464AE05" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0x1464AE05" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x20C78BB">
                         <DefaultValue>65.0</DefaultValue>
@@ -31,7 +31,7 @@
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0xBA37072A" Archetype="KorakkData"/>
-            <Element Type="Struct" ID="0x24D00673" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0x24D00673" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x20C78BB">
                         <DefaultValue>65.0</DefaultValue>

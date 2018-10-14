@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>MinecartStructD</Name>
+        <Name>PlayerMultiKillRewardData</Name>
         <SubProperties>
             <Element Type="Spline" ID="0x32152AB2"/>
             <Element Type="Struct" ID="0x5E3BE9" Archetype="UnknownStruct41"/>
