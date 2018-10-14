@@ -7,7 +7,7 @@
             <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
             <Element Type="Struct" ID="0x63F638" Archetype="UnknownStruct"/>
-            <Element Type="Struct" ID="0x43BBB1DD" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0x43BBB1DD" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Struct" ID="0xCF90D15E">
                         <SubProperties>
@@ -21,7 +21,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0x2E9827AD" Archetype="UnknownStruct46"/>
+            <Element Type="Struct" ID="0x2E9827AD" Archetype="PlayerAlternateSkin"/>
             <Element Type="Struct" ID="0x6F7438CF" Archetype="UnknownStruct44"/>
             <Element Type="Struct" ID="0x9C7E9051" Archetype="UnknownStruct227"/>
         </SubProperties>

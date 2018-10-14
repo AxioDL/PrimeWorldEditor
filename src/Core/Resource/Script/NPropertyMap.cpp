@@ -231,8 +231,8 @@ const char* GetPropertyName(u32 ID, const char* pkTypeName)
 }
 
 
-/** Returns whether the specified name is in the map. */
-bool IsValidPropertyName(u32 ID, const char* pkTypeName)
+/** Returns whether the specified ID is in the map. */
+bool IsValidPropertyID(u32 ID, const char* pkTypeName)
 {
     SNameKey Key = CreateKey(ID, pkTypeName);
     auto MapFind = gNameMap.find(Key);

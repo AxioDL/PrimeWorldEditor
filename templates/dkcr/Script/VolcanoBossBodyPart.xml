@@ -23,7 +23,7 @@
             </Element>
             <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Struct" ID="0x7B71AE90">
                         <SubProperties>

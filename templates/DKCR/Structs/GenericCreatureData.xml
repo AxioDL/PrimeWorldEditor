@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>GenericCreature</Name>
+        <Name>GenericCreatureData</Name>
         <SubProperties>
             <Element Type="Enum" ID="0xB3E0A3A">
                 <DefaultValue>0xDDB5F41</DefaultValue>

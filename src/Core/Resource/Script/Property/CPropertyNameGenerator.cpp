@@ -52,7 +52,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     mIsRunning = true;
     mFinishedRunning = false;
 
-    // Convert valid type pairs into hashes.
+    // Convert the type pair map.
     // Also, replace the normal type name list with whatever is in the ID pairs list we were given.
     if (!rkParams.ValidIdPairs.empty())
     {
@@ -267,5 +267,5 @@ bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char* pkType)
             return false;
     }
     else
-        return NPropertyMap::IsValidPropertyName(ID, pkType);
+        return NPropertyMap::IsValidPropertyID(ID, pkType);
 }

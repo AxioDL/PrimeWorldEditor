@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>CrouchData</Name>
+        <Name>PlayerCrouchData</Name>
         <SubProperties>
             <Element Type="Float" ID="0xBA089BB4">
                 <DefaultValue>0.80000001</DefaultValue>

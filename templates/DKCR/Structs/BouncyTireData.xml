@@ -19,8 +19,8 @@
             <Element Type="Float" ID="0x2F524FD4">
                 <DefaultValue>3.1401999</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0x19287737" Archetype="BouncyTireStruct"/>
-            <Element Type="Struct" ID="0x6A3AFC9E" Archetype="BouncyTireStruct"/>
+            <Element Type="Struct" ID="0x19287737" Archetype="BouncyTireJumpHeights"/>
+            <Element Type="Struct" ID="0x6A3AFC9E" Archetype="BouncyTireJumpHeights"/>
             <Element Type="Float" ID="0x83A5293A">
                 <DefaultValue>9.0</DefaultValue>
             </Element>

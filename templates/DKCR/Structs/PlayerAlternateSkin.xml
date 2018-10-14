@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct46</Name>
+        <Name>PlayerAlternateSkin</Name>
         <SubProperties>
             <Element Type="Int" ID="0x6B40ACEF">
                 <DefaultValue>0</DefaultValue>

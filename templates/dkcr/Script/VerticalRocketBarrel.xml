@@ -18,7 +18,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI">
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x8A6AB139">
                         <DefaultValue>0.5</DefaultValue>

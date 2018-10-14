@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>HeadTrackingData</Name>
+        <Name>PlayerHeadTrackingData</Name>
         <SubProperties>
             <Element Type="Int" ID="0xAACDB11C">
                 <CookPreference>Always</CookPreference>

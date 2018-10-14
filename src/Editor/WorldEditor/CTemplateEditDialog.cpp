@@ -189,9 +189,14 @@ void CTemplateEditDialog::UpdateTypeName(const TString& kNewTypeName, bool Allow
 {
     if (mOriginalTypeName != kNewTypeName || mOriginalAllowTypeNameOverride != AllowOverride)
     {
+        bool WasUnknown = mOriginalTypeName.Contains("Unknown") || mOriginalTypeName.Contains("Struct");
+
         // Get a list of properties to update.
         for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
         {
+            if (WasUnknown && (EGame) GameIdx != mpProperty->Game())
+                continue;
+
             CGameTemplate* pGame = NGameList::GetGameTemplate( (EGame) GameIdx );
 
             if (pGame)

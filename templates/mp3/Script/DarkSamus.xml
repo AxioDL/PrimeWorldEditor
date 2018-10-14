@@ -9,11 +9,11 @@
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
             <Element Type="Struct" ID="0x214A7EB" Archetype="UnknownStruct27"/>
             <Element Type="Struct" ID="0x2C43C41" Archetype="DarkSamusData"/>
-            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0xDD042FE0" Archetype="DarkSamusData"/>
-            <Element Type="Struct" ID="0x1464AE05" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x1464AE05" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0xD0621C92" Archetype="DarkSamusData"/>
-            <Element Type="Struct" ID="0x24D00673" Archetype="PatternedAI"/>
+            <Element Type="Struct" ID="0x24D00673" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
         </SubProperties>
     </Properties>
