@@ -29,7 +29,6 @@ public:
     void SetCharacterEditorData(QWidget *pEditor, const QModelIndex& rkIndex) const;
     void SetCharacterModelData(QWidget *pEditor, const QModelIndex& rkIndex) const;
     EPropertyType DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex) const;
-    EPropertyType GetEffectiveFieldType(IProperty* pProperty) const;
 
 public slots:
     void WidgetEdited(QWidget *pWidget, const QModelIndex& rkIndex);

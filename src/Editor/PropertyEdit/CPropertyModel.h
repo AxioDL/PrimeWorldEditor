@@ -52,6 +52,7 @@ public:
     void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
     void ClearSlot(int ID);
 
+    EPropertyType GetEffectiveFieldType(IProperty* pProperty) const;
     void SetShowPropertyNameValidity(bool Enable);
 
     inline void SetFont(QFont Font) { mFont = Font; }

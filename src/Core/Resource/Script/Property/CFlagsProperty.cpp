@@ -37,6 +37,11 @@ void CFlagsProperty::InitFromArchetype(IProperty* pOther)
     mAllFlags = pOtherFlags->mAllFlags;
 }
 
+TString CFlagsProperty::ValueAsString(void* pData) const
+{
+    return TString::FromInt32( Value(pData), 0, 10 );
+}
+
 /**
  * Checks whether there are any unrecognized bits toggled on in the property value.
  * Returns the mask of any invalid bits. If all bits are valid, returns 0.

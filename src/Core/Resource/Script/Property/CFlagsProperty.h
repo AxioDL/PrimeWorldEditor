@@ -62,6 +62,7 @@ public:
     virtual void PostInitialize();
     virtual void SerializeValue(void* pData, IArchive& rArc) const;
     virtual void InitFromArchetype(IProperty* pOther);
+    virtual TString ValueAsString(void* pData) const;
 
     /**
      * Checks whether there are any unrecognized bits toggled on in the property value.

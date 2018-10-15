@@ -6046,6 +6046,10 @@
             <Value Name="VolcanoBossBodyPartStructA"/>
         </Element>
         <Element>
+            <Key ID="0x28F82261" Type="choice"/>
+            <Value Name="SoftwareChannel"/>
+        </Element>
+        <Element>
             <Key ID="0x28F82261" Type="int"/>
             <Value Name="SoftwareChannel"/>
         </Element>
@@ -7616,6 +7620,10 @@
         <Element>
             <Key ID="0x3343ADE6" Type="int"/>
             <Value Name="CounterCondition7"/>
+        </Element>
+        <Element>
+            <Key ID="0x334A34BB" Type="choice"/>
+            <Value Name="ParticleSystem1Orientation"/>
         </Element>
         <Element>
             <Key ID="0x334A34BB" Type="int"/>
@@ -11330,6 +11338,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x4B15EB9A" Type="choice"/>
+            <Value Name="ChargeUpgrade"/>
+        </Element>
+        <Element>
             <Key ID="0x4B15EB9A" Type="int"/>
             <Value Name="ChargeUpgrade"/>
         </Element>
@@ -13915,6 +13927,10 @@
         </Element>
         <Element>
             <Key ID="0x5D28CCE5" Type="float"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x5D298A43" Type="choice"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -20218,6 +20234,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x86CF23F4" Type="choice"/>
+            <Value Name="Priority"/>
+        </Element>
+        <Element>
             <Key ID="0x86CF23F4" Type="int"/>
             <Value Name="Priority"/>
         </Element>
@@ -23618,8 +23638,12 @@
             <Value Name="CenterPlank"/>
         </Element>
         <Element>
+            <Key ID="0x9DFADEE0" Type="choice"/>
+            <Value Name="DeathParticleSystemOrientation"/>
+        </Element>
+        <Element>
             <Key ID="0x9DFADEE0" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="DeathParticleSystemOrientation"/>
         </Element>
         <Element>
             <Key ID="0x9E02691C" Type="sound"/>
@@ -24728,6 +24752,10 @@
         <Element>
             <Key ID="0xA4EE16BF" Type="sound"/>
             <Value Name="Sound1"/>
+        </Element>
+        <Element>
+            <Key ID="0xA4EF7B42" Type="sound"/>
+            <Value Name="WarpOutSound"/>
         </Element>
         <Element>
             <Key ID="0xA4EF7B42" Type="int"/>
@@ -28540,6 +28568,10 @@
         <Element>
             <Key ID="0xBE5F118D" Type="asset"/>
             <Value Name="SwoopInterruptedSound"/>
+        </Element>
+        <Element>
+            <Key ID="0xBE73724A" Type="choice"/>
+            <Value Name="Flavor"/>
         </Element>
         <Element>
             <Key ID="0xBE73724A" Type="int"/>
@@ -32730,6 +32762,10 @@
             <Value Name="SlideSoundLowPassFilter"/>
         </Element>
         <Element>
+            <Key ID="0xD9CCE9D9" Type="choice"/>
+            <Value Name="ParticleSystem2Orientation"/>
+        </Element>
+        <Element>
             <Key ID="0xD9CCE9D9" Type="int"/>
             <Value Name="ParticleSystem2Orientation"/>
         </Element>
@@ -35259,7 +35295,7 @@
         </Element>
         <Element>
             <Key ID="0xEA86A2B9" Type="int"/>
-            <Value Name="Charge Combo"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0xEA870072" Type="UnknownStruct66"/>

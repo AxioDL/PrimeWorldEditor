@@ -7,6 +7,8 @@
 #include <Core/Resource/Script/NGameList.h>
 #include <Core/Resource/Script/NPropertyMap.h>
 
+#include <QMenu>
+
 CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     : QDialog(pParent)
     , mpUI(new Ui::CTemplateEditDialog)
@@ -54,6 +56,21 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
         mpUI->OverrideTypeNameCheckBox->setChecked(true);
     }
     RefreshTypeNameOverride();
+
+    // Configure convert button
+    if (Type == EPropertyType::Int || Type == EPropertyType::Choice || Type == EPropertyType::Flags || Type == EPropertyType::Sound)
+    {
+        QMenu* pConvertMenu = new QMenu(this);
+        if (Type != EPropertyType::Int)    pConvertMenu->addAction("Int", this, SLOT(ConvertToInt()));
+        if (Type != EPropertyType::Choice) pConvertMenu->addAction("Choice", this, SLOT(ConvertToChoice()));
+        if (Type != EPropertyType::Flags)  pConvertMenu->addAction("Flags", this, SLOT(ConvertToFlags()));
+        if (Type != EPropertyType::Sound)  pConvertMenu->addAction("Sound", this, SLOT(ConvertToSound()));
+        mpUI->TypeConversionButton->setMenu(pConvertMenu);
+    }
+    else
+    {
+        mpUI->TypeConversionWidget->setHidden(true);
+    }
 
     // Hide templates list for MP1
     if (mGame <= EGame::Prime)
@@ -154,6 +171,52 @@ void CTemplateEditDialog::RefreshTypeNameOverride()
     {
         mpValidator->SetTypeNameOverride("");
     }
+}
+
+void CTemplateEditDialog::ConvertPropertyType(EPropertyType Type)
+{
+    const char* pkCurType = TEnumReflection<EPropertyType>::ConvertValueToString(mpProperty->Type());
+    const char* pkNewType = TEnumReflection<EPropertyType>::ConvertValueToString(Type);
+
+    if (
+        UICommon::YesNoQuestion(this, "Warning",
+            QString("You are converting %1 %2 property to %3. This cannot be undone. Are you sure?")
+            .arg( TString::IsVowel(pkCurType[0]) ? "an" : "a" )
+            .arg( pkCurType )
+            .arg( pkNewType ) )
+        )
+    {
+        if( mpProperty->ConvertType(Type) )
+        {
+            mpProperty = nullptr;
+            emit PerformedTypeConversion();
+            close();
+        }
+        else
+        {
+            UICommon::ErrorMsg(this, "Type conversion failed; conversion between these types is not supported.");
+        }
+    }
+}
+
+void CTemplateEditDialog::ConvertToInt()
+{
+    ConvertPropertyType( EPropertyType::Int );
+}
+
+void CTemplateEditDialog::ConvertToChoice()
+{
+    ConvertPropertyType( EPropertyType::Choice );
+}
+
+void CTemplateEditDialog::ConvertToSound()
+{
+    ConvertPropertyType( EPropertyType::Sound );
+}
+
+void CTemplateEditDialog::ConvertToFlags()
+{
+    ConvertPropertyType( EPropertyType::Flags );
 }
 
 // ************ PROTECTED ************

@@ -369,12 +369,13 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
             SNameKey NewKey(NewTypeHash, pProperty->ID());
 
             // Disassociate this property from the old mapping.
+            bool WasRegistered = false;
             auto Find = gNameMap.find(OldKey);
 
             if (Find != gNameMap.end())
             {
                 SNameValue& Value = Find->second;
-                NBasics::ListRemoveOne(Value.PropertyList, pProperty);
+                WasRegistered = NBasics::ListRemoveOne(Value.PropertyList, pProperty);
             }
 
             // Create a key for the new property and add it to the list.
@@ -389,7 +390,11 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
                 Find = gNameMap.find(NewKey);
             }
             ASSERT(Find != gNameMap.end());
-            Find->second.PropertyList.push_back(pProperty);
+
+            if (WasRegistered)
+            {
+                Find->second.PropertyList.push_back(pProperty);
+            }
 
             gMapIsDirty = true;
         }

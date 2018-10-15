@@ -89,7 +89,7 @@ typedef TPropertyRef<CSequenceProperty>     CSequenceRef;
 typedef TPropertyRef<CSplineProperty>       CSplineRef;
 typedef TPropertyRef<CGuidProperty>         CGuidRef;
 typedef TPropertyRef<CPointerProperty>      CPointerRef;
-typedef TPropertyRef<CStructProperty>    CStructRef;
+typedef TPropertyRef<CStructProperty>       CStructRef;
 typedef TPropertyRef<CArrayProperty>        CArrayRef;
 
 /** Special version for enums */

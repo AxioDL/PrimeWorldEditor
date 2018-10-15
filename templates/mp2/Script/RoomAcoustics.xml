@@ -7,8 +7,8 @@
             <Element Type="Int" ID="0xBD9EA266">
                 <DefaultValue>117</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x86CF23F4">
-                <DefaultValue>1</DefaultValue>
+            <Element Type="Choice" ID="0x86CF23F4">
+                <DefaultValue>0x1</DefaultValue>
             </Element>
             <Element Type="Bool" ID="0xA00360CC">
                 <DefaultValue>false</DefaultValue>

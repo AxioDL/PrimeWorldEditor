@@ -91,7 +91,7 @@ void CPropertyView::SetEditor(CWorldEditor *pEditor)
     connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), mpModel, SLOT(NotifyPropertyModified(CScriptObject*,IProperty*)));
 }
 
-void CPropertyView::SetProperties(CStructRef InProperties)
+void CPropertyView::SetIntrinsicProperties(CStructRef InProperties)
 {
     mpObject = nullptr;
     mpModel->SetBoldModifiedProperties(false); // todo, we prob want this, but can't set default properties on non script yet
@@ -190,12 +190,17 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
         switch (Type)
         {
         case EPropertyType::Bool:
-        case EPropertyType::Enum:
-        case EPropertyType::Choice:
         case EPropertyType::Color:
         case EPropertyType::Asset:
             openPersistentEditor(ChildIndex);
             break;
+
+        case EPropertyType::Enum:
+        case EPropertyType::Choice:
+            if (TPropCast<CEnumProperty>(pProp)->NumPossibleValues() > 0)
+                openPersistentEditor(ChildIndex);
+            break;
+
         case EPropertyType::Struct:
             setFirstColumnSpanned(iChild, rkParent, true);
             break;
@@ -230,6 +235,11 @@ void CPropertyView::OnPropertyModified(const QModelIndex& rkIndex)
         ClosePersistentEditors(rkIndex);
         SetPersistentEditors(rkIndex);
     }
+}
+
+void CPropertyView::RefreshView()
+{
+    SetInstance(mpObject);
 }
 
 void CPropertyView::CreateContextMenu(const QPoint& rkPos)
@@ -286,6 +296,7 @@ void CPropertyView::ToggleShowNameValidity(bool ShouldShow)
 void CPropertyView::EditPropertyTemplate()
 {
     CTemplateEditDialog Dialog(mpMenuProperty, mpEditor);
+    connect(&Dialog, SIGNAL(PerformedTypeConversion()), this, SLOT(RefreshView()));
     Dialog.exec();
 }
 

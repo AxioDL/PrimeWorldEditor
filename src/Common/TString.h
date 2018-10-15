@@ -1060,6 +1060,16 @@ public:
         return (Chr >= CHAR_LITERAL('a') && Chr <= CHAR_LITERAL('z')) ? Chr - 0x20 : Chr;
     }
 
+    static bool IsVowel(CharType Chr)
+    {
+        Chr = CharToUpper(Chr);
+        return (Chr == 'A' ||
+                Chr == 'E' ||
+                Chr == 'I' ||
+                Chr == 'O' ||
+                Chr == 'U');
+    }
+
     static bool IsWhitespace(CharType Chr)
     {
         return ( (Chr == CHAR_LITERAL('\t')) ||
