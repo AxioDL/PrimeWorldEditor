@@ -43,21 +43,7 @@ public:
 
         // Set up dark theme
         qApp->setStyle(QStyleFactory::create("Fusion"));
-        QPalette DarkPalette;
-        DarkPalette.setColor(QPalette::Window, QColor(53,53,53));
-        DarkPalette.setColor(QPalette::WindowText, Qt::white);
-        DarkPalette.setColor(QPalette::Base, QColor(25,25,25));
-        DarkPalette.setColor(QPalette::AlternateBase, QColor(35,35,35));
-        DarkPalette.setColor(QPalette::ToolTipBase, Qt::white);
-        DarkPalette.setColor(QPalette::ToolTipText, Qt::white);
-        DarkPalette.setColor(QPalette::Text, Qt::white);
-        DarkPalette.setColor(QPalette::Button, QColor(53,53,53));
-        DarkPalette.setColor(QPalette::ButtonText, Qt::white);
-        DarkPalette.setColor(QPalette::BrightText, Qt::red);
-        DarkPalette.setColor(QPalette::Link, QColor(42, 130, 218));
-        DarkPalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-        DarkPalette.setColor(QPalette::HighlightedText, Qt::white);
-        qApp->setPalette(DarkPalette);
+        SetupPalette();
 
         // Init log
         bool Initialized = Log::InitLog("primeworldeditor.log");
@@ -83,6 +69,32 @@ public:
     ~CMain()
     {
         NGameList::Shutdown();
+    }
+
+    void SetupPalette()
+    {
+        QPalette DarkPalette;
+        ConfigureColorGroup(DarkPalette, QPalette::Active, 100);
+        ConfigureColorGroup(DarkPalette, QPalette::Inactive, 100);
+        ConfigureColorGroup(DarkPalette, QPalette::Disabled, 200);
+        qApp->setPalette(DarkPalette);
+    }
+
+    void ConfigureColorGroup(QPalette& Palette, QPalette::ColorGroup Group, int Factor)
+    {
+        Palette.setColor( Group, QPalette::Window,           QColor(53,53,53)  .darker(Factor) );
+        Palette.setColor( Group, QPalette::WindowText,       QColor(Qt::white) .darker(Factor) );
+        Palette.setColor( Group, QPalette::Base,             QColor(25,25,25)  .darker(Factor) );
+        Palette.setColor( Group, QPalette::AlternateBase,    QColor(35,35,35)  .darker(Factor) );
+        Palette.setColor( Group, QPalette::ToolTipBase,      QColor(Qt::white) .darker(Factor) );
+        Palette.setColor( Group, QPalette::ToolTipText,      QColor(Qt::white) .darker(Factor) );
+        Palette.setColor( Group, QPalette::Text,             QColor(Qt::white) .darker(Factor) );
+        Palette.setColor( Group, QPalette::Button,           QColor(53,53,53)  .darker(Factor) );
+        Palette.setColor( Group, QPalette::ButtonText,       QColor(Qt::white) .darker(Factor) );
+        Palette.setColor( Group, QPalette::BrightText,       QColor(Qt::red)   .darker(Factor) );
+        Palette.setColor( Group, QPalette::Link,             QColor(42,130,218).darker(Factor) );
+        Palette.setColor( Group, QPalette::Highlight,        QColor(42,130,218).darker(Factor) );
+        Palette.setColor( Group, QPalette::HighlightedText,  QColor(Qt::white) .darker(Factor) );
     }
 };
 
