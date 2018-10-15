@@ -22,8 +22,14 @@ const char* GetPropertyName(IProperty* pProperty);
  */
 const char* GetPropertyName(u32 ID, const char* pkTypeName);
 
-/** Returns whether the specified name is in the map. */
-bool IsValidPropertyID(u32 ID, const char* pkTypeName);
+/** Calculate the property ID of a given name/type. */
+u32 CalculatePropertyID(const char* pkName, const char* pkTypeName);
+
+/**
+ *  Returns whether the specified name is in the map.
+ *  If the ID is valid and pOutIsValid is non-null, it will return whether the current name is correct.
+ */
+bool IsValidPropertyID(u32 ID, const char* pkTypeName, bool* pOutIsValid = nullptr);
 
 /** Retrieves a list of all properties that match the requested property ID. */
 void RetrievePropertiesWithID(u32 ID, const char* pkTypeName, std::list<IProperty*>& OutList);
@@ -45,6 +51,24 @@ void RegisterProperty(IProperty* pProperty);
 
 /** Unregisters a property from the name map. Should be called on all properties that use the map on destruction. */
 void UnregisterProperty(IProperty* pProperty);
+
+/** Class that allows for iteration through the name map */
+class CIterator
+{
+    /** Private implementation */
+    class CIteratorImpl* mpImpl;
+
+public:
+    CIterator();
+    ~CIterator();
+
+    u32 ID() const;
+    const char* Name() const;
+    const char* TypeName() const;
+
+    operator bool() const;
+    void operator ++();
+};
 
 }
 

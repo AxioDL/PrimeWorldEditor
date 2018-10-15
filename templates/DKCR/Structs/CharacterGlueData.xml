@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct139</Name>
+        <Name>CharacterGlueData</Name>
         <SubProperties>
             <Element Type="Enum" ID="0x411D0552">
                 <DefaultValue>0xD4E949F7</DefaultValue>

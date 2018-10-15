@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
     <PropertyArchetype Type="Struct">
-        <Name>ShakerData</Name>
+        <Name>CameraShakerData</Name>
         <SubProperties>
             <Element Type="Int" ID="0xC3E75C5F">
                 <DefaultValue>48</DefaultValue>

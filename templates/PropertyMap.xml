@@ -1727,7 +1727,7 @@
         </Element>
         <Element>
             <Key ID="0xC431344" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="ApplyBoostAfterUnStun"/>
         </Element>
         <Element>
             <Key ID="0xC4763D7" Type="float"/>
@@ -2695,7 +2695,7 @@
         </Element>
         <Element>
             <Key ID="0x130539A0" Type="Vector"/>
-            <Value Name="Unknown"/>
+            <Value Name="IceGibParticlesOffset"/>
         </Element>
         <Element>
             <Key ID="0x13072E6C" Type="asset"/>
@@ -7395,7 +7395,7 @@
         </Element>
         <Element>
             <Key ID="0x31896ED0" Type="GenericCreatureStructC"/>
-            <Value Name="GenericCreatureStructC"/>
+            <Value Name="ActorRule3"/>
         </Element>
         <Element>
             <Key ID="0x3196B2E7" Type="Color"/>
@@ -8363,7 +8363,7 @@
         </Element>
         <Element>
             <Key ID="0x38711325" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="StunOnlyWhenOnGround"/>
         </Element>
         <Element>
             <Key ID="0x3874576D" Type="BloggStruct"/>
@@ -9515,7 +9515,7 @@
         </Element>
         <Element>
             <Key ID="0x3FF111B9" Type="UnknownStruct2"/>
-            <Value Name="UnknownStruct2"/>
+            <Value Name="Attack"/>
         </Element>
         <Element>
             <Key ID="0x3FF87A8C" Type="bool"/>
@@ -9635,7 +9635,7 @@
         </Element>
         <Element>
             <Key ID="0x40A372B6" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="CanUnStun"/>
         </Element>
         <Element>
             <Key ID="0x40AB00FA" Type="Vector"/>
@@ -10111,7 +10111,7 @@
         </Element>
         <Element>
             <Key ID="0x43BBB1DD" Type="PatternedAITypedef"/>
-            <Value Name="PatternedAITypedef"/>
+            <Value Name="PatternedInfo"/>
         </Element>
         <Element>
             <Key ID="0x43BC661C" Type="bool"/>
@@ -13267,7 +13267,7 @@
         </Element>
         <Element>
             <Key ID="0x586EE888" Type="GenericCreatureStructC"/>
-            <Value Name="GenericCreatureStructC"/>
+            <Value Name="ActorRule4"/>
         </Element>
         <Element>
             <Key ID="0x58769EB2" Type="DamageInfo"/>
@@ -14723,7 +14723,7 @@
         </Element>
         <Element>
             <Key ID="0x62F0CFFC" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GroundPoundDistanceVerticalMultiplier"/>
         </Element>
         <Element>
             <Key ID="0x62FB47A5" Type="float"/>
@@ -23571,7 +23571,11 @@
         </Element>
         <Element>
             <Key ID="0x9D9CE325" Type="UnknownStruct139"/>
-            <Value Name="UnknownStruct139"/>
+            <Value Name="CharacterGlue"/>
+        </Element>
+        <Element>
+            <Key ID="0x9D9CE325" Type="CharacterGlueData"/>
+            <Value Name="CharacterGlue"/>
         </Element>
         <Element>
             <Key ID="0x9D9D3760" Type="float"/>
@@ -25115,7 +25119,7 @@
         </Element>
         <Element>
             <Key ID="0xA792725D" Type="UnknownStruct98"/>
-            <Value Name="UnknownStruct98"/>
+            <Value Name="Idle"/>
         </Element>
         <Element>
             <Key ID="0xA793E5F3" Type="int"/>
@@ -26127,7 +26131,7 @@
         </Element>
         <Element>
             <Key ID="0xAE53ED4E" Type="GenericCreatureStructC"/>
-            <Value Name="GenericCreatureStructC"/>
+            <Value Name="ActorRule2"/>
         </Element>
         <Element>
             <Key ID="0xAE599017" Type="float"/>
@@ -29771,7 +29775,7 @@
         </Element>
         <Element>
             <Key ID="0xC69F691A" Type="SeedBoss1HandData"/>
-            <Value Name="SeedBoss1HandData"/>
+            <Value Name="HandData"/>
         </Element>
         <Element>
             <Key ID="0xC6A6B724" Type="float"/>
@@ -29991,7 +29995,7 @@
         </Element>
         <Element>
             <Key ID="0xC7B46B16" Type="GenericCreatureStructC"/>
-            <Value Name="GenericCreatureStructC"/>
+            <Value Name="ActorRule5"/>
         </Element>
         <Element>
             <Key ID="0xC7BD1022" Type="UnknownStruct263"/>
@@ -32055,7 +32059,7 @@
         </Element>
         <Element>
             <Key ID="0xD5110050" Type="UnknownStruct97"/>
-            <Value Name="UnknownStruct97"/>
+            <Value Name="Damage"/>
         </Element>
         <Element>
             <Key ID="0xD51CA051" Type="sound"/>
@@ -32091,7 +32095,7 @@
         </Element>
         <Element>
             <Key ID="0xD54D6FAD" Type="GenericCreatureStructC"/>
-            <Value Name="GenericCreatureStructC"/>
+            <Value Name="ActorRule1"/>
         </Element>
         <Element>
             <Key ID="0xD5505EA4" Type="float"/>
@@ -34115,7 +34119,7 @@
         </Element>
         <Element>
             <Key ID="0xE38A723D" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="KnockbackInsteadOfStun"/>
         </Element>
         <Element>
             <Key ID="0xE38B44AF" Type="asset"/>
@@ -37199,7 +37203,7 @@
         </Element>
         <Element>
             <Key ID="0xF6E66110" Type="SeedBoss1Data"/>
-            <Value Name="SeedBoss1Data"/>
+            <Value Name="Data"/>
         </Element>
         <Element>
             <Key ID="0xF6F185D6" Type="sound"/>
@@ -37595,7 +37599,7 @@
         </Element>
         <Element>
             <Key ID="0xF9656C39" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ColorHyperQuake"/>
         </Element>
         <Element>
             <Key ID="0xF9670AC1" Type="float"/>

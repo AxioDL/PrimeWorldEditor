@@ -10,7 +10,7 @@
             <Element Type="Struct" ID="0x975DCEF7" Archetype="GenericCreatureStructG"/>
             <Element Type="Struct" ID="0x8ABB25C4" Archetype="PlayerCrushData"/>
             <Element Type="Struct" ID="0xF4D39593" Archetype="TrackObjectModuleData"/>
-            <Element Type="Struct" ID="0x9D9CE325" Archetype="UnknownStruct139"/>
+            <Element Type="Struct" ID="0x9D9CE325" Archetype="CharacterGlueData"/>
             <Element Type="Struct" ID="0x34A979A6" Archetype="TandemBeam"/>
         </SubProperties>
     </PropertyArchetype>
