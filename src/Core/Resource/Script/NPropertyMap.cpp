@@ -101,6 +101,9 @@ struct SNameValue
     /** Name of the property */
     TString Name;
 
+    /** Whether this name is valid */
+    bool IsValid;
+
     /** List of all properties using this ID */
     std::list<IProperty*> PropertyList;
 
@@ -154,6 +157,14 @@ void LoadMap()
         CXMLReader Reader(gpkMapPath);
         ASSERT(Reader.IsValid());
         Reader << SerialParameter("PropertyMap", gNameMap, SH_HexDisplay);
+
+        // Iterate over the map and set up the valid flags
+        for (auto Iter = gNameMap.begin(); Iter != gNameMap.end(); Iter++)
+        {
+            const SNameKey& kKey = Iter->first;
+            SNameValue& Value = Iter->second;
+            Value.IsValid = (CalculatePropertyID(*Value.Name, *gHashToTypeName[kKey.TypeHash]) == kKey.ID);
+        }
     }
 
     gMapIsLoaded = true;
@@ -230,13 +241,31 @@ const char* GetPropertyName(u32 ID, const char* pkTypeName)
     return MapFind == gNameMap.end() ? "Unknown" : *MapFind->second.Name;
 }
 
+/** Calculate the property ID of a given name/type. */
+u32 CalculatePropertyID(const char* pkName, const char* pkTypeName)
+{
+    CCRC32 CRC;
+    CRC.Hash(pkName);
+    CRC.Hash(pkTypeName);
+    return CRC.Digest();
+}
 
 /** Returns whether the specified ID is in the map. */
-bool IsValidPropertyID(u32 ID, const char* pkTypeName)
+bool IsValidPropertyID(u32 ID, const char* pkTypeName, bool* pOutIsValid /*= nullptr*/)
 {
     SNameKey Key = CreateKey(ID, pkTypeName);
     auto MapFind = gNameMap.find(Key);
-    return MapFind != gNameMap.end();
+
+    if (MapFind != gNameMap.end())
+    {
+        if (pOutIsValid != nullptr)
+        {
+            SNameValue& Value = MapFind->second;
+            *pOutIsValid = Value.IsValid;
+        }
+        return true;
+    }
+    else return false;
 }
 
 /** Retrieves a list of all properties that match the requested property ID. */
@@ -355,6 +384,7 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
             {
                 SNameValue Value;
                 Value.Name = pProperty->Name();
+                Value.IsValid = ( CalculatePropertyID(*Value.Name, pkNewTypeName) == pProperty->ID() );
                 gNameMap[NewKey] = Value;
                 Find = gNameMap.find(NewKey);
             }
@@ -365,7 +395,7 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
         }
     }
 
-    gHashToTypeName[NewTypeHash] = pkNewTypeName;
+    RegisterTypeName(NewTypeHash, pkNewTypeName);
 }
 
 /** Change a type name. */
@@ -401,6 +431,7 @@ void ChangeTypeNameGlobally(const char* pkOldTypeName, const char* pkNewTypeName
         }
     }
 
+    RegisterTypeName(NewTypeHash, pkNewTypeName);
     gHashToTypeName[NewTypeHash] = pkNewTypeName;
 }
 
@@ -430,6 +461,7 @@ void RegisterProperty(IProperty* pProperty)
 
             SNameValue Value;
             Value.Name = LegacyMapFind->second;
+            Value.IsValid = ( CalculatePropertyID(*Value.Name, pProperty->HashableTypeName()) == pProperty->ID() );
             pProperty->SetName(Value.Name);
 
             gNameMap[Key] = Value;
@@ -463,6 +495,52 @@ void UnregisterProperty(IProperty* pProperty)
         SNameValue& Value = Iter->second;
         NBasics::ListRemoveOne(Value.PropertyList, pProperty);
     }
+}
+
+/** Class for iterating through the map */
+class CIteratorImpl
+{
+public:
+    std::map<SNameKey, SNameValue>::const_iterator mIter;
+};
+
+CIterator::CIterator()
+{
+    mpImpl = new CIteratorImpl;
+    mpImpl->mIter = gNameMap.begin();
+}
+
+CIterator::~CIterator()
+{
+    delete mpImpl;
+}
+
+u32 CIterator::ID() const
+{
+    return mpImpl->mIter->first.ID;
+}
+
+const char* CIterator::Name() const
+{
+    return *mpImpl->mIter->second.Name;
+}
+
+const char* CIterator::TypeName() const
+{
+    u32 TypeHash = mpImpl->mIter->first.TypeHash;
+    auto Find = gHashToTypeName.find(TypeHash);
+    ASSERT(Find != gHashToTypeName.end());
+    return *Find->second;
+}
+
+CIterator::operator bool() const
+{
+    return mpImpl->mIter != gNameMap.end();
+}
+
+void CIterator::operator++()
+{
+    mpImpl->mIter++;
 }
 
 }

@@ -176,7 +176,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
             u32 PropertyID = FullHash.Digest();
 
             // Check if this hash is a property ID
-            if (IsValidPropertyID(PropertyID, pkTypeName))
+            if (IsValidPropertyID(PropertyID, pkTypeName, rkParams))
             {
                 SGeneratedPropertyName PropertyName;
                 NPropertyMap::RetrieveXMLsWithProperty(PropertyID, pkTypeName, PropertyName.XmlList);
@@ -253,7 +253,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
 }
 
 /** Returns whether a given property ID is valid */
-bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char* pkType)
+bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char* pkType, const SPropertyNameGenerationParameters& rkParams)
 {
     if (!mValidTypePairMap.empty())
     {
@@ -267,5 +267,9 @@ bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char* pkType)
             return false;
     }
     else
-        return NPropertyMap::IsValidPropertyID(ID, pkType);
+    {
+        bool IsAlreadyNamed;
+        bool IsValid = NPropertyMap::IsValidPropertyID(ID, pkType, &IsAlreadyNamed);
+        return IsValid && (!IsAlreadyNamed || !rkParams.ExcludeAccuratelyNamedProperties);
+    }
 }

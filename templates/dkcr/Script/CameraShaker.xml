@@ -10,7 +10,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0xAD547F96" Archetype="ShakerData"/>
+            <Element Type="Struct" ID="0xAD547F96" Archetype="CameraShakerData"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

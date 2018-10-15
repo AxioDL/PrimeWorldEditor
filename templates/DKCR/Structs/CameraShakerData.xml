@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PropertyTemplate ArchiveVer="4" Game="Corruption">
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>ShakerData</Name>
+        <Name>CameraShakerData</Name>
         <SubProperties>
             <Element Type="Int" ID="0xC3E75C5F">
-                <DefaultValue>48</DefaultValue>
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>528</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x4D283AC5">
                 <DefaultValue>5.0</DefaultValue>

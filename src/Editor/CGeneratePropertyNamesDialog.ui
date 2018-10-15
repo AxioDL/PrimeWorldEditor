@@ -88,6 +88,16 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="UnnamedOnlyCheckBox">
+            <property name="text">
+             <string>Exclude known properties</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

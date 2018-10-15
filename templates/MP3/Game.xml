@@ -928,6 +928,10 @@
             <Value Path="Structs/CameraRotation.xml"/>
         </Element>
         <Element>
+            <Key>CameraShakerData</Key>
+            <Value Path="Structs/CameraShakerData.xml"/>
+        </Element>
+        <Element>
             <Key>CameraShakerEnvelope</Key>
             <Value Path="Structs/CameraShakerEnvelope.xml"/>
         </Element>
@@ -1442,10 +1446,6 @@
         <Element>
             <Key>SeedBoss3Data</Key>
             <Value Path="Structs/SeedBoss3Data.xml"/>
-        </Element>
-        <Element>
-            <Key>ShakerData</Key>
-            <Value Path="Structs/ShakerData.xml"/>
         </Element>
         <Element>
             <Key>Ship</Key>

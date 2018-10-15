@@ -760,8 +760,16 @@
             <Value Path="Structs/CameraRotation.xml"/>
         </Element>
         <Element>
+            <Key>CameraShakerData</Key>
+            <Value Path="Structs/CameraShakerData.xml"/>
+        </Element>
+        <Element>
             <Key>CameraShakerEnvelope</Key>
             <Value Path="Structs/CameraShakerEnvelope.xml"/>
+        </Element>
+        <Element>
+            <Key>CharacterGlueData</Key>
+            <Value Path="Structs/CharacterGlueData.xml"/>
         </Element>
         <Element>
             <Key>CheckpointData</Key>
@@ -1224,10 +1232,6 @@
             <Value Path="Structs/ShadowData.xml"/>
         </Element>
         <Element>
-            <Key>ShakerData</Key>
-            <Value Path="Structs/ShakerData.xml"/>
-        </Element>
-        <Element>
             <Key>Shape</Key>
             <Value Path="Enums/Shape.xml"/>
         </Element>
@@ -1542,10 +1546,6 @@
         <Element>
             <Key>UnknownStruct138</Key>
             <Value Path="Structs/UnknownStruct138.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct139</Key>
-            <Value Path="Structs/UnknownStruct139.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct14</Key>
