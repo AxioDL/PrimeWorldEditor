@@ -387,10 +387,7 @@ void IProperty::MarkDirty()
 
 void IProperty::ClearDirtyFlag()
 {
-    if (!mpScriptTemplate)
-    {
-        RootParent()->mFlags &= ~EPropertyFlag::IsDirty;
-    }
+    RootParent()->mFlags &= ~EPropertyFlag::IsDirty;
 }
 
 bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= nullptr*/)
