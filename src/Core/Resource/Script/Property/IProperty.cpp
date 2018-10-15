@@ -393,6 +393,123 @@ void IProperty::ClearDirtyFlag()
     }
 }
 
+bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= nullptr*/)
+{
+    if (mpArchetype && !pNewArchetype)
+    {
+        // We need to start from the root archetype and cascade down sub-instances.
+        // The archetype will re-call this function with a valid pNewArchetype pointer.
+        return mpArchetype->ConvertType(NewType, nullptr);
+    }
+
+    IProperty* pNewProperty = Create(NewType, Game());
+
+    // We can only replace properties with types that have the same size and alignment
+    if( pNewProperty->DataSize() != DataSize() || pNewProperty->DataAlignment() != DataAlignment() )
+    {
+        delete pNewProperty;
+        return false;
+    }
+
+    // Use InitFromArchetype to copy most parameters over from the original property.
+    // Note we do *not* want to call the virtual version, because the new property isn't
+    // actually the same type, so the virtual overrides will likely crash.
+    pNewProperty->IProperty::InitFromArchetype(this);
+    pNewProperty->mpArchetype = pNewArchetype;
+    NBasics::VectorRemoveOne(mSubInstances, pNewProperty);
+
+    if( pNewArchetype )
+    {
+        pNewArchetype->mSubInstances.push_back(pNewProperty);
+    }
+
+    // We use CopyDefaultValueTo to ensure that the default value is preserved (as the default value
+    // is important in most games, and necessary to cook correctly in DKCR). However, note that
+    // other type-specific parameters (such as min/max values) are lost in the conversion.
+    CopyDefaultValueTo(pNewProperty);
+
+    // Since we are about to delete this property, we need to unregister it and all its sub-instances
+    // from the name map, and change the type name. The reason we need to do it this way is because
+    // after we change the type name in the map, we won't be able to unregister the original properties
+    // because their type name won't match what's in the map. However, the change has to be done before
+    // initializing any new properties, or else they won't be able to initialize correctly, as the
+    // name won't be tracked in the map under the new type name. So we need to manually unregister
+    // everything to clear the original properties from the map, then change the type name, and then
+    // we're free to start creating and initializing new properties.
+    if (IsRootArchetype() && mGame >= EGame::EchoesDemo)
+    {
+        std::list<IProperty*> SubInstances;
+        GatherAllSubInstances(SubInstances, true);
+
+        for (auto Iter = SubInstances.begin(); Iter != SubInstances.end(); Iter++)
+        {
+            IProperty* pProperty = *Iter;
+
+            if (pProperty->UsesNameMap())
+            {
+                NPropertyMap::UnregisterProperty(pProperty);
+            }
+        }
+
+        NPropertyMap::ChangeTypeName(this, HashableTypeName(), pNewProperty->HashableTypeName());
+    }
+
+    // Swap out our parent's reference to us to point to the new property.
+    if (mpParent)
+    {
+        for (u32 SiblingIdx = 0; SiblingIdx < mpParent->mChildren.size(); SiblingIdx++)
+        {
+            IProperty* pSibling = mpParent->mChildren[SiblingIdx];
+            if (pSibling == this)
+            {
+                mpParent->mChildren[SiblingIdx] = pNewProperty;
+                break;
+            }
+        }
+    }
+
+    // Change all our child properties to be parented under the new property. (Is this adoption?)
+    for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    {
+        mChildren[ChildIdx]->mpParent = pNewProperty;
+        pNewProperty->mChildren.push_back(mChildren[ChildIdx]);
+    }
+    ASSERT( pNewProperty->mChildren.size() == mChildren.size() );
+    mChildren.clear();
+
+    // Create new versions of all sub-instances that inherit from the new property.
+    // Note that when the sub-instances complete their conversion, they delete themselves.
+    // The IProperty destructor removes the property from the archetype's sub-instance list.
+    // So we shouldn't use a for loop, instead we should just wait until the array is empty
+    u32 SubCount = mSubInstances.size();
+
+    while (!mSubInstances.empty())
+    {
+        bool SubSuccess = mSubInstances[0]->ConvertType(NewType, pNewProperty);
+        ASSERT( SubSuccess );
+    }
+    ASSERT( pNewProperty->mSubInstances.size() == SubCount );
+
+    // Conversion is complete! Initialize the new property and flag it dirty.
+    pNewProperty->Initialize( mpParent, mpScriptTemplate, mOffset );
+    pNewProperty->MarkDirty();
+
+    // Finally, if we are done converting this property and all its instances, resave the templates.
+    if (IsRootArchetype())
+    {
+        NGameList::SaveTemplates();
+
+        if (mGame >= EGame::EchoesDemo)
+        {
+            NPropertyMap::SaveMap(true);
+        }
+    }
+
+    // We're done!
+    delete this;
+    return true;
+}
+
 bool IProperty::UsesNameMap()
 {
     return Game() >= EGame::EchoesDemo &&
@@ -440,7 +557,7 @@ bool IProperty::HasAccurateName()
     return mFlags.HasFlag( EPropertyFlag::HasCorrectPropertyName );
 }
 
-/** IPropertyNew Accessors */
+/** IProperty Accessors */
 EGame IProperty::Game() const
 {
     return mGame;

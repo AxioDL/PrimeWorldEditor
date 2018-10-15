@@ -99,6 +99,11 @@ public:
         mValues = pOtherEnum->mValues;
     }
 
+    virtual TString ValueAsString(void* pData) const
+    {
+        return TString::FromInt32( Value(pData), 0, 10 );
+    }
+
     void AddValue(TString ValueName, u32 ValueID)
     {
         mValues.push_back( SEnumValue(ValueName, ValueID) );

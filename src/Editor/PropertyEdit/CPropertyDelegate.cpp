@@ -53,7 +53,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
 
     if (pProp)
     {
-        EPropertyType Type = GetEffectiveFieldType(pProp);
+        EPropertyType Type = mpModel->GetEffectiveFieldType(pProp);
 
         switch (Type)
         {
@@ -168,7 +168,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
     else if (rkIndex.internalId() & 0x80000000)
     {
         pProp = mpModel->PropertyForIndex(rkIndex, true);
-        EPropertyType Type = GetEffectiveFieldType(pProp);
+        EPropertyType Type = mpModel->GetEffectiveFieldType(pProp);
 
         // Handle character
         if (Type == EPropertyType::AnimationSet)
@@ -208,7 +208,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
         {
             if (!mEditInProgress)
             {
-                EPropertyType Type = pProp->Type();
+                EPropertyType Type = mpModel->GetEffectiveFieldType(pProp);
 
                 switch (Type)
                 {
@@ -240,7 +240,8 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
 
                     if (!pSpinBox->hasFocus())
                     {
-                        CIntProperty *pInt = TPropCast<CIntProperty>(pProp);
+                        // Ints use static_cast since sometimes we treat other property types as ints
+                        CIntProperty *pInt = static_cast<CIntProperty*>(pProp);
                         pSpinBox->setValue( pInt->Value(pData) );
                     }
 
@@ -334,7 +335,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
         else if (rkIndex.internalId() & 0x80000000)
         {
             pProp = mpModel->PropertyForIndex(rkIndex, true);
-            EPropertyType Type = GetEffectiveFieldType(pProp);
+            EPropertyType Type = mpModel->GetEffectiveFieldType(pProp);
 
             if (Type == EPropertyType::AnimationSet)
                 SetCharacterEditorData(pEditor, rkIndex);
@@ -364,7 +365,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 
     if (pProp)
     {
-        EPropertyType Type = GetEffectiveFieldType(pProp);
+        EPropertyType Type = mpModel->GetEffectiveFieldType(pProp);
 
         QVector<CScriptObject*> Objects;
         Objects << mpModel->GetScriptObject();
@@ -417,6 +418,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
 
                 case EPropertyType::Int:
                 {
+                    // Ints use static_cast since sometimes we treat other property types as ints
                     WIntegralSpinBox* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
                     CIntProperty* pInt = static_cast<CIntProperty*>(pProp);
                     pInt->ValueRef(pData) = pSpinBox->value();
@@ -673,46 +675,6 @@ EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QM
         else if (rkIndex.row() <= 2) return EPropertyType::Int;
     }
     return EPropertyType::Invalid;
-}
-
-/** Determine the effective property type to use. Allows some types to be treated as other types. */
-EPropertyType CPropertyDelegate::GetEffectiveFieldType(IProperty* pProperty) const
-{
-    EPropertyType Out = pProperty->Type();
-
-    switch (Out)
-    {
-
-    // Allow Choice/Enum properties to be edited as Int properties if they don't have any values set.
-    case EPropertyType::Choice:
-    case EPropertyType::Enum:
-    {
-        CChoiceProperty* pChoice = TPropCast<CChoiceProperty>(pProperty);
-
-        if (pChoice->NumPossibleValues() == 0)
-        {
-            Out = EPropertyType::Int;
-        }
-
-        break;
-    }
-
-    // Same deal with Flag properties
-    case EPropertyType::Flags:
-    {
-        CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProperty);
-
-        if (pFlags->NumFlags() == 0)
-        {
-            Out = EPropertyType::Int;
-        }
-
-        break;
-    }
-
-    }
-
-    return Out;
 }
 
 // ************ PUBLIC SLOTS ************

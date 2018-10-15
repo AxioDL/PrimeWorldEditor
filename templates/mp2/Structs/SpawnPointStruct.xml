@@ -72,8 +72,8 @@
             <Element Type="Int" ID="0xFB33F2A1">
                 <DefaultValue>1</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x4B15EB9A">
-                <DefaultValue>1</DefaultValue>
+            <Element Type="Choice" ID="0x4B15EB9A">
+                <DefaultValue>0x1</DefaultValue>
             </Element>
             <Element Type="Int" ID="0x44FBB19C">
                 <DefaultValue>0</DefaultValue>

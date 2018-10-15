@@ -178,7 +178,8 @@ public:
     virtual void SerializeValue(void* pData, IArchive& Arc) const = 0;
 
     virtual void PostInitialize() {}
-    virtual void PropertyValueChanged(void* pPropertyData)  {}
+    virtual void PropertyValueChanged(void* pPropertyData)      {}
+    virtual void CopyDefaultValueTo(IProperty* pOtherProperty)  {}
     virtual bool IsNumericalType() const                    { return false; }
     virtual bool IsPointerType() const                      { return false; }
     virtual TString ValueAsString(void* pData) const        { return ""; }
@@ -201,6 +202,7 @@ public:
     void SetSuffix(const TString& rkNewSuffix);
     void MarkDirty();
     void ClearDirtyFlag();
+    bool ConvertType(EPropertyType NewType, IProperty* pNewArchetype = nullptr);
     bool UsesNameMap();
     bool HasAccurateName();
 
@@ -228,6 +230,7 @@ public:
     inline bool IsIntrinsic() const         { return mFlags.HasFlag(EPropertyFlag::IsIntrinsic); }
     inline bool IsDirty() const             { return mFlags.HasFlag(EPropertyFlag::IsDirty); }
     inline bool IsRootParent() const        { return mpParent == nullptr; }
+    inline bool IsRootArchetype() const     { return mpArchetype == nullptr; }
 
     /** Create */
     static IProperty* Create(EPropertyType Type,
@@ -373,6 +376,16 @@ public:
     {
         IProperty::InitFromArchetype(pOther);
         mDefaultValue = static_cast<TTypedProperty*>(pOther)->mDefaultValue;
+    }
+
+    virtual void CopyDefaultValueTo(IProperty* pOtherProperty)
+    {
+        // WARNING: We don't do any type checking here because this function is used for type conversion,
+        // which necessitates that the property class is allowed to be different. The underlying type is
+        // assumed to be the same. It is the caller's responsibility to ensure this function is not called
+        // with incompatible property types.
+        TTypedProperty* pTypedOther = static_cast<TTypedProperty*>(pOtherProperty);
+        pTypedOther->mDefaultValue = mDefaultValue;
     }
 
     inline PropType* ValuePtr(void* pData) const

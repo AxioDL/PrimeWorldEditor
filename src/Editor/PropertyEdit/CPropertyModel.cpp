@@ -321,8 +321,9 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
             if (rkIndex.column() == 1)
             {
                 void* pData = DataPointerForIndex(rkIndex);
+                EPropertyType Type = GetEffectiveFieldType(pProp);
 
-                switch (pProp->Type())
+                switch (Type)
                 {
                 // Enclose vector property text in parentheses
                 case EPropertyType::Vector:
@@ -618,6 +619,46 @@ void CPropertyModel::ClearSlot(int ID)
     mProperties[ID].ParentID = mFirstUnusedID;
     mProperties[ID].pProperty = nullptr;
     mFirstUnusedID = ID;
+}
+
+/** Determine the effective property type to use. Allows some types to be treated as other types. */
+EPropertyType CPropertyModel::GetEffectiveFieldType(IProperty* pProperty) const
+{
+    EPropertyType Out = pProperty->Type();
+
+    switch (Out)
+    {
+
+    // Allow Choice/Enum properties to be edited as Int properties if they don't have any values set.
+    case EPropertyType::Choice:
+    case EPropertyType::Enum:
+    {
+        CChoiceProperty* pChoice = TPropCast<CChoiceProperty>(pProperty);
+
+        if (pChoice->NumPossibleValues() == 0)
+        {
+            Out = EPropertyType::Int;
+        }
+
+        break;
+    }
+
+    // Same deal with Flag properties
+    case EPropertyType::Flags:
+    {
+        CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProperty);
+
+        if (pFlags->NumFlags() == 0)
+        {
+            Out = EPropertyType::Int;
+        }
+
+        break;
+    }
+
+    }
+
+    return Out;
 }
 
 void CPropertyModel::SetShowPropertyNameValidity(bool Enable)

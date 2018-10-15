@@ -8,8 +8,8 @@
         <Name>Kralee</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Int" ID="0xBE73724A">
-                <DefaultValue>0</DefaultValue>
+            <Element Type="Choice" ID="0xBE73724A">
+                <DefaultValue>0x0</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
@@ -135,7 +135,7 @@
             <Element Type="Sound" ID="0x80B58324">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0xA4EF7B42">
+            <Element Type="Sound" ID="0xA4EF7B42">
                 <DefaultValue>-1</DefaultValue>
             </Element>
             <Element Type="Bool" ID="0xC3CC437F">
