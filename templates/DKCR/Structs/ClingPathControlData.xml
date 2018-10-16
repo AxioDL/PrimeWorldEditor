@@ -3,7 +3,7 @@
     <PropertyArchetype Type="Struct">
         <Name>ClingPathControlData</Name>
         <SubProperties>
-            <Element Type="Struct" ID="0xFA166886" Archetype="ClingPathControlStruct">
+            <Element Type="Struct" ID="0xFA166886" Archetype="MaterialType">
                 <SubProperties>
                     <Element Type="Enum" ID="0x95A68D4C">
                         <DefaultValue>0xF0F41378</DefaultValue>

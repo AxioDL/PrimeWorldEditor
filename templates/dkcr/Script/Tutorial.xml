@@ -5,7 +5,7 @@
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
             <Element Type="Struct" ID="0xD29C031D" Archetype="ActorParameters"/>
-            <Element Type="Struct" ID="0x56ABB3B8" Archetype="UnknownStruct6"/>
+            <Element Type="Struct" ID="0x56ABB3B8" Archetype="PlayerType"/>
             <Element Type="Struct" ID="0x76AA6D55" Archetype="UnknownStruct277"/>
             <Element Type="Vector" ID="0x46477064">
                 <DefaultValue>

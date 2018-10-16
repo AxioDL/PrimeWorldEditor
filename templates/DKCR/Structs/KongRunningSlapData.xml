@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>KongRunningSlapData</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0x46322287">
+                <DefaultValue>
+                    <X>30.0</X>
+                    <Y>30.0</Y>
+                    <Z>30.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8A65FD67">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3367BCA4">
+                <DefaultValue>0.125</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2215E674">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x797AA551">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x386D9AD7">
+                <DefaultValue>4.5999999</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x9583EE9A" Archetype="PlayerAttackBounceData"/>
+            <Element Type="Float" ID="0x16B261F8">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x38754EC2">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4885DFFA">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5A921F0">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5EE0676A">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B485067">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4133DBE2">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x9ADA44F7">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

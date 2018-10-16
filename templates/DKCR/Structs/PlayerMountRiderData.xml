@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerMountRiderData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x13E35FB" Archetype="PlayerType"/>
+            <Element Type="String" ID="0xE7F952BD"/>
+            <Element Type="String" ID="0xB0F79539"/>
+            <Element Type="Bool" ID="0x6A1BA66F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1A2E6372">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xAB3627B8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6CDF8683">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x45E44B4E">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE829969A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

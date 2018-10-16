@@ -35,9 +35,9 @@
             <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
             <Element Type="Struct" ID="0x63F638" Archetype="UnknownStruct"/>
-            <Element Type="Struct" ID="0x3C38498D" Archetype="UnknownStruct45"/>
-            <Element Type="Struct" ID="0x978E5BD8" Archetype="VehicleStructA"/>
-            <Element Type="Struct" ID="0x7F681411" Archetype="VehicleStructB"/>
+            <Element Type="Struct" ID="0x3C38498D" Archetype="PlayerCommonData"/>
+            <Element Type="Struct" ID="0x978E5BD8" Archetype="PlayerMountData"/>
+            <Element Type="Struct" ID="0x7F681411" Archetype="PlayerMountRiderList"/>
             <Element Type="Struct" ID="0x45B5B754" Archetype="UnknownStruct297"/>
         </SubProperties>
     </Properties>

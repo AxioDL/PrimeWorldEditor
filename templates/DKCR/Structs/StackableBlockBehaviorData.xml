@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>StackableBlockBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x1DF1C4D1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5BB59A3B">
+                <DefaultValue>1000.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE15A93D0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7DBACF7A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

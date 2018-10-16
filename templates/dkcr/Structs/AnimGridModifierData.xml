@@ -25,7 +25,7 @@
             <Element Type="Bool" ID="0xCFC6720E">
                 <DefaultValue>false</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0x900FB99C" Archetype="UnknownStruct3"/>
+            <Element Type="Struct" ID="0x900FB99C" Archetype="LocomotionContextEnum"/>
             <Element Type="Enum" ID="0x6F74F82F">
                 <DefaultValue>0xE21173B7</DefaultValue>
                 <Values>

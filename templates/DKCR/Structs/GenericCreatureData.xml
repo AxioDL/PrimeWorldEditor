@@ -159,12 +159,12 @@
             <Element Type="Bool" ID="0x1BF83306">
                 <DefaultValue>false</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0x6B32E09E" Archetype="ModifyContactRules"/>
+            <Element Type="Struct" ID="0x6B32E09E" Archetype="ModifyContactRuleData"/>
             <Element Type="Struct" ID="0xB6AF2D99" Archetype="DespawnRules"/>
             <Element Type="Struct" ID="0xAE27F052" Archetype="FixedDelayRules"/>
             <Element Type="Struct" ID="0x5400B556" Archetype="HurlHeightRules"/>
             <Element Type="Struct" ID="0x24F41DCB" Archetype="UnknownStruct132"/>
-            <Element Type="Struct" ID="0x55C89B60" Archetype="CollisionActors"/>
+            <Element Type="Struct" ID="0x55C89B60" Archetype="CollisionActorModifierData"/>
             <Element Type="Struct" ID="0x1A5BA8DA" Archetype="UnknownStruct133"/>
             <Element Type="Struct" ID="0x68FD49AE" Archetype="AnimGridModifierData"/>
             <Element Type="Struct" ID="0x5D8916EA" Archetype="UnknownStruct134"/>
@@ -172,14 +172,14 @@
             <Element Type="Bool" ID="0xC08E06AC">
                 <DefaultValue>false</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0x2E42A623" Archetype="UnknownStruct136"/>
+            <Element Type="Struct" ID="0x2E42A623" Archetype="DashModifierData"/>
             <Element Type="Bool" ID="0xF4ACF493">
                 <DefaultValue>false</DefaultValue>
             </Element>
             <Element Type="Bool" ID="0x8DFB1669">
                 <DefaultValue>false</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xB0CED792" Archetype="SkinSwap"/>
+            <Element Type="Struct" ID="0xB0CED792" Archetype="SkinSwapModifierData"/>
         </SubProperties>
     </PropertyArchetype>
 </PropertyTemplate>

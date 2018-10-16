@@ -22,7 +22,7 @@
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x2E9827AD" Archetype="PlayerAlternateSkin"/>
-            <Element Type="Struct" ID="0x6F7438CF" Archetype="UnknownStruct44"/>
+            <Element Type="Struct" ID="0x6F7438CF" Archetype="KongData"/>
             <Element Type="Struct" ID="0x9C7E9051" Archetype="UnknownStruct227"/>
         </SubProperties>
     </Properties>

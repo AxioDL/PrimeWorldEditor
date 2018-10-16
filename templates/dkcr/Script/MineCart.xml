@@ -31,12 +31,12 @@
             <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
             <Element Type="Struct" ID="0x63F638" Archetype="UnknownStruct"/>
-            <Element Type="Struct" ID="0x3C38498D" Archetype="UnknownStruct45"/>
-            <Element Type="Struct" ID="0xF07BEC6D" Archetype="MinecartStructA"/>
+            <Element Type="Struct" ID="0x3C38498D" Archetype="PlayerCommonData"/>
+            <Element Type="Struct" ID="0xF07BEC6D" Archetype="PlayerJumpData"/>
             <Element Type="Struct" ID="0x98EFC863" Archetype="PlayerMultiKillRewardData"/>
-            <Element Type="Struct" ID="0x978E5BD8" Archetype="VehicleStructA"/>
-            <Element Type="Struct" ID="0x7F681411" Archetype="VehicleStructB"/>
-            <Element Type="Struct" ID="0xD7326912" Archetype="UnknownStruct82"/>
+            <Element Type="Struct" ID="0x978E5BD8" Archetype="PlayerMountData"/>
+            <Element Type="Struct" ID="0x7F681411" Archetype="PlayerMountRiderList"/>
+            <Element Type="Struct" ID="0xD7326912" Archetype="MineCartData"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

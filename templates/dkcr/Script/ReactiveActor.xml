@@ -31,7 +31,7 @@
             <Element Type="Int" ID="0x6B40ACEF">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xC7BD1022" Archetype="UnknownStruct263"/>
+            <Element Type="Struct" ID="0xC7BD1022" Archetype="ReactiveActorBehaviors"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

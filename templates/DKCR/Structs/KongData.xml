@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>KongData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x3C38498D" Archetype="PlayerCommonData"/>
+            <Element Type="Struct" ID="0x7FB7E8B1" Archetype="PlayerBasicMovementData"/>
+            <Element Type="Struct" ID="0xF07BEC6D" Archetype="PlayerJumpData"/>
+            <Element Type="Struct" ID="0xF3D8DCB1" Archetype="PlayerJumpAnimWeights"/>
+            <Element Type="Struct" ID="0x5E1168AC" Archetype="PlayerBopAnimThresholds"/>
+            <Element Type="Struct" ID="0x5D89056A" Archetype="PlayerSplineAdvancementData"/>
+            <Element Type="Struct" ID="0xE03287AE" Archetype="RambiControllerData"/>
+            <Element Type="Struct" ID="0x9F1EF2F3" Archetype="PlayerAttachmentsData"/>
+            <Element Type="Struct" ID="0xBBCA7365" Archetype="PlayerBarrelCannonData"/>
+            <Element Type="Struct" ID="0xF9B150FC" Archetype="PlayerCling2Data"/>
+            <Element Type="Struct" ID="0x856F56A7" Archetype="KongGroundPoundData"/>
+            <Element Type="Struct" ID="0xF5E908D1" Archetype="KongGroundPoundData"/>
+            <Element Type="Struct" ID="0x36453107" Archetype="KongRunningSlapData"/>
+            <Element Type="Struct" ID="0xF7878A5A" Archetype="KongSwingData"/>
+            <Element Type="Struct" ID="0x60C43EAF" Archetype="KongSlideData"/>
+            <Element Type="Struct" ID="0xE38134FC" Archetype="KongStalledDescentData"/>
+            <Element Type="Struct" ID="0x75586C2B" Archetype="KongGrabData"/>
+            <Element Type="Struct" ID="0x4D6C99EB" Archetype="PlayerHeadTrackingData"/>
+            <Element Type="Struct" ID="0xF2B15344" Archetype="PlayerMeleeData"/>
+            <Element Type="Struct" ID="0x978E5BD8" Archetype="PlayerMountData"/>
+            <Element Type="Struct" ID="0x7F681411" Archetype="PlayerMountRiderList"/>
+            <Element Type="Struct" ID="0x249DC50A" Archetype="PlayerPeriodicAdditiveAnimationData"/>
+            <Element Type="Struct" ID="0x29C83997" Archetype="PlayerSlaveData"/>
+            <Element Type="Struct" ID="0x74B21331" Archetype="PlayerOffscreenIndicator"/>
+            <Element Type="Struct" ID="0xC3260CA9" Archetype="PlayerTarInteractionData"/>
+            <Element Type="Struct" ID="0xA7117CDD" Archetype="PlayerTeleportData"/>
+            <Element Type="Struct" ID="0xE31814DB" Archetype="PlayerTireInteractionData"/>
+            <Element Type="Struct" ID="0x8870D3DD" Archetype="PlayerPeanutGunData"/>
+            <Element Type="Struct" ID="0x2D712FBE" Archetype="PlayerCrouchData"/>
+            <Element Type="Struct" ID="0xFA1F4263" Archetype="PlayerFireReactionData"/>
+            <Element Type="Struct" ID="0x8ABB25C4" Archetype="PlayerCrushData"/>
+            <Element Type="Struct" ID="0x98EFC863" Archetype="PlayerMultiKillRewardData"/>
+            <Element Type="Struct" ID="0x39B0B057" Archetype="PlayerRiseFromTheGraveData"/>
+            <Element Type="Struct" ID="0x1BD6769F" Archetype="PlayerTerrainAlignmentData"/>
+            <Element Type="Struct" ID="0xB2D0A449" Archetype="PlayerShieldData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

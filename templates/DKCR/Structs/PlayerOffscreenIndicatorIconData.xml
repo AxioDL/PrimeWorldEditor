@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerOffscreenIndicatorIconData</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x35A93DD5">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Enum" ID="0xCD0B4D09">
+                <DefaultValue>0x4F049055</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x4F049055"/>
+                    <Element Name="Unknown 2" ID="0xF06E614A"/>
+                    <Element Name="Unknown 3" ID="0x85293ED6"/>
+                </Values>
+            </Element>
+            <Element Type="Int" ID="0xA3C8F06D">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB39A8A36">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -21,7 +21,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0x6F7438CF" Archetype="UnknownStruct44"/>
+            <Element Type="Struct" ID="0x6F7438CF" Archetype="KongData"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

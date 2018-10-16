@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>KongSlideData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x4E7DEF7E">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x18AA5C74">
+                <DefaultValue>70.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6591A3A9">
+                <DefaultValue>54.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F7FDD6F">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x43849900">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8E7EA4FC">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F3B9328">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C6EC511">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7335084D">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7600A6C5">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F73E73D">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE007890">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x2B79EA93">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xBA30AACA">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xD9CA50C2"/>
+            <Element Type="Spline" ID="0x84951EC7"/>
+            <Element Type="Spline" ID="0x6A78525F"/>
+            <Element Type="Int" ID="0xD7C19141">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x576D9946" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0xB83F2FA7" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0x52B9F2C5" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0xBDEB4424" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0x5CC54E40" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0xB397F8A1" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0x591125C3" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0xB6439322" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0x403C374A" Archetype="MaterialSoundPair"/>
+            <Element Type="Struct" ID="0xAF6E81AB" Archetype="MaterialSoundPair"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

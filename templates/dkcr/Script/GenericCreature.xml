@@ -52,7 +52,7 @@
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x633FA4A9" Archetype="GenericCreatureData"/>
-            <Element Type="Struct" ID="0x55A73403" Archetype="UnknownStruct137"/>
+            <Element Type="Struct" ID="0x55A73403" Archetype="BehaviorsData"/>
             <Element Type="Struct" ID="0x571EB1EF" Archetype="UnknownStruct140"/>
             <Element Type="Struct" ID="0x89916395" Archetype="RetronomeMessage"/>
         </SubProperties>

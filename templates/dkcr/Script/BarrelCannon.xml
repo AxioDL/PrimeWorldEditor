@@ -71,7 +71,7 @@
             <Element Type="Float" ID="0x3DC75733">
                 <DefaultValue>30.0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xF04C61F3" Archetype="UnknownStruct21"/>
+            <Element Type="Struct" ID="0xF04C61F3" Archetype="BarrelCannonData"/>
             <Element Type="Bool" ID="0xFAF13D08">
                 <DefaultValue>false</DefaultValue>
             </Element>

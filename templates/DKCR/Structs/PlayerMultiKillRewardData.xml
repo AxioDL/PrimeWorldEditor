@@ -4,9 +4,9 @@
         <Name>PlayerMultiKillRewardData</Name>
         <SubProperties>
             <Element Type="Spline" ID="0x32152AB2"/>
-            <Element Type="Struct" ID="0x5E3BE9" Archetype="UnknownStruct41"/>
-            <Element Type="Struct" ID="0x44FF1EF1" Archetype="UnknownStruct41"/>
-            <Element Type="Struct" ID="0x7384AEA3" Archetype="Sound"/>
+            <Element Type="Struct" ID="0x5E3BE9" Archetype="PlayerMultiKillRewardTierData"/>
+            <Element Type="Struct" ID="0x44FF1EF1" Archetype="PlayerMultiKillRewardTierData"/>
+            <Element Type="Struct" ID="0x7384AEA3" Archetype="PlayerMultiKillRewardSoundData"/>
         </SubProperties>
     </PropertyArchetype>
 </PropertyTemplate>

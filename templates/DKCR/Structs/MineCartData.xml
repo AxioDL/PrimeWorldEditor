@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>MineCartData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x5BC9251C">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3F19EDDE">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFEE157D3">
+                <DefaultValue>1.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39FB7978">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9EC4FC10">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5A9CCA">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x666ABE89">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCB14D97C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x185263E">
+                <DefaultValue>14.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x140EF2CC">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3C0276DF">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7F63988A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x59E05D7E">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4E2630E9">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE577B61B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDFDA5300">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCD60F18D">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x91FFEFED">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x17CB3C58">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x85F74C0E">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D64493A">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDCE9B37B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAEF469E8">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6A4A7E46">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x79320F08">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE85121C7">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x36B1ADD6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0xEFE4798F"/>
+            <Element Type="Spline" ID="0x96D4F78B"/>
+            <Element Type="Spline" ID="0x15001E0D"/>
+            <Element Type="Asset" ID="0xE3A63100">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0x3B016CFA"/>
+            <Element Type="Spline" ID="0xC95A55"/>
+            <Element Type="Spline" ID="0x74FDFC73"/>
+            <Element Type="Asset" ID="0xEBE660AF">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE2B82EC">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xD7C19141">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8E1A08AF" Archetype="MineCartMaterialSounds"/>
+            <Element Type="Struct" ID="0xF8FF3192" Archetype="MineCartMaterialSounds"/>
+            <Element Type="Struct" ID="0x638CDB46" Archetype="MineCartMaterialSounds"/>
+            <Element Type="Struct" ID="0x153543E8" Archetype="MineCartMaterialSounds"/>
+            <Element Type="Struct" ID="0x8E46A93C" Archetype="MineCartMaterialSounds"/>
+            <Element Type="Struct" ID="0xF8A39001" Archetype="MineCartMaterialSounds"/>
+            <Element Type="Float" ID="0x6DBC0521">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x63C41B74">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFBCE5FEA">
+                <DefaultValue>-6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3684450B">
+                <DefaultValue>0.66000003</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x34F413E7">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB16BEFAB">
+                <DefaultValue>16.5</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xD669DB3">
+                <DefaultValue>
+                    <X>15.0</X>
+                    <Y>0.0</Y>
+                    <Z>6.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDCF467FA">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

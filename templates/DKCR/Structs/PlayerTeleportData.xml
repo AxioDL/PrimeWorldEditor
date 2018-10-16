@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerTeleportData</Name>
+        <SubProperties>
+            <Element Type="String" ID="0xA6AB8644"/>
+            <Element Type="Float" ID="0x4A3BCEB4">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA0647DF6" Archetype="Convergence"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

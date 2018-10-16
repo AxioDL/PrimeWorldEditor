@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>KongGroundPoundData</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0xDBB13E19">
+                <DefaultValue>
+                    <X>30.0</X>
+                    <Y>30.0</Y>
+                    <Z>30.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x458F7B04">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA6A1CD8F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D233E53">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA4AB00A8">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

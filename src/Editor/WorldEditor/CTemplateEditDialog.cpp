@@ -252,31 +252,38 @@ void CTemplateEditDialog::UpdateTypeName(const TString& kNewTypeName, bool Allow
 {
     if (mOriginalTypeName != kNewTypeName || mOriginalAllowTypeNameOverride != AllowOverride)
     {
-        bool WasUnknown = mOriginalTypeName.Contains("Unknown") || mOriginalTypeName.Contains("Struct");
-
-        // Get a list of properties to update.
-        for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
+        if (FileUtil::IsValidName(kNewTypeName, false))
         {
-            if (WasUnknown && (EGame) GameIdx != mpProperty->Game())
-                continue;
+            bool WasUnknown = mOriginalTypeName.Contains("Unknown") || mOriginalTypeName.Contains("Struct");
 
-            CGameTemplate* pGame = NGameList::GetGameTemplate( (EGame) GameIdx );
-
-            if (pGame)
+            // Get a list of properties to update.
+            for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
             {
-                IProperty* pArchetype = pGame->FindPropertyArchetype(mOriginalTypeName);
+                if (WasUnknown && (EGame) GameIdx != mpProperty->Game())
+                    continue;
 
-                if (pArchetype)
+                CGameTemplate* pGame = NGameList::GetGameTemplate( (EGame) GameIdx );
+
+                if (pGame)
                 {
-                    pGame->RenamePropertyArchetype(mOriginalTypeName, kNewTypeName);
+                    IProperty* pArchetype = pGame->FindPropertyArchetype(mOriginalTypeName);
 
-                    if (pArchetype->Type() == EPropertyType::Enum || pArchetype->Type() == EPropertyType::Choice)
+                    if (pArchetype)
                     {
-                        CEnumProperty* pEnum = TPropCast<CEnumProperty>(pArchetype);
-                        pEnum->SetOverrideTypeName(AllowOverride);
+                        pGame->RenamePropertyArchetype(mOriginalTypeName, kNewTypeName);
+
+                        if (pArchetype->Type() == EPropertyType::Enum || pArchetype->Type() == EPropertyType::Choice)
+                        {
+                            CEnumProperty* pEnum = TPropCast<CEnumProperty>(pArchetype);
+                            pEnum->SetOverrideTypeName(AllowOverride);
+                        }
                     }
                 }
             }
+        }
+        else if (mOriginalTypeName != kNewTypeName)
+        {
+            UICommon::ErrorMsg(this, QString("Type rename failed because the name you entered \"%1\" is invalid.").arg(TO_QSTRING(kNewTypeName)));
         }
     }
 }

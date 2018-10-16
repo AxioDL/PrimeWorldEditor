@@ -1216,8 +1216,8 @@
             <Value Path="Structs/Vector2f.xml"/>
         </Element>
         <Element>
-            <Key>Velocity</Key>
-            <Value Path="Structs/Velocity.xml"/>
+            <Key>VelocityConvergence</Key>
+            <Value Path="Structs/VelocityConvergence.xml"/>
         </Element>
         <Element>
             <Key>VisorParameters</Key>

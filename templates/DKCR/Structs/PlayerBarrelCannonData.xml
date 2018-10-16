@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerBarrelCannonData</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x381882D7">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xBD8E1D39"/>
+            <Element Type="Float" ID="0x48B5DEF1">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C97BE6E">
+                <DefaultValue>4.5</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x6B4ED718">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x9583EE9A" Archetype="PlayerAttackBounceData"/>
+            <Element Type="Asset" ID="0xE06D7B15">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4364525D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2ABD7E71">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>
