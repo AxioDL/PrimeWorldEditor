@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>CollisionActorModifierData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x6950B5DA">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD54D6FAD" Archetype="GenericCreatureStructC"/>
+            <Element Type="Struct" ID="0xAE53ED4E" Archetype="GenericCreatureStructC"/>
+            <Element Type="Struct" ID="0x31896ED0" Archetype="GenericCreatureStructC"/>
+            <Element Type="Struct" ID="0x586EE888" Archetype="GenericCreatureStructC"/>
+            <Element Type="Struct" ID="0xC7B46B16" Archetype="GenericCreatureStructC"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

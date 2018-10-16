@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerMountRiderList</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xFB6A981B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x3982DEC6" Archetype="PlayerMountRiderData"/>
+            <Element Type="Struct" ID="0x429C5C25" Archetype="PlayerMountRiderData"/>
+            <Element Type="Struct" ID="0xDD46DFBB" Archetype="PlayerMountRiderData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

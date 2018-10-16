@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>MineCartMaterialSounds</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD72E09E1" Archetype="MaterialType"/>
+            <Element Type="Asset" ID="0x36B1ADD6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0xEFE4798F"/>
+            <Element Type="Spline" ID="0x96D4F78B"/>
+            <Element Type="Spline" ID="0x15001E0D"/>
+            <Element Type="Asset" ID="0xE3A63100">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0x3B016CFA"/>
+            <Element Type="Spline" ID="0xC95A55"/>
+            <Element Type="Spline" ID="0x74FDFC73"/>
+            <Element Type="Asset" ID="0xEBE660AF">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE2B82EC">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

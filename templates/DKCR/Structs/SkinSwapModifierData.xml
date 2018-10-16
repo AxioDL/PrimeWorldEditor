@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>SkinSwapModifierData</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0x9312FAB8"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

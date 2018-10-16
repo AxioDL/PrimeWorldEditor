@@ -13,7 +13,7 @@
                     <Element Name="Unknown 5" ID="0x9E3CD754"/>
                 </Values>
             </Element>
-            <Element Type="Struct" ID="0x6F9D9B33" Archetype="Velocity"/>
+            <Element Type="Struct" ID="0x6F9D9B33" Archetype="VelocityConvergence"/>
             <Element Type="Struct" ID="0x1FF47DDF" Archetype="UnknownStruct66"/>
             <Element Type="Struct" ID="0xCF33816" Archetype="SpringConvergence"/>
             <Element Type="Struct" ID="0xF9E402EF" Archetype="PIDConvergence"/>

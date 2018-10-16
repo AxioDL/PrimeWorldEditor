@@ -74,14 +74,14 @@
             <Element Type="Float" ID="0xBE513E2B">
                 <DefaultValue>1.0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xE1BCEF23" Archetype="UnknownStruct6">
+            <Element Type="Struct" ID="0xE1BCEF23" Archetype="PlayerType">
                 <SubProperties>
                     <Element Type="Enum" ID="0x74059F59">
                         <DefaultValue>0x1D137B4B</DefaultValue>
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0x963E45F6" Archetype="UnknownStruct6">
+            <Element Type="Struct" ID="0x963E45F6" Archetype="PlayerType">
                 <SubProperties>
                     <Element Type="Enum" ID="0x74059F59">
                         <DefaultValue>0x1D137B4B</DefaultValue>

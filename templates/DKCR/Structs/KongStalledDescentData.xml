@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>KongStalledDescentData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x8848E341">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9FFDD53">
+                <DefaultValue>0.34999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x28E1A39C">
+                <DefaultValue>1.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE8C06D7E">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xBF3DD0E1">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5C271C9A">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5121648E">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xC9D72254"/>
+            <Element Type="Asset" ID="0xA2ACF0FA">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0xBDAAA9B1"/>
+            <Element Type="Spline" ID="0x7E50A6D2"/>
+            <Element Type="Spline" ID="0x75F730C"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

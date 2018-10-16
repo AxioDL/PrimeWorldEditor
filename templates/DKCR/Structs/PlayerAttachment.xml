@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerAttachment</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0x520EBB68"/>
+            <Element Type="String" ID="0xE856FC2B"/>
+            <Element Type="Bool" ID="0x2662929F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

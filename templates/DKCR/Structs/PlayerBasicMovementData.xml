@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerBasicMovementData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xA6B75D03">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1375290A">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x830639E0">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA3623356">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x443FB4E4">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D6F8448">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE3AF751">
+                <DefaultValue>0.94999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9539CAB4">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3C120FC">
+                <DefaultValue>8.8999996</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDDE4DA6C">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA6938C8E">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3734675B">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x52283A22">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD13FCD0E">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xFD150B3F">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8C041C4D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF066F747">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x72F4A596">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4DB6820F">
+                <DefaultValue>22.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95048EDD">
+                <DefaultValue>28.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

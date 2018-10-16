@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TouchAttackDirectionEnum</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x9721D02B">
+                <DefaultValue>0x93D88A81</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x93D88A81"/>
+                    <Element Name="Unknown 2" ID="0xB2A31497"/>
+                    <Element Name="Unknown 3" ID="0xEA45DFA5"/>
+                    <Element Name="Unknown 4" ID="0xF0B71A75"/>
+                    <Element Name="Unknown 5" ID="0xBD71A966"/>
+                    <Element Name="Unknown 6" ID="0x81864B79"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

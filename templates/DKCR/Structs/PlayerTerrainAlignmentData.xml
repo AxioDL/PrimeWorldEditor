@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerTerrainAlignmentData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x28FD3183">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xB3931651">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED9BF5A3">
+                <DefaultValue>1.05</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x79220DD6">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

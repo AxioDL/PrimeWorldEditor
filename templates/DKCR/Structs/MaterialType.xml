@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>MaterialType</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x95A68D4C" Archetype="UnknownEnum1">
+                <DefaultValue>0xD086634A</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerOffscreenIndicator</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xCCF3ADF">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x46C5CB7A">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4988B02B">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x47A8818B">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x17BF00F0">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4868549D">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xA5B20D17" Archetype="PlayerOffscreenIndicatorTextData"/>
+            <Element Type="Struct" ID="0xE7BB8978" Archetype="PlayerOffscreenIndicatorIconData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

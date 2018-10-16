@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>SeparateAndReformBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x8B594611">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x60BE3C08">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x60F7E83F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x36A054C3" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>-2.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x40456DFE" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>-4.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xDB36872A" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>-6.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xAD8F1F84" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>-8.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x36FCF550" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>-10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x4019CC6D" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xDB6A26B9" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xAD6AFD31" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>6.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x361917E5" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>8.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x30C93088" Archetype="SeparateAndReformParts">
+                <SubProperties>
+                    <Element Type="Float" ID="0x462D3C4D">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>
