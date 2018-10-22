@@ -29,29 +29,19 @@
  * 2. As a global/friend function with this signature: void Serialize(IArchive&, YourClass&)
  *
  * Use the << operator to serialize data members to the archive. All data being serialized must be
- * wrapped in one of the SERIAL macros. The SERIAL macro ensures that all serialized parameters are
- * associated with a name. This name makes the output file more easily human-readable as well as helps
- * ensure that files are easily backwards-compatible if parameters are moved or added/removed.
+ * wrapped in a call to SerialParameter(), which allows each value to be associated with a name
+ * and other parameters. This primarily helps make the output files more human-readable and
+ * assists with backwards compatibility, as well as customizing how each parameter is serialized.
  *
  * Polymorphism is supported. There are two requirements for a polymorphic class to work with the
- * serialization system. First, the base class must contain a virtual Type() function that returns
- * an integral value (an enum or an integer), as well as a virtual Serialize(IArchive&) function.
- * Second, there must be a factory object with a SpawnObject(u32) method that takes the same Type value
- * and returns an object of the correct class.
+ * serialization system. First, the base class must contain a virtual Type() function, as well as
+ * a virtual Serialize(IArchive&) function. Second, the class must have a static ArchiveConstructor()
+ * method that takes the a Type value (which should be the same type as Type() returns), and returns
+ * an object of the correct class.
  *
- * Containers are also supported. Containers require a different macro that allows you to specify the
- * name of the elements in the container. The currently-supported containers are std::vector, std::list,
- * and std::set. Support for more container types can be added to the bottom of this file.
- *
- * These are the available SERIAL macros:
- * - SERIAL(ParamName, ParamValue)                                          [generic parameter]
- * - SERIAL_HEX(ParamName, ParamValue)                                      [integral parameter serialized as a hex number for improved readability]
- * - SERIAL_ABSTRACT(ParamName, ParamValue, Factory)                        [polymorphic parameter]
- * - SERIAL_CONTAINER(ParamName, Container, ElementName)                    [container parameter]
- * - SERIAL_ABSTRACT_CONTAINER(ParamName, Container, ElementName, Factory)  [container of polymorphic objects parameter]
- *
- * Each of these has a variant with _AUTO at the end that allows you to exclude ParamName (the name of the
- * variable will be used as the parameter name instead).
+ * SerialParameter() can take flags that provides hints to the serializer. This can either customize
+ * how the parameter is displayed in the file, or it can modify how the serialization is done under
+ * the hood. For a list of possible hints, check the definition of ESerialHint.
  */
 
 /** ESerialHint - Parameter hint flags */
@@ -61,7 +51,7 @@ enum ESerialHint
     SH_Optional             = 0x2,      // The parameter should not be written to the file if its value matches the default value.
     SH_NeverSave            = 0x4,      // The parameter should not be saved to files.
     SH_AlwaysSave           = 0x8,      // The parameter should always be saved regardless of if it matches the default value.
-    SH_Attribute            = 0x10,     // The parameter is an attribute of another parameter. Attributes cannot have children.
+    SH_Attribute            = 0x10,     // The parameter is an attribute of its parent. Attributes cannot have children.
     SH_IgnoreName           = 0x20,     // The parameter name will not be used to validate file data. May yield incorrect results if used improperly!
     SH_InheritHints         = 0x40,     // The parameter will inherit hints from its parent parameter (except for this flag).
     SH_Proxy                = 0x80,     // The parameter is a proxy of the parent and will display inline instead of as a child parameter.

@@ -5,7 +5,6 @@
 
 class CStructProperty : public IProperty
 {
-    friend class CTemplateLoader;
     friend class IProperty;
 
 public:

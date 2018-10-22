@@ -6,7 +6,6 @@
 
 class CAssetProperty : public TSerializeableTypedProperty<CAssetID, EPropertyType::Asset>
 {
-    friend class CTemplateLoader;
     friend class IProperty;
 
     CResTypeFilter mTypeFilter;

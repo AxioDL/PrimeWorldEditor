@@ -1,6 +1,5 @@
 #include "CGameProject.h"
 #include "IUIRelay.h"
-#include "Core/Resource/Factory/CTemplateLoader.h"
 #include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/Serialization/XML.h>
 #include <nod/nod.hpp>

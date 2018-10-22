@@ -111,9 +111,6 @@ enum class ECookPreference
 /** New property class */
 class IProperty
 {
-    friend class CTemplateLoader;
-    friend class CPropertyFactory;
-
 protected:
     /** Flags */
     FPropertyFlags mFlags;

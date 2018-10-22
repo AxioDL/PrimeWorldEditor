@@ -102,7 +102,6 @@ HEADERS += \
     Resource/Factory/CScanLoader.h \
     Resource/Factory/CScriptLoader.h \
     Resource/Factory/CStringLoader.h \
-    Resource/Factory/CTemplateLoader.h \
     Resource/Factory/CTextureDecoder.h \
     Resource/Factory/CWorldLoader.h \
     Resource/Model/CBasicModel.h \
@@ -274,7 +273,6 @@ SOURCES += \
     Resource/Factory/CScanLoader.cpp \
     Resource/Factory/CScriptLoader.cpp \
     Resource/Factory/CStringLoader.cpp \
-    Resource/Factory/CTemplateLoader.cpp \
     Resource/Factory/CTextureDecoder.cpp \
     Resource/Factory/CWorldLoader.cpp \
     Resource/Model/CBasicModel.cpp \

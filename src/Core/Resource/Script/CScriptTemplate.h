@@ -43,9 +43,6 @@ struct SAttachment
  */
 class CScriptTemplate
 {
-    friend class CTemplateLoader;
-    friend class CTemplateWriter;
-
 public:
     enum ERotationType {
         eRotationEnabled, eRotationDisabled
