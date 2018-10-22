@@ -5,7 +5,6 @@
 
 class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyType::Flags>
 {
-    friend class CTemplateLoader;
     friend class IProperty;
 
     struct SBitFlag

@@ -5,7 +5,6 @@
 
 class CPointerProperty : public TTypedProperty<void*, EPropertyType::Pointer>
 {
-    friend class CTemplateLoader;
     friend class IProperty;
 
     CPointerProperty(EGame Game)

@@ -23,7 +23,6 @@ struct SScriptArray
 class CArrayProperty : public TTypedProperty<u32, EPropertyType::Array>
 {
     friend class IProperty;
-    friend class CTemplateLoader;
 
     /** This class inherits from TTypedPropertyNew<int> in order to expose the array
      *  count value (the first member of SScriptArray). Outside users can edit this

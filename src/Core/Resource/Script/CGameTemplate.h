@@ -95,9 +95,6 @@ struct SPropertyTemplatePath
 /** CGameTemplate - Per-game template data */
 class CGameTemplate
 {
-    friend class CTemplateLoader;
-    friend class CTemplateWriter;
-
     EGame mGame;
     TString mSourceFile;
     bool mFullyLoaded;

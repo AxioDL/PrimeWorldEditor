@@ -1,5 +1,4 @@
 #include "CScriptLoader.h"
-#include "CTemplateLoader.h"
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/NGameList.h"

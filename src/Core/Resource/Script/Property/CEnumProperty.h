@@ -13,7 +13,6 @@
 template<EPropertyType TypeEnum>
 class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
 {
-    friend class CTemplateLoader;
     friend class IProperty;
 
     struct SEnumValue

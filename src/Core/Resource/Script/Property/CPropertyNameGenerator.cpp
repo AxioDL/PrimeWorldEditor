@@ -1,6 +1,5 @@
 #include "CPropertyNameGenerator.h"
 #include "IUIRelay.h"
-#include "Core/Resource/Factory/CTemplateLoader.h"
 #include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/NPropertyMap.h"
 #include <Common/Hash/CCRC32.h>
