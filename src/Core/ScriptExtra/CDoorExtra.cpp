@@ -1,35 +1,32 @@
 #include "CDoorExtra.h"
 #include "Core/Render/CRenderer.h"
 
-CDoorExtra::CDoorExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
+CDoorExtra::CDoorExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent)
     : CScriptExtra(pInstance, pScene, pParent)
-    , mpShieldModelProp(nullptr)
-    , mpShieldColorProp(nullptr)
-    , mpShieldModel(nullptr)
 {
-    CPropertyStruct *pBaseStruct = pInstance->Properties();
+    CStructProperty* pProperties = pInstance->Template()->Properties();
 
-    mpShieldModelProp = TPropCast<TAssetProperty>(pBaseStruct->PropertyByID(0xB20CC271));
-    if (mpShieldModelProp) PropertyModified(mpShieldModelProp);
+    mShieldModelProp = CAssetRef(pInstance->PropertyData(), pProperties->ChildByID(0xB20CC271));
+    if (mShieldModelProp.IsValid()) PropertyModified(mShieldModelProp.Property());
 
-    if (mGame >= eEchoes)
+    if (mGame >= EGame::Echoes)
     {
-        mpShieldColorProp = TPropCast<TColorProperty>(pBaseStruct->PropertyByID(0x47B4E863));
-        if (mpShieldColorProp) PropertyModified(mpShieldColorProp);
+        mShieldColorProp = CColorRef(pInstance->PropertyData(), pProperties->ChildByID(0x47B4E863));
+        if (mShieldColorProp.IsValid()) PropertyModified(mShieldColorProp.Property());
     }
 
     else
     {
-        mpDisabledProp = TPropCast<TBoolProperty>(pBaseStruct->PropertyByID(0xDEE730F5));
-        if (mpDisabledProp) PropertyModified(mpDisabledProp);
+        mDisabledProp = CBoolRef(pInstance->PropertyData(), pProperties->ChildByID(0xDEE730F5));
+        if (mDisabledProp.IsValid()) PropertyModified(mDisabledProp.Property());
     }
 }
 
-void CDoorExtra::PropertyModified(IProperty *pProperty)
+void CDoorExtra::PropertyModified(IProperty* pProperty)
 {
-    if (pProperty == mpShieldModelProp)
+    if (pProperty == mShieldModelProp)
     {
-        mpShieldModel = gpResourceStore->LoadResource<CModel>( mpShieldModelProp->Get() );
+        mpShieldModel = gpResourceStore->LoadResource<CModel>( mShieldModelProp.Get() );
 
         if (mpShieldModel)
             mLocalAABox = mpShieldModel->AABox();
@@ -40,18 +37,18 @@ void CDoorExtra::PropertyModified(IProperty *pProperty)
         MarkTransformChanged();
     }
 
-    else if (pProperty == mpShieldColorProp)
+    else if (pProperty == mShieldColorProp)
     {
-        mShieldColor = mpShieldColorProp->Get();
+        mShieldColor = mShieldColorProp.Get();
     }
 
-    else if (pProperty == mpDisabledProp)
+    else if (pProperty == mDisabledProp)
     {
         // The Echoes demo doesn't have the shield color property. The color is
         // always cyan if the door is unlocked and always white if the door is locked.
         mShieldColor = CColor::skWhite;
 
-        if (!mpDisabledProp->Get())
+        if (!mDisabledProp)
             mShieldColor = CColor::skCyan;
     }
 }

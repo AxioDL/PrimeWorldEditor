@@ -21,36 +21,26 @@ CONFIG (debug, debug|release) {
     # Debug Config
     OBJECTS_DIR = $$BUILD_DIR/Common/debug
     TARGET = Commond
-
-    # Debug Libs
-    LIBS += -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-gd-1_63 \
-            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2d
 }
 
 CONFIG (release, debug|release) {
     # Release Config
     OBJECTS_DIR = $$BUILD_DIR/build/Common/release
     TARGET = Common
-
-    # Release Libs
-    LIBS += -L$$EXTERNALS_DIR/boost_1_63_0/lib64-msvc-14.0 -llibboost_filesystem-vc140-mt-1_63 \
-            -L$$EXTERNALS_DIR/tinyxml2/lib -ltinyxml2
 }
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
-               $$EXTERNALS_DIR/boost_1_63_0 \
-               $$EXTERNALS_DIR/tinyxml2/include
+               $$EXTERNALS_DIR/CodeGen/include \
+               $$EXTERNALS_DIR/tinyxml2
 
 # Header Files
 HEADERS += \
     CColor.h \
     CFourCC.h \
-    CHashFNV1A.h \
     CTimer.h \
     EKeyInputs.h \
     EMouseInputs.h \
-    ETransformSpace.h \
     Flags.h \
     TString.h \
     types.h \
@@ -59,6 +49,7 @@ HEADERS += \
     AssertMacro.h \
     CScopedTimer.h \
     CAssetID.h \
+    Hash\CFNV1A.h \
     Serialization/IArchive.h \
     Serialization/CXMLWriter.h \
     Serialization/CXMLReader.h \
@@ -83,7 +74,9 @@ HEADERS += \
     FileIO\CBitStreamInWrapper.h \
     FileIO\CFileLock.h \
     FileIO.h \
-    Common.h
+    Common.h \
+    Hash/CCRC32.h \
+    NBasics.h
 
 # Source Files
 SOURCES += \
@@ -105,4 +98,14 @@ SOURCES += \
     FileIO\IOUtil.cpp \
     FileIO\IInputStream.cpp \
     FileIO\IOutputStream.cpp \
-    FileIO\CBitStreamInWrapper.cpp
+    FileIO\CBitStreamInWrapper.cpp \
+    Hash/CCRC32.cpp
+
+# Codegen
+CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
+CODEGEN_OUT_PATH = $$BUILD_DIR/Common/codegen_build/auto_codegen.cpp
+CODEGEN_SRC_PATH = $$PWD
+include($$EXTERNALS_DIR/CodeGen/codegen.pri)
+
+# Library Sources
+SOURCES += $$EXTERNALS_DIR/tinyxml2/tinyxml2.cpp

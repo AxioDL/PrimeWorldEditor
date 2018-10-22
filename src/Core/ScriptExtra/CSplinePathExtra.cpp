@@ -3,15 +3,15 @@
 #include "Core/Resource/Script/CLink.h"
 #include "Core/Scene/CScene.h"
 
-CSplinePathExtra::CSplinePathExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
+CSplinePathExtra::CSplinePathExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent)
     : CScriptExtra(pInstance, pScene, pParent)
 {
-    mpPathColor = TPropCast<TColorProperty>(pInstance->Properties()->PropertyByID(0x00DD86E2));
+    mPathColor = CColorRef(pInstance->PropertyData(), pInstance->Template()->Properties()->ChildByID(0x00DD86E2));
 }
 
-void CSplinePathExtra::PropertyModified(IProperty *pProperty)
+void CSplinePathExtra::PropertyModified(IProperty* pProperty)
 {
-    if (pProperty == mpPathColor)
+    if (pProperty == mPathColor.Property())
     {
         for (auto it = mWaypoints.begin(); it != mWaypoints.end(); it++)
             (*it)->CheckColor();
@@ -23,7 +23,7 @@ void CSplinePathExtra::PostLoad()
     AddWaypoints();
 }
 
-void CSplinePathExtra::FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked, CWaypointExtra *pWaypoint)
+void CSplinePathExtra::FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked, CWaypointExtra* pWaypoint)
 {
     if (rChecked.find(pWaypoint) != rChecked.end())
         return;
@@ -41,23 +41,23 @@ void CSplinePathExtra::FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked
 
 void CSplinePathExtra::AddWaypoints()
 {
-    if (mGame != eReturns)
+    if (mGame != EGame::DKCReturns)
         return;
 
     std::set<CWaypointExtra*> CheckedWaypoints;
 
-    for (u32 iLink = 0; iLink < mpInstance->NumLinks(eOutgoing); iLink++)
+    for (u32 LinkIdx = 0; LinkIdx < mpInstance->NumLinks(eOutgoing); LinkIdx++)
     {
-        CLink *pLink = mpInstance->Link(eOutgoing, iLink);
+        CLink* pLink = mpInstance->Link(eOutgoing, LinkIdx);
 
-        if ( (pLink->State() == 0x49533030 && pLink->Message() == 0x41544348) || // InternalState00/Attach
-             (pLink->State() == 0x4D4F5450 && pLink->Message() == 0x41544348) )  // MotionPath/Attach
+        if ( (pLink->State() == FOURCC('IS00') && pLink->Message() == FOURCC('ATCH')) || // InternalState00/Attach
+             (pLink->State() == FOURCC('MOTP') && pLink->Message() == FOURCC('ATCH')) )  // MotionPath/Attach
         {
-            CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
+            CScriptNode* pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
-            if (pNode && pNode->Instance()->ObjectTypeID() == 0x57415950) // Waypoint
+            if (pNode && pNode->Instance()->ObjectTypeID() == FOURCC('WAYP')) // Waypoint
             {
-                CWaypointExtra *pWaypoint = static_cast<CWaypointExtra*>(pNode->Extra());
+                CWaypointExtra* pWaypoint = static_cast<CWaypointExtra*>(pNode->Extra());
                 FindAttachedWaypoints(CheckedWaypoints, pWaypoint);
             }
         }

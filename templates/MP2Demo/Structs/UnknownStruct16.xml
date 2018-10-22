@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct16</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xB3C6398F" Archetype="UnknownStruct13"/>
+            <Element Type="Struct" ID="0xF59F9A60" Archetype="UnknownStruct14"/>
+            <Element Type="Struct" ID="0xA1CDA0B6" Archetype="UnknownStruct15"/>
+            <Element Type="Float" ID="0xA588AFD1">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE027F4C8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

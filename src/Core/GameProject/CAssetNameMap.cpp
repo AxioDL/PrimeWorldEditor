@@ -36,7 +36,7 @@ bool CAssetNameMap::SaveAssetNames(TString Path /*= ""*/)
     if (Path.IsEmpty())
         Path = DefaultNameMapPath(mIDLength);
 
-    EGame Game = (mIDLength == e32Bit ? ePrime : eCorruption);
+    EGame Game = (mIDLength == e32Bit ? EGame::Prime : EGame::Corruption);
     CXMLWriter Writer(Path, "AssetNameMap", 0, Game);
     Serialize(Writer);
     return Writer.Save();
@@ -58,7 +58,7 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
 
     else
     {
-        EGame Game = (ID.Length() == e32Bit ? ePrime : eCorruption);
+        EGame Game = (ID.Length() == e32Bit ? EGame::Prime : EGame::Corruption);
         rOutDirectory = CResourceStore::StaticDefaultResourceDirPath(Game);
         rOutName = ID.ToString();
         rOutAutoGenDir = true;
@@ -133,7 +133,7 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
 // ************ PRIVATE ************
 void CAssetNameMap::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_CONTAINER("AssetNameMap", mMap, "Asset");
+    rArc << SerialParameter("AssetNameMap", mMap);
 
     if (rArc.IsReader())
         PostLoadValidate();

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>KorbaMawData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xDF636C4B" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x200F67E7">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE54DE3E1">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8A821FEE">
+                <DefaultValue>2.8</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct55" type="multi">
-    <properties>
-        <property ID="0x98CBFEDC" type="float">
-            <default>0.0</default>
-        </property>
-        <struct ID="0x8772CB7E" template="Structs/UnknownStruct54.xml"/>
-        <struct ID="0x3CADCC64" template="Structs/UnknownStruct54.xml"/>
-        <property ID="0x9156BA5F" type="long">
-            <default>0</default>
-        </property>
-        <struct ID="0x5E856665" template="Structs/UnknownStruct53.xml"/>
-        <struct ID="0xED114BA6" template="Structs/UnknownStruct53.xml"/>
-        <struct ID="0x839D50E7" template="Structs/UnknownStruct53.xml"/>
-        <struct ID="0x51481661" template="Structs/UnknownStruct53.xml"/>
-        <struct ID="0x3FC40D20" template="Structs/UnknownStruct53.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct55</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x98CBFEDC">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8772CB7E" Archetype="UnknownStruct54"/>
+            <Element Type="Struct" ID="0x3CADCC64" Archetype="UnknownStruct54"/>
+            <Element Type="Int" ID="0x9156BA5F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5E856665" Archetype="UnknownStruct53"/>
+            <Element Type="Struct" ID="0xED114BA6" Archetype="UnknownStruct53"/>
+            <Element Type="Struct" ID="0x839D50E7" Archetype="UnknownStruct53"/>
+            <Element Type="Struct" ID="0x51481661" Archetype="UnknownStruct53"/>
+            <Element Type="Struct" ID="0x3FC40D20" Archetype="UnknownStruct53"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

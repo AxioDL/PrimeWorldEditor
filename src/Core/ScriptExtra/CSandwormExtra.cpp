@@ -1,30 +1,30 @@
 #include "CSandwormExtra.h"
 
-CSandwormExtra::CSandwormExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
+CSandwormExtra::CSandwormExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent)
     : CScriptExtra(pInstance, pScene, pParent)
 {
     // The back pincers need to be flipped 180 degrees
-    for (u32 iAttach = 0; iAttach < pParent->NumAttachments(); iAttach++)
+    for (u32 AttachIdx = 0; AttachIdx < pParent->NumAttachments(); AttachIdx++)
     {
-        CScriptAttachNode *pAttach = pParent->Attachment(iAttach);
+        CScriptAttachNode *pAttach = pParent->Attachment(AttachIdx);
 
         if (pAttach->LocatorName() == "L_back_claw" || pAttach->LocatorName() == "R_back_claw")
             pAttach->SetRotation(CVector3f(0,0,180));
     }
 
     // Get pincers scale
-    mpPincersScaleProperty = TPropCast<TFloatProperty>(pInstance->PropertyByIDString("0x3DB583AE"));
-    if (mpPincersScaleProperty) PropertyModified(mpPincersScaleProperty);
+    mPincersScale = CFloatRef(pInstance->PropertyData(), pInstance->Template()->Properties()->ChildByID(0x3DB583AE));
+    if (mPincersScale.IsValid()) PropertyModified(mPincersScale.Property());
 }
 
-void CSandwormExtra::PropertyModified(IProperty *pProp)
+void CSandwormExtra::PropertyModified(IProperty* pProp)
 {
-    if (pProp == mpPincersScaleProperty)
+    if (pProp == mPincersScale)
     {
-        for (u32 iAttach = 0; iAttach < mpScriptNode->NumAttachments(); iAttach++)
+        for (u32 AttachIdx = 0; AttachIdx < mpScriptNode->NumAttachments(); AttachIdx++)
         {
-            CScriptAttachNode *pAttach = mpScriptNode->Attachment(iAttach);
-            pAttach->SetScale(CVector3f(mpPincersScaleProperty->Get()));
+            CScriptAttachNode* pAttach = mpScriptNode->Attachment(AttachIdx);
+            pAttach->SetScale( CVector3f(mPincersScale) );
         }
     }
 }

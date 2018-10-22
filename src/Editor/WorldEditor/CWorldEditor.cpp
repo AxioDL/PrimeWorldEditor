@@ -23,6 +23,7 @@
 #include <Common/Log.h>
 #include <Core/GameProject/CGameProject.h>
 #include <Core/Render/CDrawUtil.h>
+#include <Core/Resource/Script/NGameList.h>
 #include <Core/Scene/CSceneIterator.h>
 
 #include <QClipboard>
@@ -37,6 +38,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     , mpArea(nullptr)
     , mpWorld(nullptr)
     , mpLinkDialog(new CLinkDialog(this, this))
+    , mpGeneratePropertyNamesDialog(new CGeneratePropertyNamesDialog(this))
     , mIsMakingLink(false)
     , mpNewLinkSender(nullptr)
     , mpNewLinkReceiver(nullptr)
@@ -175,6 +177,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
 
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
+    connect(ui->ActionGeneratePropertyNames, SIGNAL(triggered()), this, SLOT(GeneratePropertyNames()));
 
     connect(ui->ActionDrawWorld, SIGNAL(triggered()), this, SLOT(ToggleDrawWorld()));
     connect(ui->ActionDrawObjects, SIGNAL(triggered()), this, SLOT(ToggleDrawObjects()));
@@ -283,12 +286,12 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     // Update UI stuff
     UpdateWindowTitle();
 
-    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(mpArea->Game());
-    mpLinkDialog->SetMaster(pMaster);
+    CGameTemplate *pGame = NGameList::GetGameTemplate(mpArea->Game());
+    mpLinkDialog->SetGame(pGame);
 
     QString AreaName = TO_QSTRING(mpWorld->AreaInGameName(AreaIndex));
 
-    if (CurrentGame() < eReturns)
+    if (CurrentGame() < EGame::DKCReturns)
         Log::Write("Loaded area: " + mpArea->Entry()->Name() + " (" + TO_TSTRING(AreaName) + ")");
     else
         Log::Write("Loaded level: World " + mpWorld->Entry()->Name() + " / Area " + mpArea->Entry()->Name() + " (" + TO_TSTRING(AreaName) + ")");
@@ -548,12 +551,12 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 {
     ui->ActionProjectSettings->setEnabled( pProj != nullptr );
     ui->ActionCloseProject->setEnabled( pProj != nullptr );
-    mpPoiMapAction->setVisible( pProj != nullptr && pProj->Game() >= eEchoesDemo && pProj->Game() <= eCorruption );
+    mpPoiMapAction->setVisible( pProj != nullptr && pProj->Game() >= EGame::EchoesDemo && pProj->Game() <= EGame::Corruption );
     ResetCamera();
     UpdateWindowTitle();
 
     // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
-    bool AllowBloom = (CurrentGame() == eCorruptionProto || CurrentGame() == eCorruption);
+    bool AllowBloom = (CurrentGame() == EGame::CorruptionProto || CurrentGame() == EGame::Corruption);
     AllowBloom ? SetFakeBloom() : SetNoBloom();
     ui->menuBloom->setEnabled(AllowBloom);
 
@@ -576,41 +579,42 @@ void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
         emit InstanceLinksModified(rkInstances);
 }
 
-void CWorldEditor::OnPropertyModified(IProperty *pProp)
+void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IProperty *pProp)
 {
-    bool EditorProperty = false;
+    CScriptNode *pScript = mScene.NodeForInstance(pObject);
 
-    if (!mpSelection->IsEmpty() && mpSelection->Front()->NodeType() == eScriptNode)
+    if (pScript)
     {
-        CScriptNode *pScript = static_cast<CScriptNode*>(mpSelection->Front());
         pScript->PropertyModified(pProp);
 
-        // Check editor property
-        if (pScript->Instance()->IsEditorProperty(pProp))
-            EditorProperty = true;
-
-        // If this is an editor property, update other parts of the UI to reflect the new value.
-        if (EditorProperty)
+        // If this is the name, update other parts of the UI to reflect the new value.
+        if ( pProp->Name() == "Name" )
         {
             UpdateStatusBar();
             UpdateSelectionUI();
         }
-
-        // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
-        if (pProp->Type() == eAssetProperty)
+        else if (pProp->Name() == "Position" ||
+                 pProp->Name() == "Rotation" ||
+                 pProp->Name() == "Scale")
         {
-            CAssetTemplate *pAsset = static_cast<CAssetTemplate*>(pProp->Template());
-            const CResTypeFilter& rkFilter = pAsset->TypeFilter();
-
-            if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
-                SelectionModified();
+            mpSelection->UpdateBounds();
         }
-        else if (pProp->Type() == eCharacterProperty)
-            SelectionModified();
-
-        // Emit signal so other widgets can react to the property change
-        emit PropertyModified(pScript->Instance(), pProp);
     }
+
+    // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
+    if (pProp->Type() == EPropertyType::Asset)
+    {
+        CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
+        const CResTypeFilter& rkFilter = pAsset->GetTypeFilter();
+
+        if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
+            SelectionModified();
+    }
+    else if (pProp->Type() == EPropertyType::AnimationSet)
+        SelectionModified();
+
+    // Emit signal so other widgets can react to the property change
+    emit PropertyModified(pObject, pProp);
 }
 
 void CWorldEditor::SetSelectionActive(bool Active)
@@ -622,12 +626,9 @@ void CWorldEditor::SetSelectionActive(bool Active)
     {
         if (It->NodeType() == eScriptNode)
         {
-            CScriptNode *pScript = static_cast<CScriptNode*>(*It);
-            CScriptObject *pInst = pScript->Instance();
-            IProperty *pActive = pInst->ActiveProperty();
-
-            if (pActive)
-                Objects << pInst;
+            CScriptNode* pScript = static_cast<CScriptNode*>(*It);
+            CScriptObject* pInst = pScript->Instance();
+            Objects << pInst;
         }
     }
 
@@ -635,12 +636,39 @@ void CWorldEditor::SetSelectionActive(bool Active)
     {
         mUndoStack.beginMacro("Toggle Active");
 
-        foreach (CScriptObject *pInst, Objects)
+        while (!Objects.isEmpty())
         {
-            IProperty *pActive = pInst->ActiveProperty();
-            IPropertyValue *pOld = pActive->RawValue()->Clone();
-            pInst->SetActive(Active);
-            mUndoStack.push(new CEditScriptPropertyCommand(pActive, this, pOld, true));
+            QVector<CScriptObject*> CommandObjects;
+            CScriptTemplate* pTemplate = Objects[0]->Template();
+            CBoolProperty* pActiveProperty = pTemplate->ActiveProperty();
+
+            for (int ObjIdx = 0; ObjIdx < Objects.size(); ObjIdx++)
+            {
+                if (Objects[ObjIdx]->Template() == pTemplate)
+                {
+                    CommandObjects << Objects[ObjIdx];
+                    Objects.removeAt(ObjIdx);
+                    ObjIdx--;
+                }
+            }
+
+            if (pActiveProperty)
+            {
+                CEditScriptPropertyCommand* pCommand = new CEditScriptPropertyCommand(
+                            pActiveProperty,
+                            this,
+                            CommandObjects
+                        );
+
+                pCommand->SaveOldData();
+
+                foreach (CScriptObject* pInstance, CommandObjects)
+                    pInstance->SetActive(Active);
+
+                pCommand->SaveNewData();
+
+                mUndoStack.push(pCommand);
+            }
         }
 
         mUndoStack.endMacro();
@@ -651,11 +679,10 @@ void CWorldEditor::SetSelectionInstanceNames(const QString& rkNewName, bool IsDo
 {
     // todo: this only supports one node at a time because a macro prevents us from merging undo commands
     // this is fine right now because this function is only ever called with a selection of one node, but probably want to fix in the future
-    if (mpSelection->Size() == 1 && mpSelection->Front()->NodeType() == eScriptNode)
+    /*if (mpSelection->Size() == 1 && mpSelection->Front()->NodeType() == eScriptNode)
     {
         CScriptNode *pNode = static_cast<CScriptNode*>(mpSelection->Front());
         CScriptObject *pInst = pNode->Instance();
-        IProperty *pName = pInst->InstanceNameProperty();
 
         if (pName)
         {
@@ -664,7 +691,7 @@ void CWorldEditor::SetSelectionInstanceNames(const QString& rkNewName, bool IsDo
             pInst->SetName(NewName);
             mUndoStack.push(new CEditScriptPropertyCommand(pName, this, pOld, IsDone, "Edit Instance Name"));
         }
-    }
+    }*/
 }
 
 void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)
@@ -744,7 +771,7 @@ void CWorldEditor::UpdateWindowTitle()
         {
             WindowTitle += " - " + TO_QSTRING(mpWorld->InGameName());
 
-            if (mpArea && CurrentGame() < eReturns)
+            if (mpArea && CurrentGame() < EGame::DKCReturns)
                 WindowTitle += " - " + TO_QSTRING( mpWorld->AreaInGameName(mpArea->WorldIndex()) );
         }
     }
@@ -1349,4 +1376,10 @@ void CWorldEditor::EditLayers()
     CLayerEditor Editor(this);
     Editor.SetArea(mpArea);
     Editor.exec();
+}
+
+void CWorldEditor::GeneratePropertyNames()
+{
+    // Launch property name generation dialog
+    mpGeneratePropertyNamesDialog->show();
 }

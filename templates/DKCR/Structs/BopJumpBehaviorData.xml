@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BopJumpBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x76E170EF">
+                <DefaultValue>0x779C23E7</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x779C23E7"/>
+                    <Element Name="Unknown 2" ID="0x5D17FD5"/>
+                    <Element Name="Unknown 3" ID="0x23FFF85A"/>
+                </Values>
+            </Element>
+            <Element Type="Int" ID="0xF2B3C5A1">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCB560763" Archetype="BopJumpData"/>
+            <Element Type="Struct" ID="0xBCC8D593" Archetype="BopJumpData">
+                <SubProperties>
+                    <Element Type="Float" ID="0xC2BE030D">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC3BF43BE">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x276D99FC" Archetype="BopJumpData"/>
+            <Element Type="Struct" ID="0x53F57073" Archetype="BopJumpData"/>
+            <Element Type="Struct" ID="0xC8503C1C" Archetype="BopJumpData"/>
+            <Element Type="Float" ID="0x36F3D4FA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3BB99C78">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5FA020FF">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x15558F8">
+                <DefaultValue>0xA09C5814</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xA09C5814"/>
+                    <Element Name="Unknown 2" ID="0x66F9AD10"/>
+                    <Element Name="Unknown 3" ID="0xDA96FEC6"/>
+                    <Element Name="Unknown 4" ID="0x509ED234"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xAEB97157">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x23CB4476">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x571855A7">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE9E0BEB6">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC946D3EF">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x783B382F">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB2F99759">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

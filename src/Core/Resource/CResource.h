@@ -51,7 +51,7 @@ public:
     inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
     inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
     inline CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
-    inline EGame Game() const               { return mpEntry ? mpEntry->Game() : eUnknownGame; }
+    inline EGame Game() const               { return mpEntry ? mpEntry->Game() : EGame::Invalid; }
     inline bool IsReferenced() const        { return mRefCount > 0; }
     inline void Lock()                      { mRefCount++; }
     inline void Release()                   { mRefCount--; }

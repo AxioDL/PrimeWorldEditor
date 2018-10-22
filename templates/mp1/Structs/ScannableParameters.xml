@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ScannableParameters" type="multi">
-    <properties>
-        <property ID="0x00" name="Scan File" type="asset" extensions="SCAN"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>ScannableParameters</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x0">
+                <Name>Scan File</Name>
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

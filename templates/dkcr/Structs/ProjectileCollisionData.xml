@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ProjectileCollisionData" type="multi">
-    <properties>
-        <property ID="0xA9F8A74F" type="long">
-            <default>64</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <enum ID="0xB674EA3D">
-            <default>0x3AF0EDA3</default>
-            <enumerators>
-                <enumerator ID="0x3AF0EDA3" name="Unknown 1"/>
-                <enumerator ID="0xC4263063" name="Unknown 2"/>
-                <enumerator ID="0x03D38B76" name="Unknown 3"/>
-                <enumerator ID="0x183EE363" name="Unknown 4"/>
-            </enumerators>
-        </enum>
-        <property ID="0xF3D6E959" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xFEF3D2DA" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0x2918609B" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ProjectileCollisionData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xA9F8A74F">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>64</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xB674EA3D">
+                <DefaultValue>0x3AF0EDA3</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x3AF0EDA3"/>
+                    <Element Name="Unknown 2" ID="0xC4263063"/>
+                    <Element Name="Unknown 3" ID="0x3D38B76"/>
+                    <Element Name="Unknown 4" ID="0x183EE363"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xF3D6E959">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xFEF3D2DA">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2918609B">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

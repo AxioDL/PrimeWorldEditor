@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ZoomBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Spline" ID="0x343A18A7"/>
+            <Element Type="Bool" ID="0x82AF371E">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6F76EC5E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6D18C318">
+                <DefaultValue>1.777</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xACE23AC6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x2D839E6F"/>
+            <Element Type="Bool" ID="0xF88D7EF2">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x906E98FA">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD6C9529">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x92F7FD8" Archetype="Convergence">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x2EF22401">
+                        <DefaultValue>0xBCC8352</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xCF33816">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xB3823863">
+                                <DefaultValue>15.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xACB1CDCB">
+                                <DefaultValue>100.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x29E06213" Archetype="Convergence"/>
+            <Element Type="Bool" ID="0xB21E67C8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54F1A14">
+                <DefaultValue>30.5</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

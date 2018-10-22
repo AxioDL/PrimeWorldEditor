@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerShieldData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x5A15D127">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCD420D23" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0xBBA7341E" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0x20D4DECA" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0x566D4664" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0xCD1EACB0" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0xBBFB958D" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0x20887F59" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0x5688A4D1" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0xCDFB4E05" Archetype="PlayerShieldSplineData"/>
+            <Element Type="Struct" ID="0xEC7B7C4D" Archetype="PlayerShieldSplineData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

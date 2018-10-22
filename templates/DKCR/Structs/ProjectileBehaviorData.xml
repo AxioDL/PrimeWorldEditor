@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ProjectileBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xBEC99005">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xB8F60F9A">
+                <DefaultValue>0x20A7F919</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x20A7F919"/>
+                    <Element Name="Unknown 2" ID="0x6788D005"/>
+                    <Element Name="Unknown 3" ID="0xDB2A62A5"/>
+                    <Element Name="Unknown 4" ID="0x77EDD05A"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0x41F09DE5">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3E8817AA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E94D98E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE296B29F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x82DBFCF1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x56256F59">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x17E5811D">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3E486DC0">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2ACBFB27">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE3F96A88">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x3E0121C3" Archetype="DamageEffectData"/>
+            <Element Type="Struct" ID="0x7F313285" Archetype="DamageEffectData"/>
+            <Element Type="Struct" ID="0xF897F9C6" Archetype="DamageEffectData"/>
+            <Element Type="Bool" ID="0x5318357D">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xAB0F5158">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB9E149E6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCED50F78">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD0E7F960">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x140EF2CC">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

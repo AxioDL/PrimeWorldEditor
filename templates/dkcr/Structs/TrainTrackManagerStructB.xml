@@ -1,24 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="TrainTrackManagerStructB" type="multi">
-    <properties>
-        <property ID="0xBD0B7EDE" type="string"/>
-        <property ID="0xFCAB0249" type="string"/>
-        <struct ID="0x31770D3F" type="multi">
-            <properties>
-                <enum ID="0xB8F60F9A">
-                    <default>0xEA8DB211</default>
-                    <enumerators>
-                        <enumerator ID="0xEA8DB211" name="Unknown 1"/>
-                        <enumerator ID="0x05E9E00B" name="Unknown 2"/>
-                        <enumerator ID="0x89111EB2" name="Unknown 3"/>
-                        <enumerator ID="0xE50381C9" name="Unknown 4"/>
-                        <enumerator ID="0xEDA512EA" name="Unknown 5"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xEFA904BE" type="long">
-                    <default>0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TrainTrackManagerStructB</Name>
+        <SubProperties>
+            <Element Type="String" ID="0xBD0B7EDE"/>
+            <Element Type="String" ID="0xFCAB0249"/>
+            <Element Type="Struct" ID="0x31770D3F" Archetype="UnknownStruct272"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

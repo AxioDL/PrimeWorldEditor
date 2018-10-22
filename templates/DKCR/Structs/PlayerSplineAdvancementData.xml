@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerSplineAdvancementData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xE29BF306" Archetype="PlayerMovementParameters"/>
+            <Element Type="Struct" ID="0xB0C8B06F" Archetype="PlayerMovementParameters"/>
+            <Element Type="Float" ID="0xCF03CB0C">
+                <DefaultValue>450.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x38EAD53">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x49A33669">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7BF5CD04">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x67259B23">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x42D71A58">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5FF2321F">
+                <DefaultValue>0.079999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAE72A4FF">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDE7532C0">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6F38B02D">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x793AB356">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x49494C3B">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

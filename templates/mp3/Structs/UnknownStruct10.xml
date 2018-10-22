@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct10" type="multi">
-    <properties>
-        <property ID="0xE4103CCE" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x73C0F1AE" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x923109D6" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x10CDA13D" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x78C507EB" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x2D72A3D3" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x2A1D3A89" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0xA19C4B46" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x17895CD7" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0xF66CA675" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x8FD14AA3" type="float">
-            <default>0.05</default>
-        </property>
-        <property ID="0x0A17FBF7" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x4D04B4F8" type="float">
-            <default>0.05</default>
-        </property>
-        <property ID="0x4ECAC914" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x6A922800" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xD83B3ECA" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x6A5BD5E5" template="Structs/DamageInfo.xml"/>
-        <struct ID="0xF6206A12" template="Structs/DamageInfo.xml"/>
-        <property ID="0xA55DACF6" type="asset" extensions="CAUD"/>
-        <property ID="0x6575BF29" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x8B51E23F" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xE8835D69" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct10</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xE4103CCE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x73C0F1AE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x923109D6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10CDA13D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x78C507EB">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D72A3D3">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2A1D3A89">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA19C4B46">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x17895CD7">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF66CA675">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8FD14AA3">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA17FBF7">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D04B4F8">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4ECAC914">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6A922800">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD83B3ECA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6A5BD5E5" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xF6206A12" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xA55DACF6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x6575BF29">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B51E23F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE8835D69">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

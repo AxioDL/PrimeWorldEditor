@@ -4,12 +4,14 @@
 #include "CResourceStore.h"
 #include "Core/CompressionUtil.h"
 #include "Core/Resource/CWorld.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/AssertMacro.h>
 #include <Common/CScopedTimer.h>
 #include <Common/FileIO.h>
 #include <Common/FileUtil.h>
 #include <Common/Serialization/CXMLWriter.h>
+
+#include <nod/nod.hpp>
 #include <tinyxml2.h>
 
 #define LOAD_PAKS 1
@@ -27,8 +29,8 @@ CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, EReg
     , mFrontEnd(FrontEnd)
     , mpProgress(nullptr)
 {
-    ASSERT(mGame != eUnknownGame);
-    ASSERT(mRegion != eRegion_Unknown);
+    ASSERT(mGame != EGame::Invalid);
+    ASSERT(mRegion != ERegion::Unknown);
 }
 
 bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress)
@@ -112,15 +114,15 @@ bool CGameExporter::ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot)
 
             switch (mGame)
             {
-            case ePrime:
+            case EGame::Prime:
                 return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "MP1JPN") ||
                          (mDiscType == eDT_Trilogy && pkNode->getName() == "MP1") );
 
-            case eEchoes:
+            case EGame::Echoes:
                 return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "MP2JPN") ||
                          (mDiscType == eDT_Trilogy && pkNode->getName() == "MP2") );
 
-            case eCorruption:
+            case EGame::Corruption:
                 return (mDiscType == eDT_Trilogy && pkNode->getName() == "MP3");
 
             default:
@@ -140,15 +142,15 @@ bool CGameExporter::ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot)
 
             switch (mGame)
             {
-            case ePrime:
+            case EGame::Prime:
                 return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "rs5mp1jpn_p.dol") ||
                          (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp1_p.dol") );
 
-            case eEchoes:
+            case EGame::Echoes:
                 return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "rs5mp2jpn_p.dol") ||
                          (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp2_p.dol") );
 
-            case eCorruption:
+            case EGame::Corruption:
                 return (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp3_p.dol");
 
             default:
@@ -176,11 +178,11 @@ bool CGameExporter::ExtractDiscData()
     FileUtil::MakeDirectory(AbsDiscDir);
 
     // Extract disc filesystem
-    nod::Partition *pDataPartition = mpDisc->getDataPartition();
+    nod::IPartition *pDataPartition = mpDisc->getDataPartition();
     nod::ExtractionContext Context;
     Context.force = false;
-    Context.progressCB = [&](const std::string& rkDesc, float ProgressPercent) {
-        mpProgress->Report((int) (ProgressPercent * 10000), 10000, rkDesc);
+    Context.progressCB = [&](const std::string_view rkDesc, float ProgressPercent) {
+        mpProgress->Report((int) (ProgressPercent * 10000), 10000, rkDesc.data());
     };
 
     TString FilesDir = AbsDiscDir + "files/";
@@ -223,7 +225,7 @@ bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TStr
 
         if (Iter->getKind() == nod::Node::Kind::File)
         {
-            TString FilePath = rkDir + Iter->getName();
+            TString FilePath = rkDir + Iter->getName().data();
             bool Success = Iter->extractToDirectory(*rkDir.ToUTF16(), rkContext);
             if (!Success) return false;
 
@@ -237,7 +239,7 @@ bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TStr
 
         else
         {
-            TString Subdir = rkDir + Iter->getName() + "/";
+            TString Subdir = rkDir + Iter->getName().data() + "/";
             bool Success = FileUtil::MakeDirectory(Subdir);
             if (!Success) return false;
 
@@ -274,7 +276,7 @@ void CGameExporter::LoadPaks()
         CPackage *pPackage = new CPackage(mpProject, PakPath.GetFileName(false), RelPakPath);
 
         // MP1-MP3Proto
-        if (mGame < eCorruption)
+        if (mGame < EGame::Corruption)
         {
             u32 PakVersion = Pak.ReadLong();
             Pak.Seek(0x4, SEEK_CUR);
@@ -392,7 +394,7 @@ void CGameExporter::LoadPaks()
                             mResourceMap[ResID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed, false };
 
                         // Check for duplicate resources (unnecessary for DKCR)
-                        if (mGame != eReturns)
+                        if (mGame != EGame::DKCReturns)
                         {
                             if (Type == "MREA")
                             {
@@ -434,9 +436,9 @@ void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vecto
         // Handle compression
         if (rkResource.Compressed)
         {
-            bool ZlibCompressed = (mGame <= eEchoesDemo || mGame == eReturns);
+            bool ZlibCompressed = (mGame <= EGame::EchoesDemo || mGame == EGame::DKCReturns);
 
-            if (mGame <= eCorruptionProto)
+            if (mGame <= EGame::CorruptionProto)
             {
                 std::vector<u8> CompressedData(rkResource.PakSize);
 
@@ -682,14 +684,14 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
     {
         // World names are basically formatted differently in every game...
         // MP1 demo - Remove ! from the beginning
-        if (mGame == ePrimeDemo)
+        if (mGame == EGame::PrimeDemo)
         {
             if (WorldName.StartsWith('!'))
                 WorldName = WorldName.ChopFront(1);
         }
 
         // MP1 - Remove prefix characters and ending date
-        else if (mGame == ePrime)
+        else if (mGame == EGame::Prime)
         {
             WorldName = WorldName.ChopFront(2);
             bool StartedDate = false;
@@ -708,7 +710,7 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         }
 
         // MP2 demo - Use text between the first and second underscores
-        else if (mGame == eEchoesDemo)
+        else if (mGame == EGame::EchoesDemo)
         {
             u32 UnderscoreA = WorldName.IndexOf('_');
             u32 UnderscoreB = WorldName.IndexOf('_', UnderscoreA + 1);
@@ -718,7 +720,7 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         }
 
         // MP2 - Remove text before first underscore and after last underscore, strip remaining underscores (except multiplayer maps, which have one underscore)
-        else if (mGame == eEchoes)
+        else if (mGame == EGame::Echoes)
         {
             u32 FirstUnderscore = WorldName.IndexOf('_');
             u32 LastUnderscore = WorldName.LastIndexOf('_');
@@ -732,7 +734,7 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         }
 
         // MP3 proto - Remove ! from the beginning and all text after last underscore
-        else if (mGame == eCorruptionProto)
+        else if (mGame == EGame::CorruptionProto)
         {
             if (WorldName.StartsWith('!'))
                 WorldName = WorldName.ChopFront(1);
@@ -742,7 +744,7 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         }
 
         // MP3 - Remove text after last underscore
-        else if (mGame == eCorruption)
+        else if (mGame == EGame::Corruption)
         {
             u32 LastUnderscore = WorldName.LastIndexOf('_');
 
@@ -751,7 +753,7 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         }
 
         // DKCR - Remove text prior to first underscore
-        else if (mGame == eReturns)
+        else if (mGame == EGame::DKCReturns)
         {
             u32 Underscore = WorldName.IndexOf('_');
             WorldName = WorldName.ChopFront(Underscore + 1);

@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct32" type="multi">
-    <properties>
-        <struct ID="0x493D6A2D" template="Structs/SplineType.xml"/>
-        <property ID="0x27E5F874" type="MayaSpline"/>
-        <property ID="0xFD1E2F56" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x4885DFFA" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xA5753D52" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x7FC96014" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x08BB73C5" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x3217DFF8" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct32</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x493D6A2D" Archetype="SplineType"/>
+            <Element Type="Spline" ID="0x27E5F874"/>
+            <Element Type="Float" ID="0xFD1E2F56">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4885DFFA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA5753D52">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7FC96014">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8BB73C5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3217DFF8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="VolcanoBossBodyPartStructA" type="multi">
-    <properties>
-        <enum ID="0x07D939A1">
-            <default>0xB5C34B64</default>
-            <enumerators>
-                <enumerator ID="0xB5C34B64" name="Unknown 1"/>
-                <enumerator ID="0xD9D0F7A1" name="Unknown 2"/>
-                <enumerator ID="0x0F58B676" name="Unknown 3"/>
-                <enumerator ID="0x2EFFCA90" name="Unknown 4"/>
-                <enumerator ID="0x28F6379E" name="Unknown 5"/>
-                <enumerator ID="0x6AB65AF9" name="Unknown 6"/>
-                <enumerator ID="0x1CA886EB" name="Unknown 7"/>
-                <enumerator ID="0x7DA3D58B" name="Unknown 8"/>
-                <enumerator ID="0xFA424E49" name="Unknown 9"/>
-                <enumerator ID="0xD3729B5A" name="Unknown 10"/>
-                <enumerator ID="0x5419A724" name="Unknown 11"/>
-            </enumerators>
-        </enum>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>VolcanoBossBodyPartStructA</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x7D939A1">
+                <DefaultValue>0xB5C34B64</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB5C34B64"/>
+                    <Element Name="Unknown 2" ID="0xD9D0F7A1"/>
+                    <Element Name="Unknown 3" ID="0xF58B676"/>
+                    <Element Name="Unknown 4" ID="0x2EFFCA90"/>
+                    <Element Name="Unknown 5" ID="0x28F6379E"/>
+                    <Element Name="Unknown 6" ID="0x6AB65AF9"/>
+                    <Element Name="Unknown 7" ID="0x1CA886EB"/>
+                    <Element Name="Unknown 8" ID="0x7DA3D58B"/>
+                    <Element Name="Unknown 9" ID="0xFA424E49"/>
+                    <Element Name="Unknown 10" ID="0xD3729B5A"/>
+                    <Element Name="Unknown 11" ID="0x5419A724"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

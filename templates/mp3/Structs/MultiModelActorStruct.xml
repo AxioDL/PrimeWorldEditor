@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="MultiModelActorStruct" type="multi">
-    <properties>
-        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
-        <property ID="0xD4124C4C" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>MultiModelActorStruct</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xD4124C4C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

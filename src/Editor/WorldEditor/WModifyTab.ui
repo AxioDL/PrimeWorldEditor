@@ -108,7 +108,7 @@
             <x>0</x>
             <y>0</y>
             <width>278</width>
-            <height>442</height>
+            <height>475</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
@@ -367,13 +367,6 @@
        </item>
       </layout>
      </widget>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="LightGroupBox">
-     <property name="title">
-      <string>Light</string>
-     </property>
     </widget>
    </item>
   </layout>

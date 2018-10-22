@@ -22,6 +22,7 @@ public:
     CVector3f(IInputStream& rInput);
     void Write(IOutputStream& rOutput) const;
     void Serialize(IArchive& rArc);
+    TString ToString() const;
 
     // Swizzle
     CVector2f XY();

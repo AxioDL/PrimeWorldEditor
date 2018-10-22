@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>PrimeStruct1</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>Unknown 6</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>Unknown 7</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Unknown 8</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>Unknown 9</Name>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>Unknown 10</Name>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>Unknown 11</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>Unknown 12</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>Unknown 13</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>Unknown 14</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

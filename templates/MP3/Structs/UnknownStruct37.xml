@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct37</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC4489506">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x31CA76C8">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x963C1729">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x480103F3" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xD80B1F34" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x5324CBFB">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x4F387C49">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFFE83B77">
+                <TypeFilter>
+                    <Element>SWHC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3D313DA6">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5C5BCE53">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB97C1467">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

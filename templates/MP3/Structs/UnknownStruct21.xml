@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct21</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x2B082C6D" Archetype="BerserkerEnum">
+                <DefaultValue>0xF12A35C6</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

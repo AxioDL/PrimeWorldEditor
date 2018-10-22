@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="KorakkData" type="multi">
-    <properties>
-        <property ID="0x27B15C35" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x6C6B5700" type="long">
-            <default>4</default>
-        </property>
-        <struct ID="0xED7EDCA3" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0xDA5E9630" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x508F7177" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x77941011" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x4D07F7B1" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x21A2121D" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x8333B35F" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x946016A9" template="Structs/DamageInfo.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>KorakkData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x27B15C35">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6C6B5700">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xED7EDCA3" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xDA5E9630" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x508F7177" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x77941011" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x4D07F7B1" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x21A2121D" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x8333B35F" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x946016A9" Archetype="DamageInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

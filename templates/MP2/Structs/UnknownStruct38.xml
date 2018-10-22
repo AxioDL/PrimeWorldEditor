@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct38</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x3642A398">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE34DC703">
+                <DefaultValue>180.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x8D3BA8AE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB99098D9">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xB3252324">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>1.0</Y>
+                    <Z>5.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

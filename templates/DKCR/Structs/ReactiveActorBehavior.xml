@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ReactiveActorBehavior</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xDE87546A">
+                <DefaultValue>0x62269F84</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x62269F84"/>
+                    <Element Name="Unknown 2" ID="0x24C32EF7"/>
+                    <Element Name="Unknown 3" ID="0xBE5A0FFD"/>
+                    <Element Name="Unknown 4" ID="0x3303AD85"/>
+                    <Element Name="Unknown 5" ID="0x7D3B8557"/>
+                    <Element Name="Unknown 6" ID="0xC014DE6C"/>
+                    <Element Name="Unknown 7" ID="0x28F606E6"/>
+                    <Element Name="Unknown 8" ID="0x9E9C49C1"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xD5699264">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x16A95D42">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x793A3F7">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x982948DB">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBB0EE668">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21311DCE">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21CDCF21">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x8FFEFC1E">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

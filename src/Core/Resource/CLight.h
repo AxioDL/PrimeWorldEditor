@@ -1,6 +1,7 @@
 #ifndef CLIGHT_H
 #define CLIGHT_H
 
+#include "Core/Resource/Script/Property/Properties.h"
 #include <Common/CColor.h>
 #include <Common/FileIO/IInputStream.h>
 #include <Math/CVector3f.h>
@@ -61,6 +62,8 @@ public:
     void SetSpotCutoff(float Cutoff);
     void SetDistAtten(float DistCoefA, float DistCoefB, float DistCoefC);
     void SetAngleAtten(float AngleCoefA, float AngleCoefB, float AngleCoefC);
+
+    CStructProperty* GetProperties() const;
 
     // Other
     void Load() const;

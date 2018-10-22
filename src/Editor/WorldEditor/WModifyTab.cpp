@@ -40,8 +40,6 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
 
     ui->InLinksTableView->setModel(mpInLinkModel);
     ui->OutLinksTableView->setModel(mpOutLinkModel);
-    ui->InLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    ui->OutLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     connect(ui->InLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
     connect(ui->OutLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
     connect(ui->InLinksTableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(OnLinksSelectionModified()));
@@ -69,7 +67,6 @@ void WModifyTab::ClearUI()
 {
     ui->ObjectsTabWidget->hide();
     ui->PropertyView->SetInstance(nullptr);
-    ui->LightGroupBox->hide();
     mpSelectedNode = nullptr;
 }
 
@@ -85,22 +82,34 @@ void WModifyTab::GenerateUI()
         {
             mpSelectedNode = mpWorldEditor->Selection()->Front();
 
-            // todo: set up editing UI for Light Nodes
             if (mpSelectedNode->NodeType() == eScriptNode)
             {
-                ui->ObjectsTabWidget->show();
                 CScriptNode *pScriptNode = static_cast<CScriptNode*>(mpSelectedNode);
                 CScriptObject *pObj = pScriptNode->Instance();
 
                 // Set up UI
+                ui->ObjectsTabWidget->show();
                 ui->PropertyView->SetInstance(pObj);
-                ui->LightGroupBox->hide();
-
-                ui->InLinksTableView->clearSelection();
-                ui->OutLinksTableView->clearSelection();
                 mpInLinkModel->SetObject(pObj);
                 mpOutLinkModel->SetObject(pObj);
             }
+            // disabled this for now! implemented it as a quick test, it's cool it works,
+            // but it's buggy & not ready for deployment
+#if 0
+            else
+            {
+                CStructRef Properties = mpSelectedNode->GetProperties();
+                ui->PropertyView->SetProperties(Properties);
+
+                if (Properties.IsValid())
+                    ui->ObjectsTabWidget->show();
+            }
+#endif
+
+            ui->InLinksTableView->clearSelection();
+            ui->OutLinksTableView->clearSelection();
+            ui->InLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+            ui->OutLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
         }
     }
 

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>PrimeStruct2</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Bool" ID="0x0">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Struct" ID="0x3" Archetype="PrimeStruct3">
+                <Name>PrimeStruct3 1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x4" Archetype="PrimeStruct3">
+                <Name>PrimeStruct3 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x5" Archetype="PrimeStruct3">
+                <Name>PrimeStruct3 3</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

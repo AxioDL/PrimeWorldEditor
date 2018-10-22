@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>Data</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xF6AE5D7C" Archetype="ControlCommands">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x418B3422">
+                        <DefaultValue>0x6AD40029</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xD2FD4F74" Archetype="ControlCommands">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x418B3422">
+                        <DefaultValue>0xE08296BA</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x35D40B67">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x82941381">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE83776E6">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF804D41C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE399B75A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDD31E55A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB5BBE88A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB12E58B8">
+                <DefaultValue>100</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x4289B15B" Archetype="BeatUpHandlerStruct"/>
+            <Element Type="Struct" ID="0x351763AB" Archetype="BeatUpHandlerStruct"/>
+            <Element Type="Struct" ID="0xAEB22FC4" Archetype="BeatUpHandlerStruct"/>
+            <Element Type="Asset" ID="0x552DB72C">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

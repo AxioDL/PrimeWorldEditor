@@ -14,12 +14,12 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
      * We start immediately after the "version" value (0x8 in the file)
      */
     // Header
-    if (mVersion < eCorruptionProto)
+    if (mVersion < EGame::CorruptionProto)
     {
         mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), eStringTable);
-        if (mVersion == eEchoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), eStringTable);
-        if (mVersion >= eEchoes) mpWorld->mTempleKeyWorldIndex = rMLVL.ReadLong();
-        if (mVersion >= ePrime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), eSaveWorld);
+        if (mVersion == EGame::Echoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), eStringTable);
+        if (mVersion >= EGame::Echoes) mpWorld->mTempleKeyWorldIndex = rMLVL.ReadLong();
+        if (mVersion >= EGame::Prime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), eSaveWorld);
         mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLong(), eModel);
     }
 
@@ -32,7 +32,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     }
 
     // Memory relays - only in MP1
-    if (mVersion == ePrime)
+    if (mVersion == EGame::Prime)
     {
         u32 NumMemoryRelays = rMLVL.ReadLong();
         mpWorld->mMemoryRelays.reserve(NumMemoryRelays);
@@ -50,7 +50,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
     // Areas - here's the real meat of the file
     u32 NumAreas = rMLVL.ReadLong();
-    if (mVersion == ePrime) rMLVL.Seek(0x4, SEEK_CUR);
+    if (mVersion == EGame::Prime) rMLVL.Seek(0x4, SEEK_CUR);
     mpWorld->mAreas.resize(NumAreas);
 
     for (u32 iArea = 0; iArea < NumAreas; iArea++)
@@ -70,7 +70,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
             pArea->AttachedAreaIDs.push_back( rMLVL.ReadShort() );
 
         // Skip dependency list - this is very fast to regenerate so there's no use in caching it
-        if (mVersion < eCorruptionProto)
+        if (mVersion < EGame::CorruptionProto)
         {
             rMLVL.Seek(0x4, SEEK_CUR);
             u32 NumDependencies = rMLVL.ReadLong();
@@ -108,7 +108,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
         }
 
         // Rels
-        if ( (mVersion == eEchoesDemo) || (mVersion == eEchoes) )
+        if ( (mVersion == EGame::EchoesDemo) || (mVersion == EGame::Echoes) )
         {
             u32 NumRels = rMLVL.ReadLong();
             pArea->RelFilenames.resize(NumRels);
@@ -116,7 +116,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
             for (u32 iRel = 0; iRel < NumRels; iRel++)
                 pArea->RelFilenames[iRel] = rMLVL.ReadString();
 
-            if (mVersion == eEchoes)
+            if (mVersion == EGame::Echoes)
             {
                 u32 NumRelOffsets = rMLVL.ReadLong(); // Don't know what these offsets correspond to
                 pArea->RelOffsets.resize(NumRelOffsets);
@@ -127,7 +127,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
         }
 
         // Internal name - MP1 doesn't have this, we'll get it from the GameInfo file later
-        if (mVersion >= eEchoesDemo)
+        if (mVersion >= EGame::EchoesDemo)
             pArea->InternalName = rMLVL.ReadString();
     }
 
@@ -136,7 +136,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     rMLVL.Seek(0x5, SEEK_CUR); // Unknown values which are always 0
 
     // Audio Groups - we don't need this info as we regenerate it on cook
-    if (mVersion == ePrime)
+    if (mVersion == EGame::Prime)
     {
         u32 NumAudioGrps = rMLVL.ReadLong();
         rMLVL.Seek(0x8 * NumAudioGrps, SEEK_CUR);
@@ -168,7 +168,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     }
 
     // Layer state IDs
-    if (mVersion >= eCorruption)
+    if (mVersion >= EGame::Corruption)
     {
         rMLVL.Seek(0x4, SEEK_CUR); // Skipping redundant layer count
         for (u32 iArea = 0; iArea < NumAreas; iArea++)
@@ -265,7 +265,7 @@ void CWorldLoader::GenerateEditorData()
 {
     CGameInfo *pGameInfo = mpWorld->Entry()->ResourceStore()->Project()->GameInfo();
 
-    if (mVersion <= ePrime)
+    if (mVersion <= EGame::Prime)
     {
         for (u32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
         {
@@ -289,7 +289,7 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
 
     u32 FileVersion = rMLVL.ReadLong();
     EGame Version = GetFormatVersion(FileVersion);
-    if (Version == eUnknownGame)
+    if (Version == EGame::Invalid)
     {
         Log::FileError(rMLVL.GetSourceString(), "Unsupported MLVL version: " + TString::HexString(FileVersion, 2));
         return nullptr;
@@ -300,7 +300,7 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
     Loader.mpWorld = new CWorld(pEntry);
     Loader.mVersion = Version;
 
-    if (Version != eReturns)
+    if (Version != EGame::DKCReturns)
         Loader.LoadPrimeMLVL(rMLVL);
     else
         Loader.LoadReturnsMLVL(rMLVL);
@@ -313,12 +313,12 @@ EGame CWorldLoader::GetFormatVersion(u32 Version)
 {
     switch (Version)
     {
-        case 0xD: return ePrimeDemo;
-        case 0x11: return ePrime;
-        case 0x14: return eEchoesDemo;
-        case 0x17: return eEchoes;
-        case 0x19: return eCorruption;
-        case 0x1B: return eReturns;
-        default: return eUnknownGame;
+        case 0xD: return EGame::PrimeDemo;
+        case 0x11: return EGame::Prime;
+        case 0x14: return EGame::EchoesDemo;
+        case 0x17: return EGame::Echoes;
+        case 0x19: return EGame::Corruption;
+        case 0x1B: return EGame::DKCReturns;
+        default: return EGame::Invalid;
     }
 }

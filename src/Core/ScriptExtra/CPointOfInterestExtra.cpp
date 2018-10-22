@@ -5,21 +5,21 @@ const CColor CPointOfInterestExtra::skImportantColor = CColor::Integral(0xFF,0x0
 
 CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
-    , mpScanProperty(nullptr)
     , mpScanData(nullptr)
 {
     // Fetch scan data property
-    CPropertyStruct *pBaseProp = pInstance->Properties();
+    CStructProperty* pProperties = pInstance->Template()->Properties();
 
-    if (mGame <= ePrime)    mpScanProperty = TPropCast<TAssetProperty>(pBaseProp->PropertyByIDString("0x04:0x00"));
-    else                    mpScanProperty = (TAssetProperty*) pBaseProp->PropertyByIDString("0xBDBEC295:0xB94E9BE7");
-    if (mpScanProperty) PropertyModified(mpScanProperty);
+    if (mGame <= EGame::Prime)  mScanProperty = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIDString("0x04:0x00"));
+    else                        mScanProperty = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIDString("0xBDBEC295:0xB94E9BE7"));
+
+    PropertyModified(mScanProperty.Property());
 }
 
 void CPointOfInterestExtra::PropertyModified(IProperty* pProperty)
 {
-    if (mpScanProperty == pProperty)
-        mpScanData = gpResourceStore->LoadResource<CScan>( mpScanProperty->Get() );
+    if (mScanProperty.Property() == pProperty)
+        mpScanData = gpResourceStore->LoadResource<CScan>( mScanProperty.Get() );
 }
 
 void CPointOfInterestExtra::ModifyTintColor(CColor& Color)

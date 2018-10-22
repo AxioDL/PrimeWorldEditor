@@ -11,6 +11,8 @@
 const TString gkGameInfoDir = "../resources/gameinfo";
 const TString gkGameInfoExt = "xml";
 
+//@todo merge this class into CGameTemplate
+// they serve similar purposes, no real reason for them to be different classes
 class CGameInfo
 {
     EGame mGame;
@@ -24,7 +26,9 @@ class CGameInfo
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SERIAL_AUTO(Version) << SERIAL_AUTO(Region) << SERIAL_AUTO(Name);
+            rArc << SerialParameter("Version", Version)
+                 << SerialParameter("Region", Region)
+                 << SerialParameter("Name", Name);
         }
     };
     std::vector<SBuildInfo> mBuilds;
@@ -34,7 +38,7 @@ class CGameInfo
 
 public:
     CGameInfo()
-        : mGame(eUnknownGame)
+        : mGame(EGame::Invalid)
     {}
 
     bool LoadGameInfo(EGame Game);

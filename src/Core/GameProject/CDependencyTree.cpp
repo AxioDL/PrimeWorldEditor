@@ -1,11 +1,10 @@
 #include "CDependencyTree.h"
 #include "Core/GameProject/CGameProject.h"
 #include "Core/Resource/Animation/CAnimSet.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
-
-CDependencyNodeFactory gDependencyNodeFactory;
+#include "Core/Resource/Script/NGameList.h"
 
 // ************ IDependencyNode ************
 IDependencyNode::~IDependencyNode()
@@ -31,6 +30,24 @@ void IDependencyNode::GetAllResourceReferences(std::set<CAssetID>& rOutSet) cons
         mChildren[iChild]->GetAllResourceReferences(rOutSet);
 }
 
+// Serialization constructor
+IDependencyNode* IDependencyNode::ArchiveConstructor(EDependencyNodeType Type)
+{
+    switch (Type)
+    {
+    case eDNT_DependencyTree:       return new CDependencyTree;
+    case eDNT_ResourceDependency:   return new CResourceDependency;
+    case eDNT_ScriptInstance:       return new CScriptInstanceDependency;
+    case eDNT_ScriptProperty:       return new CPropertyDependency;
+    case eDNT_CharacterProperty:    return new CCharPropertyDependency;
+    case eDNT_SetCharacter:         return new CSetCharacterDependency;
+    case eDNT_SetAnimation:         return new CSetAnimationDependency;
+    case eDNT_AnimEvent:            return new CAnimEventDependency;
+    case eDNT_Area:                 return new CAreaDependencyTree;
+    default:                        ASSERT(false); return nullptr;
+    }
+}
+
 // ************ CDependencyTree ************
 EDependencyNodeType CDependencyTree::Type() const
 {
@@ -39,7 +56,7 @@ EDependencyNodeType CDependencyTree::Type() const
 
 void CDependencyTree::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+    rArc << SerialParameter("Children", mChildren);
 }
 
 void CDependencyTree::AddChild(IDependencyNode *pNode)
@@ -78,7 +95,7 @@ EDependencyNodeType CResourceDependency::Type() const
 
 void CResourceDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("ID", mID);
+    rArc << SerialParameter("ID", mID);
 }
 
 void CResourceDependency::GetAllResourceReferences(std::set<CAssetID>& rOutSet) const
@@ -99,7 +116,7 @@ EDependencyNodeType CPropertyDependency::Type() const
 
 void CPropertyDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("PropertyID", mIDString);
+    rArc << SerialParameter("PropertyID", mIDString);
     CResourceDependency::Serialize(rArc);
 }
 
@@ -112,7 +129,7 @@ EDependencyNodeType CCharPropertyDependency::Type() const
 void CCharPropertyDependency::Serialize(IArchive& rArc)
 {
     CPropertyDependency::Serialize(rArc);
-    rArc << SERIAL("CharIndex", mUsedChar);
+    rArc << SerialParameter("CharIndex", mUsedChar);
 }
 
 // ************ CScriptInstanceDependency ************
@@ -123,8 +140,8 @@ EDependencyNodeType CScriptInstanceDependency::Type() const
 
 void CScriptInstanceDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("ObjectType", mObjectType)
-         << SERIAL_ABSTRACT_CONTAINER("Properties", mChildren, "Property", &gDependencyNodeFactory);
+    rArc << SerialParameter("ObjectType", mObjectType)
+         << SerialParameter("Properties", mChildren);
 }
 
 // Static
@@ -132,28 +149,32 @@ CScriptInstanceDependency* CScriptInstanceDependency::BuildTree(CScriptObject *p
 {
     CScriptInstanceDependency *pInst = new CScriptInstanceDependency();
     pInst->mObjectType = pInstance->ObjectTypeID();
-    ParseStructDependencies(pInst, pInstance->Properties());
+    ParseStructDependencies(pInst, pInstance, pInstance->Template()->Properties());
     return pInst;
 }
 
-void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependency *pInst, CPropertyStruct *pStruct)
+void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependency* pInst, CScriptObject* pInstance, CStructProperty *pStruct)
 {
     // Recursive function for parsing script dependencies and loading them into the script instance dependency
-    for (u32 iProp = 0; iProp < pStruct->Count(); iProp++)
+    void* pPropertyData = pInstance->PropertyData();
+
+    for (u32 PropertyIdx = 0; PropertyIdx < pStruct->NumChildren(); PropertyIdx++)
     {
-        IProperty *pProp = pStruct->PropertyByIndex(iProp);
+        IProperty *pProp = pStruct->ChildByIndex(PropertyIdx);
         EPropertyType Type = pProp->Type();
 
-        if (Type == eStructProperty || Type == eArrayProperty)
-            ParseStructDependencies(pInst, static_cast<CPropertyStruct*>(pProp));
+        // Technically we aren't parsing array children, but it's not really worth refactoring this function
+        // to support it when there aren't any array properties that contain any asset references anyway...
+        if (Type == EPropertyType::Struct)
+            ParseStructDependencies(pInst, pInstance, TPropCast<CStructProperty>(pProp));
 
-        else if (Type == eSoundProperty)
+        else if (Type == EPropertyType::Sound)
         {
-            u32 SoundID = static_cast<TSoundProperty*>(pProp)->Get();
+            u32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pPropertyData);
 
             if (SoundID != -1)
             {
-                CGameProject *pProj = pStruct->Instance()->Area()->Entry()->Project();
+                CGameProject *pProj = pInstance->Area()->Entry()->Project();
                 SSoundInfo Info = pProj->AudioManager()->GetSoundInfo(SoundID);
 
                 if (Info.pAudioGroup)
@@ -164,9 +185,9 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
             }
         }
 
-        else if (Type == eAssetProperty)
+        else if (Type == EPropertyType::Asset)
         {
-            CAssetID ID = static_cast<TAssetProperty*>(pProp)->Get();
+            CAssetID ID = TPropCast<CAssetProperty>(pProp)->Value(pPropertyData);
 
             if (ID.IsValid())
             {
@@ -175,16 +196,15 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
             }
         }
 
-        else if (Type == eCharacterProperty)
+        else if (Type == EPropertyType::AnimationSet)
         {
-            TCharacterProperty *pChar = static_cast<TCharacterProperty*>(pProp);
-            CAnimationParameters Params = pChar->Get();
+            CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pPropertyData);
             CAssetID ID = Params.ID();
 
             if (ID.IsValid())
             {
                 // Character sets are removed starting in MP3, so we only need char property dependencies in Echoes and earlier
-                if (pStruct->Instance()->Area()->Game() <= eEchoes)
+                if (pStruct->Game() <= EGame::Echoes)
                 {
                     CCharPropertyDependency *pDep = new CCharPropertyDependency(pProp->IDString(true), ID, Params.CharacterIndex());
                     pInst->mChildren.push_back(pDep);
@@ -207,8 +227,8 @@ EDependencyNodeType CSetCharacterDependency::Type() const
 
 void CSetCharacterDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("CharSetIndex", mCharSetIndex)
-         << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+    rArc << SerialParameter("CharSetIndex", mCharSetIndex)
+         << SerialParameter("Children", mChildren);
 }
 
 CSetCharacterDependency* CSetCharacterDependency::BuildTree(const SSetCharacter& rkChar)
@@ -252,8 +272,8 @@ EDependencyNodeType CSetAnimationDependency::Type() const
 
 void CSetAnimationDependency::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_CONTAINER("CharacterIndices", mCharacterIndices, "Index")
-         << SERIAL_ABSTRACT_CONTAINER("Children", mChildren, "Child", &gDependencyNodeFactory);
+    rArc << SerialParameter("CharacterIndices", mCharacterIndices)
+         << SerialParameter("Children", mChildren);
 }
 
 CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOwnerSet, u32 AnimIndex)
@@ -279,7 +299,7 @@ CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOw
         const CAnimPrimitive& rkPrim = *Iter;
         pTree->AddDependency(rkPrim.Animation());
 
-        if (pkOwnerSet->Game() >= eEchoesDemo)
+        if (pkOwnerSet->Game() >= EGame::EchoesDemo)
         {
             CAnimEventData *pEvents = pkOwnerSet->AnimationEventData(rkPrim.ID());
             ASSERT(pEvents && !pEvents->Entry());
@@ -299,7 +319,7 @@ EDependencyNodeType CAnimEventDependency::Type() const
 void CAnimEventDependency::Serialize(IArchive& rArc)
 {
     CResourceDependency::Serialize(rArc);
-    rArc << SERIAL("CharacterIndex", mCharIndex);
+    rArc << SerialParameter("CharacterIndex", mCharIndex);
 }
 
 // ************ CAreaDependencyTree ************
@@ -311,7 +331,7 @@ EDependencyNodeType CAreaDependencyTree::Type() const
 void CAreaDependencyTree::Serialize(IArchive& rArc)
 {
     CDependencyTree::Serialize(rArc);
-    rArc << SERIAL_CONTAINER("LayerOffsets", mLayerOffsets, "Offset");
+    rArc << SerialParameter("LayerOffsets", mLayerOffsets);
 }
 
 void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector<CAssetID>& rkExtraDeps)
@@ -326,7 +346,7 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
         ASSERT(pTree != nullptr);
 
         // Note: MP2+ need to track all instances (not just instances with dependencies) to be able to build the layer module list
-        if (pTree->NumChildren() > 0 || pLayer->Area()->Game() >= eEchoesDemo)
+        if (pTree->NumChildren() > 0 || pLayer->Area()->Game() >= EGame::EchoesDemo)
         {
             mChildren.push_back(pTree);
             pTree->GetAllResourceReferences(UsedIDs);
@@ -341,7 +361,7 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
 
 void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const
 {
-    CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
+    CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
     // Output module list will be split per-script layer
     // The output offset list contains two offsets per layer - start index and end index
@@ -367,7 +387,7 @@ void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>
             if (UsedObjectTypes.find(ObjType) == UsedObjectTypes.end())
             {
                 // Get the module list for this object type and check whether any of them are new before adding them to the output list
-                CScriptTemplate *pTemplate = pMaster->TemplateByID(ObjType);
+                CScriptTemplate *pTemplate = pGame->TemplateByID(ObjType);
                 const std::vector<TString>& rkModules = pTemplate->RequiredModules();
 
                 for (u32 iMod = 0; iMod < rkModules.size(); iMod++)

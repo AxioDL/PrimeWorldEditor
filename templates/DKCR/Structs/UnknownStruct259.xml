@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct259</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x26ECB939">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F2AE3E5">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEE382651">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x46B65220">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAB417B5D">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF4CB02A">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x396BEDD2">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE564F7B4">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8699AC03">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x663174BC">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68D787B4">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x686E030B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCDEABA73">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x904C4375">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE2AEEBFB">
+                <DefaultValue>12</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2144C2E2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC9292D7B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x12CBCDB4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF496803D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCB065EA2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x3A9808CF">
+                <TypeFilter>
+                    <Element>FSMC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x6435AFF">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB073B311">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x719345CF">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5B203CBA">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x483A338">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xE0DCFBBE" Archetype="UnknownStruct254"/>
+            <Element Type="Struct" ID="0x2540A671" Archetype="UnknownStruct255"/>
+            <Element Type="Struct" ID="0xAAC2F8DA" Archetype="UnknownStruct257"/>
+            <Element Type="Struct" ID="0x17C3E3EC" Archetype="UnknownStruct258"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

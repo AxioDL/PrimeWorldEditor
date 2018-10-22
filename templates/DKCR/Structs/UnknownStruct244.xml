@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct244</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xD5417338">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xD5E7B11E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xD258286D"/>
+            <Element Type="String" ID="0xE22DD9BB"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

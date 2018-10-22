@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct159</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x806052CB">
+                <TypeFilter>
+                    <Element>FRME</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xF0F0840B" Archetype="UnknownStruct26"/>
+            <Element Type="Struct" ID="0x3397F5E0" Archetype="UnknownStruct26"/>
+            <Element Type="Struct" ID="0x95833E87" Archetype="UnknownStruct26"/>
+            <Element Type="Asset" ID="0x518DD3DA">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD374144C">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6A89715B">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x52363FB6" Archetype="UnknownStruct158"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

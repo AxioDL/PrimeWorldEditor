@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct66</Name>
+        <Description>This struct isn't read by the game, so it has no ingame effect.</Description>
+        <SubProperties>
+            <Element Type="Bool" ID="0x18C7396A">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xBD0B7EDE"/>
+            <Element Type="Float" ID="0x6C84C588">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

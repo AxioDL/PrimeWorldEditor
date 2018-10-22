@@ -1,15 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LaunchProjectileData" type="multi">
-    <properties>
-        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
-        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-        <property ID="0xF726E5DA" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x14FFF39C" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
-        <property ID="0xA3E8EC4E" type="asset" extensions="CAUD"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>LaunchProjectileData</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xEF485DB9">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Vector" ID="0xF726E5DA">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14FFF39C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE9C8E2BD">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA3E8EC4E">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

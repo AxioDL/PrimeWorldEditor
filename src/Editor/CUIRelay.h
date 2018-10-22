@@ -25,6 +25,13 @@ public:
 
     // Note: All function calls should be deferred with QMetaObject::invokeMethod to ensure
     // that they run on the UI thread instead of whatever thread we happen to be on.
+    virtual void AsyncMessageBox(const TString& rkInfoBoxTitle, const TString& rkMessage)
+    {
+        QMetaObject::invokeMethod(this, "AsyncMessageBoxSlot", Qt::QueuedConnection,
+                                  Q_ARG(QString, TO_QSTRING(rkInfoBoxTitle)),
+                                  Q_ARG(QString, TO_QSTRING(rkMessage)) );
+    }
+
     virtual bool AskYesNoQuestion(const TString& rkInfoBoxTitle, const TString& rkQuestion)
     {
         bool RetVal;
@@ -36,6 +43,11 @@ public:
     }
 
 public slots:
+    void AsyncMessageBoxSlot(const QString& rkInfoBoxTitle, const QString& rkMessage)
+    {
+        UICommon::InfoMsg(gpEdApp->WorldEditor(), rkInfoBoxTitle, rkMessage);
+    }
+
     bool AskYesNoQuestionSlot(const QString& rkInfoBoxTitle, const QString& rkQuestion)
     {
         return UICommon::YesNoQuestion(gpEdApp->WorldEditor(), rkInfoBoxTitle, rkQuestion);

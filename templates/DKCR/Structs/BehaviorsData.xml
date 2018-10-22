@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BehaviorsData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xAB47975F" Archetype="BehaviorData">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x6403DAED">
+                        <DefaultValue>0xCD3D7CB1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x76D14EDA" Archetype="BehaviorData">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x6403DAED">
+                        <DefaultValue>0xA819961D</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xCB1B2214" Archetype="BehaviorData">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x6403DAED">
+                        <DefaultValue>0xC58D26AF</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x168DFB91" Archetype="BehaviorData">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x6403DAED">
+                        <DefaultValue>0xA177EB37</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x6BFEFDC9" Archetype="BehaviorData">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x6403DAED">
+                        <DefaultValue>0xC53C3ED5</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xB668244C" Archetype="BehaviorData"/>
+            <Element Type="Struct" ID="0xBA24882" Archetype="BehaviorData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

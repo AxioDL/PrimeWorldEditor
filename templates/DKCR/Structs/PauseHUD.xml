@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PauseHUD</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xEB03168D" Archetype="UnknownStruct149"/>
+            <Element Type="Struct" ID="0xCCD85456" Archetype="UnknownStruct150"/>
+            <Element Type="Struct" ID="0xB48315CC" Archetype="UnknownStruct151"/>
+            <Element Type="Struct" ID="0xB54DD084" Archetype="UnknownStruct34"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

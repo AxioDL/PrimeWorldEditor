@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct202</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x28CA1360">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x775A0160"/>
+            <Element Type="Int" ID="0x6EFDAB2">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD4292680" Archetype="JungleBossStructB"/>
+            <Element Type="Struct" ID="0x90880398" Archetype="JungleBossStructB"/>
+            <Element Type="Struct" ID="0xACE8E090" Archetype="JungleBossStructB"/>
+            <Element Type="Struct" ID="0x19CA49A8" Archetype="JungleBossStructB"/>
+            <Element Type="Struct" ID="0x25AAAAA0" Archetype="JungleBossStructB"/>
+            <Element Type="Struct" ID="0x610B8FB8" Archetype="JungleBossStructB"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

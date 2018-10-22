@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="TrackObjectModuleData" type="multi">
-    <properties>
-        <property ID="0x04F3DE3A" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x036DC8DD" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x37A12336" type="float">
-            <default>5.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TrackObjectModuleData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x4F3DE3A">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x36DC8DD">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x37A12336">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

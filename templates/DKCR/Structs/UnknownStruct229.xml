@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct229</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xC686AF51">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5DF3F980" Archetype="MoleCartStruct"/>
+            <Element Type="Struct" ID="0x2B16C0BD" Archetype="MoleCartStruct"/>
+            <Element Type="Struct" ID="0xB0652A69" Archetype="MoleCartStruct"/>
+            <Element Type="Struct" ID="0xC6DCB2C7" Archetype="MoleCartStruct"/>
+            <Element Type="Struct" ID="0x5DAF5813" Archetype="MoleCartStruct"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

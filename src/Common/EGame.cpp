@@ -2,97 +2,91 @@
 #include "CFourCC.h"
 #include "Common/Serialization/IArchive.h"
 
-CFourCC GetGameID(EGame Game)
-{
-    switch (Game)
-    {
-    case ePrimeDemo:        return "MP1D";
-    case ePrime:            return "MPRM";
-    case eEchoesDemo:       return "MP2D";
-    case eEchoes:           return "MP2E";
-    case eCorruptionProto:  return "MP3P";
-    case eCorruption:       return "MP3C";
-    case eReturns:          return "DKCR";
-    default:                return "UNKN";
-    }
-}
-
-EGame GetGameForID(const CFourCC& rkID)
-{
-    if (rkID == "MP1D") return ePrimeDemo;
-    if (rkID == "MPRM") return ePrime;
-    if (rkID == "MP2D") return eEchoesDemo;
-    if (rkID == "MP2E") return eEchoes;
-    if (rkID == "MP3P") return eCorruptionProto;
-    if (rkID == "MP3C") return eCorruption;
-    if (rkID == "DKCR") return eReturns;
-    return eUnknownGame;
-}
-
 TString GetGameName(EGame Game)
 {
-    switch (Game)
+    static const TString skGameNames[EGame::Max] =
     {
-    case ePrimeDemo:        return "Metroid Prime Kiosk Demo";
-    case ePrime:            return "Metroid Prime";
-    case eEchoesDemo:       return "Metroid Prime 2: Echoes Demo";
-    case eEchoes:           return "Metroid Prime 2: Echoes";
-    case eCorruptionProto:  return "Metroid Prime 3: Corruption Prototype";
-    case eCorruption:       return "Metroid Prime 3: Corruption";
-    case eReturns:          return "Donkey Kong Country Returns";
-    default:                return "Unknown Game";
-    }
+        "Metroid Prime Demo",
+        "Metroid Prime",
+        "Metroid Prime 2: Echoes Demo",
+        "Metroid Prime 2: Echoes",
+        "Metroid Prime 3: Corruption E3 2006 Prototype",
+        "Metroid Prime 3: Corruption",
+        "Donkey Kong Country Returns"
+    };
+
+    int GameIdx = (int) Game;
+    return (GameIdx >= 0 && GameIdx < (int) EGame::Max) ? skGameNames[GameIdx] : "Unknown Game";
 }
 
 TString GetGameShortName(EGame Game)
 {
-    switch (Game)
+    static const TString skGameNames[EGame::Max] = {
+        "MP1Demo",
+        "MP1",
+        "MP2Demo",
+        "MP2",
+        "MP3Proto",
+        "MP3",
+        "DKCR"
+    };
+
+    int GameIdx = (int) Game;
+    return (GameIdx >= 0 && GameIdx < (int) EGame::Max) ? skGameNames[GameIdx] : "Unknown";
+}
+
+CFourCC GameTo4CC(EGame Game)
+{
+    static const CFourCC skGame4CCs[EGame::Max] =
     {
-    case ePrimeDemo:        return "MP1Demo";
-    case ePrime:            return "MP1";
-    case eEchoesDemo:       return "MP2Demo";
-    case eEchoes:           return "MP2";
-    case eCorruptionProto:  return "MP3Proto";
-    case eCorruption:       return "MP3";
-    case eReturns:          return "DKCR";
-    default:                return "Unknown";
-    }
+        FOURCC('MP1D'), FOURCC('MPRM'),
+        FOURCC('MP2D'), FOURCC('MP2E'),
+        FOURCC('MP3P'), FOURCC('MP3C'),
+        FOURCC('DKCR')
+    };
+
+    int GameIdx = (int) Game;
+    return (GameIdx >= 0 && GameIdx < (int) EGame::Max) ? skGame4CCs[GameIdx] : FOURCC('UNKN');
+}
+
+EGame GameFrom4CC(CFourCC GameId)
+{
+    static const std::unordered_map<u32, EGame> skIdToGame =
+    {
+        { FOURCC('MP1D'), EGame::PrimeDemo },
+        { FOURCC('MPRM'), EGame::Prime },
+        { FOURCC('MP2D'), EGame::EchoesDemo },
+        { FOURCC('MP2E'), EGame::Echoes },
+        { FOURCC('MP3P'), EGame::CorruptionProto },
+        { FOURCC('MP3C'), EGame::Corruption },
+        { FOURCC('DKCR'), EGame::DKCReturns }
+    };
+    auto MapFindIter = skIdToGame.find(GameId.ToLong());
+    return (MapFindIter != skIdToGame.end() ? MapFindIter->second : EGame::Invalid);
 }
 
 void Serialize(IArchive& rArc, EGame& rGame)
 {
-    CFourCC GameID = GetGameID(rGame);
-    rArc.SerializePrimitive(GameID);
-    if (rArc.IsReader()) rGame = GetGameForID(GameID);
-}
+    // We serialize EGame as a fourCC in binary formats as a future-proofing measure.
+    // Additionally, older versions of IArchive always serialized EGame as a fourCC.
+    if (rArc.ArchiveVersion() < IArchive::eArVer_GameEnumClass || rArc.IsBinaryFormat())
+    {
+        CFourCC GameId;
 
-// ERegion
-static const TString gskRegionNames[] = { "NTSC", "PAL", "JPN", "UnknownRegion" };
-static const u32 gskNumRegions = sizeof(gskRegionNames) / sizeof(gskRegionNames[0]);
+        if (rArc.IsWriter())
+        {
+            GameId = GameTo4CC(rGame);
+        }
 
-TString GetRegionName(ERegion Region)
-{
-    return gskRegionNames[(int) Region];
-}
+        rArc.SerializePrimitive(GameId, 0);
 
-ERegion GetRegionForName(const TString& rkName)
-{
-    for (u32 iReg = 0; iReg < gskNumRegions; iReg++)
-        if (gskRegionNames[iReg] == rkName)
-            return (ERegion) iReg;
-
-    return eRegion_Unknown;
-}
-
-void Serialize(IArchive& rArc, ERegion& rRegion)
-{
-    TString Name;
-
-    if (rArc.IsWriter())
-        Name = GetRegionName(rRegion);
-
-    rArc.SerializePrimitive(Name);
-
-    if (rArc.IsReader())
-        rRegion = GetRegionForName(Name);
+        if (rArc.IsReader())
+        {
+            rGame = GameFrom4CC(GameId);
+        }
+    }
+    else
+    {
+        DefaultEnumSerialize<EGame>(rArc, rGame);
+    }
 }

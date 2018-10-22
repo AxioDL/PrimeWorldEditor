@@ -24,7 +24,7 @@ bool CGameInfo::LoadGameInfo(TString Path)
 
 bool CGameInfo::SaveGameInfo(TString Path /*= ""*/)
 {
-    ASSERT(mGame != eUnknownGame); // can't save game info that was never loaded
+    ASSERT(mGame != EGame::Invalid); // can't save game info that was never loaded
 
     if (Path.IsEmpty()) Path = GetDefaultGameInfoPath(mGame);
     CXMLWriter Writer(Path, "GameInfo", 0, mGame);
@@ -35,16 +35,16 @@ bool CGameInfo::SaveGameInfo(TString Path /*= ""*/)
 void CGameInfo::Serialize(IArchive& rArc)
 {
     // Validate game
-    if (rArc.IsReader() && mGame != eUnknownGame)
+    if (rArc.IsReader() && mGame != EGame::Invalid)
     {
         ASSERT(mGame == rArc.Game());
     }
 
     // Serialize data
-    rArc << SERIAL_CONTAINER("GameBuilds", mBuilds, "Build");
+    rArc << SerialParameter("GameBuilds", mBuilds);
 
-    if (mGame <= ePrime)
-        rArc << SERIAL_CONTAINER("AreaNameMap", mAreaNameMap, "AreaName");
+    if (mGame <= EGame::Prime)
+        rArc << SerialParameter("AreaNameMap", mAreaNameMap);
 }
 
 TString CGameInfo::GetBuildName(float BuildVer, ERegion Region) const
@@ -69,9 +69,9 @@ TString CGameInfo::GetAreaName(const CAssetID &rkID) const
 // ************ STATIC ************
 EGame CGameInfo::RoundGame(EGame Game)
 {
-    if (Game == ePrimeDemo)         return ePrime;
-    if (Game == eEchoesDemo)        return eEchoes;
-    if (Game == eCorruptionProto)   return eCorruption;
+    if (Game == EGame::PrimeDemo)         return EGame::Prime;
+    if (Game == EGame::EchoesDemo)        return EGame::Echoes;
+    if (Game == EGame::CorruptionProto)   return EGame::Corruption;
     return Game;
 }
 
@@ -79,7 +79,7 @@ TString CGameInfo::GetDefaultGameInfoPath(EGame Game)
 {
     Game = RoundGame(Game);
 
-    if (Game == eUnknownGame)
+    if (Game == EGame::Invalid)
         return "";
 
     TString GameName = GetGameShortName(Game);

@@ -1,0 +1,15 @@
+[submodule "externals/tinyxml2"]
+	path = externals/tinyxml2
+	url = https://github.com/leethomason/tinyxml2
+[submodule "externals/zlib"]
+	path = externals/zlib
+	url = https://github.com/madler/zlib
+[submodule "externals/assimp"]
+	path = externals/assimp
+	url = https://github.com/assimp/assimp
+[submodule "externals/nod"]
+	path = externals/nod
+	url = https://github.com/arukibree/nod
+[submodule "externals/CodeGen"]
+	path = externals/CodeGen
+	url = https://github.com/arukibree/CodeGen

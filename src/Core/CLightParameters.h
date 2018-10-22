@@ -2,7 +2,7 @@
 #define CLIGHTPARAMETERS_H
 
 #include "Core/Resource/Area/CGameArea.h"
-#include "Core/Resource/Script/IProperty.h"
+#include "Core/Resource/Script/Property/Properties.h"
 
 enum EWorldLightingOptions
 {
@@ -14,48 +14,35 @@ enum EWorldLightingOptions
 
 class CLightParameters
 {
-    CPropertyStruct *mpStruct;
-    EGame mGame;
-
-    TLongProperty *mpLightLayer;
-    TEnumProperty *mpWorldLightingOptions;
+    CIntRef mLightLayer;
+    TEnumRef<EWorldLightingOptions> mWorldLightingOptions;
 
 public:
-    CLightParameters(CPropertyStruct *pStruct, EGame Game)
-        : mpStruct(pStruct)
-        , mGame(Game)
-        , mpLightLayer(nullptr)
-        , mpWorldLightingOptions(nullptr)
+    CLightParameters(CStructRef InStruct, EGame Game)
     {
-        if (mpStruct)
+        if (InStruct.IsValid())
         {
-            if (mGame <= ePrime)
+            if (Game <= EGame::Prime)
             {
-                mpWorldLightingOptions = TPropCast<TEnumProperty>(mpStruct->PropertyByIndex(0x7));
-                mpLightLayer = TPropCast<TLongProperty>(mpStruct->PropertyByIndex(0xD));
+                mWorldLightingOptions = TEnumRef<EWorldLightingOptions>(InStruct.DataPointer(), InStruct.Property()->ChildByIndex(0x7));
+                mLightLayer = CIntRef(InStruct.DataPointer(), InStruct.Property()->ChildByIndex(0xD));
             }
             else
             {
-                mpWorldLightingOptions = TPropCast<TEnumProperty>(mpStruct->PropertyByID(0x6B5E7509));
-                mpLightLayer = TPropCast<TLongProperty>(mpStruct->PropertyByID(0x1F715FD3));
+                mWorldLightingOptions = TEnumRef<EWorldLightingOptions>(InStruct.DataPointer(), InStruct.Property()->ChildByID(0x6B5E7509));
+                mLightLayer = CIntRef(InStruct.DataPointer(), InStruct.Property()->ChildByID(0x1F715FD3));
             }
         }
     }
 
     inline int LightLayerIndex() const
     {
-        if (!mpLightLayer)
-            return 0;
-        else
-            return mpLightLayer->Get();
+        return mLightLayer.IsValid() ? mLightLayer.Get() : 0;
     }
 
     inline EWorldLightingOptions WorldLightingOptions() const
     {
-        if (mpWorldLightingOptions)
-            return (EWorldLightingOptions) mpWorldLightingOptions->Get();
-        else
-            return eNormalLighting;
+        return mWorldLightingOptions.IsValid() ? mWorldLightingOptions.Get() : eNormalLighting;
     }
 };
 

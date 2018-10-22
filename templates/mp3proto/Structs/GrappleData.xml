@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="GrappleData" type="multi">
-    <properties>
-        <property ID="0x5DCF91E1" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xC10219BF" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x1A8DBEA7" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xA439CA6A" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x4B848C9B" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x5F669BA0" template="Structs/GrappleBlock.xml"/>
-        <struct ID="0xE2ACF76E" template="Structs/GrappleBlock.xml"/>
-        <struct ID="0x3F3A2EEB" template="Structs/GrappleBlock.xml"/>
-        <struct ID="0x424928B3" template="Structs/GrappleBlock.xml"/>
-        <struct ID="0x9FDFF136" template="Structs/GrappleBlock.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>GrappleData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x5DCF91E1">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC10219BF">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A8DBEA7">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA439CA6A">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4B848C9B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5F669BA0" Archetype="GrappleBlock"/>
+            <Element Type="Struct" ID="0xE2ACF76E" Archetype="GrappleBlock"/>
+            <Element Type="Struct" ID="0x3F3A2EEB" Archetype="GrappleBlock"/>
+            <Element Type="Struct" ID="0x424928B3" Archetype="GrappleBlock"/>
+            <Element Type="Struct" ID="0x9FDFF136" Archetype="GrappleBlock"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

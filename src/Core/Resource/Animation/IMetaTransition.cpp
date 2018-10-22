@@ -56,7 +56,7 @@ CMetaTransTrans::CMetaTransTrans(EMetaTransitionType Type, IInputStream& rInput,
     ASSERT(Type == eMTT_Trans || Type == eMTT_PhaseTrans);
     mType = Type;
 
-    if (Game <= eEchoes)
+    if (Game <= EGame::Echoes)
     {
         mUnknownA = rInput.ReadFloat();
         mUnknownB = rInput.ReadLong();

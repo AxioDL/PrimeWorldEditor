@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct6" type="multi">
-    <properties>
-        <property ID="0xA14433C3" type="float">
-            <default>35.0</default>
-        </property>
-        <property ID="0xAFE48213" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0x05A5D4D0" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0xD5780905" type="float">
-            <default>25.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct6</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xA14433C3">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAFE48213">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5A5D4D0">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD5780905">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

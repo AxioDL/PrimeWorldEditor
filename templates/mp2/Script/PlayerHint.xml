@@ -1,60 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>PlayerHint</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x42087650" type="long">
-            <default>10</default>
-        </property>
-        <property ID="0x8747552E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xC91EF813" type="float">
-            <default>1.0</default>
-        </property>
-        <bitfield ID="0x1BCE57E1">
-            <default>0x00000001</default>
-            <flags>
-                <flag mask="0x00000001" name="Unknown 1"/>
-                <flag mask="0x00000002" name="Unknown 2"/>
-                <flag mask="0x00000004" name="Unknown 3"/>
-                <flag mask="0x00000008" name="Unknown 4"/>
-                <flag mask="0x00000010" name="Unknown 5"/>
-                <flag mask="0x00000020" name="Unknown 6"/>
-                <flag mask="0x00000040" name="Unknown 7"/>
-                <flag mask="0x00000080" name="Unknown 8"/>
-                <flag mask="0x00000100" name="Unknown 9"/>
-                <flag mask="0x00000200" name="Unknown 10"/>
-                <flag mask="0x00000400" name="Unknown 11"/>
-                <flag mask="0x00000800" name="Unknown 12"/>
-                <flag mask="0x00001000" name="Unknown 13"/>
-                <flag mask="0x00002000" name="Unknown 14"/>
-                <flag mask="0x00004000" name="Unknown 15"/>
-                <flag mask="0x00008000" name="Unknown 16"/>
-                <flag mask="0x00010000" name="Unknown 17"/>
-                <flag mask="0x00020000" name="Unknown 18"/>
-                <flag mask="0x00040000" name="Unknown 19"/>
-                <flag mask="0x00080000" name="Unknown 20"/>
-                <flag mask="0x00100000" name="Unknown 21"/>
-                <flag mask="0x00200000" name="Unknown 22"/>
-                <flag mask="0x00400000" name="Unknown 23"/>
-                <flag mask="0x00800000" name="Unknown 24"/>
-            </flags>
-        </bitfield>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Properties Type="Struct">
+        <Name>PlayerHint</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0x42087650">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8747552E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC91EF813">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Flags" ID="0x1BCE57E1">
+                <DefaultValue>1</DefaultValue>
+                <Flags>
+                    <Element Name="Unknown 1" Mask="0x1"/>
+                    <Element Name="Unknown 2" Mask="0x2"/>
+                    <Element Name="Unknown 3" Mask="0x4"/>
+                    <Element Name="Unknown 4" Mask="0x8"/>
+                    <Element Name="Unknown 5" Mask="0x10"/>
+                    <Element Name="Unknown 6" Mask="0x20"/>
+                    <Element Name="Unknown 7" Mask="0x40"/>
+                    <Element Name="Unknown 8" Mask="0x80"/>
+                    <Element Name="Unknown 9" Mask="0x100"/>
+                    <Element Name="Unknown 10" Mask="0x200"/>
+                    <Element Name="Unknown 11" Mask="0x400"/>
+                    <Element Name="Unknown 12" Mask="0x800"/>
+                    <Element Name="Unknown 13" Mask="0x1000"/>
+                    <Element Name="Unknown 14" Mask="0x2000"/>
+                    <Element Name="Unknown 15" Mask="0x4000"/>
+                    <Element Name="Unknown 16" Mask="0x8000"/>
+                    <Element Name="Unknown 17" Mask="0x10000"/>
+                    <Element Name="Unknown 18" Mask="0x20000"/>
+                    <Element Name="Unknown 19" Mask="0x40000"/>
+                    <Element Name="Unknown 20" Mask="0x80000"/>
+                    <Element Name="Unknown 21" Mask="0x100000"/>
+                    <Element Name="Unknown 22" Mask="0x200000"/>
+                    <Element Name="Unknown 23" Mask="0x400000"/>
+                    <Element Name="Unknown 24" Mask="0x800000"/>
+                </Flags>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

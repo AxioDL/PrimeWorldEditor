@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct95</Name>
+        <SubProperties>
+            <Element Type="String" ID="0xDA075C18"/>
+            <Element Type="String" ID="0x97E757ED"/>
+            <Element Type="String" ID="0x24426AEF"/>
+            <Element Type="Float" ID="0xAA719632">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8E52EB54">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5DCF95C3">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x493F3DD8">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCB3FD764">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5B604872">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCA62889E" Archetype="ForestBossStructA"/>
+            <Element Type="Struct" ID="0xDA392607" Archetype="ForestBossStructA"/>
+            <Element Type="Struct" ID="0x30059956" Archetype="ForestBossStructA"/>
+            <Element Type="Struct" ID="0x81C8CA71" Archetype="ForestBossStructA"/>
+            <Element Type="Struct" ID="0x645FFAD4" Archetype="UnknownStruct94"/>
+            <Element Type="Struct" ID="0xC99A740E" Archetype="ForestBossStructB"/>
+            <Element Type="Struct" ID="0x663339C4" Archetype="ForestBossStructB"/>
+            <Element Type="Struct" ID="0x3540282" Archetype="ForestBossStructB"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>RotationSplines</Name>
+        <SubProperties>
+            <Element Type="Spline" ID="0x69D8447D"/>
+            <Element Type="Spline" ID="0xD0239F95"/>
+            <Element Type="Spline" ID="0xC15EF5EC"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

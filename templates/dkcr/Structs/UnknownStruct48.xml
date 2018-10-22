@@ -1,84 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct48" type="multi">
-    <properties>
-        <enum ID="0x07D939A1">
-            <default>0xB5C34B64</default>
-            <enumerators>
-                <enumerator ID="0xB5C34B64" name="Unknown 1"/>
-                <enumerator ID="0x4A5C32BC" name="Unknown 2"/>
-                <enumerator ID="0xEC9FB9C8" name="Unknown 3"/>
-                <enumerator ID="0x6A5E676B" name="Unknown 4"/>
-                <enumerator ID="0x3444B16D" name="Unknown 5"/>
-                <enumerator ID="0xF4859593" name="Unknown 6"/>
-            </enumerators>
-        </enum>
-        <property ID="0x8A58A7F8" type="long">
-            <default>3</default>
-        </property>
-        <struct ID="0x93FA48A4" type="multi">
-            <properties>
-                <property ID="0xF228EC53" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0xD91227F1" type="float">
-                    <default>7.0</default>
-                </property>
-                <property ID="0xFC764233" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xE29028FC" type="float">
-                    <default>10.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xC32BDD77" type="multi">
-            <properties>
-                <property ID="0xF228EC53" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0xD91227F1" type="float">
-                    <default>7.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x5902A3AB" type="multi">
-            <properties>
-                <enum ID="0x13D70B67">
-                    <default>0x226CDE94</default>
-                    <enumerators>
-                        <enumerator ID="0x226CDE94" name="Unknown 1"/>
-                        <enumerator ID="0xDA0E9904" name="Unknown 2"/>
-                        <enumerator ID="0x291710D3" name="Unknown 3"/>
-                        <enumerator ID="0x0D640823" name="Unknown 4"/>
-                    </enumerators>
-                </enum>
-                <enum ID="0x474BCCE3" template="Enums/UnknownEnum4.xml">
-                    <default>0x25234BDB</default>
-                </enum>
-            </properties>
-        </struct>
-        <struct ID="0xC77A8BF8" type="multi">
-            <properties>
-                <property ID="0xF8D8D976" type="long">
-                    <default>6</default>
-                </property>
-                <property ID="0x8C29E91C" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xF228EC53" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xD91227F1" type="float">
-                    <default>20.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x21313785" type="multi">
-            <properties>
-                <property ID="0x44335AFF" type="float">
-                    <default>2.0</default>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct48</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x7D939A1">
+                <DefaultValue>0xB5C34B64</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB5C34B64"/>
+                    <Element Name="Unknown 2" ID="0x4A5C32BC"/>
+                    <Element Name="Unknown 3" ID="0xEC9FB9C8"/>
+                    <Element Name="Unknown 4" ID="0x6A5E676B"/>
+                    <Element Name="Unknown 5" ID="0x3444B16D"/>
+                    <Element Name="Unknown 6" ID="0xF4859593"/>
+                </Values>
+            </Element>
+            <Element Type="Int" ID="0x8A58A7F8">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x93FA48A4" Archetype="UnknownStruct23"/>
+            <Element Type="Struct" ID="0xC32BDD77" Archetype="UnknownStruct59"/>
+            <Element Type="Struct" ID="0x5902A3AB" Archetype="UnknownStruct60"/>
+            <Element Type="Struct" ID="0xC77A8BF8" Archetype="UnknownStruct61"/>
+            <Element Type="Struct" ID="0x21313785" Archetype="UnknownStruct62"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

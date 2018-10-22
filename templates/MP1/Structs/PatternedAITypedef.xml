@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>PatternedAITypedef</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>Mass</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>Speed</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>Turn Speed</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>Detection Range</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Detection Height Range</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>Detection Angle</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>Min Attack Range</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Max Attack Range</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>Average Attack Time</Name>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>Attack Time Variation</Name>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>Leash Radius</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>Player Leash Radius</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>Player Leash Time</Name>
+            </Element>
+            <Element Type="Struct" ID="0xD" Archetype="DamageInfo">
+                <Name>ContactDamage</Name>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>Damage Wait Time</Name>
+            </Element>
+            <Element Type="Struct" ID="0xF" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x10" Archetype="DamageVulnerability">
+                <Name>Vulnerability</Name>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x12">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Vector" ID="0x13">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x14">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Float" ID="0x15">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Float" ID="0x16">
+                <Name>Unknown 6</Name>
+            </Element>
+            <Element Type="Float" ID="0x17">
+                <Name>Unknown 7</Name>
+            </Element>
+            <Element Type="Sound" ID="0x18">
+                <Name>Death Sound</Name>
+            </Element>
+            <Element Type="AnimationSet" ID="0x19">
+                <Name>AnimationParameters</Name>
+            </Element>
+            <Element Type="Bool" ID="0x1A">
+                <Name>Active</Name>
+            </Element>
+            <Element Type="Asset" ID="0x1B">
+                <Name>State Machine</Name>
+                <TypeFilter>
+                    <Element>AFSM</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x1C">
+                <Name>Unknown 8</Name>
+            </Element>
+            <Element Type="Float" ID="0x1D">
+                <Name>Unknown 9</Name>
+            </Element>
+            <Element Type="Float" ID="0x1E">
+                <Name>Unknown 10</Name>
+            </Element>
+            <Element Type="Int" ID="0x1F">
+                <Name>Unknown 11</Name>
+            </Element>
+            <Element Type="Vector" ID="0x20">
+                <Name>Unknown 12</Name>
+            </Element>
+            <Element Type="Asset" ID="0x21">
+                <Name>Particle 1</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x22">
+                <Name>Unknown 13</Name>
+            </Element>
+            <Element Type="Vector" ID="0x23">
+                <Name>Unknown 14</Name>
+            </Element>
+            <Element Type="Asset" ID="0x24">
+                <Name>Particle 2</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0x25">
+                <Name>Ice Shatter Sound</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

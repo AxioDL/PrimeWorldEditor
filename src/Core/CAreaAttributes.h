@@ -2,11 +2,15 @@
 #define CAREAATTRIBUTES_H
 
 #include "Core/Resource/Script/CScriptObject.h"
+#include "Core/Resource/Script/Property/Properties.h"
 
 class CAreaAttributes
 {
+    CScriptObject* mpObject;
     EGame mGame;
-    CScriptObject *mpObj;
+
+    CBoolRef mNeedSky;
+    CAssetRef mOverrideSky;
 
 public:
     CAreaAttributes(CScriptObject *pObj);
@@ -16,7 +20,7 @@ public:
     bool IsSkyEnabled() const;
     CModel* SkyModel() const;
 
-    inline CScriptObject* Instance() const { return mpObj; }
+    inline CScriptObject* Instance() const { return mpObject; }
 };
 
 #endif // CAREAATTRIBUTES_H

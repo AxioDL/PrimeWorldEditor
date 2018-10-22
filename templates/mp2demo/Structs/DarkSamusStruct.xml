@@ -1,51 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="DarkSamusStruct" type="multi">
-    <properties>
-        <property ID="0x10B171AC" type="float">
-            <default>-1.0</default>
-        </property>
-        <property ID="0xAC65EB7A" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0x4F3855A0" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0x08C0B02C" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0x695F68C7" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0x573BC2FA" type="float">
-            <default>3.5</default>
-        </property>
-        <property ID="0xD061FF99" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x97DBD42A" type="float">
-            <default>1.5</default>
-        </property>
-        <property ID="0x71BB7BCB" type="float">
-            <default>3.0</default>
-        </property>
-        <struct ID="0x001DDB4F" template="Structs/UnknownStruct1.xml"/>
-        <struct ID="0x8E870EC0" template="Structs/UnknownStruct1.xml"/>
-        <struct ID="0x8041BD90" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x29138B6C" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x9F1294E3" template="Structs/UnknownStruct1.xml"/>
-        <struct ID="0x7BADF58B" template="Structs/UnknownStruct1.xml"/>
-        <struct ID="0x32FA3340" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x302B3351" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x165DA321" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0xAE1E9931" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x7C9F2144" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x401E3CB3" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0xCFF7D7EC" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x22761273" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x73EEFFCB" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x0547FF5F" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0xEEAB8919" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x80F2F6DD" template="Structs/UnknownStruct2.xml"/>
-        <struct ID="0x67AB0E8F" template="Structs/UnknownStruct1.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>DarkSamusStruct</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x10B171AC">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC65EB7A">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4F3855A0">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8C0B02C">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x695F68C7">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x573BC2FA">
+                <DefaultValue>3.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD061FF99">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x97DBD42A">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x71BB7BCB">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x1DDB4F" Archetype="UnknownStruct1"/>
+            <Element Type="Struct" ID="0x8E870EC0" Archetype="UnknownStruct1"/>
+            <Element Type="Struct" ID="0x8041BD90" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x29138B6C" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x9F1294E3" Archetype="UnknownStruct1"/>
+            <Element Type="Struct" ID="0x7BADF58B" Archetype="UnknownStruct1"/>
+            <Element Type="Struct" ID="0x32FA3340" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x302B3351" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x165DA321" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0xAE1E9931" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x7C9F2144" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x401E3CB3" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0xCFF7D7EC" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x22761273" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x73EEFFCB" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x547FF5F" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0xEEAB8919" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x80F2F6DD" Archetype="UnknownStruct2"/>
+            <Element Type="Struct" ID="0x67AB0E8F" Archetype="UnknownStruct1"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

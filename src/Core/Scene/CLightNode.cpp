@@ -125,6 +125,19 @@ SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID
     return Out;
 }
 
+CStructRef CLightNode::GetProperties() const
+{
+    return CStructRef(mpLight, mpLight->GetProperties());
+}
+
+void CLightNode::PropertyModified(IProperty* pProperty)
+{
+    CSceneNode::PropertyModified(pProperty);
+
+    if (pProperty->Name() == "Position")
+        SetPosition( mpLight->Position() );
+}
+
 CLight* CLightNode::Light()
 {
     return mpLight;

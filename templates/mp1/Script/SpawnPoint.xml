@@ -1,54 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SpawnPoint</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Position" type="vector3f"/>
-        <property ID="0x02" name="Rotation" type="vector3f"/>
-        <property ID="0x03" name="Power Beam" type="long"/>
-        <property ID="0x04" name="Ice Beam" type="long"/>
-        <property ID="0x05" name="Wave Beam" type="long"/>
-        <property ID="0x06" name="Plasma Beam" type="long"/>
-        <property ID="0x07" name="Missiles" type="long"/>
-        <property ID="0x08" name="Scan Visor" type="long"/>
-        <property ID="0x09" name="Morph Ball Bomb" type="long"/>
-        <property ID="0x0A" name="Power Bombs" type="long"/>
-        <property ID="0x0B" name="Flamethrower" type="long"/>
-        <property ID="0x0C" name="Thermal Visor" type="long"/>
-        <property ID="0x0D" name="Charge Beam" type="long"/>
-        <property ID="0x0E" name="Super Missile" type="long"/>
-        <property ID="0x0F" name="Grapple Beam" type="long"/>
-        <property ID="0x10" name="X-Ray Visor" type="long"/>
-        <property ID="0x11" name="Ice Spreader" type="long"/>
-        <property ID="0x12" name="Space Jump Boots" type="long"/>
-        <property ID="0x13" name="Morph Ball" type="long"/>
-        <property ID="0x14" name="Combat Visor" type="long"/>
-        <property ID="0x15" name="Boost Ball" type="long"/>
-        <property ID="0x16" name="Spider Ball" type="long"/>
-        <property ID="0x17" name="Power Suit?" type="long"/>
-        <property ID="0x18" name="Gravity Suit" type="long"/>
-        <property ID="0x19" name="Varia Suit" type="long"/>
-        <property ID="0x1A" name="Phazon Suit" type="long"/>
-        <property ID="0x1B" name="Energy Tanks" type="long"/>
-        <property ID="0x1C" name="Unknown Item 1" type="long"/>
-        <property ID="0x1D" name="Health Refill" type="long"/>
-        <property ID="0x1E" name="Unknown Item 2" type="long"/>
-        <property ID="0x1F" name="Wavebuster" type="long"/>
-        <property ID="0x20" name="Default Spawn" type="bool"/>
-        <property ID="0x21" name="Active" type="bool"/>
-        <property ID="0x22" name="Morphed" type="bool"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Position" ID="0x01"/>
-            <property name="Rotation" ID="0x02"/>
-            <property name="Active" ID="0x21"/>
-        </properties>
-        <assets/>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>SpawnPoint</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Vector" ID="0x1">
+                <Name>Position</Name>
+            </Element>
+            <Element Type="Vector" ID="0x2">
+                <Name>Rotation</Name>
+            </Element>
+            <Element Type="Int" ID="0x3">
+                <Name>Power Beam</Name>
+            </Element>
+            <Element Type="Int" ID="0x4">
+                <Name>Ice Beam</Name>
+            </Element>
+            <Element Type="Int" ID="0x5">
+                <Name>Wave Beam</Name>
+            </Element>
+            <Element Type="Int" ID="0x6">
+                <Name>Plasma Beam</Name>
+            </Element>
+            <Element Type="Int" ID="0x7">
+                <Name>Missiles</Name>
+            </Element>
+            <Element Type="Int" ID="0x8">
+                <Name>Scan Visor</Name>
+            </Element>
+            <Element Type="Int" ID="0x9">
+                <Name>Morph Ball Bomb</Name>
+            </Element>
+            <Element Type="Int" ID="0xA">
+                <Name>Power Bombs</Name>
+            </Element>
+            <Element Type="Int" ID="0xB">
+                <Name>Flamethrower</Name>
+            </Element>
+            <Element Type="Int" ID="0xC">
+                <Name>Thermal Visor</Name>
+            </Element>
+            <Element Type="Int" ID="0xD">
+                <Name>Charge Beam</Name>
+            </Element>
+            <Element Type="Int" ID="0xE">
+                <Name>Super Missile</Name>
+            </Element>
+            <Element Type="Int" ID="0xF">
+                <Name>Grapple Beam</Name>
+            </Element>
+            <Element Type="Int" ID="0x10">
+                <Name>X-Ray Visor</Name>
+            </Element>
+            <Element Type="Int" ID="0x11">
+                <Name>Ice Spreader</Name>
+            </Element>
+            <Element Type="Int" ID="0x12">
+                <Name>Space Jump Boots</Name>
+            </Element>
+            <Element Type="Int" ID="0x13">
+                <Name>Morph Ball</Name>
+            </Element>
+            <Element Type="Int" ID="0x14">
+                <Name>Combat Visor</Name>
+            </Element>
+            <Element Type="Int" ID="0x15">
+                <Name>Boost Ball</Name>
+            </Element>
+            <Element Type="Int" ID="0x16">
+                <Name>Spider Ball</Name>
+            </Element>
+            <Element Type="Int" ID="0x17">
+                <Name>Power Suit?</Name>
+            </Element>
+            <Element Type="Int" ID="0x18">
+                <Name>Gravity Suit</Name>
+            </Element>
+            <Element Type="Int" ID="0x19">
+                <Name>Varia Suit</Name>
+            </Element>
+            <Element Type="Int" ID="0x1A">
+                <Name>Phazon Suit</Name>
+            </Element>
+            <Element Type="Int" ID="0x1B">
+                <Name>Energy Tanks</Name>
+            </Element>
+            <Element Type="Int" ID="0x1C">
+                <Name>Unknown Item 1</Name>
+            </Element>
+            <Element Type="Int" ID="0x1D">
+                <Name>Health Refill</Name>
+            </Element>
+            <Element Type="Int" ID="0x1E">
+                <Name>Unknown Item 2</Name>
+            </Element>
+            <Element Type="Int" ID="0x1F">
+                <Name>Wavebuster</Name>
+            </Element>
+            <Element Type="Bool" ID="0x20">
+                <Name>Default Spawn</Name>
+            </Element>
+            <Element Type="Bool" ID="0x21">
+                <Name>Active</Name>
+            </Element>
+            <Element Type="Bool" ID="0x22">
+                <Name>Morphed</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <PositionProperty>0x01</PositionProperty>
+        <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x21</ActiveProperty>
+    </EditorProperties>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

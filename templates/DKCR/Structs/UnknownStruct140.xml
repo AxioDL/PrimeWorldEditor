@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct140</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x94DD8979">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x975DCEF7" Archetype="PlayerPeriodicAdditiveAnimationData"/>
+            <Element Type="Struct" ID="0x8ABB25C4" Archetype="PlayerCrushData"/>
+            <Element Type="Struct" ID="0xF4D39593" Archetype="TrackObjectModuleData"/>
+            <Element Type="Struct" ID="0x9D9CE325" Archetype="CharacterGlueData"/>
+            <Element Type="Struct" ID="0x34A979A6" Archetype="TandemBeam"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

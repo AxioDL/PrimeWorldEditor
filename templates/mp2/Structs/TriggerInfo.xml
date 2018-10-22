@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="TriggerInfo" type="multi">
-    <properties>
-        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-        <property ID="0x20927E9B" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <bitfield ID="0x82859F46">
-            <default>0x00007806</default>
-            <flags>
-                <flag mask="0x00000001" name="Detect Player"/>
-                <flag mask="0x00000002" name="Detect Morphed Player"/>
-                <flag mask="0x00000004" name="Detect Unmorphed Player"/>
-                <flag mask="0x00000008" name="Unknown 1"/>
-                <flag mask="0x00000010" name="Unknown 2"/>
-                <flag mask="0x00000020" name="Unknown 3"/>
-                <flag mask="0x00000040" name="Unknown 4"/>
-                <flag mask="0x00000080" name="Unknown 5"/>
-                <flag mask="0x00000100" name="Unknown 6"/>
-                <flag mask="0x00000200" name="Unknown 7"/>
-                <flag mask="0x00000400" name="Unknown 8"/>
-                <flag mask="0x00000800" name="Detect Player 1 (Broken)"/>
-                <flag mask="0x00001000" name="Detect Player 2 (Broken)"/>
-                <flag mask="0x00002000" name="Detect Player 3 (Broken)"/>
-                <flag mask="0x00004000" name="Detect Player 4 (Broken)"/>
-                <flag mask="0x00008000" name="Detect AI"/>
-                <flag mask="0x00010000" name="Kill On Entered"/>
-                <flag mask="0x00020000" name="Apply Force"/>
-                <flag mask="0x00040000" name="Unknown 9"/>
-                <flag mask="0x00080000" name="Detect Player If Completely Inside"/>
-                <flag mask="0x00100000" name="Block Environmental Effects"/>
-                <flag mask="0x00200000" name="Detect Projectiles"/>
-                <flag mask="0x00400000" name="Detect Bombs"/>
-                <flag mask="0x00800000" name="Unknown 10"/>
-                <flag mask="0x01000000" name="Detect Boost Ball"/>
-                <flag mask="0x02000000" name="Sunlight (Makes Lumites Appear)"/>
-                <flag mask="0x04000000" name="Delete Objects"/>
-                <flag mask="0x08000000" name="Detect Spider Ball"/>
-                <flag mask="0x10000000" name="Detect Screw Attack"/>
-            </flags>
-        </bitfield>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TriggerInfo</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Vector" ID="0x20927E9B">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Flags" ID="0x82859F46">
+                <DefaultValue>30726</DefaultValue>
+                <Flags>
+                    <Element Name="Detect Player" Mask="0x1"/>
+                    <Element Name="Detect Morphed Player" Mask="0x2"/>
+                    <Element Name="Detect Unmorphed Player" Mask="0x4"/>
+                    <Element Name="Unknown 1" Mask="0x8"/>
+                    <Element Name="Unknown 2" Mask="0x10"/>
+                    <Element Name="Unknown 3" Mask="0x20"/>
+                    <Element Name="Unknown 4" Mask="0x40"/>
+                    <Element Name="Unknown 5" Mask="0x80"/>
+                    <Element Name="Unknown 6" Mask="0x100"/>
+                    <Element Name="Unknown 7" Mask="0x200"/>
+                    <Element Name="Unknown 8" Mask="0x400"/>
+                    <Element Name="Detect Player 1 (Broken)" Mask="0x800"/>
+                    <Element Name="Detect Player 2 (Broken)" Mask="0x1000"/>
+                    <Element Name="Detect Player 3 (Broken)" Mask="0x2000"/>
+                    <Element Name="Detect Player 4 (Broken)" Mask="0x4000"/>
+                    <Element Name="Detect AI" Mask="0x8000"/>
+                    <Element Name="Kill On Entered" Mask="0x10000"/>
+                    <Element Name="Apply Force" Mask="0x20000"/>
+                    <Element Name="Unknown 9" Mask="0x40000"/>
+                    <Element Name="Detect Player If Completely Inside" Mask="0x80000"/>
+                    <Element Name="Block Environmental Effects" Mask="0x100000"/>
+                    <Element Name="Detect Projectiles" Mask="0x200000"/>
+                    <Element Name="Detect Bombs" Mask="0x400000"/>
+                    <Element Name="Unknown 10" Mask="0x800000"/>
+                    <Element Name="Detect Boost Ball" Mask="0x1000000"/>
+                    <Element Name="Sunlight (Makes Lumites Appear)" Mask="0x2000000"/>
+                    <Element Name="Delete Objects" Mask="0x4000000"/>
+                    <Element Name="Detect Spider Ball" Mask="0x8000000"/>
+                    <Element Name="Detect Screw Attack" Mask="0x10000000"/>
+                </Flags>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

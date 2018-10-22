@@ -1,39 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LaunchProjectileData" type="multi">
-    <properties>
-        <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
-        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-        <property ID="0xF726E5DA" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x14FFF39C" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x7DA8EA23" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xE9C8E2BD" type="asset" extensions="PART"/>
-        <property ID="0xA3E8EC4E" type="asset" extensions="CAUD"/>
-        <property ID="0x053AE4A7" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xCF201BFA" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x88137FA8" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0xB2D02323" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xF344C0B0" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x056B20B2" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xF78469D6" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>LaunchProjectileData</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xEF485DB9">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Vector" ID="0xF726E5DA">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14FFF39C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7DA8EA23">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE9C8E2BD">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA3E8EC4E">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x53AE4A7">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCF201BFA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x88137FA8">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB2D02323">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xF344C0B0">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x56B20B2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF78469D6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

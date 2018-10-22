@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="UnknownEnum4">
-    <enumerators>
-        <enumerator ID="0x25234BDB" name="Unknown 1"/>
-        <enumerator ID="0xBC2A1A61" name="Unknown 2"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>UnknownEnum4</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="Unknown 1" ID="0x25234BDB"/>
+            <Element Name="Unknown 2" ID="0xBC2A1A61"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

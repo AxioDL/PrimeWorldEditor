@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>Animations</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x682AA3C9">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x124A32A3" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x56EB17BB" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x6A8BF4B3" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0xDFA95D8B" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0xE3C9BE83" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0xA7689B9B" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x9B087893" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x165CCFAA" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x2A3C2CA2" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x20CD397A" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x1CADDA72" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x580CFF6A" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0x646C1C62" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0xD14EB55A" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0xED2E5652" Archetype="GenericCreatureStructE"/>
+            <Element Type="Struct" ID="0xA98F734A" Archetype="GenericCreatureStructE"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

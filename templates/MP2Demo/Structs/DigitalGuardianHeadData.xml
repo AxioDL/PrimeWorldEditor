@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>DigitalGuardianHeadData</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x7D8CC4F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xB5C3C1A">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD74FC3">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE7DE8B82">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x96E18283">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47A8ED8C">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20F87E5D">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75DC92BC">
+                <DefaultValue>1.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9E1C3F6C">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE2A481C">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8317610F">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x27464886">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x4EAF615F" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>9</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Int" ID="0xF76D8F">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xD669F12C">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x41177AC6" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>9</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Int" ID="0xDD411A0A">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xD187F05C">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xA8C6106B" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>9</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Int" ID="0x39C9A901">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8F6732EA" Archetype="DigitalGuardianHeadStruct"/>
+            <Element Type="Struct" ID="0x8E128141" Archetype="DigitalGuardianHeadStruct"/>
+            <Element Type="Struct" ID="0xEA54B390" Archetype="DigitalGuardianHeadStruct"/>
+            <Element Type="Struct" ID="0xBBD3E7A7" Archetype="DigitalGuardianHeadStruct"/>
+            <Element Type="Struct" ID="0x48B46E55" Archetype="DigitalGuardianHeadStruct"/>
+            <Element Type="Struct" ID="0x7352D60A" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

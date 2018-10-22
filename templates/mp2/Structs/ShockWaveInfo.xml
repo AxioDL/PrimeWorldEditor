@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ShockWaveInfo" type="multi">
-    <properties>
-        <property ID="0x369F7D09" type="asset" extensions="PART"/>
-        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-        <property ID="0x78C507EB" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xC2BE030D" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xCF6C1DE9" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x4CD1459B" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x0A57B09B" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xBD321538" type="asset" extensions="ELSC"/>
-        <property ID="0x58A492EF" type="sound"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>ShockWaveInfo</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x369F7D09">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x78C507EB">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC2BE030D">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCF6C1DE9">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4CD1459B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA57B09B">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xBD321538">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0x58A492EF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

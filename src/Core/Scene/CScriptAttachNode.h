@@ -2,20 +2,23 @@
 #define CSCRIPTATTACHNODE_H
 
 #include "CSceneNode.h"
-#include "Core/Resource/Script/IProperty.h"
+#include "Core/Resource/Script/Property/Properties.h"
 #include "Core/Resource/Script/CScriptTemplate.h"
 
 class CScriptNode;
 
 class CScriptAttachNode : public CSceneNode
 {
-    CScriptNode *mpScriptNode;
+    CScriptNode* mpScriptNode;
     TResPtr<CResource> mpAttachAsset;
-    IProperty *mpAttachAssetProp;
+
+    IProperty* mpAttachAssetProp;
+    CAssetRef mAttachAssetRef;
+    CAnimationSetRef mAttachAnimSetRef;
 
     EAttachType mAttachType;
     TString mLocatorName;
-    CBone *mpLocator;
+    CBone* mpLocator;
 
 public:
     explicit CScriptAttachNode(CScene *pScene, const SAttachment& rkAttachment, CScriptNode *pParent);
@@ -30,7 +33,7 @@ public:
     void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
     SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
 
-    inline IProperty* AttachProperty() const    { return mpAttachAssetProp; }
+    inline IProperty* AttachProperty() const { return mpAttachAssetProp; }
     inline TString LocatorName() const          { return mLocatorName; }
 
 protected:

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>MassivePrimeStruct</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Int" ID="0x0">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1" Archetype="PatternedAITypedef"/>
+            <Element Type="Struct" ID="0x2" Archetype="ActorParameters"/>
+            <Element Type="Int" ID="0x3">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x4" Archetype="PrimeStruct2">
+                <Name>PrimeStruct2 1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x5" Archetype="PrimeStruct2">
+                <Name>PrimeStruct2 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x6" Archetype="PrimeStruct2">
+                <Name>PrimeStruct2 3</Name>
+            </Element>
+            <Element Type="Int" ID="0x7">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Asset" ID="0x8">
+                <Name>Particle 1</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9">
+                <Name>Particle 2</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA">
+                <Name>Particle 3</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xB" Archetype="DamageInfo">
+                <Name>DamageInfo 1</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Asset" ID="0xE">
+                <Name>Texture 1</Name>
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xF">
+                <Name>Unknown 6</Name>
+            </Element>
+            <Element Type="Sound" ID="0x10">
+                <Name>Unknown 7</Name>
+            </Element>
+            <Element Type="Asset" ID="0x11">
+                <Name>Particle 4</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x12" Archetype="PrimeStruct4">
+                <Name>PrimeStruct4 1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x13" Archetype="PrimeStruct4">
+                <Name>PrimeStruct4 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x14" Archetype="PrimeStruct4">
+                <Name>PrimeStruct4 3</Name>
+            </Element>
+            <Element Type="Struct" ID="0x15" Archetype="PrimeStruct4">
+                <Name>PrimeStruct4 4</Name>
+            </Element>
+            <Element Type="Asset" ID="0x16">
+                <Name>WPSC 1</Name>
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x17" Archetype="DamageInfo">
+                <Name>DamageInfo 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x18" Archetype="PrimeStruct2">
+                <Name>PrimeStruct2 4</Name>
+            </Element>
+            <Element Type="Asset" ID="0x19">
+                <Name>WPSC 2</Name>
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1A" Archetype="DamageInfo">
+                <Name>DamageInfo 3</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1B" Archetype="PrimeStruct2">
+                <Name>PrimeStruct2 5</Name>
+            </Element>
+            <Element Type="Int" ID="0x1C">
+                <Name>Unknown 8</Name>
+            </Element>
+            <Element Type="Asset" ID="0x1D">
+                <Name>Particle 5</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1E" Archetype="DamageInfo">
+                <Name>DamageInfo 4</Name>
+            </Element>
+            <Element Type="Float" ID="0x1F">
+                <Name>Unknown 9</Name>
+            </Element>
+            <Element Type="Float" ID="0x20">
+                <Name>Unknown 10</Name>
+            </Element>
+            <Element Type="Float" ID="0x21">
+                <Name>Unknown 11</Name>
+            </Element>
+            <Element Type="Asset" ID="0x22">
+                <Name>Texture 2</Name>
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x23">
+                <Name>Unknown 12</Name>
+            </Element>
+            <Element Type="Bool" ID="0x24">
+                <Name>Unknown 13</Name>
+            </Element>
+            <Element Type="Bool" ID="0x25">
+                <Name>Unknown 14</Name>
+            </Element>
+            <Element Type="Bool" ID="0x26">
+                <Name>Unknown 15</Name>
+            </Element>
+            <Element Type="Struct" ID="0x27" Archetype="DamageInfo">
+                <Name>DamageInfo 5</Name>
+            </Element>
+            <Element Type="Struct" ID="0x28" Archetype="PrimeStruct2">
+                <Name>PrimeStruct2 6</Name>
+            </Element>
+            <Element Type="Asset" ID="0x29">
+                <Name>Particle 6</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2A">
+                <Name>SWHC</Name>
+                <TypeFilter>
+                    <Element>SWHC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2B">
+                <Name>Particle 7</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2C">
+                <Name>Particle 8</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x2D" Archetype="PrimeStruct6">
+                <Name>PrimeStruct6 1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x2E" Archetype="PrimeStruct6">
+                <Name>PrimeStruct6 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x2F" Archetype="PrimeStruct6">
+                <Name>PrimeStruct6 3</Name>
+            </Element>
+            <Element Type="Struct" ID="0x30" Archetype="PrimeStruct6">
+                <Name>PrimeStruct6 4</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>PhaazoidData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xB25774E2">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2A3E092">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x88FDE98C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39FB7978">
+                <DefaultValue>65.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x82DB0CBE">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D7447B4">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2ED25F50">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB5D19503">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE2DFC540">
+                <DefaultValue>3.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3317D0C6">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD04A6E1C">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x12B8E543" Archetype="ShockWaveInfo"/>
+            <Element Type="Asset" ID="0xE8CD9627">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1DC69E38" Archetype="DamageInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

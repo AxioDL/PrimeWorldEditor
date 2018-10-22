@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraFraming</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xC79AA0C6" Archetype="FramingRules"/>
+            <Element Type="Struct" ID="0x62243011" Archetype="ZoomBehaviorData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="GhorStructC" type="multi">
-    <properties>
-        <property ID="0xC27FFA8F" type="asset" extensions="CMDL"/>
-        <property ID="0x8A660FE5" type="string"/>
-        <property ID="0x9CE31FFA" type="string"/>
-        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
-        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>GhorStructC</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x8A660FE5"/>
+            <Element Type="String" ID="0x9CE31FFA"/>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

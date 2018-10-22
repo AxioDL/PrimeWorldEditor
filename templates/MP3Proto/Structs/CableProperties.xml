@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>CableProperties</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xFFE83B77">
+                <TypeFilter>
+                    <Element>SWHC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Enum" ID="0x4B3A87E6">
+                <DefaultValue>0xD6629DCA</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x944A8986"/>
+                    <Element Name="Unknown 2" ID="0xD6629DCA"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0xCD578193">
+                <DefaultValue>0xB9B7640F</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB9B7640F"/>
+                    <Element Name="Unknown 2" ID="0xC1EC6DF9"/>
+                    <Element Name="Unknown 3" ID="0xDD1CFE2B"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xB6A06760">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6586EC98">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x405E8F55">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11A73408">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x44EF4DAB" Archetype="LocationOfEffect1">
+                <DefaultValue>0x80DD21B4</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x34F377B" Archetype="LocationOfEffect1">
+                <DefaultValue>0x23363FD3</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x3E2F1ECB" Archetype="LocationOfEffect1">
+                <DefaultValue>0x24CF38F1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4AFA378F">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x833E4985">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8C73CB7C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x84843807" Archetype="RagDollData">
+                <SubProperties>
+                    <Element Type="Bool" ID="0xA99A0E33">
+                        <DefaultValue>false</DefaultValue>
+                    </Element>
+                    <Element Type="Bool" ID="0xE7B88D51">
+                        <DefaultValue>true</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x6AD55D50">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEB5EE47C">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC25DC1B8">
+                <DefaultValue>0.0167</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xA0ADD2DF">
+                <DefaultValue>0x23363FD3</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x80DD21B4"/>
+                    <Element Name="Unknown 2" ID="0x23363FD3"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

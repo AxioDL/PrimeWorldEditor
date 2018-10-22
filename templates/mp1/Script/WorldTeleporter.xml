@@ -1,42 +1,100 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>WorldTeleporter</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Active" type="bool"/>
-        <property ID="0x02" name="World" type="asset" extensions="MLVL"/>
-        <property ID="0x03" name="Area" type="asset" extensions="MREA"/>
-        <property ID="0x04" name="Player Model" type="character"/>
-        <property ID="0x05" name="Player Scale" type="vector3f"/>
-        <property ID="0x06" name="Elevator Platform Model" type="asset" extensions="CMDL"/>
-        <property ID="0x07" name="Elevator Platform Scale" type="vector3f"/>
-        <property ID="0x08" name="Elevator Background Model" type="asset" extensions="CMDL"/>
-        <property ID="0x09" name="Elevator Background Scale" type="vector3f"/>
-        <property ID="0x0A" name="Upward Elevator" type="bool"/>
-        <property ID="0x0B" name="Elevator Sound" type="sound"/>
-        <property ID="0x0C" name="Sound Volume" type="long"/>
-        <property ID="0x0D" name="Unknown (Sound-Related)" type="long"/>
-        <property ID="0x0E" name="Show Text Instead Of Cutscene" type="bool"/>
-        <property ID="0x0F" name="Font" type="asset" extensions="FONT"/>
-        <property ID="0x10" name="String" type="asset" extensions="STRG"/>
-        <property ID="0x11" name="Fade In From/Out To White" type="bool"/>
-        <property ID="0x12" name="Character Fade In Time" type="float"/>
-        <property ID="0x13" name="Characters Per Second" type="float"/>
-        <property ID="0x14" name="Delay Before Showing Text" type="float"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Active" ID="0x01"/>
-        </properties>
-        <assets>
-            <animparams source="property">0x04</animparams>
-            <model source="property">0x06</model>
-            <model source="property">0x08</model>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>WorldTeleporter</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Active</Name>
+            </Element>
+            <Element Type="Asset" ID="0x2">
+                <Name>World</Name>
+                <TypeFilter>
+                    <Element>MLVL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3">
+                <Name>Area</Name>
+                <TypeFilter>
+                    <Element>MREA</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0x4">
+                <Name>Player Model</Name>
+            </Element>
+            <Element Type="Vector" ID="0x5">
+                <Name>Player Scale</Name>
+            </Element>
+            <Element Type="Asset" ID="0x6">
+                <Name>Elevator Platform Model</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0x7">
+                <Name>Elevator Platform Scale</Name>
+            </Element>
+            <Element Type="Asset" ID="0x8">
+                <Name>Elevator Background Model</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0x9">
+                <Name>Elevator Background Scale</Name>
+            </Element>
+            <Element Type="Bool" ID="0xA">
+                <Name>Upward Elevator</Name>
+            </Element>
+            <Element Type="Sound" ID="0xB">
+                <Name>Elevator Sound</Name>
+            </Element>
+            <Element Type="Int" ID="0xC">
+                <Name>Sound Volume</Name>
+            </Element>
+            <Element Type="Int" ID="0xD">
+                <Name>Unknown (Sound-Related)</Name>
+            </Element>
+            <Element Type="Bool" ID="0xE">
+                <Name>Show Text Instead Of Cutscene</Name>
+            </Element>
+            <Element Type="Asset" ID="0xF">
+                <Name>Font</Name>
+                <TypeFilter>
+                    <Element>FONT</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x10">
+                <Name>String</Name>
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x11">
+                <Name>Fade In From/Out To White</Name>
+            </Element>
+            <Element Type="Float" ID="0x12">
+                <Name>Character Fade In Time</Name>
+            </Element>
+            <Element Type="Float" ID="0x13">
+                <Name>Characters Per Second</Name>
+            </Element>
+            <Element Type="Float" ID="0x14">
+                <Name>Delay Before Showing Text</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x01</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x04"/>
+        <Element Type="Model" Source="Property" Location="0x06"/>
+        <Element Type="Model" Source="Property" Location="0x08"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

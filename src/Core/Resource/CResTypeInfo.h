@@ -20,14 +20,15 @@ class CResTypeInfo
     EResType mType;
     TString mTypeName;
     std::vector<SGameExtension> mCookedExtensions;
+    TString mRetroExtension; // File extension in Retro's directory tree. We don't use it directly but it is needed for generating asset ID hashes
     bool mCanBeSerialized;
     bool mCanHaveDependencies;
 
     static std::unordered_map<EResType, CResTypeInfo*> smTypeMap;
 
     // Private Methods
-    CResTypeInfo(EResType Type, const TString& rkTypeName);
-    ~CResTypeInfo();
+    CResTypeInfo(EResType Type, const TString& rkTypeName, const TString& rkRetroExtension);
+    ~CResTypeInfo() {}
 
     // Public Methods
 public:

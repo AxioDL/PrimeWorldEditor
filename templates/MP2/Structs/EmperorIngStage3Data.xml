@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>EmperorIngStage3Data</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x293A0C19">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8A3F760C" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Float" ID="0x69BC5CD4">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB110E539">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8D70D67A" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x89C142F7" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x8855C118" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xC9416034" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x1440D152" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xEF582BD6" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x4738C321" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x98E311C1" Archetype="EmperorIngStage3StructA"/>
+            <Element Type="Struct" ID="0x93DAE216" Archetype="EmperorIngStage3StructA"/>
+            <Element Type="Asset" ID="0x4F82B9E5">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x43E9C2E" Archetype="BasicSwarmProperties"/>
+            <Element Type="Struct" ID="0x91001508" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x3552953" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0xAF7E3033" Archetype="UnknownStruct26"/>
+            <Element Type="Struct" ID="0xAB4ED456" Archetype="ShockWaveInfo"/>
+            <Element Type="Sound" ID="0x985F72FD">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xE843417F" Archetype="EmperorIngStage3StructB"/>
+            <Element Type="Struct" ID="0xD13BEC3F" Archetype="EmperorIngStage3StructB"/>
+            <Element Type="Struct" ID="0xC61388FF" Archetype="EmperorIngStage3StructB"/>
+            <Element Type="Struct" ID="0xA3CAB6BF" Archetype="EmperorIngStage3StructB"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

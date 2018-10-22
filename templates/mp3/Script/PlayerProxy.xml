@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>PlayerProxy</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <enum ID="0x9654AF0E">
-            <default>0xD43A816B</default>
-            <enumerators>
-                <enumerator ID="0xD43A816B" name="Unknown 1"/>
-                <enumerator ID="0xD8DC7212" name="Unknown 2"/>
-                <enumerator ID="0x88B63F61" name="Unknown 3"/>
-                <enumerator ID="0x929711CF" name="Unknown 4"/>
-                <enumerator ID="0x98ACA83D" name="Unknown 5"/>
-                <enumerator ID="0xE3EC9CAE" name="Unknown 6"/>
-                <enumerator ID="0x739501A9" name="Unknown 7"/>
-                <enumerator ID="0x521814AF" name="Unknown 8"/>
-                <enumerator ID="0x97A4BEDE" name="Unknown 9"/>
-            </enumerators>
-        </enum>
-        <property ID="0xD62F2D4E" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x0847909F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x8927B141" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>PlayerProxy</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Enum" ID="0x9654AF0E">
+                <DefaultValue>0xD43A816B</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD43A816B"/>
+                    <Element Name="Unknown 2" ID="0xD8DC7212"/>
+                    <Element Name="Unknown 3" ID="0x88B63F61"/>
+                    <Element Name="Unknown 4" ID="0x929711CF"/>
+                    <Element Name="Unknown 5" ID="0x98ACA83D"/>
+                    <Element Name="Unknown 6" ID="0xE3EC9CAE"/>
+                    <Element Name="Unknown 7" ID="0x739501A9"/>
+                    <Element Name="Unknown 8" ID="0x521814AF"/>
+                    <Element Name="Unknown 9" ID="0x97A4BEDE"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xD62F2D4E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x847909F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x8927B141">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

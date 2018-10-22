@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>ManthaData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x845EF489">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF008B03B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3A34B9F">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xEB12BEE4" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xDF3A9CAB">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB756096C">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA715A718" Archetype="DamageInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

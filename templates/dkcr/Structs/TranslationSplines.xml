@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="TranslationSplines" type="multi">
-    <properties>
-        <property ID="0x24E9A09B" type="MayaSpline"/>
-        <property ID="0xCBBB167A" type="MayaSpline"/>
-        <property ID="0x213DCB18" type="MayaSpline"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TranslationSplines</Name>
+        <SubProperties>
+            <Element Type="Spline" ID="0x24E9A09B"/>
+            <Element Type="Spline" ID="0xCBBB167A"/>
+            <Element Type="Spline" ID="0x213DCB18"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

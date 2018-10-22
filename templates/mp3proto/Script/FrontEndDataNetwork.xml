@@ -1,86 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>FrontEndDataNetwork</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x5C3C9E4A" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x77F59F4A" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x29C0CB7F" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x02E74CBA" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xA2AC58E9" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xDEE730F5" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x8B8FA0FE" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xD0F2D612" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x5EBC97FD" type="float">
-            <default>8.0</default>
-        </property>
-        <property ID="0x3E5727AA" type="asset" extensions="UNKN"/>
-        <property ID="0x547FFFC3" type="asset" extensions="UNKN"/>
-        <property ID="0xCDAABA00" type="asset" extensions="UNKN"/>
-        <property ID="0x7F62DA5B" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xED286CE4" type="color">
-            <default>0.498039, 0.498039, 0.498039, 0.74902</default>
-        </property>
-        <property ID="0xAD671492" type="color">
-            <default>0.8, 0.8, 0.8, 1.0</default>
-        </property>
-        <property ID="0xB44D4C70" type="color">
-            <default>0.247059, 0.247059, 0.247059, 1.0</default>
-        </property>
-        <property ID="0x2D23720F" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xEC45879E" type="MayaSpline"/>
-        <property ID="0xFA20775D" type="float">
-            <default>0.75</default>
-        </property>
-        <property ID="0x5E30354A" type="MayaSpline"/>
-        <property ID="0x3C1FA2CA" type="float">
-            <default>0.75</default>
-        </property>
-        <property ID="0xB492C2AF" type="MayaSpline"/>
-        <property ID="0x6D5198B4" type="float">
-            <default>0.75</default>
-        </property>
-        <property ID="0xDF1B312C" type="MayaSpline"/>
-        <property ID="0xBAC12CA0" type="float">
-            <default>0.75</default>
-        </property>
-        <property ID="0x4DA90D36" type="long">
-            <default>127</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>FrontEndDataNetwork</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Bool" ID="0x5C3C9E4A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x77F59F4A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x29C0CB7F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2E74CBA">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA2AC58E9">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDEE730F5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8B8FA0FE">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD0F2D612">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5EBC97FD">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x3E5727AA"/>
+            <Element Type="Asset" ID="0x547FFFC3"/>
+            <Element Type="Asset" ID="0xCDAABA00"/>
+            <Element Type="Color" ID="0x7F62DA5B">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xED286CE4">
+                <DefaultValue>
+                    <R>0.49803901</R>
+                    <G>0.49803901</G>
+                    <B>0.49803901</B>
+                    <A>0.74901998</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xAD671492">
+                <DefaultValue>
+                    <R>0.80000001</R>
+                    <G>0.80000001</G>
+                    <B>0.80000001</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xB44D4C70">
+                <DefaultValue>
+                    <R>0.247059</R>
+                    <G>0.247059</G>
+                    <B>0.247059</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2D23720F">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xEC45879E"/>
+            <Element Type="Float" ID="0xFA20775D">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x5E30354A"/>
+            <Element Type="Float" ID="0x3C1FA2CA">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xB492C2AF"/>
+            <Element Type="Float" ID="0x6D5198B4">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xDF1B312C"/>
+            <Element Type="Float" ID="0xBAC12CA0">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4DA90D36">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

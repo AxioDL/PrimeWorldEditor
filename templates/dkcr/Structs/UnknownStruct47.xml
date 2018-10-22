@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct47" type="multi">
-    <properties>
-        <property ID="0xA06EDAF9" type="asset" extensions="PART"/>
-        <property ID="0x2B258629" type="asset" extensions="CAUD"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct47</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xA06EDAF9">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2B258629">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

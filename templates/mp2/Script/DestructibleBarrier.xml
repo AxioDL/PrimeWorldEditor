@@ -1,92 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>DestructibleBarrier</name>
-    <modules>
-        <module>DestructibleBarrier.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xCD4F7E71" type="long">
-            <default>2</default>
-        </property>
-        <property ID="0xA7F551F7" type="long">
-            <default>5</default>
-        </property>
-        <property ID="0x609C6240" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xB29E159E" type="vector3f">
-            <default>1.5, 0.2, 1.0</default>
-        </property>
-        <property ID="0x014A0C36" type="asset" extensions="UNKN"/>
-        <property ID="0x90F55C5D" type="asset" extensions="UNKN"/>
-        <property ID="0xE1975355" type="asset" extensions="UNKN"/>
-        <property ID="0x396660B4" type="asset" extensions="UNKN"/>
-        <property ID="0x48E25884" type="asset" extensions="UNKN"/>
-        <property ID="0xF1ABB2C7" type="asset" extensions="UNKN"/>
-        <property ID="0x1EB90D06" type="asset" extensions="UNKN"/>
-        <property ID="0x9D852DFE" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0x982D7FA8" type="asset" extensions="UNKN"/>
-        <property ID="0x2E11003D" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0x5371AC0D" type="asset" extensions="UNKN"/>
-        <property ID="0x409D1B7C" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x4E749CB5" type="asset" extensions="UNKN"/>
-        <property ID="0x92485DFA" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x6E4A9D27" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xBC2381A6" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x6575A3D5" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0xC91B0946" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x4B2D5A37" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x605847B9" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0xCD9C67FE" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x0AF428B4" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x4D3109E3" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
-        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <model source="property">0x7E397FED:0xC0BA9E18</model>
-            <model source="property">0x7E397FED:0x6B1FBC3A</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Modules>
+        <Element>DestructibleBarrier.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>DestructibleBarrier</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0xCD4F7E71">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA7F551F7">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x609C6240">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xB29E159E">
+                <DefaultValue>
+                    <X>1.5</X>
+                    <Y>0.2</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x14A0C36"/>
+            <Element Type="Asset" ID="0x90F55C5D"/>
+            <Element Type="Asset" ID="0xE1975355"/>
+            <Element Type="Asset" ID="0x396660B4"/>
+            <Element Type="Asset" ID="0x48E25884"/>
+            <Element Type="Asset" ID="0xF1ABB2C7"/>
+            <Element Type="Asset" ID="0x1EB90D06"/>
+            <Element Type="Int" ID="0x9D852DFE">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x982D7FA8"/>
+            <Element Type="Int" ID="0x2E11003D">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x5371AC0D"/>
+            <Element Type="Int" ID="0x409D1B7C">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x4E749CB5"/>
+            <Element Type="Int" ID="0x92485DFA">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6E4A9D27">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBC2381A6">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6575A3D5">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC91B0946">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4B2D5A37">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x605847B9">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCD9C67FE">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAF428B4">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4D3109E3">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xC0BA9E18"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0x6B1FBC3A"/>
+    </Assets>
+</ScriptObject>

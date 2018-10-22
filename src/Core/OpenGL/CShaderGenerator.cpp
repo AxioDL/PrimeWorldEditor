@@ -481,7 +481,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
 
     if (rkMat.Options() & CMaterial::ePunchthrough)
     {
-        if (rkMat.Version() < eCorruptionProto)
+        if (rkMat.Version() < EGame::CorruptionProto)
         {
             ShaderCode << "    if (Prev.a <= 0.25) discard;\n"
                        << "    else Prev.a = 1.0;\n\n";

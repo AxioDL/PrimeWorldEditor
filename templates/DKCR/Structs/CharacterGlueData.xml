@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>CharacterGlueData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x411D0552">
+                <DefaultValue>0xD4E949F7</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD4E949F7"/>
+                    <Element Name="Unknown 2" ID="0x2D8EBAA0"/>
+                    <Element Name="Unknown 3" ID="0x13540CA"/>
+                    <Element Name="Unknown 4" ID="0x8FE9C24B"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0xA46F7341" Archetype="UnknownStruct138"/>
+            <Element Type="Struct" ID="0x36538065" Archetype="DKBarrelGlueData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

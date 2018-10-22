@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>OffsetSplines</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x8FF3B44">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x485B0C11"/>
+            <Element Type="Spline" ID="0x95CDD594"/>
+            <Element Type="Spline" ID="0x2807B95A"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

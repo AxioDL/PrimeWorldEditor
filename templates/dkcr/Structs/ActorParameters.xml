@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ActorParameters" type="multi">
-    <properties>
-        <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
-        <property ID="0x1499803C" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x90AA341F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x7C269EBC" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x799263F1" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xED3A6E87" type="bool">
-            <default>true</default>
-        </property>
-        <enum ID="0xE315EE72" template="Enums/UnknownEnum1.xml">
-            <default>0xD086634A</default>
-        </enum>
-        <property ID="0x6DA86200" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x1BCAB75C" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x101EA33E" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ActorParameters</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xB028DB0E" Archetype="LightParameters"/>
+            <Element Type="Bool" ID="0x1499803C">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C269EBC">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x799263F1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xED3A6E87">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xE315EE72" Archetype="UnknownEnum1">
+                <DefaultValue>0xD086634A</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6DA86200">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1BCAB75C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x101EA33E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

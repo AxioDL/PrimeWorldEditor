@@ -1,107 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Spinner</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x11E0AB90" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xBA84F23E" type="multi">
-            <properties>
-                <struct ID="0x69B1EDE1" type="multi">
-                    <properties>
-                        <property ID="0xEC461686" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x39FB7978" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x8B51E23F" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0xA4B2D278" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x81170D21" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x51B03D22" type="float">
-                            <default>0.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x1B23374B" type="multi">
-                    <properties>
-                        <property ID="0xEC461686" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x39FB7978" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x8B51E23F" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0xA4B2D278" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x81170D21" type="float">
-                            <default>0.0</default>
-                        </property>
-                        <property ID="0x51B03D22" type="float">
-                            <default>0.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xE6FE52E5" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xB707E9B8" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x27CF0FE0" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x652FB7D2" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x918D26BE" type="bool">
-                    <default>false</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xC243DF95" type="multi">
-            <properties>
-                <property ID="0xD8738FC8" type="asset" extensions="CAUD"/>
-                <enum ID="0x6A06FAEE">
-                    <default>0x2FD7B2AA</default>
-                    <enumerators>
-                        <enumerator ID="0x2FD7B2AA" name="Unknown 1"/>
-                        <enumerator ID="0x5F24CC64" name="Unknown 2"/>
-                        <enumerator ID="0x63E170C0" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <property ID="0x0AC56FC9" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xF27C01EE" type="MayaSpline"/>
-                <property ID="0xCFE42324" type="MayaSpline"/>
-                <property ID="0x533090A0" type="MayaSpline"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>Spinner</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Bool" ID="0x11E0AB90">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xBA84F23E" Archetype="UnknownStruct267"/>
+            <Element Type="Struct" ID="0xC243DF95" Archetype="UnknownStruct268"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

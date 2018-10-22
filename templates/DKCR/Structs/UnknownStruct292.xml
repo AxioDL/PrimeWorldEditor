@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct292</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xC5CE83AF">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xA826BD98"/>
+            <Element Type="Float" ID="0x46CC2FD0">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x82B6DC81">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x686E030B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68D787B4">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x68137EA7">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEBF3B81D"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

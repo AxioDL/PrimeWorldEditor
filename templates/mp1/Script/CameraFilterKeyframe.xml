@@ -1,29 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>CameraFilterKeyframe</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Active" type="bool"/>
-        <property ID="0x02" name="Filter Type" type="long"/>
-        <property ID="0x03" name="Filter Shape" type="long"/>
-        <property ID="0x04" name="Unknown 4" type="long"/>
-        <property ID="0x05" name="Unknown 5" type="long"/>
-        <property ID="0x06" name="Filter Color" type="color"/>
-        <property ID="0x07" name="Fade-In Duration" type="float"/>
-        <property ID="0x08" name="Fade-Out Duration" type="float"/>
-        <property ID="0x09" name="Overlay Texture" type="asset" extensions="TXTR"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Active" ID="0x01"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/CameraFilterKeyframe.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>CameraFilterKeyframe</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Active</Name>
+            </Element>
+            <Element Type="Int" ID="0x2">
+                <Name>Filter Type</Name>
+            </Element>
+            <Element Type="Int" ID="0x3">
+                <Name>Filter Shape</Name>
+            </Element>
+            <Element Type="Int" ID="0x4">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Int" ID="0x5">
+                <Name>Unknown 5</Name>
+            </Element>
+            <Element Type="Color" ID="0x6">
+                <Name>Filter Color</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Fade-In Duration</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>Fade-Out Duration</Name>
+            </Element>
+            <Element Type="Asset" ID="0x9">
+                <Name>Overlay Texture</Name>
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x01</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/CameraFilterKeyframe.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

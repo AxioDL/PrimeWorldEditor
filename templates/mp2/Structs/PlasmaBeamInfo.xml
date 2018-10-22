@@ -1,47 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PlasmaBeamInfo" type="multi">
-    <properties>
-        <property ID="0xFF713AAD" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x459AE4A8" type="asset" extensions="WPSC"/>
-        <property ID="0x4F387C49" type="asset" extensions="PART"/>
-        <property ID="0xDDD52E3A" type="asset" extensions="PART"/>
-        <property ID="0xC6F229C6" type="asset" extensions="TXTR"/>
-        <property ID="0x8F1A76C3" type="asset" extensions="TXTR"/>
-        <property ID="0xC26C291C" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x78C507EB" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0xEC773D1D" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xB02DE555" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x5180181E" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x72A96252" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x855ED9B9" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xB8652FE4" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x3FED5E52" type="float">
-            <default>150.0</default>
-        </property>
-        <property ID="0x1AFB2B73" type="color">
-            <default>1.0, 1.0, 1.0, 0.0</default>
-        </property>
-        <property ID="0x9FD338FC" type="color">
-            <default>0.0, 0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xAEB31AF3" type="asset" extensions="PART"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>PlasmaBeamInfo</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xFF713AAD">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x459AE4A8">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4F387C49">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDDD52E3A">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC6F229C6">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8F1A76C3">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xC26C291C">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x78C507EB">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEC773D1D">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB02DE555">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5180181E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x72A96252">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x855ED9B9">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB8652FE4">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3FED5E52">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1AFB2B73">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x9FD338FC">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xAEB31AF3">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

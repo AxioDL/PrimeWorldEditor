@@ -101,11 +101,11 @@ public:
 
         case eStateMachine:
             // AFSM currently unsupported
-            if (pEntry->Game() <= eEchoes)
+            if (pEntry->Game() <= EGame::Echoes)
                 pRes = new CDependencyGroup(pEntry);
-            else if (pEntry->Game() <= eCorruption)
+            else if (pEntry->Game() <= EGame::Corruption)
                 pRes = CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);
-            else if (pEntry->Game() == eReturns)
+            else if (pEntry->Game() == EGame::DKCReturns)
                 pRes = CUnsupportedFormatLoader::LoadFSMC(rInput, pEntry);
             break;
 

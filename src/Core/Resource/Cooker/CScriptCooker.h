@@ -10,15 +10,19 @@
 class CScriptCooker
 {
     EGame mGame;
+    CScriptObject* mpObject;
+    void* mpArrayItemData;
     std::vector<CScriptObject*> mGeneratedObjects;
     bool mWriteGeneratedSeparately;
 
-    void WriteProperty(IOutputStream& rOut,IProperty *pProp, bool InSingleStruct);
+    void WriteProperty(IOutputStream& rOut, IProperty* pProperty, bool InAtomicStruct);
 
 public:
     CScriptCooker(EGame Game, bool WriteGeneratedObjectsSeparately = true)
         : mGame(Game)
-        , mWriteGeneratedSeparately(WriteGeneratedObjectsSeparately && mGame >= eEchoesDemo)
+        , mpObject(nullptr)
+        , mpArrayItemData(nullptr)
+        , mWriteGeneratedSeparately(WriteGeneratedObjectsSeparately && mGame >= EGame::EchoesDemo)
     {}
 
     void WriteInstance(IOutputStream& rOut, CScriptObject *pInstance);

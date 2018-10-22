@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ClingPathControlData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xFA166886" Archetype="MaterialType">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x95A68D4C">
+                        <DefaultValue>0xF0F41378</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Bool" ID="0xF70BEFC0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD7D2B3DE">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x8C9927C2">
+                <DefaultValue>0x2AEDDF04</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x2AEDDF04"/>
+                    <Element Name="Unknown 2" ID="0xCDAE7D89"/>
+                    <Element Name="Unknown 3" ID="0x745FB466"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

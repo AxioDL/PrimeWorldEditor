@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerFireReactionData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x42AC42EA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE2A43392">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xDA44986F">
+                <DefaultValue>0x80468E1F</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x624D7DCC"/>
+                    <Element Name="Unknown 2" ID="0x80468E1F"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0x3707468E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9D331279">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD90270F8">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -11,20 +11,20 @@ class CWaypointExtra;
 class CSplinePathExtra : public CScriptExtra
 {
     // Recolor waypoint paths to match the editor color parameter
-    TColorProperty *mpPathColor;
+    CColorRef mPathColor;
     std::list<CWaypointExtra*> mWaypoints;
 
 public:
-    explicit CSplinePathExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
+    explicit CSplinePathExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent = 0);
     ~CSplinePathExtra()             { ClearWaypoints(); }
-    inline CColor PathColor() const { return (mpPathColor ? mpPathColor->Get() : CColor::skBlack); }
+    inline CColor PathColor() const { return (mPathColor.IsValid() ? mPathColor.Get() : CColor::skBlack); }
 
     void PostLoad();
-    void PropertyModified(IProperty *pProperty);
+    void PropertyModified(IProperty* pProperty);
 
-    void FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked, CWaypointExtra *pWaypoint);
+    void FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked, CWaypointExtra* pWaypoint);
     void AddWaypoints();
-    void RemoveWaypoint(CWaypointExtra *pWaypoint);
+    void RemoveWaypoint(CWaypointExtra* pWaypoint);
     void ClearWaypoints();
 };
 

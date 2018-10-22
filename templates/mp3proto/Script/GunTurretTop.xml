@@ -1,103 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>GunTurretTop</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xA858F4E7" type="multi">
-            <properties>
-                <property ID="0x701D65CD" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0xFE6829EC" type="float">
-                    <default>180.0</default>
-                </property>
-                <property ID="0x4D28523E" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x95E7A2C2" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x76BA1C18" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x3EB2DE35" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xE50D8DD2" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x64D482D5" type="long">
-                    <default>1</default>
-                </property>
-                <property ID="0xC3E002AC" type="long">
-                    <default>5</default>
-                </property>
-                <property ID="0x16E7D74A" type="asset" extensions="CRSC"/>
-                <property ID="0x00E9C72C" type="asset" extensions="WPSC"/>
-                <struct ID="0xBE7FB5CC" template="Structs/DamageInfo.xml"/>
-                <property ID="0x4173EC53" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xD75F9CF2" type="float">
-                    <default>5.0</default>
-                </property>
-                <struct ID="0xAD85924E" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0xF5915FF7" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x83A413D9" type="asset" extensions="UNKN"/>
-                <struct ID="0xF609C637" template="Structs/GrappleData.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml">
-            <properties>
-                <struct ID="0xCF90D15E">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>100.0</default>
-                        </property>
-                        <property ID="0x3A2D17E4">
-                            <default>2.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xD9355674">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x58434916">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xFF77C96F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x3FAE47EB">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x13F0B18F">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x7D5A0487">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>GunTurretTop</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xA858F4E7" Archetype="GunTurretTopData"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>100.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3A2D17E4">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xD9355674">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x58434916">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xFF77C96F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x3FAE47EB">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x13F0B18F">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x7D5A0487">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+    </Assets>
+</ScriptObject>

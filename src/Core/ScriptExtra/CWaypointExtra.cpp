@@ -28,7 +28,7 @@ void CWaypointExtra::CheckColor()
     }
 
     // Fetch color from parent node's model (MP1/2/3)
-    else if (mGame < eReturns)
+    else if (mGame < EGame::DKCReturns)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpParent);
         CModel *pModel = pScript->ActiveModel();
@@ -185,5 +185,5 @@ void CWaypointExtra::Draw(FRenderOptions /*Options*/, int ComponentIndex, ERende
 
 CColor CWaypointExtra::TevColor()
 {
-    return (mGame < eReturns ? CColor::skWhite : mColor);
+    return (mGame < EGame::DKCReturns ? CColor::skWhite : mColor);
 }

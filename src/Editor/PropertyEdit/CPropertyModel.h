@@ -1,23 +1,43 @@
 #ifndef CPROPERTYMODEL_H
 #define CPROPERTYMODEL_H
 
+#include <Core/Resource/Script/Property/Properties.h>
 #include <QAbstractItemModel>
-#include <Core/Resource/Script/IProperty.h>
 #include <QFont>
 
 class CPropertyModel : public QAbstractItemModel
 {
     Q_OBJECT
 
-    CPropertyStruct *mpBaseStruct;
+    struct SProperty
+    {
+        IProperty* pProperty;
+        QModelIndex Index;
+        int ParentID;
+        std::vector<int> ChildIDs;
+    };
+    QVector<SProperty> mProperties;
+    QMap<IProperty*, int> mPropertyToIDMap;
+    int mFirstUnusedID;
+
+    CGameProject* mpProject;
+    CScriptObject* mpObject; // may be null
+    IProperty* mpRootProperty;
+    void* mpPropertyData;
+
     bool mBoldModifiedProperties;
+    bool mShowNameValidity;
     QFont mFont;
+
+    int RecursiveBuildArrays(IProperty* pProperty, int ParentID);
 
 public:
     CPropertyModel(QObject *pParent = 0);
-    void SetBaseStruct(CPropertyStruct *pBaseStruct);
-    IProperty* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedPointers) const;
+    void ConfigureIntrinsic(CGameProject* pProject, IProperty* pRootProperty, void* pPropertyData);
+    void ConfigureScript(CGameProject* pProject, IProperty* pRootProperty, CScriptObject* pObject);
+    IProperty* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const;
     QModelIndex IndexForProperty(IProperty *pProp) const;
+    void* DataPointerForIndex(const QModelIndex& rkIndex) const;
 
     int columnCount(const QModelIndex& rkParent) const;
     int rowCount(const QModelIndex& rkParent) const;
@@ -30,9 +50,14 @@ public:
     void ArrayAboutToBeResized(const QModelIndex& rkIndex, u32 NewSize);
     void ArrayResized(const QModelIndex& rkIndex, u32 OldSize);
     void ResizeArray(const QModelIndex& rkIndex, u32 NewSize);
+    void ClearSlot(int ID);
+
+    EPropertyType GetEffectiveFieldType(IProperty* pProperty) const;
+    void SetShowPropertyNameValidity(bool Enable);
 
     inline void SetFont(QFont Font) { mFont = Font; }
     inline void SetBoldModifiedProperties(bool Enable) { mBoldModifiedProperties = Enable; }
+    inline CScriptObject* GetScriptObject() const { return mpObject; }
 
 public slots:
     void NotifyPropertyModified(class CScriptObject *pInst, IProperty *pProp);

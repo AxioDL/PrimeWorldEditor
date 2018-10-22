@@ -92,87 +92,87 @@ u32 CWorld::AreaIndex(CAssetID AreaID) const
 // ************ SERIALIZATION ************
 void CWorld::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("Name", mName)
-         << SERIAL("NameString", mpWorldName);
+    rArc << SerialParameter("Name", mName)
+         << SerialParameter("NameString", mpWorldName);
 
-    if (rArc.Game() == eEchoesDemo || rArc.Game() == eEchoes)
-        rArc << SERIAL("DarkNameString", mpDarkWorldName);
+    if (rArc.Game() == EGame::EchoesDemo || rArc.Game() == EGame::Echoes)
+        rArc << SerialParameter("DarkNameString", mpDarkWorldName);
 
-    rArc << SERIAL("WorldSaveInfo", mpSaveWorld)
-         << SERIAL("WorldMap", mpMapWorld)
-         << SERIAL("DefaultSkyModel", mpDefaultSkybox);
+    rArc << SerialParameter("WorldSaveInfo", mpSaveWorld)
+         << SerialParameter("WorldMap", mpMapWorld)
+         << SerialParameter("DefaultSkyModel", mpDefaultSkybox);
 
-    if (rArc.Game() >= eEchoesDemo && rArc.Game() <= eCorruption)
-        rArc << SERIAL("TempleKeyWorldIndex", mTempleKeyWorldIndex);
+    if (rArc.Game() >= EGame::EchoesDemo && rArc.Game() <= EGame::Corruption)
+        rArc << SerialParameter("TempleKeyWorldIndex", mTempleKeyWorldIndex);
 
-    if (rArc.Game() == eReturns)
-        rArc << SERIAL("TimeAttackData", mTimeAttackData);
+    if (rArc.Game() == EGame::DKCReturns)
+        rArc << SerialParameter("TimeAttackData", mTimeAttackData);
 
-    if (rArc.Game() == ePrime)
-        rArc << SERIAL_CONTAINER("MemoryRelays", mMemoryRelays, "MemoryRelay");
+    if (rArc.Game() == EGame::Prime)
+        rArc << SerialParameter("MemoryRelays", mMemoryRelays);
 
-    rArc << SERIAL_CONTAINER("Areas", mAreas, "Area");
+    rArc << SerialParameter("Areas", mAreas);
 }
 
 void Serialize(IArchive& rArc, CWorld::STimeAttackData& rData)
 {
-    rArc << SERIAL("HasTimeAttack", rData.HasTimeAttack)
-         << SERIAL("ActNumber", rData.ActNumber)
-         << SERIAL("BronzeTime", rData.BronzeTime)
-         << SERIAL("SilverTime", rData.SilverTime)
-         << SERIAL("GoldTime", rData.GoldTime)
-         << SERIAL("ShinyGoldTime", rData.ShinyGoldTime);
+    rArc << SerialParameter("HasTimeAttack", rData.HasTimeAttack)
+         << SerialParameter("ActNumber", rData.ActNumber)
+         << SerialParameter("BronzeTime", rData.BronzeTime)
+         << SerialParameter("SilverTime", rData.SilverTime)
+         << SerialParameter("GoldTime", rData.GoldTime)
+         << SerialParameter("ShinyGoldTime", rData.ShinyGoldTime);
 }
 
 void Serialize(IArchive& rArc, CWorld::SMemoryRelay& rMemRelay)
 {
-    rArc << SERIAL_HEX("MemoryRelayID", rMemRelay.InstanceID)
-         << SERIAL_HEX("TargetID", rMemRelay.TargetID)
-         << SERIAL("Message", rMemRelay.Message)
-         << SERIAL("Active", rMemRelay.Active);
+    rArc << SerialParameter("MemoryRelayID", rMemRelay.InstanceID, SH_HexDisplay)
+         << SerialParameter("TargetID", rMemRelay.TargetID, SH_HexDisplay)
+         << SerialParameter("Message", rMemRelay.Message)
+         << SerialParameter("Active", rMemRelay.Active);
 }
 
 void Serialize(IArchive& rArc, CWorld::SArea& rArea)
 {
-    rArc << SERIAL("Name", rArea.InternalName)
-         << SERIAL("NameString", rArea.pAreaName)
-         << SERIAL("MREA", rArea.AreaResID)
-         << SERIAL("ID", rArea.AreaID)
-         << SERIAL("Transform", rArea.Transform)
-         << SERIAL("BoundingBox", rArea.AetherBox)
-         << SERIAL("AllowPakDuplicates", rArea.AllowPakDuplicates)
-         << SERIAL_CONTAINER("AttachedAreas", rArea.AttachedAreaIDs, "AreaIndex")
-         << SERIAL_CONTAINER("RelModules", rArea.RelFilenames, "Module")
-         << SERIAL_CONTAINER("RelOffsets", rArea.RelOffsets, "Offset")
-         << SERIAL_CONTAINER("Docks", rArea.Docks, "Dock")
-         << SERIAL_CONTAINER("Layers", rArea.Layers, "Layer");
+    rArc << SerialParameter("Name", rArea.InternalName)
+         << SerialParameter("NameString", rArea.pAreaName)
+         << SerialParameter("MREA", rArea.AreaResID)
+         << SerialParameter("ID", rArea.AreaID)
+         << SerialParameter("Transform", rArea.Transform)
+         << SerialParameter("BoundingBox", rArea.AetherBox)
+         << SerialParameter("AllowPakDuplicates", rArea.AllowPakDuplicates)
+         << SerialParameter("AttachedAreas", rArea.AttachedAreaIDs)
+         << SerialParameter("RelModules", rArea.RelFilenames)
+         << SerialParameter("RelOffsets", rArea.RelOffsets)
+         << SerialParameter("Docks", rArea.Docks)
+         << SerialParameter("Layers", rArea.Layers);
 }
 
 void Serialize(IArchive& rArc, CWorld::SArea::SDock& rDock)
 {
-    rArc << SERIAL_CONTAINER("ConnectingDocks", rDock.ConnectingDocks, "ConnectingDock")
-         << SERIAL_CONTAINER("DockCoords", rDock.DockCoordinates, "Coord");
+    rArc << SerialParameter("ConnectingDocks", rDock.ConnectingDocks)
+         << SerialParameter("DockCoords", rDock.DockCoordinates);
 }
 
 void Serialize(IArchive& rArc, CWorld::SArea::SDock::SConnectingDock& rDock)
 {
-    rArc << SERIAL("AreaIndex", rDock.AreaIndex)
-         << SERIAL("DockIndex", rDock.DockIndex);
+    rArc << SerialParameter("AreaIndex", rDock.AreaIndex)
+         << SerialParameter("DockIndex", rDock.DockIndex);
 }
 
 void Serialize(IArchive& rArc, CWorld::SArea::SLayer& rLayer)
 {
-    rArc << SERIAL("Name", rLayer.LayerName)
-         << SERIAL("Active", rLayer.Active);
+    rArc << SerialParameter("Name", rLayer.LayerName)
+         << SerialParameter("Active", rLayer.Active);
 
-    if (rArc.Game() >= eCorruption)
+    if (rArc.Game() >= EGame::Corruption)
     {
-        rArc << SERIAL("StateID", rLayer.LayerStateID);
+        rArc << SerialParameter("StateID", rLayer.LayerStateID);
     }
 }
 
 void Serialize(IArchive& rArc, CWorld::SAudioGrp& rAudioGrp)
 {
-    rArc << SERIAL("GroupID", rAudioGrp.GroupID)
-         << SERIAL("AGSC", rAudioGrp.ResID);
+    rArc << SerialParameter("GroupID", rAudioGrp.GroupID)
+         << SerialParameter("AGSC", rAudioGrp.ResID);
 }

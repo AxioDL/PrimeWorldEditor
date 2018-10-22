@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="MetroidPhazeoidStruct" type="multi">
-    <properties>
-        <property ID="0x837498C3" type="float">
-            <default>0.9</default>
-        </property>
-        <property ID="0x0DA48646" type="float">
-            <default>1.1</default>
-        </property>
-        <property ID="0xCE995B2F" type="float">
-            <default>1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>MetroidPhazeoidStruct</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x837498C3">
+                <DefaultValue>0.89999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDA48646">
+                <DefaultValue>1.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE995B2F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

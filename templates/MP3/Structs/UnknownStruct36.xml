@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct36</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x531A8C85">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE9865FC0">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x9CE31FFA"/>
+            <Element Type="String" ID="0xFAF186B6"/>
+            <Element Type="String" ID="0x5D1949B5"/>
+            <Element Type="Struct" ID="0xAEC7546E" Archetype="UnknownStruct35"/>
+            <Element Type="Struct" ID="0x810EC49A" Archetype="GhorStructC"/>
+            <Element Type="Spline" ID="0x9B98F8CE"/>
+            <Element Type="Spline" ID="0x3D14FB8E"/>
+            <Element Type="String" ID="0x13D02889"/>
+            <Element Type="Spline" ID="0x4A744859"/>
+            <Element Type="Float" ID="0x9B2EA489">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD0475191">
+                <DefaultValue>14.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x56C192F3" Archetype="ShockWaveInfo"/>
+            <Element Type="Struct" ID="0xF55A1548" Archetype="ShockWaveInfo"/>
+            <Element Type="Float" ID="0x8554E360">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC51B9B16">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAFECAB12">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7CC59B31">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD6AAD996">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA31D0055">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9AE279DA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB39C84C2">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2A35593B">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

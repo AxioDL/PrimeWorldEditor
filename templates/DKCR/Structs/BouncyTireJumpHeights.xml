@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BouncyTireJumpHeights</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x22398A4F">
+                <DefaultValue>4.6402001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x719F92AB">
+                <DefaultValue>7.6402001</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

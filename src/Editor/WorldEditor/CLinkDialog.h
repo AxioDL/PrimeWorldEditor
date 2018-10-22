@@ -12,7 +12,7 @@ class CLinkDialog : public QDialog
     Q_OBJECT
 
     CWorldEditor *mpEditor;
-    CMasterTemplate *mpMaster;
+    CGameTemplate *mpGame;
     CScriptObject *mpSender;
     CScriptObject *mpReceiver;
     CLink *mpEditLink;
@@ -34,7 +34,7 @@ public:
     void NewLink(CScriptObject *pSender, CScriptObject *pReceiver);
     void EditLink(CLink *pLink);
 
-    void SetMaster(CMasterTemplate *pMaster);
+    void SetGame(CGameTemplate *pGame);
     void SetSender(CScriptObject *pSender);
     void SetReceiver(CScriptObject *pReceiver);
     u32 State() const;

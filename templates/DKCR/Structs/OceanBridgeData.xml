@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>OceanBridgeData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xE993145F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x69A2B08E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA2FE632B">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x246A1185">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEF36C220"/>
+            <Element Type="Asset" ID="0xF233F298"/>
+            <Element Type="Spline" ID="0xF7AA5F32"/>
+            <Element Type="Spline" ID="0xD0239F95"/>
+            <Element Type="Float" ID="0x5688683B">
+                <DefaultValue>-0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB0E8C7DA">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2323BA82">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6045BB7B">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFE69D67A">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x847759BA">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE5B6B666">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D61987">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC246B3CA">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBDBA191E">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75CE0C79">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE5D866F1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB0946259">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x812AFC85">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x66AD2B98">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1D2D962D">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9DEE347A">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1F3EAD53">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x225E84E3">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x65FEFE33">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x589ED783">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xEABE0B93">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD7DE2223">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x907E58F3">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xAD1E7143">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2F4EE692">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x122ECF22">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE6B1D780">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDBD1FE30">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x9C7184E0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA111AD50">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x13317140">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2E5158F0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x69F12220">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x54910B90">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD6C19C41">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xEBA1B5F1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x66A86577" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0xFDDB8FA3" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x8B3EB69E" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x104D5C4A" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x66F4C4E4" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0xFD872E30" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x8B62170D" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x1011FDD9" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x66112651" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0xFD62CC85" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x17A09D5F" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x8CD3778B" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0xFA364EB6" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x6145A462" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x17FC3CCC" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x8C8FD618" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0xFA6AEF25" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x611905F1" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x1719DE79" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0x8C6A34AD" Archetype="OceanBridgeStructA"/>
+            <Element Type="Struct" ID="0xDAFE5D7A" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x418DB7AE" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x37688E93" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xAC1B6447" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xDAA2FCE9" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x41D1163D" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x37342F00" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xAC47C5D4" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xDA471E5C" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x4134F488" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x3CE60D48" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xA795E79C" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xD170DEA1" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x4A033475" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x3CBAACDB" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xA7C9460F" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xD12C7F32" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x4A5F95E6" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0x3C5F4E6E" Archetype="OceanBridgeStructB"/>
+            <Element Type="Struct" ID="0xA72CA4BA" Archetype="OceanBridgeStructB"/>
+            <Element Type="Float" ID="0xAAA1256D">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE7CA6050">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5D4FBC07">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xED5E783"/>
+            <Element Type="Asset" ID="0xA3BAC487">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4FE79727">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1C7DCCA3"/>
+            <Element Type="Asset" ID="0x51ED297F">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEAEFFC4B">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB975A7CF"/>
+            <Element Type="Asset" ID="0xB6F08FE8">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x89E8256F">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDA727EEB"/>
+            <Element Type="Asset" ID="0x6E33F4CE">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7B8E2CD2">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x28147756"/>
+            <Element Type="Asset" ID="0x93800D"/>
+            <Element Type="Spline" ID="0xCCBB7330"/>
+            <Element Type="Spline" ID="0xAA62345F"/>
+            <Element Type="Spline" ID="0x1852AF24"/>
+            <Element Type="Spline" ID="0xBA9A91C"/>
+            <Element Type="Spline" ID="0x6FCC7DD4"/>
+            <Element Type="Spline" ID="0x77C88CC7"/>
+            <Element Type="Spline" ID="0x7B066BAC"/>
+            <Element Type="Spline" ID="0x64FADEA2"/>
+            <Element Type="Asset" ID="0x751BFE84">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5EB113BF">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3DBA2F5C">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

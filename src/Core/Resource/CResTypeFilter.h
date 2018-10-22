@@ -11,7 +11,7 @@ class CResTypeFilter
     std::set<EResType> mAcceptedTypes;
 
 public:
-    CResTypeFilter() { }
+    CResTypeFilter() : mGame(EGame::Invalid) { }
     CResTypeFilter(EGame Game, const TString& rkTypeList) { FromString(Game, rkTypeList); }
 
     void SetAcceptedTypes(EGame Game, const TStringList& rkTypes)
@@ -45,6 +45,12 @@ public:
     void FromString(EGame Game, const TString& rkString)
     {
         SetAcceptedTypes(Game, rkString.Split(","));
+    }
+
+    void Serialize(IArchive& rArc)
+    {
+        if (rArc.IsReader()) mGame = rArc.Game();
+        rArc << SerialParameter("AcceptedTypes", mAcceptedTypes, SH_Proxy);
     }
 
     inline bool Accepts(EResType Type) const

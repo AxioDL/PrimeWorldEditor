@@ -1,36 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ElectricBeamInfo" type="multi">
-    <properties>
-        <property ID="0x2D39450E" type="asset" extensions="ELSC"/>
-        <property ID="0x1C5687CC" type="asset" extensions="UNKN">
-            <cook_pref>never</cook_pref>
-        </property>
-        <property ID="0xC95479D4" type="asset" extensions="ELSC"/>
-        <property ID="0x174455BA" type="asset" extensions="CAUD"/>
-        <property ID="0x104284E6" type="float">
-            <default>1.0</default>
-        </property>
-        <struct ID="0x98821996" template="Structs/DamageInfo.xml"/>
-        <property ID="0xC26C291C" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x78C507EB" type="float">
-            <default>0.1</default>
-            <cook_pref>never</cook_pref>
-        </property>
-        <property ID="0x3FED5E52" type="float">
-            <default>150.0</default>
-            <cook_pref>never</cook_pref>
-        </property>
-        <property ID="0x4F387C49" type="asset" extensions="PART">
-            <cook_pref>never</cook_pref>
-        </property>
-        <property ID="0xD4124C4C" type="float">
-            <default>1.0</default>
-            <cook_pref>never</cook_pref>
-        </property>
-        <property ID="0x8F4FB79D" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>ElectricBeamInfo</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x2D39450E">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1C5687CC">
+                <CookPreference>Never</CookPreference>
+            </Element>
+            <Element Type="Asset" ID="0xC95479D4">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x174455BA">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x104284E6">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x98821996" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xC26C291C">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x78C507EB">
+                <CookPreference>Never</CookPreference>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3FED5E52">
+                <CookPreference>Never</CookPreference>
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x4F387C49">
+                <CookPreference>Never</CookPreference>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xD4124C4C">
+                <CookPreference>Never</CookPreference>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F4FB79D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

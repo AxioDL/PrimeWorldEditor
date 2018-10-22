@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct14</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xA0D037EE">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4F522994">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x87461CC6">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5D02F384">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x2DC80B4B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x3392283" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0x9DEDCFF1" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0xF740E01D" Archetype="AudioPlaybackParms"/>
+            <Element Type="Struct" ID="0xB2F64BB4" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xED067447" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

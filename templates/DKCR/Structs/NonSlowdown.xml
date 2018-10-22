@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>NonSlowdown</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x7FCD6908" Archetype="AreaPathStructA">
+                <SubProperties>
+                    <Element Type="Enum" ID="0xF4AC7CAA">
+                        <DefaultValue>0x8C1B1D20</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

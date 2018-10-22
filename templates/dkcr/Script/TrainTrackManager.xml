@@ -1,164 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>TrainTrackManager</name>
-    <modules>
-        <module>RSO_MoleTrain.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml">
-            <properties>
-                <struct ID="0x5846524D">
-                    <properties>
-                        <property ID="0x02">
-                            <default>4.0, 4.0, 4.0</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-        <struct ID="0x3EDF57B4" type="multi">
-            <properties>
-                <property ID="0x0EAFC768" type="long">
-                    <default>1</default>
-                </property>
-                <property ID="0x03223140" type="long">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x019C9392" type="multi">
-            <properties>
-                <enum ID="0xC8FD4813">
-                    <default>0xC0C853B9</default>
-                    <enumerators>
-                        <enumerator ID="0xABB2EF64" name="Unknown 1"/>
-                        <enumerator ID="0xC0C853B9" name="Unknown 2"/>
-                    </enumerators>
-                </enum>
-                <property ID="0x65ECEB7A" type="long">
-                    <default>0</default>
-                </property>
-                <struct ID="0xC101F47E" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xAC870724" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x88055612" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x778AE190" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x5308B0A6" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x3E8E43FC" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x1A0C12CA" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x1AE02AB9" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x3E627B8F" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x53E488D5" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x7766D9E3" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x88E96E61" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xAC6B3F57" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xC1EDCC0D" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xE56F9D3B" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xC035BCEB" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xE4B7EDDD" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x89311E87" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xADB34FB1" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x523CF833" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x76BEA905" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x1B385A5F" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x3FBA0B69" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x3F56331A" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x1BD4622C" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x76529176" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x7E0ED299" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x5A8C83AF" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x370A70F5" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x138821C3" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xEC079641" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xC885C777" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xA503342D" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x8181651B" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x816D5D68" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xA5EF0C5E" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xF5DDEC80" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xD15FBDB6" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xBCD94EEC" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x985B1FDA" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x67D4A858" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x4356F96E" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x2ED00A34" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x0A525B02" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x0ABE6371" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x2E3C3247" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x3A43FB48" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x1EC1AA7E" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x73475924" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x57C50812" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xA84ABF90" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x8CC8EEA6" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xE14E1DFC" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xC5CC4CCA" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xC52074B9" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xE1A2258F" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x390A96F3" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x1D88C7C5" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x700E349F" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x548C65A9" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xAB03D22B" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0x8F81831D" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xE2077047" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xC6852171" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xC6691902" template="Structs/TrainTrackManagerStructA.xml"/>
-                <struct ID="0xE2EB4834" template="Structs/TrainTrackManagerStructA.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0x1871BA9B" type="multi">
-            <properties>
-                <property ID="0x97395EEA" type="long">
-                    <default>0</default>
-                </property>
-                <struct ID="0xFC8FBDB7" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x2F14A14C" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x619DAAE5" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x53539EFB" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x1DDA9552" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xCE4189A9" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x80C88200" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xABDDE195" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xE554EA3C" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x61E5D2A4" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x2F6CD90D" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xFCF7C5F6" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xB27ECE5F" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x80B0FA41" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xCE39F1E8" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x1DA2ED13" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x532BE6BA" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x783E852F" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x36B78E86" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x4B59622C" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x05D06985" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xD64B757E" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x98C27ED7" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xAA0C4AC9" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xE4854160" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x371E5D9B" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x79975632" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x528235A7" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x1C0B3E0E" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xE41DF06B" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0xAA94FBC2" template="Structs/TrainTrackManagerStructB.xml"/>
-                <struct ID="0x790FE739" template="Structs/TrainTrackManagerStructB.xml"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Modules>
+        <Element>RSO_MoleTrain.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>TrainTrackManager</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x2">
+                                <DefaultValue>
+                                    <X>4.0</X>
+                                    <Y>4.0</Y>
+                                    <Z>4.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x3EDF57B4" Archetype="UnknownStruct273"/>
+            <Element Type="Struct" ID="0x19C9392" Archetype="UnknownStruct274"/>
+            <Element Type="Struct" ID="0x1871BA9B" Archetype="UnknownStruct275"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

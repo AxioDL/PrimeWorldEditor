@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraTracking</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x5BFED7DB">
+                <DefaultValue>0x62C2ABD5</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x2D363729"/>
+                    <Element Name="Unknown 2" ID="0x62C2ABD5"/>
+                </Values>
+            </Element>
+            <Element Type="Enum" ID="0x2ABD251">
+                <DefaultValue>0xAF3945DE</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xAF3945DE"/>
+                    <Element Name="Unknown 2" ID="0x3D7A9FCD"/>
+                    <Element Name="Unknown 3" ID="0x4D529ECE"/>
+                    <Element Name="Unknown 4" ID="0xA835852B"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xBBB489D0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7EBDD66C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8FA9689C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE265ED56">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

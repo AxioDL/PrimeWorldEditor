@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>LayerID</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Asset" ID="0x0">
+                <Name>AreaId</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1" Archetype="SavedStateID">
+                <Name>LayerId</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

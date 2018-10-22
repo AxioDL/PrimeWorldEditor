@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>PlatformMotionProperties</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x493D6A2D" Archetype="SplineType"/>
+            <Element Type="Spline" ID="0x27E5F874"/>
+            <Element Type="Float" ID="0xFD1E2F56">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA5753D52">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAE80628F">
+                <DefaultValue>288</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x628BDF0F"/>
+            <Element Type="Spline" ID="0x78D03A32"/>
+            <Element Type="Spline" ID="0xB4A2E15A"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

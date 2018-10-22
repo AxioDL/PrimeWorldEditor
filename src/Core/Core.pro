@@ -12,6 +12,9 @@ TEMPLATE = lib
 DESTDIR = $$BUILD_DIR/Core
 DEFINES += GLEW_STATIC
 
+win32 {
+    QMAKE_CXXFLAGS += -std:c++17
+}
 unix {
     target.path = /usr/lib
     QMAKE_CXXFLAGS += /WX
@@ -26,11 +29,9 @@ CONFIG (debug, debug|release) {
     # Debug Libs
     LIBS += -L$$BUILD_DIR/Common/ -lCommond \
             -L$$BUILD_DIR/Math/ -lMathd \
-            -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc140-mtd \
-            -L$$EXTERNALS_DIR/lzo-2.09/lib/ -llzo2d \
-            -L$$EXTERNALS_DIR/nodtool/build/debug/lib/ -lnod \
-            -L$$EXTERNALS_DIR/nodtool/build/debug/logvisor/ -llogvisor \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d \
+            -L$$EXTERNALS_DIR/assimp/lib/Debug -lassimp-vc140-mt \
+            -L$$EXTERNALS_DIR/nod/lib/Debug -lnod \
+            -L$$EXTERNALS_DIR/nod/logvisor/Debug -llogvisor \
             -L$$EXTERNALS_DIR/zlib/lib/ -lzlibd
 
     # Debug Target Dependencies
@@ -48,11 +49,9 @@ CONFIG (release, debug|release) {
     # Release Libs
     LIBS += -L$$BUILD_DIR/Common/ -lCommon \
             -L$$BUILD_DIR/Math/ -lMath \
-            -L$$EXTERNALS_DIR/assimp/lib/ -lassimp-vc140-mt \
-            -L$$EXTERNALS_DIR/lzo-2.09/lib/ -llzo2 \
-            -L$$EXTERNALS_DIR/nodtool/build/release/lib/ -lnod \
-            -L$$EXTERNALS_DIR/nodtool/build/release/logvisor -llogvisor \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2 \
+            -L$$EXTERNALS_DIR/assimp/lib/Release -lassimp-vc140-mt \
+            -L$$EXTERNALS_DIR/nod/lib/Release -lnod \
+            -L$$EXTERNALS_DIR/nod/logvisor/Release -llogvisor \
             -L$$EXTERNALS_DIR/zlib/lib/ -lzlib
 
     # Release Target Dependencies
@@ -63,18 +62,19 @@ CONFIG (release, debug|release) {
 }
 
 # Debug/Release Libs
-LIBS += -L$$EXTERNALS_DIR/glew-2.0.0/lib/Release/x64 -lglew32s \
+LIBS += -L$$EXTERNALS_DIR/glew-2.1.0/lib/Release/x64 -lglew32s \
         -lopengl32
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/assimp/include \
-               $$EXTERNALS_DIR/glew-2.0.0/include \
-               $$EXTERNALS_DIR/lzo-2.09/include \
-               $$EXTERNALS_DIR/nodtool/include \
-               $$EXTERNALS_DIR/nodtool/logvisor/include \
-               $$EXTERNALS_DIR/tinyxml2/include \
-               $$EXTERNALS_DIR/zlib/include
+               $$EXTERNALS_DIR/CodeGen/include \
+               $$EXTERNALS_DIR/glew-2.1.0/include \
+               $$EXTERNALS_DIR/lzo-2.10/include \
+               $$EXTERNALS_DIR/nod/include \
+               $$EXTERNALS_DIR/nod/logvisor/include \
+               $$EXTERNALS_DIR/tinyxml2 \
+               $$EXTERNALS_DIR/zlib
 
 # Header Files
 HEADERS += \
@@ -91,7 +91,6 @@ HEADERS += \
     Resource/Cooker/CMaterialCooker.h \
     Resource/Cooker/CModelCooker.h \
     Resource/Cooker/CSectionMgrOut.h \
-    Resource/Cooker/CTemplateWriter.h \
     Resource/Cooker/CTextureEncoder.h \
     Resource/Cooker/CWorldCooker.h \
     Resource/Factory/CAnimSetLoader.h \
@@ -103,7 +102,6 @@ HEADERS += \
     Resource/Factory/CScanLoader.h \
     Resource/Factory/CScriptLoader.h \
     Resource/Factory/CStringLoader.h \
-    Resource/Factory/CTemplateLoader.h \
     Resource/Factory/CTextureDecoder.h \
     Resource/Factory/CWorldLoader.h \
     Resource/Model/CBasicModel.h \
@@ -111,11 +109,9 @@ HEADERS += \
     Resource/Model/CStaticModel.h \
     Resource/Model/CVertex.h \
     Resource/Model/SSurface.h \
-    Resource/Script/CMasterTemplate.h \
     Resource/Script/CScriptLayer.h \
     Resource/Script/CScriptObject.h \
     Resource/Script/CScriptTemplate.h \
-    Resource/Script/EPropertyType.h \
     Resource/Script/EVolumeShape.h \
     Resource/CCollisionMesh.h \
     Resource/CCollisionMeshGroup.h \
@@ -162,11 +158,7 @@ HEADERS += \
     OpenGL/CVertexBuffer.h \
     OpenGL/GLCommon.h \
     ScriptExtra/CRadiusSphereExtra.h \
-    Resource/EGame.h \
     Resource/Cooker/CAreaCooker.h \
-    Resource/Script/IPropertyValue.h \
-    Resource/Script/IPropertyTemplate.h \
-    Resource/Script/IProperty.h \
     Resource/Model/EVertexAttribute.h \
     Render/FRenderOptions.h \
     Scene/FShowFlags.h \
@@ -231,7 +223,34 @@ HEADERS += \
     IProgressNotifier.h \
     IUIRelay.h \
     Resource/CResTypeFilter.h \
-    GameProject/COpeningBanner.h
+    GameProject/COpeningBanner.h \
+    Resource/Script/Property/CPropertyNameGenerator.h \
+    Resource/Script/Property/IProperty.h \
+    Resource/Script/Property/CEnumProperty.h \
+    Resource/Script/Property/CFlagsProperty.h \
+    Resource/Script/Property/CAssetProperty.h \
+    Resource/Script/Property/CPointerProperty.h \
+    Resource/Script/Property/CArrayProperty.h \
+    Resource/Script/Property/Properties.h \
+    Resource/Script/Property/TPropertyRef.h \
+    Resource/Script/Property/CBoolProperty.h \
+    Resource/Script/Property/CByteProperty.h \
+    Resource/Script/Property/CShortProperty.h \
+    Resource/Script/Property/CIntProperty.h \
+    Resource/Script/Property/CFloatProperty.h \
+    Resource/Script/Property/CStringProperty.h \
+    Resource/Script/Property/CSoundProperty.h \
+    Resource/Script/Property/CAnimationProperty.h \
+    Resource/Script/Property/CSequenceProperty.h \
+    Resource/Script/Property/CSplineProperty.h \
+    Resource/Script/Property/CAnimationSetProperty.h \
+    Resource/Script/Property/CVectorProperty.h \
+    Resource/Script/Property/CColorProperty.h \
+    Resource/Script/Property/CStructProperty.h \
+    Resource/Script/Property/CGuidProperty.h \
+    Resource/Script/CGameTemplate.h \
+    Resource/Script/NPropertyMap.h \
+    Resource/Script/NGameList.h
 
 # Source Files
 SOURCES += \
@@ -243,7 +262,6 @@ SOURCES += \
     Resource/Area/CGameArea.cpp \
     Resource/Cooker/CMaterialCooker.cpp \
     Resource/Cooker/CModelCooker.cpp \
-    Resource/Cooker/CTemplateWriter.cpp \
     Resource/Cooker/CTextureEncoder.cpp \
     Resource/Cooker/CWorldCooker.cpp \
     Resource/Factory/CAnimSetLoader.cpp \
@@ -255,14 +273,12 @@ SOURCES += \
     Resource/Factory/CScanLoader.cpp \
     Resource/Factory/CScriptLoader.cpp \
     Resource/Factory/CStringLoader.cpp \
-    Resource/Factory/CTemplateLoader.cpp \
     Resource/Factory/CTextureDecoder.cpp \
     Resource/Factory/CWorldLoader.cpp \
     Resource/Model/CBasicModel.cpp \
     Resource/Model/CModel.cpp \
     Resource/Model/CStaticModel.cpp \
     Resource/Model/SSurface.cpp \
-    Resource/Script/CMasterTemplate.cpp \
     Resource/Script/CScriptObject.cpp \
     Resource/Script/CScriptTemplate.cpp \
     Resource/CCollisionMesh.cpp \
@@ -296,8 +312,6 @@ SOURCES += \
     OpenGL/GLCommon.cpp \
     ScriptExtra/CRadiusSphereExtra.cpp \
     Resource/Cooker/CAreaCooker.cpp \
-    Resource/Script/IPropertyTemplate.cpp \
-    Resource/Script/IProperty.cpp \
     Scene/FShowFlags.cpp \
     Scene/CScene.cpp \
     Scene/CSceneIterator.cpp \
@@ -340,4 +354,22 @@ SOURCES += \
     CompressionUtil.cpp \
     IUIRelay.cpp \
     GameProject\COpeningBanner.cpp \
-    IProgressNotifier.cpp
+    IProgressNotifier.cpp \
+    Resource/Script/Property/CPropertyNameGenerator.cpp \
+    Resource/Script/Property/IProperty.cpp \
+    Resource/Script/Property/CStructProperty.cpp \
+    Resource/Script/Property/CFlagsProperty.cpp \
+    Resource/Script/CGameTemplate.cpp \
+    Resource/Script/NPropertyMap.cpp \
+    Resource/Script/NGameList.cpp
+
+# Codegen
+CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
+CODEGEN_OUT_PATH = $$BUILD_DIR/Core/codegen_build/auto_codegen.cpp
+CODEGEN_SRC_PATH = $$PWD
+include($$EXTERNALS_DIR/CodeGen/codegen.pri)
+
+# Library Sources
+SOURCES += $$EXTERNALS_DIR/lzo-2.10/src/lzo_init.c \
+           $$EXTERNALS_DIR/lzo-2.10/src/lzo1x_9x.c \
+           $$EXTERNALS_DIR/lzo-2.10/src/lzo1x_d1.c

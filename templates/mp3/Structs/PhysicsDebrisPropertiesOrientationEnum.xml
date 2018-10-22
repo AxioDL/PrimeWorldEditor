@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="PhysicsDebrisPropertiesOrientationEnum" type="multi">
-    <properties>
-        <enum ID="0xF4BF6637" template="Enums/UnknownEnum1.xml">
-            <default>0x76A5FBFD</default>
-        </enum>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>PhysicsDebrisPropertiesOrientationEnum</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xF4BF6637" Archetype="UnknownEnum1">
+                <DefaultValue>0x76A5FBFD</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

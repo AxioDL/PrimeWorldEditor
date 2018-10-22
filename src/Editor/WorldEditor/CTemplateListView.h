@@ -3,7 +3,7 @@
 
 #include "CTemplateMimeData.h"
 #include "Editor/UICommon.h"
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 #include <QAbstractListModel>
 #include <QDrag>
 #include <QListView>
@@ -11,7 +11,7 @@
 class CTemplateListModel : public QAbstractListModel
 {
     Q_OBJECT
-    CMasterTemplate *mpMaster;
+    CGameTemplate *mpGame;
     QList<CScriptTemplate*> mTemplates;
 
 public:
@@ -55,17 +55,17 @@ public:
         return Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled;
     }
 
-    void SetMaster(CMasterTemplate *pMaster)
+    void SetGame(CGameTemplate *pGame)
     {
         beginResetModel();
 
-        mpMaster = pMaster;
+        mpGame = pGame;
         mTemplates.clear();
 
-        if (mpMaster)
+        if (mpGame)
         {
-            for (u32 iTemp = 0; iTemp < mpMaster->NumScriptTemplates(); iTemp++)
-                mTemplates << mpMaster->TemplateByIndex(iTemp);
+            for (u32 iTemp = 0; iTemp < mpGame->NumScriptTemplates(); iTemp++)
+                mTemplates << mpGame->TemplateByIndex(iTemp);
 
             qSort(mTemplates.begin(), mTemplates.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
                 return pLeft->Name() < pRight->Name();
@@ -103,9 +103,9 @@ public:
         QListView::setModel(mpModel);
     }
 
-    inline void SetMaster(CMasterTemplate *pMaster)
+    inline void SetGame(CGameTemplate *pGame)
     {
-        if (mpModel) mpModel->SetMaster(pMaster);
+        if (mpModel) mpModel->SetGame(pGame);
     }
 
 protected:

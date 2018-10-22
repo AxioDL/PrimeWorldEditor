@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PeanutProperties</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x97AB7629">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x1A0DFE6">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x5EB17E07">
+                <DefaultValue>
+                    <X>-1.0</X>
+                    <Y>-1.0</Y>
+                    <Z>-1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32DC67F6">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6353C409">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F2AE3E5">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x93F8E0B0">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF1925576">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x478D0AA3">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0x19A6F71F">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3B03A01E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDB1FA61C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3BDD2FED">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF5DD4690" Archetype="DebrisPropertiesOrientationEnum"/>
+            <Element Type="Asset" ID="0x217C37C2">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0x60D6BF8E">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCE59EBFF" Archetype="UnknownStruct17"/>
+            <Element Type="Asset" ID="0xE93B1A2F">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x71D494F4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBD1A42AF">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8000EC9">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x9BD94326">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50859083">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5A79779">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xE8D26BAE" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0xD1AAC6EE" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0xC682A22E" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0xA35B9C6E" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0xB473F8AE" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0x8D0B55EE" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0x9A23312E" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0x46B9296E" Archetype="PeanutMaterialEffects"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,117 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>FishCloud</name>
-    <modules>
-        <module>FishCloud.rel</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xC6BB2F45" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x7990A3B6" type="asset" extensions="CMDL"/>
-        <property ID="0xE25FB08C" type="character"/>
-        <property ID="0xF1C07275" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x6392404E" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x7864AD0E" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x61959F0D" type="float">
-            <default>0.4</default>
-        </property>
-        <property ID="0x4841F1DE" type="float">
-            <default>0.9</default>
-        </property>
-        <property ID="0xD293EBC4" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x5F362A14" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xEC9B73C2" type="float">
-            <default>0.4</default>
-        </property>
-        <property ID="0x7FF1469E" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x7CE17870" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x3A25F09D" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x23A160F3" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xF0671410" type="float">
-            <default>30.0</default>
-        </property>
-        <property ID="0xA1747268" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0xCE77A8D0" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0x8CB20C53" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x21B3D07C" type="long">
-            <default>3</default>
-        </property>
-        <property ID="0x1F83D350" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0xF630B89F" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x8A6AB139" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x5BA86245" type="asset" extensions="PART"/>
-        <property ID="0xA8232FB1" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x90F4B1E0" type="asset" extensions="PART"/>
-        <property ID="0xBF583BF2" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x1660C34E" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x86D50737" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0xDD3C10EB" type="long">
-            <default>-1</default>
-        </property>
-        <property ID="0x91AE1374" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x3DE26FC8" type="sound"/>
-        <property ID="0xC320A050" type="bool">
-            <default>true</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xE25FB08C</animparams>
-            <model source="property">0x7990A3B6</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>volume</scale_type>
-        <preview_volume shape="Box"/>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Modules>
+        <Element>FishCloud.rel</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>FishCloud</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Bool" ID="0xC6BB2F45">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x7990A3B6">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xE25FB08C"/>
+            <Element Type="Float" ID="0xF1C07275">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7864AD0E">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x61959F0D">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4841F1DE">
+                <DefaultValue>0.89999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD293EBC4">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5F362A14">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEC9B73C2">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7FF1469E">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7CE17870">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3A25F09D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23A160F3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0671410">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA1747268">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE77A8D0">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8CB20C53">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x21B3D07C">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1F83D350">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF630B89F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8A6AB139">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x5BA86245">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xA8232FB1">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x90F4B1E0">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xBF583BF2">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1660C34E">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x86D50737">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDD3C10EB">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x91AE1374">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x3DE26FC8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC320A050">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xE25FB08C"/>
+        <Element Type="Model" Source="Property" Location="0x7990A3B6"/>
+    </Assets>
+    <ScaleType>ScaleVolume</ScaleType>
+    <VolumeShape>BoxShape</VolumeShape>
+</ScriptObject>

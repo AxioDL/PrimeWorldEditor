@@ -38,7 +38,17 @@ void CVector3f::Write(IOutputStream& rOutput) const
 
 void CVector3f::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_AUTO(X) << SERIAL_AUTO(Y) << SERIAL_AUTO(Z);
+    rArc << SerialParameter("X", X)
+         << SerialParameter("Y", Y)
+         << SerialParameter("Z", Z);
+}
+
+TString CVector3f::ToString() const
+{
+    return TString::Format("%s, %s, %s",
+                           *TString::FromFloat(X),
+                           *TString::FromFloat(Y),
+                           *TString::FromFloat(Z));
 }
 
 // ************ SWIZZLE ************

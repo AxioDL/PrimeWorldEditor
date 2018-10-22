@@ -47,9 +47,9 @@ s32 CAnimEventLoader::LoadEventBase(IInputStream& rEVNT)
 {
     rEVNT.Skip(0x2);
     rEVNT.ReadString();
-    rEVNT.Skip(mGame < eCorruptionProto ? 0x13 : 0x17);
+    rEVNT.Skip(mGame < EGame::CorruptionProto ? 0x13 : 0x17);
     s32 CharacterIndex = rEVNT.ReadLong();
-    rEVNT.Skip(mGame < eCorruptionProto ? 0x4 : 0x18);
+    rEVNT.Skip(mGame < EGame::CorruptionProto ? 0x4 : 0x18);
     return CharacterIndex;
 }
 
@@ -69,13 +69,13 @@ void CAnimEventLoader::LoadUserEvent(IInputStream& rEVNT)
 void CAnimEventLoader::LoadEffectEvent(IInputStream& rEVNT)
 {
     s32 CharIndex = LoadEventBase(rEVNT);
-    rEVNT.Skip(mGame < eCorruptionProto ? 0x8 : 0x4);
+    rEVNT.Skip(mGame < EGame::CorruptionProto ? 0x8 : 0x4);
     CAssetID ParticleID(rEVNT, mGame);
     mpEventData->AddEvent(CharIndex, ParticleID);
 
-    if (mGame <= ePrime)
+    if (mGame <= EGame::Prime)
         rEVNT.ReadString();
-    else if (mGame <= eEchoes)
+    else if (mGame <= EGame::Echoes)
         rEVNT.Skip(0x4);
 
     rEVNT.Skip(0x8);
@@ -86,11 +86,11 @@ void CAnimEventLoader::LoadSoundEvent(IInputStream& rEVNT)
     s32 CharIndex = LoadEventBase(rEVNT);
 
     // Metroid Prime 1/2
-    if (mGame <= eEchoes)
+    if (mGame <= EGame::Echoes)
     {
         u32 SoundID = rEVNT.ReadLong() & 0xFFFF;
         rEVNT.Skip(0x8);
-        if (mGame >= eEchoes) rEVNT.Skip(0xC);
+        if (mGame >= EGame::Echoes) rEVNT.Skip(0xC);
 
         if (SoundID != 0xFFFF)
         {
@@ -134,7 +134,7 @@ CAnimEventData* CAnimEventLoader::LoadEVNT(IInputStream& rEVNT, CResourceEntry *
 {
     CAnimEventLoader Loader;
     Loader.mpEventData = new CAnimEventData(pEntry);
-    Loader.mGame = ePrime;
+    Loader.mGame = EGame::Prime;
     Loader.LoadEvents(rEVNT);
     return Loader.mpEventData;
 }
@@ -143,7 +143,7 @@ CAnimEventData* CAnimEventLoader::LoadAnimSetEvents(IInputStream& rANCS)
 {
     CAnimEventLoader Loader;
     Loader.mpEventData = new CAnimEventData();
-    Loader.mGame = eEchoes;
+    Loader.mGame = EGame::Echoes;
     Loader.LoadEvents(rANCS);
     return Loader.mpEventData;
 }
@@ -152,7 +152,7 @@ CAnimEventData* CAnimEventLoader::LoadCorruptionCharacterEventSet(IInputStream& 
 {
     CAnimEventLoader Loader;
     Loader.mpEventData = new CAnimEventData();
-    Loader.mGame = eCorruption;
+    Loader.mGame = EGame::Corruption;
 
     // Read event set header
     rCHAR.Skip(0x4); // Skip animation ID

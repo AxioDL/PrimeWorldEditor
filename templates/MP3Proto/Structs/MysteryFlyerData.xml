@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>MysteryFlyerData</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x51253BA3">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xCEA30138" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x445E00C8">
+                        <DefaultValue>0xFFFFFFFF</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x845EF489">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC75998AA">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1559F27">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5F3FFFD6">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5F669BA0" Archetype="GrappleBlock"/>
+            <Element Type="Struct" ID="0xE2ACF76E" Archetype="GrappleBlock"/>
+            <Element Type="Struct" ID="0x3F3A2EEB" Archetype="GrappleBlock"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

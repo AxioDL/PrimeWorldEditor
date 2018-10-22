@@ -1,7 +1,7 @@
 #include "CLinkModel.h"
 #include "Editor/UICommon.h"
 #include <Core/Resource/Area/CGameArea.h>
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 
 CLinkModel::CLinkModel(QObject *pParent)
     : QAbstractTableModel(pParent)
@@ -67,13 +67,13 @@ QVariant CLinkModel::data(const QModelIndex& rkIndex, int Role) const
 
         case 1: // Column 1 - State
         {
-            TString StateName = mpObject->MasterTemplate()->StateByID(pLink->State()).Name;
+            TString StateName = mpObject->GameTemplate()->StateByID(pLink->State()).Name;
             return UICommon::ToQString(StateName);
         }
 
         case 2: // Column 2 - Message
         {
-            TString MessageName = mpObject->MasterTemplate()->MessageByID(pLink->Message()).Name;
+            TString MessageName = mpObject->GameTemplate()->MessageByID(pLink->Message()).Name;
             return UICommon::ToQString(MessageName);
         }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>SuspensionBridgeData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xE4C8A24">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7B5D0E29">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6DF8BD9">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDA13807D">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x681F4C76" Archetype="UnknownStruct269"/>
+            <Element Type="Struct" ID="0xF6555670" Archetype="SuspensionBridgeStruct"/>
+            <Element Type="Struct" ID="0x7CB2693B" Archetype="SuspensionBridgeStruct"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

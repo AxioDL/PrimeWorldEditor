@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>DarkSamusData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB5049BBB">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3390E915">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF8CC3AB0">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE5C90A08">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E95D9AD">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xF5056D9D">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x58DBCC52">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x414046A8" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x635B60AA"/>
+            <Element Type="Asset" ID="0x6760BD02"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

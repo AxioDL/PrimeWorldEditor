@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>GrabPlayerBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xBF89D05D">
+                <DefaultValue>0xEACD24F9</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xEACD24F9"/>
+                    <Element Name="Unknown 2" ID="0x67047FAB"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0x6F7A3416" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x267EDD84">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4BCEF91A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC793C525">
+                <DefaultValue>0.375</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE7B09C8">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x686E030B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68D787B4">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2307A992">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x79FAD0A2">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6FCAF068">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4408E47">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA54BE635">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4B3DB4D5">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBF7F3CD1">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6046EE04">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x30AC886C">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

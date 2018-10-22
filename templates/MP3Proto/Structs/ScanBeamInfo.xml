@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>ScanBeamInfo</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x382A1973">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4C41DCD4">
+                <DefaultValue>
+                    <R>0.247059</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xCAD5AE7A">
+                <DefaultValue>
+                    <R>0.49803901</R>
+                    <G>1.0</G>
+                    <B>0.098039001</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1E52124E">
+                <DefaultValue>
+                    <R>0.34902</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x98C660E0">
+                <DefaultValue>
+                    <R>0.14902</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10C1DED2">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAE71A22A">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4E29C85A">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3660363">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x1D53D1DA"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

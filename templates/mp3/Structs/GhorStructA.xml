@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="GhorStructA" type="multi">
-    <properties>
-        <property ID="0xF8BEDB63" type="asset" extensions="CMDL"/>
-        <property ID="0x1D5CCC2D" type="asset" extensions="CMDL"/>
-        <property ID="0x8A660FE5" type="string"/>
-        <property ID="0x5F137AC5" type="string"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>GhorStructA</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xF8BEDB63">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1D5CCC2D">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x8A660FE5"/>
+            <Element Type="String" ID="0x5F137AC5"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

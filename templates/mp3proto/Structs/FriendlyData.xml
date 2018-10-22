@@ -1,68 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="FriendlyData" type="multi">
-    <properties>
-        <property ID="0xC1D1E465" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xA149701E" template="Structs/RagDollData.xml"/>
-        <property ID="0x6652BDD7" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x41BAF88D" type="bool">
-            <default>true</default>
-            <cook_pref>never</cook_pref>
-        </property>
-        <property ID="0x4D0F8B1D" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xC7E40963" type="float">
-            <default>8.0</default>
-        </property>
-        <property ID="0x5A6B7D83" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xCC458CB9" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xC22D3652" type="float">
-            <default>90.0</default>
-        </property>
-        <property ID="0xEF5671D6" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xA4AE2178" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x50A9BD0D" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x51253BA3" type="asset" extensions="WPSC"/>
-        <property ID="0x10E3EFDD" type="asset" extensions="CAUD"/>
-        <struct ID="0xCEA30138" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>5.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x785C41F5" template="Structs/StaticGeometryTest.xml"/>
-        <struct ID="0xFC5A0A21" template="Structs/StaticGeometryTest.xml"/>
-        <property ID="0xFC34473F" type="asset" extensions="BFRC"/>
-        <property ID="0x50340852" type="asset" extensions="CMDL"/>
-        <property ID="0x330619CA" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xA7BE5EDF" type="float">
-            <default>1000.0</default>
-        </property>
-        <property ID="0xF484E0AE" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xEC3FDE21" type="float">
-            <default>60.0</default>
-        </property>
-        <property ID="0x24D18B0A" type="float">
-            <default>90.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>FriendlyData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xC1D1E465">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA149701E" Archetype="RagDollData"/>
+            <Element Type="Bool" ID="0x6652BDD7">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x41BAF88D">
+                <CookPreference>Never</CookPreference>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4D0F8B1D">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC7E40963">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5A6B7D83">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCC458CB9">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC22D3652">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xEF5671D6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA4AE2178">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50A9BD0D">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x51253BA3">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x10E3EFDD">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xCEA30138" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x785C41F5" Archetype="StaticGeometryTest"/>
+            <Element Type="Struct" ID="0xFC5A0A21" Archetype="StaticGeometryTest"/>
+            <Element Type="Asset" ID="0xFC34473F">
+                <TypeFilter>
+                    <Element>BFRC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x50340852">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x330619CA">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA7BE5EDF">
+                <DefaultValue>1000.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF484E0AE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEC3FDE21">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24D18B0A">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

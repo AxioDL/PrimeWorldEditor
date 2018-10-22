@@ -1,121 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>PhazonPuddle</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0x6F3BB625" type="multi">
-            <properties>
-                <property ID="0x55744160" type="asset" extensions="FSM2"/>
-                <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml">
-                    <properties>
-                        <property ID="0xF0668919">
-                            <default>25.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x6392404E" type="float">
-                    <default>5.0</default>
-                </property>
-                <struct ID="0xD756416E" template="Structs/DamageInfo.xml"/>
-                <property ID="0x49F4C4EE" type="float">
-                    <default>1.0</default>
-                </property>
-                <struct ID="0xA7A47350" template="Structs/DamageInfo.xml"/>
-                <property ID="0x955A61EF" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x77A4EFB5" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x440DA52F" type="long">
-                    <default>50</default>
-                </property>
-                <property ID="0x2646A843" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0x75E0B0A7" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0xA62E602F" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x85DD0B29" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x45134ACE" type="float">
-                    <default>0.3</default>
-                </property>
-                <property ID="0x308D4F23" type="float">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x26797DF9" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x814DFD80" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xA6BC177F" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0x7D034498" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xA4985156" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x91D5B3CA" type="float">
-                    <default>30.0</default>
-                </property>
-                <struct ID="0x5EE136E3" template="Structs/PuddleControlData.xml"/>
-                <property ID="0xC38B5712" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xD4FB3C7C" type="float">
-                    <default>25.0</default>
-                </property>
-                <struct ID="0xFB228140" template="Structs/PuddleControlData.xml"/>
-                <struct ID="0xF2565B1B" template="Structs/PuddleControlData.xml"/>
-                <struct ID="0xB32D1B19" template="Structs/PuddleControlData.xml"/>
-                <struct ID="0xFD6D2B52" template="Structs/PuddleControlData.xml"/>
-                <struct ID="0x17B1C55E" template="Structs/PuddleControlData.xml"/>
-                <property ID="0x2367F689" type="asset" extensions="PART"/>
-                <property ID="0xD473158D" type="asset" extensions="PART"/>
-                <property ID="0xCCA298B4" type="asset" extensions="PART"/>
-                <property ID="0xB99C80D3" type="asset" extensions="PART"/>
-                <property ID="0x96EA9F4B" type="asset" extensions="PART"/>
-                <property ID="0x21655924" type="asset" extensions="PART"/>
-                <property ID="0x68261C78" type="asset" extensions="UNKN"/>
-                <property ID="0xE482BCA4" type="asset" extensions="PART"/>
-                <property ID="0x812E9CC8" type="asset" extensions="PART"/>
-                <property ID="0xAEADE325" type="asset" extensions="PART"/>
-                <property ID="0x10CFFAD6" type="asset" extensions="PART"/>
-                <property ID="0x78685EB2" type="asset" extensions="PART"/>
-                <property ID="0x55190F56" type="asset" extensions="UNKN"/>
-                <property ID="0x9631818C" type="asset" extensions="UNKN"/>
-                <property ID="0xF349BAAC" type="asset" extensions="CAUD"/>
-                <property ID="0xDFD54864" type="asset" extensions="UNKN"/>
-                <property ID="0x19A8BACD" type="asset" extensions="UNKN"/>
-                <property ID="0x49B30DE2" type="asset" extensions="CAUD"/>
-                <property ID="0xDECD5831" type="asset" extensions="CAUD"/>
-                <property ID="0x1B412C4B" type="asset" extensions="CAUD"/>
-                <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets/>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>PhazonPuddle</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x6F3BB625" Archetype="PhazonPuddleData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+</ScriptObject>

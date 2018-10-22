@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BehaviorData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x6403DAED">
+                <DefaultValue>0x26D0F77A</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x26D0F77A"/>
+                    <Element Name="Unknown 2" ID="0xCD3D7CB1"/>
+                    <Element Name="Unknown 3" ID="0xC58D26AF"/>
+                    <Element Name="Unknown 4" ID="0xA177EB37"/>
+                    <Element Name="Unknown 5" ID="0xC53C3ED5"/>
+                    <Element Name="Unknown 6" ID="0xDD08D80B"/>
+                    <Element Name="Unknown 7" ID="0xA819961D"/>
+                    <Element Name="Unknown 8" ID="0x2D6B807"/>
+                    <Element Name="Unknown 9" ID="0xCAA3D8E4"/>
+                    <Element Name="Unknown 10" ID="0xDFB05E60"/>
+                    <Element Name="Unknown 11" ID="0xB6057A9C"/>
+                    <Element Name="Unknown 12" ID="0x856442A0"/>
+                    <Element Name="Unknown 13" ID="0x9910206D"/>
+                    <Element Name="Unknown 14" ID="0xC553A047"/>
+                    <Element Name="Unknown 15" ID="0xDC206846"/>
+                    <Element Name="Unknown 16" ID="0xC12DFB21"/>
+                    <Element Name="Unknown 17" ID="0xF95E279E"/>
+                    <Element Name="Unknown 18" ID="0x16039717"/>
+                    <Element Name="Unknown 19" ID="0x21DC6F2D"/>
+                    <Element Name="Unknown 20" ID="0xC53F0B30"/>
+                    <Element Name="Unknown 21" ID="0x1BBF061B"/>
+                    <Element Name="Unknown 22" ID="0xCD30F2D2"/>
+                    <Element Name="Unknown 23" ID="0xA2C56363"/>
+                    <Element Name="Unknown 24" ID="0xF87D2399"/>
+                    <Element Name="Unknown 25" ID="0xC0454E18"/>
+                    <Element Name="Unknown 26" ID="0xD9535D1F"/>
+                    <Element Name="Unknown 27" ID="0x594FF8C0"/>
+                    <Element Name="Unknown 28" ID="0x37D88B14"/>
+                    <Element Name="Unknown 29" ID="0xE4A9F055"/>
+                    <Element Name="Unknown 30" ID="0xE0880C40"/>
+                    <Element Name="Unknown 31" ID="0xB83A5EA6"/>
+                    <Element Name="Unknown 32" ID="0xC990ACE8"/>
+                    <Element Name="Unknown 33" ID="0xA21028B9"/>
+                    <Element Name="Unknown 34" ID="0xBE366E61"/>
+                    <Element Name="Unknown 35" ID="0x1B9CD6"/>
+                    <Element Name="Unknown 36" ID="0xBC00B733"/>
+                    <Element Name="Unknown 37" ID="0x93AD73AA"/>
+                    <Element Name="Unknown 38" ID="0x78EFFC0E"/>
+                    <Element Name="Unknown 39" ID="0x33E3B15E"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0xD5110050" Archetype="DamagedBehaviorData"/>
+            <Element Type="Struct" ID="0xA792725D" Archetype="StunnedByGroundPoundBehaviorData"/>
+            <Element Type="Struct" ID="0x33EA54AF" Archetype="StunnedByBopBehaviorData"/>
+            <Element Type="Struct" ID="0x50F0D548" Archetype="TouchAttackBehaviorData"/>
+            <Element Type="Struct" ID="0x3FF111B9" Archetype="ProjectileAttackBehaviorData"/>
+            <Element Type="Struct" ID="0x6D2C073F" Archetype="FollowWaypointsBehaviorData"/>
+            <Element Type="Struct" ID="0x24FF7572" Archetype="GrabbedBehaviorData"/>
+            <Element Type="Struct" ID="0x799FE4F9" Archetype="FleeBehaviorData"/>
+            <Element Type="Struct" ID="0x8C4949CF" Archetype="WanderBehaviorData"/>
+            <Element Type="Struct" ID="0x9344ED81" Archetype="FollowSurfaceBehaviorData"/>
+            <Element Type="Struct" ID="0xF764A9D2" Archetype="BopJumpBehaviorData"/>
+            <Element Type="Struct" ID="0x1B97C54D" Archetype="IdleBehaviorData"/>
+            <Element Type="Struct" ID="0x4A54CB95" Archetype="UnknownStruct109"/>
+            <Element Type="Struct" ID="0x9BD0D08A" Archetype="ProjectileBehaviorData"/>
+            <Element Type="Struct" ID="0xEC689E56" Archetype="VerticalFlightBehaviorData"/>
+            <Element Type="Struct" ID="0xABF0E7C3" Archetype="StackableBlockBehaviorData"/>
+            <Element Type="Struct" ID="0xB3E150A1" Archetype="SpawnBehaviorData"/>
+            <Element Type="Struct" ID="0xE5139DB0" Archetype="SwoopBehaviorData"/>
+            <Element Type="Struct" ID="0x3A5925D6" Archetype="UnknownStruct115"/>
+            <Element Type="Struct" ID="0xDE440D53" Archetype="UnknownStruct116"/>
+            <Element Type="Struct" ID="0x6C80D03A" Archetype="SlideBehaviorData"/>
+            <Element Type="Struct" ID="0xE233135A" Archetype="UnknownStruct118"/>
+            <Element Type="Struct" ID="0x4699B820" Archetype="UnknownStruct119"/>
+            <Element Type="Struct" ID="0xEA2C12F9" Archetype="SwingLineBehaviorData"/>
+            <Element Type="Struct" ID="0x32DA6AA8" Archetype="GrabPlayerBehaviorData"/>
+            <Element Type="Struct" ID="0xC962CB9C" Archetype="AdditiveTouchAttackBehaviorData"/>
+            <Element Type="Struct" ID="0xF6E5327" Archetype="UnknownStruct122"/>
+            <Element Type="Struct" ID="0xE2C2F5EF" Archetype="StunnedByContactRuleData"/>
+            <Element Type="Struct" ID="0x5192CCEC" Archetype="DrivenIntoGroundBehaviorData"/>
+            <Element Type="Struct" ID="0xAFCADE60" Archetype="OneShotBehaviorData"/>
+            <Element Type="Struct" ID="0x749A68A1" Archetype="TargetPlayerBehaviorData"/>
+            <Element Type="Struct" ID="0x2CC6F52" Archetype="DrivenIntoGroundBehaviorData"/>
+            <Element Type="Struct" ID="0xE37F3561" Archetype="AreaAttackBehaviorData"/>
+            <Element Type="Struct" ID="0xA1F091B2" Archetype="UnknownStruct128"/>
+            <Element Type="Struct" ID="0x638FC2B" Archetype="SeparateAndReformBehaviorData"/>
+            <Element Type="Struct" ID="0x311759A0" Archetype="ProjectileAttackBehaviorData"/>
+            <Element Type="Struct" ID="0x5FCE6A84" Archetype="SeekerBehaviorData"/>
+            <Element Type="Struct" ID="0xEED66E6D" Archetype="FollowPathControlBehaviorData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

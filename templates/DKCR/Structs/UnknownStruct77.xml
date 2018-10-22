@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct77</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xAEB294FD" Archetype="Convergence"/>
+            <Element Type="Struct" ID="0x4A4B9B59" Archetype="Convergence"/>
+            <Element Type="Struct" ID="0xECDACA25" Archetype="Convergence"/>
+            <Element Type="Bool" ID="0x7E69A860">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x26BCFF37" Archetype="Convergence"/>
+            <Element Type="Float" ID="0x6C1626B9">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A323DDA">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x33E6589F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A98A587">
+                <DefaultValue>4.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21F6D9B">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

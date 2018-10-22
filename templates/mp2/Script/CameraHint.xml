@@ -1,104 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>CameraHint</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0x42087650" type="long">
-            <default>50</default>
-        </property>
-        <property ID="0x8747552E" type="float">
-            <default>0.0</default>
-        </property>
-        <struct ID="0x380585EC" type="multi">
-            <properties>
-                <property ID="0xC1E747AD" type="long">
-                    <default>0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x21D720A9" type="long">
-            <default>286</default>
-        </property>
-        <struct ID="0x456D05C6" template="Structs/CameraHintStructB.xml"/>
-        <struct ID="0xF5521FFA" template="Structs/CameraHintStructB.xml"/>
-        <struct ID="0x89658A06" template="Structs/CameraHintStructB.xml"/>
-        <struct ID="0x8D0A9113" type="multi">
-            <properties>
-                <property ID="0x7FF86EE2" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x46477064" type="vector3f">
-                    <default>0.0, 1.0, 1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0xEFEBE838" type="vector3f">
-            <default>1.0, 1.0, 1.0</default>
-        </property>
-        <struct ID="0xF71C36F2" type="multi">
-            <properties>
-                <property ID="0x7FF86EE2" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x123CAC0E" type="float">
-                    <default>55.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x664C450A" template="Structs/CameraHintStructC.xml"/>
-        <struct ID="0xC82395FA" template="Structs/CameraHintStructC.xml"/>
-        <struct ID="0x645EB009" type="multi">
-            <properties>
-                <property ID="0x7FF86EE2" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x6392404E" type="float">
-                    <default>120.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x80CFBB54" type="multi">
-            <properties>
-                <property ID="0x7FF86EE2" type="bool">
-                    <default>false</default>
-                </property>
-                <property ID="0x8033F9A3" type="float">
-                    <default>2.7</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x2AE08BE1" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x4361D075" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xC91EF813" type="float">
-            <default>1.0</default>
-        </property>
-        <struct ID="0x934E392C" template="Structs/CameraHintStructA.xml"/>
-        <struct ID="0x9E8631F1" type="multi">
-            <properties>
-                <property ID="0xF53DCDD6" type="long">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x138729A7" template="Structs/CameraHintStructA.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Properties Type="Struct">
+        <Name>CameraHint</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0x42087650">
+                <DefaultValue>50</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8747552E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x380585EC" Archetype="UnknownStruct4"/>
+            <Element Type="Int" ID="0x21D720A9">
+                <DefaultValue>286</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x456D05C6" Archetype="CameraHintStructB"/>
+            <Element Type="Struct" ID="0xF5521FFA" Archetype="CameraHintStructB"/>
+            <Element Type="Struct" ID="0x89658A06" Archetype="CameraHintStructB"/>
+            <Element Type="Struct" ID="0x8D0A9113" Archetype="UnknownStruct5"/>
+            <Element Type="Vector" ID="0xEFEBE838">
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF71C36F2" Archetype="UnknownStruct6"/>
+            <Element Type="Struct" ID="0x664C450A" Archetype="CameraHintStructC"/>
+            <Element Type="Struct" ID="0xC82395FA" Archetype="CameraHintStructC"/>
+            <Element Type="Struct" ID="0x645EB009" Archetype="UnknownStruct7"/>
+            <Element Type="Struct" ID="0x80CFBB54" Archetype="UnknownStruct8"/>
+            <Element Type="Float" ID="0x2AE08BE1">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4361D075">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC91EF813">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x934E392C" Archetype="CameraHintStructA"/>
+            <Element Type="Struct" ID="0x9E8631F1" Archetype="UnknownStruct9"/>
+            <Element Type="Struct" ID="0x138729A7" Archetype="CameraHintStructA"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

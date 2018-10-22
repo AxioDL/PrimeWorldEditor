@@ -28,7 +28,11 @@ class CAssetNameMap
 
         void Serialize(IArchive& rArc)
         {
-            rArc << SERIAL_AUTO(Name) << SERIAL_AUTO(Directory) << SERIAL_AUTO(Type) << SERIAL_AUTO(AutoGenName) << SERIAL_AUTO(AutoGenDir);
+            rArc << SerialParameter("Name", Name)
+                 << SerialParameter("Directory", Directory)
+                 << SerialParameter("Type", Type)
+                 << SerialParameter("AutoGenName", AutoGenName)
+                 << SerialParameter("AutoGenDir", AutoGenDir);
         }
 
         bool operator<(const SAssetNameInfo& rkOther) const

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ReactiveActorBehaviors</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xC07FA9BE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x8EA67C4F" Archetype="ReactiveActorBehavior"/>
+            <Element Type="Struct" ID="0xB7DED10F" Archetype="ReactiveActorBehavior"/>
+            <Element Type="Struct" ID="0xA0F6B5CF" Archetype="ReactiveActorBehavior"/>
+            <Element Type="Struct" ID="0xC52F8B8F" Archetype="ReactiveActorBehavior"/>
+            <Element Type="Struct" ID="0xD207EF4F" Archetype="ReactiveActorBehavior"/>
+            <Element Type="Struct" ID="0xEB7F420F" Archetype="ReactiveActorBehavior"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

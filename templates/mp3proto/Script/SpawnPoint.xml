@@ -1,153 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SpawnPoint</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <property ID="0xC0E4521B" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xB9C40F92" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xF4ED9547" type="multi">
-            <properties>
-                <struct ID="0x52C779C0" type="multi">
-                    <properties>
-                        <struct ID="0x336BD471" template="Structs/PlayerInventoryItem.xml">
-                            <properties>
-                                <property ID="0x94AF1445">
-                                    <default>1</default>
-                                </property>
-                                <property ID="0x6DC59F13">
-                                    <default>1</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0xD31B2209" template="Structs/PlayerInventoryItem.xml">
-                            <properties>
-                                <property ID="0x94AF1445">
-                                    <default>1</default>
-                                </property>
-                                <property ID="0x6DC59F13">
-                                    <default>1</default>
-                                </property>
-                            </properties>
-                        </struct>
-                    </properties>
-                </struct>
-                <struct ID="0xEF43B845" type="multi">
-                    <properties>
-                        <property ID="0xF9BC3E3D" type="bool">
-                            <default>true</default>
-                        </property>
-                        <property ID="0x42C900ED" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x4AE27FE7" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xF34F99D7" type="bool">
-                            <default>false</default>
-                        </property>
-                        <struct ID="0xA387191D" template="Structs/PlayerInventoryItem.xml"/>
-                        <property ID="0x5DB3E694" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x9AA405C1" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xC20C2F01" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x5A7E301E" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xAFC6082D" type="bool">
-                            <default>false</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x317D45BB" type="multi">
-                    <properties>
-                        <property ID="0x586A8F75" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x04FCA2A9" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xF55DD02C" type="bool">
-                            <default>false</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xED7F3B4A" type="multi">
-                    <properties>
-                        <property ID="0xF618C8E5" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x15C99E7A" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x62FFBD9C" type="bool">
-                            <default>false</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x267F91E5" type="multi">
-                    <properties>
-                        <property ID="0x09DC3CDD" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x5A066E2C" type="long">
-                            <default>0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x378E02B2" type="multi">
-                    <properties>
-                        <property ID="0xACBDA45C" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x9C30FF96" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0x26A85DF4" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xE5B6CB66" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xE981E1EB" type="bool">
-                            <default>false</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0xE9C4A786" type="multi">
-                    <properties>
-                        <property ID="0x3AB0779B" type="bool">
-                            <default>false</default>
-                        </property>
-                        <property ID="0xF9AEE109" type="bool">
-                            <default>false</default>
-                        </property>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>SpawnPoint</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Bool" ID="0xC0E4521B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB9C40F92">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF4ED9547" Archetype="Inventory"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

@@ -2,256 +2,345 @@
 #include "ui_CTemplateEditDialog.h"
 
 #include "Editor/UICommon.h"
-#include <Core/Resource/Cooker/CTemplateWriter.h>
-#include <Core/Resource/Factory/CTemplateLoader.h>
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include <Core/Resource/Script/CGameTemplate.h>
+#include <Core/Resource/Script/NGameList.h>
+#include <Core/Resource/Script/NPropertyMap.h>
 
-CTemplateEditDialog::CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *pParent)
+#include <QMenu>
+
+CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::CTemplateEditDialog)
-    , mpTemplate(pTemplate)
-    , mGame(pTemplate->Game())
-    , mOriginalName(pTemplate->Name())
-    , mOriginalDescription(pTemplate->Description())
+    , mpUI(new Ui::CTemplateEditDialog)
+    , mpValidator(new CPropertyNameValidator(this))
+    , mpProperty(pProperty)
+    , mGame(pProperty->Game())
+    , mOriginalName(pProperty->Name())
+    , mOriginalDescription(pProperty->Description())
+    , mOriginalAllowTypeNameOverride(false)
+    , mOriginalNameWasValid(true)
 {
-    ui->setupUi(this);
+    mpUI->setupUi(this);
 
-    ui->IDDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(false)));
-    ui->PathDisplayLabel->setText(TO_QSTRING(pTemplate->IDString(true)));
-    ui->NameLineEdit->setText(TO_QSTRING(pTemplate->Name()));
-    ui->DescriptionTextEdit->setPlainText(TO_QSTRING(pTemplate->Description()));
+    mpUI->IDDisplayLabel->setText(TO_QSTRING(pProperty->IDString(false)));
+    mpUI->PathDisplayLabel->setText(TO_QSTRING(pProperty->IDString(true)));
+    mpUI->NameLineEdit->setText(TO_QSTRING(pProperty->Name()));
+    mpUI->DescriptionTextEdit->setPlainText(TO_QSTRING(pProperty->Description()));
 
-    if (mGame <= ePrime)
+    EPropertyType Type = pProperty->Type();
+
+    // Configure type name. Type name overrides are sourced from the name of the property archetype,
+    // so this field should only be editable for properties that have an archetype.
+    bool AllowTypeNameEdit = (pProperty->RootArchetype()->IsRootParent());
+
+    if (AllowTypeNameEdit)
     {
-        ui->TemplatesGroupBox->hide();
-        ui->RenameAllCheckBox->setText("Rename all copies of this property");
+        connect( mpUI->TypenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(RefreshTypeNameOverride()) );
+        mOriginalTypeName = pProperty->RootArchetype()->Name();
+        mpUI->TypenameLineEdit->setText( TO_QSTRING(mOriginalTypeName) );
+    }
+    else
+    {
+        mpUI->TypenameLabel->setHidden(true);
+        mpUI->TypenameLineEdit->setHidden(true);
+    }
+
+    // Configure type name override option
+    if (Type == EPropertyType::Enum || Type == EPropertyType::Choice)
+    {
+        CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProperty);
+        mOriginalAllowTypeNameOverride = pEnum->OverridesTypeName();
+        mpUI->OverrideTypeNameCheckBox->setChecked( mOriginalAllowTypeNameOverride );
+        connect( mpUI->OverrideTypeNameCheckBox, SIGNAL(toggled(bool)), this, SLOT(RefreshTypeNameOverride()) );
+    }
+    else
+    {
+        mpUI->OverrideTypeNameCheckBox->setHidden(true);
+        mpUI->OverrideTypeNameCheckBox->setChecked(true);
+    }
+    RefreshTypeNameOverride();
+
+    // Configure convert button
+    if (Type == EPropertyType::Int || Type == EPropertyType::Choice || Type == EPropertyType::Flags || Type == EPropertyType::Sound)
+    {
+        QMenu* pConvertMenu = new QMenu(this);
+        if (Type != EPropertyType::Int)    pConvertMenu->addAction("Int", this, SLOT(ConvertToInt()));
+        if (Type != EPropertyType::Choice) pConvertMenu->addAction("Choice", this, SLOT(ConvertToChoice()));
+        if (Type != EPropertyType::Flags)  pConvertMenu->addAction("Flags", this, SLOT(ConvertToFlags()));
+        if (Type != EPropertyType::Sound)  pConvertMenu->addAction("Sound", this, SLOT(ConvertToSound()));
+        mpUI->TypeConversionButton->setMenu(pConvertMenu);
+    }
+    else
+    {
+        mpUI->TypeConversionWidget->setHidden(true);
+    }
+
+    // Hide templates list for MP1
+    if (mGame <= EGame::Prime)
+    {
+        mpUI->TemplatesGroupBox->hide();
+        mpUI->RenameAllCheckBox->setText("Rename all copies of this property");
+        mpUI->ValidityLabel->hide();
         resize(width(), minimumHeight());
     }
 
     else
     {
-        CTemplateLoader::LoadAllGames();
-        std::vector<TString> TemplateList = CMasterTemplate::XMLsUsingID(pTemplate->PropertyID());
+        NGameList::LoadAllGameTemplates();
 
-        for (u32 iTemp = 0; iTemp < TemplateList.size(); iTemp++)
-            ui->TemplatesListWidget->addItem(TO_QSTRING(TemplateList[iTemp]));
+        std::set<TString> Templates;
+        NPropertyMap::RetrieveXMLsWithProperty( pProperty->ID(), pProperty->HashableTypeName(), Templates );
+
+        for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)
+            mpUI->TemplatesListWidget->addItem(TO_QSTRING(*Iter));
+
+        mpUI->ValidityLabel->SetValidityText("Hash match! Property name is likely correct.", "Hash mismatch! Property name is likely wrong.");
+        connect(mpUI->NameLineEdit, SIGNAL( SoftValidityChanged(bool) ), mpUI->ValidityLabel, SLOT( SetValid(bool) ) );
+
+        mpValidator->SetProperty(pProperty);
+        mpUI->NameLineEdit->SetSoftValidator(mpValidator);
+        mOriginalNameWasValid = mpUI->NameLineEdit->IsInputValid();
     }
 
-    TString Source;
-
-    if (mpTemplate->Type() == eStructProperty || mpTemplate->Type() == eArrayProperty)
-        Source = static_cast<CStructTemplate*>(mpTemplate)->SourceFile();
-    else if (mpTemplate->Type() == eEnumProperty)
-        Source = static_cast<CEnumTemplate*>(mpTemplate)->SourceFile();
-    else if (mpTemplate->Type() == eBitfieldProperty)
-        Source = static_cast<CBitfieldTemplate*>(mpTemplate)->SourceFile();
+    TString Source = mpProperty->GetTemplateFileName();
 
     if (Source.IsEmpty())
-    {
-        CStructTemplate *pParent = mpTemplate->Parent();
-        while (pParent)
-        {
-            Source = pParent->SourceFile();
-            if (!Source.IsEmpty()) break;
-            pParent = pParent->Parent();
-        }
-    }
+        Source = "None";
 
-    if (Source.IsEmpty())
-    {
-        if (mpTemplate->ScriptTemplate())
-            Source = mpTemplate->ScriptTemplate()->SourceFile();
-        if (Source.IsEmpty())
-            Source = "None";
-    }
+    mpUI->SourceFileDisplayLabel->setText(TO_QSTRING(Source));
 
-    ui->SourceFileDisplayLabel->setText(TO_QSTRING(Source));
-
-    connect(ui->ButtonBox, SIGNAL(accepted()), this, SLOT(ApplyChanges()));
-    connect(ui->ButtonBox, SIGNAL(rejected()), this, SLOT(close()));
+    connect(mpUI->ButtonBox, SIGNAL(accepted()), this, SLOT(ApplyChanges()));
+    connect(mpUI->ButtonBox, SIGNAL(rejected()), this, SLOT(close()));
 }
 
 CTemplateEditDialog::~CTemplateEditDialog()
 {
-    delete ui;
+    delete mpUI;
 }
 
 // ************ PUBLIC SLOTS ************
 void CTemplateEditDialog::ApplyChanges()
 {
-    FindEquivalentProperties(mpTemplate);
+    // Make sure the user *really* wants to change the property if the hash used to be correct and now isn't...
+    if (mOriginalNameWasValid && !mpUI->NameLineEdit->IsInputValid())
+    {
+        bool ReallyApply = UICommon::YesNoQuestion(this, "Name mismatch",
+            "The new property name does not match the property ID. It is very likely that the original name was correct and the new one isn't. Are you sure you want to change it?");
 
-    bool NeedsListResave = false;
-    bool RenameAll = ui->RenameAllCheckBox->isChecked();
+        if (!ReallyApply)
+            return;
+    }
 
-    TString NewName = TO_TSTRING(ui->NameLineEdit->text());
+    FindEquivalentProperties(mpProperty);
+
+    bool RenameAll = mpUI->RenameAllCheckBox->isChecked();
+
+    // Update name
+    TString NewName = TO_TSTRING(mpUI->NameLineEdit->text());
     if (NewName.IsEmpty()) NewName = "Unknown";
 
     if (mOriginalName != NewName)
     {
         // Rename properties
-        if (RenameAll && (mGame >= eEchoesDemo || mpTemplate->IsFromStructTemplate()))
+        if (RenameAll && (mGame >= EGame::EchoesDemo || mpProperty->Archetype() != nullptr))
         {
-            CMasterTemplate::RenameProperty(mpTemplate, NewName);
-
-            // Add modified templates to pending resave list
-            const std::vector<IPropertyTemplate*> *pList = CMasterTemplate::TemplatesWithMatchingID(mpTemplate);
-
-            if (pList)
-            {
-                for (u32 iTemp = 0; iTemp < pList->size(); iTemp++)
-                    AddTemplate( pList->at(iTemp) );
-            }
+            NPropertyMap::SetPropertyName(mpProperty->ID(), mpProperty->HashableTypeName(), *NewName);
         }
-
-        mpTemplate->SetName(NewName); // If mpTemplate has an overridden name then CMasterTemplate::RenameProperty won't touch it
-
-        if (RenameAll && mGame >= eEchoesDemo)
-            NeedsListResave = true;
     }
 
-    TString NewDescription = TO_TSTRING(ui->DescriptionTextEdit->toPlainText());
+    // Update description
+    TString NewDescription = TO_TSTRING(mpUI->DescriptionTextEdit->toPlainText());
     UpdateDescription(NewDescription);
 
+    // Update type name
+    TString NewTypeName = TO_TSTRING(mpUI->TypenameLineEdit->text());
+    bool AllowTypeNameOverride = mpUI->OverrideTypeNameCheckBox->isChecked();
+    UpdateTypeName(NewTypeName, AllowTypeNameOverride);
+
     // Resave templates
-    foreach (CScriptTemplate *pScript, mScriptTemplatesToResave)
-        CTemplateWriter::SaveScriptTemplate(pScript);
-
-    foreach (CStructTemplate *pStruct, mStructTemplatesToResave)
-        CTemplateWriter::SaveStructTemplate(pStruct);
-
-    if (NeedsListResave)
-        CTemplateWriter::SavePropertyList();
-
+    NGameList::SaveTemplates();
+    NPropertyMap::SaveMap();
     close();
 }
 
-// ************ PROTECTED ************
-void CTemplateEditDialog::AddTemplate(IPropertyTemplate *pTemp)
+void CTemplateEditDialog::RefreshTypeNameOverride()
 {
-    if (pTemp->IsFromStructTemplate())
+    if (mpUI->OverrideTypeNameCheckBox->isChecked())
     {
-        TString Source = pTemp->FindStructSource();
-
-        if (!Source.IsEmpty())
-        {
-            CStructTemplate *pStruct = pTemp->MasterTemplate()->StructAtSource(Source);
-
-            if (!mStructTemplatesToResave.contains(pStruct))
-                mStructTemplatesToResave << pStruct;
-        }
+        QString OverrideName = mpUI->TypenameLineEdit->text();
+        mpValidator->SetTypeNameOverride(OverrideName);
     }
-
     else
     {
-        CScriptTemplate *pScript = pTemp->ScriptTemplate();
+        mpValidator->SetTypeNameOverride("");
+    }
+}
 
-        if (pScript)
+void CTemplateEditDialog::ConvertPropertyType(EPropertyType Type)
+{
+    const char* pkCurType = TEnumReflection<EPropertyType>::ConvertValueToString(mpProperty->Type());
+    const char* pkNewType = TEnumReflection<EPropertyType>::ConvertValueToString(Type);
+
+    if (
+        UICommon::YesNoQuestion(this, "Warning",
+            QString("You are converting %1 %2 property to %3. This cannot be undone. Are you sure?")
+            .arg( TString::IsVowel(pkCurType[0]) ? "an" : "a" )
+            .arg( pkCurType )
+            .arg( pkNewType ) )
+        )
+    {
+        if( mpProperty->ConvertType(Type) )
         {
-            if (!mScriptTemplatesToResave.contains(pScript))
-                mScriptTemplatesToResave << pScript;
+            mpProperty = nullptr;
+            emit PerformedTypeConversion();
+            close();
         }
-
         else
         {
-            Log::Error("Can't determine where property " + pTemp->IDString(true) + " comes from");
+            UICommon::ErrorMsg(this, "Type conversion failed; conversion between these types is not supported.");
         }
     }
 }
 
+void CTemplateEditDialog::ConvertToInt()
+{
+    ConvertPropertyType( EPropertyType::Int );
+}
+
+void CTemplateEditDialog::ConvertToChoice()
+{
+    ConvertPropertyType( EPropertyType::Choice );
+}
+
+void CTemplateEditDialog::ConvertToSound()
+{
+    ConvertPropertyType( EPropertyType::Sound );
+}
+
+void CTemplateEditDialog::ConvertToFlags()
+{
+    ConvertPropertyType( EPropertyType::Flags );
+}
+
+// ************ PROTECTED ************
 void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
 {
-    mpTemplate->SetDescription(rkNewDesc);
-    AddTemplate(mpTemplate);
+    mpProperty->SetDescription(rkNewDesc);
 
     // Update all copies of this property in memory with the new description
-    TString SourceFile = mpTemplate->FindStructSource();
+    TString SourceFile = mpProperty->GetTemplateFileName();
 
     if (!SourceFile.IsEmpty())
     {
-        const std::vector<IPropertyTemplate*> *pkTemplates = CMasterTemplate::TemplatesWithMatchingID(mpTemplate);
+        std::list<IProperty*> Templates;
+        NPropertyMap::RetrievePropertiesWithID(mpProperty->ID(), mpProperty->HashableTypeName(), Templates);
 
-        if (pkTemplates)
+        for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)
         {
-            for (u32 iTemp = 0; iTemp < pkTemplates->size(); iTemp++)
-            {
-                IPropertyTemplate *pTemp = pkTemplates->at(iTemp);
+            IProperty* pProperty = *Iter;
 
-                if (pTemp->FindStructSource() == SourceFile && pTemp->Description() == mOriginalDescription)
-                    pTemp->SetDescription(rkNewDesc);
-            }
+            if (pProperty->GetTemplateFileName() == SourceFile && pProperty->Description() == mOriginalDescription)
+                pProperty->SetDescription(rkNewDesc);
         }
     }
 
     // Update equivalent properties with new description
-    foreach (IPropertyTemplate *pTemp, mEquivalentProperties)
+    foreach (IProperty* pProperty, mEquivalentProperties)
     {
-        pTemp->SetDescription(rkNewDesc);
-        AddTemplate(pTemp);
+        pProperty->SetDescription(rkNewDesc);
     }
 }
 
-void CTemplateEditDialog::FindEquivalentProperties(IPropertyTemplate *pTemp)
+void CTemplateEditDialog::UpdateTypeName(const TString& kNewTypeName, bool AllowOverride)
 {
-    if (mGame <= ePrime) return;
-
-    // Find the equivalent version of this property in other games.
-    CScriptTemplate *pScript = pTemp->ScriptTemplate();
-    TString Source = pTemp->FindStructSource();
-
-    // Determine struct-relative ID string
-    TIDString IDString;
-
-    if (Source.IsEmpty())
-        IDString = pTemp->IDString(true);
-
-    else
+    if (mOriginalTypeName != kNewTypeName || mOriginalAllowTypeNameOverride != AllowOverride)
     {
-        IDString = pTemp->IDString(false);
-        CStructTemplate *pParent = pTemp->Parent();
-
-        while (pParent)
+        if (FileUtil::IsValidName(kNewTypeName, false))
         {
-            if (!pParent->SourceFile().IsEmpty()) break;
-            IDString.Prepend(pParent->IDString(false) + ":");
-            pParent = pParent->Parent();
-        }
-    }
+            bool WasUnknown = mOriginalTypeName.Contains("Unknown") || mOriginalTypeName.Contains("Struct");
 
-    QList<CMasterTemplate*> MasterList = QList<CMasterTemplate*>::fromStdList(CMasterTemplate::MasterList());
-
-    if (Source.IsEmpty())
-    {
-        u32 ObjectID = pScript->ObjectID();
-
-        foreach (CMasterTemplate *pMaster, MasterList)
-        {
-            if (pMaster == pTemp->MasterTemplate() || pMaster->Game() <= ePrime) continue;
-            CScriptTemplate *pNewScript = pMaster->TemplateByID(ObjectID);
-
-            if (pNewScript)
+            // Get a list of properties to update.
+            for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
             {
-                IPropertyTemplate *pNewTemp = pNewScript->BaseStruct()->PropertyByIDString(IDString);
+                if (WasUnknown && (EGame) GameIdx != mpProperty->Game())
+                    continue;
 
-                if (pNewTemp)
-                    mEquivalentProperties << pNewTemp;
+                CGameTemplate* pGame = NGameList::GetGameTemplate( (EGame) GameIdx );
+
+                if (pGame)
+                {
+                    IProperty* pArchetype = pGame->FindPropertyArchetype(mOriginalTypeName);
+
+                    if (pArchetype)
+                    {
+                        pGame->RenamePropertyArchetype(mOriginalTypeName, kNewTypeName);
+
+                        if (pArchetype->Type() == EPropertyType::Enum || pArchetype->Type() == EPropertyType::Choice)
+                        {
+                            CEnumProperty* pEnum = TPropCast<CEnumProperty>(pArchetype);
+                            pEnum->SetOverrideTypeName(AllowOverride);
+                        }
+                    }
+                }
             }
         }
-    }
-
-    else
-    {
-        foreach (CMasterTemplate *pMaster, MasterList)
+        else if (mOriginalTypeName != kNewTypeName)
         {
-            if (pMaster == pTemp->MasterTemplate() || pMaster->Game() <= ePrime) continue;
-            CStructTemplate *pStruct = pMaster->StructAtSource(Source);
+            UICommon::ErrorMsg(this, QString("Type rename failed because the name you entered \"%1\" is invalid.").arg(TO_QSTRING(kNewTypeName)));
+        }
+    }
+}
 
-            if (pStruct)
+void CTemplateEditDialog::FindEquivalentProperties(IProperty* pProperty)
+{
+    // This function creates a list of properties in other games that are equivalent to this one.
+    // In this case "equivalent" means same template file and same ID string.
+    // Since MP1 doesn't have property IDs, we don't apply this to MP1.
+    if (mGame <= EGame::Prime) return;
+
+    // Find the lowest-level archetype and retrieve the ID string relative to that archetype's XML file.
+    while (pProperty->Archetype())
+    {
+        pProperty = pProperty->Archetype();
+    }
+    TString Name = pProperty->Name();
+    TIDString IDString = pProperty->IDString(true);
+    CScriptTemplate* pScript = pProperty->ScriptTemplate();
+
+    // Now iterate over all games, check for an equivalent property in an equivalent XML file.
+    for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
+    {
+        EGame Game = (EGame) GameIdx;
+        if (Game <= EGame::Prime || Game == mGame) continue;
+
+        CGameTemplate* pGame = NGameList::GetGameTemplate(Game);
+
+        // Check for equivalent properties in a script template
+        CStructProperty* pStruct = nullptr;
+
+        if (pScript)
+        {
+            u32 ObjectID = pScript->ObjectID();
+            CScriptTemplate* pEquivalentScript = pGame->TemplateByID(ObjectID);
+
+            if (pEquivalentScript)
             {
-                IPropertyTemplate *pNewTemp = pStruct->PropertyByIDString(IDString);
+                pStruct = pEquivalentScript->Properties();
+            }
+        }
+        // Check for equivalent properties in a property template
+        else
+        {
+            pStruct = TPropCast<CStructProperty>( pGame->FindPropertyArchetype(Name) );
+        }
 
-                if (pNewTemp)
-                    mEquivalentProperties << pNewTemp;
+        // If we have a struct, check if thestruct contains an equivalent property.
+        if (pStruct)
+        {
+            IProperty* pEquivalentProperty = pStruct->ChildByIDString( IDString );
+
+            if (pEquivalentProperty)
+            {
+                mEquivalentProperties << pEquivalentProperty;
             }
         }
     }

@@ -1,30 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="TextProperties" type="multi">
-    <properties>
-        <property ID="0xEE521DC6" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xF2D36ABB" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x3F39E635" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x60D78569" type="color">
-            <default>0.0, 0.0, 0.0, 1.0</default>
-        </property>
-        <property ID="0x5908EF39" type="color">
-            <default>1.0, 1.0, 1.0, 1.0</default>
-        </property>
-        <property ID="0x0DB9F8B6" type="asset" extensions="FONT"/>
-        <property ID="0x18DD95CD" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x42091548" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x330573E9" type="bool">
-            <default>true</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TextProperties</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xEE521DC6">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF2D36ABB">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3F39E635">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x60D78569">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5908EF39">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xDB9F8B6">
+                <TypeFilter>
+                    <Element>FONT</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x18DD95CD">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x42091548">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x330573E9">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

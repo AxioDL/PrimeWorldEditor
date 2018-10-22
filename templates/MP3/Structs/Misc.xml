@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>Misc</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x336BD471" Archetype="PlayerInventoryItem">
+                <SubProperties>
+                    <Element Type="Int" ID="0x94AF1445">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x6DC59F13">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xD31B2209" Archetype="PlayerInventoryItem">
+                <SubProperties>
+                    <Element Type="Int" ID="0x94AF1445">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x6DC59F13">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x152ED0D9" Archetype="PlayerInventoryItem"/>
+            <Element Type="Struct" ID="0x950A91AE" Archetype="PlayerInventoryItem"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

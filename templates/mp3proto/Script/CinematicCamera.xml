@@ -1,71 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>CinematicCamera</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <enum ID="0xB1AC9176">
-            <default>0xC1A4F436</default>
-            <enumerators>
-                <enumerator ID="0xC1A4F436" name="Unknown 1"/>
-                <enumerator ID="0x8FF87D5E" name="Unknown 2"/>
-                <enumerator ID="0xD1949C1D" name="Unknown 3"/>
-                <enumerator ID="0xAA08D9D7" name="Unknown 4"/>
-                <enumerator ID="0x5C88FB62" name="Unknown 5"/>
-            </enumerators>
-        </enum>
-        <struct ID="0x9EC65273" type="multi">
-            <properties>
-                <struct ID="0xB5C367E9" template="Structs/MotionInterpolationMethod.xml"/>
-                <struct ID="0xF74F8C89" template="Structs/OrientationInterpolationMethod.xml"/>
-                <struct ID="0x18E6BED2" template="Structs/FOVInterpolationMethod.xml"/>
-            </properties>
-        </struct>
-        <enum ID="0x974A961F">
-            <default>0x639D1F97</default>
-            <enumerators>
-                <enumerator ID="0x639D1F97" name="Unknown 1"/>
-                <enumerator ID="0xB55F9164" name="Unknown 2"/>
-                <enumerator ID="0x4164C49B" name="Unknown 3"/>
-                <enumerator ID="0xF2F54A8F" name="Unknown 4"/>
-            </enumerators>
-        </enum>
-        <property ID="0xAB8151EA" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x05C5FC6E" type="long">
-            <default>2132</default>
-        </property>
-        <property ID="0x27E5F874" type="MayaSpline"/>
-        <property ID="0xC4DFBFA7" type="MayaSpline"/>
-        <struct ID="0x65FC11FF" template="Structs/CameraOrientation.xml">
-            <properties>
-                <enum ID="0x5C72A964">
-                    <default>0x26AD4A6B</default>
-                </enum>
-                <property ID="0x6219022E">
-                    <default>4</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x6868D4B3" type="MayaSpline"/>
-        <property ID="0x6E6D8EFD" type="MayaSpline"/>
-        <property ID="0xF4F4798E" type="MayaSpline"/>
-        <property ID="0xDF1865A6" type="MayaSpline"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets>
-            <model source="file">script/common/Camera.CMDL</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>CinematicCamera</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Enum" ID="0xB1AC9176">
+                <DefaultValue>0xC1A4F436</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xC1A4F436"/>
+                    <Element Name="Unknown 2" ID="0x8FF87D5E"/>
+                    <Element Name="Unknown 3" ID="0xD1949C1D"/>
+                    <Element Name="Unknown 4" ID="0xAA08D9D7"/>
+                    <Element Name="Unknown 5" ID="0x5C88FB62"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0x9EC65273" Archetype="CinematicBlend"/>
+            <Element Type="Enum" ID="0x974A961F">
+                <DefaultValue>0x639D1F97</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x639D1F97"/>
+                    <Element Name="Unknown 2" ID="0xB55F9164"/>
+                    <Element Name="Unknown 3" ID="0x4164C49B"/>
+                    <Element Name="Unknown 4" ID="0xF2F54A8F"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xAB8151EA">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5C5FC6E">
+                <DefaultValue>2132</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x27E5F874"/>
+            <Element Type="Spline" ID="0xC4DFBFA7"/>
+            <Element Type="Struct" ID="0x65FC11FF" Archetype="CameraOrientation">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x5C72A964">
+                        <DefaultValue>0x26AD4A6B</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x6219022E">
+                        <DefaultValue>4</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Spline" ID="0x6868D4B3"/>
+            <Element Type="Spline" ID="0x6E6D8EFD"/>
+            <Element Type="Spline" ID="0xF4F4798E"/>
+            <Element Type="Spline" ID="0xDF1865A6"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Model" Source="File" Location="script/common/Camera.CMDL"/>
+    </Assets>
+</ScriptObject>

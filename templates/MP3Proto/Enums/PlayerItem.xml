@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Enum">
+        <Name>PlayerItem</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <OverrideTypeName>true</OverrideTypeName>
+        <Values>
+            <Element Name="Unknown 1" ID="0xFB73F2B8"/>
+            <Element Name="Unknown 2" ID="0x93AD6DF9"/>
+            <Element Name="Unknown 3" ID="0x50A0AAA5"/>
+            <Element Name="Unknown 4" ID="0x35488520"/>
+            <Element Name="Unknown 5" ID="0x922DA6A8"/>
+            <Element Name="Unknown 6" ID="0x90F0CED4"/>
+            <Element Name="Unknown 7" ID="0xB7F4E76D"/>
+            <Element Name="Unknown 8" ID="0x98FBF053"/>
+            <Element Name="Unknown 9" ID="0x1FF64711"/>
+            <Element Name="Unknown 10" ID="0xB9876CD1"/>
+            <Element Name="Unknown 11" ID="0x96664E97"/>
+            <Element Name="Unknown 12" ID="0xB3CADC47"/>
+            <Element Name="Unknown 13" ID="0x73D674EA"/>
+            <Element Name="Unknown 14" ID="0x662B235A"/>
+            <Element Name="Unknown 15" ID="0x95C0052A"/>
+            <Element Name="Unknown 16" ID="0xD9CD9EDE"/>
+            <Element Name="Unknown 17" ID="0xC7682ACC"/>
+            <Element Name="Unknown 18" ID="0x26B5C6C5"/>
+            <Element Name="Unknown 19" ID="0xB36AECDD"/>
+            <Element Name="Unknown 20" ID="0x50499B43"/>
+            <Element Name="Unknown 21" ID="0x482F8235"/>
+            <Element Name="Unknown 22" ID="0xB21BB8C7"/>
+            <Element Name="Unknown 23" ID="0x4D415752"/>
+            <Element Name="Unknown 24" ID="0x5568B8C9"/>
+            <Element Name="Unknown 25" ID="0x49E8A1AC"/>
+            <Element Name="Unknown 26" ID="0x515556A0"/>
+            <Element Name="Unknown 27" ID="0x8C4847AB"/>
+            <Element Name="Unknown 28" ID="0x87560845"/>
+            <Element Name="Unknown 29" ID="0x57A20D1A"/>
+            <Element Name="Unknown 30" ID="0x81A153FF"/>
+            <Element Name="Unknown 31" ID="0x51E1A9FB"/>
+            <Element Name="Unknown 32" ID="0x1701B527"/>
+            <Element Name="Unknown 33" ID="0x31062F3E"/>
+            <Element Name="Unknown 34" ID="0x4B2486FB"/>
+            <Element Name="Unknown 35" ID="0x7B6A8F3A"/>
+            <Element Name="Unknown 36" ID="0xB42B43DE"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

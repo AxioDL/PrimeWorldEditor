@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerHeadTrackingData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xAACDB11C">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7F96D93C">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD0ED78B3">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xF0EB772D"/>
+            <Element Type="String" ID="0xDA075C18"/>
+            <Element Type="String" ID="0xA5FA9D22"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

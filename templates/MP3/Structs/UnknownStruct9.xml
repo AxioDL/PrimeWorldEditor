@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct9</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x276A4FC5">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xEAD66DD7">
+                <DefaultValue>13.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A74AA86">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x959C653F">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEE58566">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x137EF87B">
+                <DefaultValue>180.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB48027B">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1EC3D689">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB34E89AE">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB7D4B884">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x85543E4E" Archetype="GrappleBlock"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

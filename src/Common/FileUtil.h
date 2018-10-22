@@ -36,6 +36,7 @@ bool IsValidName(const TString& rkName, bool Directory, bool RootDir = false);
 bool IsValidPath(const TString& rkPath, bool Directory);
 void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive = true, bool IncludeFiles = true, bool IncludeDirs = true);
 TString FindFileExtension(const TString& rkDir, const TString& rkName);
+bool LoadFileToString(const TString& rkFilePath, TString& rOut);
 
 }
 
