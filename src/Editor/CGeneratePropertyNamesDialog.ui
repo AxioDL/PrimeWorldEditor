@@ -98,6 +98,13 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QCheckBox" name="TestIntsAsChoicesCheckBox">
+            <property name="text">
+             <string>Test ints as choices</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>

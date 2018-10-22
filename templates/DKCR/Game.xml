@@ -740,6 +740,10 @@
             <Value Path="Structs/BopJumpData.xml"/>
         </Element>
         <Element>
+            <Key>BossHUD</Key>
+            <Value Path="Structs/BossHUD.xml"/>
+        </Element>
+        <Element>
             <Key>BouncyTireData</Key>
             <Value Path="Structs/BouncyTireData.xml"/>
         </Element>
@@ -756,12 +760,20 @@
             <Value Path="Structs/CableProperties.xml"/>
         </Element>
         <Element>
+            <Key>CameraClip</Key>
+            <Value Path="Structs/CameraClip.xml"/>
+        </Element>
+        <Element>
             <Key>CameraConstraints</Key>
             <Value Path="Structs/CameraConstraints.xml"/>
         </Element>
         <Element>
             <Key>CameraFieldOfView</Key>
             <Value Path="Structs/CameraFieldOfView.xml"/>
+        </Element>
+        <Element>
+            <Key>CameraFraming</Key>
+            <Value Path="Structs/CameraFraming.xml"/>
         </Element>
         <Element>
             <Key>CameraInterpolation</Key>
@@ -800,6 +812,10 @@
             <Value Path="Structs/CameraShakerEnvelope.xml"/>
         </Element>
         <Element>
+            <Key>CameraTracking</Key>
+            <Value Path="Structs/CameraTracking.xml"/>
+        </Element>
+        <Element>
             <Key>CharacterGlueData</Key>
             <Value Path="Structs/CharacterGlueData.xml"/>
         </Element>
@@ -834,6 +850,10 @@
         <Element>
             <Key>CounterConditions</Key>
             <Value Path="Structs/CounterConditions.xml"/>
+        </Element>
+        <Element>
+            <Key>CreditsData</Key>
+            <Value Path="Structs/CreditsData.xml"/>
         </Element>
         <Element>
             <Key>DKBarrelGlueData</Key>
@@ -878,6 +898,10 @@
         <Element>
             <Key>DespawnRules</Key>
             <Value Path="Structs/DespawnRules.xml"/>
+        </Element>
+        <Element>
+            <Key>DrivenIntoGroundBehaviorData</Key>
+            <Value Path="Structs/DrivenIntoGroundBehaviorData.xml"/>
         </Element>
         <Element>
             <Key>DynamicLightFalloff</Key>
@@ -938,6 +962,10 @@
         <Element>
             <Key>ForestBossStructC</Key>
             <Value Path="Structs/ForestBossStructC.xml"/>
+        </Element>
+        <Element>
+            <Key>FramingRules</Key>
+            <Value Path="Structs/FramingRules.xml"/>
         </Element>
         <Element>
             <Key>GeneratedObjectDeleterProperties</Key>
@@ -1176,12 +1204,16 @@
             <Value Path="Structs/PatternedAITypedef.xml"/>
         </Element>
         <Element>
-            <Key>PeanutProperties</Key>
-            <Value Path="Structs/PeanutProperties.xml"/>
+            <Key>PauseHUD</Key>
+            <Value Path="Structs/PauseHUD.xml"/>
         </Element>
         <Element>
-            <Key>PeanutStruct</Key>
-            <Value Path="Structs/PeanutStruct.xml"/>
+            <Key>PeanutMaterialEffects</Key>
+            <Value Path="Structs/PeanutMaterialEffects.xml"/>
+        </Element>
+        <Element>
+            <Key>PeanutProperties</Key>
+            <Value Path="Structs/PeanutProperties.xml"/>
         </Element>
         <Element>
             <Key>PickupData</Key>
@@ -1672,10 +1704,6 @@
             <Value Path="Structs/UnknownStruct122.xml"/>
         </Element>
         <Element>
-            <Key>UnknownStruct124</Key>
-            <Value Path="Structs/UnknownStruct124.xml"/>
-        </Element>
-        <Element>
             <Key>UnknownStruct128</Key>
             <Value Path="Structs/UnknownStruct128.xml"/>
         </Element>
@@ -1758,14 +1786,6 @@
         <Element>
             <Key>UnknownStruct151</Key>
             <Value Path="Structs/UnknownStruct151.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct152</Key>
-            <Value Path="Structs/UnknownStruct152.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct153</Key>
-            <Value Path="Structs/UnknownStruct153.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct154</Key>
@@ -2472,10 +2492,6 @@
             <Value Path="Structs/UnknownStruct74.xml"/>
         </Element>
         <Element>
-            <Key>UnknownStruct75</Key>
-            <Value Path="Structs/UnknownStruct75.xml"/>
-        </Element>
-        <Element>
             <Key>UnknownStruct76</Key>
             <Value Path="Structs/UnknownStruct76.xml"/>
         </Element>
@@ -2484,24 +2500,8 @@
             <Value Path="Structs/UnknownStruct77.xml"/>
         </Element>
         <Element>
-            <Key>UnknownStruct78</Key>
-            <Value Path="Structs/UnknownStruct78.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct79</Key>
-            <Value Path="Structs/UnknownStruct79.xml"/>
-        </Element>
-        <Element>
             <Key>UnknownStruct8</Key>
             <Value Path="Structs/UnknownStruct8.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct80</Key>
-            <Value Path="Structs/UnknownStruct80.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct81</Key>
-            <Value Path="Structs/UnknownStruct81.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct83</Key>
@@ -2534,10 +2534,6 @@
         <Element>
             <Key>UnknownStruct9</Key>
             <Value Path="Structs/UnknownStruct9.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct90</Key>
-            <Value Path="Structs/UnknownStruct90.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct91</Key>
@@ -2602,6 +2598,10 @@
         <Element>
             <Key>WanderRandomTurnData</Key>
             <Value Path="Structs/WanderRandomTurnData.xml"/>
+        </Element>
+        <Element>
+            <Key>ZoomBehaviorData</Key>
+            <Value Path="Structs/ZoomBehaviorData.xml"/>
         </Element>
     </PropertyArchetypes>
     <States>

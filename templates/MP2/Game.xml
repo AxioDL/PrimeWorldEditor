@@ -840,6 +840,10 @@
             <Value Path="Structs/EditorProperties.xml"/>
         </Element>
         <Element>
+            <Key>EmperorIngStage3Data</Key>
+            <Value Path="Structs/EmperorIngStage3Data.xml"/>
+        </Element>
+        <Element>
             <Key>EmperorIngStage3StructA</Key>
             <Value Path="Structs/EmperorIngStage3StructA.xml"/>
         </Element>
@@ -878,6 +882,10 @@
         <Element>
             <Key>IngSpiderballGuardianStruct</Key>
             <Value Path="Structs/IngSpiderballGuardianStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>LayerInfo</Key>
+            <Value Path="Structs/LayerInfo.xml"/>
         </Element>
         <Element>
             <Key>LayerSwitch</Key>
@@ -1076,10 +1084,6 @@
             <Value Path="Structs/UnknownStruct26.xml"/>
         </Element>
         <Element>
-            <Key>UnknownStruct27</Key>
-            <Value Path="Structs/UnknownStruct27.xml"/>
-        </Element>
-        <Element>
             <Key>UnknownStruct28</Key>
             <Value Path="Structs/UnknownStruct28.xml"/>
         </Element>
@@ -1178,10 +1182,6 @@
         <Element>
             <Key>VisorParameters</Key>
             <Value Path="Structs/VisorParameters.xml"/>
-        </Element>
-        <Element>
-            <Key>WaterStruct</Key>
-            <Value Path="Structs/WaterStruct.xml"/>
         </Element>
         <Element>
             <Key>WeaponType</Key>

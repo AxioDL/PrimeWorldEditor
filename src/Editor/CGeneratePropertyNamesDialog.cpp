@@ -163,6 +163,7 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     Params.Casing = mpUI->CasingComboBox->currentEnum();
     Params.ValidIdPairs = mIdPairs.toStdVector();
     Params.ExcludeAccuratelyNamedProperties = mpUI->UnnamedOnlyCheckBox->isChecked();
+    Params.TestIntsAsChoices = mpUI->TestIntsAsChoicesCheckBox->isChecked();
     Params.PrintToLog = mpUI->LogOutputCheckBox->isChecked();
 
     // Run the task and configure ourselves so we can update correctly

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Echoes">
     <PropertyArchetype Type="Struct">
-        <Name>WaterStruct</Name>
+        <Name>LayerInfo</Name>
         <SubProperties>
             <Element Type="Int" ID="0xE94F7E87">
                 <DefaultValue>-2143184152</DefaultValue>

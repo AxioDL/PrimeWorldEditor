@@ -85,7 +85,7 @@
             <Element Type="Float" ID="0xB0259D23">
                 <DefaultValue>0.0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0x244E9E6D" Archetype="WaterStruct">
+            <Element Type="Struct" ID="0x244E9E6D" Archetype="LayerInfo">
                 <SubProperties>
                     <Element Type="Int" ID="0xE94F7E87">
                         <DefaultValue>0</DefaultValue>
@@ -101,7 +101,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0xE75248E4" Archetype="WaterStruct">
+            <Element Type="Struct" ID="0xE75248E4" Archetype="LayerInfo">
                 <SubProperties>
                     <Element Type="Int" ID="0xE94F7E87">
                         <DefaultValue>0</DefaultValue>
@@ -117,7 +117,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0x385E0D43" Archetype="WaterStruct">
+            <Element Type="Struct" ID="0x385E0D43" Archetype="LayerInfo">
                 <SubProperties>
                     <Element Type="Int" ID="0xE94F7E87">
                         <DefaultValue>0</DefaultValue>
@@ -133,7 +133,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0xD369B640" Archetype="WaterStruct">
+            <Element Type="Struct" ID="0xD369B640" Archetype="LayerInfo">
                 <SubProperties>
                     <Element Type="Int" ID="0xE94F7E87">
                         <DefaultValue>0</DefaultValue>
@@ -149,7 +149,7 @@
                     </Element>
                 </SubProperties>
             </Element>
-            <Element Type="Struct" ID="0x6DDEA66D" Archetype="WaterStruct">
+            <Element Type="Struct" ID="0x6DDEA66D" Archetype="LayerInfo">
                 <SubProperties>
                     <Element Type="Int" ID="0xE94F7E87">
                         <DefaultValue>0</DefaultValue>
@@ -213,7 +213,7 @@
             <Element Type="Sound" ID="0xBA717F19">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0xAE7C7EFC">
+            <Element Type="Sound" ID="0xAE7C7EFC">
                 <DefaultValue>-1</DefaultValue>
             </Element>
             <Element Type="Sound" ID="0xEEF81E4C">

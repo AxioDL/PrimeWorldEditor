@@ -14,7 +14,7 @@
                     <Element Name="Unknown 6" ID="0x4309158B"/>
                 </Values>
             </Element>
-            <Element Type="Int" ID="0xB1B6CF33">
+            <Element Type="Flags" ID="0xB1B6CF33">
                 <CookPreference>Always</CookPreference>
                 <DefaultValue>2</DefaultValue>
             </Element>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct78</Name>
+        <Name>FramingRules</Name>
         <SubProperties>
             <Element Type="Bool" ID="0x1D2830C3">
                 <DefaultValue>false</DefaultValue>

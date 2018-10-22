@@ -69,6 +69,12 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
         mTypeNames = rkParams.TypeNames;
     }
 
+    // If TestIntsAsChoices is enabled, and int is in the type list, then choice must be in the type list too.
+    if (rkParams.TestIntsAsChoices && NBasics::VectorContains(mTypeNames, TString("int")))
+    {
+        NBasics::VectorAddUnique(mTypeNames, TString("choice"));
+    }
+
     // If we haven't loaded the word list yet, load it.
     // If we are still loading the word list, wait until we're finished.
     if (!mWordListLoadFinished)
@@ -202,7 +208,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                 }
 
                 PropertyName.Name += rkParams.Suffix;
-                PropertyName.Type = mTypeNames[TypeIdx];
+                PropertyName.Type = pkTypeName;
                 PropertyName.ID = PropertyID;
 
                 if (SaveResults)
@@ -253,7 +259,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
 }
 
 /** Returns whether a given property ID is valid */
-bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char* pkType, const SPropertyNameGenerationParameters& rkParams)
+bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char*& pkType, const SPropertyNameGenerationParameters& rkParams)
 {
     if (!mValidTypePairMap.empty())
     {
@@ -261,7 +267,20 @@ bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char* pkType, const
 
         if (Find != mValidTypePairMap.end())
         {
-            return strcmp( Find->second, pkType ) == 0;
+            if (strcmp( Find->second, pkType ) == 0)
+            {
+                return true;
+            }
+            else if (rkParams.TestIntsAsChoices && strcmp(pkType, "choice") == 0)
+            {
+                if (strcmp( Find->second, "int" ) == 0)
+                {
+                    pkType = "int";
+                    return true;
+                }
+            }
+
+            return false;
         }
         else
             return false;
@@ -270,6 +289,17 @@ bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char* pkType, const
     {
         bool IsAlreadyNamed;
         bool IsValid = NPropertyMap::IsValidPropertyID(ID, pkType, &IsAlreadyNamed);
+
+        if (!IsValid && rkParams.TestIntsAsChoices && strcmp(pkType, "choice") == 0)
+        {
+            IsValid = NPropertyMap::IsValidPropertyID(ID, "int", &IsAlreadyNamed);
+
+            if (IsValid)
+            {
+                pkType = "int";
+            }
+        }
+
         return IsValid && (!IsAlreadyNamed || !rkParams.ExcludeAccuratelyNamedProperties);
     }
 }

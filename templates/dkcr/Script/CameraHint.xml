@@ -10,12 +10,12 @@
             <Element Type="Float" ID="0x8747552E">
                 <DefaultValue>0.0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x21D720A9">
+            <Element Type="Flags" ID="0x21D720A9">
                 <CookPreference>Always</CookPreference>
                 <DefaultValue>1610905732</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0x97A93F8F" Archetype="CameraConstraints"/>
-            <Element Type="Struct" ID="0xE8EAAF0E" Archetype="UnknownStruct75"/>
+            <Element Type="Struct" ID="0xE8EAAF0E" Archetype="CameraTracking"/>
             <Element Type="Struct" ID="0xD1BD5C40" Archetype="CameraPosition"/>
             <Element Type="Struct" ID="0x4F2CA324" Archetype="CameraPosition"/>
             <Element Type="Struct" ID="0x4BE3494B" Archetype="CameraNavigation"/>
@@ -23,9 +23,9 @@
             <Element Type="Struct" ID="0x65FC11FF" Archetype="CameraOrientation"/>
             <Element Type="Struct" ID="0xA7C38D" Archetype="CameraRotation"/>
             <Element Type="Struct" ID="0xFC126AD1" Archetype="CameraFieldOfView"/>
-            <Element Type="Struct" ID="0xE389796E" Archetype="UnknownStruct80"/>
+            <Element Type="Struct" ID="0xE389796E" Archetype="CameraFraming"/>
             <Element Type="Struct" ID="0x764827D4" Archetype="CameraInterpolation"/>
-            <Element Type="Struct" ID="0xD3696C11" Archetype="UnknownStruct81"/>
+            <Element Type="Struct" ID="0xD3696C11" Archetype="CameraClip"/>
             <Element Type="Struct" ID="0x95D0D437" Archetype="InterpolationMethod"/>
         </SubProperties>
     </Properties>

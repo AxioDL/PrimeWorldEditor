@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct79</Name>
+        <Name>ZoomBehaviorData</Name>
         <SubProperties>
             <Element Type="Spline" ID="0x343A18A7"/>
             <Element Type="Bool" ID="0x82AF371E">

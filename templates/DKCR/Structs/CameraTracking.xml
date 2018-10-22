@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct75</Name>
+        <Name>CameraTracking</Name>
         <SubProperties>
             <Element Type="Enum" ID="0x5BFED7DB">
                 <DefaultValue>0x62C2ABD5</DefaultValue>

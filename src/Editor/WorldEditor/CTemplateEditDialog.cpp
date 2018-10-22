@@ -29,8 +29,11 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
 
     EPropertyType Type = pProperty->Type();
 
-    // Configure type name
-    if (Type == EPropertyType::Struct || Type == EPropertyType::Choice || Type == EPropertyType::Enum || Type == EPropertyType::Flags)
+    // Configure type name. Type name overrides are sourced from the name of the property archetype,
+    // so this field should only be editable for properties that have an archetype.
+    bool AllowTypeNameEdit = (pProperty->RootArchetype()->IsRootParent());
+
+    if (AllowTypeNameEdit)
     {
         connect( mpUI->TypenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(RefreshTypeNameOverride()) );
         mOriginalTypeName = pProperty->RootArchetype()->Name();

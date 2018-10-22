@@ -518,10 +518,11 @@ bool IProperty::UsesNameMap()
 
 bool IProperty::HasAccurateName()
 {
-    // Exceptions for the three hardcoded 4CC property IDs
+    // Exceptions for the three hardcoded 4CC property IDs, and for 0xFFFFFFFF (root properties)
     if (mID == FOURCC('XFRM') ||
         mID == FOURCC('INAM') ||
-        mID == FOURCC('ACTV'))
+        mID == FOURCC('ACTV') ||
+        mID == 0xFFFFFFFF)
     {
         return true;
     }
@@ -543,10 +544,24 @@ bool IProperty::HasAccurateName()
         Hash.Hash(HashableTypeName());
         u32 GeneratedID = Hash.Digest();
 
+        // Some choice properties are incorrectly declared as ints, so account for
+        // this and allow matching ints against choice typenames as well.
+        if (GeneratedID != mID && Type() == EPropertyType::Int)
+        {
+            Hash = CCRC32();
+            Hash.Hash(*mName);
+            Hash.Hash("choice");
+            GeneratedID = Hash.Digest();
+        }
+
         if (GeneratedID == mID)
+        {
             mFlags.SetFlag( EPropertyFlag::HasCorrectPropertyName );
+        }
         else
+        {
             mFlags.ClearFlag( EPropertyFlag::HasCorrectPropertyName );
+        }
 
         mFlags.SetFlag(EPropertyFlag::HasCachedNameCheck);
     }

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PeanutMaterialEffects</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD72E09E1" Archetype="MaterialType"/>
+            <Element Type="Asset" ID="0x5B60214F"/>
+            <Element Type="Asset" ID="0xA272ADE0"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

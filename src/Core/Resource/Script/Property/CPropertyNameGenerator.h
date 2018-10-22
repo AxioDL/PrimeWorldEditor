@@ -43,6 +43,9 @@ struct SPropertyNameGenerationParameters
     /** Whether to exclude properties that already have accurate names from the generation results. */
     bool ExcludeAccuratelyNamedProperties;
 
+    /** Whether to test int properties as choices */
+    bool TestIntsAsChoices;
+
     /** Whether to print the output from the generation process to the log */
     bool PrintToLog;
 };
@@ -102,7 +105,7 @@ public:
     void Generate(const SPropertyNameGenerationParameters& rkParams, IProgressNotifier* pProgressNotifier);
 
     /** Returns whether a given property ID is valid */
-    bool IsValidPropertyID(u32 ID, const char* pkType, const SPropertyNameGenerationParameters& rkParams);
+    bool IsValidPropertyID(u32 ID, const char*& pkType, const SPropertyNameGenerationParameters& rkParams);
 
     /** Accessors */
     bool IsRunning() const
