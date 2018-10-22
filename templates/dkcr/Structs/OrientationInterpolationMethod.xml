@@ -1,24 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="OrientationInterpolationMethod" type="multi">
-    <properties>
-        <enum ID="0x5C72A964">
-            <default>0x9087E681</default>
-            <enumerators>
-                <enumerator ID="0x355476D5" name="Unknown 1"/>
-                <enumerator ID="0x65861080" name="Unknown 2"/>
-                <enumerator ID="0x9087E681" name="Unknown 3"/>
-                <enumerator ID="0x11782B2C" name="Unknown 4"/>
-                <enumerator ID="0x3F448DD2" name="Unknown 5"/>
-                <enumerator ID="0xA96BE572" name="Unknown 6"/>
-                <enumerator ID="0xCB07DDB1" name="Unknown 7"/>
-            </enumerators>
-        </enum>
-        <struct ID="0x8654B081" template="Structs/InterpolationMethod.xml">
-            <properties>
-                <enum ID="0x09B5957D">
-                    <default>0xED3D458D</default>
-                </enum>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>OrientationInterpolationMethod</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x5C72A964">
+                <DefaultValue>0x9087E681</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x355476D5"/>
+                    <Element Name="Unknown 2" ID="0x65861080"/>
+                    <Element Name="Unknown 3" ID="0x9087E681"/>
+                    <Element Name="Unknown 4" ID="0x11782B2C"/>
+                    <Element Name="Unknown 5" ID="0x3F448DD2"/>
+                    <Element Name="Unknown 6" ID="0xA96BE572"/>
+                    <Element Name="Unknown 7" ID="0xCB07DDB1"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0x8654B081" Archetype="InterpolationMethod">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x9B5957D">
+                        <DefaultValue>0xED3D458D</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

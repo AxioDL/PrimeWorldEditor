@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct13</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x29DF61E1" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x8D7378A4" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x6C79054F" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x3C2D2492" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x491C2657">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

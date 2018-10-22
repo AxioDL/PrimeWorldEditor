@@ -101,9 +101,9 @@ void CDeleteSelectionCommand::undo()
         rNode.pArea->AddInstanceToArea(pInstance);
         rNode.pLayer->AddInstance(pInstance, rNode.LayerIndex);
 
-        if (!pInstance->PositionProperty()) pNode->SetPosition(rNode.Position);
-        if (!pInstance->RotationProperty()) pNode->SetRotation(rNode.Rotation);
-        if (!pInstance->ScaleProperty())    pNode->SetScale(rNode.Scale);
+        pNode->SetPosition(rNode.Position);
+        pNode->SetRotation(rNode.Rotation);
+        pNode->SetScale(rNode.Scale);
 
         NewNodes << pNode;
         NewInstanceIDs << pInstance->InstanceID();

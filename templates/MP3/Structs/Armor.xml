@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>Armor</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xFDE9C4DF">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF18384D4" Archetype="HealthInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF0668919">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3A2D17E4">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x896D5BD9" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0x68002BD7">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAD315C7C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x42A25ED">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE39B8B1E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x356C166A">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1CA4A298">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDF44507E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD2C9A656">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD4E26A8E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct53</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xCCF0CC68">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9CF6186B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAFA0D295">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB93E46E5">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1AAE3DB5" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Asset" ID="0xBF4F8D8C">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xAB46A8C3">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC89C34FD">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB10F94C5">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBD56E50">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x67DD641E">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x51FB4542">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCA7F8A50">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC34287E4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6F888688">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x84E9CCC8">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE13AB25F">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x79169D11">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5037FAFB">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBD8E8710">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x7802CBF0">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x491096BE"/>
+            <Element Type="Float" ID="0xDBF376A9">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x6D56BC5B"/>
+            <Element Type="Asset" ID="0x4D0BFC69">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8813C561"/>
+            <Element Type="Asset" ID="0xF1BF1C16"/>
+            <Element Type="Float" ID="0x436327D">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x772B6EB8"/>
+            <Element Type="Float" ID="0x154B5804">
+                <DefaultValue>250.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xBC77BD1D"/>
+            <Element Type="Float" ID="0xACB083EC">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xCD1F3CF"/>
+            <Element Type="Asset" ID="0x5804032E"/>
+            <Element Type="Asset" ID="0xA48BDF63"/>
+            <Element Type="Asset" ID="0x1A058C4F"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -43,7 +43,7 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TString& rkDir, const TStr
 
         // trying to keep these as consistent with Retro's naming scheme as possible, and
         // for some reason in MP3 they started using all lowercase folder names...
-        if (pEntry->Game() >= eCorruptionProto)
+        if (pEntry->Game() >= EGame::CorruptionProto)
             SanitizedDir = SanitizedDir.ToLower();
 
         pNewDir = pEntry->ResourceStore()->GetVirtualDirectory(SanitizedDir, true);
@@ -245,9 +245,9 @@ void GenerateAssetNames(CGameProject *pProj)
                 {
                     CMaterialPass *pPass = pMat->Pass(iPass);
 
-                    bool IsLightmap = ( (pArea->Game() <= eEchoes && pMat->Options().HasFlag(CMaterial::eLightmap) && iPass == 0) ||
-                                        (pArea->Game() >= eCorruptionProto && pPass->Type() == "DIFF") );
-                    bool IsBloomLightmap = (pArea->Game() >= eCorruptionProto && pPass->Type() == "BLOL");
+                    bool IsLightmap = ( (pArea->Game() <= EGame::Echoes && pMat->Options().HasFlag(CMaterial::eLightmap) && iPass == 0) ||
+                                        (pArea->Game() >= EGame::CorruptionProto && pPass->Type() == "DIFF") );
+                    bool IsBloomLightmap = (pArea->Game() >= EGame::CorruptionProto && pPass->Type() == "BLOL");
 
                     TString TexName;
 
@@ -283,7 +283,8 @@ void GenerateAssetNames(CGameProject *pProj)
 
                 for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
                 {
-                    CScriptObject *pInst = pLayer->InstanceByIndex(iInst);
+                    CScriptObject* pInst = pLayer->InstanceByIndex(iInst);
+                    CStructProperty* pProperties = pInst->Template()->Properties();
 
                     if (pInst->ObjectTypeID() == 0x42 || pInst->ObjectTypeID() == FOURCC('POIN'))
                     {
@@ -291,13 +292,13 @@ void GenerateAssetNames(CGameProject *pProj)
 
                         if (Name.StartsWith("POI_", false))
                         {
-                            TIDString ScanIDString = (pProj->Game() <= ePrime ? "0x4:0x0" : "0xBDBEC295:0xB94E9BE7");
-                            TAssetProperty *pScanProperty = TPropCast<TAssetProperty>(pInst->PropertyByIDString(ScanIDString));
+                            TIDString ScanIDString = (pProj->Game() <= EGame::Prime ? "0x4:0x0" : "0xBDBEC295:0xB94E9BE7");
+                            CAssetProperty *pScanProperty = TPropCast<CAssetProperty>(pProperties->ChildByIDString(ScanIDString));
                             ASSERT(pScanProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
                             if (pScanProperty)
                             {
-                                CAssetID ScanID = pScanProperty->Get();
+                                CAssetID ScanID = pScanProperty->Value(pInst->PropertyData());
                                 CResourceEntry *pEntry = pStore->FindEntry(ScanID);
 
                                 if (pEntry && !pEntry->IsNamed())
@@ -326,13 +327,13 @@ void GenerateAssetNames(CGameProject *pProj)
 
                         if (Name.EndsWith(".STRG", false))
                         {
-                            u32 StringPropID = (pProj->Game() <= ePrime ? 0x4 : 0x9182250C);
-                            TAssetProperty *pStringProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(StringPropID));
+                            u32 StringPropID = (pProj->Game() <= EGame::Prime ? 0x4 : 0x9182250C);
+                            CAssetProperty *pStringProperty = TPropCast<CAssetProperty>(pProperties->ChildByID(StringPropID));
                             ASSERT(pStringProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
                             if (pStringProperty)
                             {
-                                CAssetID StringID = pStringProperty->Get();
+                                CAssetID StringID = pStringProperty->Value(pInst->PropertyData());
                                 CResourceEntry *pEntry = pStore->FindEntry(StringID);
 
                                 if (pEntry && !pEntry->IsNamed())
@@ -352,13 +353,13 @@ void GenerateAssetNames(CGameProject *pProj)
                     else if (pInst->ObjectTypeID() == 0x0 || pInst->ObjectTypeID() == FOURCC('ACTR') ||
                              pInst->ObjectTypeID() == 0x8 || pInst->ObjectTypeID() == FOURCC('PLAT'))
                     {
-                        u32 ModelPropID = (pProj->Game() <= ePrime ? (pInst->ObjectTypeID() == 0x0 ? 0xA : 0x6) : 0xC27FFA8F);
-                        TAssetProperty *pModelProperty = TPropCast<TAssetProperty>(pInst->Properties()->PropertyByID(ModelPropID));
+                        u32 ModelPropID = (pProj->Game() <= EGame::Prime ? (pInst->ObjectTypeID() == 0x0 ? 0xA : 0x6) : 0xC27FFA8F);
+                        CAssetProperty *pModelProperty = TPropCast<CAssetProperty>(pProperties->ChildByID(ModelPropID));
                         ASSERT(pModelProperty); // Temporary assert to remind myself later to update this code when uncooked properties are added to the template
 
                         if (pModelProperty)
                         {
-                            CAssetID ModelID = pModelProperty->Get();
+                            CAssetID ModelID = pModelProperty->Value(pInst->PropertyData());
                             CResourceEntry *pEntry = pStore->FindEntry(ModelID);
 
                             if (pEntry && !pEntry->IsCategorized())
@@ -414,8 +415,8 @@ void GenerateAssetNames(CGameProject *pProj)
                 {
                     CMaterialPass *pPass = pMat->Pass(iPass);
 
-                    bool IsLightmap = ( (pMat->Version() <= eEchoes && pMat->Options().HasFlag(CMaterial::eLightmap) && iPass == 0) ||
-                                        (pMat->Version() >= eCorruptionProto && pPass->Type() == "DIFF") );
+                    bool IsLightmap = ( (pMat->Version() <= EGame::Echoes && pMat->Options().HasFlag(CMaterial::eLightmap) && iPass == 0) ||
+                                        (pMat->Version() >= EGame::CorruptionProto && pPass->Type() == "DIFF") );
 
                     if (IsLightmap)
                     {
@@ -484,7 +485,7 @@ void GenerateAssetNames(CGameProject *pProj)
     // Generate animation format names
     // Hacky syntax because animsets are under eAnimSet in MP1/2 and eCharacter in MP3/DKCR
     Log::Write("Processing animation data");
-    CResourceIterator *pIter = (pProj->Game() <= eEchoes ? (CResourceIterator*) new TResourceIterator<eAnimSet> : (CResourceIterator*) new TResourceIterator<eCharacter>);
+    CResourceIterator *pIter = (pProj->Game() <= EGame::Echoes ? (CResourceIterator*) new TResourceIterator<eAnimSet> : (CResourceIterator*) new TResourceIterator<eCharacter>);
     CResourceIterator& It = *pIter;
 
     for (; It; ++It)
@@ -504,7 +505,7 @@ void GenerateAssetNames(CGameProject *pProj)
             if (pkChar->pSkeleton)  ApplyGeneratedName(pkChar->pSkeleton->Entry(), SetDir, CharName);
             if (pkChar->pSkin)      ApplyGeneratedName(pkChar->pSkin->Entry(), SetDir, CharName);
 
-            if (pProj->Game() >= eCorruptionProto && pProj->Game() <= eCorruption && pkChar->ID == 0)
+            if (pProj->Game() >= EGame::CorruptionProto && pProj->Game() <= EGame::Corruption && pkChar->ID == 0)
             {
                 CResourceEntry *pAnimDataEntry = gpResourceStore->FindEntry( pkChar->AnimDataID );
 
@@ -606,7 +607,7 @@ void GenerateAssetNames(CGameProject *pProj)
         CScan *pScan = (CScan*) It->Load();
         TString ScanName;
 
-        if (pProj->Game() >= eEchoesDemo)
+        if (pProj->Game() >= EGame::EchoesDemo)
         {
             CAssetID DisplayAsset = pScan->LogbookDisplayAssetID();
             CResourceEntry *pEntry = pStore->FindEntry(DisplayAsset);
@@ -621,7 +622,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
         ApplyGeneratedName(pScan->Entry(), It->DirectoryPath(), ScanName);
 
-        if (!ScanName.IsEmpty() && pProj->Game() <= ePrime)
+        if (!ScanName.IsEmpty() && pProj->Game() <= EGame::Prime)
         {
             CAssetID FrameID = pScan->GuiFrame();
             CResourceEntry *pEntry = pStore->FindEntry(FrameID);

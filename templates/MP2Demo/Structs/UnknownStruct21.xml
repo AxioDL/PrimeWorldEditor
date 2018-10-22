@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct21</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xE9A1262">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xA322F51D">
+                <DefaultValue>
+                    <X>1.8</X>
+                    <Y>1.8</Y>
+                    <Z>1.8</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x528D951E">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBEA96FB7">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xE18DC6FC" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>9</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Spline" ID="0xA25B96E1"/>
+            <Element Type="Float" ID="0xD8047CBA">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7B21E31A">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x18381479">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x15534429">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4CCEB7AD">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE41CB449">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6758BF01">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEE492513">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x7184C29" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>9</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Int" ID="0x3AEE01E4">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x412C60DA">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5F4D5D7">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

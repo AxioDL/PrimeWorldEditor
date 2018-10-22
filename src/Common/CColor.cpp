@@ -65,7 +65,10 @@ void CColor::Write(IOutputStream &rOutput, bool Integral /*= false*/) const
 
 void CColor::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL_AUTO(R) << SERIAL_AUTO(G) << SERIAL_AUTO(B) << SERIAL_AUTO(A);
+    rArc << SerialParameter("R", R)
+         << SerialParameter("G", G)
+         << SerialParameter("B", B)
+         << SerialParameter("A", A, SH_Optional, 1.0f);
 }
 
 long CColor::ToLongRGBA() const

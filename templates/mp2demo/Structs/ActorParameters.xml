@@ -1,30 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ActorParameters" type="multi">
-    <properties>
-        <struct ID="0xB028DB0E" template="Structs/LightParameters.xml"/>
-        <struct ID="0x375BFD7C" template="Structs/ScannableParameters.xml"/>
-        <property ID="0xC0BA9E18" type="asset" extensions="CMDL"/>
-        <property ID="0x9F027D91" type="asset" extensions="CSKR"/>
-        <property ID="0x6B1FBC3A" type="asset" extensions="CMDL"/>
-        <property ID="0xEB1D06BE" type="asset" extensions="CSKR"/>
-        <property ID="0x1499803C" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x90AA341F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x7C269EBC" type="float">
-            <default>1.0</default>
-        </property>
-        <struct ID="0x05AD250E" template="Structs/VisorParameters.xml"/>
-        <property ID="0x126DB9C4" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xCD4C81A1" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x799263F1" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>ActorParameters</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xB028DB0E" Archetype="LightParameters"/>
+            <Element Type="Struct" ID="0x375BFD7C" Archetype="ScannableParameters"/>
+            <Element Type="Asset" ID="0xC0BA9E18">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9F027D91">
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6B1FBC3A">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEB1D06BE">
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x1499803C">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C269EBC">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5AD250E" Archetype="VisorParameters"/>
+            <Element Type="Bool" ID="0x126DB9C4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCD4C81A1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x799263F1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

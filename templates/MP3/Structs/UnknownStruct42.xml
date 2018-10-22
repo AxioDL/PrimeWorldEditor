@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct42</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x531A8C85">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x832C442E" Archetype="UnknownStruct38"/>
+            <Element Type="Struct" ID="0xA0D0963B" Archetype="UnknownStruct39"/>
+            <Element Type="Struct" ID="0x81CC0D22" Archetype="CircleLineMode"/>
+            <Element Type="Struct" ID="0xD345F07F" Archetype="GhorStructC"/>
+            <Element Type="String" ID="0xC59D1A2D"/>
+            <Element Type="Struct" ID="0x391A32AE" Archetype="GhorStructC"/>
+            <Element Type="Struct" ID="0xAFB9313A" Archetype="GhorStructC"/>
+            <Element Type="Struct" ID="0xBA4AD147" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x305CDAD2" Archetype="UnknownStruct40"/>
+            <Element Type="Struct" ID="0x810EC49A" Archetype="GhorStructC"/>
+            <Element Type="Struct" ID="0x5B772F6D" Archetype="UnknownStruct41"/>
+            <Element Type="Struct" ID="0xE07B299" Archetype="GhorStructB"/>
+            <Element Type="Struct" ID="0x73E98B8F" Archetype="GhorStructB"/>
+            <Element Type="Asset" ID="0x15E3F283">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x79BFD886"/>
+            <Element Type="String" ID="0x337C4056"/>
+            <Element Type="Struct" ID="0x3D43820C" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x6ED9D988" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0xE97F12CB" Archetype="HealthInfo"/>
+            <Element Type="Float" ID="0xD16B54F9">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB40C6FBF">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2443E8EC">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x888049BD">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

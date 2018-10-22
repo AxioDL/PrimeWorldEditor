@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PathPosition</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x259D3279">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x340E4CA3">
+                <DefaultValue>0xD25FBD92</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD25FBD92"/>
+                    <Element Name="Unknown 2" ID="0xB785F3ED"/>
+                    <Element Name="Unknown 3" ID="0xAFF81F46"/>
+                    <Element Name="Unknown 4" ID="0xE2D0AE9"/>
+                    <Element Name="Unknown 5" ID="0x25DCCDF3"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0xAED5C7D" Archetype="PathDetermination"/>
+            <Element Type="Float" ID="0xC3BF43BE">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32F835EC">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x959108A5" Archetype="Convergence"/>
+            <Element Type="Spline" ID="0x27E5F874"/>
+            <Element Type="Spline" ID="0x12861F7D"/>
+            <Element Type="Struct" ID="0xE1F2094" Archetype="UnknownStruct13"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

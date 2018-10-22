@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="JungleBossStructC" type="multi">
-    <properties>
-        <property ID="0xCB349144" type="long">
-            <default>3</default>
-        </property>
-        <property ID="0xC8401FCE" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x0ECC390F" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xC4CFB8DE" type="float">
-            <default>35.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>JungleBossStructC</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xCB349144">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC8401FCE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xECC390F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC4CFB8DE">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

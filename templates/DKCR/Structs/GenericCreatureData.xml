@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>GenericCreatureData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xB3E0A3A">
+                <DefaultValue>0xDDB5F41</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xDDB5F41"/>
+                    <Element Name="Unknown 2" ID="0x2FFDBA76"/>
+                    <Element Name="Unknown 3" ID="0x526D62E4"/>
+                    <Element Name="Unknown 4" ID="0xEEF648F8"/>
+                </Values>
+            </Element>
+            <Element Type="Asset" ID="0x19FF362">
+                <TypeFilter>
+                    <Element>RULE</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x52AB1F08">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4B004257">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x24E95D15">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x558147C0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD342942F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x17DD78DF">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF1BDD73E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x374C17BA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x490572F8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F2AE3E5">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x26ECB939">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3C7DE892">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBBFE7D9B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6117E78F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6A1AF7F6">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x689DF179">
+                <DefaultValue>720.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD1AEAED">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4BE864FD">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC2AEACD5">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD90E7C5C">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5EA8AC2B">
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x91FFEFED">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA9B55C55">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF496803D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x43920481">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x32FAB97E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x47649C1B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE041BEE6">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC339FBB5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBC1A9077">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7A91A063">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x271F46A0">
+                <DefaultValue>0x935593F7</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x1A66BF31"/>
+                    <Element Name="Unknown 2" ID="0x935593F7"/>
+                    <Element Name="Unknown 3" ID="0xCF360497"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0xF0993BFE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA2671D83">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x936B2C8A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFEFF7D43">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x756D7CC9">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC336A4EF">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x89CF2281">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0xEE727579">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x671429BC">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x26C15C60">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3EE78313">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xEB61C9C1">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1BF83306">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6B32E09E" Archetype="ModifyContactRuleData"/>
+            <Element Type="Struct" ID="0xB6AF2D99" Archetype="DespawnRules"/>
+            <Element Type="Struct" ID="0xAE27F052" Archetype="FixedDelayRules"/>
+            <Element Type="Struct" ID="0x5400B556" Archetype="HurlHeightRules"/>
+            <Element Type="Struct" ID="0x24F41DCB" Archetype="UnknownStruct132"/>
+            <Element Type="Struct" ID="0x55C89B60" Archetype="CollisionActorModifierData"/>
+            <Element Type="Struct" ID="0x1A5BA8DA" Archetype="UnknownStruct133"/>
+            <Element Type="Struct" ID="0x68FD49AE" Archetype="AnimGridModifierData"/>
+            <Element Type="Struct" ID="0x5D8916EA" Archetype="UnknownStruct134"/>
+            <Element Type="Struct" ID="0xE22FBDC4" Archetype="UnknownStruct135"/>
+            <Element Type="Bool" ID="0xC08E06AC">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x2E42A623" Archetype="DashModifierData"/>
+            <Element Type="Bool" ID="0xF4ACF493">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8DFB1669">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB0CED792" Archetype="SkinSwapModifierData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

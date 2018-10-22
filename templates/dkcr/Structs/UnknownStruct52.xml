@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct52" type="multi">
-    <properties>
-        <property ID="0xC3BF43BE" type="float">
-            <default>1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct52</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xC3BF43BE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

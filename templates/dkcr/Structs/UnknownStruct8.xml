@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct8" type="multi">
-    <properties>
-        <property ID="0xC2AD5735" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x6351A049" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xDAA9D4BE" template="Structs/UnknownStruct7.xml"/>
-        <struct ID="0xF361604C" template="Structs/UnknownStruct7.xml"/>
-        <struct ID="0x5D09F1DD" template="Structs/UnknownStruct7.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct8</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xC2AD5735">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6351A049">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xDAA9D4BE" Archetype="UnknownStruct7"/>
+            <Element Type="Struct" ID="0xF361604C" Archetype="UnknownStruct7"/>
+            <Element Type="Struct" ID="0x5D09F1DD" Archetype="UnknownStruct7"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

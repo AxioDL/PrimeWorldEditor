@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>RandomRelay</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Connection Count" type="long"/>
-        <property ID="0x02" name="Variance" type="long"/>
-        <property ID="0x03" name="Unknown" type="bool"/>
-        <property ID="0x04" name="Active" type="bool"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Active" ID="0x04"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/RandomRelay.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>RandomRelay</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Int" ID="0x1">
+                <Name>Connection Count</Name>
+            </Element>
+            <Element Type="Int" ID="0x2">
+                <Name>Variance</Name>
+            </Element>
+            <Element Type="Bool" ID="0x3">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x4">
+                <Name>Active</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x04</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/RandomRelay.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+</ScriptObject>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>LayerInfo</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xE94F7E87">
+                <DefaultValue>-2143184152</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3C5B0C98">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x912954E6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x89E3D294">
+                <DefaultValue>-0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x80C7499">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

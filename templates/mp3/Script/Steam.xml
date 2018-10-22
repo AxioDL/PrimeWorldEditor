@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>Steam</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x77A27411" template="Structs/TriggerInfo.xml"/>
-        <property ID="0x26346050" type="asset" extensions="TXTR"/>
-        <property ID="0x4F8F5F5C" type="float">
-            <default>0.35</default>
-        </property>
-        <property ID="0xC2138F3D" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x2E9F259E" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x78C507EB" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xA366C949" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x606539FA" type="bool">
-            <default>false</default>
-        </property>
-        <enum ID="0x92869052">
-            <default>0x56B01A4A</default>
-            <enumerators>
-                <enumerator ID="0x56B01A4A" name="Unknown 1"/>
-                <enumerator ID="0x6CC92DBA" name="Unknown 2"/>
-                <enumerator ID="0xB0F5486C" name="Unknown 3"/>
-            </enumerators>
-        </enum>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>volume</scale_type>
-        <preview_volume shape="Box"/>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>Steam</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x77A27411" Archetype="TriggerInfo"/>
+            <Element Type="Asset" ID="0x26346050">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x4F8F5F5C">
+                <DefaultValue>0.34999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC2138F3D">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E9F259E">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x78C507EB">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA366C949">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x606539FA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x92869052">
+                <DefaultValue>0x56B01A4A</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x56B01A4A"/>
+                    <Element Name="Unknown 2" ID="0x6CC92DBA"/>
+                    <Element Name="Unknown 3" ID="0xB0F5486C"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <ScaleType>ScaleVolume</ScaleType>
+    <VolumeShape>BoxShape</VolumeShape>
+</ScriptObject>

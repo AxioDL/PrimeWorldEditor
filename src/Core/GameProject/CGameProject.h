@@ -6,7 +6,7 @@
 #include "CResourceStore.h"
 #include "Core/CAudioManager.h"
 #include "Core/IProgressNotifier.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/CAssetID.h>
 #include <Common/EGame.h>
 #include <Common/FileUtil.h>
@@ -45,8 +45,8 @@ class CGameProject
     // Private Constructor
     CGameProject()
         : mProjectName("Unnamed Project")
-        , mGame(eUnknownGame)
-        , mRegion(eRegion_Unknown)
+        , mGame(EGame::Invalid)
+        , mRegion(ERegion::Unknown)
         , mGameID("000000")
         , mBuildVersion(0.f)
         , mpResourceStore(nullptr)
@@ -103,8 +103,8 @@ public:
     inline TString GameID() const                       { return mGameID; }
     inline float BuildVersion() const                   { return mBuildVersion; }
     inline bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
-    inline bool IsTrilogy() const                       { return mGame <= eCorruption && mBuildVersion >= 3.593f; }
-    inline bool IsWiiDeAsobu() const                    { return mGame <= eCorruption && mBuildVersion >= 3.570f && mBuildVersion < 3.593f; }
+    inline bool IsTrilogy() const                       { return mGame <= EGame::Corruption && mBuildVersion >= 3.593f; }
+    inline bool IsWiiDeAsobu() const                    { return mGame <= EGame::Corruption && mBuildVersion >= 3.570f && mBuildVersion < 3.593f; }
 };
 
 #endif // CGAMEPROJECT_H

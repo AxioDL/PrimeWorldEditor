@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>PhazonPuddleData</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x55744160">
+                <TypeFilter>
+                    <Element>FSM2</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF0668919">
+                        <DefaultValue>25.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x49F4C4EE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA7A47350" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x955A61EF">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x77A4EFB5">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x440DA52F">
+                <DefaultValue>50</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2646A843">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75E0B0A7">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA62E602F">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x85DD0B29">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x45134ACE">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x308D4F23">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x26797DF9">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x814DFD80">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA6BC177F">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D034498">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA4985156">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x91D5B3CA">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5EE136E3" Archetype="PuddleControlData"/>
+            <Element Type="Float" ID="0xC38B5712">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD4FB3C7C">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xFB228140" Archetype="PuddleControlData"/>
+            <Element Type="Struct" ID="0xF2565B1B" Archetype="PuddleControlData"/>
+            <Element Type="Struct" ID="0xB32D1B19" Archetype="PuddleControlData"/>
+            <Element Type="Struct" ID="0xFD6D2B52" Archetype="PuddleControlData"/>
+            <Element Type="Struct" ID="0x17B1C55E" Archetype="PuddleControlData"/>
+            <Element Type="Asset" ID="0x2367F689">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD473158D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCCA298B4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB99C80D3">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x96EA9F4B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x21655924">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x68261C78"/>
+            <Element Type="Asset" ID="0xE482BCA4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x812E9CC8">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAEADE325">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x10CFFAD6">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x78685EB2">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x55190F56"/>
+            <Element Type="Asset" ID="0x9631818C"/>
+            <Element Type="Asset" ID="0xF349BAAC">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDFD54864"/>
+            <Element Type="Asset" ID="0x19A8BACD"/>
+            <Element Type="Asset" ID="0x49B30DE2">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDECD5831">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1B412C4B">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

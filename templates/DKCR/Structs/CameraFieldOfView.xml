@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraFieldOfView</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x19EA151B">
+                <DefaultValue>0xA93DE248</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xA93DE248"/>
+                    <Element Name="Unknown 2" ID="0x97F935EE"/>
+                    <Element Name="Unknown 3" ID="0x3A1B60FF"/>
+                </Values>
+            </Element>
+            <Element Type="Int" ID="0x69ACC94A">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xD1E91886">
+                <DefaultValue>0xD2CFE11</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD2CFE11"/>
+                    <Element Name="Unknown 2" ID="0xD35AAB88"/>
+                    <Element Name="Unknown 3" ID="0xAE296A71"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xCAFE3DA7">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x972C0E20"/>
+            <Element Type="Spline" ID="0x812CF888"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

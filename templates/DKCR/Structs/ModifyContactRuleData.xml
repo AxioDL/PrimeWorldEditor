@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ModifyContactRuleData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xEFA6FC75">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x7992D8A1">
+                <TypeFilter>
+                    <Element>RULE</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFF06AA0F">
+                <TypeFilter>
+                    <Element>RULE</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x345A79AA">
+                <TypeFilter>
+                    <Element>RULE</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x295F4912">
+                <TypeFilter>
+                    <Element>RULE</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE2039AB7"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

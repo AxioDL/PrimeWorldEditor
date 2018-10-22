@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>KongGrabData</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0x797FA862">
+                <DefaultValue>
+                    <X>0.5</X>
+                    <Y>2.25</Y>
+                    <Z>1.25</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xE91A3395">
+                <DefaultValue>
+                    <X>0.5</X>
+                    <Y>2.25</Y>
+                    <Z>2.5</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x43FDB8D0">
+                <DefaultValue>
+                    <X>3.0</X>
+                    <Y>1.9</Y>
+                    <Z>1.25</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB55EBD3D">
+                <DefaultValue>-0.60000002</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xECAA2F72">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>25.0</Y>
+                    <Z>5.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x54BC48A1"/>
+            <Element Type="String" ID="0xDB6CD2CA"/>
+            <Element Type="String" ID="0x3941BC07"/>
+            <Element Type="Bool" ID="0x2D6A990">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

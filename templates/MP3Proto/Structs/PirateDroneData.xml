@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>PirateDroneData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB740584D">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD1DC128" Archetype="LaunchProjectileData"/>
+            <Element Type="Float" ID="0x8DB3464">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x7C018C6C" Archetype="LaunchProjectileData"/>
+            <Element Type="Struct" ID="0xD640CF23" Archetype="LaunchProjectileData"/>
+            <Element Type="Struct" ID="0x1D2C74A8" Archetype="LaunchProjectileData"/>
+            <Element Type="Float" ID="0x50A9BD0D">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x49C38AAF">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAFA3254E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6581358C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x115BB38C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x81DD389D">
+                <DefaultValue>1080.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x765C3715">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3FEC085B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6C0A2BC8">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x91B25AE">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3E41AAF">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC0F320">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBACB5C8E">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEFAD7FBA">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5AAA5277">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x566C7E05">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9AA90B6B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7626EC89">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1508B0B1">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7FC827A2">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x388BC31F">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDA888721">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xAFE26E84">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB1B1DEF">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED7BB20E">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD2D94276">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x927ED6D8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x96E4E7F2">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA74EF708">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE659C88E">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x79F06459" Archetype="ScanBeamInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

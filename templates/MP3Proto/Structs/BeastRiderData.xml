@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>BeastRiderData</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xB3A26A80">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xA149701E" Archetype="RagDollData"/>
+            <Element Type="Asset" ID="0xC7C3F610">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraMotion</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xC1547AF3" Archetype="Convergence"/>
+            <Element Type="Enum" ID="0xB674EA3D">
+                <DefaultValue>0xB1059189</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB1059189"/>
+                    <Element Name="Unknown 2" ID="0x350BF1BC"/>
+                    <Element Name="Unknown 3" ID="0x6145F03"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<enum name="LocationOfEffect1">
-    <enumerators>
-        <enumerator ID="0x80DD21B4" name="Unknown 1"/>
-        <enumerator ID="0x24CF38F1" name="Unknown 2"/>
-        <enumerator ID="0x23363FD3" name="Unknown 3"/>
-    </enumerators>
-</enum>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Enum">
+        <Name>LocationOfEffect1</Name>
+        <DefaultValue>0x0</DefaultValue>
+        <Values>
+            <Element Name="Unknown 1" ID="0x80DD21B4"/>
+            <Element Name="Unknown 2" ID="0x24CF38F1"/>
+            <Element Name="Unknown 3" ID="0x23363FD3"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

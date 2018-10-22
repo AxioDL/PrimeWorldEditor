@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct94</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x63F77B98" Archetype="ForestBossStructC"/>
+            <Element Type="Struct" ID="0x8561E02D" Archetype="ForestBossStructC"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -6,11 +6,11 @@
 class CSandwormExtra : public CScriptExtra
 {
     // Transform adjustments to Sandworm attachments.
-    TFloatProperty *mpPincersScaleProperty;
+    CFloatRef mPincersScale;
 
 public:
-    explicit CSandwormExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent);
-    void PropertyModified(IProperty *pProp);
+    explicit CSandwormExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent);
+    void PropertyModified(IProperty* pProp);
 };
 
 #endif // CSANDWORMEXTRA_H

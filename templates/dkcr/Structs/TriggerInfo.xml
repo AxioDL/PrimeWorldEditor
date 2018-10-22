@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="TriggerInfo" type="multi">
-    <properties>
-        <property ID="0x97C0611F" type="long">
-            <default>1</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0x50224907" type="long">
-            <default>128</default>
-            <cook_pref>always</cook_pref>
-        </property>
-        <property ID="0x7150D7F8" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x46CC1B48" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xFA873A67" type="MayaSpline"/>
-        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-        <property ID="0x20927E9B" type="vector3f">
-            <default>0.0, 0.0, 0.0</default>
-        </property>
-        <property ID="0xCB28E973" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x9979F60B" type="float">
-            <default>10.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TriggerInfo</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x97C0611F">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x50224907">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>128</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7150D7F8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x46CC1B48">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xFA873A67"/>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Vector" ID="0x20927E9B">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCB28E973">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9979F60B">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -52,7 +52,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
     if (mFlags & eShortNormals) // Shorts
     {
         mNormals.resize(mpSectionMgr->CurrentSectionSize() / 0x6);
-        float Divisor = (mVersion < eReturns) ? 32768.f : 16384.f;
+        float Divisor = (mVersion < EGame::DKCReturns) ? 32768.f : 16384.f;
 
         for (u32 iVtx = 0; iVtx < mNormals.size(); iVtx++)
         {
@@ -93,7 +93,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
     if (mFlags & eHasTex1)
     {
         mTex1.resize(mpSectionMgr->CurrentSectionSize() / 0x4);
-        float Divisor = (mVersion < eReturns) ? 32768.f : 8192.f;
+        float Divisor = (mVersion < EGame::DKCReturns) ? 32768.f : 8192.f;
 
         for (u32 iVtx = 0; iVtx < mTex1.size(); iVtx++)
         {
@@ -122,7 +122,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
     SSurface *pSurf = new SSurface;
 
     // Surface header
-    if (mVersion  < eReturns)
+    if (mVersion  < EGame::DKCReturns)
         LoadSurfaceHeaderPrime(rModel, pSurf);
     else
         LoadSurfaceHeaderDKCR(rModel, pSurf);
@@ -172,7 +172,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
                     Vtx.Color[iClr] = mColors[rModel.ReadShort() & 0xFFFF];
 
             // Tex Coords - these are done a bit differently in DKCR than in the Prime series
-            if (mVersion < eReturns)
+            if (mVersion < EGame::DKCReturns)
             {
                 // Tex0
                 if (VtxDesc & eTex0)
@@ -238,7 +238,7 @@ void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& rModel, SSurface *pSurf)
     u32 ExtraSize = rModel.ReadLong();
     pSurf->ReflectionDirection = CVector3f(rModel);
 
-    if (mVersion >= eEchoesDemo)
+    if (mVersion >= EGame::EchoesDemo)
         rModel.Seek(0x4, SEEK_CUR); // Skipping unknown values
 
     bool HasAABox = (ExtraSize >= 0x18); // MREAs have a set of bounding box coordinates here.
@@ -446,7 +446,7 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
     // The rest is common to all CMDL versions
     Loader.mVersion = GetFormatVersion(Version);
 
-    if (Loader.mVersion == eUnknownGame)
+    if (Loader.mVersion == EGame::Invalid)
     {
         Log::FileError(rCMDL.GetSourceString(), "Unsupported CMDL version: " + TString::HexString(Magic, 0));
         return nullptr;
@@ -464,13 +464,13 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
     {
         Loader.mMaterials[iSet] = CMaterialLoader::LoadMaterialSet(rCMDL, Loader.mVersion);
 
-        if (Loader.mVersion < eCorruptionProto)
+        if (Loader.mVersion < EGame::CorruptionProto)
             Loader.mpSectionMgr->ToNextSection();
     }
 
     pModel->mMaterialSets = Loader.mMaterials;
     pModel->mHasOwnMaterials = true;
-    if (Loader.mVersion >= eCorruptionProto) Loader.mpSectionMgr->ToNextSection();
+    if (Loader.mVersion >= EGame::CorruptionProto) Loader.mpSectionMgr->ToNextSection();
 
     // Mesh
     Loader.LoadAttribArrays(rCMDL);
@@ -499,7 +499,7 @@ CModel* CModelLoader::LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockM
     Loader.mpSectionMgr = &rBlockMgr;
     Loader.mVersion = Version;
     Loader.mFlags = eShortNormals;
-    if (Version != eCorruptionProto) Loader.mFlags |= eHasTex1;
+    if (Version != EGame::CorruptionProto) Loader.mFlags |= eHasTex1;
     Loader.mMaterials.resize(1);
     Loader.mMaterials[0] = &rMatSet;
 
@@ -534,7 +534,7 @@ CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrI
     Loader.mFlags = eShortNormals;
     Loader.mMaterials.resize(1);
     Loader.mMaterials[0] = &rMatSet;
-    if (Version == eReturns) Loader.mFlags |= eHasTex1;
+    if (Version == EGame::DKCReturns) Loader.mFlags |= eHasTex1;
 
     // Corruption/DKCR MREAs split the mesh header and surface offsets away from the actual geometry data so I need two section numbers to read it
     rBlockMgr.ToSection(HeaderSecNum);
@@ -638,11 +638,11 @@ EGame CModelLoader::GetFormatVersion(u32 Version)
 {
     switch (Version)
     {
-        case 0x2: return ePrime;
-        case 0x3: return eEchoesDemo;
-        case 0x4: return eEchoes;
-        case 0x5: return eCorruption;
-        case 0xA: return eReturns;
-        default: return eUnknownGame;
+        case 0x2: return EGame::Prime;
+        case 0x3: return EGame::EchoesDemo;
+        case 0x4: return EGame::Echoes;
+        case 0x5: return EGame::Corruption;
+        case 0xA: return EGame::DKCReturns;
+        default: return EGame::Invalid;
     }
 }

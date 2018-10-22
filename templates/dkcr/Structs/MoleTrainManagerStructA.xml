@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="MoleTrainManagerStructA" type="multi">
-    <properties>
-        <property ID="0xEE447D6B" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x4D765168" type="float">
-            <default>46.0</default>
-        </property>
-        <property ID="0x4F01C9E2" type="float">
-            <default>36.0</default>
-        </property>
-        <property ID="0xED0D6895" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0x92FBC161" type="float">
-            <default>11.0</default>
-        </property>
-        <property ID="0xD33F6240" type="float">
-            <default>12.0</default>
-        </property>
-        <property ID="0xE59672B3" type="float">
-            <default>5.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>MoleTrainManagerStructA</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xEE447D6B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D765168">
+                <DefaultValue>46.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4F01C9E2">
+                <DefaultValue>36.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED0D6895">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x92FBC161">
+                <DefaultValue>11.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD33F6240">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE59672B3">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

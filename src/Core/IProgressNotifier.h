@@ -30,7 +30,7 @@ public:
         mTaskCount = Math::Max(mTaskCount, TaskIndex + 1);
     }
 
-    void Report(int StepIndex, int StepCount, const TString& rkStepDesc)
+    void Report(int StepIndex, int StepCount, const TString& rkStepDesc = "")
     {
         ASSERT(mTaskCount >= 1);
 

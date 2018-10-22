@@ -1,29 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SeedBoss1Stage" type="multi">
-    <properties>
-        <property ID="0xDFEA46B3" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x95E7A2C2" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x76BA1C18" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x905063F4" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0xBAE5EABB" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x1E3A9394" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x1E857439" template="Structs/SeedBoss1Action.xml"/>
-        <struct ID="0xBAF37BAA" template="Structs/SeedBoss1Action.xml"/>
-        <struct ID="0xFFBC22BA" template="Structs/SeedBoss1Action.xml"/>
-        <struct ID="0xD83D4564" template="Structs/SeedBoss1Action.xml"/>
-        <struct ID="0x95B6D3B7" template="Structs/SeedBoss1Action.xml"/>
-        <struct ID="0x46AA8016" template="Structs/SeedBoss1Action.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>SeedBoss1Stage</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xDFEA46B3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95E7A2C2">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76BA1C18">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x905063F4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBAE5EABB">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1E3A9394">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x1E857439" Archetype="SeedBoss1Action"/>
+            <Element Type="Struct" ID="0xBAF37BAA" Archetype="SeedBoss1Action"/>
+            <Element Type="Struct" ID="0xFFBC22BA" Archetype="SeedBoss1Action"/>
+            <Element Type="Struct" ID="0xD83D4564" Archetype="SeedBoss1Action"/>
+            <Element Type="Struct" ID="0x95B6D3B7" Archetype="SeedBoss1Action"/>
+            <Element Type="Struct" ID="0x46AA8016" Archetype="SeedBoss1Action"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

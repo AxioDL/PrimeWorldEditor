@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerPeriodicAdditiveAnimationData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x6E323295">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFE41227F">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAACDB11C">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x15DBA741"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

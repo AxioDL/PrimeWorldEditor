@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct12</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x4DA4A894" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xD34F1323" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0xC1D9DBC6">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x927FC322">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x717824B4">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA41F75EF">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0xE6E92E73">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6CB0DA5A">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3938663">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x865C109C">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B48A2F8">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE1B0EFA0">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x5CA206CA">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEBF69CF0">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4AAB4E04">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Sound" ID="0xBF3C59B6">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x78BE3B8D">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

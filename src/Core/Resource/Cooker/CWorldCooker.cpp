@@ -22,15 +22,15 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
 
     WorldNameID.Write(rMLVL);
 
-    if (Game == eEchoesDemo || Game == eEchoes)
+    if (Game == EGame::EchoesDemo || Game == EGame::Echoes)
     {
         DarkWorldNameID.Write(rMLVL);
     }
-    if (Game >= eEchoesDemo && Game <= eCorruption)
+    if (Game >= EGame::EchoesDemo && Game <= EGame::Corruption)
     {
         rMLVL.WriteLong(pWorld->mTempleKeyWorldIndex);
     }
-    if (Game == eReturns)
+    if (Game == EGame::DKCReturns)
     {
         const CWorld::STimeAttackData& rkData = pWorld->mTimeAttackData;
         rMLVL.WriteBool(rkData.HasTimeAttack);
@@ -49,7 +49,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
     DefaultSkyID.Write(rMLVL);
 
     // Memory Relays
-    if (Game == ePrime)
+    if (Game == EGame::Prime)
     {
         rMLVL.WriteLong( pWorld->mMemoryRelays.size() );
 
@@ -65,7 +65,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
 
     // Areas
     rMLVL.WriteLong(pWorld->mAreas.size());
-    if (Game <= ePrime) rMLVL.WriteLong(1); // Unknown
+    if (Game <= EGame::Prime) rMLVL.WriteLong(1); // Unknown
     std::set<CAssetID> AudioGroups;
 
     for (u32 iArea = 0; iArea < pWorld->mAreas.size(); iArea++)
@@ -83,7 +83,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
         rArea.AreaID.Write(rMLVL);
 
         // Attached Areas
-        if (Game <= eCorruption)
+        if (Game <= EGame::Corruption)
         {
             rMLVL.WriteLong( rArea.AttachedAreaIDs.size() );
 
@@ -92,7 +92,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
         }
 
         // Dependencies
-        if (Game <= eEchoes)
+        if (Game <= EGame::Echoes)
         {
             std::list<CAssetID> Dependencies;
             std::list<u32> LayerDependsOffsets;
@@ -117,7 +117,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
         }
 
         // Docks
-        if (Game <= eCorruption)
+        if (Game <= EGame::Corruption)
         {
             rMLVL.WriteLong( rArea.Docks.size() );
 
@@ -141,7 +141,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
         }
 
         // Module Dependencies
-        if (Game == eEchoesDemo || Game == eEchoes)
+        if (Game == EGame::EchoesDemo || Game == EGame::Echoes)
         {
             std::vector<TString> ModuleNames;
             std::vector<u32> ModuleLayerOffsets;
@@ -160,15 +160,15 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
         }
 
         // Unknown
-        if (Game == eReturns)
+        if (Game == EGame::DKCReturns)
             rMLVL.WriteLong(0);
 
         // Internal Name
-        if (Game >= eEchoesDemo)
+        if (Game >= EGame::EchoesDemo)
             rMLVL.WriteString(rArea.InternalName);
     }
 
-    if (Game <= eCorruption)
+    if (Game <= EGame::Corruption)
     {
         // World Map
         CAssetID MapWorldID = pWorld->mpMapWorld ? pWorld->mpMapWorld->ID() : CAssetID::skInvalidID32;
@@ -180,7 +180,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
     }
 
     // Audio Groups
-    if (Game <= ePrime)
+    if (Game <= EGame::Prime)
     {
         // Create sorted list of audio groups (sort by group ID)
         std::vector<CAudioGroup*> SortedAudioGroups;
@@ -244,7 +244,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
         rMLVL.WriteString(LayerNames[iLyr]);
 
     // Layer Saved State IDs
-    if (Game >= eCorruption)
+    if (Game >= EGame::Corruption)
     {
         rMLVL.WriteLong(LayerStateIDs.size());
 
@@ -265,12 +265,12 @@ u32 CWorldCooker::GetMLVLVersion(EGame Version)
 {
     switch (Version)
     {
-    case ePrimeDemo:  return 0xD;
-    case ePrime:      return 0x11;
-    case eEchoesDemo: return 0x14;
-    case eEchoes:     return 0x17;
-    case eCorruption: return 0x19;
-    case eReturns:    return 0x1B;
+    case EGame::PrimeDemo:  return 0xD;
+    case EGame::Prime:      return 0x11;
+    case EGame::EchoesDemo: return 0x14;
+    case EGame::Echoes:     return 0x17;
+    case EGame::Corruption: return 0x19;
+    case EGame::DKCReturns:    return 0x1B;
     default:          return 0;
     }
 }

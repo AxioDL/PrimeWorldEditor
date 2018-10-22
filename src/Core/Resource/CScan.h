@@ -69,7 +69,7 @@ public:
         CDependencyTree *pTree = new CDependencyTree();
 
         // Corruption's SCAN has a list of all assets - just grab that
-        if (Game() >= eCorruptionProto)
+        if (Game() >= EGame::CorruptionProto)
         {
             for (u32 iDep = 0; iDep < mDependencyList.size(); iDep++)
             {
@@ -80,18 +80,18 @@ public:
         }
 
         // Otherwise add all the dependencies we need from the properties
-        if (Game() <= ePrime)
+        if (Game() <= EGame::Prime)
             pTree->AddDependency(mFrameID);
 
         pTree->AddDependency(mpStringTable);
 
-        if (Game() <= ePrime)
+        if (Game() <= EGame::Prime)
         {
             for (u32 iImg = 0; iImg < 4; iImg++)
                 pTree->AddDependency(mScanImageTextures[iImg]);
         }
 
-        else if (Game() <= eEchoes)
+        else if (Game() <= EGame::Echoes)
         {
             pTree->AddDependency(mPostOverrideTexture);
             pTree->AddDependency(mLogbookModel);

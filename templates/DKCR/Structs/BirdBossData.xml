@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BirdBossData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x26ECB939">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x41DA172">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F2AE3E5">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9AB09E44">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA0EFDA8E">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xA9A4E87C"/>
+            <Element Type="Float" ID="0x61348354">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4EEBC0C9">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEB300034">
+                <DefaultValue>14.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x65A1308E">
+                <DefaultValue>17.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3554C19">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x62CA94F2">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE33F5CD6">
+                <DefaultValue>-5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD486F8FE">
+                <DefaultValue>-20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3A18C538">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9080460">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAE96D690">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA8935C73"/>
+            <Element Type="AnimationSet" ID="0x91EBF133"/>
+            <Element Type="Struct" ID="0xF03EB95E" Archetype="UnknownStruct63"/>
+            <Element Type="Struct" ID="0x5B1C94D1" Archetype="UnknownStruct64"/>
+            <Element Type="Struct" ID="0x3E67CC4A" Archetype="BirdBossStruct"/>
+            <Element Type="Struct" ID="0xD4E11128" Archetype="BirdBossStruct"/>
+            <Element Type="Struct" ID="0x3BB3A7C9" Archetype="BirdBossStruct"/>
+            <Element Type="Struct" ID="0xDA9DADAD" Archetype="BirdBossStruct"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

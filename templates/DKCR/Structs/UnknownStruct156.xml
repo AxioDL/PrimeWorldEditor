@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct156</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x806052CB">
+                <TypeFilter>
+                    <Element>FRME</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEFC5A137">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x79589BF4">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAF707DF">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5CE2A9A9">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1F5B271D">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x449F5275">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4CAFDDD1">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x361CCF90">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4A5CB6EF">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8AE3361B">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8416A311">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xF0A3978E" Archetype="UnknownStruct154"/>
+            <Element Type="Struct" ID="0xBDE5216" Archetype="UnknownStruct155"/>
+            <Element Type="Struct" ID="0x860139AD" Archetype="UnknownStruct26"/>
+            <Element Type="Struct" ID="0x6A598A9B" Archetype="UnknownStruct26"/>
+            <Element Type="Struct" ID="0x3BE205DA" Archetype="UnknownStruct26"/>
+            <Element Type="Struct" ID="0x96CD80D1" Archetype="UnknownStruct26"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

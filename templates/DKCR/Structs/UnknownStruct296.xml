@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct296</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x4AE8523D" Archetype="UnknownStruct287"/>
+            <Element Type="Struct" ID="0x2A447166" Archetype="UnknownStruct288"/>
+            <Element Type="Struct" ID="0xDD5C7083" Archetype="UnknownStruct290"/>
+            <Element Type="Struct" ID="0xE6857328" Archetype="UnknownStruct291"/>
+            <Element Type="Struct" ID="0x2B531C2F" Archetype="UnknownStruct292"/>
+            <Element Type="Struct" ID="0x9127FBC8" Archetype="UnknownStruct295"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

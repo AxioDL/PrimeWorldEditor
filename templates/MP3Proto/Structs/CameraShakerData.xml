@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraShakerData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xC3E75C5F">
+                <DefaultValue>48</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D283AC5">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B51E23F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC2ACB79E"/>
+            <Element Type="Struct" ID="0xD9EB71E0" Archetype="CameraShakerEnvelope"/>
+            <Element Type="Struct" ID="0xC5B09632" Archetype="CameraShakerEnvelope"/>
+            <Element Type="Struct" ID="0x21B704E3" Archetype="CameraShakerEnvelope"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

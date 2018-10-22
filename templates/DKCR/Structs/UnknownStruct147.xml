@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct147</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xF2299ED6">
+                <TypeFilter>
+                    <Element>FRME</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x172ADDB3">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x69DC0A16"/>
+            <Element Type="Float" ID="0x5704897C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5AEDF7C9">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5E4A1076">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5D84ACE2">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x5B928A5D">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD840598D">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xEEB39069">
+                <DefaultValue>0.0625</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x569BD8A7">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7AFFC159">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xF7D838F6">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x9F666E5">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Color" ID="0xF9E0D0FB">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xE0417E89">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF2E13506">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA5F210BA">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4038140E">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

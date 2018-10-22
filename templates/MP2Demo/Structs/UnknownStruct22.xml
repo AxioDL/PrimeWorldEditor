@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct22</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x46D866D1">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xDEFF74EA" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xC6C4232C">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7FE2B85D">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10BE8AD3">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x43189237">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1559F27">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7DCD404">
+                <DefaultValue>14.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x56256F59">
+                <DefaultValue>16.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3061976C">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x93A80AA2">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C6B2421">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

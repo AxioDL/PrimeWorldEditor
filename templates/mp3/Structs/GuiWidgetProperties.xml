@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="GuiWidgetProperties" type="multi">
-    <properties>
-        <property ID="0x73939407" type="string"/>
-        <property ID="0xDB7F4AA2" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0xDEE730F5" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>GuiWidgetProperties</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x73939407"/>
+            <Element Type="Int" ID="0xDB7F4AA2">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDEE730F5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct4" type="multi">
-    <properties>
-        <property ID="0xDCABE91A" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x06096FC1" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0x60D78BF3" type="float">
-            <default>0.2</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct4</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xDCABE91A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6096FC1">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x60D78BF3">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

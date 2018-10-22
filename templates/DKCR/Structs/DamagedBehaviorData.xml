@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>DamagedBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x699BFA8B">
+                <DefaultValue>0xD47E7961</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD47E7961"/>
+                    <Element Name="Unknown 2" ID="0x39B03E13"/>
+                    <Element Name="Unknown 3" ID="0xD6AD5629"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0x97DE7421">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x55EF5AB4">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x79D217BF">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2F5FD53C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD6FF67BF">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBEBAF085">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x22A3060">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

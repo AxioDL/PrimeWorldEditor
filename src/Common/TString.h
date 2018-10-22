@@ -930,14 +930,9 @@ public:
         return SStream.str();
     }
 
-    static _TString FromFloat(float Value, int MinDecimals = 1)
+    static _TString FromFloat(float Value, int MinDecimals = 1, bool Scientific = false)
     {
-        // Initial float -> string conversion
-        std::basic_stringstream<CharType> SStream;
-        if (MinDecimals > 0) SStream.setf(std::ios_base::showpoint);
-        SStream.setf(std::ios_base::fixed, std::ios_base::floatfield);
-        SStream << Value;
-        _TString Out = SStream.str();
+        _TString Out = _TString::Format(Scientific ? "%.8g" : "%f", Value);
 
         // Make sure we have the right number of decimals
         int DecIdx = Out.IndexOf(CHAR_LITERAL('.'));
@@ -954,7 +949,7 @@ public:
         if (NumZeroes < MinDecimals)
         {
             for (int iDec = 0; iDec < (MinDecimals - NumZeroes); iDec++)
-                Out.Append(CHAR_LITERAL('.'));
+                Out.Append(CHAR_LITERAL('0'));
         }
 
         // Remove unnecessary trailing zeroes from the end of the string
@@ -1063,6 +1058,16 @@ public:
     {
         // todo: doesn't handle accented characters
         return (Chr >= CHAR_LITERAL('a') && Chr <= CHAR_LITERAL('z')) ? Chr - 0x20 : Chr;
+    }
+
+    static bool IsVowel(CharType Chr)
+    {
+        Chr = CharToUpper(Chr);
+        return (Chr == 'A' ||
+                Chr == 'E' ||
+                Chr == 'I' ||
+                Chr == 'O' ||
+                Chr == 'U');
     }
 
     static bool IsWhitespace(CharType Chr)

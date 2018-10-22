@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>FollowSurfaceBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x9A83F472">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF572256B">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA863BAE2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x57E40DC7">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x102F9F94">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA72DFC5E">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x19FF362">
+                <TypeFilter>
+                    <Element>RULE</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x9A83636">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF726069B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

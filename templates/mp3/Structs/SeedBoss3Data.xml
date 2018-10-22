@@ -1,885 +1,308 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SeedBoss3Data" type="multi">
-    <properties>
-        <struct ID="0x0E995010" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>0.05</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x7A3FE00D">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xDF636C4B" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x7A3FE00D">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x1D5FB7D6" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x7A3FE00D">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xC2FFF029" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xEE1BE914">
-                    <default>7.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>20.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x3CE6E482" template="Structs/ShockWaveInfo.xml">
-            <properties>
-                <struct ID="0x337F9524">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>20.0</default>
-                        </property>
-                        <property ID="0x7A3FE00D">
-                            <default>2</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x8B51E23F">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x78C507EB">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xC2BE030D">
-                    <default>2.0</default>
-                </property>
-                <property ID="0xCF6C1DE9">
-                    <default>0.9</default>
-                </property>
-                <property ID="0x4CD1459B">
-                    <default>50.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x8E2A47CE" type="float">
-            <default>1.0</default>
-        </property>
-        <struct ID="0x2AB7E3CC" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>50.0</default>
-                </property>
-                <property ID="0x7A3FE00D">
-                    <default>2</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xC1F06D19" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <struct ID="0x337F9524">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0xEE1BE914">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>5.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x14FFF39C">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x053AE4A7">
-                    <default>5.0</default>
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <default>0.5</default>
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x9A509C55" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x7C3033B4" type="float">
-            <default>6.0</default>
-        </property>
-        <struct ID="0x40A2FE3E" type="multi">
-            <properties>
-                <struct ID="0x337F9524" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x7A3FE00D">
-                            <default>1</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x86368613" type="vector3f">
-                    <default>1.0, 1.0, 2.0</default>
-                </property>
-                <property ID="0xF2C3FC10" type="float">
-                    <default>215.0</default>
-                </property>
-                <property ID="0x7F30924C" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xCF201BFA" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x88137FA8" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x8F4FB79D" type="float">
-                    <default>0.5</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x859C432C" type="asset" extensions="CAUD"/>
-        <struct ID="0x1A25A969" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <struct ID="0x337F9524">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>3.0</default>
-                        </property>
-                        <property ID="0xEE1BE914">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x14FFF39C">
-                    <default>0.2</default>
-                </property>
-                <property ID="0x053AE4A7">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <default>0.25</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x29A8B77D" template="Structs/HoverThenHomeProjectile.xml">
-            <properties>
-                <property ID="0x452426BB">
-                    <default>20.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0xB87C2C9B" type="asset" extensions="PART"/>
-        <struct ID="0xBE7EA088" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>0.05</default>
-                </property>
-                <property ID="0xEE1BE914">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x4AD191DB" type="vector3f">
-            <default>1.5, 1.5, 1.5</default>
-        </property>
-        <property ID="0x47D79EFF" type="asset" extensions="CAUD"/>
-        <property ID="0x980C9FDC" type="float">
-            <default>500.0</default>
-        </property>
-        <struct ID="0xA171456D" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>50.0</default>
-                </property>
-                <property ID="0x7A3FE00D">
-                    <default>2</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0xA0ACE6AE" type="float">
-            <default>56.0</default>
-        </property>
-        <property ID="0x86EC276A" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0xAD422D66" type="float">
-            <default>0.75</default>
-        </property>
-        <struct ID="0x761D4BF4" template="Structs/DamageInfo.xml">
-            <properties>
-                <property ID="0xF2D02613">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x555FF80A">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x7A3FE00D">
-                    <default>1</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0xCA2D694D" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x845EF489" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0xD657F545" type="float">
-            <default>0.4</default>
-        </property>
-        <property ID="0x5AF9E379" type="long">
-            <default>3</default>
-        </property>
-        <property ID="0x1FFBA0FB" type="long">
-            <default>1</default>
-        </property>
-        <property ID="0x9AF26C4E" type="float">
-            <default>40.0</default>
-        </property>
-        <struct ID="0x4802ADD9" type="multi">
-            <properties>
-                <property ID="0xF0668919" type="float">
-                    <default>750.0</default>
-                </property>
-                <struct ID="0xF064B3BC" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0x0D9230D1" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0xED7EDCA3" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x5BDD1E4C" type="float">
-                    <default>80.0</default>
-                </property>
-                <property ID="0x6082430F" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x32B60FED" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0xD4D6A00C" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0xFEFD7F33" type="float">
-                    <default>8.0</default>
-                </property>
-                <property ID="0x189DD0D2" type="float">
-                    <default>12.0</default>
-                </property>
-                <property ID="0xAF270C93" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0x8819688D" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0x1B37EDA7" type="float">
-                    <default>40.0</default>
-                </property>
-                <property ID="0x8B44FD4D" type="float">
-                    <default>40.0</default>
-                </property>
-                <property ID="0xDAC05EB5" type="float">
-                    <default>5.0</default>
-                </property>
-                <struct ID="0xF609C637" template="Structs/GrappleData.xml">
-                    <properties>
-                        <property ID="0x5DCF91E1">
-                            <default>1</default>
-                        </property>
-                        <property ID="0xB2BD2723">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <struct ID="0x5F669BA0">
-                            <properties>
-                                <property ID="0x008BD240">
-                                    <default>1</default>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <default>180.0</default>
-                                </property>
-                                <property ID="0x9D0C992F">
-                                    <default>0.1</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x3F3A2EEB">
-                            <cook_pref>never</cook_pref>
-                            <properties>
-                                <property ID="0x008BD240">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x54178CB8">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x9D0C992F">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8382CD42">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8A40FD1B">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <enum ID="0xF8A14C37">
-                                    <cook_pref>never</cook_pref>
-                                </enum>
-                                <property ID="0x64FB595C">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x0887FEFE">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0x424928B3">
-                            <cook_pref>never</cook_pref>
-                            <properties>
-                                <property ID="0x008BD240">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x54178CB8">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xDE38F04E">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x9D0C992F">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8382CD42">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x8A40FD1B">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0xA62BF627">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <enum ID="0xF8A14C37">
-                                    <cook_pref>never</cook_pref>
-                                </enum>
-                                <property ID="0x64FB595C">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                                <property ID="0x0887FEFE">
-                                    <cook_pref>never</cook_pref>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0x5BBBE79E">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x426F2F60">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x771A3176">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xEFD287D9">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x56F41CA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x4BDEE69A">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x0598B045">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x07648F63">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x0FEA8352" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0xE98A2CB3" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0xED52AB86" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x0B320467" type="float">
-                    <default>7.0</default>
-                </property>
-                <property ID="0x4BF067CB" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0xAD90C82A" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x63F5B908" type="float">
-                    <default>400.0</default>
-                </property>
-                <property ID="0x5FAE9A93" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0x96FF34D5" type="float">
-                    <default>4.0</default>
-                </property>
-                <property ID="0x709F9B34" type="float">
-                    <default>6.0</default>
-                </property>
-                <property ID="0x61E664CC" type="float">
-                    <default>25.0</default>
-                </property>
-                <struct ID="0xB348C46B" template="Structs/LaunchProjectileData.xml">
-                    <properties>
-                        <struct ID="0x337F9524">
-                            <properties>
-                                <property ID="0xF2D02613">
-                                    <default>20.0</default>
-                                </property>
-                                <property ID="0xEE1BE914">
-                                    <default>5.0</default>
-                                </property>
-                                <property ID="0x555FF80A">
-                                    <default>10.0</default>
-                                </property>
-                                <property ID="0x7A3FE00D">
-                                    <default>1</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0xE9C8E2BD">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xA3E8EC4E">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x053AE4A7">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xCF201BFA">
-                            <default>2.0</default>
-                        </property>
-                        <property ID="0xB2D02323">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF344C0B0">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x056B20B2">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF78469D6">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x476D50F2" type="asset" extensions="CMDL"/>
-                <property ID="0x55DA2EA4" type="string"/>
-                <property ID="0x20DC1C96" type="float">
-                    <default>0.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xA00B9AC3" type="multi">
-            <properties>
-                <property ID="0xF0668919" type="float">
-                    <default>750.0</default>
-                </property>
-                <property ID="0xC5407757" type="float">
-                    <default>1.05</default>
-                </property>
-                <struct ID="0x0D9230D1" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0xED7EDCA3" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0x295CF609" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0x23DDBB55" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x5BDD1E4C" type="float">
-                    <default>80.0</default>
-                </property>
-                <property ID="0x6082430F" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xAF270C93" type="float">
-                    <default>25.0</default>
-                </property>
-                <property ID="0x8819688D" type="float">
-                    <default>40.0</default>
-                </property>
-                <property ID="0x1B37EDA7" type="float">
-                    <default>18.0</default>
-                </property>
-                <property ID="0x8B44FD4D" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xDAC05EB5" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x673A2724" type="float">
-                    <default>24.0</default>
-                </property>
-                <property ID="0x815A88C5" type="float">
-                    <default>16.0</default>
-                </property>
-                <property ID="0xD4D6A00C" type="float">
-                    <default>12.0</default>
-                </property>
-                <property ID="0x32B60FED" type="float">
-                    <default>8.0</default>
-                </property>
-                <property ID="0x86E154B4" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0x20DC1C96" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xFBA7C57B" type="float">
-                    <default>0.01</default>
-                </property>
-                <property ID="0xBA801F2F" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0xE1EE4260" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x8E080314" type="float">
-                    <default>50.0</default>
-                </property>
-                <property ID="0xD7D24BFA" type="long">
-                    <default>3</default>
-                </property>
-                <struct ID="0xCCCCA97E" type="multi">
-                    <properties>
-                        <property ID="0x4C28CD13" type="asset" extensions="PART"/>
-                        <property ID="0x32A13DFD" type="asset" extensions="PART"/>
-                        <property ID="0x57F7EFF9" type="asset" extensions="ELSC"/>
-                        <property ID="0xFD132F70" type="asset" extensions="ELSC"/>
-                        <property ID="0x01299E29" type="long">
-                            <default>6</default>
-                        </property>
-                        <property ID="0x442BDDAB" type="long">
-                            <default>6</default>
-                        </property>
-                        <struct ID="0x37304F48" template="Structs/DamageInfo.xml">
-                            <properties>
-                                <property ID="0xF2D02613">
-                                    <default>20.0</default>
-                                </property>
-                                <property ID="0x555FF80A">
-                                    <default>10.0</default>
-                                </property>
-                                <property ID="0x7A3FE00D">
-                                    <default>2</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <struct ID="0xC5528A8D" template="Structs/DamageInfo.xml">
-                            <properties>
-                                <property ID="0xF2D02613">
-                                    <default>20.0</default>
-                                </property>
-                                <property ID="0x555FF80A">
-                                    <default>10.0</default>
-                                </property>
-                                <property ID="0x7A3FE00D">
-                                    <default>2</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0x4B59E590" type="float">
-                            <default>3.0</default>
-                        </property>
-                        <property ID="0xCB14D97C" type="float">
-                            <default>35.0</default>
-                        </property>
-                        <property ID="0x39FB7978" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0xC6A6B724" type="float">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x4032C58A" type="float">
-                            <default>2.5</default>
-                        </property>
-                        <property ID="0x8B6E162F" type="float">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0x966B2697" type="float">
-                            <default>9.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0xA62404DC" type="float">
-                    <default>0.1</default>
-                </property>
-                <property ID="0xBF8B57BF" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x530ECF07" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x8482E270" type="float">
-                    <default>1.5</default>
-                </property>
-                <property ID="0x7128F60E" type="float">
-                    <default>0.3</default>
-                </property>
-                <property ID="0xD9C4AA53" type="string"/>
-                <property ID="0x8E13F1F6" type="asset" extensions="CMDL"/>
-                <property ID="0x71C8E644" type="string"/>
-                <property ID="0x8CB60FC9" type="string"/>
-                <property ID="0x69A25F05" type="asset" extensions="CMDL"/>
-                <property ID="0x967948B7" type="string"/>
-                <property ID="0x0A366C12" type="asset" extensions="CMDL"/>
-                <property ID="0xF5ED7BA0" type="string"/>
-                <property ID="0x03B5981C" type="asset" extensions="CMDL"/>
-                <property ID="0xFC6E8FAE" type="string"/>
-                <property ID="0xBB5658B3" type="asset" extensions="CMDL"/>
-                <property ID="0x448D4F01" type="string"/>
-            </properties>
-        </struct>
-        <struct ID="0xF80C8835" type="multi">
-            <properties>
-                <property ID="0xF0668919" type="float">
-                    <default>750.0</default>
-                </property>
-                <property ID="0xC5407757" type="float">
-                    <default>1.1</default>
-                </property>
-                <struct ID="0xF064B3BC" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0x0D9230D1" template="Structs/DamageVulnerability.xml"/>
-                <struct ID="0xED7EDCA3" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x5BDD1E4C" type="float">
-                    <default>80.0</default>
-                </property>
-                <property ID="0x6082430F" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x7D185E91" type="float">
-                    <default>7.5</default>
-                </property>
-                <property ID="0x9B78F170" type="float">
-                    <default>11.25</default>
-                </property>
-                <struct ID="0x24B933D3" template="Structs/DamageInfo.xml">
-                    <properties>
-                        <property ID="0xF2D02613">
-                            <default>3.0</default>
-                        </property>
-                        <property ID="0xEE1BE914">
-                            <default>1.0</default>
-                        </property>
-                        <property ID="0x555FF80A">
-                            <default>10.0</default>
-                        </property>
-                        <property ID="0x7A3FE00D">
-                            <default>1</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x93B08AC8" type="float">
-                    <default>0.4</default>
-                </property>
-                <property ID="0x1B37EDA7" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0x8B44FD4D" type="float">
-                    <default>15.0</default>
-                </property>
-                <property ID="0xDAC05EB5" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0xAF270C93" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x8819688D" type="float">
-                    <default>20.0</default>
-                </property>
-                <property ID="0xBC9BBAF9" type="float">
-                    <default>44.0</default>
-                </property>
-                <struct ID="0x9C32D0A0" template="Structs/ShockWaveInfo.xml">
-                    <properties>
-                        <struct ID="0x337F9524">
-                            <properties>
-                                <property ID="0xF2D02613">
-                                    <default>10.0</default>
-                                </property>
-                                <property ID="0x555FF80A">
-                                    <default>20.0</default>
-                                </property>
-                                <property ID="0x7A3FE00D">
-                                    <default>2</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0x8B51E23F">
-                            <default>5.0</default>
-                        </property>
-                        <property ID="0xC2BE030D">
-                            <default>2.0</default>
-                        </property>
-                        <property ID="0xCF6C1DE9">
-                            <default>0.9</default>
-                        </property>
-                        <property ID="0x4CD1459B">
-                            <default>45.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <struct ID="0x4EA6C6A9" template="Structs/LaunchProjectileData.xml">
-                    <properties>
-                        <struct ID="0x337F9524">
-                            <properties>
-                                <property ID="0xF2D02613">
-                                    <default>10.0</default>
-                                </property>
-                                <property ID="0xEE1BE914">
-                                    <default>15.0</default>
-                                </property>
-                                <property ID="0x555FF80A">
-                                    <default>10.0</default>
-                                </property>
-                                <property ID="0x7A3FE00D">
-                                    <default>1</default>
-                                </property>
-                            </properties>
-                        </struct>
-                        <property ID="0x14FFF39C">
-                            <default>0.2</default>
-                        </property>
-                        <property ID="0x7DA8EA23">
-                            <default>0.1</default>
-                        </property>
-                        <property ID="0x053AE4A7">
-                            <default>30.0</default>
-                        </property>
-                        <property ID="0xCF201BFA">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0x88137FA8">
-                            <cook_pref>never</cook_pref>
-                        </property>
-                        <property ID="0xF78469D6">
-                            <default>1.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x54CFED2A" type="float">
-                    <default>0.5</default>
-                </property>
-                <property ID="0x94A19A8B" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x72C1356A" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0xE291A671" type="long">
-                    <default>4</default>
-                </property>
-                <property ID="0xA793E5F3" type="long">
-                    <default>4</default>
-                </property>
-                <property ID="0x19774DEC" type="long">
-                    <default>1</default>
-                </property>
-                <property ID="0x482B7704" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xC3544D67" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xA247C47C" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0x6515999E" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xEFB54F99" type="float">
-                    <default>100.0</default>
-                </property>
-                <property ID="0xC8D2E4A8" type="float">
-                    <default>200.0</default>
-                </property>
-                <property ID="0xF3AD3881" type="float">
-                    <default>0.8</default>
-                </property>
-                <property ID="0x036E3C74" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x2171C5ED" type="float">
-                    <default>-0.025</default>
-                </property>
-                <property ID="0x2515641C" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x6E42BB15" type="float">
-                    <default>0.025</default>
-                </property>
-                <property ID="0x20DC1C96" type="float">
-                    <default>0.5</default>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x6C3A6799" type="asset" extensions="SCAN"/>
-        <property ID="0xE37A0D97" type="asset" extensions="SCAN"/>
-        <property ID="0xD1C7504D" type="asset" extensions="SCAN"/>
-        <property ID="0x1A9B83E8" type="asset" extensions="SCAN"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SeedBoss3Data</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xE995010" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>0.050000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x7A3FE00D">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xDF636C4B" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x7A3FE00D">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x1D5FB7D6" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x7A3FE00D">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xC2FFF029" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEE1BE914">
+                        <DefaultValue>7.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x3CE6E482" Archetype="ShockWaveInfo">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x337F9524">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>10.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                            <Element Type="Int" ID="0x7A3FE00D">
+                                <DefaultValue>2</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x8B51E23F">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x78C507EB">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC2BE030D">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xCF6C1DE9">
+                        <DefaultValue>0.89999998</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4CD1459B">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x8E2A47CE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x2AB7E3CC" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x7A3FE00D">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xC1F06D19" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x337F9524">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>5.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xEE1BE914">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>5.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x14FFF39C">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x9A509C55">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C3033B4">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x40A2FE3E" Archetype="UnknownStruct16"/>
+            <Element Type="Asset" ID="0x859C432C">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1A25A969" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x337F9524">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF2D02613">
+                                <DefaultValue>3.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xEE1BE914">
+                                <DefaultValue>5.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x555FF80A">
+                                <DefaultValue>10.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x14FFF39C">
+                        <DefaultValue>0.2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <DefaultValue>0.25</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x29A8B77D" Archetype="HoverThenHomeProjectile">
+                <SubProperties>
+                    <Element Type="Float" ID="0x452426BB">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0xB87C2C9B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xBE7EA088" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>0.050000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEE1BE914">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Vector" ID="0x4AD191DB">
+                <DefaultValue>
+                    <X>1.5</X>
+                    <Y>1.5</Y>
+                    <Z>1.5</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x47D79EFF">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x980C9FDC">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA171456D" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x7A3FE00D">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0xA0ACE6AE">
+                <DefaultValue>56.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x86EC276A">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAD422D66">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x761D4BF4" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x7A3FE00D">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0xCA2D694D">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x845EF489">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD657F545">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5AF9E379">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1FFBA0FB">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9AF26C4E">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x4802ADD9" Archetype="UnknownStruct17"/>
+            <Element Type="Struct" ID="0xA00B9AC3" Archetype="UnknownStruct19"/>
+            <Element Type="Struct" ID="0xF80C8835" Archetype="UnknownStruct20"/>
+            <Element Type="Asset" ID="0x6C3A6799">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE37A0D97">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD1C7504D">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1A9B83E8">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

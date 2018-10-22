@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct39</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xFDEA5D06" Archetype="GhorStructC"/>
+            <Element Type="Float" ID="0x2BCD1D77">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7FEC6162">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x39D64E40"/>
+            <Element Type="Spline" ID="0xFC336BED"/>
+            <Element Type="String" ID="0x60BDAA38"/>
+            <Element Type="String" ID="0xC60B41B4"/>
+            <Element Type="String" ID="0x67808780"/>
+            <Element Type="Asset" ID="0x62771F66">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB75B8442">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

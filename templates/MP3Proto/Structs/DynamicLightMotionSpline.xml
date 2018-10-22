@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>DynamicLightMotionSpline</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x3D7406AF">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x493D6A2D" Archetype="SplineType"/>
+            <Element Type="Spline" ID="0x27E5F874"/>
+            <Element Type="Float" ID="0xFD1E2F56">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

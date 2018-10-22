@@ -1,27 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>DistanceFog</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Mode" type="long"/>
-        <property ID="0x02" name="Color" type="color"/>
-        <struct ID="0x03" name="Range" template="Structs/Vector2f.xml"/>
-        <property ID="0x04" name="Color Delta" type="float"/>
-        <struct ID="0x05" name="Range Delta" template="Structs/Vector2f.xml"/>
-        <property ID="0x06" name="Explicit" type="bool"/>
-        <property ID="0x07" name="Active" type="bool"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Active" ID="0x07"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/DistanceFog.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>DistanceFog</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Int" ID="0x1">
+                <Name>Mode</Name>
+            </Element>
+            <Element Type="Color" ID="0x2">
+                <Name>Color</Name>
+            </Element>
+            <Element Type="Struct" ID="0x3" Archetype="Vector2f">
+                <Name>Range</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Color Delta</Name>
+            </Element>
+            <Element Type="Struct" ID="0x5" Archetype="Vector2f">
+                <Name>Range Delta</Name>
+            </Element>
+            <Element Type="Bool" ID="0x6">
+                <Name>Explicit</Name>
+            </Element>
+            <Element Type="Bool" ID="0x7">
+                <Name>Active</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x07</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/DistanceFog.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

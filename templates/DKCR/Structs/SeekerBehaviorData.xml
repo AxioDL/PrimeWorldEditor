@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>SeekerBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xB8F60F9A">
+                <DefaultValue>0xE3CB0298</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xE3CB0298"/>
+                    <Element Name="Unknown 2" ID="0x393BA4B1"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0x745A8F03">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDE5BFC61">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39FB7978">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9EC4FC10">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x589A76FF">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x332B5518">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xAB0F5158">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x884973D2">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBAC80E1F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBEC99005">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB02DE555">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x928580F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD94C3954">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8E6BBEF1">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6B08F2F2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x48B45911">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD4600821">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE1E66B24">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0xB413C45F"/>
+            <Element Type="Spline" ID="0x76C7464C"/>
+            <Element Type="Spline" ID="0x10E05AAF"/>
+            <Element Type="Float" ID="0xBDA0B3F2">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A7DF6E3">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

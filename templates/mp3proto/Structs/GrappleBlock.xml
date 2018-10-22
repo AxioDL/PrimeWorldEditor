@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="GrappleBlock" type="multi">
-    <properties>
-        <property ID="0x008BD240" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x54178CB8" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xDE38F04E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x9D0C992F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x8382CD42" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x8A40FD1B" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xA62BF627" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x64FB595C" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x0887FEFE" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>GrappleBlock</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x8BD240">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54178CB8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDE38F04E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9D0C992F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8382CD42">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8A40FD1B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA62BF627">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x64FB595C">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x887FEFE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

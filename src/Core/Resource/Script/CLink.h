@@ -8,20 +8,56 @@
 
 struct SState
 {
-    u32 ID;
+    union {
+        u32 ID;
+        CFourCC ID_4CC;
+    };
     TString Name;
 
-    SState() {}
-    SState(u32 _ID, const TString& rkName) : ID(_ID), Name(rkName) {}
+    SState()
+    {}
+
+    SState(u32 InID, const TString& kInName)
+        : ID(InID)
+        , Name(kInName)
+    {}
+
+    void Serialize(IArchive& Arc)
+    {
+        if (Arc.Game() <= EGame::Prime)
+            Arc << SerialParameter("ID", ID, SH_Attribute | SH_HexDisplay);
+        else
+            Arc << SerialParameter("ID", ID_4CC, SH_Attribute);
+
+        Arc << SerialParameter("Name", Name, SH_Attribute);
+    }
 };
 
 struct SMessage
 {
-    u32 ID;
+    union {
+        u32 ID;
+        CFourCC ID_4CC;
+    };
     TString Name;
 
-    SMessage() {}
-    SMessage(u32 _ID, const TString& rkName) : ID(_ID), Name(rkName) {}
+    SMessage()
+    {}
+
+    SMessage(u32 InID, const TString& kInName)
+        : ID(InID)
+        , Name(kInName)
+    {}
+
+    void Serialize(IArchive& Arc)
+    {
+        if (Arc.Game() <= EGame::Prime)
+            Arc << SerialParameter("ID", ID, SH_Attribute | SH_HexDisplay);
+        else
+            Arc << SerialParameter("ID", ID_4CC, SH_Attribute);
+
+        Arc << SerialParameter("Name", Name, SH_Attribute);
+    }
 };
 
 class CLink

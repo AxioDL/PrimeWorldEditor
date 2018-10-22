@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct2" type="multi">
-    <properties>
-        <property ID="0x29C77D27" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x7A7B330E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xED2D546F" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct2</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x29C77D27">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A7B330E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED2D546F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

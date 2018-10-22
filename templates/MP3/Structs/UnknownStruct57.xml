@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct57</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x216ED1AD">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xB8BAA8C0">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE943139D">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2EDF3368">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D792B8C">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFB825EAA">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBA95612C">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE471A01">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAF2CB0A3">
+                <DefaultValue>70.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4113FFD8">
+                <DefaultValue>0.64999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D8A9352">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x84605259" Archetype="UnknownStruct56"/>
+            <Element Type="Struct" ID="0x889672F5" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Struct" ID="0x202AFAA4" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xE32082D1">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB71164A2">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3DC59B72">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBA9EB1D2">
+                <DefaultValue>72.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0397134">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5DAE4176">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x5F11893B" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xF3FA9B62">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xE0C37DFA">
+                <DefaultValue>14.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -35,14 +35,14 @@ void CAreaCooker::DetermineSectionNumbersPrime()
 
     switch (mVersion)
     {
-    case ePrimeDemo:
-    case ePrime:
+    case EGame::PrimeDemo:
+    case EGame::Prime:
         GeometrySections = 1 + (7 * OriginalMeshCount); // Accounting for materials
         break;
-    case eEchoesDemo:
+    case EGame::EchoesDemo:
         GeometrySections = 2 + (9 * OriginalMeshCount); // Account for materials + AROT
         break;
-    case eEchoes:
+    case EGame::Echoes:
         GeometrySections = 3 + (9 * OriginalMeshCount); // Acount for materials + AROT + an unknown section
         break;
     }
@@ -52,13 +52,13 @@ void CAreaCooker::DetermineSectionNumbersPrime()
 
     // Set section numbers
     u32 SecNum = GeometrySections;
-    if (mVersion <= ePrime) mAROTSecNum = SecNum++;
-    if (mVersion >= eEchoesDemo) mFFFFSecNum = SecNum++;
+    if (mVersion <= EGame::Prime) mAROTSecNum = SecNum++;
+    if (mVersion >= EGame::EchoesDemo) mFFFFSecNum = SecNum++;
 
-    if (mVersion >= eEchoesDemo)
+    if (mVersion >= EGame::EchoesDemo)
     {
         mSCLYSecNum = SecNum;
-        SecNum += (mVersion >= eEchoes ? mpArea->mScriptLayers.size() : 1);
+        SecNum += (mVersion >= EGame::Echoes ? mpArea->mScriptLayers.size() : 1);
         mSCGNSecNum = SecNum++;
     }
     else
@@ -70,7 +70,7 @@ void CAreaCooker::DetermineSectionNumbersPrime()
     mVISISecNum = SecNum++;
     mPATHSecNum = SecNum++;
 
-    if (mVersion >= eEchoesDemo)
+    if (mVersion >= EGame::EchoesDemo)
     {
         mPTLASecNum = SecNum++;
         mEGMCSecNum = SecNum++;
@@ -98,18 +98,18 @@ void CAreaCooker::WritePrimeHeader(IOutputStream& rOut)
     rOut.WriteLong(GetMREAVersion(mVersion));
     mpArea->mTransform.Write(rOut);
     rOut.WriteLong(mpArea->mOriginalWorldMeshCount);
-    if (mVersion >= eEchoes) rOut.WriteLong(mpArea->mScriptLayers.size());
+    if (mVersion >= EGame::Echoes) rOut.WriteLong(mpArea->mScriptLayers.size());
     rOut.WriteLong(mpArea->mSectionDataBuffers.size());
 
     rOut.WriteLong(mGeometrySecNum);
     rOut.WriteLong(mSCLYSecNum);
-    if (mVersion >= eEchoesDemo) rOut.WriteLong(mSCGNSecNum);
+    if (mVersion >= EGame::EchoesDemo) rOut.WriteLong(mSCGNSecNum);
     rOut.WriteLong(mCollisionSecNum);
     rOut.WriteLong(mUnknownSecNum);
     rOut.WriteLong(mLightsSecNum);
     rOut.WriteLong(mVISISecNum);
     rOut.WriteLong(mPATHSecNum);
-    if (mVersion <= ePrime) rOut.WriteLong(mAROTSecNum);
+    if (mVersion <= EGame::Prime) rOut.WriteLong(mAROTSecNum);
 
     else
     {
@@ -118,9 +118,9 @@ void CAreaCooker::WritePrimeHeader(IOutputStream& rOut)
         rOut.WriteLong(mEGMCSecNum);
     }
 
-    if (mVersion >= eEchoesDemo)
+    if (mVersion >= EGame::EchoesDemo)
     {
-        if (mVersion >= eEchoes) rOut.WriteLong(mCompressedBlocks.size());
+        if (mVersion >= EGame::Echoes) rOut.WriteLong(mCompressedBlocks.size());
         rOut.WriteToBoundary(32, 0);
     }
 
@@ -128,7 +128,7 @@ void CAreaCooker::WritePrimeHeader(IOutputStream& rOut)
         rOut.WriteLong(mSectionSizes[iSec]);
     rOut.WriteToBoundary(32, 0);
 
-    if (mVersion >= eEchoes)
+    if (mVersion >= EGame::Echoes)
         WriteCompressionHeader(rOut);
 }
 
@@ -188,7 +188,7 @@ void CAreaCooker::WritePrimeSCLY(IOutputStream& rOut)
     // This function covers both Prime 1 and the Echoes demo.
     // The Echoes demo has a similar SCLY format but with minor layout differences and with SCGN.
     rOut.WriteFourCC( FOURCC('SCLY') );
-    mVersion <= ePrime ? rOut.WriteLong(1) : rOut.WriteByte(1);
+    mVersion <= EGame::Prime ? rOut.WriteLong(1) : rOut.WriteByte(1);
 
     u32 NumLayers = mpArea->mScriptLayers.size();
     rOut.WriteLong(NumLayers);
@@ -227,7 +227,7 @@ void CAreaCooker::WritePrimeSCLY(IOutputStream& rOut)
     FinishSection(false);
 
     // SCGN
-    if (mVersion == eEchoesDemo)
+    if (mVersion == EGame::EchoesDemo)
     {
         rOut.WriteFourCC( FOURCC('SCGN') );
         rOut.WriteByte(1);
@@ -327,7 +327,7 @@ void CAreaCooker::FinishSection(bool SingleSectionBlock)
     mSectionSizes.push_back(SecSize);
 
     // Only track compressed blocks for MP2+. Write everything to one block for MP1.
-    if (mVersion >= eEchoes)
+    if (mVersion >= EGame::Echoes)
     {
         // Finish the current block if this is a single section block OR if the new section would push the block over the size limit.
         if (mCurBlock.NumSections > 0 && (mCurBlock.DecompressedSize + SecSize > kSizeThreshold || SingleSectionBlock))
@@ -350,8 +350,8 @@ void CAreaCooker::FinishBlock()
     if (mCurBlock.NumSections == 0) return;
 
     std::vector<u8> CompressedBuf(mCompressedData.Size() * 2);
-    bool EnableCompression = (mVersion >= eEchoes) && mpArea->mUsesCompression && !gkForceDisableCompression;
-    bool UseZlib = (mVersion == eReturns);
+    bool EnableCompression = (mVersion >= EGame::Echoes) && mpArea->mUsesCompression && !gkForceDisableCompression;
+    bool UseZlib = (mVersion == EGame::DKCReturns);
 
     u32 CompressedSize = 0;
     bool WriteCompressedData = false;
@@ -394,7 +394,7 @@ bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
     Cooker.mpArea = pArea;
     Cooker.mVersion = pArea->Game();
 
-    if (Cooker.mVersion <= eEchoes)
+    if (Cooker.mVersion <= EGame::Echoes)
         Cooker.DetermineSectionNumbersPrime();
     else
         Cooker.DetermineSectionNumbersCorruption();
@@ -413,13 +413,13 @@ bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
     }
 
     // Write SCLY
-    if (Cooker.mVersion <= eEchoesDemo)
+    if (Cooker.mVersion <= EGame::EchoesDemo)
         Cooker.WritePrimeSCLY(Cooker.mSectionData);
     else
         Cooker.WriteEchoesSCLY(Cooker.mSectionData);
 
     // Write post-SCLY data sections
-    u32 PostSCLY = (Cooker.mVersion <= ePrime ? Cooker.mSCLYSecNum + 1 : Cooker.mSCGNSecNum + 1);
+    u32 PostSCLY = (Cooker.mVersion <= EGame::Prime ? Cooker.mSCLYSecNum + 1 : Cooker.mSCGNSecNum + 1);
     for (u32 iSec = PostSCLY; iSec < pArea->mSectionDataBuffers.size(); iSec++)
     {
         if (iSec == Cooker.mModulesSecNum)
@@ -435,7 +435,7 @@ bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
     Cooker.FinishBlock();
 
     // Write to actual file
-    if (Cooker.mVersion <= eEchoes)
+    if (Cooker.mVersion <= EGame::Echoes)
         Cooker.WritePrimeHeader(rOut);
     else
         Cooker.WriteCorruptionHeader(rOut);
@@ -448,13 +448,13 @@ u32 CAreaCooker::GetMREAVersion(EGame Version)
 {
     switch (Version)
     {
-    case ePrimeDemo:       return 0xC;
-    case ePrime:           return 0xF;
-    case eEchoesDemo:      return 0x15;
-    case eEchoes:          return 0x19;
-    case eCorruptionProto: return 0x1D;
-    case eCorruption:      return 0x1E;
-    case eReturns:         return 0x20;
-    default:               return 0;
+    case EGame::PrimeDemo:          return 0xC;
+    case EGame::Prime:              return 0xF;
+    case EGame::EchoesDemo:         return 0x15;
+    case EGame::Echoes:             return 0x19;
+    case EGame::CorruptionProto:    return 0x1D;
+    case EGame::Corruption:         return 0x1E;
+    case EGame::DKCReturns:         return 0x20;
+    default:                        return 0;
     }
 }

@@ -63,6 +63,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     mpProxyModel = new CResourceProxyModel(this);
     mpProxyModel->setSourceModel(mpModel);
     mpUI->ResourceTableView->setModel(mpProxyModel);
+    mpUI->ResourceTableView->resizeRowsToContents();
 
     QHeaderView *pHeader = mpUI->ResourceTableView->horizontalHeader();
     pHeader->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -158,6 +159,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex)));
     connect(mpProxyModel, SIGNAL(rowsInserted(QModelIndex,int,int)), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
     connect(mpProxyModel, SIGNAL(layoutChanged(QList<QPersistentModelIndex>,QAbstractItemModel::LayoutChangeHint)), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
+    connect(mpProxyModel, SIGNAL(modelReset()), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
     connect(mpFilterAllBox, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(UpdateStore()));
 }
@@ -874,6 +876,9 @@ void CResourceBrowser::UpdateFilter()
     UpdateDescriptionLabel();
     mpProxyModel->SetSearchString( TO_TSTRING(mpUI->SearchBar->text()) );
     mpProxyModel->invalidate();
+
+    // not sure why I need to do this here? but the resize mode seems to get reset otherwise
+    mpUI->ResourceTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
 }
 
 void CResourceBrowser::UpdateUndoActionStates()

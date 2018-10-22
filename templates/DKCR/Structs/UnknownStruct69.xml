@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct69</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB6174A4E">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC241C65A">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCFF710D0">
+                <DefaultValue>14.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x37F04700">
+                <DefaultValue>11.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC7D11B34">
+                <DefaultValue>5.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4AB0DF83">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE0F4C8A2">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE7879B05">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76DF8563">
+                <DefaultValue>6.0999999</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x935DFCFA">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF2502CD2">
+                <DefaultValue>1.1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF298DCF0">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x84B467F0">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1B39C9AB">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

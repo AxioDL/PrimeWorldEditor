@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct291</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x63BDC5">
+                <DefaultValue>3.4000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFA8948CC">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE1BCFD8">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x96ECF959">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xD3C1390E">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xAE342F0F" Archetype="DamageEffectData"/>
+            <Element Type="Struct" ID="0x46D65682" Archetype="DamageEffectData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

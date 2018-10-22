@@ -1,70 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="EyePodStruct" type="multi">
-    <properties>
-        <property ID="0xF04452F3" type="float">
-            <default>100.0</default>
-        </property>
-        <property ID="0xC8E312DD" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x2E83BD3C" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0xF06A131D" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x160ABCFC" type="float">
-            <default>30.0</default>
-        </property>
-        <property ID="0x4866DF6C" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xAE06708D" type="float">
-            <default>30.0</default>
-        </property>
-        <struct ID="0xC8A1EAC8" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x95E7A2C2" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x76BA1C18" type="float">
-            <default>6.0</default>
-        </property>
-        <property ID="0x64D482D5" type="long">
-            <default>4</default>
-        </property>
-        <property ID="0xC3E002AC" type="long">
-            <default>7</default>
-        </property>
-        <property ID="0x77B6541C" type="float">
-            <default>0.2</default>
-        </property>
-        <property ID="0x9C889645" type="float">
-            <default>5.0</default>
-        </property>
-        <struct ID="0x11473C13" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <property ID="0x053AE4A7">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>EyePodStruct</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xF04452F3">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC8E312DD">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E83BD3C">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF06A131D">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x160ABCFC">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4866DF6C">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAE06708D">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC8A1EAC8" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x95E7A2C2">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76BA1C18">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x64D482D5">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC3E002AC">
+                <DefaultValue>7</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x77B6541C">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9C889645">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x11473C13" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

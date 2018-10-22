@@ -8,7 +8,7 @@
 class CPointOfInterestExtra : public CScriptExtra
 {
     // Tint POI billboard orange/red depending on scan importance
-    TAssetProperty *mpScanProperty;
+    CAssetRef mScanProperty;
     TResPtr<CScan> mpScanData;
 
 public:

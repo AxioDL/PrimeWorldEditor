@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>PatternedAITypedef</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x75DBB375">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20C78BB">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8DB77EE4">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x513F04B8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x83DFC40F">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x58434916">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFF77C96F">
+                <DefaultValue>11.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB0CFE015">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC80E329B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3FAE47EB">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x13F0B18F">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D5A0487">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xE0CDC7E3">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0x3A2D17E4">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x8A6AB139">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3011B5DF">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9355674">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE287D8DD">
+                <DefaultValue>1000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x66CDC6E8">
+                <DefaultValue>1000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x61CBE62">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x19F84380">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0xE25FB08C"/>
+            <Element Type="Asset" ID="0x55744160">
+                <TypeFilter>
+                    <Element>AFSM</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC1C7E255">
+                <TypeFilter>
+                    <Element>FSM2</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x87D22D43">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0790C1B">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEF3BD8CF">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x98169634">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x487EF257">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x684F00C9">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF35F5164"/>
+            <Element Type="Vector" ID="0x130539A0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA8DA9239">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x7344D6CD">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x87011652">
+                <TypeFilter>
+                    <Element>RULE</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x4BC4C4D9">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

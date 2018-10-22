@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerTarInteractionData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xB54EEFD1">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7C94AA3B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF49200">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x20AB95E5">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5DB3FA1F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x798F7740">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x1C6B87A3"/>
+            <Element Type="Asset" ID="0x51EA29B6">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xFF0DF2A8"/>
+            <Element Type="Asset" ID="0x7EE095E2">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1EF458C4">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x2BBEB1F3"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

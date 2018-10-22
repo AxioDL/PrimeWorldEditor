@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>DefenseMechanoidData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x77259804">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB53C7993">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xF067D53C"/>
+            <Element Type="Asset" ID="0x4BA2833E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x5E140B1">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xDCF5AB0F" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x9D7B5570">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x69E51CD3">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC60FB911">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x5CECA2A6">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xFF8C4056" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0x537F8382">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x98D5883D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAD17A036">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x99BBC2DE" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0xDF6A1706">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6735F19B">
+                <DefaultValue>34.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA9689E2">
+                <DefaultValue>33.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA65F4B32">
+                <DefaultValue>33.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCDF4D755">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE48A2A4D">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED223686">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE9B807AC">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x33A298CD">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20E77E66">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAAFE3E43">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1AC1247F">
+                <DefaultValue>12.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1CB38C6B">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC060B62B">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2766A717">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x29EA27DB">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x70E97166">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x258CFB4D" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xE17C3B6E" Archetype="ShockWaveInfo"/>
+            <Element Type="Asset" ID="0x7AF488B1">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x1CC93984">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

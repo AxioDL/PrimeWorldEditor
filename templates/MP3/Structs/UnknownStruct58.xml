@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct58</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x90AEFEE1">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0x4C64D3A6"/>
+            <Element Type="Struct" ID="0xDD06CC" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0xB64ED093">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC7DC6D3E"/>
+            <Element Type="Asset" ID="0x41481F90"/>
+            <Element Type="Asset" ID="0xC5012A38">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3B5B99A8">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6AE0CAE6">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2975BE8D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3DCF98A5">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xDC17FB84">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC35DB9CE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA70E1BBB">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7CC1B298">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7BE868CE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC90CDA8C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4D9ED8E1">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x21DC4C35">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCB673DA3">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC1BBBED8">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF4386C42">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE3C3DE5E">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1899C839">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6B6606B8">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3B6CDADB">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA6E942ED">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x21EC3D21" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Asset" ID="0x82EE63C8">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAB0A66DA">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5B67A4E7">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x4F6E81A8">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xAD6ECC7F">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x91D5F317">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1DDFD45A">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1FBA748">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCD2F3D00">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAE813F86">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD27E8786">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9A469187">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA959B017">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

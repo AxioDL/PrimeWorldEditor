@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct15</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xEF485DB9">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x553B1339" Archetype="DamageInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

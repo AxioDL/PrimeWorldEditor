@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>FlyingPirateData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xA8B7379D">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF37267EF">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF56589A6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xCDD1DB4F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7F7F8028">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD2046050">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2454FB04">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2CE2F861">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9B1A9FB8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x95C8719D">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA0705491">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x4FA0EA5C">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x263834D">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD4DEC629">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A2BB377">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6C317B96">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7E7AFDC2">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDEE1A2C2">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47BE3298">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC2B567D">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x740B661E">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC02BB7C5">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B15406D">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x672B454D" Archetype="ParticleBlaster"/>
+            <Element Type="Struct" ID="0x92B304AD" Archetype="FlyingPirateHelixMissileData"/>
+            <Element Type="Struct" ID="0x2263E77F" Archetype="SpacePirateWeaponData"/>
+            <Element Type="Struct" ID="0x70B96A25" Archetype="Armor"/>
+            <Element Type="Struct" ID="0xFBAA9F01" Archetype="JetPack"/>
+            <Element Type="Struct" ID="0xE39738EA" Archetype="RagDollData"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

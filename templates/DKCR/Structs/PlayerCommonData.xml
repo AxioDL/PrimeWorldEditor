@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerCommonData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x96F89702">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1878FA08">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x13E35FB" Archetype="PlayerType"/>
+            <Element Type="Float" ID="0xA21FB5CE">
+                <DefaultValue>0.94999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F2AE3E5">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAB9566A2">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC015A47">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x48BE7880">
+                <DefaultValue>0.125</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9743637B">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB198E731">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6117E78F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x917B5AD5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7B363100">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x2E50DCEC">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4B65999C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

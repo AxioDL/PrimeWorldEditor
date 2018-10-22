@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct27</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB5049BBB">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3390E915">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF8CC3AB0">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE5C90A08">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E95D9AD">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x21E4D323">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xD1AA67">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA57B4FAC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8836C426">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB87C5139">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9F566DB4">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA2AAC8E7">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF8ACA397">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x80A0B2CB">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x69ED492E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x90419A55">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x761DB727">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDCB8AF1C">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9CFDDBA8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xF5056D9D">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x58DBCC52">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3A6D3A64">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF3D84488"/>
+            <Element Type="Asset" ID="0x49BE8A11">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE8706E6E">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x6CC7412A" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Asset" ID="0xACFD8EA8">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xE8FC7798" Archetype="HoverThenHomeProjectile"/>
+            <Element Type="AnimationSet" ID="0x5377D4B5"/>
+            <Element Type="Asset" ID="0x4C8AEE6D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB17536C">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x76C64459">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xEC493F59" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Asset" ID="0xD1D51E35">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8E96E5E4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5B67A4E7">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x4F6E81A8">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE8F323F9"/>
+            <Element Type="Asset" ID="0x9049A2FB">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8B8B33D9"/>
+            <Element Type="Asset" ID="0x9133ECD"/>
+            <Element Type="Asset" ID="0x3C67B14E"/>
+            <Element Type="Asset" ID="0xAF6889B0"/>
+            <Element Type="Asset" ID="0xA47E51D3"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

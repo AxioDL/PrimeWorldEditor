@@ -1,5 +1,5 @@
 #include "CAreaAttributes.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 
 CAreaAttributes::CAreaAttributes(CScriptObject *pObj)
@@ -13,48 +13,30 @@ CAreaAttributes::~CAreaAttributes()
 
 void CAreaAttributes::SetObject(CScriptObject *pObj)
 {
-    mpObj = pObj;
-    mGame = pObj->Template()->MasterTemplate()->Game();
+    CScriptTemplate* pTemplate = pObj->Template();
+    CStructProperty* pProperties = pTemplate->Properties();
+
+    mpObject = pObj;
+    mGame = pTemplate->GameTemplate()->Game();
+    mNeedSky = CBoolRef(pObj->PropertyData(), pProperties->ChildByIndex(1));
+
+    if (mGame == EGame::Prime)
+        mOverrideSky = CAssetRef(pObj->PropertyData(), pProperties->ChildByIndex(7));
+    else if (mGame > EGame::Prime)
+        mOverrideSky = CAssetRef(pObj->PropertyData(), pProperties->ChildByID(0xD208C9FA));
 }
 
 bool CAreaAttributes::IsLayerEnabled() const
 {
-    return mpObj->Layer()->IsActive();
+    return mpObject->Layer()->IsActive();
 }
 
 bool CAreaAttributes::IsSkyEnabled() const
 {
-    CPropertyStruct *pBaseStruct = mpObj->Properties();
-
-    switch (mGame)
-    {
-    case ePrime:
-    case eEchoesDemo:
-    case eEchoes:
-    case eCorruptionProto:
-    case eCorruption:
-    case eReturns:
-        return static_cast<TBoolProperty*>(pBaseStruct->PropertyByIndex(1))->Get();
-    default:
-        return false;
-    }
+    return mNeedSky.IsValid() ? mNeedSky.Get() : false;
 }
 
 CModel* CAreaAttributes::SkyModel() const
 {
-    CPropertyStruct *pBaseStruct = mpObj->Properties();
-
-    switch (mGame)
-    {
-    case ePrime:
-        return gpResourceStore->LoadResource<CModel>( static_cast<TAssetProperty*>(pBaseStruct->PropertyByIndex(7))->Get() );
-    case eEchoesDemo:
-    case eEchoes:
-    case eCorruptionProto:
-    case eCorruption:
-    case eReturns:
-        return gpResourceStore->LoadResource<CModel>( static_cast<TAssetProperty*>(pBaseStruct->PropertyByID(0xD208C9FA))->Get() );
-    default:
-        return nullptr;
-    }
+    return mOverrideSky.IsValid() ? gpResourceStore->LoadResource<CModel>(mOverrideSky.Get()) : nullptr;
 }

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>ColliderPosition</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xE2AE470C">
+                <DefaultValue>0xB745A689</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xB745A689"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xC3BF43BE">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE7562BEE">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8033F9A3">
+                <DefaultValue>2.7360001</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB11D9E90" Archetype="Convergence">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF33816">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xACB1CDCB">
+                                <DefaultValue>0.0099999998</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x81D49C61" Archetype="Convergence">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF33816">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xB3823863">
+                                <DefaultValue>80.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xACB1CDCB">
+                                <DefaultValue>4.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x51B11F91" Archetype="Convergence">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF33816">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xB3823863">
+                                <DefaultValue>30.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0xACB1CDCB">
+                                <DefaultValue>8.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x74D11538">
+                                <DefaultValue>2.5</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

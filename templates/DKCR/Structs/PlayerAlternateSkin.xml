@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerAlternateSkin</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x6B40ACEF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0x2FAE047A"/>
+            <Element Type="AnimationSet" ID="0x21CF023A"/>
+            <Element Type="AnimationSet" ID="0x47EB5A68"/>
+            <Element Type="AnimationSet" ID="0xFC0929F0"/>
+            <Element Type="AnimationSet" ID="0x359B8513"/>
+            <Element Type="AnimationSet" ID="0xFB406CA9"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

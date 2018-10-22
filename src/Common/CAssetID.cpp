@@ -52,7 +52,7 @@ CAssetID::CAssetID(IInputStream& rInput, EIDLength Length)
 
 CAssetID::CAssetID(IInputStream& rInput, EGame Game)
 {
-    *this = CAssetID(rInput, (Game <= eEchoes ? e32Bit : e64Bit));
+    *this = CAssetID(rInput, (Game <= EGame::Echoes ? e32Bit : e64Bit));
 }
 
 TString CAssetID::ToString(EIDLength ForcedLength /*= eInvalidIDLength*/) const

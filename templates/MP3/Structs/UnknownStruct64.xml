@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct64</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xCCDD3ACA" Archetype="FlyerMovementMode">
+                <SubProperties>
+                    <Element Type="Float" ID="0x6392404E">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x39FB7978">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x6C6426C8">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xC0AC271E">
+                        <DefaultValue>180.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x2CBB438B" Archetype="SpriteStruct"/>
+            <Element Type="Struct" ID="0xA80227E6" Archetype="SpriteStruct"/>
+            <Element Type="Struct" ID="0x34799811" Archetype="SpriteStruct"/>
+            <Element Type="Float" ID="0x26945E20">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7F878C1C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6E575D67">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8EBEA596">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x429C66D3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4290E24">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7FC827A2">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct55</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x1A662787">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6DCB001F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xAC0B1EA5">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x508BF168">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2E83A7C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE7C1049E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2C41E9A5">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x152658FE">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE22A6DDA">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1EAA8217">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x199A4CA5">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9F0E3E0B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5452EDAE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4957DD16">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA13303F4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3A2D1AA4">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBCB9680A">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x77E5BBAF">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x6AE08B17">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4584843B">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3304D0B">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC017CF42">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x17789D1C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x8843CE6D">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE039C4BD">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9C8DB87">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCBB55845">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEDCCF9F6">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9873172A">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x84C33DA6">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x96B50D90">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x757060D4">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA2687CE4">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x24964375">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x1CC93984">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData">
+                <SubProperties>
+                    <Element Type="Bool" ID="0xB2BD2723">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Struct" ID="0x424928B3">
+                        <CookPreference>Never</CookPreference>
+                        <SubProperties>
+                            <Element Type="Int" ID="0x8BD240">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x54178CB8">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0xDE38F04E">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x9D0C992F">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Float" ID="0x8382CD42">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x8A40FD1B">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0xA62BF627">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Enum" ID="0xF8A14C37">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x64FB595C">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                            <Element Type="Bool" ID="0x887FEFE">
+                                <CookPreference>Never</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0x5BBBE79E">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x426F2F60">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Asset" ID="0x771A3176">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xEFD287D9">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56F41CA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x4BDEE69A">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x598B045">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Int" ID="0x7648F63">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0xAF284F76">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD2B71804">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF69BED49"/>
+            <Element Type="Asset" ID="0x3D6768D8">
+                <TypeFilter>
+                    <Element>SCAN</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

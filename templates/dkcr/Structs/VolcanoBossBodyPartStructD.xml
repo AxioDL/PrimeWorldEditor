@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="VolcanoBossBodyPartStructD" type="multi">
-    <properties>
-        <enum ID="0x0F099933">
-            <default>0xA7F21E62</default>
-            <enumerators>
-                <enumerator ID="0x954E3489" name="Unknown 1"/>
-                <enumerator ID="0x936DB3ED" name="Unknown 2"/>
-                <enumerator ID="0x218877EC" name="Unknown 3"/>
-                <enumerator ID="0xB8812656" name="Unknown 4"/>
-                <enumerator ID="0xCF8616C0" name="Unknown 5"/>
-                <enumerator ID="0x51E28363" name="Unknown 6"/>
-                <enumerator ID="0xA7F21E62" name="Unknown 7"/>
-            </enumerators>
-        </enum>
-        <property ID="0xE8A3C283" type="string"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>VolcanoBossBodyPartStructD</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xF099933">
+                <DefaultValue>0xA7F21E62</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x954E3489"/>
+                    <Element Name="Unknown 2" ID="0x936DB3ED"/>
+                    <Element Name="Unknown 3" ID="0x218877EC"/>
+                    <Element Name="Unknown 4" ID="0xB8812656"/>
+                    <Element Name="Unknown 5" ID="0xCF8616C0"/>
+                    <Element Name="Unknown 6" ID="0x51E28363"/>
+                    <Element Name="Unknown 7" ID="0xA7F21E62"/>
+                </Values>
+            </Element>
+            <Element Type="String" ID="0xE8A3C283"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

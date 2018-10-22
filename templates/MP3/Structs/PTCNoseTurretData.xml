@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>PTCNoseTurretData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x395B81EF">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x44E01377">
+                <DefaultValue>-90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA280BC96">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF71C6DD7">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x679028BA">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x494BE648">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF11F7384">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50EEB9E3">
+                <DefaultValue>360.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7721DEEA">
+                <DefaultValue>135.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x26D865B7">
+                <DefaultValue>-135.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9597A329">
+                <DefaultValue>360.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCD8C8763">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8DC3FF15">
+                <DefaultValue>-45.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xEF485DB9">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xEB903473">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB5702CA3">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE8F29E1E">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAF28DC00">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC23A1955">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x55D9ABEF">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct191</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x8A58A7F8">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCCA8AF3D">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4655A9C5">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE828E54E">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

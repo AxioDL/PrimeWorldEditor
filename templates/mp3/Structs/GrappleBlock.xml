@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="GrappleBlock" type="multi">
-    <properties>
-        <property ID="0x008BD240" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x54178CB8" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xDE38F04E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x9D0C992F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x8382CD42" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x8A40FD1B" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xA62BF627" type="bool">
-            <default>true</default>
-        </property>
-        <enum ID="0xF8A14C37">
-            <default>0xC8853DC0</default>
-            <enumerators>
-                <enumerator ID="0xD19E0C81" name="Unknown 1"/>
-                <enumerator ID="0xC8853DC0" name="Unknown 2"/>
-            </enumerators>
-        </enum>
-        <property ID="0x64FB595C" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0x0887FEFE" type="bool">
-            <default>false</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>GrappleBlock</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x8BD240">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54178CB8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDE38F04E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9D0C992F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8382CD42">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8A40FD1B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA62BF627">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xF8A14C37">
+                <DefaultValue>0xC8853DC0</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD19E0C81"/>
+                    <Element Name="Unknown 2" ID="0xC8853DC0"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0x64FB595C">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x887FEFE">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

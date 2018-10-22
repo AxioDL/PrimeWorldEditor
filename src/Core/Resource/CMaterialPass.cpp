@@ -58,7 +58,7 @@ CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
     return pOut;
 }
 
-void CMaterialPass::HashParameters(CHashFNV1A& rHash)
+void CMaterialPass::HashParameters(CFNV1A& rHash)
 {
     if (mEnabled)
     {

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="TrainTrackManagerStructA" type="multi">
-    <properties>
-        <property ID="0xFFB03300" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TrainTrackManagerStructA</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xFFB03300">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

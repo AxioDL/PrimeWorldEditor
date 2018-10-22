@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>AdditiveTouchAttackBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xFF0A98A3" Archetype="TouchAttackDirectionEnum"/>
+            <Element Type="Struct" ID="0xA62C650" Archetype="TouchAttackDirectionEnum">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x9721D02B">
+                        <DefaultValue>0xB2A31497</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x954E50D4" Archetype="TouchAttackDirectionEnum">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x9721D02B">
+                        <DefaultValue>0xBD71A966</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x229D79FE" Archetype="TouchAttackDirectionEnum">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x9721D02B">
+                        <DefaultValue>0x81864B79</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

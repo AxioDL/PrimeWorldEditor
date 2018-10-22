@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="CameraShakerEnvelope" type="multi">
-    <properties>
-        <enum ID="0xC6089A3F">
-            <default>0x58F1CB59</default>
-            <enumerators>
-                <enumerator ID="0x58F1CB59" name="Unknown 1"/>
-                <enumerator ID="0x6C5BEF22" name="Unknown 2"/>
-            </enumerators>
-        </enum>
-        <property ID="0x90B3CC7E" type="MayaSpline"/>
-        <property ID="0x69A81517" type="MayaSpline"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraShakerEnvelope</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xC6089A3F">
+                <DefaultValue>0x58F1CB59</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x58F1CB59"/>
+                    <Element Name="Unknown 2" ID="0x6C5BEF22"/>
+                </Values>
+            </Element>
+            <Element Type="Spline" ID="0x90B3CC7E"/>
+            <Element Type="Spline" ID="0x69A81517"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

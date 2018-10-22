@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct11</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xF060EEEC">
+                <DefaultValue>0xC4CB1DA9</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xC4CB1DA9"/>
+                    <Element Name="Unknown 2" ID="0x5AA68394"/>
+                    <Element Name="Unknown 3" ID="0x5C6D417F"/>
+                    <Element Name="Unknown 4" ID="0x48132C7A"/>
+                    <Element Name="Unknown 5" ID="0x4ED8EE91"/>
+                    <Element Name="Unknown 6" ID="0xF0AF4B1F"/>
+                    <Element Name="Unknown 7" ID="0xF66489F4"/>
+                    <Element Name="Unknown 8" ID="0x6D7873A6"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0x3DD7B303">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF52AF9F3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x22A0058D">
+                <DefaultValue>0xEDE964</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xEDE964"/>
+                    <Element Name="Unknown 2" ID="0x2D99FF73"/>
+                    <Element Name="Unknown 3" ID="0xCC8B3B30"/>
+                    <Element Name="Unknown 4" ID="0xD9BCB73E"/>
+                    <Element Name="Unknown 5" ID="0x217181FE"/>
+                    <Element Name="Unknown 6" ID="0x9D9D36C4"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xC77A8932">
+                <DefaultValue>0.0099999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5D6B1084">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFCF4AAB0">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFB11A412">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x253DA9C6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1F5A38E3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

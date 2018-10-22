@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PatternedAITypedef</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x75DBB375">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xE0CDC7E3">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Float" ID="0x8A6AB139">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3011B5DF">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9355674">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x88EA81DB">
+                <DefaultValue>0.16</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Asset" ID="0x1749405B">
+                <TypeFilter>
+                    <Element>FSMC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x1B21EEB2">
+                <TypeFilter>
+                    <Element>FSMC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x98169634">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39A6DEC3">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x47DE2455">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xDFE74895">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC88AD680">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x64C22667"/>
+            <Element Type="Bool" ID="0xFD8A9692">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE0644402">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20C78BB">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6D892893">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8DB77EE4">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x513F04B8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x83DFC40F">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x58434916">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFF77C96F">
+                <DefaultValue>11.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB0CFE015">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC80E329B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

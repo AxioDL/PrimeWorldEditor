@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>ActivationTime</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>Time</Name>
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1">
+                <Name>Unknown 1</Name>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2">
+                <Name>Unknown 2</Name>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3">
+                <Name>Unknown 3</Name>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

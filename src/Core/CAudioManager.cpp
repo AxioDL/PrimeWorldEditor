@@ -41,13 +41,13 @@ void CAudioManager::LoadAssets()
     }
 
     // Load audio lookup table + sfx name list
-    TString AudioLookupName = (mpProject->Game() < eEchoesDemo ? "sound_lookup" : "sound_lookup_ATBL");
+    TString AudioLookupName = (mpProject->Game() < EGame::EchoesDemo ? "sound_lookup" : "sound_lookup_ATBL");
     CAssetID AudioLookupID = mpProject->FindNamedResource(AudioLookupName);
 
     if (AudioLookupID.IsValid())
         mpAudioLookupTable = mpProject->ResourceStore()->LoadResource<CAudioLookupTable>(AudioLookupID);
 
-    if (mpProject->Game() >= eEchoesDemo)
+    if (mpProject->Game() >= EGame::EchoesDemo)
     {
         CAssetID SfxNameListID = mpProject->FindNamedResource("audio_name_lookup_STLC");
 
@@ -77,7 +77,7 @@ SSoundInfo CAudioManager::GetSoundInfo(u32 SoundID)
         if (Iter != mSfxIdMap.end())
             Out.pAudioGroup = Iter->second;
 
-        if (mpProject->Game() >= eEchoesDemo)
+        if (mpProject->Game() >= EGame::EchoesDemo)
             Out.Name = mpSfxNameList->StringByIndex(Out.DefineID);
     }
 
@@ -90,7 +90,7 @@ void CAudioManager::LogSoundInfo(u32 SoundID)
 
     if (SoundInfo.DefineID != 0xFFFF)
     {
-        if (mpProject->Game() >= eEchoesDemo)
+        if (mpProject->Game() >= EGame::EchoesDemo)
             Log::Write("Sound Name: " + SoundInfo.Name);
 
         Log::Write("Sound ID: " + TString::HexString(SoundInfo.SoundID, 4));

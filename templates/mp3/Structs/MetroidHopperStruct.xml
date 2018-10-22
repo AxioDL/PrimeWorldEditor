@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="MetroidHopperStruct" type="multi">
-    <properties>
-        <struct ID="0xF8E45E84" template="Structs/ShockWaveInfo.xml"/>
-        <property ID="0x1CA04D70" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0x8D508CA7" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xC9BA4746" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xE174F463" type="float">
-            <default>15.0</default>
-        </property>
-        <struct ID="0xD1522831" template="Structs/DamageVulnerability.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>MetroidHopperStruct</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xF8E45E84" Archetype="ShockWaveInfo"/>
+            <Element Type="Float" ID="0x1CA04D70">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8D508CA7">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC9BA4746">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE174F463">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD1522831" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

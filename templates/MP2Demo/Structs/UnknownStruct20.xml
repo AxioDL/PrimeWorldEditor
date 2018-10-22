@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct20</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>9</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0xD8C6D15C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB68C6D96">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xCB0B919B">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75DBB375">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x417F4A91">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50A19B1F">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF7951B66">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFBCDB101">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x6758BF01">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x524A8073">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50E46527">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47F99FBC">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDC5AF41E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8DA34F43">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFBF8EA0A">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x98D21B22">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

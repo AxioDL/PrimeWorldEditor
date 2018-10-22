@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct1</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Color" ID="0xBD3EFE7D">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEDE7B374">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD24B888F">
+                <DefaultValue>0.02</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC75998AA">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x805BCAC6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD3FDD222">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFA08F034">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE18486ED">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x1A092829">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x105A02F">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

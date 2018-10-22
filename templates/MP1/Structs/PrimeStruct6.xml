@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>PrimeStruct6</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x0" Archetype="DamageVulnerability"/>
+            <Element Type="Color" ID="0x1">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Int" ID="0x2">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Int" ID="0x3">
+                <Name>Unknown 3</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

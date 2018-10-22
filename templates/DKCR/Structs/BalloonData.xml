@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BalloonData</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0xF8B3ABE0"/>
+            <Element Type="Int" ID="0x6B40ACEF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75DBB375">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDDB16979">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9A27DDC3">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xC0FE10C6">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>-4.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x409618B6">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x806178B3">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xF532B5D3">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xCAA9B3F5">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x726C839E">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5C6C7838">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x8069FBA6">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SavedStateID" type="single">
-    <properties>
-        <property ID="0x00" name="State ID 1" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x01" name="State ID 2" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x02" name="State ID 3" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x03" name="State ID 4" type="long">
-            <default>0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SavedStateID</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Int" ID="0x0">
+                <Name>State ID 1</Name>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1">
+                <Name>State ID 2</Name>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2">
+                <Name>State ID 3</Name>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3">
+                <Name>State ID 4</Name>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>DespawnRules</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x5C9A798C">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x77869A76">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7AEE0C0A">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC26D7475">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE8BE10DC">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x826952E9">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x78BADFC1">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x100EBF3A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x62249FB">
+                <DefaultValue>0xA5993091</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xA5993091"/>
+                    <Element Name="Unknown 2" ID="0x58D91241"/>
+                    <Element Name="Unknown 3" ID="0xDFCADFB2"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xBC2F0B41">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE7655628">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEBE02CD7">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF90A4FE9">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x50C31684">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD64EFF80">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1745DD26">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6A9AD7DF">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF5495F77">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -6,7 +6,6 @@
 
 CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
-    , mpRenderSideProp(nullptr)
     , mpMat(nullptr)
 {
     for (u32 iTex = 0; iTex < 3; iTex++)
@@ -15,21 +14,21 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     SetInheritance(true, false, false);
     CreateMaterial();
 
-    CPropertyStruct *pBaseStruct = pInstance->Properties();
+    CStructProperty* pProperties = pInstance->Template()->Properties();
 
     // Fetch render side
-    mpRenderSideProp = TPropCast<TEnumProperty>(pBaseStruct->PropertyByIndex(0x5));
-    if (mpRenderSideProp) PropertyModified(mpRenderSideProp);
+    mRenderSide = TEnumRef<ERenderSide>(pInstance->PropertyData(), pProperties->ChildByIndex(5));
+    if (mRenderSide.IsValid()) PropertyModified(mRenderSide.Property());
 
     // Fetch scale
-    mpSizeProp = TPropCast<TVector3Property>(pBaseStruct->PropertyByIndex(0x2));
-    if (mpSizeProp) PropertyModified(mpSizeProp);
+    mPlaneSize = CVectorRef(pInstance->PropertyData(), pProperties->ChildByIndex(2));
+    if (mPlaneSize.IsValid()) PropertyModified(mPlaneSize.Property());
 
     // Fetch textures
-    for (u32 iTex = 0; iTex < 3; iTex++)
+    for (u32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
     {
-        mpTextureProps[iTex] = TPropCast<TAssetProperty>(pBaseStruct->PropertyByIndex(0x6 + iTex));
-        if (mpTextureProps[iTex]) PropertyModified(mpTextureProps[iTex]);
+        mTextureAssets[TextureIdx] = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIndex(6 + TextureIdx));
+        if (mTextureAssets[TextureIdx].IsValid()) PropertyModified(mTextureAssets[TextureIdx].Property());
     }
 }
 
@@ -80,7 +79,7 @@ void CDamageableTriggerExtra::CreateMaterial()
 
 void CDamageableTriggerExtra::UpdatePlaneTransform()
 {
-    CVector3f Extent = mPlaneSize / 2.f;
+    CVector3f Extent = mPlaneSize.Get() / 2.f;
 
     switch (mRenderSide)
     {
@@ -92,7 +91,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
         mPosition = CVector3f(0.f, Extent.Y * Scalar, 0.f);
         mRotation = CQuaternion::FromEuler(CVector3f(90.f * Scalar, 0.f, 0.f));
         mScale = CVector3f(Extent.X, Extent.Z, 0.f);
-        mCoordScale = mPlaneSize.XZ();
+        mCoordScale = mPlaneSize.Get().XZ();
         break;
     }
 
@@ -104,7 +103,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
         mPosition = CVector3f(-Extent.X * Scalar, 0.f, 0.f);
         mRotation = CQuaternion::FromEuler(CVector3f(0.f, 90.f * Scalar, 0.f));
         mScale = CVector3f(Extent.Z, Extent.Y, 0.f);
-        mCoordScale = -mPlaneSize.YZ();
+        mCoordScale = -mPlaneSize.Get().YZ();
         break;
     }
 
@@ -117,7 +116,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
         mPosition = CVector3f(0.f, 0.f, Extent.Z * Scalar);
         mRotation = CQuaternion::FromEuler(CVector3f(0.f, RotAngle, 0.f));
         mScale = CVector3f(Extent.X, Extent.Y, 0.f);
-        mCoordScale = -mPlaneSize.XY();
+        mCoordScale = -mPlaneSize.Get().XY();
         break;
     }
 
@@ -176,36 +175,28 @@ CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::TransformRenderSid
 
 void CDamageableTriggerExtra::OnTransformed()
 {
-    mPlaneSize = mpSizeProp->Get();
     UpdatePlaneTransform();
 }
 
-void CDamageableTriggerExtra::PropertyModified(IProperty *pProperty)
+void CDamageableTriggerExtra::PropertyModified(IProperty* pProperty)
 {
-    if (pProperty == mpRenderSideProp)
+    if (pProperty == mRenderSide || pProperty == mPlaneSize)
     {
-        mRenderSide = TransformRenderSide( (ERenderSide) mpRenderSideProp->Get() );
-        UpdatePlaneTransform();
-    }
-
-    else if (pProperty == mpSizeProp)
-    {
-        mPlaneSize = mpSizeProp->Get();
         UpdatePlaneTransform();
     }
 
     else
     {
-        for (u32 iTex = 0; iTex < 3; iTex++)
+        for (u32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
         {
-            if (pProperty == mpTextureProps[iTex])
+            if (pProperty == mTextureAssets[TextureIdx].Property())
             {
-                mpTextures[iTex] = gpResourceStore->LoadResource<CTexture>( mpTextureProps[iTex]->Get() );
+                mpTextures[TextureIdx] = gpResourceStore->LoadResource<CTexture>( mTextureAssets[TextureIdx].Get() );
 
-                if (mpTextures[iTex] && mpTextures[iTex]->Type() != eTexture)
-                    mpTextures[iTex] = nullptr;
+                if (mpTextures[TextureIdx] && mpTextures[TextureIdx]->Type() != eTexture)
+                    mpTextures[TextureIdx] = nullptr;
 
-                mpMat->Pass(iTex)->SetTexture(mpTextures[iTex]);
+                mpMat->Pass(TextureIdx)->SetTexture(mpTextures[TextureIdx]);
                 break;
             }
         }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct38</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xA8D0EE16">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA82B5DAA" Archetype="GhorStructC"/>
+            <Element Type="Struct" ID="0xC97013D0" Archetype="DamageInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

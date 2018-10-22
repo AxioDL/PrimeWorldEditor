@@ -1,92 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>VenomWeed</name>
-    <modules>
-        <module>RSO_VenomWeed.rso</module>
-    </modules>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <property ID="0xA244C9D8" type="character"/>
-        <property ID="0x64E5FE9F" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x23CEF95F" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xBE02E456" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x21CDCF21" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x89664723" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xD50D757D" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0xCC689024" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0x723737BC" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x57452DD9" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x5C20B0C7" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x6497C750" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x11F854E2" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xA755C1DF" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x558C6DD7" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xC5FF7D3D" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xB2EBC23A" type="float">
-            <default>0.0</default>
-        </property>
-        <struct ID="0xD756416E" template="Structs/DamageInfo.xml"/>
-        <property ID="0x08BC9A8C" type="asset" extensions="UNKN"/>
-        <property ID="0x6D0DB963" type="asset" extensions="UNKN"/>
-        <property ID="0xFF90B1E5" type="asset" extensions="UNKN"/>
-        <property ID="0x4473FEC0" type="asset" extensions="UNKN"/>
-        <property ID="0x81D5AE6B" type="asset" extensions="UNKN"/>
-        <property ID="0x534C2BBF" type="long">
-            <default>0</default>
-        </property>
-        <property ID="0x8E30F547" type="asset" extensions="UNKN"/>
-        <property ID="0x12289828" type="float">
-            <default>0.0</default>
-        </property>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xA244C9D8</animparams>
-            <model source="property">0x7E397FED:0xBB52F0BE</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Modules>
+        <Element>RSO_VenomWeed.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>VenomWeed</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Float" ID="0x64E5FE9F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23CEF95F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBE02E456">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21CDCF21">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x89664723">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD50D757D">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCC689024">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x723737BC">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x57452DD9">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5C20B0C7">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6497C750">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11F854E2">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA755C1DF">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x558C6DD7">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5FF7D3D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB2EBC23A">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xD756416E" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x8BC9A8C"/>
+            <Element Type="Asset" ID="0x6D0DB963"/>
+            <Element Type="Asset" ID="0xFF90B1E5"/>
+            <Element Type="Asset" ID="0x4473FEC0"/>
+            <Element Type="Asset" ID="0x81D5AE6B"/>
+            <Element Type="Int" ID="0x534C2BBF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x8E30F547"/>
+            <Element Type="Float" ID="0x12289828">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0x7E397FED:0xBB52F0BE"/>
+    </Assets>
+</ScriptObject>

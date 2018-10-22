@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>SeedBoss1OrbData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x29DF61E1" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xD34F1323" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x922EF2CD" Archetype="GrappleBlock"/>
+            <Element Type="Color" ID="0x9F4149AF">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5319E29B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA0285357">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x88474244">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

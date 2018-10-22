@@ -46,10 +46,18 @@ public:
 
     void Serialize(IArchive& rArc)
     {
-        TString Str;
-        if (rArc.IsWriter()) Str = ToString();
-        rArc.SerializePrimitive(Str);
-        if (rArc.IsReader()) *this = FromString(Str);
+        if (rArc.IsBinaryFormat())
+        {
+            rArc.SerializePrimitive(m[0], 0);
+            rArc.SerializePrimitive(m[1], 0);
+        }
+        else
+        {
+            TString Str;
+            if (rArc.IsWriter()) Str = ToString();
+            rArc.SerializePrimitive(Str, 0);
+            if (rArc.IsReader()) *this = FromString(Str);
+        }
     }
 
     // Operators

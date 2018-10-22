@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct17" type="multi">
-    <properties>
-        <enum ID="0x055B8291">
-            <default>0x3643617C</default>
-            <enumerators>
-                <enumerator ID="0x3643617C" name="Unknown 1"/>
-                <enumerator ID="0xEFF356D9" name="Unknown 2"/>
-            </enumerators>
-        </enum>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct17</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x55B8291">
+                <DefaultValue>0x3643617C</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x3643617C"/>
+                    <Element Name="Unknown 2" ID="0xEFF356D9"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

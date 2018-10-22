@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct250</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x7567A08">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD8109AD6">
+                <DefaultValue>16.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x637143A3">
+                <DefaultValue>14.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAEF469E8">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBC609C25">
+                <DefaultValue>-25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA5FEA1F2">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7AE84B42">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF9670AC1">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76683DD3">
+                <DefaultValue>16.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21666D90">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF26DF1D6">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEF5B050">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC532A85">
+                <DefaultValue>-70.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5BEA78CA">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF51A3D06">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCE155A8D">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1952BAF3">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFB70190">
+                <DefaultValue>-16.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xD190899C">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0x82375435"/>
+            <Element Type="Spline" ID="0xB875593B"/>
+            <Element Type="Spline" ID="0xDE4F0C2F"/>
+            <Element Type="Asset" ID="0x7548B8AA">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Spline" ID="0x10D8E545"/>
+            <Element Type="Spline" ID="0xCB864877"/>
+            <Element Type="Spline" ID="0xA156F285"/>
+            <Element Type="Float" ID="0x3684450B">
+                <DefaultValue>0.66000003</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x34F413E7">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6763516A">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x755FF5C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAEAF14AD">
+                <DefaultValue>18.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFECDE575">
+                <DefaultValue>-90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x22DF0096">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

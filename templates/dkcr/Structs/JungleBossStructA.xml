@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="JungleBossStructA" type="multi">
-    <properties>
-        <property ID="0xD1F65872" type="asset" extensions="TXTR"/>
-        <property ID="0xF0668919" type="float">
-            <default>15.0</default>
-        </property>
-        <struct ID="0x02EB59DC" template="Structs/UnknownStruct56.xml"/>
-        <struct ID="0xF0BCB424" template="Structs/UnknownStruct56.xml"/>
-        <struct ID="0x17A112B3" template="Structs/UnknownStruct56.xml"/>
-        <struct ID="0xCF626995" template="Structs/UnknownStruct56.xml"/>
-        <struct ID="0x287FCF02" template="Structs/UnknownStruct56.xml"/>
-        <struct ID="0x72544AFD" type="multi">
-            <properties>
-                <property ID="0xA6DED874" type="bool">
-                    <default>false</default>
-                </property>
-                <struct ID="0x6ED124EF" template="Structs/UnknownStruct55.xml"/>
-                <struct ID="0x5B3C92BC" template="Structs/UnknownStruct55.xml"/>
-                <struct ID="0xFEB702B2" template="Structs/UnknownStruct55.xml"/>
-                <struct ID="0x30E7FE1A" template="Structs/UnknownStruct55.xml"/>
-                <struct ID="0x956C6E14" template="Structs/UnknownStruct55.xml"/>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>JungleBossStructA</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xD1F65872">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xF0668919">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x2EB59DC" Archetype="UnknownStruct56"/>
+            <Element Type="Struct" ID="0xF0BCB424" Archetype="UnknownStruct56"/>
+            <Element Type="Struct" ID="0x17A112B3" Archetype="UnknownStruct56"/>
+            <Element Type="Struct" ID="0xCF626995" Archetype="UnknownStruct56"/>
+            <Element Type="Struct" ID="0x287FCF02" Archetype="UnknownStruct56"/>
+            <Element Type="Struct" ID="0x72544AFD" Archetype="UnknownStruct192"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

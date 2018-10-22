@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct20</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0xFBB7BE45">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xFBCE3FB">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x844AB6B0">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA6E3187A">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x45C4906">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x9C403177">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1F68F1B7">
+                <Description>This property was likely used in debug builds. It is not read by the game and has no ingame effect.</Description>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0x29463E36"/>
+            <Element Type="AnimationSet" ID="0x103E9376"/>
+            <Element Type="AnimationSet" ID="0x7024D89B"/>
+            <Element Type="AnimationSet" ID="0x495C75DB"/>
+            <Element Type="AnimationSet" ID="0x19080EBD"/>
+            <Element Type="AnimationSet" ID="0x2070A3FD"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

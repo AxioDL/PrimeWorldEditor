@@ -1,30 +1,93 @@
 #ifndef CRESIZESCRIPTARRAYCOMMAND_H
 #define CRESIZESCRIPTARRAYCOMMAND_H
 
-#include "IUndoCommand.h"
-#include "ObjReferences.h"
-#include "Editor/PropertyEdit/CPropertyModel.h"
-#include "Editor/WorldEditor/CWorldEditor.h"
-#include <QUndoCommand>
+#include "CEditScriptPropertyCommand.h"
 
-// todo: make this more general... it shouldn't be relying on a CPropertyModel pointer
-class CResizeScriptArrayCommand : public IUndoCommand
+class CResizeScriptArrayCommand : public CEditScriptPropertyCommand
 {
-    CWorldEditor *mpEditor;
-    CPropertyPtr mpArray;
-    QVector<IProperty*> mDeletedProperties;
-    CPropertyModel *mpModel;
+    /** Property model the edit was performed on */
+    CPropertyModel* mpModel;
 
-    int mOldSize;
-    int mNewSize;
-    bool mNewSizeLarger;
+    /** Old/new model row counts; we store this here to support editing arrays on multiple instances at once */
+    int mOldRowCount;
+    int mNewRowCount;
 
 public:
-    CResizeScriptArrayCommand(IProperty *pProp, CWorldEditor *pEditor, CPropertyModel *pModel, int NewSize);
-    ~CResizeScriptArrayCommand();
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    CResizeScriptArrayCommand(IProperty* pProperty,
+                              CWorldEditor* pEditor,
+                              const QVector<CScriptObject*>& rkInstances,
+                              CPropertyModel* pModel = nullptr,
+                              QModelIndex Index = QModelIndex(),
+                              const QString& rkCommandName = "Resize Array"
+                )
+        :   CEditScriptPropertyCommand(pProperty, pEditor, rkInstances, Index, rkCommandName)
+        ,   mpModel(nullptr)
+        ,   mOldRowCount(-1)
+        ,   mNewRowCount(-1)
+    {
+        if (Index.isValid())
+        {
+            ASSERT(pModel != nullptr);
+            mpModel = pModel;
+        }
+    }
+
+    bool mergeWith(const QUndoCommand *pkOther)
+    {
+        return false;
+    }
+
+    virtual void SaveOldData() override
+    {
+        CEditScriptPropertyCommand::SaveOldData();
+
+        if (mpModel)
+        {
+            mOldRowCount = mpModel->rowCount(mIndex);
+        }
+    }
+
+    virtual void SaveNewData() override
+    {
+        CEditScriptPropertyCommand::SaveNewData();
+
+        if (mpModel)
+        {
+            mNewRowCount = mpModel->rowCount(mIndex);
+        }
+    }
+
+    // Note in some cases undo/redo may be called when the change has already been applied outside of the undo command
+    // This is why we need to check the array's actual current size instead of assuming it will match one of the arrays
+    void undo()
+    {
+        if (mpModel)
+        {
+            mpModel->ArrayAboutToBeResized(mIndex, mOldRowCount);
+        }
+
+        CEditScriptPropertyCommand::undo();
+
+        if (mpModel)
+        {
+            mpModel->ArrayResized(mIndex, mNewRowCount);
+        }
+    }
+
+    void redo()
+    {
+        if (mpModel)
+        {
+            mpModel->ArrayAboutToBeResized(mIndex, mNewRowCount);
+        }
+
+        CEditScriptPropertyCommand::redo();
+
+        if (mpModel)
+        {
+            mpModel->ArrayResized(mIndex, mOldRowCount);
+        }
+    }
 };
 
 #endif // CRESIZESCRIPTARRAYCOMMAND_H

@@ -2,32 +2,32 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 
-CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
+CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent)
     : CScriptExtra(pInstance, pScene, pParent)
-    , mpRadius(nullptr)
 {
     mObjectType = pInstance->ObjectTypeID();
+    CStructProperty* pProperties = pInstance->Template()->Properties();
 
     switch (mObjectType)
     {
     case 0x63: // Repulsor (MP1)
-        mpRadius = TPropCast<TFloatProperty>(pInstance->Properties()->PropertyByID(0x3));
+        mRadius = CFloatRef(pInstance->PropertyData(), pProperties->ChildByID(3));
         break;
 
     case 0x68: // RadialDamage (MP1)
-        mpRadius = TPropCast<TFloatProperty>(pInstance->Properties()->PropertyByID(0x4));
+        mRadius = CFloatRef(pInstance->PropertyData(), pProperties->ChildByID(0x4));
         break;
 
-    case 0x5245504C: // "REPL" Repulsor (MP2/MP3)
-    case 0x52414444: // "RADD" RadialDamage (MP2/MP3/DKCR)
-        mpRadius = TPropCast<TFloatProperty>(pInstance->Properties()->PropertyByID(0x78C507EB));
+    case FOURCC('REPL'): // Repulsor (MP2/MP3)
+    case FOURCC('RADD'): // RadialDamage (MP2/MP3/DKCR)
+        mRadius = CFloatRef(pInstance->PropertyData(), pProperties->ChildByID(0x78C507EB));
         break;
     }
 }
 
-void CRadiusSphereExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
+void CRadiusSphereExtra::AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo)
 {
-    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & eShowObjectGeometry) && mpRadius && mpParent->IsVisible() && mpParent->IsSelected())
+    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & eShowObjectGeometry) && mRadius.IsValid() && mpParent->IsVisible() && mpParent->IsSelected())
     {
         CAABox BoundingBox = Bounds();
 
@@ -42,7 +42,7 @@ void CRadiusSphereExtra::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     glDepthMask(GL_TRUE);
 
-    CDrawUtil::DrawWireSphere(mpInstance->Position(), mpRadius->Get(), Color());
+    CDrawUtil::DrawWireSphere(mpInstance->Position(), mRadius, Color());
 }
 
 CColor CRadiusSphereExtra::Color() const
@@ -66,7 +66,7 @@ CColor CRadiusSphereExtra::Color() const
 
 CAABox CRadiusSphereExtra::Bounds() const
 {
-    CAABox Bounds = CAABox::skOne * 2.f * mpRadius->Get();
+    CAABox Bounds = CAABox::skOne * 2.f * mRadius;
     Bounds += mpParent->AbsolutePosition();
     return Bounds;
 }

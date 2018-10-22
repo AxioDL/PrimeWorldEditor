@@ -1,159 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>SeedBoss1</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0xB3774750" template="Structs/PatternedAITypedef.xml"/>
-        <struct ID="0x7E397FED" template="Structs/ActorParameters.xml"/>
-        <struct ID="0xF6E66110" type="multi">
-            <properties>
-                <property ID="0xD3AD55B6" type="float">
-                    <default>0.0</default>
-                </property>
-                <struct ID="0xB33EB533" template="Structs/HealthInfo.xml"/>
-                <struct ID="0x26FA460B" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0xAD0DE5AC" type="asset" extensions="CMDL"/>
-                <property ID="0xA5BB98A6" type="asset" extensions="CMDL"/>
-                <property ID="0x50EDAE7F" type="asset" extensions="CMDL"/>
-                <property ID="0x30969CFE" type="asset" extensions="CMDL"/>
-                <property ID="0x5D71B85C" type="asset" extensions="CMDL"/>
-                <property ID="0x3D0A8ADD" type="asset" extensions="CMDL"/>
-                <property ID="0x9B76AD84" type="asset" extensions="CMDL"/>
-                <property ID="0xFB0D9F05" type="asset" extensions="CMDL"/>
-                <property ID="0x85635B3B" type="asset" extensions="CMDL"/>
-                <property ID="0xE51869BA" type="asset" extensions="CMDL"/>
-                <property ID="0xC288AE69" type="asset" extensions="CMDL"/>
-                <property ID="0xCDBD44E1" type="asset" extensions="CMDL"/>
-                <struct ID="0x3CE6E482" template="Structs/ShockWaveInfo.xml"/>
-                <struct ID="0x1598012A" template="Structs/PlasmaBeamInfo.xml"/>
-                <struct ID="0x98821996" template="Structs/DamageInfo.xml"/>
-                <property ID="0x24CA57E3" type="asset" extensions="UNKN"/>
-                <struct ID="0xB76775F8" template="Structs/DamageInfo.xml"/>
-                <struct ID="0xDD34C3C0" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x547B9A9A" type="asset" extensions="PART"/>
-                <property ID="0x36C067C2" type="asset" extensions="WPSC"/>
-                <struct ID="0x261EEFE7" template="Structs/DamageInfo.xml"/>
-                <struct ID="0x818F810B" template="Structs/ShockWaveInfo.xml"/>
-                <property ID="0x159988B6" type="asset" extensions="UNKN"/>
-                <property ID="0x9C139A3F" type="asset" extensions="UNKN"/>
-                <struct ID="0xA33A5960" template="Structs/DamageInfo.xml"/>
-                <struct ID="0x9E63065F" template="Structs/DamageInfo.xml"/>
-                <property ID="0xB3F30B93" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x3C5C5405" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x51DF1B80" type="float">
-                    <default>0.0</default>
-                </property>
-                <struct ID="0xC69F691A" type="multi">
-                    <properties>
-                        <struct ID="0xCF90D15E" template="Structs/HealthInfo.xml"/>
-                        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-                        <property ID="0x71A5A198" type="character"/>
-                        <property ID="0x55744160" type="asset" extensions="FSM2"/>
-                        <struct ID="0xA30EE999" template="Structs/ActorParameters.xml"/>
-                        <property ID="0xD8C6D15C" type="asset" extensions="PART"/>
-                        <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                        <property ID="0x053AE4A7" type="float">
-                            <default>20.0</default>
-                        </property>
-                    </properties>
-                </struct>
-                <property ID="0x3196B2E7" type="color">
-                    <default>0.0, 0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0x77D3B386" type="color">
-                    <default>0.0, 0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0x14A4DDCA" type="color">
-                    <default>0.0, 0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0xA9BE1081" type="color">
-                    <default>0.0, 0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0x7CE5C47C" type="color">
-                    <default>0.0, 0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0xF9656C39" type="color">
-                    <default>0.0, 0.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0xC3718EA0" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0xD6FA5A52" type="float">
-                    <default>0.0</default>
-                </property>
-                <struct ID="0x45694DB0" template="Structs/SeedBoss1Stage.xml"/>
-                <struct ID="0x338C748D" template="Structs/SeedBoss1Stage.xml"/>
-                <struct ID="0xA8FF9E59" template="Structs/SeedBoss1Stage.xml"/>
-                <struct ID="0xDE4606F7" template="Structs/SeedBoss1Stage.xml"/>
-                <struct ID="0x2883F972" type="multi">
-                    <properties>
-                        <property ID="0xDCE1A940" type="asset" extensions="CMDL"/>
-                        <property ID="0xF4C318B3" type="asset" extensions="CMDL"/>
-                        <property ID="0xB3673269" type="asset" extensions="CMDL"/>
-                        <property ID="0xB9196D9E" type="asset" extensions="CMDL"/>
-                        <property ID="0x8C0BEE98" type="asset" extensions="CMDL"/>
-                        <property ID="0x4D7984E6" type="asset" extensions="CMDL"/>
-                        <property ID="0x8FBE621D" type="asset" extensions="CMDL"/>
-                        <property ID="0x11EA2651" type="asset" extensions="CMDL"/>
-                        <property ID="0x564E0C8B" type="asset" extensions="CMDL"/>
-                        <property ID="0x807EDCC5" type="asset" extensions="CMDL"/>
-                        <property ID="0x708B0155" type="asset" extensions="CMDL"/>
-                        <property ID="0xE46803DC" type="asset" extensions="CMDL"/>
-                        <property ID="0x6A975CFF" type="asset" extensions="CMDL"/>
-                        <property ID="0x97E2B6C7" type="asset" extensions="CMDL"/>
-                        <property ID="0x1176C469" type="asset" extensions="CMDL"/>
-                    </properties>
-                </struct>
-            </properties>
-        </struct>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-            <property name="LightParameters" ID="0x7E397FED:0xB028DB0E"/>
-        </properties>
-        <assets>
-            <animparams source="property">0xB3774750:0xA244C9D8</animparams>
-            <animparams source="property">0xF6E66110:0xC69F691A:0x71A5A198</animparams>
-            <model source="property">0xF6E66110:0xAD0DE5AC</model>
-            <model source="property">0xF6E66110:0xA5BB98A6</model>
-            <model source="property">0xF6E66110:0x50EDAE7F</model>
-            <model source="property">0xF6E66110:0x30969CFE</model>
-            <model source="property">0xF6E66110:0x5D71B85C</model>
-            <model source="property">0xF6E66110:0x3D0A8ADD</model>
-            <model source="property">0xF6E66110:0x9B76AD84</model>
-            <model source="property">0xF6E66110:0xFB0D9F05</model>
-            <model source="property">0xF6E66110:0x85635B3B</model>
-            <model source="property">0xF6E66110:0xE51869BA</model>
-            <model source="property">0xF6E66110:0xC288AE69</model>
-            <model source="property">0xF6E66110:0xCDBD44E1</model>
-            <model source="property">0xF6E66110:0x2883F972:0xDCE1A940</model>
-            <model source="property">0xF6E66110:0x2883F972:0xF4C318B3</model>
-            <model source="property">0xF6E66110:0x2883F972:0xB3673269</model>
-            <model source="property">0xF6E66110:0x2883F972:0xB9196D9E</model>
-            <model source="property">0xF6E66110:0x2883F972:0x8C0BEE98</model>
-            <model source="property">0xF6E66110:0x2883F972:0x4D7984E6</model>
-            <model source="property">0xF6E66110:0x2883F972:0x8FBE621D</model>
-            <model source="property">0xF6E66110:0x2883F972:0x11EA2651</model>
-            <model source="property">0xF6E66110:0x2883F972:0x564E0C8B</model>
-            <model source="property">0xF6E66110:0x2883F972:0x807EDCC5</model>
-            <model source="property">0xF6E66110:0x2883F972:0x708B0155</model>
-            <model source="property">0xF6E66110:0x2883F972:0xE46803DC</model>
-            <model source="property">0xF6E66110:0x2883F972:0x6A975CFF</model>
-            <model source="property">0xF6E66110:0x2883F972:0x97E2B6C7</model>
-            <model source="property">0xF6E66110:0x2883F972:0x1176C469</model>
-        </assets>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>SeedBoss1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0xF6E66110" Archetype="SeedBoss1Data"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xB3774750:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0xF6E66110:0xC69F691A:0x71A5A198"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0xAD0DE5AC"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0xA5BB98A6"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x50EDAE7F"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x30969CFE"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x5D71B85C"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x3D0A8ADD"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x9B76AD84"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0xFB0D9F05"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x85635B3B"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0xE51869BA"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0xC288AE69"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0xCDBD44E1"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0xDCE1A940"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0xF4C318B3"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0xB3673269"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0xB9196D9E"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x8C0BEE98"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x4D7984E6"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x8FBE621D"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x11EA2651"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x564E0C8B"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x807EDCC5"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x708B0155"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0xE46803DC"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x6A975CFF"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x97E2B6C7"/>
+        <Element Type="Model" Source="Property" Location="0xF6E66110:0x2883F972:0x1176C469"/>
+    </Assets>
+</ScriptObject>

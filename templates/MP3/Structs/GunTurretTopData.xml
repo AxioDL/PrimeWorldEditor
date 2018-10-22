@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>GunTurretTopData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x701D65CD">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF54E1111">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA7846EC">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5219DCCD">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBD3794D">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCFA1ACE2" Archetype="StaticGeometryTest"/>
+            <Element Type="Float" ID="0xFE6829EC">
+                <DefaultValue>180.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D28523E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4B106481">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA1DD15F6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95E7A2C2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76BA1C18">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3EB2DE35">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE50D8DD2">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x64D482D5">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC3E002AC">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x16E7D74A">
+                <TypeFilter>
+                    <Element>CRSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE9C72C">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xBE7FB5CC" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x4173EC53">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD75F9CF2">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

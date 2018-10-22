@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>ShipDecalController</name>
-    <properties>
-        <struct ID="0x255A4580" template="Structs/EditorProperties.xml"/>
-        <struct ID="0x15FBDF30" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0x59B4B241" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0xB663308D" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0x7640AD4C" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0x9B6EDE52" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0xEA024AF3" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0xA3B7EE26" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0xC7B1DD81" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0xD7C6638E" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0x124974E5" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0xF8CFA987" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0xA77487D5" template="Structs/ShipDecalControllerStruct.xml"/>
-        <struct ID="0xE590A13E" template="Structs/ShipDecalControllerStruct.xml"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x255A4580:0x494E414D"/>
-            <property name="Position" ID="0x255A4580:0x5846524D:0x00"/>
-            <property name="Rotation" ID="0x255A4580:0x5846524D:0x01"/>
-            <property name="Scale" ID="0x255A4580:0x5846524D:0x02"/>
-            <property name="Active" ID="0x255A4580:0x41435456"/>
-        </properties>
-        <assets/>
-        <preview_scale>0.5</preview_scale>
-        <rotation_type>enabled</rotation_type>
-        <scale_type>enabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>ShipDecalController</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x15FBDF30" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0x59B4B241" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0xB663308D" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0x7640AD4C" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0x9B6EDE52" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0xEA024AF3" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0xA3B7EE26" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0xC7B1DD81" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0xD7C6638E" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0x124974E5" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0xF8CFA987" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0xA77487D5" Archetype="ShipDecalControllerStruct"/>
+            <Element Type="Struct" ID="0xE590A13E" Archetype="ShipDecalControllerStruct"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

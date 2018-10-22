@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct89</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x2F2AE3E5">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x26ECB939">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDACCC7DE">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCFF6090D">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x774AC83C">
+                <DefaultValue>0.66000003</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7B95AB47">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEDF6BA25">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x268EA25F">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3A20FB9B">
+                <DefaultValue>3.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x68FD49AE" Archetype="AnimGridModifierData"/>
+            <Element Type="Struct" ID="0xA81F44" Archetype="UnknownStruct85"/>
+            <Element Type="Struct" ID="0xACEEF42B" Archetype="UnknownStruct86"/>
+            <Element Type="Struct" ID="0x1E64B8DF" Archetype="UnknownStruct87"/>
+            <Element Type="Struct" ID="0x4DEDF14" Archetype="UnknownStruct88"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

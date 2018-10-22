@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>EnergyWhip</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0x5C1FFC8D"/>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xB3DABF84" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x894C2B5D">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2ED25F50">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xB154F3FD">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xE33A996D">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0xDE12B1D5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

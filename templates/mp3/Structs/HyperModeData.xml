@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="HyperModeData" type="multi">
-    <properties>
-        <property ID="0xB12FDA2B" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x574F75CA" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xCB83BF77" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0x2DE31096" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x0C2506BC" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xEA45A95D" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x95C19D09" type="float">
-            <default>100.0</default>
-        </property>
-        <struct ID="0x55D89AB7" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <property ID="0x053AE4A7">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x7B71AE90" template="Structs/DamageVulnerability.xml"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>HyperModeData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB12FDA2B">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x574F75CA">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCB83BF77">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2DE31096">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC2506BC">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEA45A95D">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95C19D09">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x55D89AB7" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

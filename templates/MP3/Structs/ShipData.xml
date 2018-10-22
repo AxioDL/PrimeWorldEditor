@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>ShipData</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x742E0922">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x51253BA3">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xCEA30138" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x445E00C8">
+                        <DefaultValue>0xCD26D8F0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEE1BE914">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0xC23A1955">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xD5039D33">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6392404E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4C4E40B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x4ABADE16" Archetype="Vector2f">
+                <SubProperties>
+                    <Element Type="Float" ID="0xA1677D4E">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x6A3BAEEB">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0x6A43639F">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7EBD51DE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x25BD3372">
+                <TypeFilter>
+                    <Element>SWHC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA32941DC">
+                <TypeFilter>
+                    <Element>SWHC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2F335270">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB685FEEE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD3023E6C"/>
+            <Element Type="Bool" ID="0x497C0D5E">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB6EACC28">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0x7D38C0BE"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

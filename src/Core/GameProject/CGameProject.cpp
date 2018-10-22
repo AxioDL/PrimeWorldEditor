@@ -1,7 +1,6 @@
 #include "CGameProject.h"
 #include "IUIRelay.h"
-#include "Core/Resource/Factory/CTemplateLoader.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/Serialization/XML.h>
 #include <nod/nod.hpp>
 
@@ -36,10 +35,10 @@ bool CGameProject::Save()
 
 bool CGameProject::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("Name", mProjectName)
-         << SERIAL("Region", mRegion)
-         << SERIAL("GameID", mGameID)
-         << SERIAL("BuildVersion", mBuildVersion);
+    rArc << SerialParameter("Name", mProjectName)
+         << SerialParameter("Region", mRegion)
+         << SerialParameter("GameID", mGameID)
+         << SerialParameter("BuildVersion", mBuildVersion);
 
     // Serialize package list
     std::vector<TString> PackageList;
@@ -50,7 +49,7 @@ bool CGameProject::Serialize(IArchive& rArc)
             PackageList.push_back( mPackages[iPkg]->DefinitionPath(true) );
     }
 
-    rArc << SERIAL_CONTAINER("Packages", PackageList, "Package");
+    rArc << SerialParameter("Packages", PackageList);
 
     // Load packages
     if (rArc.IsReader())
@@ -82,9 +81,9 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
     ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
     ASSERT( !IsWiiDeAsobu() && !IsTrilogy() );
 
-    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
+    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString.data()).ToUTF8());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
@@ -108,9 +107,9 @@ bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso
     ASSERT( IsWiiDeAsobu() || IsTrilogy() );
     ASSERT( pOriginalIso != nullptr );
 
-    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemString& rkInfoString, size_t)
+    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString).ToUTF8());
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString.data()).ToUTF8());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
@@ -266,7 +265,6 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
         return nullptr;
     }
 
-    CTemplateLoader::LoadGameTemplates(pProj->mGame);
     pProj->mProjFileLock.Lock(ProjPath);
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
     pProj->mpAudioManager->LoadAssets();

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerCrouchData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xBA089BB4">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5D090B9A">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9EC4FC10">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC641A96B">
+                <DefaultValue>6.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9421E346">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEF36AE32">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1DC2BF47">
+                <DefaultValue>1.125</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D8FC0F4">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

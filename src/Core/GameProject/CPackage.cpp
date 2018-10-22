@@ -29,15 +29,15 @@ bool CPackage::Save()
     TString DefPath = DefinitionPath(false);
     FileUtil::MakeDirectory(DefPath.GetFileDirectory());
 
-    CXMLWriter Writer(DefPath, "PackageDefinition", 0, mpProject ? mpProject->Game() : eUnknownGame);
+    CXMLWriter Writer(DefPath, "PackageDefinition", 0, mpProject ? mpProject->Game() : EGame::Invalid);
     Serialize(Writer);
     return Writer.Save();
 }
 
 void CPackage::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("NeedsRecook", mNeedsRecook)
-         << SERIAL_CONTAINER("NamedResources", mResources, "Resource");
+    rArc << SerialParameter("NeedsRecook", mNeedsRecook)
+         << SerialParameter("NamedResources", mResources);
 }
 
 void CPackage::AddResource(const TString& rkName, const CAssetID& rkID, const CFourCC& rkType)
@@ -82,7 +82,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
     }
 
     EGame Game = mpProject->Game();
-    u32 Alignment = (Game <= eCorruptionProto ? 0x20 : 0x40);
+    u32 Alignment = (Game <= EGame::CorruptionProto ? 0x20 : 0x40);
     u32 AlignmentMinusOne = Alignment - 1;
 
     u32 TocOffset = 0;
@@ -92,7 +92,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
     u32 ResDataSize = 0;
 
     // Write MP1 pak header
-    if (Game <= eCorruptionProto)
+    if (Game <= EGame::CorruptionProto)
     {
         Pak.WriteLong(0x00030005); // Major/Minor Version
         Pak.WriteLong(0); // Unknown
@@ -188,7 +188,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
         // Update table info
         SResourceTableInfo& rTableInfo = ResourceTableData[ResIdx];
         rTableInfo.pEntry = pEntry;
-        rTableInfo.Offset = (Game <= eEchoes ? AssetOffset : AssetOffset - ResDataOffset);
+        rTableInfo.Offset = (Game <= EGame::Echoes ? AssetOffset : AssetOffset - ResDataOffset);
 
         // Load resource data
         CFileInStream CookedAsset(pEntry->CookedAssetPath(), IOUtil::eBigEndian);
@@ -201,12 +201,12 @@ void CPackage::Cook(IProgressNotifier *pProgress)
         // Check if this asset should be compressed; there are a few resource types that are
         // always compressed, and some types that are compressed if they're over a certain size
         EResType Type = pEntry->ResourceType();
-        u32 CompressThreshold = (Game <= eCorruptionProto ? 0x400 : 0x80);
+        u32 CompressThreshold = (Game <= EGame::CorruptionProto ? 0x400 : 0x80);
 
         bool ShouldAlwaysCompress = (Type == eTexture || Type == eModel || Type == eSkin ||
                                      Type == eAnimSet || Type == eAnimation || Type == eFont);
 
-        if (Game >= eCorruption)
+        if (Game >= EGame::Corruption)
         {
             ShouldAlwaysCompress = ShouldAlwaysCompress ||
                                    (Type == eCharacter || Type == eSourceAnimData || Type == eScan ||
@@ -234,7 +234,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
             std::vector<u8> CompressedData(ResourceData.size() * 2);
             bool Success = false;
 
-            if (Game <= eEchoesDemo || Game == eReturns)
+            if (Game <= EGame::EchoesDemo || Game == EGame::DKCReturns)
                 Success = CompressionUtil::CompressZlib(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedData.size(), CompressedSize);
             else
                 Success = CompressionUtil::CompressLZOSegmented(ResourceData.data(), ResourceData.size(), CompressedData.data(), CompressedSize, false);
@@ -242,7 +242,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
             // Make sure that the compressed data is actually smaller, accounting for padding + uncompressed size value
             if (Success)
             {
-                u32 CompressionHeaderSize = (Game <= eCorruptionProto ? 4 : 0x10);
+                u32 CompressionHeaderSize = (Game <= EGame::CorruptionProto ? 4 : 0x10);
                 u32 PaddedUncompressedSize = (ResourceSize + AlignmentMinusOne) & ~AlignmentMinusOne;
                 u32 PaddedCompressedSize = (CompressedSize + CompressionHeaderSize + AlignmentMinusOne) & ~AlignmentMinusOne;
                 Success = (PaddedCompressedSize < PaddedUncompressedSize);
@@ -252,7 +252,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
             if (Success)
             {
                 // Write MP1/2 compressed asset
-                if (Game <= eCorruptionProto)
+                if (Game <= EGame::CorruptionProto)
                 {
                     Pak.WriteLong(ResourceSize);
                 }
@@ -292,7 +292,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
     else
     {
         // Write table of contents for real
-        if (Game >= eCorruption)
+        if (Game >= EGame::Corruption)
         {
             Pak.Seek(TocOffset, SEEK_SET);
             Pak.WriteLong(3); // Always 3 pak sections

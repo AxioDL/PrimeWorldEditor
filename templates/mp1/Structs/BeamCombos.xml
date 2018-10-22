@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>BeamCombos</Name>
+        <SubProperties>
+            <Element Type="Choice" ID="0x0" Archetype="VulnerabilityType">
+                <Name>Super Missile</Name>
+            </Element>
+            <Element Type="Choice" ID="0x1" Archetype="VulnerabilityType">
+                <Name>Ice Spreader</Name>
+            </Element>
+            <Element Type="Choice" ID="0x2" Archetype="VulnerabilityType">
+                <Name>Wavebuster</Name>
+            </Element>
+            <Element Type="Choice" ID="0x3" Archetype="VulnerabilityType">
+                <Name>Flamethrower</Name>
+            </Element>
+            <Element Type="Choice" ID="0x4" Archetype="VulnerabilityType">
+                <Name>Phazon Combo</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

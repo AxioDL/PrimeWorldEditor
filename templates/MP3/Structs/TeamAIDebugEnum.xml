@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TeamAIDebugEnum</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x94D97B5A">
+                <DefaultValue>0xFC1B1B4F</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xFC1B1B4F"/>
+                    <Element Name="Unknown 2" ID="0xAD41759A"/>
+                    <Element Name="Unknown 3" ID="0xC8D35A3"/>
+                    <Element Name="Unknown 4" ID="0xC349790F"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

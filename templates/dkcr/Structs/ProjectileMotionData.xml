@@ -1,129 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ProjectileMotionData" type="multi">
-    <properties>
-        <enum ID="0x948AF571">
-            <default>0xBBC76ABE</default>
-            <enumerators>
-                <enumerator ID="0x185E7B28" name="Unknown 1"/>
-                <enumerator ID="0x3532ED29" name="Unknown 2"/>
-                <enumerator ID="0xA0E62718" name="Unknown 3"/>
-                <enumerator ID="0xABC7D19C" name="Unknown 4"/>
-                <enumerator ID="0xBBC76ABE" name="Unknown 5"/>
-                <enumerator ID="0xEA957C87" name="Unknown 6"/>
-                <enumerator ID="0xEF6C43B0" name="Unknown 7"/>
-            </enumerators>
-        </enum>
-        <struct ID="0xD15DF9A6" type="multi">
-            <properties>
-                <enum ID="0x1F7EF449">
-                    <default>0xA85208A3</default>
-                    <enumerators>
-                        <enumerator ID="0xA85208A3" name="Unknown 1"/>
-                        <enumerator ID="0xDF553835" name="Unknown 2"/>
-                        <enumerator ID="0x465C698F" name="Unknown 3"/>
-                        <enumerator ID="0x2252B738" name="Unknown 4"/>
-                        <enumerator ID="0x555587AE" name="Unknown 5"/>
-                        <enumerator ID="0xCC5CD614" name="Unknown 6"/>
-                        <enumerator ID="0x784F0C5C" name="Unknown 7"/>
-                        <enumerator ID="0x00AEE69D" name="Unknown 8"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xC0025200" type="vector3f">
-                    <default>1.0, 0.0, 0.0</default>
-                </property>
-                <property ID="0x81473093" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x2F2AE3E5" type="float">
-                    <default>1.0</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xA3A58C06" type="multi">
-            <properties>
-                <enum ID="0x38F20661">
-                    <default>0x4278CA52</default>
-                    <enumerators>
-                        <enumerator ID="0x32C10E45" name="Unknown 1"/>
-                        <enumerator ID="0x4278CA52" name="Unknown 2"/>
-                        <enumerator ID="0x01DF5474" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xEF531185" type="float">
-                    <default>0.0</default>
-                </property>
-                <enum ID="0x0E6E350F">
-                    <default>0xC4585AA5</default>
-                    <enumerators>
-                        <enumerator ID="0x094C82D3" name="Unknown 1"/>
-                        <enumerator ID="0x50525991" name="Unknown 2"/>
-                        <enumerator ID="0xC4585AA5" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <property ID="0x2F2AE3E5" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x2150AA96" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0xFBD9FB93" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0x0364F0B8" type="bool">
-                    <default>false</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x59C61E48" type="multi">
-            <properties>
-                <property ID="0x97F6EA79" type="MayaSpline"/>
-                <property ID="0x4A6033FC" type="MayaSpline"/>
-                <property ID="0xF7AA5F32" type="MayaSpline"/>
-            </properties>
-        </struct>
-        <struct ID="0x8698751F" type="multi">
-            <properties>
-                <enum ID="0x68230B65">
-                    <default>0x43EF7897</default>
-                    <enumerators>
-                        <enumerator ID="0x26C9FC0E" name="Unknown 1"/>
-                        <enumerator ID="0x43EF7897" name="Unknown 2"/>
-                        <enumerator ID="0x7E02CD04" name="Unknown 3"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xEF531185" type="float">
-                    <default>0.0</default>
-                </property>
-                <property ID="0x7A0D286C" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0xF122CD97" type="MayaSpline"/>
-                <property ID="0x2927E544" type="MayaSpline"/>
-                <property ID="0x0364F0B8" type="bool">
-                    <default>false</default>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xFE9257CE" type="multi">
-            <properties>
-                <struct ID="0x20091B54" template="Structs/SplineType.xml"/>
-                <property ID="0x13EB5A7D" type="MayaSpline"/>
-            </properties>
-        </struct>
-        <struct ID="0x608E1757" type="multi">
-            <properties>
-                <enum ID="0x7C71CBAD">
-                    <default>0x6500CF77</default>
-                    <enumerators>
-                        <enumerator ID="0x48858134" name="Unknown 1"/>
-                        <enumerator ID="0x6500CF77" name="Unknown 2"/>
-                    </enumerators>
-                </enum>
-                <property ID="0xE34DC703" type="float">
-                    <default>90.0</default>
-                </property>
-                <property ID="0x13EB5A7D" type="MayaSpline"/>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>ProjectileMotionData</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x948AF571">
+                <DefaultValue>0xBBC76ABE</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x185E7B28"/>
+                    <Element Name="Unknown 2" ID="0x3532ED29"/>
+                    <Element Name="Unknown 3" ID="0xA0E62718"/>
+                    <Element Name="Unknown 4" ID="0xABC7D19C"/>
+                    <Element Name="Unknown 5" ID="0xBBC76ABE"/>
+                    <Element Name="Unknown 6" ID="0xEA957C87"/>
+                    <Element Name="Unknown 7" ID="0xEF6C43B0"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0xD15DF9A6" Archetype="UnknownStruct196"/>
+            <Element Type="Struct" ID="0xA3A58C06" Archetype="UnknownStruct197"/>
+            <Element Type="Struct" ID="0x59C61E48" Archetype="UnknownStruct198"/>
+            <Element Type="Struct" ID="0x8698751F" Archetype="UnknownStruct199"/>
+            <Element Type="Struct" ID="0xFE9257CE" Archetype="UnknownStruct200"/>
+            <Element Type="Struct" ID="0x608E1757" Archetype="UnknownStruct201"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

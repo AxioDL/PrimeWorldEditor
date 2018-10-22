@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="DebrisPropertiesOrientationEnum" type="multi">
-    <properties>
-        <enum ID="0xF4BF6637">
-            <default>0x76A5FBFD</default>
-            <enumerators>
-                <enumerator ID="0x76A5FBFD" name="Unknown 1"/>
-                <enumerator ID="0x953DE634" name="Unknown 2"/>
-                <enumerator ID="0xA164F353" name="Unknown 3"/>
-            </enumerators>
-        </enum>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>DebrisPropertiesOrientationEnum</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xF4BF6637">
+                <DefaultValue>0x76A5FBFD</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x76A5FBFD"/>
+                    <Element Name="Unknown 2" ID="0x953DE634"/>
+                    <Element Name="Unknown 3" ID="0xA164F353"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

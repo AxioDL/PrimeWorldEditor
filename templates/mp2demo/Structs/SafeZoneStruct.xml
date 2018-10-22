@@ -1,48 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="SafeZoneStruct" type="multi">
-    <properties>
-        <property ID="0xC6BFC270" type="sound"/>
-        <property ID="0xD4839A3F" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0xE0903825" type="sound"/>
-        <property ID="0xE5567935" type="sound"/>
-        <property ID="0xD09F83E7" type="asset" extensions="TXTR"/>
-        <property ID="0xC496A6A8" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0x74F8A729" type="asset" extensions="TXTR"/>
-        <property ID="0x521382C7" type="float">
-            <default>-0.04</default>
-        </property>
-        <property ID="0x1BE4426E" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x34B2A190" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0xAD4715A8" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0x1E712EE2" type="asset" extensions="TXTR"/>
-        <property ID="0x24F6BBFA" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x229CEF2E" type="float">
-            <default>0.03</default>
-        </property>
-        <property ID="0x1D7A1562" type="float">
-            <default>4.0</default>
-        </property>
-        <property ID="0xBC3A7FD1" type="float">
-            <default>2.0</default>
-        </property>
-        <property ID="0xA3BB422C" type="asset" extensions="TXTR"/>
-        <property ID="0x47B4E863" type="color">
-            <default>0.094118, 0.498039, 0.498039, 1.0</default>
-        </property>
-        <property ID="0xE68B1FA8" type="color">
-            <default>0.74902, 0.74902, 0.74902, 1.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>SafeZoneStruct</Name>
+        <SubProperties>
+            <Element Type="Sound" ID="0xC6BFC270">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD4839A3F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xE0903825">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xE5567935">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xD09F83E7">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xC496A6A8">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x74F8A729">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x521382C7">
+                <DefaultValue>-0.039999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1BE4426E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x34B2A190">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAD4715A8">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x1E712EE2">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x24F6BBFA">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x229CEF2E">
+                <DefaultValue>0.029999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1D7A1562">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBC3A7FD1">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA3BB422C">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Color" ID="0x47B4E863">
+                <DefaultValue>
+                    <R>0.094117999</R>
+                    <G>0.49803901</G>
+                    <B>0.49803901</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xE68B1FA8">
+                <DefaultValue>
+                    <R>0.74901998</R>
+                    <G>0.74901998</G>
+                    <B>0.74901998</B>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

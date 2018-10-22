@@ -8,23 +8,24 @@ class CXMLReader : public IArchive
 {
     tinyxml2::XMLDocument mDoc;
     tinyxml2::XMLElement *mpCurElem; // Points to the next element being read
+    const char* mpAttribute; // Name of the parameter we are reading from an attribute
     bool mJustEndedParam; // Indicates we just ended a primitive parameter
 
 public:
     CXMLReader(const TString& rkFileName)
-        : IArchive(true, false)
+        : IArchive()
+        , mpAttribute(nullptr)
         , mJustEndedParam(false)
     {
+        mArchiveFlags = AF_Reader | AF_Text;
+
         // Load XML and set current element to the root element; read version
         mDoc.LoadFile(*rkFileName);
         mpCurElem = mDoc.FirstChildElement();
 
         if (mpCurElem != nullptr)
         {
-            mArchiveVersion = (u16) TString( mpCurElem->Attribute("ArchiveVer") ).ToInt32(10);
-            mFileVersion = (u16) TString( mpCurElem->Attribute("FileVer") ).ToInt32(10);
-            const char *pkGameAttr = mpCurElem->Attribute("Game");
-            mGame = pkGameAttr ? GetGameForID( CFourCC(pkGameAttr) ) : eUnknownGame;
+            SerializeVersion();
         }
         else
         {
@@ -38,9 +39,21 @@ public:
     }
 
     // Interface
-    virtual bool ParamBegin(const char *pkName)
+    virtual bool IsReader() const       { return true; }
+    virtual bool IsWriter() const       { return false; }
+    virtual bool IsTextFormat() const   { return true; }
+
+    virtual bool ParamBegin(const char *pkName, u32 Flags)
     {
         ASSERT(IsValid());
+        ASSERT(!mpAttribute); // Attributes cannot have sub-children
+
+        // Store as an attribute if requested
+        if (Flags & SH_Attribute)
+        {
+            mpAttribute = mpCurElem->Attribute(pkName);
+            return mpAttribute != nullptr;
+        }
 
         // Push new parent if needed
         if (!mJustEndedParam)
@@ -51,7 +64,7 @@ public:
         }
 
         // Verify the current element matches the name of the next serialized parameter.
-        if ( strcmp(mpCurElem->Name(), pkName) == 0)
+        if ( (Flags & SH_IgnoreName) || strcmp(mpCurElem->Name(), pkName) == 0 )
         {
             mJustEndedParam = false;
             return true;
@@ -84,57 +97,71 @@ public:
 
     virtual void ParamEnd()
     {
-        if (mJustEndedParam)
-            mpCurElem = mpCurElem->Parent()->ToElement();
+        if (mpAttribute)
+            mpAttribute = nullptr;
 
-        tinyxml2::XMLElement *pElem = mpCurElem->NextSiblingElement();
-        if (pElem)
-            mpCurElem = pElem;
+        else
+        {
+            if (mJustEndedParam)
+                mpCurElem = mpCurElem->Parent()->ToElement();
 
-        mJustEndedParam = true;
+            tinyxml2::XMLElement *pElem = mpCurElem->NextSiblingElement();
+            if (pElem)
+                mpCurElem = pElem;
+
+            mJustEndedParam = true;
+        }
     }
 
 protected:
     TString ReadParam()
     {
-        return TString(mpCurElem->GetText());
+        return TString( mpAttribute ? mpAttribute : mpCurElem->GetText() );
     }
 
 public:
-    virtual void SerializeContainerSize(u32& rSize, const TString& rkElemName)
+    virtual void SerializeArraySize(u32& Value)
     {
-        rSize = 0;
+        Value = 0;
 
-        for (tinyxml2::XMLElement *pElem = mpCurElem->FirstChildElement(*rkElemName); pElem; pElem = pElem->NextSiblingElement(*rkElemName))
-            rSize++;
+        for (tinyxml2::XMLElement *pElem = mpCurElem->FirstChildElement(); pElem; pElem = pElem->NextSiblingElement())
+            Value++;
     }
 
-    virtual void SerializeAbstractObjectType(u32& rType)
+    virtual bool PreSerializePointer(void*& InPointer, u32 Flags)
     {
-        rType = TString(mpCurElem->Attribute("Type")).ToInt32(10);
+        return mpCurElem->GetText() == nullptr || strcmp(mpCurElem->GetText(), "NULL") != 0;
     }
 
-    virtual void SerializePrimitive(bool& rValue)        { rValue = (ReadParam() == "true" ? true : false); }
-    virtual void SerializePrimitive(char& rValue)        { rValue = ReadParam().Front(); }
-    virtual void SerializePrimitive(s8& rValue)          { rValue = (s8) ReadParam().ToInt32(10); }
-    virtual void SerializePrimitive(u8& rValue)          { rValue = (u8) ReadParam().ToInt32(10); }
-    virtual void SerializePrimitive(s16& rValue)         { rValue = (s16) ReadParam().ToInt32(10); }
-    virtual void SerializePrimitive(u16& rValue)         { rValue = (u16) ReadParam().ToInt32(10); }
-    virtual void SerializePrimitive(s32& rValue)         { rValue = (s32) ReadParam().ToInt32(10); }
-    virtual void SerializePrimitive(u32& rValue)         { rValue = (u32) ReadParam().ToInt32(10); }
-    virtual void SerializePrimitive(s64& rValue)         { rValue = (s64) ReadParam().ToInt64(10); }
-    virtual void SerializePrimitive(u64& rValue)         { rValue = (u64) ReadParam().ToInt64(10); }
-    virtual void SerializePrimitive(float& rValue)       { rValue = ReadParam().ToFloat(); }
-    virtual void SerializePrimitive(double& rValue)      { rValue = (double) ReadParam().ToFloat(); }
-    virtual void SerializePrimitive(TString& rValue)     { rValue = ReadParam(); }
-    virtual void SerializePrimitive(TWideString& rValue) { rValue = ReadParam().ToUTF16(); }
-    virtual void SerializePrimitive(CFourCC& rValue)     { rValue = CFourCC( ReadParam() ); }
-    virtual void SerializePrimitive(CAssetID& rValue)    { rValue = CAssetID::FromString( ReadParam() ); }
+    virtual void SerializePrimitive(bool& rValue, u32 Flags)        { rValue = (ReadParam() == "true" ? true : false); }
+    virtual void SerializePrimitive(char& rValue, u32 Flags)        { rValue = ReadParam().Front(); }
+    virtual void SerializePrimitive(s8& rValue, u32 Flags)          { rValue = (s8) ReadParam().ToInt32( (Flags & SH_HexDisplay) ? 16 : 10 ); }
+    virtual void SerializePrimitive(u8& rValue, u32 Flags)          { rValue = (u8) ReadParam().ToInt32( (Flags & SH_HexDisplay) ? 16 : 10 ); }
+    virtual void SerializePrimitive(s16& rValue, u32 Flags)         { rValue = (s16) ReadParam().ToInt32( (Flags & SH_HexDisplay) ? 16 : 10 ); }
+    virtual void SerializePrimitive(u16& rValue, u32 Flags)         { rValue = (u16) ReadParam().ToInt32( (Flags & SH_HexDisplay) ? 16 : 10 ); }
+    virtual void SerializePrimitive(s32& rValue, u32 Flags)         { rValue = (s32) ReadParam().ToInt32( (Flags & SH_HexDisplay) ? 16 : 10 ); }
+    virtual void SerializePrimitive(u32& rValue, u32 Flags)         { rValue = (u32) ReadParam().ToInt32( (Flags & SH_HexDisplay) ? 16 : 10 ); }
+    virtual void SerializePrimitive(s64& rValue, u32 Flags)         { rValue = (s64) ReadParam().ToInt64( (Flags & SH_HexDisplay) ? 16 : 10 ); }
+    virtual void SerializePrimitive(u64& rValue, u32 Flags)         { rValue = (u64) ReadParam().ToInt64( (Flags & SH_HexDisplay) ? 16 : 10 ); }
+    virtual void SerializePrimitive(float& rValue, u32 Flags)       { rValue = ReadParam().ToFloat(); }
+    virtual void SerializePrimitive(double& rValue, u32 Flags)      { rValue = (double) ReadParam().ToFloat(); }
+    virtual void SerializePrimitive(TString& rValue, u32 Flags)     { rValue = ReadParam(); }
+    virtual void SerializePrimitive(TWideString& rValue, u32 Flags) { rValue = ReadParam().ToUTF16(); }
+    virtual void SerializePrimitive(CFourCC& rValue, u32 Flags)     { rValue = CFourCC( ReadParam() ); }
+    virtual void SerializePrimitive(CAssetID& rValue, u32 Flags)    { rValue = CAssetID::FromString( ReadParam() ); }
 
-    virtual void SerializeHexPrimitive(u8& rValue)       { rValue = (u8) ReadParam().ToInt32(16); }
-    virtual void SerializeHexPrimitive(u16& rValue)      { rValue = (u16) ReadParam().ToInt32(16); }
-    virtual void SerializeHexPrimitive(u32& rValue)      { rValue = (u32) ReadParam().ToInt32(16); }
-    virtual void SerializeHexPrimitive(u64& rValue)      { rValue = (u64) ReadParam().ToInt32(16); }
+    virtual void SerializeBulkData(void* pData, u32 Size, u32 Flags)
+    {
+        char* pCharData = (char*) pData;
+        TString StringData = ReadParam();
+        ASSERT(StringData.Size() == Size*2);
+
+        for (u32 ByteIdx = 0; ByteIdx < Size; ByteIdx++)
+        {
+            *pCharData = (char) StringData.SubString(ByteIdx*2, 2).ToInt32(16);
+            pCharData++;
+        }
+    }
 };
 
 #endif // CXMLREADER

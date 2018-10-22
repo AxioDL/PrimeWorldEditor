@@ -1,20 +1,22 @@
 #include "TString.h"
-#include "CHashFNV1A.h"
-#include <FileIO/IOUtil.h>
+#include "Hash/CCRC32.h"
+#include "Hash/CFNV1A.h"
+#include "FileIO/IOUtil.h"
 #include <codecvt>
 #include <locale>
 
 // ************ TString ************
 u32 TString::Hash32() const
 {
-    CHashFNV1A Hash(CHashFNV1A::e32Bit);
-    Hash.HashString(*this);
-    return Hash.GetHash32();
+    CCRC32 Hash;
+    Hash.Hash(**this);
+    return Hash.Digest();
 }
 
 u64 TString::Hash64() const
 {
-    CHashFNV1A Hash(CHashFNV1A::e64Bit);
+    // todo: replace with MD5
+    CFNV1A Hash(CFNV1A::e64Bit);
     Hash.HashString(*this);
     return Hash.GetHash64();
 }
@@ -108,14 +110,14 @@ TWideString TString::ToUTF16() const
 // ************ TWideString ************
 u32 TWideString::Hash32() const
 {
-    CHashFNV1A Hash(CHashFNV1A::e32Bit);
+    CFNV1A Hash(CFNV1A::e32Bit);
     Hash.HashData(Data(), Size() * sizeof(wchar_t));
     return Hash.GetHash32();
 }
 
 u64 TWideString::Hash64() const
 {
-    CHashFNV1A Hash(CHashFNV1A::e64Bit);
+    CFNV1A Hash(CFNV1A::e64Bit);
     Hash.HashData(Data(), Size() * sizeof(wchar_t));
     return Hash.GetHash64();
 }

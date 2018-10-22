@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct22</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x1B07123D">
+                <DefaultValue>-0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x52F88637">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x413B2F46">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5A7CA693">
+                <DefaultValue>-0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9ACD94E4">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

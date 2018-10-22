@@ -1,5 +1,6 @@
 #include "CLight.h"
 #include "Core/Render/CGraphics.h"
+#include <Common/Common.h>
 #include <cmath>
 #include <float.h>
 
@@ -125,6 +126,52 @@ void CLight::SetAngleAtten(float AngleCoefA, float AngleCoefB, float AngleCoefC)
     mAngleAttenCoefficients.X = AngleCoefA;
     mAngleAttenCoefficients.Y = AngleCoefB;
     mAngleAttenCoefficients.Z = AngleCoefC;
+}
+
+CStructProperty* CLight::GetProperties() const
+{
+    //@todo MP1 properties only
+    //@todo we cannot display full properties because a lot of them are discarded on load
+    static CStructProperty* pProperties = nullptr;
+
+    if (!pProperties)
+    {
+        pProperties = (CStructProperty*) IProperty::CreateIntrinsic(EPropertyType::Struct,
+                                                                          EGame::Prime,
+                                                                          0,
+                                                                          "Light");
+
+        CChoiceProperty* pLightType = (CChoiceProperty*) IProperty::CreateIntrinsic(EPropertyType::Choice,
+                                                                                       pProperties,
+                                                                                       MEMBER_OFFSET(CLight, mType),
+                                                                                       "LightType");
+        pLightType->AddValue("LocalAmbient", eLocalAmbient);
+        pLightType->AddValue("Directional", eDirectional);
+        pLightType->AddValue("Spot", eSpot);
+        pLightType->AddValue("Custom", eCustom);
+
+        IProperty::CreateIntrinsic(EPropertyType::Color,
+                                      pProperties,
+                                      MEMBER_OFFSET(CLight, mColor),
+                                      "Color");
+
+        IProperty::CreateIntrinsic(EPropertyType::Vector,
+                                      pProperties,
+                                      MEMBER_OFFSET(CLight, mPosition),
+                                      "Position");
+
+        IProperty::CreateIntrinsic(EPropertyType::Vector,
+                                      pProperties,
+                                      MEMBER_OFFSET(CLight, mDirection),
+                                      "Direction");
+
+        IProperty::CreateIntrinsic(EPropertyType::Float,
+                                      pProperties,
+                                      MEMBER_OFFSET(CLight, mSpotCutoff),
+                                      "SpotCutoff");
+    }
+
+    return pProperties;
 }
 
 // ************ OTHER ************

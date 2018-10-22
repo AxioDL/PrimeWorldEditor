@@ -3,6 +3,7 @@
 
 #include "CWorldEditor.h"
 #include <Core/Resource/Script/CScriptLayer.h>
+#include <Core/Resource/Script/NGameList.h>
 #include <Core/Scene/CScene.h>
 #include <Core/Scene/CSceneIterator.h>
 
@@ -299,11 +300,11 @@ void WInstancesTab::OnHideAllExceptTypeAction()
     else
     {
         EGame Game = mpEditor->CurrentGame();
-        CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
+        CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
-        for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)
+        for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
         {
-            CScriptTemplate *pTemplate = pMaster->TemplateByIndex(iTemp);
+            CScriptTemplate *pTemplate = pGame->TemplateByIndex(iTemp);
             pTemplate->SetVisible( pTemplate == mpMenuTemplate ? true : false );
         }
 
@@ -330,10 +331,10 @@ void WInstancesTab::OnUnhideAllTypes()
     else
     {
         EGame Game = mpEditor->CurrentGame();
-        CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
+        CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
-        for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)
-            pMaster->TemplateByIndex(iTemp)->SetVisible(true);
+        for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
+            pGame->TemplateByIndex(iTemp)->SetVisible(true);
 
         mpTypesModel->dataChanged( mpTypesModel->index(0, 2, TypeParent), mpTypesModel->index(mpTypesModel->rowCount(TypeParent) - 1, 2, TypeParent) );
     }
@@ -364,10 +365,10 @@ void WInstancesTab::OnUnhideAll()
     if (TypesRoot.isValid())
     {
         EGame Game = mpEditor->CurrentGame();
-        CMasterTemplate *pMaster = CMasterTemplate::MasterForGame(Game);
+        CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
-        for (u32 iTemp = 0; iTemp < pMaster->NumScriptTemplates(); iTemp++)
-            pMaster->TemplateByIndex(iTemp)->SetVisible(true);
+        for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
+            pGame->TemplateByIndex(iTemp)->SetVisible(true);
 
         mpTypesModel->dataChanged( mpTypesModel->index(0, 2, TypesRoot), mpTypesModel->index(mpTypesModel->rowCount(TypesRoot) - 1, 2, TypesRoot) );
     }

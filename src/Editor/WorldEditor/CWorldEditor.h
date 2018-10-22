@@ -8,6 +8,7 @@
 #include "CScriptEditSidebar.h"
 #include "CWorldInfoSidebar.h"
 #include "Editor/INodeEditor.h"
+#include "Editor/CGeneratePropertyNamesDialog.h"
 #include "Editor/CGizmo.h"
 #include "Editor/CSceneViewport.h"
 
@@ -55,6 +56,7 @@ class CWorldEditor : public INodeEditor
 
     CCollisionRenderSettingsDialog *mpCollisionDialog;
     CLinkDialog *mpLinkDialog;
+    CGeneratePropertyNamesDialog* mpGeneratePropertyNamesDialog;
 
     bool mIsMakingLink;
     CScriptObject *mpNewLinkSender;
@@ -89,6 +91,7 @@ public:
     inline CGameArea* ActiveArea() const    { return mpArea; }
     inline EGame CurrentGame() const        { return gpEdApp->CurrentGame(); }
     inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
+    inline CGeneratePropertyNamesDialog* NameGeneratorDialog() const    { return mpGeneratePropertyNamesDialog; }
     CResourceBrowser* ResourceBrowser() const;
     CSceneViewport* Viewport() const;
 
@@ -122,7 +125,7 @@ public slots:
 
     void OnActiveProjectChanged(CGameProject *pProj);
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);
-    void OnPropertyModified(IProperty *pProp);
+    void OnPropertyModified(CScriptObject* pObject, IProperty *pProp);
     void SetSelectionActive(bool Active);
     void SetSelectionInstanceNames(const QString& rkNewName, bool IsDone);
     void SetSelectionLayer(CScriptLayer *pLayer);
@@ -179,6 +182,7 @@ private slots:
     void DecrementGizmo();
     void EditCollisionRenderSettings();
     void EditLayers();
+    void GeneratePropertyNames();
 
 signals:
     void MapChanged(CWorld *pNewWorld, CGameArea *pNewArea);

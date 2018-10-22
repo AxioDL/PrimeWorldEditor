@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>FluidUVMotion</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Struct" ID="0x0" Archetype="FluidLayerMotion">
+                <Name>Fluid Layer Motion 1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1" Archetype="FluidLayerMotion">
+                <Name>Fluid Layer Motion 2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x2" Archetype="FluidLayerMotion">
+                <Name>Fluid Layer Motion 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Unknown 2</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

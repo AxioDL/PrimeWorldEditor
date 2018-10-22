@@ -1,7 +1,7 @@
 #include "CScriptAttachNode.h"
 #include "CScriptNode.h"
 #include "Core/Render/CRenderer.h"
-#include "Core/Resource/Script/IProperty.h"
+#include "Core/Resource/Script/Property/IProperty.h"
 #include <Common/AssertMacro.h>
 
 CScriptAttachNode::CScriptAttachNode(CScene *pScene, const SAttachment& rkAttachment, CScriptNode *pParent)
@@ -10,8 +10,11 @@ CScriptAttachNode::CScriptAttachNode(CScene *pScene, const SAttachment& rkAttach
     , mAttachType(rkAttachment.AttachType)
     , mLocatorName(rkAttachment.LocatorName)
 {
-    CPropertyStruct *pBaseStruct = pParent->Instance()->Properties();
-    mpAttachAssetProp = pBaseStruct->PropertyByIDString(rkAttachment.AttachProperty);
+    CStructProperty* pBaseStruct = pParent->Template()->Properties();
+
+    mpAttachAssetProp = pBaseStruct->ChildByIDString(rkAttachment.AttachProperty);
+    mAttachAssetRef = CAssetRef(pParent->Instance()->PropertyData(), mpAttachAssetProp);
+    mAttachAnimSetRef = CAnimationSetRef(pParent->Instance()->PropertyData(), mpAttachAssetProp);
     if (mpAttachAssetProp) AttachPropertyModified();
 
     ParentDisplayAssetChanged(mpScriptNode->DisplayAsset());
@@ -21,12 +24,12 @@ void CScriptAttachNode::AttachPropertyModified()
 {
     if (mpAttachAssetProp)
     {
-        if (mpAttachAssetProp->Type() == eAssetProperty)
-            mpAttachAsset = gpResourceStore->LoadResource<CModel>( TPropCast<TAssetProperty>(mpAttachAssetProp)->Get() );
-        else if (mpAttachAssetProp->Type() == eCharacterProperty)
-            mpAttachAsset = TPropCast<TCharacterProperty>(mpAttachAssetProp)->Get().AnimSet();
+        if (mAttachAssetRef.IsValid())
+            mpAttachAsset = gpResourceStore->LoadResource<CModel>(mAttachAssetRef.Get());
+        else if (mAttachAnimSetRef.IsValid())
+            mpAttachAsset = mAttachAnimSetRef.Get().AnimSet();
 
-        CModel *pModel = Model();
+        CModel* pModel = Model();
 
         if (pModel && pModel->Type() == eModel)
             mLocalAABox = pModel->AABox();
@@ -37,11 +40,11 @@ void CScriptAttachNode::AttachPropertyModified()
     }
 }
 
-void CScriptAttachNode::ParentDisplayAssetChanged(CResource *pNewDisplayAsset)
+void CScriptAttachNode::ParentDisplayAssetChanged(CResource* pNewDisplayAsset)
 {
     if (pNewDisplayAsset->Type() == eAnimSet)
     {
-        CSkeleton *pSkel = mpScriptNode->ActiveSkeleton();
+        CSkeleton* pSkel = mpScriptNode->ActiveSkeleton();
         mpLocator = pSkel->BoneByName(mLocatorName);
     }
 
@@ -60,11 +63,8 @@ CModel* CScriptAttachNode::Model() const
         if (mpAttachAsset->Type() == eModel)
             return static_cast<CModel*>(mpAttachAsset.RawPointer());
 
-        if (mpAttachAsset->Type() == eAnimSet)
-        {
-            TCharacterProperty *pProp = TPropCast<TCharacterProperty>(mpAttachAssetProp);
-            return pProp->Get().GetCurrentModel();
-        }
+        else if (mpAttachAsset->Type() == eAnimSet)
+            return mAttachAnimSetRef.Get().GetCurrentModel();
     }
 
     return nullptr;

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>SpacePirateWeaponData</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x647670AC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xA79BB82E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xA95A025B">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x25F822C4">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x765E3A20">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x14D1A3A8" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>9</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2D02613">
+                        <DefaultValue>40.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEE1BE914">
+                        <DefaultValue>8.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x555FF80A">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Asset" ID="0x1319E077">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD207FF0F">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2B31C882">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x9A6BB47F">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xED086CE0">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFC6646">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA7C8E63F">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x454F16B1">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0x258C3E1B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Sound" ID="0xAF6AAD88">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

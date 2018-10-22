@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct242</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x9D1A67A8">
+                <TypeFilter>
+                    <Element>STRM</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xB417064A"/>
+            <Element Type="Bool" ID="0xEB250A0B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C269EBC">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC7A7F189">
+                <DefaultValue>-6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDF4353A3">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6E0E81F8">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x25D4798A">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x214E48A0">
+                <DefaultValue>75.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x72531867">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x85707354">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE88FF377">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x794C3EB">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xC871BD1B"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

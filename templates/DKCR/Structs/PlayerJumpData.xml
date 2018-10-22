@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerJumpData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x8BA1A21A" Archetype="PlayerJumpHeights"/>
+            <Element Type="Struct" ID="0x1C9A6F1B" Archetype="PlayerJumpHeights"/>
+            <Element Type="Float" ID="0x782A0310">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCAAEC68E">
+                <DefaultValue>0.121</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x69E6568D">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x16A7FB91">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE570E6FE">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEA3E0F37">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x436CB2E7">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9BA3F671">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x80FAA2F3">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7162D678">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

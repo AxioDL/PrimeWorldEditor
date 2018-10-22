@@ -17,15 +17,12 @@ class CDamageableTriggerExtra : public CScriptExtra
         eDown     = 0x20
     };
 
-    TVector3Property *mpSizeProp;
-    TEnumProperty *mpRenderSideProp;
-    TAssetProperty *mpTextureProps[3];
+    CVectorRef mPlaneSize;
+    TEnumRef<ERenderSide> mRenderSide;
+    CAssetRef mTextureAssets[3];
 
-    CVector3f mPlaneSize;
-    ERenderSide mRenderSide;
-    TResPtr<CTexture> mpTextures[3];
-
-    CMaterial *mpMat;
+    CMaterial* mpMat;
+    CTexture* mpTextures[3];
     CVector2f mCoordScale;
 
     float mCachedRayDistance;
@@ -38,7 +35,7 @@ public:
     ERenderSide RenderSideForDirection(const CVector3f& rkDir);
     ERenderSide TransformRenderSide(ERenderSide Side);
     void OnTransformed();
-    void PropertyModified(IProperty *pProperty);
+    void PropertyModified(IProperty* pProperty);
     bool ShouldDrawNormalAssets();
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);

@@ -1,8 +1,9 @@
 #ifndef CTEMPLATEEDITDIALOG_H
 #define CTEMPLATEEDITDIALOG_H
 
-#include <Core/Resource/Script/IPropertyTemplate.h>
-#include <Core/Resource/Script/CMasterTemplate.h>
+#include "Editor/CPropertyNameValidator.h"
+#include <Core/Resource/Script/Property/Properties.h>
+#include <Core/Resource/Script/CGameTemplate.h>
 #include <QDialog>
 
 namespace Ui {
@@ -12,30 +13,43 @@ class CTemplateEditDialog;
 class CTemplateEditDialog : public QDialog
 {
     Q_OBJECT
-    Ui::CTemplateEditDialog *ui;
+    Ui::CTemplateEditDialog* mpUI;
+    CPropertyNameValidator* mpValidator;
 
-    IPropertyTemplate *mpTemplate;
+    IProperty *mpProperty;
     EGame mGame;
 
     TString mOriginalName;
     TString mOriginalDescription;
+    TString mOriginalTypeName;
+    bool mOriginalAllowTypeNameOverride;
+    bool mOriginalNameWasValid;
 
     // These members help track what templates need to be updated and resaved after the user clicks OK
-    QVector<CScriptTemplate*> mScriptTemplatesToResave;
-    QVector<CStructTemplate*> mStructTemplatesToResave;
-    QVector<IPropertyTemplate*> mEquivalentProperties;
+    QVector<IProperty*> mEquivalentProperties;
 
 public:
-    CTemplateEditDialog(IPropertyTemplate *pTemplate, QWidget *pParent = 0);
+    CTemplateEditDialog(IProperty* pProperty, QWidget *pParent = 0);
     ~CTemplateEditDialog();
+
+signals:
+    void PerformedTypeConversion();
 
 public slots:
     void ApplyChanges();
+    void RefreshTypeNameOverride();
+
+protected slots:
+    void ConvertPropertyType(EPropertyType Type);
+    void ConvertToInt();
+    void ConvertToChoice();
+    void ConvertToSound();
+    void ConvertToFlags();
 
 protected:
-    void AddTemplate(IPropertyTemplate *pTemp);
     void UpdateDescription(const TString& rkNewDesc);
-    void FindEquivalentProperties(IPropertyTemplate *pTemp);
+    void UpdateTypeName(const TString& kNewTypeName, bool AllowOverride);
+    void FindEquivalentProperties(IProperty *pProperty);
 };
 
 #endif // CTEMPLATEEDITDIALOG_H

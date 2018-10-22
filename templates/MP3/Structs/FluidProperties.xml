@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>FluidProperties</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xBE253B54">
+                <DefaultValue>0x54F30820</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x54F30820"/>
+                    <Element Name="Unknown 2" ID="0xDBDD553"/>
+                    <Element Name="Unknown 3" ID="0x47CB8D3E"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0x7F2A8353">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB5E9859F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1F5E78C2">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3DDCA674">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4817EAA7">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x13013139">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x628F03DB">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C60077E">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8518047A">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xA4D23616">
+                <DefaultValue>0x48DC9CE2</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x48DC9CE2"/>
+                    <Element Name="Unknown 2" ID="0x2D3F4428"/>
+                    <Element Name="Unknown 3" ID="0x189E77F5"/>
+                    <Element Name="Unknown 4" ID="0xCF31A6CF"/>
+                    <Element Name="Unknown 5" ID="0x4ACF8AED"/>
+                    <Element Name="Unknown 6" ID="0x7D129BF"/>
+                    <Element Name="Unknown 7" ID="0xA808E20"/>
+                </Values>
+            </Element>
+            <Element Type="Color" ID="0x41398D5">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.49803901</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5A96218C">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.49803901</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x5E8B37DD">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x31D987E">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5AA79C9F">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2F0645CF">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2421A2BF">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7A4B4685">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xDD2F6DBD">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF90DEDA5">
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3425E83F">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF14E3A14">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x33EECDFD">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x244E9E6D" Archetype="LayerInfo"/>
+            <Element Type="Struct" ID="0xE75248E4" Archetype="LayerInfo"/>
+            <Element Type="Struct" ID="0x385E0D43" Archetype="LayerInfo"/>
+            <Element Type="Struct" ID="0xD369B640" Archetype="LayerInfo"/>
+            <Element Type="Struct" ID="0x6DDEA66D" Archetype="LayerInfo"/>
+            <Element Type="Color" ID="0x13B56C22">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x3DA16854">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x856941FE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x341EC63B">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x388E3C07">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x418643C2">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9C7950A4">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xBFB96EC0">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC34A1DC9">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xEFCDEA0">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x78DF0E7F">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x84E241ED">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE2072799">
+                <DefaultValue>45000.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xAB463F9A">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x66D466B5">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB97CCEDE">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x4D82BB1E">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC51DA2DC">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x3D24E64">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x687DF7A3">
+                <DefaultValue>-0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE73AAD13">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC67B7D7">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xE578C0DD">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB4B0FD8D">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB90DFF44">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF608D35C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFE3BC8F7">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x318418AA">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7B77E31D">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x84927794">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA6E650A0">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x90B8EB66">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3EEDE8F7">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC110ED44">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB9413FE6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x822118B4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFE89B6E4">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x414379EA">
+                <DefaultValue>300</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x3C764739"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

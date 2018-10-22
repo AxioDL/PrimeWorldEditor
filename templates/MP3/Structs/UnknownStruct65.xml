@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct65</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x31EC14BC">
+                <TypeFilter>
+                    <Element>MLVL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xA909F8D3"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,22 +1,21 @@
 #include "FileUtil.h"
 #include "AssertMacro.h"
-#include <boost/filesystem.hpp>
-#include <boost/system/error_code.hpp>
+#include "Common/FileIO/CFileInStream.h"
 
-// These are mostly just wrappers around boost::filesystem functions.
-using namespace boost::filesystem;
+#include <experimental/filesystem>
+#include <system_error>
 
-// Macro encapsulating a TString -> boost::filesystem::path conversion
-// boost does not handle conversion from UTF-8 correctly so we need to do it manually
-#define TO_PATH(String) path( *String.ToUTF16() )
-#define FROM_PATH(Path) TWideString( Path.native() ).ToUTF8()
+// These are mostly just wrappers around std::filesystem functions.
+using namespace std::experimental::filesystem::v1;
 
 namespace FileUtil
 {
 
+#define ToPath(Path) u8path(Path)
+
 bool Exists(const TString &rkFilePath)
 {
-    return exists( TO_PATH(rkFilePath) );
+    return exists(ToPath(*rkFilePath));
 }
 
 bool IsRoot(const TString& rkPath)
@@ -29,22 +28,22 @@ bool IsRoot(const TString& rkPath)
 
 bool IsFile(const TString& rkFilePath)
 {
-    return is_regular_file( TO_PATH(rkFilePath) );
+    return is_regular_file(ToPath(*rkFilePath));
 }
 
 bool IsDirectory(const TString& rkDirPath)
 {
-    return is_directory( TO_PATH(rkDirPath) );
+    return is_directory(ToPath(*rkDirPath));
 }
 
 bool IsAbsolute(const TString& rkDirPath)
 {
-    return boost::filesystem::path( TO_PATH(rkDirPath) ).is_absolute();
+    return ToPath(*rkDirPath).is_absolute();
 }
 
 bool IsRelative(const TString& rkDirPath)
 {
-    return boost::filesystem::path( TO_PATH(rkDirPath) ).is_relative();
+    return ToPath(*rkDirPath).is_relative();
 }
 
 bool IsEmpty(const TString& rkDirPath)
@@ -52,11 +51,10 @@ bool IsEmpty(const TString& rkDirPath)
     if (!IsDirectory(rkDirPath))
     {
         Log::Error("Non-directory path passed to IsEmpty(): " + rkDirPath);
-        DEBUG_BREAK;
         return false;
     }
 
-    return is_empty( TO_PATH(rkDirPath) );
+    return is_empty(ToPath(*rkDirPath));
 }
 
 bool MakeDirectory(const TString& rkNewDir)
@@ -67,7 +65,7 @@ bool MakeDirectory(const TString& rkNewDir)
         return false;
     }
 
-    return create_directories( TO_PATH(rkNewDir) );
+    return create_directories(ToPath(*rkNewDir));
 }
 
 bool CopyFile(const TString& rkOrigPath, const TString& rkNewPath)
@@ -79,9 +77,10 @@ bool CopyFile(const TString& rkOrigPath, const TString& rkNewPath)
     }
 
     MakeDirectory(rkNewPath.GetFileDirectory());
-    boost::system::error_code Error;
-    copy(TO_PATH(rkOrigPath), TO_PATH(rkNewPath), Error);
-    return (Error == boost::system::errc::success);
+    std::error_code Error;
+    // call std::filesystem::copy, not std::copy
+    std::experimental::filesystem::copy(ToPath(*rkOrigPath), ToPath(*rkNewPath), Error);
+    return (Error.value() == 0);
 }
 
 bool CopyDirectory(const TString& rkOrigPath, const TString& rkNewPath)
@@ -93,9 +92,10 @@ bool CopyDirectory(const TString& rkOrigPath, const TString& rkNewPath)
     }
 
     MakeDirectory(rkNewPath.GetFileDirectory());
-    boost::system::error_code Error;
-    copy_directory(TO_PATH(rkOrigPath), TO_PATH(rkNewPath), Error);
-    return (Error == boost::system::errc::success);
+    std::error_code Error;
+    // call std::filesystem::copy, not std::copy
+    std::experimental::filesystem::copy(ToPath(*rkOrigPath), ToPath(*rkNewPath), Error);
+    return (Error.value() == 0);
 }
 
 bool MoveFile(const TString& rkOldPath, const TString& rkNewPath)
@@ -112,8 +112,9 @@ bool MoveFile(const TString& rkOldPath, const TString& rkNewPath)
         return false;
     }
 
-    int Result = rename(*rkOldPath, *rkNewPath);
-    return (Result == 0);
+    std::error_code Error;
+    rename(ToPath(*rkOldPath), ToPath(*rkNewPath), Error);
+    return Error.value() == 0;
 }
 
 bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
@@ -126,18 +127,19 @@ bool MoveDirectory(const TString& rkOldPath, const TString& rkNewPath)
 
     if (Exists(rkNewPath))
     {
-        Log::Error("Unable to move directory because there is an existing directory at the destination path: " + rkNewPath);
+        Log::Error("Unable to move directory because there is an existing directory at the destination path: %s" + rkNewPath);
         return false;
     }
 
-    int Result = rename(*rkOldPath, *rkNewPath);
-    return (Result == 0);
+    std::error_code Error;
+    rename(ToPath(*rkOldPath), ToPath(*rkNewPath), Error);
+    return Error.value() == 0;
 }
 
 bool DeleteFile(const TString& rkFilePath)
 {
     if (!IsFile(rkFilePath)) return false;
-    return remove( TO_PATH(rkFilePath) ) == 1;
+    return remove(ToPath(*rkFilePath)) == 1;
 }
 
 bool DeleteDirectory(const TString& rkDirPath, bool FailIfNotEmpty)
@@ -151,7 +153,7 @@ bool DeleteDirectory(const TString& rkDirPath, bool FailIfNotEmpty)
     if (Root)
     {
         ASSERT(false);
-        Log::Error("Attempted to delete root directory!");
+        Log::Fatal("Attempted to delete root directory!");
         return false;
     }
 
@@ -160,9 +162,9 @@ bool DeleteDirectory(const TString& rkDirPath, bool FailIfNotEmpty)
         return false;
 
     // Delete directory
-    boost::system::error_code Error;
-    remove_all(TO_PATH(rkDirPath), Error);
-    return (Error == boost::system::errc::success);
+    std::error_code Error;
+    remove_all(ToPath(*rkDirPath), Error);
+    return (Error.value() == 0);
 }
 
 bool ClearDirectory(const TString& rkDirPath)
@@ -176,7 +178,7 @@ bool ClearDirectory(const TString& rkDirPath)
     if (Root)
     {
         ASSERT(false);
-        Log::Error("Attempted to clear root directory!");
+        Log::Fatal("Attempted to clear root directory!");
         return false;
     }
 
@@ -202,22 +204,22 @@ bool ClearDirectory(const TString& rkDirPath)
 
 u64 FileSize(const TString &rkFilePath)
 {
-    return (u64) (Exists(rkFilePath) ? file_size( TO_PATH(rkFilePath) ) : -1);
+    return (u64) (Exists(rkFilePath) ? file_size(ToPath(*rkFilePath)) : -1);
 }
 
 u64 LastModifiedTime(const TString& rkFilePath)
 {
-    return (u64) last_write_time( TO_PATH(rkFilePath) );
+    return (u64) last_write_time(ToPath(*rkFilePath)).time_since_epoch().count();
 }
 
 TString WorkingDirectory()
 {
-    return FROM_PATH( boost::filesystem::current_path() );
+    return current_path().string();
 }
 
 TString MakeAbsolute(TString Path)
 {
-    if (!TO_PATH(Path).has_root_name())
+    if (!ToPath(*Path).has_root_name())
         Path = WorkingDirectory() + "/" + Path;
 
     TStringList Components = Path.Split("/\\");
@@ -474,26 +476,26 @@ void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*=
         DirPath.Replace("\\", "/");
         bool IncludeAll = IncludeFiles && IncludeDirs;
 
-        auto AddFileLambda = [IncludeFiles, IncludeDirs, IncludeAll, &rOut](TString Path) -> void {
-            bool ShouldAddFile = IncludeAll || (IncludeFiles && IsFile(Path)) || (IncludeDirs && IsDirectory(Path));
+        auto AddFileLambda = [IncludeFiles, IncludeDirs, IncludeAll, &rOut](const TString& rkPath) -> void {
+            bool ShouldAddFile = IncludeAll || (IncludeFiles && IsFile(rkPath)) || (IncludeDirs && IsDirectory(rkPath));
 
             if (ShouldAddFile)
-                rOut.push_back(Path);
+                rOut.push_back(rkPath);
         };
 
         if (Recursive)
         {
-            for (recursive_directory_iterator It( TO_PATH(DirPath) ); It != recursive_directory_iterator(); ++It)
+            for (recursive_directory_iterator It(ToPath(*DirPath)); It != recursive_directory_iterator(); ++It)
             {
-                AddFileLambda( FROM_PATH(It->path()) );
+                AddFileLambda(It->path().string());
             }
         }
 
         else
         {
-            for (directory_iterator It( TO_PATH(DirPath) ); It != directory_iterator(); ++It)
+            for (directory_iterator It(ToPath(*DirPath)); It != directory_iterator(); ++It)
             {
-                AddFileLambda( FROM_PATH(It->path()) );
+                AddFileLambda(It->path().string());
             }
         }
     }
@@ -501,13 +503,27 @@ void GetDirectoryContents(TString DirPath, TStringList& rOut, bool Recursive /*=
 
 TString FindFileExtension(const TString& rkDir, const TString& rkName)
 {
-    for (directory_iterator It( TO_PATH(rkDir) ); It != directory_iterator(); ++It)
+    for (directory_iterator It(ToPath(*rkDir)); It != directory_iterator(); ++It)
     {
-        TString Name = FROM_PATH( It->path().filename() );
+        TString Name = It->path().filename().string();
         if (Name.GetFileName(false) == rkName) return Name.GetFileExtension();
     }
 
     return "";
+}
+
+bool LoadFileToString(const TString& rkFilePath, TString& rOut)
+{
+    CFileInStream File(rkFilePath);
+
+    if (File.IsValid())
+    {
+        rOut = TString(File.Size());
+        File.ReadBytes(&rOut[0], rOut.Size());
+        return true;
+    }
+    else
+        return false;
 }
 
 }

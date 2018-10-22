@@ -4,7 +4,7 @@
 #include "Core/Render/CRenderer.h"
 #include "Core/OpenGL/GLCommon.h"
 #include "Core/OpenGL/CShaderGenerator.h"
-#include <Common/CHashFNV1A.h>
+#include <Common/Hash/CFNV1A.h>
 
 #include <iostream>
 #include <GL/glew.h>
@@ -18,7 +18,7 @@ CMaterial::CMaterial()
     , mShaderStatus(eNoShader)
     , mRecalcHash(true)
     , mEnableBloom(false)
-    , mVersion(eUnknownGame)
+    , mVersion(EGame::Invalid)
     , mOptions(eNoSettings)
     , mVtxDesc(eNoAttributes)
     , mBlendSrcFac(GL_ONE)
@@ -34,7 +34,7 @@ CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
     : mpShader(nullptr)
     , mShaderStatus(eNoShader)
     , mRecalcHash(true)
-    , mEnableBloom(Version == eCorruption)
+    , mEnableBloom(Version == EGame::Corruption)
     , mVersion(Version)
     , mOptions(eDepthWrite)
     , mVtxDesc(VtxDesc)
@@ -48,7 +48,7 @@ CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
     mpShader = nullptr;
     mShaderStatus = eNoShader;
     mRecalcHash = true;
-    mEnableBloom = (Version == eCorruption);
+    mEnableBloom = (Version == EGame::Corruption);
     mVersion = Version;
     mOptions = eDepthWrite;
     mVtxDesc = VtxDesc;
@@ -243,9 +243,9 @@ u64 CMaterial::HashParameters()
 {
     if (mRecalcHash)
     {
-        CHashFNV1A Hash(CHashFNV1A::e64Bit);
+        CFNV1A Hash(CFNV1A::e64Bit);
 
-        Hash.HashLong(mVersion);
+        Hash.HashLong((int) mVersion);
         Hash.HashLong(mOptions);
         Hash.HashLong(mVtxDesc);
         Hash.HashData(mKonstColors, sizeof(CColor) * 4);

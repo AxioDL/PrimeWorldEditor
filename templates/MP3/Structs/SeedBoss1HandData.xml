@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>SeedBoss1HandData</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="AnimationSet" ID="0x71A5A198"/>
+            <Element Type="Asset" ID="0x55744160">
+                <TypeFilter>
+                    <Element>FSM2</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xA30EE999" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0xD8C6D15C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9A094814">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x53AE4A7">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

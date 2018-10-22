@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>KorakkData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x27B15C35">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xDA5E9630" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x508F7177" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0x861CD2A0"/>
+            <Element Type="Struct" ID="0x77941011" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x4D07F7B1" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x21A2121D" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x8333B35F" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x946016A9" Archetype="DamageInfo"/>
+            <Element Type="Asset" ID="0xA8C2AC76">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2E56DED8">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF47476CE">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x470306BE">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x87952FC5">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x1CC93984">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData"/>
+            <Element Type="Asset" ID="0xD887792B">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xF9826473">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9D6E1A47">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x87E6E958">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA6597839">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

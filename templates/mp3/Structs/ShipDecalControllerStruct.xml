@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="ShipDecalControllerStruct" type="multi">
-    <properties>
-        <enum ID="0x77EDD0F1">
-            <default>0x2ADA4FEE</default>
-            <enumerators>
-                <enumerator ID="0x2ADA4FEE" name="Unknown 1"/>
-                <enumerator ID="0x2DDDD69C" name="Unknown 2"/>
-                <enumerator ID="0xC2867014" name="Unknown 3"/>
-                <enumerator ID="0x0367943F" name="Unknown 4"/>
-                <enumerator ID="0xBFDD84AE" name="Unknown 5"/>
-                <enumerator ID="0x25D8B3E5" name="Unknown 6"/>
-                <enumerator ID="0xE7264645" name="Unknown 7"/>
-                <enumerator ID="0x010FDF8F" name="Unknown 8"/>
-                <enumerator ID="0x5EB68811" name="Unknown 9"/>
-            </enumerators>
-        </enum>
-        <property ID="0x2F11C14F" type="asset" extensions="TXTR"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>ShipDecalControllerStruct</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x77EDD0F1">
+                <DefaultValue>0x2ADA4FEE</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x2ADA4FEE"/>
+                    <Element Name="Unknown 2" ID="0x2DDDD69C"/>
+                    <Element Name="Unknown 3" ID="0xC2867014"/>
+                    <Element Name="Unknown 4" ID="0x367943F"/>
+                    <Element Name="Unknown 5" ID="0xBFDD84AE"/>
+                    <Element Name="Unknown 6" ID="0x25D8B3E5"/>
+                    <Element Name="Unknown 7" ID="0xE7264645"/>
+                    <Element Name="Unknown 8" ID="0x10FDF8F"/>
+                    <Element Name="Unknown 9" ID="0x5EB68811"/>
+                </Values>
+            </Element>
+            <Element Type="Asset" ID="0x2F11C14F">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

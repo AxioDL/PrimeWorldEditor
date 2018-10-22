@@ -1,7 +1,7 @@
 #include "CPropertyView.h"
 #include "CPropertyDelegate.h"
 #include "Editor/WorldEditor/CTemplateEditDialog.h"
-#include <Core/Resource/Script/IPropertyTemplate.h>
+#include <Core/Resource/Script/Property/Properties.h>
 
 #include <QEvent>
 #include <QMenu>
@@ -19,8 +19,21 @@ CPropertyView::CPropertyView(QWidget *pParent)
     setModel(mpModel);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
+
+    mpShowNameValidityAction = new QAction("Show whether property name is correct", this);
+    mpShowNameValidityAction->setCheckable(true);
+    mpShowNameValidityAction->setChecked(false);
+    connect(mpShowNameValidityAction, SIGNAL(triggered(bool)), this, SLOT(ToggleShowNameValidity(bool)));
+
     mpEditTemplateAction = new QAction("Edit template", this);
     connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
+
+    mpGenNamesForPropertyAction = new QAction("Generate names for this property", this);
+    mpGenNamesForSiblingsAction = new QAction(this); // Text set in CreateContextMenu()
+    mpGenNamesForChildrenAction = new QAction(this); // Text set in CreateContextMenu()
+    connect(mpGenNamesForPropertyAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForProperty()));
+    connect(mpGenNamesForSiblingsAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForSiblings()));
+    connect(mpGenNamesForChildrenAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForChildren()));
 
     connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
@@ -78,11 +91,24 @@ void CPropertyView::SetEditor(CWorldEditor *pEditor)
     connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), mpModel, SLOT(NotifyPropertyModified(CScriptObject*,IProperty*)));
 }
 
+void CPropertyView::SetIntrinsicProperties(CStructRef InProperties)
+{
+    mpObject = nullptr;
+    mpModel->SetBoldModifiedProperties(false); // todo, we prob want this, but can't set default properties on non script yet
+    mpModel->ConfigureIntrinsic(nullptr, InProperties.Property(), InProperties.DataPointer());
+    SetPersistentEditors(QModelIndex());
+}
+
 void CPropertyView::SetInstance(CScriptObject *pObj)
 {
     mpObject = pObj;
-    mpModel->SetBoldModifiedProperties(mpEditor ? (mpEditor->CurrentGame() > ePrime) : true);
-    mpModel->SetBaseStruct(pObj ? pObj->Properties() : nullptr);
+    mpModel->SetBoldModifiedProperties(mpEditor ? (mpEditor->CurrentGame() > EGame::Prime) : true);
+
+    if (pObj)
+        mpModel->ConfigureScript(pObj->Area()->Entry()->Project(), pObj->Template()->Properties(), pObj);
+    else
+        mpModel->ConfigureScript(nullptr, nullptr, nullptr);
+
     SetPersistentEditors(QModelIndex());
 
     // Auto-expand EditorProperties
@@ -107,20 +133,20 @@ void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
         if (pProp)
         {
             // For structs, update sub-properties.
-            if (pProp->Type() == eStructProperty)
+            if (pProp->Type() == EPropertyType::Struct)
             {
-                CStructTemplate *pStruct = static_cast<CStructTemplate*>(pProp->Template());
+                CStructProperty *pStruct = TPropCast<CStructProperty>(pProp);
 
-                // As an optimization, in MP2+, we don't need to update unless this is a single struct or if
+                // As an optimization, in MP2+, we don't need to update unless this is an atomic struct or if
                 // it's EditorProperties, because other structs never have editor properties in them.
                 // In MP1 this isn't the case so we need to update every struct regardless
-                if ((Game <= ePrime) || (pStruct->IsSingleProperty() || pStruct->PropertyID() == 0x255A4580))
+                if ((Game <= EGame::Prime) || (pStruct->IsAtomic() || pStruct->ID() == 0x255A4580))
                     UpdateEditorProperties(Index0);
                 else
                     continue;
             }
 
-            else if (mpObject->IsEditorProperty(pProp))
+            else if (mpObject && mpObject->IsEditorProperty(pProp))
             {
                 mpModel->dataChanged(Index1, Index1);
 
@@ -143,33 +169,39 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
     {
         QModelIndex ChildIndex = mpModel->index(iChild, 1, rkParent);
         IProperty *pProp = mpModel->PropertyForIndex(ChildIndex, false);
-        EPropertyType Type = (pProp ? pProp->Type() : eInvalidProperty);
+        EPropertyType Type = (pProp ? pProp->Type() : EPropertyType::Invalid);
 
         // Handle persistent editors under character properties
-        if (!pProp && ChildIndex.internalId() & 0x1)
+        if (!pProp && ChildIndex.internalId() & 0x80000000)
         {
             pProp = mpModel->PropertyForIndex(ChildIndex, true);
 
-            if (pProp->Type() == eCharacterProperty)
+            if (pProp->Type() == EPropertyType::AnimationSet)
             {
-                EGame Game = static_cast<TCharacterProperty*>(pProp)->Get().Version();
+                EGame Game = mpObject->Area()->Game();
                 Type = mpDelegate->DetermineCharacterPropType(Game, ChildIndex);
             }
 
-            if (pProp->Type() == eBitfieldProperty)
-                Type = eBoolProperty;
+            if (pProp->Type() == EPropertyType::Flags)
+                Type = EPropertyType::Bool;
         }
 
 
         switch (Type)
         {
-        case eBoolProperty:
-        case eEnumProperty:
-        case eColorProperty:
-        case eAssetProperty:
+        case EPropertyType::Bool:
+        case EPropertyType::Color:
+        case EPropertyType::Asset:
             openPersistentEditor(ChildIndex);
             break;
-        case eStructProperty:
+
+        case EPropertyType::Enum:
+        case EPropertyType::Choice:
+            if (TPropCast<CEnumProperty>(pProp)->NumPossibleValues() > 0)
+                openPersistentEditor(ChildIndex);
+            break;
+
+        case EPropertyType::Struct:
             setFirstColumnSpanned(iChild, rkParent, true);
             break;
         }
@@ -196,13 +228,18 @@ void CPropertyView::ClosePersistentEditors(const QModelIndex& rkIndex)
 void CPropertyView::OnPropertyModified(const QModelIndex& rkIndex)
 {
     // Check for a character resource being changed. If that's the case we need to remake the persistent editors.
-    IProperty *pProp = mpModel->PropertyForIndex(rkIndex, true);
+    IProperty* pProperty = mpModel->PropertyForIndex(rkIndex, true);
 
-    if (pProp->Type() == eCharacterProperty /*&& rkIndex.internalId() & 0x1*/)
+    if (pProperty->Type() == EPropertyType::AnimationSet /*&& rkIndex.internalId() & 0x1*/)
     {
         ClosePersistentEditors(rkIndex);
         SetPersistentEditors(rkIndex);
     }
+}
+
+void CPropertyView::RefreshView()
+{
+    SetInstance(mpObject);
 }
 
 void CPropertyView::CreateContextMenu(const QPoint& rkPos)
@@ -211,17 +248,76 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
 
     if (Index.isValid() && Index.column() == 0)
     {
-        IProperty *pProp = mpModel->PropertyForIndex(Index, true);
-        mpMenuProperty = pProp;
+        IProperty* pProperty = mpModel->PropertyForIndex(Index, true);
+        mpMenuProperty = pProperty;
 
         QMenu Menu;
-        Menu.addAction(mpEditTemplateAction);
+
+        if (!pProperty->IsIntrinsic())
+        {
+            Menu.addAction(mpEditTemplateAction);
+        }
+
+        if (mpEditor->CurrentGame() >= EGame::EchoesDemo)
+        {
+            Menu.addAction(mpShowNameValidityAction);
+        }
+
+        // Add options for generating property names
+        if (pProperty->UsesNameMap())
+        {
+            Menu.addSeparator();
+            Menu.addAction(mpGenNamesForPropertyAction);
+
+            if (!pProperty->IsRootParent())
+            {
+                QString TypeName = TO_QSTRING( pProperty->Parent()->RootArchetype()->Name() );
+                mpGenNamesForSiblingsAction->setText( QString("Generate names for %1 properties").arg(TypeName) );
+                Menu.addAction(mpGenNamesForSiblingsAction);
+            }
+
+            if (pProperty->Type() == EPropertyType::Struct && !pProperty->IsAtomic())
+            {
+                QString TypeName = TO_QSTRING( pProperty->RootArchetype()->Name() );
+                mpGenNamesForChildrenAction->setText( QString("Generate names for %1 properties").arg(TypeName) );
+                Menu.addAction(mpGenNamesForChildrenAction);
+            }
+        }
+
         Menu.exec(viewport()->mapToGlobal(rkPos));
     }
 }
 
+void CPropertyView::ToggleShowNameValidity(bool ShouldShow)
+{
+    mpModel->SetShowPropertyNameValidity(ShouldShow);
+}
+
 void CPropertyView::EditPropertyTemplate()
 {
-    CTemplateEditDialog Dialog(mpMenuProperty->Template(), mpEditor);
+    CTemplateEditDialog Dialog(mpMenuProperty, mpEditor);
+    connect(&Dialog, SIGNAL(PerformedTypeConversion()), this, SLOT(RefreshView()));
     Dialog.exec();
+}
+
+
+void CPropertyView::GenerateNamesForProperty()
+{
+    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    pDialog->AddToIDPool(mpMenuProperty);
+    pDialog->show();
+}
+
+void CPropertyView::GenerateNamesForSiblings()
+{
+    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    pDialog->AddChildrenToIDPool(mpMenuProperty->Parent(), false);
+    pDialog->show();
+}
+
+void CPropertyView::GenerateNamesForChildren()
+{
+    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    pDialog->AddChildrenToIDPool(mpMenuProperty, false);
+    pDialog->show();
 }

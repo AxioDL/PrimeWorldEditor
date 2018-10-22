@@ -1,302 +1,337 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="BerserkerData" type="multi">
-    <properties>
-        <property ID="0xC0AC271E" type="float">
-            <default>60.0</default>
-        </property>
-        <property ID="0x76EBC21A" type="bool">
-            <default>true</default>
-        </property>
-        <property ID="0xC3E43D0E" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xC4DB42E3" type="bool">
-            <default>true</default>
-        </property>
-        <struct ID="0x74BFFA78" template="Structs/DamageInfo.xml"/>
-        <struct ID="0xBB7977B9" template="Structs/DamageInfo.xml"/>
-        <struct ID="0x4738C321" template="Structs/DamageInfo.xml"/>
-        <struct ID="0xF4E003C1" template="Structs/DamageInfo.xml"/>
-        <struct ID="0xE0DBF22F" template="Structs/PlasmaBeamInfo.xml"/>
-        <struct ID="0x97321AF1" template="Structs/DamageInfo.xml"/>
-        <property ID="0xFD5E7062" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xBD110814" type="float">
-            <default>100.0</default>
-        </property>
-        <property ID="0x3D947337" type="float">
-            <default>45.0</default>
-        </property>
-        <property ID="0x1A975A02" type="float">
-            <default>10.0</default>
-        </property>
-        <struct ID="0x066BC855" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <property ID="0x053AE4A7">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x67E0E4B4" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xB7AD7067" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xF7E20811" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0x4DB474B8" type="float">
-            <default>45.0</default>
-        </property>
-        <property ID="0x68D3DAA4" type="MayaSpline"/>
-        <property ID="0x1B359207" type="float">
-            <default>60.0</default>
-        </property>
-        <property ID="0xC12F397A" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x4BFEE56B" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x8F3BE6E1" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0xDD825DC3" type="float">
-            <default>180.0</default>
-        </property>
-        <property ID="0x869415A3" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0xC6DB6DD5" type="float">
-            <default>25.0</default>
-        </property>
-        <property ID="0xDC8D7887" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x58E6D9B8" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xCF111A99" type="float">
-            <default>20.0</default>
-        </property>
-        <struct ID="0x719FD06B" template="Structs/DamageInfo.xml"/>
-        <property ID="0x92F0B2C7" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xBC2F8F30" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x910AD1E0" type="float">
-            <default>0.7</default>
-        </property>
-        <property ID="0x4566B3EF" type="float">
-            <default>0.5</default>
-        </property>
-        <property ID="0x6FE50D32" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0x24F779CA" type="float">
-            <default>0.8</default>
-        </property>
-        <struct ID="0xC6BA9753" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x83439084" type="float">
-            <default>500.0</default>
-        </property>
-        <property ID="0x04547D34" type="asset" extensions="CMDL"/>
-        <property ID="0x82C00F9A" type="asset" extensions="CMDL"/>
-        <property ID="0x499CDC3F" type="asset" extensions="CMDL"/>
-        <property ID="0x5499EC87" type="asset" extensions="CMDL"/>
-        <property ID="0x9FC53F22" type="asset" extensions="CMDL"/>
-        <property ID="0x09E8C7FD" type="float">
-            <default>1.4</default>
-        </property>
-        <property ID="0x4AE57FEB" type="asset" extensions="CMDL"/>
-        <struct ID="0x4E1D71A1" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x69D66EC4" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0x299916B2" type="float">
-            <default>30.0</default>
-        </property>
-        <struct ID="0xFE51924E" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <property ID="0x053AE4A7">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x9B9C702C" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <property ID="0x053AE4A7">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x567BA94A" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <property ID="0x053AE4A7">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0xF4D5150F" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <property ID="0x053AE4A7">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <struct ID="0x8647C581" template="Structs/LaunchProjectileData.xml">
-            <properties>
-                <property ID="0x053AE4A7">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xCF201BFA">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x88137FA8">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xB2D02323">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF344C0B0">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0x056B20B2">
-                    <cook_pref>never</cook_pref>
-                </property>
-                <property ID="0xF78469D6">
-                    <cook_pref>never</cook_pref>
-                </property>
-            </properties>
-        </struct>
-        <property ID="0x15D26D26" type="float">
-            <default>0.25</default>
-        </property>
-        <property ID="0x81EAA9D4" type="float">
-            <default>250.0</default>
-        </property>
-        <property ID="0x531A8C85" type="bool">
-            <default>false</default>
-        </property>
-        <property ID="0x677BD8AB" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0xC6E6300F" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0x1520568A" type="float">
-            <default>100.0</default>
-        </property>
-        <property ID="0x268E5CB2" type="float">
-            <default>0.1</default>
-        </property>
-        <property ID="0x650BA238" type="asset" extensions="CMDL"/>
-        <property ID="0x68865410" type="asset" extensions="CMDL"/>
-        <struct ID="0x342DAE7A" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0x200545BD" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0xF3EA94DC" template="Structs/DamageVulnerability.xml"/>
-        <property ID="0xEDF1189F" type="bool">
-            <default>false</default>
-        </property>
-        <struct ID="0x846533CC" template="Structs/ShockWaveInfo.xml"/>
-        <struct ID="0x2AF1548B" template="Structs/ShockWaveInfo.xml"/>
-        <property ID="0x0C1A5644" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xC6AF2FD0" type="float">
-            <default>10.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>BerserkerData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xC0AC271E">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x76EBC21A">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3E43D0E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC4DB42E3">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x74BFFA78" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xBB7977B9" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x4738C321" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xF4E003C1" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0xE0DBF22F" Archetype="PlasmaBeamInfo"/>
+            <Element Type="Struct" ID="0x97321AF1" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0xFD5E7062">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBD110814">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D947337">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A975A02">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x66BC855" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x67E0E4B4">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB7AD7067">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF7E20811">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4DB474B8">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x68D3DAA4"/>
+            <Element Type="Float" ID="0x1B359207">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC12F397A">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4BFEE56B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8F3BE6E1">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDD825DC3">
+                <DefaultValue>180.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x869415A3">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC6DB6DD5">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDC8D7887">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x58E6D9B8">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCF111A99">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x719FD06B" Archetype="DamageInfo"/>
+            <Element Type="Float" ID="0x92F0B2C7">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBC2F8F30">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x910AD1E0">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4566B3EF">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6FE50D32">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24F779CA">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC6BA9753" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x83439084">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x4547D34">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x82C00F9A">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x499CDC3F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5499EC87">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9FC53F22">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x9E8C7FD">
+                <DefaultValue>1.4</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x4AE57FEB">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x4E1D71A1" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x69D66EC4">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x299916B2">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xFE51924E" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x9B9C702C" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x567BA94A" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xF4D5150F" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x8647C581" Archetype="LaunchProjectileData">
+                <SubProperties>
+                    <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xCF201BFA">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x88137FA8">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Never</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x15D26D26">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x81EAA9D4">
+                <DefaultValue>250.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x531A8C85">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x677BD8AB">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xC6E6300F" Archetype="DamageVulnerability"/>
+            <Element Type="Float" ID="0x1520568A">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x268E5CB2">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x650BA238">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x68865410">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x342DAE7A" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0x200545BD" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xF3EA94DC" Archetype="DamageVulnerability"/>
+            <Element Type="Bool" ID="0xEDF1189F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x846533CC" Archetype="ShockWaveInfo"/>
+            <Element Type="Struct" ID="0x2AF1548B" Archetype="ShockWaveInfo"/>
+            <Element Type="Float" ID="0xC1A5644">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC6AF2FD0">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

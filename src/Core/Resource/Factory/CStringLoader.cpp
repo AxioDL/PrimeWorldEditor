@@ -44,11 +44,11 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& rSTRG)
     {
         mpStringTable->mLangTables[iLang].Language = CFourCC(rSTRG);
         LangOffsets[iLang] = rSTRG.ReadLong();
-        if (mVersion == eEchoes) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
+        if (mVersion == EGame::Echoes) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
     }
 
     // String names
-    if (mVersion == eEchoes)
+    if (mVersion == EGame::Echoes)
         LoadNameTable(rSTRG);
 
     // Strings
@@ -56,7 +56,7 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& rSTRG)
     for (u32 iLang = 0; iLang < NumLanguages; iLang++)
     {
         rSTRG.Seek(StringsStart + LangOffsets[iLang], SEEK_SET);
-        if (mVersion == ePrime) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
+        if (mVersion == EGame::Prime) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
 
         u32 LangStart = rSTRG.Tell();
         CStringTable::SLangTable* pLang = &mpStringTable->mLangTables[iLang];
@@ -160,7 +160,7 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
     if (!rSTRG.IsValid()) return nullptr;
 
     u32 Magic = rSTRG.ReadLong();
-    EGame Version = eUnknownGame;
+    EGame Version = EGame::Invalid;
 
     if (Magic != 0x87654321)
     {
@@ -170,10 +170,10 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
         {
             rSTRG.Seek(Magic, SEEK_SET);
             if ((rSTRG.EoF()) || (rSTRG.ReadShort() == 0xFFFF))
-                Version = ePrimeDemo;
+                Version = EGame::PrimeDemo;
         }
 
-        if (Version != ePrimeDemo)
+        if (Version != EGame::PrimeDemo)
         {
             Log::FileError(rSTRG.GetSourceString(), "Invalid STRG magic: " + TString::HexString(Magic));
             return nullptr;
@@ -185,7 +185,7 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
         u32 FileVersion = rSTRG.ReadLong();
         Version = GetFormatVersion(FileVersion);
 
-        if (FileVersion == eUnknownGame)
+        if (Version == EGame::Invalid)
         {
             Log::FileError(rSTRG.GetSourceString(), "Unsupported STRG version: " + TString::HexString(FileVersion, 0));
             return nullptr;
@@ -197,8 +197,8 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
     Loader.mpStringTable = new CStringTable(pEntry);
     Loader.mVersion = Version;
 
-    if (Version == ePrimeDemo) Loader.LoadPrimeDemoSTRG(rSTRG);
-    else if (Version < eCorruption) Loader.LoadPrimeSTRG(rSTRG);
+    if (Version == EGame::PrimeDemo) Loader.LoadPrimeDemoSTRG(rSTRG);
+    else if (Version < EGame::Corruption) Loader.LoadPrimeSTRG(rSTRG);
     else Loader.LoadCorruptionSTRG(rSTRG);
 
     return Loader.mpStringTable;
@@ -208,9 +208,9 @@ EGame CStringLoader::GetFormatVersion(u32 Version)
 {
     switch (Version)
     {
-    case 0x0: return ePrime;
-    case 0x1: return eEchoes;
-    case 0x3: return eCorruption;
-    default: return eUnknownGame;
+    case 0x0: return EGame::Prime;
+    case 0x1: return EGame::Echoes;
+    case 0x3: return EGame::Corruption;
+    default: return EGame::Invalid;
     }
 }

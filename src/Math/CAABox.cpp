@@ -24,8 +24,8 @@ CAABox::CAABox(IInputStream& rInput)
 
 void CAABox::Serialize(IArchive& rArc)
 {
-    rArc << SERIAL("Min", mMin)
-         << SERIAL("Max", mMax);
+    rArc << SerialParameter("Min", mMin)
+         << SerialParameter("Max", mMax);
 }
 
 void CAABox::Write(IOutputStream& rOutput)

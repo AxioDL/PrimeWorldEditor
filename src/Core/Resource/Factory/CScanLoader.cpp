@@ -82,7 +82,7 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
     }
 
     // Load MP3 dependency list
-    if (mpScan->Game() == eCorruption)
+    if (mpScan->Game() == EGame::Corruption)
     {
         rSCAN.GoTo(InstanceEnd);
         u32 NumDeps = rSCAN.ReadLong();
@@ -275,7 +275,7 @@ CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN, CResourceEntry *pEntry)
     {
         // The MP2 load function will check for MP3
         CScanLoader Loader;
-        Loader.mVersion = eEchoes;
+        Loader.mVersion = EGame::Echoes;
         Loader.mpEntry = pEntry;
         if (Magic == 0x01000000) rSCAN.Seek(-4, SEEK_CUR); // The version number isn't present in the Echoes demo
         return Loader.LoadScanMP2(rSCAN);
@@ -295,7 +295,7 @@ CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN, CResourceEntry *pEntry)
 
     // MP1 SCAN - read the file!
     CScanLoader Loader;
-    Loader.mVersion = ePrime;
+    Loader.mVersion = EGame::Prime;
     Loader.mpScan = new CScan(pEntry);
     Loader.mpEntry = pEntry;
     return Loader.LoadScanMP1(rSCAN);

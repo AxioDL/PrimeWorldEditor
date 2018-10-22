@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>ScaleSplines</Name>
+        <SubProperties>
+            <Element Type="Spline" ID="0xF437A62F"/>
+            <Element Type="Spline" ID="0x6F92EA40"/>
+            <Element Type="Spline" ID="0x180C38B0"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -174,11 +174,11 @@ void WEditorProperties::UpdatePropertyValues()
     CScriptObject *pInst = pScript->Instance();
 
     mpActiveCheckBox->setChecked(pInst->IsActive());
-    mpActiveCheckBox->setEnabled(pInst->ActiveProperty() != nullptr);
+    mpActiveCheckBox->setEnabled(pInst->HasActive());
 
     mpInstanceNameLineEdit->blockSignals(true);
     mpInstanceNameLineEdit->setText(TO_QSTRING(pInst->InstanceName()));
-    mpInstanceNameLineEdit->setEnabled(pInst->InstanceNameProperty() != nullptr);
+    mpInstanceNameLineEdit->setEnabled(pInst->HasInstanceName());
     mpInstanceNameLineEdit->blockSignals(false);
 }
 

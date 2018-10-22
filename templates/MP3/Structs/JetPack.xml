@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>JetPack</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xC6E9D30E">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9E9D2BD6">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF3A72AF9">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14355BE0">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x2C79052C">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x16B65A9">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD8A92AAA">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x5BF6F8E4" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x85543E4E" Archetype="GrappleBlock"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

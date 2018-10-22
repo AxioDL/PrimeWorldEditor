@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>BouncyTireData</Name>
+        <SubProperties>
+            <Element Type="AnimationSet" ID="0xA3D63F44"/>
+            <Element Type="Int" ID="0xA2A5B38F">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD584A11">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCB1931F5">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6462907A">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F524FD4">
+                <DefaultValue>3.1401999</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x19287737" Archetype="BouncyTireJumpHeights"/>
+            <Element Type="Struct" ID="0x6A3AFC9E" Archetype="BouncyTireJumpHeights"/>
+            <Element Type="Float" ID="0x83A5293A">
+                <DefaultValue>9.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75DBB375">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4F6A5403">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA8E46EA2">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x69156FBE">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC00904C2">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFC966DC">
+                <TypeFilter>
+                    <Element>DCLN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0xAB2E56F4">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x74920E0E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x592FC47E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x82D11331">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x9D837DA5">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D04E592">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3595D977">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD5505EA4">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D6A2898">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

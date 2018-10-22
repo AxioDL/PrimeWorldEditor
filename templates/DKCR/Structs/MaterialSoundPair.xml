@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>MaterialSoundPair</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD72E09E1" Archetype="MaterialType"/>
+            <Element Type="Asset" ID="0xA55DACF6">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

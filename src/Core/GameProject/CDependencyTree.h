@@ -8,7 +8,7 @@
 
 class CScriptLayer;
 class CScriptObject;
-class CPropertyStruct;
+class CStructProperty;
 class CAnimSet;
 class CAnimationParameters;
 struct SSetCharacter;
@@ -39,6 +39,9 @@ public:
     virtual void Serialize(IArchive& rArc) = 0;
     virtual void GetAllResourceReferences(std::set<CAssetID>& rOutSet) const;
     virtual bool HasDependency(const CAssetID& rkID) const;
+
+    // Serialization constructor
+    static IDependencyNode* ArchiveConstructor(EDependencyNodeType Type);
 
     // Accessors
     inline u32 NumChildren() const                          { return mChildren.size(); }
@@ -142,7 +145,7 @@ public:
     // Static
     static CScriptInstanceDependency* BuildTree(CScriptObject *pInstance);
 protected:
-    static void ParseStructDependencies(CScriptInstanceDependency *pTree, CPropertyStruct *pStruct);
+    static void ParseStructDependencies(CScriptInstanceDependency *pTree, CScriptObject* pInstance, CStructProperty *pStruct);
 };
 
 // Node representing an animset character. Indicates what index the character is within the animset.
@@ -222,29 +225,6 @@ public:
     inline u32 NumScriptLayers() const                  { return mLayerOffsets.size(); }
     inline u32 ScriptLayerOffset(u32 LayerIdx) const    { return mLayerOffsets[LayerIdx]; }
 };
-
-// Dependency node factory for serialization
-class CDependencyNodeFactory
-{
-public:
-    IDependencyNode* SpawnObject(u32 NodeID)
-    {
-        switch (NodeID)
-        {
-        case eDNT_DependencyTree:       return new CDependencyTree;
-        case eDNT_ResourceDependency:   return new CResourceDependency;
-        case eDNT_ScriptInstance:       return new CScriptInstanceDependency;
-        case eDNT_ScriptProperty:       return new CPropertyDependency;
-        case eDNT_CharacterProperty:    return new CCharPropertyDependency;
-        case eDNT_SetCharacter:         return new CSetCharacterDependency;
-        case eDNT_SetAnimation:         return new CSetAnimationDependency;
-        case eDNT_AnimEvent:            return new CAnimEventDependency;
-        case eDNT_Area:                 return new CAreaDependencyTree;
-        default:                        ASSERT(false); return nullptr;
-        }
-    }
-};
-extern CDependencyNodeFactory gDependencyNodeFactory;
 
 #endif // CDEPENDENCYTREE
 

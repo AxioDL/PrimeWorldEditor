@@ -1,37 +1,33 @@
 #include "CSpacePirateExtra.h"
 
-CSpacePirateExtra::CSpacePirateExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
+CSpacePirateExtra::CSpacePirateExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent)
     : CScriptExtra(pInstance, pScene ,pParent)
-    , mpPowerVuln(nullptr)
-    , mpWaveVuln(nullptr)
-    , mpIceVuln(nullptr)
-    , mpPlasmaVuln(nullptr)
 {
-    CPropertyStruct *pBaseStruct = pInstance->Properties();
-    CPropertyStruct *pVulns = (CPropertyStruct*) pBaseStruct->PropertyByIDString("0x04:0x10");
+    CStructProperty* pBaseStruct = pInstance->Template()->Properties();
+    CStructProperty* pVulnerabilities = TPropCast<CStructProperty>(pBaseStruct->ChildByIDString("0x04:0x10"));
 
-    if (pVulns && pVulns->Type() == eStructProperty)
+    if (pVulnerabilities)
     {
-        mpPowerVuln = TPropCast<TEnumProperty>(pVulns->PropertyByID(0x0));
-        mpWaveVuln = TPropCast<TEnumProperty>(pVulns->PropertyByID(0x2));
-        mpIceVuln = TPropCast<TEnumProperty>(pVulns->PropertyByID(0x1));
-        mpPlasmaVuln = TPropCast<TEnumProperty>(pVulns->PropertyByID(0x3));
+        mPowerVulnerability     = TEnumRef<EVulnerabilityTypeMP1>(pInstance, pVulnerabilities->ChildByID(0));
+        mWaveVulnerability      = TEnumRef<EVulnerabilityTypeMP1>(pInstance, pVulnerabilities->ChildByID(2));
+        mIceVulnerability       = TEnumRef<EVulnerabilityTypeMP1>(pInstance, pVulnerabilities->ChildByID(1));
+        mPlasmaVulnerability    = TEnumRef<EVulnerabilityTypeMP1>(pInstance, pVulnerabilities->ChildByID(3));
     }
 }
 
 CColor CSpacePirateExtra::TevColor()
 {
     // Priority: Plasma -> Ice -> Power -> Wave
-    if (mpPlasmaVuln && mpPlasmaVuln->Get() == 1)
+    if (mPlasmaVulnerability.IsValid() && mPlasmaVulnerability.Get() == EVulnerabilityTypeMP1::Normal)
         return CColor::skRed;
 
-    if (mpIceVuln && mpIceVuln->Get() == 1)
+    if (mIceVulnerability.IsValid() && mIceVulnerability.Get() == EVulnerabilityTypeMP1::Normal)
         return CColor::skWhite;
 
-    if (mpPowerVuln && mpPowerVuln->Get() == 1)
+    if (mPowerVulnerability.IsValid() && mPowerVulnerability.Get() == EVulnerabilityTypeMP1::Normal)
         return CColor::skYellow;
 
-    if (mpWaveVuln && mpWaveVuln->Get() == 1)
+    if (mWaveVulnerability.IsValid() && mWaveVulnerability.Get() == EVulnerabilityTypeMP1::Normal)
         return CColor::skPurple;
 
     return CColor::skWhite;

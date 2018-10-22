@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct41</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xB9784F0E" Archetype="SandBossStructB"/>
+            <Element Type="Struct" ID="0xB8AE1BDC" Archetype="SandBossStructB"/>
+            <Element Type="Struct" ID="0x94DA6435" Archetype="PlasmaBeamInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xC26C291C">
+                        <DefaultValue>500.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x78C507EB">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xEC773D1D">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB02DE555">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x5180181E">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x72A96252">
+                        <DefaultValue>0.25</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xB8652FE4">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x1AFB2B73">
+                        <DefaultValue>
+                            <R>0.49803901</R>
+                            <G>0.49803901</G>
+                            <B>0.49803901</B>
+                            <A>0.49803901</A>
+                        </DefaultValue>
+                    </Element>
+                    <Element Type="Color" ID="0x9FD338FC">
+                        <DefaultValue>
+                            <R>0.60000002</R>
+                            <G>0.60000002</G>
+                            <B>0.0</B>
+                            <A>0.49803901</A>
+                        </DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

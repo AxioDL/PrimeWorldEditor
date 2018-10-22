@@ -1226,7 +1226,7 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
 
     case FOURCC('CEXT'):
         ParseIntFunction(rFile);
-        if (mpGroup->Game() >= eReturns) ParseFloatFunction(rFile);
+        if (mpGroup->Game() >= EGame::DKCReturns) ParseFloatFunction(rFile);
         break;
 
     default:
@@ -1791,7 +1791,7 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
     Loader.mpGroup = new CDependencyGroup(pEntry);
 
     // Validate DKCR asset header
-    if (pEntry->Game() == eReturns)
+    if (pEntry->Game() == EGame::DKCReturns)
     {
         u32 AssetHeader = rFile.ReadLong();
 

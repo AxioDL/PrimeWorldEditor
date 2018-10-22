@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct230</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x43BC661C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x410BDEF2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE10E94EC">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x84B3080B"/>
+            <Element Type="String" ID="0x69170884"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

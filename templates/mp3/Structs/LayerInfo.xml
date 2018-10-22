@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="LayerInfo" type="multi">
-    <properties>
-        <enum ID="0x948AF571">
-            <default>0x3383CA7C</default>
-            <enumerators>
-                <enumerator ID="0x3383CA7C" name="Unknown 1"/>
-                <enumerator ID="0xF85E308A" name="Unknown 2"/>
-                <enumerator ID="0xCEEF999B" name="Unknown 3"/>
-                <enumerator ID="0x711081C9" name="Unknown 4"/>
-            </enumerators>
-        </enum>
-        <property ID="0x3C5B0C98" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x912954E6" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x89E3D294" type="float">
-            <default>0.15</default>
-        </property>
-        <property ID="0x080C7499" type="float">
-            <default>10.0</default>
-        </property>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>LayerInfo</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x948AF571">
+                <DefaultValue>0x3383CA7C</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x3383CA7C"/>
+                    <Element Name="Unknown 2" ID="0xF85E308A"/>
+                    <Element Name="Unknown 3" ID="0xCEEF999B"/>
+                    <Element Name="Unknown 4" ID="0x711081C9"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0x3C5B0C98">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x912954E6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x89E3D294">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x80C7499">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

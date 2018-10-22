@@ -1,12 +1,11 @@
 #ifndef CSCRIPTOBJECT_H
 #define CSCRIPTOBJECT_H
 
-#include "IProperty.h"
-#include "IPropertyTemplate.h"
 #include "CScriptTemplate.h"
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CCollisionMeshGroup.h"
+#include "Core/Resource/Script/Property/Properties.h"
 
 class CScriptLayer;
 class CLink;
@@ -30,14 +29,15 @@ class CScriptObject
     u32 mInstanceID;
     std::vector<CLink*> mOutLinks;
     std::vector<CLink*> mInLinks;
-    CPropertyStruct *mpProperties;
+    std::vector<char> mPropertyData;
 
-    TStringProperty *mpInstanceName;
-    TVector3Property *mpPosition;
-    TVector3Property *mpRotation;
-    TVector3Property *mpScale;
-    TBoolProperty *mpActive;
-    CPropertyStruct *mpLightParameters;
+    CStringRef mInstanceName;
+    CVectorRef mPosition;
+    CVectorRef mRotation;
+    CVectorRef mScale;
+    CBoolRef mActive;
+    CStructRef mLightParameters;
+
     TResPtr<CResource> mpDisplayAsset;
     TResPtr<CCollisionMeshGroup> mpCollision;
     u32 mActiveCharIndex;
@@ -54,6 +54,7 @@ public:
     CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
     ~CScriptObject();
 
+    void CopyProperties(CScriptObject* pObject);
     void EvaluateProperties();
     void EvaluateDisplayAsset();
     void EvaluateCollisionModel();
@@ -69,43 +70,41 @@ public:
 
     // Accessors
     CScriptTemplate* Template() const                               { return mpTemplate; }
-    CMasterTemplate* MasterTemplate() const                         { return mpTemplate->MasterTemplate(); }
+    CGameTemplate* GameTemplate() const                             { return mpTemplate->GameTemplate(); }
     CGameArea* Area() const                                         { return mpArea; }
     CScriptLayer* Layer() const                                     { return mpLayer; }
     u32 Version() const                                             { return mVersion; }
-    CPropertyStruct* Properties() const                             { return mpProperties; }
-    u32 NumProperties() const                                       { return mpProperties->Count(); }
-    IProperty* PropertyByIndex(u32 Index) const                     { return mpProperties->PropertyByIndex(Index); }
-    IProperty* PropertyByIDString(const TIDString& rkStr) const     { return mpProperties->PropertyByIDString(rkStr); }
     u32 ObjectTypeID() const                                        { return mpTemplate->ObjectID(); }
     u32 InstanceID() const                                          { return mInstanceID; }
     u32 NumLinks(ELinkType Type) const                              { return (Type == eIncoming ? mInLinks.size() : mOutLinks.size()); }
     CLink* Link(ELinkType Type, u32 Index) const                    { return (Type == eIncoming ? mInLinks[Index] : mOutLinks[Index]); }
+    void* PropertyData() const                                      { return (void*) mPropertyData.data(); }
 
-    CVector3f Position() const                  { return mpPosition ? mpPosition->Get() : CVector3f::skZero; }
-    CVector3f Rotation() const                  { return mpRotation ? mpRotation->Get() : CVector3f::skZero; }
-    CVector3f Scale() const                     { return mpScale ? mpScale->Get() : CVector3f::skOne; }
-    TString InstanceName() const                { return mpInstanceName ? mpInstanceName->Get() : ""; }
-    bool IsActive() const                       { return mpActive ? mpActive->Get() : false; }
+    CVector3f Position() const                  { return mPosition.IsValid() ? mPosition.Get() : CVector3f::skZero; }
+    CVector3f Rotation() const                  { return mRotation.IsValid() ? mRotation.Get() : CVector3f::skZero; }
+    CVector3f Scale() const                     { return mScale.IsValid() ? mScale.Get() : CVector3f::skOne; }
+    TString InstanceName() const                { return mInstanceName.IsValid() ? mInstanceName.Get() : ""; }
+    bool IsActive() const                       { return mActive.IsValid() ? mActive.Get() : false; }
     bool HasInGameModel() const                 { return mHasInGameModel; }
-    CPropertyStruct* LightParameters() const    { return mpLightParameters; }
+    CStructRef LightParameters() const          { return mLightParameters; }
     CResource* DisplayAsset() const             { return mpDisplayAsset; }
     u32 ActiveCharIndex() const                 { return mActiveCharIndex; }
     u32 ActiveAnimIndex() const                 { return mActiveAnimIndex; }
     CCollisionMeshGroup* Collision() const      { return mpCollision; }
     EVolumeShape VolumeShape() const            { return mVolumeShape; }
     float VolumeScale() const                   { return mVolumeScale; }
-    void SetPosition(const CVector3f& rkNewPos) { if (mpPosition) mpPosition->Set(rkNewPos); }
-    void SetRotation(const CVector3f& rkNewRot) { if (mpRotation) mpRotation->Set(rkNewRot); }
-    void SetScale(const CVector3f& rkNewScale)  { if (mpScale) mpScale->Set(rkNewScale); }
-    void SetName(const TString& rkNewName)      { if (mpInstanceName) mpInstanceName->Set(rkNewName); }
-    void SetActive(bool Active)                 { if (mpActive) mpActive->Set(Active); }
+    void SetPosition(const CVector3f& rkNewPos) { mPosition.Set(rkNewPos); }
+    void SetRotation(const CVector3f& rkNewRot) { mRotation.Set(rkNewRot); }
+    void SetScale(const CVector3f& rkNewScale)  { mScale.Set(rkNewScale); }
+    void SetName(const TString& rkNewName)      { mInstanceName.Set(rkNewName); }
+    void SetActive(bool Active)                 { mActive.Set(Active); }
 
-    TVector3Property*   PositionProperty() const        { return mpPosition; }
-    TVector3Property*   RotationProperty() const        { return mpRotation; }
-    TVector3Property*   ScaleProperty() const           { return mpScale; }
-    TStringProperty*    InstanceNameProperty() const    { return mpInstanceName; }
-    TBoolProperty*      ActiveProperty() const          { return mpActive; }
+    bool HasPosition() const        { return mPosition.IsValid(); }
+    bool HasRotation() const        { return mRotation.IsValid(); }
+    bool HasScale() const           { return mScale.IsValid(); }
+    bool HasInstanceName() const    { return mInstanceName.IsValid(); }
+    bool HasActive() const          { return mActive.IsValid(); }
+    bool HasLightParameters() const { return mLightParameters.IsValid(); }
 };
 
 #endif // CSCRIPTOBJECT_H

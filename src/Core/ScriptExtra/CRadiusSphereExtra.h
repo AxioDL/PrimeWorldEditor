@@ -7,11 +7,11 @@ class CRadiusSphereExtra : public CScriptExtra
 {
     // Sphere visualization for objects that have a float radius property.
     u32 mObjectType;
-    TFloatProperty *mpRadius;
+    CFloatRef mRadius;
 
 public:
-    explicit CRadiusSphereExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
+    explicit CRadiusSphereExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent = 0);
+    void AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     CColor Color() const;
     CAABox Bounds() const;

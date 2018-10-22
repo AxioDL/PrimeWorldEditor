@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct50</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x49FAE143">
+                <TypeFilter>
+                    <Element>ELSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xF808C9EE" Archetype="DamageInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>BonusCredit</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0xFF5DE1DA">
+                <DefaultValue>0xBF93CA38</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xD3A53276"/>
+                    <Element Name="Unknown 2" ID="0x2B42C90E"/>
+                    <Element Name="Unknown 3" ID="0x31651F3B"/>
+                    <Element Name="Unknown 4" ID="0xBBB57179"/>
+                    <Element Name="Unknown 5" ID="0xBF93CA38"/>
+                </Values>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

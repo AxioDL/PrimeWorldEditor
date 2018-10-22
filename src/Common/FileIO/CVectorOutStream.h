@@ -6,10 +6,11 @@
 
 class CVectorOutStream : public IOutputStream
 {
+    static const u32 skAllocSize = 1; // must be 1 or a power of 2
+
     std::vector<char> *mpVector;
     bool mOwnsVector;
     u32 mPos;
-    u32 mUsed;
 
 public:
     CVectorOutStream();
@@ -24,13 +25,9 @@ public:
     bool EoF() const;
     bool IsValid() const;
     u32 Size() const;
-    u32 SizeRemaining() const;
     void SetVector(std::vector<char> *pVector);
     void *Data();
     void *DataAtPosition();
-    void Expand(u32 Amount);
-    void Shrink();
-    void Reset();
     void Clear();
 };
 

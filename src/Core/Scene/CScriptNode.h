@@ -47,9 +47,10 @@ public:
     bool IsVisible() const;
     CColor TintColor(const SViewInfo& rkViewInfo) const;
     CColor WireframeColor() const;
+    CStructRef GetProperties() const;
+    void PropertyModified(IProperty* pProp);
 
     void LinksModified();
-    void PropertyModified(IProperty *pProp);
     void UpdatePreviewVolume();
     void GeneratePosition();
     void TestGameModeVisibility();

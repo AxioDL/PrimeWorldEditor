@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerCling2Data</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x29A73264">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x6BD22C75"/>
+            <Element Type="Spline" ID="0xB0B17D58"/>
+            <Element Type="Spline" ID="0xC47FE8AA"/>
+            <Element Type="Float" ID="0xA8AC80DD">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB5D2E300">
+                <DefaultValue>6.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x71B142CA">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEA7788C7">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68D787B4">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCD3B5F5C">
+                <DefaultValue>900.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x790FF19F">
+                <DefaultValue>10800.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x42774887">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAA3E2346">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC43D659A">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5E810459">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE5A5160E">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC110ED44">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0x81457FAC">
+                <DefaultValue>
+                    <X>-2.0</X>
+                    <Y>0.40000001</Y>
+                    <Z>1.6</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x49395E36">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Vector" ID="0x82D00CD4">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x1999E3D7">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x40B3DA44">
+                <DefaultValue>1.1</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

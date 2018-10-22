@@ -1,167 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="AuroraUnit2Data" type="multi">
-    <properties>
-        <property ID="0x0A072C48" type="float">
-            <default>0.6</default>
-        </property>
-        <property ID="0xDDE5AC10" type="float">
-            <default>0.3</default>
-        </property>
-        <property ID="0xD4DEC629" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0x7A2BB377" type="float">
-            <default>10.0</default>
-        </property>
-        <property ID="0xDD14361F" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x67625BEF" type="float">
-            <default>3.0</default>
-        </property>
-        <property ID="0x34B97EDB" type="float">
-            <default>1.0</default>
-        </property>
-        <property ID="0x47BE3298" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0xEFD78A41" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0xC75998AA" type="float">
-            <default>15.0</default>
-        </property>
-        <property ID="0x93716A88" type="float">
-            <default>20.0</default>
-        </property>
-        <property ID="0xD266550E" type="float">
-            <default>50.0</default>
-        </property>
-        <property ID="0x446EFCAD" type="float">
-            <default>6.0</default>
-        </property>
-        <property ID="0xDCA1E8B6" type="float">
-            <default>5.0</default>
-        </property>
-        <property ID="0x9F269614" type="float">
-            <default>0.0</default>
-        </property>
-        <property ID="0x059B46CF" type="float">
-            <default>2.5</default>
-        </property>
-        <property ID="0x1AA98D7F" type="float">
-            <default>0.0</default>
-        </property>
-        <struct ID="0xFDD2FE20" template="Structs/DamageVulnerability.xml"/>
-        <struct ID="0xC108CFA0" template="Structs/UnknownStruct7.xml"/>
-        <struct ID="0x91502686" type="multi">
-            <properties>
-                <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
-                <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                <property ID="0x0B5C3C1A" type="float">
-                    <default>45.0</default>
-                </property>
-                <struct ID="0x659DF76D" template="Structs/UnknownStruct7.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0xAD62C993" type="multi">
-            <properties>
-                <property ID="0xEF485DB9" type="asset" extensions="WPSC"/>
-                <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                <struct ID="0x85DCA565" template="Structs/ShockWaveInfo.xml"/>
-                <property ID="0xC2F2B95C" type="long">
-                    <default>3</default>
-                </property>
-                <property ID="0xEB8C4444" type="long">
-                    <default>5</default>
-                </property>
-                <property ID="0x6E7F4D8C" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x7D3AAB27" type="float">
-                    <default>3.0</default>
-                </property>
-                <property ID="0xB84C1410" type="float">
-                    <default>1.0</default>
-                </property>
-                <property ID="0x08730E2C" type="float">
-                    <default>2.0</default>
-                </property>
-                <property ID="0x020C78BB" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0xB638CFA7" type="float">
-                    <default>1.3</default>
-                </property>
-                <property ID="0x18505E36" type="float">
-                    <default>1.5</default>
-                </property>
-                <struct ID="0x6A98EEF6" template="Structs/DamageVulnerability.xml"/>
-                <property ID="0x19AAF8F3" type="asset" extensions="CMDL"/>
-                <property ID="0x5FCA665E" type="asset" extensions="CMDL"/>
-                <property ID="0xC628005F" type="asset" extensions="CMDL"/>
-                <property ID="0x07A6DF9F" type="asset" extensions="CMDL"/>
-                <property ID="0x2E9DCA1C" type="asset" extensions="CMDL"/>
-                <property ID="0xA90E610C" type="float">
-                    <default>50.0</default>
-                </property>
-                <struct ID="0x659DF76D" template="Structs/UnknownStruct7.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0x03A319DF" type="multi">
-            <properties>
-                <struct ID="0x1598012A" template="Structs/PlasmaBeamInfo.xml"/>
-                <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                <property ID="0x16342C18" type="float">
-                    <default>7.0</default>
-                </property>
-                <property ID="0xF6BDAFB8" type="float">
-                    <default>8.0</default>
-                </property>
-                <property ID="0x020C78BB" type="float">
-                    <default>45.0</default>
-                </property>
-                <property ID="0x416F15E8" type="float">
-                    <default>5.0</default>
-                </property>
-                <property ID="0x569E40EF" type="float">
-                    <default>30.0</default>
-                </property>
-                <property ID="0x682B8867" type="float">
-                    <default>45.0</default>
-                </property>
-                <property ID="0x0ACBF084" type="float">
-                    <default>60.0</default>
-                </property>
-                <property ID="0xB638CFA7" type="float">
-                    <default>1.3</default>
-                </property>
-                <property ID="0x18505E36" type="float">
-                    <default>1.5</default>
-                </property>
-                <struct ID="0x659DF76D" template="Structs/UnknownStruct7.xml"/>
-            </properties>
-        </struct>
-        <struct ID="0x9DD3BB57" type="multi">
-            <properties>
-                <property ID="0x020C78BB" type="float">
-                    <default>540.0</default>
-                </property>
-                <property ID="0x416F15E8" type="float">
-                    <default>75.0</default>
-                </property>
-                <property ID="0x79D90292" type="float">
-                    <default>250.0</default>
-                </property>
-                <property ID="0x4839DDE0" type="float">
-                    <default>10.0</default>
-                </property>
-                <property ID="0x092EE266" type="float">
-                    <default>15.0</default>
-                </property>
-                <struct ID="0x337F9524" template="Structs/DamageInfo.xml"/>
-                <struct ID="0x659DF76D" template="Structs/UnknownStruct7.xml"/>
-            </properties>
-        </struct>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>AuroraUnit2Data</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xA072C48">
+                <DefaultValue>0.60000002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDDE5AC10">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD4DEC629">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A2BB377">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDD14361F">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x67625BEF">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x34B97EDB">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47BE3298">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEFD78A41">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC75998AA">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x93716A88">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD266550E">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x446EFCAD">
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDCA1E8B6">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9F269614">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x59B46CF">
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1AA98D7F">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xFDD2FE20" Archetype="DamageVulnerability"/>
+            <Element Type="Struct" ID="0xC108CFA0" Archetype="UnknownStruct7"/>
+            <Element Type="Struct" ID="0x91502686" Archetype="UnknownStruct11"/>
+            <Element Type="Struct" ID="0xAD62C993" Archetype="UnknownStruct12"/>
+            <Element Type="Struct" ID="0x3A319DF" Archetype="UnknownStruct13"/>
+            <Element Type="Struct" ID="0x9DD3BB57" Archetype="UnknownStruct14"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

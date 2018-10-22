@@ -13,12 +13,12 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
     mpFont->mLineHeight = rFONT.ReadLong();
     mpFont->mVerticalOffset = rFONT.ReadLong();
     mpFont->mLineMargin = rFONT.ReadLong();
-    if (mVersion > ePrimeDemo) rFONT.Seek(0x4, SEEK_CUR);
+    if (mVersion > EGame::PrimeDemo) rFONT.Seek(0x4, SEEK_CUR);
     rFONT.Seek(0x2, SEEK_CUR);
     mpFont->mDefaultSize = rFONT.ReadLong();
     mpFont->mFontName = rFONT.ReadString();
 
-    if (mVersion <= eEchoes) mpFont->mpFontTexture = gpResourceStore->LoadResource(rFONT.ReadLong(), eTexture);
+    if (mVersion <= EGame::Echoes) mpFont->mpFontTexture = gpResourceStore->LoadResource(rFONT.ReadLong(), eTexture);
     else                     mpFont->mpFontTexture = gpResourceStore->LoadResource(rFONT.ReadLongLong(), eTexture);
 
     mpFont->mTextureFormat = rFONT.ReadLong();
@@ -39,7 +39,7 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
         Glyph.TexCoords[2] = CVector2f(TexCoordL, TexCoordD); // Lower-left
         Glyph.TexCoords[3] = CVector2f(TexCoordR, TexCoordD); // Lower-right
 
-        if (mVersion <= ePrime)
+        if (mVersion <= EGame::Prime)
         {
             Glyph.RGBAChannel = 0;
             Glyph.LeftPadding = rFONT.ReadLong();
@@ -50,7 +50,7 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
             Glyph.BaseOffset = rFONT.ReadLong();
             Glyph.KerningIndex = rFONT.ReadLong();
         }
-        else if (mVersion >= eEchoes)
+        else if (mVersion >= EGame::Echoes)
         {
             Glyph.RGBAChannel = rFONT.ReadByte();
             Glyph.LeftPadding = rFONT.ReadByte();
@@ -92,7 +92,7 @@ CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
 
     u32 FileVersion = rFONT.ReadLong();
     EGame Version = GetFormatVersion(FileVersion);
-    if (Version == eUnknownGame)
+    if (Version == EGame::Invalid)
     {
         Log::FileError(rFONT.GetSourceString(), "Unsupported FONT version: " + TString::HexString(FileVersion, 0));
         return nullptr;
@@ -108,10 +108,10 @@ EGame CFontLoader::GetFormatVersion(u32 Version)
 {
     switch (Version)
     {
-    case 1: return ePrimeDemo;
-    case 2: return ePrime;
-    case 4: return eEchoes;
-    case 5: return eCorruption;
-    default: return eUnknownGame;
+    case 1: return EGame::PrimeDemo;
+    case 2: return EGame::Prime;
+    case 4: return EGame::Echoes;
+    case 5: return EGame::Corruption;
+    default: return EGame::Invalid;
     }
 }

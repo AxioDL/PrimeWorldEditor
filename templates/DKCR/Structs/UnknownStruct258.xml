@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct258</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x97D30F8B" Archetype="RobotChickenEnum">
+                <DefaultValue>0x8C665F9A</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0668919">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xFD1BC54F" Archetype="RobotChickenStructB"/>
+            <Element Type="Struct" ID="0x8BFEFC72" Archetype="RobotChickenStructB"/>
+            <Element Type="Struct" ID="0x108D16A6" Archetype="RobotChickenStructB"/>
+            <Element Type="Struct" ID="0x66348E08" Archetype="RobotChickenStructB"/>
+            <Element Type="Struct" ID="0xFD4764DC" Archetype="RobotChickenStructB"/>
+            <Element Type="Struct" ID="0x8BA25DE1" Archetype="RobotChickenStructB"/>
+            <Element Type="Struct" ID="0x10D1B735" Archetype="RobotChickenStructB"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

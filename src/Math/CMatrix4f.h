@@ -42,4 +42,14 @@ public:
     static const CMatrix4f skIdentity;
 };
 
+inline float* CMatrix4f::operator[](long Index)
+{
+    return m[Index];
+}
+
+inline const float* CMatrix4f::operator[](long Index) const
+{
+    return m[Index];
+}
+
 #endif // CMATRIX4_H

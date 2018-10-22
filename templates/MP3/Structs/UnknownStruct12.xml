@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct12</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xEF485DB9">
+                <TypeFilter>
+                    <Element>WPSC</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x337F9524" Archetype="DamageInfo"/>
+            <Element Type="Struct" ID="0x85DCA565" Archetype="ShockWaveInfo"/>
+            <Element Type="Int" ID="0xC2F2B95C">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xEB8C4444">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6E7F4D8C">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D3AAB27">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB84C1410">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8730E2C">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20C78BB">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB638CFA7">
+                <DefaultValue>1.3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x18505E36">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6A98EEF6" Archetype="DamageVulnerability"/>
+            <Element Type="Asset" ID="0x19AAF8F3">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5FCA665E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xC628005F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7A6DF9F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x2E9DCA1C">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xA90E610C">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x659DF76D" Archetype="UnknownStruct7"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

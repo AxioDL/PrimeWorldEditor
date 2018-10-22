@@ -5,7 +5,7 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Resource/Animation/CAnimSet.h"
-#include "Core/Resource/Script/CMasterTemplate.h"
+#include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/ScriptExtra/CScriptExtra.h"
 #include <Common/AssertMacro.h>
@@ -31,7 +31,7 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         CScriptTemplate *pTemp = Template();
 
         // Determine transform
-        mHasValidPosition = pTemp->HasPosition();
+        mHasValidPosition = pTemp->PositionProperty() != nullptr;
         mPosition = mpInstance->Position();
         mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
         mScale = mpInstance->Scale();
@@ -66,7 +66,7 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         }
 
         // Fetch LightParameters
-        mpLightParameters = new CLightParameters(mpInstance->LightParameters(), mpInstance->MasterTemplate()->Game());
+        mpLightParameters = new CLightParameters(mpInstance->LightParameters(), mpInstance->GameTemplate()->Game());
         SetLightLayerIndex(mpLightParameters->LightLayerIndex());
     }
 
@@ -99,15 +99,13 @@ void CScriptNode::OnTransformed()
 {
     if (mpInstance)
     {
-        CScriptTemplate *pTemplate = Template();
-
-        if (pTemplate->HasPosition() && LocalPosition() != mpInstance->Position())
+        if (LocalPosition() != mpInstance->Position())
             mpInstance->SetPosition(LocalPosition());
 
-        if (pTemplate->HasRotation() && LocalRotation().ToEuler() != mpInstance->Rotation())
+        if (LocalRotation().ToEuler() != mpInstance->Rotation())
             mpInstance->SetRotation(LocalRotation().ToEuler());
 
-        if (pTemplate->HasScale() && LocalScale() != mpInstance->Scale())
+        if (LocalScale() != mpInstance->Scale())
             mpInstance->SetScale(LocalScale());
     }
 
@@ -190,7 +188,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
         else
         {
             // DKCR doesn't support world lighting yet, so light nodes that don't have ingame models with default lighting
-            if (Template()->Game() == eReturns && !mpInstance->HasInGameModel() && CGraphics::sLightMode == CGraphics::eWorldLighting)
+            if (Template()->Game() == EGame::DKCReturns && !mpInstance->HasInGameModel() && CGraphics::sLightMode == CGraphics::eWorldLighting)
             {
                 CGraphics::SetDefaultLighting();
                 CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
@@ -456,27 +454,34 @@ void CScriptNode::LinksModified()
     if (mpExtra) mpExtra->LinksModified();
 }
 
-void CScriptNode::PropertyModified(IProperty *pProp)
+CStructRef CScriptNode::GetProperties() const
+{
+    return CStructRef(mpInstance->PropertyData(), mpInstance->Template()->Properties());
+}
+
+void CScriptNode::PropertyModified(IProperty* pProp)
 {
     // Update volume
-    if ( (pProp->Type() == eBoolProperty) || (pProp->Type() == eByteProperty) || (pProp->Type() == eShortProperty) ||
-         (pProp->Type() == eLongProperty) || (pProp->Type() == eEnumProperty) )
+    EPropertyType Type = pProp->Type();
+
+    if ( Type == EPropertyType::Bool || Type == EPropertyType::Byte || Type == EPropertyType::Short ||
+         Type == EPropertyType::Int || Type == EPropertyType::Choice || Type == EPropertyType::Enum )
     {
         mpInstance->EvaluateVolume();
         UpdatePreviewVolume();
     }
 
     // Update resources
-    if (pProp->Type() == eCharacterProperty)
+    else if (Type == EPropertyType::AnimationSet)
     {
         mpInstance->EvaluateDisplayAsset();
         SetDisplayAsset(mpInstance->DisplayAsset());
     }
 
-    else if (pProp->Type() == eAssetProperty)
+    else if (Type == EPropertyType::Asset)
     {
-        CAssetTemplate *pAssetTemp = static_cast<CAssetTemplate*>(pProp->Template());
-        const CResTypeFilter& rkFilter = pAssetTemp->TypeFilter();
+        CAssetProperty* pAssetProperty = TPropCast<CAssetProperty>(pProp);
+        const CResTypeFilter& rkFilter = pAssetProperty->GetTypeFilter();
 
         if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eTexture) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
         {
@@ -491,40 +496,37 @@ void CScriptNode::PropertyModified(IProperty *pProp)
     }
 
     // Update other editor properties
-    if (mpInstance->IsEditorProperty(pProp))
-    {
-        CScriptTemplate *pTemplate = Template();
+    CScriptTemplate *pTemplate = Template();
 
-        if (pTemplate->HasName())
-            SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
+    if (pProp == pTemplate->NameProperty())
+        SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
 
-        if (pTemplate->HasPosition())
-            mPosition = mpInstance->Position();
+    else if (pProp == pTemplate->PositionProperty() || pProp->Parent() == pTemplate->PositionProperty())
+        mPosition = mpInstance->Position();
 
-        if (pTemplate->HasRotation())
-            mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
+    else if (pProp == pTemplate->RotationProperty() || pProp->Parent() == pTemplate->RotationProperty())
+        mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
 
-        if (pTemplate->HasScale())
-            mScale = mpInstance->Scale();
+    else if (pProp == pTemplate->ScaleProperty() || pProp->Parent() == pTemplate->ScaleProperty())
+        mScale = mpInstance->Scale();
 
-        MarkTransformChanged();
-        SetLightLayerIndex(mpLightParameters->LightLayerIndex());
-    }
+    MarkTransformChanged();
+    SetLightLayerIndex(mpLightParameters->LightLayerIndex());
 
     // Notify attachments
-    for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+    for (u32 AttachIdx = 0; AttachIdx < mAttachments.size(); AttachIdx++)
     {
-        CScriptAttachNode *pAttach = mAttachments[iAttach];
+        CScriptAttachNode* pAttachNode = mAttachments[AttachIdx];
 
-        if (pAttach->AttachProperty() == pProp)
-            pAttach->AttachPropertyModified();
+        if (pAttachNode->AttachProperty() == pProp)
+            pAttachNode->AttachPropertyModified();
     }
 
     // Notify script extra
     if (mpExtra) mpExtra->PropertyModified(pProp);
 
     // Update game mode visibility
-    if (pProp && pProp == mpInstance->ActiveProperty())
+    if (pProp && pProp == pTemplate->ActiveProperty())
         TestGameModeVisibility();
 }
 
@@ -563,7 +565,7 @@ void CScriptNode::GeneratePosition()
     if (!mHasValidPosition)
     {
         // Default to center of the active area; this is to prevent recursion issues
-        CTransform4f& AreaTransform = mpScene->ActiveArea()->Transform();
+        CTransform4f AreaTransform = mpScene->ActiveArea()->Transform();
         mPosition = CVector3f(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
         mHasValidPosition = true;
         MarkTransformChanged();
@@ -622,7 +624,7 @@ void CScriptNode::GeneratePosition()
 void CScriptNode::TestGameModeVisibility()
 {
     // Don't render if we don't have an ingame model, or if this is the Prime series and the instance is not active.
-    if ((Template()->Game() < eReturns && !mpInstance->IsActive()) || !mpInstance->HasInGameModel())
+    if ((Template()->Game() < EGame::DKCReturns && !mpInstance->IsActive()) || !mpInstance->HasInGameModel())
         mGameModeVisibility = eNotVisible;
 
     // If this is Returns, only render if the instance is active OR if it has a near visible activation.

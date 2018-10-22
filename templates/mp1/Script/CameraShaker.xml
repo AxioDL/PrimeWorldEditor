@@ -1,28 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptTemplate version="4">
-    <name>CameraShaker</name>
-    <properties>
-        <property ID="0x00" name="Name" type="string"/>
-        <property ID="0x01" name="Horizontal Shake" type="float"/>
-        <property ID="0x02" name="Unknown 1" type="float"/>
-        <property ID="0x03" name="Unknown 2" type="float"/>
-        <property ID="0x04" name="Unknown 3" type="float"/>
-        <property ID="0x05" name="Vertical Shake" type="float"/>
-        <property ID="0x06" name="Unknown 4" type="float"/>
-        <property ID="0x07" name="Shake Length" type="float"/>
-        <property ID="0x08" name="Active" type="bool"/>
-    </properties>
-    <states/>
-    <messages/>
-    <editor>
-        <properties>
-            <property name="InstanceName" ID="0x00"/>
-            <property name="Active" ID="0x08"/>
-        </properties>
-        <assets>
-            <billboard source="file">script/common/CameraShaker.TXTR</billboard>
-        </assets>
-        <rotation_type>disabled</rotation_type>
-        <scale_type>disabled</scale_type>
-    </editor>
-</ScriptTemplate>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>CameraShaker</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Name</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>Horizontal Shake</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>Unknown 1</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>Unknown 2</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Unknown 3</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>Vertical Shake</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>Unknown 4</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Shake Length</Name>
+            </Element>
+            <Element Type="Bool" ID="0x8">
+                <Name>Active</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x08</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/CameraShaker.TXTR"/>
+    </Assets>
+    <RotationType>RotationDisabled</RotationType>
+    <ScaleType>ScaleDisabled</ScaleType>
+</ScriptObject>

@@ -1,6 +1,7 @@
 #include "CInstancesModel.h"
 #include "Editor/UICommon.h"
 #include <Core/Resource/Script/CScriptLayer.h>
+#include <Core/Resource/Script/NGameList.h>
 #include <Core/Scene/CScriptNode.h>
 #include <QApplication>
 #include <QIcon>
@@ -31,7 +32,7 @@ CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
     , mpEditor(pEditor)
     , mpScene(pEditor->Scene())
     , mpArea(nullptr)
-    , mpCurrentMaster(nullptr)
+    , mpCurrentGame(nullptr)
     , mModelType(eLayers)
     , mShowColumnEnabled(true)
     , mChangingLayout(false)
@@ -364,12 +365,9 @@ void CInstancesModel::OnActiveProjectChanged(CGameProject *pProj)
     if (mModelType == eTypes)
     {
         if (pProj)
-        {
-            EGame ProjGame = pProj->Game();
-            mpCurrentMaster = CMasterTemplate::MasterForGame(ProjGame);
-        }
+            mpCurrentGame = NGameList::GetGameTemplate( pProj->Game() );
         else
-            mpCurrentMaster = nullptr;
+            mpCurrentGame = nullptr;
 
         GenerateList();
     }
@@ -476,7 +474,7 @@ void CInstancesModel::NodeDeleted()
 
 void CInstancesModel::PropertyModified(CScriptObject *pInst, IProperty *pProp)
 {
-    if (pInst->InstanceNameProperty() == pProp)
+    if (pProp->Name() == "Name")
     {
         QModelIndex ScriptRoot = index(0, 0, QModelIndex());
 
@@ -570,13 +568,13 @@ void CInstancesModel::GenerateList()
 
     mTemplateList.clear();
 
-    if (mpCurrentMaster)
+    if (mpCurrentGame)
     {
-        u32 NumTemplates = mpCurrentMaster->NumScriptTemplates();
+        u32 NumTemplates = mpCurrentGame->NumScriptTemplates();
 
         for (u32 iTemp = 0; iTemp < NumTemplates; iTemp++)
         {
-            CScriptTemplate *pTemp = mpCurrentMaster->TemplateByIndex(iTemp);
+            CScriptTemplate *pTemp = mpCurrentGame->TemplateByIndex(iTemp);
 
             if (pTemp->NumObjects() > 0)
                 mTemplateList << pTemp;

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>StunnedByBopBehaviorData</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x2D8DB31D">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x750EB3EB">
+                <TypeFilter>
+                    <Element>RULE</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0xFE0086A4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFF8B7BA4">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -23,8 +23,7 @@ CONFIG (debug, debug|release) {
     TARGET = Mathd
 
     # Debug Libs
-    LIBS += -L$$BUILD_DIR/Common/ -lCommond \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2d
+    LIBS += -L$$BUILD_DIR/Common/ -lCommond
 
     # Debug Target Dependencies
     win32 {
@@ -38,8 +37,7 @@ CONFIG (release, debug|release) {
     TARGET = Math
 
     # Release Libs
-    LIBS += -L$$BUILD_DIR/Common/ -lCommon \
-            -L$$EXTERNALS_DIR/tinyxml2/lib/ -ltinyxml2
+    LIBS += -L$$BUILD_DIR/Common/ -lCommon
 
     # Release Target Dependencies
     win32 {
@@ -49,7 +47,8 @@ CONFIG (release, debug|release) {
 
 # Include Paths
 INCLUDEPATH += $$PWE_MAIN_INCLUDE \
-               $$EXTERNALS_DIR/tinyxml2/include
+               $$EXTERNALS_DIR/CodeGen/include \
+               $$EXTERNALS_DIR/tinyxml2
 
 # Header Files
 HEADERS += \
@@ -79,3 +78,9 @@ SOURCES += \
     CVector3f.cpp \
     CVector4f.cpp \
     MathUtil.cpp
+
+# Codegen
+CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
+CODEGEN_OUT_PATH = $$BUILD_DIR/Common/codegen_build/auto_codegen.cpp
+CODEGEN_SRC_PATH = $$PWD
+include($$EXTERNALS_DIR/CodeGen/codegen.pri)

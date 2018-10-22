@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<struct name="UnknownStruct29" type="multi">
-    <properties>
-        <property ID="0xF2299ED6" type="asset" extensions="FRME"/>
-    </properties>
-</struct>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>UnknownStruct29</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xF2299ED6">
+                <TypeFilter>
+                    <Element>FRME</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>
