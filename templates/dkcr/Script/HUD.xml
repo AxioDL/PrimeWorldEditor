@@ -5,8 +5,8 @@
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
             <Element Type="Struct" ID="0x5D9C85DA" Archetype="UnknownStruct147"/>
-            <Element Type="Struct" ID="0x10659639" Archetype="UnknownStruct152"/>
-            <Element Type="Struct" ID="0xAE41EED1" Archetype="UnknownStruct153"/>
+            <Element Type="Struct" ID="0x10659639" Archetype="PauseHUD"/>
+            <Element Type="Struct" ID="0xAE41EED1" Archetype="BossHUD"/>
             <Element Type="Struct" ID="0xB914BD82" Archetype="UnknownStruct156"/>
             <Element Type="Struct" ID="0xB594741" Archetype="UnknownStruct157"/>
             <Element Type="Struct" ID="0x51841C6D" Archetype="UnknownStruct159"/>

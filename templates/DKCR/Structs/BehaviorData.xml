@@ -75,10 +75,10 @@
             <Element Type="Struct" ID="0xC962CB9C" Archetype="AdditiveTouchAttackBehaviorData"/>
             <Element Type="Struct" ID="0xF6E5327" Archetype="UnknownStruct122"/>
             <Element Type="Struct" ID="0xE2C2F5EF" Archetype="StunnedByContactRuleData"/>
-            <Element Type="Struct" ID="0x5192CCEC" Archetype="UnknownStruct124"/>
+            <Element Type="Struct" ID="0x5192CCEC" Archetype="DrivenIntoGroundBehaviorData"/>
             <Element Type="Struct" ID="0xAFCADE60" Archetype="OneShotBehaviorData"/>
             <Element Type="Struct" ID="0x749A68A1" Archetype="TargetPlayerBehaviorData"/>
-            <Element Type="Struct" ID="0x2CC6F52" Archetype="UnknownStruct124"/>
+            <Element Type="Struct" ID="0x2CC6F52" Archetype="DrivenIntoGroundBehaviorData"/>
             <Element Type="Struct" ID="0xE37F3561" Archetype="AreaAttackBehaviorData"/>
             <Element Type="Struct" ID="0xA1F091B2" Archetype="UnknownStruct128"/>
             <Element Type="Struct" ID="0x638FC2B" Archetype="SeparateAndReformBehaviorData"/>

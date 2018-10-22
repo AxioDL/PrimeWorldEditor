@@ -262,7 +262,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     {
                         if (rkIndex.row() == 0) return "AnimSet";
                         if (rkIndex.row() == 1) return "Character";
-                        if (rkIndex.row() == 2) return "Default Anim";
+                        if (rkIndex.row() == 2) return "DefaultAnim";
                     }
 
                     // For column 1, rows 0/1 have persistent editors so we only handle 2
@@ -275,7 +275,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     if (rkIndex.column() == 0)
                     {
                         if (rkIndex.row() == 0) return "Character";
-                        if (rkIndex.row() == 1) return "Default Anim";
+                        if (rkIndex.row() == 1) return "DefaultAnim";
                     }
 
                     // Same deal here, only handle row 1
@@ -288,8 +288,8 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     if (rkIndex.column() == 0)
                     {
                         if (rkIndex.row() == 0) return "Character";
-                        else if (rkIndex.row() == 1) return "Default Anim";
-                        else return "Unknown " + QString::number(rkIndex.row() - 1);
+                        else if (rkIndex.row() == 1) return "DefaultAnim";
+                        else return "Unknown" + QString::number(rkIndex.row() - 1);
                     }
 
                     if (rkIndex.column() == 1 && rkIndex.row() > 0)
@@ -458,8 +458,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
         {
             IProperty *pProp = PropertyForIndex(rkIndex, true);
 
-            // Don't highlight the name of the root property
-            if (pProp && pProp->Parent() != nullptr)
+            if (pProp)
             {
                 static const QColor skRightColor = QColor(128, 255, 128);
                 static const QColor skWrongColor = QColor(255, 128, 128);

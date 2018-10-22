@@ -40,8 +40,6 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
 
     ui->InLinksTableView->setModel(mpInLinkModel);
     ui->OutLinksTableView->setModel(mpOutLinkModel);
-    ui->InLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    ui->OutLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
     connect(ui->InLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
     connect(ui->OutLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
     connect(ui->InLinksTableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(OnLinksSelectionModified()));
@@ -110,6 +108,8 @@ void WModifyTab::GenerateUI()
 
             ui->InLinksTableView->clearSelection();
             ui->OutLinksTableView->clearSelection();
+            ui->InLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+            ui->OutLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
         }
     }
 

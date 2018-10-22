@@ -1,4 +1,5 @@
 #include "NPropertyMap.h"
+#include "NGameList.h"
 #include <Common/NBasics.h>
 #include <Common/Serialization/XML.h>
 
@@ -202,6 +203,21 @@ void SaveMap(bool Force /*= false*/)
         }
         else
         {
+            // Make sure all game templates are loaded and clear out ID-type pairs that aren't used
+            // This mostly occurs when type names are changed - unneeded pairings with the old type can be left in the map
+            NGameList::LoadAllGameTemplates();
+
+            for (auto Iter = gNameMap.begin(); Iter != gNameMap.end(); Iter++)
+            {
+                SNameValue& Value = Iter->second;
+
+                if (Value.PropertyList.empty())
+                {
+                    Iter = gNameMap.erase(Iter);
+                }
+            }
+
+            // Perform the actual save
             CXMLWriter Writer(gpkMapPath, "PropertyMap");
             ASSERT(Writer.IsValid());
             Writer << SerialParameter("PropertyMap", gNameMap, SH_HexDisplay);

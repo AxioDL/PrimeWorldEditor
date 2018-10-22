@@ -4,7 +4,7 @@
         <Name>CreditsScreen</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Struct" ID="0x6B9F6B7C" Archetype="UnknownStruct90"/>
+            <Element Type="Struct" ID="0x6B9F6B7C" Archetype="CreditsData"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

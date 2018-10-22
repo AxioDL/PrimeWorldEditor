@@ -110,7 +110,7 @@
             <Element Type="Sound" ID="0x97070F80">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0xAA453357">
+            <Element Type="Sound" ID="0xAA453357">
                 <DefaultValue>-1</DefaultValue>
             </Element>
             <Element Type="Float" ID="0xD2986C43">

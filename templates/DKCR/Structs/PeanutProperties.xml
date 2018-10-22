@@ -111,14 +111,14 @@
             <Element Type="Int" ID="0x5A79779">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xE8D26BAE" Archetype="PeanutStruct"/>
-            <Element Type="Struct" ID="0xD1AAC6EE" Archetype="PeanutStruct"/>
-            <Element Type="Struct" ID="0xC682A22E" Archetype="PeanutStruct"/>
-            <Element Type="Struct" ID="0xA35B9C6E" Archetype="PeanutStruct"/>
-            <Element Type="Struct" ID="0xB473F8AE" Archetype="PeanutStruct"/>
-            <Element Type="Struct" ID="0x8D0B55EE" Archetype="PeanutStruct"/>
-            <Element Type="Struct" ID="0x9A23312E" Archetype="PeanutStruct"/>
-            <Element Type="Struct" ID="0x46B9296E" Archetype="PeanutStruct"/>
+            <Element Type="Struct" ID="0xE8D26BAE" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0xD1AAC6EE" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0xC682A22E" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0xA35B9C6E" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0xB473F8AE" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0x8D0B55EE" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0x9A23312E" Archetype="PeanutMaterialEffects"/>
+            <Element Type="Struct" ID="0x46B9296E" Archetype="PeanutMaterialEffects"/>
         </SubProperties>
     </PropertyArchetype>
 </PropertyTemplate>

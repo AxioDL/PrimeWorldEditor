@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct81</Name>
+        <Name>CameraClip</Name>
         <SubProperties>
             <Element Type="Float" ID="0xF4817F13">
                 <DefaultValue>0.2</DefaultValue>
