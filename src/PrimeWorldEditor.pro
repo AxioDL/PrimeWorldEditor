@@ -5,11 +5,10 @@
 #-------------------------------------------------
 
 TEMPLATE = subdirs
-
-SUBDIRS += \
-    Common \
-    Math \
-    Core \
-    Editor
-
 CONFIG += ordered
+
+# Add library subdirs
+SUBDIRS += ..\externals\LibCommon\Source\LibCommon.pro
+
+# Add PWE subdirs
+SUBDIRS += Core Editor

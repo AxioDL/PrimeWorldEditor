@@ -13,3 +13,6 @@
 [submodule "externals/CodeGen"]
 	path = externals/CodeGen
 	url = https://github.com/arukibree/CodeGen
+[submodule "externals/LibCommon"]
+	path = externals/LibCommon
+	url = https://github.com/arukibree/LibCommon
