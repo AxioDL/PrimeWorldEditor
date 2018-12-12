@@ -5,23 +5,23 @@
 #include "Core/Resource/CMaterialSet.h"
 #include "Core/OpenGL/GLCommon.h"
 #include "Core/SRayIntersection.h"
-#include <Common/types.h>
-#include <Math/CAABox.h>
-#include <Math/CRay.h>
-#include <Math/CTransform4f.h>
-#include <Math/CVector3f.h>
+#include <Common/BasicTypes.h>
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CTransform4f.h>
+#include <Common/Math/CVector3f.h>
 #include <vector>
 
 // Should prolly be a class
 struct SSurface
 {
-    u32 VertexCount;
-    u32 TriangleCount;
+    uint32 VertexCount;
+    uint32 TriangleCount;
     CAABox AABox;
     CVector3f CenterPoint;
-    u32 MaterialID;
+    uint32 MaterialID;
     CVector3f ReflectionDirection;
-    u16 MeshID;
+    uint16 MeshID;
 
     struct SPrimitive
     {

@@ -4,10 +4,10 @@
 #include "CAnimation.h"
 #include "Core/Render/FRenderOptions.h"
 #include "Core/Resource/CResource.h"
+#include <Common/BasicTypes.h>
 #include <Common/TString.h>
-#include <Common/types.h>
-#include <Math/CRay.h>
-#include <Math/CVector3f.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CVector3f.h>
 
 class CBoneTransformData;
 class CBone;
@@ -36,14 +36,14 @@ public:
     CSkeleton(CResourceEntry *pEntry = 0);
     ~CSkeleton();
     void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
-    CBone* BoneByID(u32 BoneID) const;
+    CBone* BoneByID(uint32 BoneID) const;
     CBone* BoneByName(const TString& rkBoneName) const;
-    u32 MaxBoneID() const;
+    uint32 MaxBoneID() const;
 
     void Draw(FRenderOptions Options, const CBoneTransformData *pkData);
-    std::pair<s32,float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData);
+    std::pair<int32,float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData);
 
-    inline u32 NumBones() const     { return mBones.size(); }
+    inline uint32 NumBones() const  { return mBones.size(); }
     inline CBone* RootBone() const  { return mpRootBone; }
 };
 
@@ -54,7 +54,7 @@ class CBone
     CSkeleton *mpSkeleton;
     CBone *mpParent;
     std::vector<CBone*> mChildren;
-    u32 mID;
+    uint32 mID;
     CVector3f mPosition;
     CVector3f mLocalPosition;
     CQuaternion mRotation;
@@ -73,9 +73,9 @@ public:
     // Accessors
     inline CSkeleton* Skeleton() const                  { return mpSkeleton; }
     inline CBone* Parent() const                        { return mpParent; }
-    inline u32 NumChildren() const                      { return mChildren.size(); }
-    inline CBone* ChildByIndex(u32 Index) const         { return mChildren[Index]; }
-    inline u32 ID() const                               { return mID; }
+    inline uint32 NumChildren() const                   { return mChildren.size(); }
+    inline CBone* ChildByIndex(uint32 Index) const      { return mChildren[Index]; }
+    inline uint32 ID() const                            { return mID; }
     inline CVector3f Position() const                   { return mPosition; }
     inline CVector3f LocalPosition() const              { return mLocalPosition; }
     inline CQuaternion Rotation() const                 { return mRotation; }

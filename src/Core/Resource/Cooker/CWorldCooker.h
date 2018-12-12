@@ -2,15 +2,15 @@
 #define CWORLDCOOKER_H
 
 #include "Core/Resource/CWorld.h"
+#include <Common/BasicTypes.h>
 #include <Common/EGame.h>
-#include <Common/types.h>
 
 class CWorldCooker
 {
     CWorldCooker();
 public:
     static bool CookMLVL(CWorld *pWorld, IOutputStream& rOut);
-    static u32 GetMLVLVersion(EGame Version);
+    static uint32 GetMLVLVersion(EGame Version);
 };
 
 #endif // CWORLDCOOKER_H

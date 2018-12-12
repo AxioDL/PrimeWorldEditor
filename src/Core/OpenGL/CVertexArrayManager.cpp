@@ -94,12 +94,12 @@ CVertexArrayManager* CVertexArrayManager::Current()
 
 void CVertexArrayManager::DeleteAllArraysForVBO(CVertexBuffer *pVBO)
 {
-    for (u32 iVAM = 0; iVAM < sVAManagers.size(); iVAM++)
+    for (uint32 iVAM = 0; iVAM < sVAManagers.size(); iVAM++)
         sVAManagers[iVAM]->DeleteVAO(pVBO);
 }
 
 void CVertexArrayManager::DeleteAllArraysForVBO(CDynamicVertexBuffer *pVBO)
 {
-    for (u32 iVAM = 0; iVAM < sVAManagers.size(); iVAM++)
+    for (uint32 iVAM = 0; iVAM < sVAManagers.size(); iVAM++)
         sVAManagers[iVAM]->DeleteVAO(pVBO);
 }

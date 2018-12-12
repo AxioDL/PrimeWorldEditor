@@ -12,8 +12,8 @@ struct SSoundInfo
 {
     CAudioGroup *pAudioGroup;
     TString Name;
-    u32 SoundID;
-    u16 DefineID;
+    uint32 SoundID;
+    uint16 DefineID;
 };
 
 class CAudioManager
@@ -23,14 +23,14 @@ class CAudioManager
     std::vector<TResPtr<CAudioGroup>> mAudioGroups;
     TResPtr<CAudioLookupTable> mpAudioLookupTable;
     TResPtr<CStringList> mpSfxNameList;
-    std::unordered_map<u16, CAudioGroup*> mSfxIdMap;
+    std::unordered_map<uint16, CAudioGroup*> mSfxIdMap;
 
 public:
     CAudioManager(CGameProject *pProj);
     void LoadAssets();
     void ClearAssets();
-    SSoundInfo GetSoundInfo(u32 SoundID);
-    void LogSoundInfo(u32 SoundID);
+    SSoundInfo GetSoundInfo(uint32 SoundID);
+    void LogSoundInfo(uint32 SoundID);
 };
 
 #endif // CAUDIOMANAGER

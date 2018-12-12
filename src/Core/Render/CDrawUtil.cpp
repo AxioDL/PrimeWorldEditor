@@ -2,7 +2,7 @@
 #include "CGraphics.h"
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
-#include <Math/CTransform4f.h>
+#include <Common/Math/CTransform4f.h>
 #include <iostream>
 
 // ************ MEMBER INITIALIZATION ************
@@ -85,7 +85,7 @@ void CDrawUtil::DrawSquare(const float *pTexCoords)
     Init();
 
     // Set tex coords
-    for (u32 iTex = 0; iTex < 8; iTex++)
+    for (uint32 iTex = 0; iTex < 8; iTex++)
     {
         EVertexAttribute TexAttrib = (EVertexAttribute) (eTex0 << (iTex *2));
         mSquareVertices.BufferAttrib(TexAttrib, pTexCoords);
@@ -357,7 +357,7 @@ CShader* CDrawUtil::GetTextShader()
     return mpTextShader;
 }
 
-void CDrawUtil::LoadCheckerboardTexture(u32 GLTextureUnit)
+void CDrawUtil::LoadCheckerboardTexture(uint32 GLTextureUnit)
 {
     Init();
     mpCheckerTexture->Bind(GLTextureUnit);
@@ -390,7 +390,7 @@ void CDrawUtil::Init()
 {
     if (!mDrawUtilInitialized)
     {
-        Log::Write("Initializing CDrawUtil");
+        debugf("Initializing CDrawUtil");
         InitGrid();
         InitSquare();
         InitLine();
@@ -406,7 +406,7 @@ void CDrawUtil::Init()
 
 void CDrawUtil::InitGrid()
 {
-    Log::Write("Creating grid");
+    debugf("Creating grid");
 
     const int kGridSize = 501; // must be odd
     const float kGridSpacing = 1.f;
@@ -416,7 +416,7 @@ void CDrawUtil::InitGrid()
     mGridVertices.SetVertexDesc(ePosition);
     mGridVertices.Reserve(kGridSize * 4);
 
-     for (s32 i = MinIdx; i <= MaxIdx; i++)
+     for (int32 i = MinIdx; i <= MaxIdx; i++)
      {
          if (i == 0) continue;
          mGridVertices.AddVertex(CVector3f(MinIdx * kGridSpacing, i * kGridSpacing, 0.0f));
@@ -432,13 +432,13 @@ void CDrawUtil::InitGrid()
 
      int NumIndices = kGridSize * 4;
      mGridIndices.Reserve(NumIndices);
-     for (u16 i = 0; i < NumIndices; i++) mGridIndices.AddIndex(i);
+     for (uint16 i = 0; i < NumIndices; i++) mGridIndices.AddIndex(i);
      mGridIndices.SetPrimitiveType(GL_LINES);
 }
 
 void CDrawUtil::InitSquare()
 {
-    Log::Write("Creating square");
+    debugf("Creating square");
     mSquareVertices.SetActiveAttribs(ePosition |  eNormal |
                                      eTex0 | eTex1 | eTex2 | eTex3 |
                                      eTex4 | eTex5 | eTex6 | eTex7);
@@ -468,7 +468,7 @@ void CDrawUtil::InitSquare()
     mSquareVertices.BufferAttrib(ePosition, SquareVertices);
     mSquareVertices.BufferAttrib(eNormal, SquareNormals);
 
-    for (u32 iTex = 0; iTex < 8; iTex++)
+    for (uint32 iTex = 0; iTex < 8; iTex++)
     {
         EVertexAttribute Attrib = (EVertexAttribute) (eTex0 << (iTex *2));
         mSquareVertices.BufferAttrib(Attrib, SquareTexCoords);
@@ -484,7 +484,7 @@ void CDrawUtil::InitSquare()
 
 void CDrawUtil::InitLine()
 {
-    Log::Write("Creating line");
+    debugf("Creating line");
     mLineVertices.SetActiveAttribs(ePosition);
     mLineVertices.SetVertexCount(2);
 
@@ -496,13 +496,13 @@ void CDrawUtil::InitLine()
 
 void CDrawUtil::InitCube()
 {
-    Log::Write("Creating cube");
+    debugf("Creating cube");
     mpCubeModel = gpEditorStore->LoadResource("Cube.CMDL");
 }
 
 void CDrawUtil::InitWireCube()
 {
-    Log::Write("Creating wire cube");
+    debugf("Creating wire cube");
     mWireCubeVertices.SetVertexDesc(ePosition);
     mWireCubeVertices.Reserve(8);
     mWireCubeVertices.AddVertex(CVector3f(-0.5f, -0.5f, -0.5f));
@@ -514,7 +514,7 @@ void CDrawUtil::InitWireCube()
     mWireCubeVertices.AddVertex(CVector3f( 0.5f,  0.5f,  0.5f));
     mWireCubeVertices.AddVertex(CVector3f(-0.5f,  0.5f,  0.5f));
 
-    u16 Indices[] = {
+    uint16 Indices[] = {
         0, 1,
         1, 2,
         2, 3,
@@ -528,26 +528,26 @@ void CDrawUtil::InitWireCube()
         2, 6,
         3, 5
     };
-    mWireCubeIndices.AddIndices(Indices, sizeof(Indices) / sizeof(u16));
+    mWireCubeIndices.AddIndices(Indices, sizeof(Indices) / sizeof(uint16));
     mWireCubeIndices.SetPrimitiveType(GL_LINES);
 }
 
 void CDrawUtil::InitSphere()
 {
-    Log::Write("Creating sphere");
+    debugf("Creating sphere");
     mpSphereModel = gpEditorStore->LoadResource("Sphere.CMDL");
     mpDoubleSidedSphereModel = gpEditorStore->LoadResource("SphereDoubleSided.CMDL");
 }
 
 void CDrawUtil::InitWireSphere()
 {
-    Log::Write("Creating wire sphere");
+    debugf("Creating wire sphere");
     mpWireSphereModel = gpEditorStore->LoadResource("WireSphere.CMDL");
 }
 
 void CDrawUtil::InitShaders()
 {
-    Log::Write("Creating shaders");
+    debugf("Creating shaders");
     mpColorShader          = CShader::FromResourceFile("ColorShader");
     mpColorShaderLighting  = CShader::FromResourceFile("ColorShaderLighting");
     mpBillboardShader      = CShader::FromResourceFile("BillboardShader");
@@ -559,7 +559,7 @@ void CDrawUtil::InitShaders()
 
 void CDrawUtil::InitTextures()
 {
-    Log::Write("Loading textures");
+    debugf("Loading textures");
     mpCheckerTexture = gpEditorStore->LoadResource("Checkerboard.TXTR");
 
     mpLightTextures[0] = gpEditorStore->LoadResource("LightAmbient.TXTR");
@@ -577,7 +577,7 @@ void CDrawUtil::Shutdown()
 {
     if (mDrawUtilInitialized)
     {
-        Log::Write("Shutting down");
+        debugf("Shutting down");
         delete mpColorShader;
         delete mpColorShaderLighting;
         delete mpTextureShader;

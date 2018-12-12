@@ -103,7 +103,7 @@ void CDoorExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SView
         rTester.AddNodeModel(this, mpShieldModel);
 }
 
-SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
+SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo)
 {
     FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 

@@ -9,10 +9,10 @@ class CModelCooker
 {
     TResPtr<CModel> mpModel;
     EGame mVersion;
-    u32 mNumMatSets;
-    u32 mNumSurfaces;
-    u32 mNumVertices;
-    u8 mVertexFormat;
+    uint32 mNumMatSets;
+    uint32 mNumSurfaces;
+    uint32 mNumVertices;
+    uint8 mVertexFormat;
     std::vector<CVertex> mVertices;
     FVertexDescription mVtxAttribs;
 
@@ -23,7 +23,7 @@ class CModelCooker
 
 public:
     static bool CookCMDL(CModel *pModel, IOutputStream& rOut);
-    static u32 GetCMDLVersion(EGame Version);
+    static uint32 GetCMDLVersion(EGame Version);
 };
 
 #endif // CMODELCOOKER_H

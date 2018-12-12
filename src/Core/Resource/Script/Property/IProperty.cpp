@@ -76,7 +76,7 @@ void IProperty::Serialize(IArchive& rArc)
 {
     // Always serialize ID first! ID is always required (except for root properties, which have an ID of 0xFFFFFFFF)
     // because they are needed to look up the correct property to apply parameter overrides to.
-    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Attribute | SH_Optional, (u32) 0xFFFFFFFF);
+    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Attribute | SH_Optional, (uint32) 0xFFFFFFFF);
 
     // Now we can serialize the archetype reference and initialize if needed
     if ( ((mpArchetype && mpArchetype->IsRootParent()) || rArc.IsReader()) && rArc.CanSkipParameters() )
@@ -149,7 +149,7 @@ bool IProperty::ShouldSerialize() const
            mMaxVersion != mpArchetype->mMaxVersion;
 }
 
-void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u32 InOffset)
+void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, uint32 InOffset)
 {
     // Make sure we only get initialized once.
     ASSERT( (mFlags & EPropertyFlag::IsInitialized) == 0 );
@@ -199,7 +199,7 @@ void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u
     PostInitialize();
 
     // Now, route initialization to any child properties...
-    u32 ChildOffset = mOffset;
+    uint32 ChildOffset = mOffset;
 
     for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
@@ -231,9 +231,9 @@ void* IProperty::RawValuePtr(void* pData) const
     return pValuePtr;
 }
 
-IProperty* IProperty::ChildByID(u32 ID) const
+IProperty* IProperty::ChildByID(uint32 ID) const
 {
-    for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
         if (mChildren[ChildIdx]->mID == ID)
             return mChildren[ChildIdx];
@@ -248,13 +248,13 @@ IProperty* IProperty::ChildByIDString(const TIDString& rkIdString)
     // some ID strings are formatted with 8 characters and some with 2 (plus the beginning "0x")
     ASSERT(rkIdString.Size() >= 4);
 
-    u32 IDEndPos = rkIdString.IndexOf(':');
-    u32 NextChildID = -1;
+    uint32 IDEndPos = rkIdString.IndexOf(':');
+    uint32 NextChildID = -1;
 
     if (IDEndPos == -1)
-        NextChildID = rkIdString.ToInt32();
+        NextChildID = rkIdString.ToInt32(16);
     else
-        NextChildID = rkIdString.SubString(2, IDEndPos - 2).ToInt32();
+        NextChildID = rkIdString.SubString(2, IDEndPos - 2).ToInt32(16);
 
     if (NextChildID == 0xFFFFFFFF)
     {
@@ -278,7 +278,7 @@ void IProperty::GatherAllSubInstances(std::list<IProperty*>& OutList, bool Recur
 {
     OutList.push_back(this);
 
-    for( u32 SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++ )
+    for( uint32 SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++ )
     {
         IProperty* pSubInstance = mSubInstances[SubIdx];
 
@@ -310,7 +310,7 @@ TString IProperty::GetTemplateFileName()
     pTemplateRoot = pTemplateRoot->RootParent();
 
     // Now that we have the base property of our template, we can return the file path.
-    static const u32 kChopAmount = strlen("../templates/");
+    static const uint32 kChopAmount = strlen("../templates/");
 
     if (pTemplateRoot->ScriptTemplate())
     {
@@ -378,7 +378,7 @@ void IProperty::MarkDirty()
         mFlags &= ~(EPropertyFlag::HasCachedNameCheck | EPropertyFlag::HasCorrectPropertyName);
 
         // Mark sub-instances as dirty since they may need to resave as well
-        for (u32 SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++)
+        for (uint32 SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++)
         {
             mSubInstances[SubIdx]->MarkDirty();
         }
@@ -454,7 +454,7 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= 
     // Swap out our parent's reference to us to point to the new property.
     if (mpParent)
     {
-        for (u32 SiblingIdx = 0; SiblingIdx < mpParent->mChildren.size(); SiblingIdx++)
+        for (uint32 SiblingIdx = 0; SiblingIdx < mpParent->mChildren.size(); SiblingIdx++)
         {
             IProperty* pSibling = mpParent->mChildren[SiblingIdx];
             if (pSibling == this)
@@ -466,7 +466,7 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= 
     }
 
     // Change all our child properties to be parented under the new property. (Is this adoption?)
-    for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
         mChildren[ChildIdx]->mpParent = pNewProperty;
         pNewProperty->mChildren.push_back(mChildren[ChildIdx]);
@@ -478,7 +478,7 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= 
     // Note that when the sub-instances complete their conversion, they delete themselves.
     // The IProperty destructor removes the property from the archetype's sub-instance list.
     // So we shouldn't use a for loop, instead we should just wait until the array is empty
-    u32 SubCount = mSubInstances.size();
+    uint32 SubCount = mSubInstances.size();
 
     while (!mSubInstances.empty())
     {
@@ -542,7 +542,7 @@ bool IProperty::HasAccurateName()
         CCRC32 Hash;
         Hash.Hash(*mName);
         Hash.Hash(HashableTypeName());
-        u32 GeneratedID = Hash.Digest();
+        uint32 GeneratedID = Hash.Digest();
 
         // Some choice properties are incorrectly declared as ints, so account for
         // this and allow matching ints against choice typenames as well.
@@ -619,7 +619,7 @@ IProperty* IProperty::CreateCopy(IProperty* pArchetype)
 
 IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
                                             EGame Game,
-                                            u32 Offset,
+                                            uint32 Offset,
                                             const TString& rkName)
 {
     IProperty* pOut = Create(Type, Game);
@@ -631,7 +631,7 @@ IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
 
 IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
                                             IProperty* pParent,
-                                            u32 Offset,
+                                            uint32 Offset,
                                             const TString& rkName)
 {
     // pParent should always be valid.

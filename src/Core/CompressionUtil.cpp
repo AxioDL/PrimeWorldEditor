@@ -1,14 +1,12 @@
 #include "CompressionUtil.h"
-#include <Common/Log.h>
-#include <Common/TString.h>
-#include <Common/types.h>
+#include <Common/Common.h>
 
 #include <lzo/lzo1x.h>
 #include <zlib.h>
 
 namespace CompressionUtil
 {
-    TString ErrorText_zlib(s32 Error)
+    const char* ErrorText_zlib(int32 Error)
     {
         switch (Error)
         {
@@ -25,7 +23,7 @@ namespace CompressionUtil
         }
     }
 
-    TString ErrorText_LZO(s32 Error)
+    const char* ErrorText_LZO(int32 Error)
     {
         switch (Error)
         {
@@ -48,7 +46,7 @@ namespace CompressionUtil
     }
 
     // ************ DECOMPRESS ************
-    bool DecompressZlib(u8 *pSrc, u32 SrcLen, u8 *pDst, u32 DstLen, u32& rTotalOut)
+    bool DecompressZlib(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32 DstLen, uint32& rTotalOut)
     {
         // Initialize z_stream
         z_stream z;
@@ -61,7 +59,7 @@ namespace CompressionUtil
         z.next_out = pDst;
 
         // Attempt decompress
-        s32 Error = inflateInit(&z);
+        int32 Error = inflateInit(&z);
 
         if (!Error)
         {
@@ -76,42 +74,42 @@ namespace CompressionUtil
         // Check for errors
         if (Error && Error != Z_STREAM_END)
         {
-            Log::Error("zlib error: " + ErrorText_zlib(Error));
+            errorf("zlib error: %s", ErrorText_zlib(Error));
             return false;
         }
 
         else return true;
     }
 
-    bool DecompressLZO(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut)
+    bool DecompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut)
     {
         lzo_init();
         lzo_uint TotalOut;
-        s32 Error = lzo1x_decompress(pSrc, SrcLen, pDst, &TotalOut, LZO1X_MEM_DECOMPRESS);
-        rTotalOut = (u32) TotalOut;
+        int32 Error = lzo1x_decompress(pSrc, SrcLen, pDst, &TotalOut, LZO1X_MEM_DECOMPRESS);
+        rTotalOut = (uint32) TotalOut;
 
         if (Error)
         {
-            Log::Error("LZO error: " + ErrorText_LZO(Error));
+            errorf("LZO error: %s", ErrorText_LZO(Error));
             return false;
         }
 
         return true;
     }
 
-    bool DecompressSegmentedData(u8 *pSrc, u32 SrcLen, u8 *pDst, u32 DstLen)
+    bool DecompressSegmentedData(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32 DstLen)
     {
-        u8 *pSrcEnd = pSrc + SrcLen;
-        u8 *pDstEnd = pDst + DstLen;
+        uint8 *pSrcEnd = pSrc + SrcLen;
+        uint8 *pDstEnd = pDst + DstLen;
 
         while ((pSrc < pSrcEnd) && (pDst < pDstEnd))
         {
             // Read size value (this method is Endian-independent)
-            u8 ByteA = *pSrc++;
-            u8 ByteB = *pSrc++;
-            s16 Size = (ByteA << 8) | ByteB;
+            uint8 ByteA = *pSrc++;
+            uint8 ByteB = *pSrc++;
+            int16 Size = (ByteA << 8) | ByteB;
 
-            u32 TotalOut;
+            uint32 TotalOut;
 
             // Negative size denotes uncompressed data.
             if (Size < 0)
@@ -126,13 +124,13 @@ namespace CompressionUtil
             else
             {
                 // Check for zlib magic
-                u8 ByteC = pSrc[0];
-                u8 ByteD = pSrc[1];
-                u16 PeekMagic = (ByteC << 8) | ByteD;
+                uint8 ByteC = pSrc[0];
+                uint8 ByteD = pSrc[1];
+                uint16 PeekMagic = (ByteC << 8) | ByteD;
 
                 if (PeekMagic == 0x78DA || PeekMagic == 0x789C || PeekMagic == 0x7801)
                 {
-                    bool Success = DecompressZlib(pSrc, Size, pDst, (u32) (pDstEnd - pDst), TotalOut);
+                    bool Success = DecompressZlib(pSrc, Size, pDst, (uint32) (pDstEnd - pDst), TotalOut);
                     if (!Success) return false;
                 }
 
@@ -152,7 +150,7 @@ namespace CompressionUtil
     }
 
     // ************ COMPRESS ************
-    bool CompressZlib(u8 *pSrc, u32 SrcLen, u8 *pDst, u32 DstLen, u32& rTotalOut)
+    bool CompressZlib(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32 DstLen, uint32& rTotalOut)
     {
         z_stream z;
         z.zalloc = Z_NULL;
@@ -163,7 +161,7 @@ namespace CompressionUtil
         z.avail_out = DstLen;
         z.next_out = pDst;
 
-        s32 Error = deflateInit(&z, 9);
+        int32 Error = deflateInit(&z, 9);
 
         if (!Error)
         {
@@ -177,46 +175,46 @@ namespace CompressionUtil
 
         if (Error && Error != Z_STREAM_END)
         {
-            Log::Error("zlib error: " + ErrorText_zlib(Error));
+            errorf("zlib error: %s", ErrorText_zlib(Error));
             return false;
         }
 
         else return true;
     }
 
-    bool CompressLZO(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut)
+    bool CompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut)
     {
         lzo_init();
 
-        u8 *pWorkMem = new u8[LZO1X_999_MEM_COMPRESS];
-        s32 Error = lzo1x_999_compress(pSrc, SrcLen, pDst, (lzo_uint*) &rTotalOut, pWorkMem);
+        uint8 *pWorkMem = new uint8[LZO1X_999_MEM_COMPRESS];
+        int32 Error = lzo1x_999_compress(pSrc, SrcLen, pDst, (lzo_uint*) &rTotalOut, pWorkMem);
         delete[] pWorkMem;
 
         if (Error)
         {
-            Log::Error("LZO error: " + ErrorText_LZO(Error));
+            errorf("LZO error: %s", ErrorText_LZO(Error));
             return false;
         }
 
         return true;
     }
 
-    bool CompressSegmentedData(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool IsZlib, bool AllowUncompressedSegments)
+    bool CompressSegmentedData(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut, bool IsZlib, bool AllowUncompressedSegments)
     {
-        u8 *pSrcEnd = pSrc + SrcLen;
-        u8 *pDstStart = pDst;
+        uint8 *pSrcEnd = pSrc + SrcLen;
+        uint8 *pDstStart = pDst;
 
         while (pSrc < pSrcEnd)
         {
             // Each segment is compressed separately. Segment size should always be 0x4000 unless there's less than 0x4000 bytes left.
-            u16 Size;
-            u32 Remaining = (u32) (pSrcEnd - pSrc);
+            uint16 Size;
+            uint32 Remaining = (uint32) (pSrcEnd - pSrc);
 
-            if (Remaining < 0x4000) Size = (u16) Remaining;
+            if (Remaining < 0x4000) Size = (uint16) Remaining;
             else Size = 0x4000;
 
-            std::vector<u8> Compressed(Size * 2);
-            u32 TotalOut;
+            std::vector<uint8> Compressed(Size * 2);
+            uint32 TotalOut;
 
             if (IsZlib)
                 CompressZlib(pSrc, Size, Compressed.data(), Compressed.size(), TotalOut);
@@ -248,16 +246,16 @@ namespace CompressionUtil
             pDst += TotalOut;
         }
 
-        rTotalOut = (u32) (pDst - pDstStart);
+        rTotalOut = (uint32) (pDst - pDstStart);
         return true;
     }
 
-    bool CompressZlibSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool AllowUncompressedSegments)
+    bool CompressZlibSegmented(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut, bool AllowUncompressedSegments)
     {
         return CompressSegmentedData(pSrc, SrcLen, pDst, rTotalOut, true, AllowUncompressedSegments);
     }
 
-    bool CompressLZOSegmented(u8 *pSrc, u32 SrcLen, u8 *pDst, u32& rTotalOut, bool AllowUncompressedSegments)
+    bool CompressLZOSegmented(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut, bool AllowUncompressedSegments)
     {
         return CompressSegmentedData(pSrc, SrcLen, pDst, rTotalOut, false, AllowUncompressedSegments);
     }

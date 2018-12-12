@@ -1,7 +1,7 @@
 #include "CDeleteLinksCommand.h"
 #include <Core/Resource/Script/CLink.h>
 
-CDeleteLinksCommand::CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *pObject, ELinkType Type, const QVector<u32>& rkIndices)
+CDeleteLinksCommand::CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *pObject, ELinkType Type, const QVector<uint32>& rkIndices)
     : IUndoCommand("Delete Links")
     , mpEditor(pEditor)
 {

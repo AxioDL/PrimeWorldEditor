@@ -4,8 +4,8 @@
 #include "CLink.h"
 #include "CScriptTemplate.h"
 #include "Core/Resource/Script/Property/Properties.h"
+#include <Common/BasicTypes.h>
 #include <Common/EGame.h>
-#include <Common/types.h>
 #include <map>
 
 /** Serialization aid
@@ -15,15 +15,15 @@
 struct SObjId
 {
     union {
-        u32 ID;
+        uint32 ID;
         CFourCC ID_4CC;
     };
 
     inline SObjId()                             {}
-    inline SObjId(u32 InID)     : ID(InID)      {}
+    inline SObjId(uint32 InID)  : ID(InID)      {}
     inline SObjId(CFourCC InID) : ID_4CC(InID)  {}
 
-    inline operator u32() const     { return ID; }
+    inline operator uint32() const  { return ID; }
     inline operator CFourCC() const { return ID_4CC; }
 
     void Serialize(IArchive& Arc)
@@ -117,27 +117,27 @@ public:
     void Save();
     void SaveGameTemplates(bool ForceAll = false);
 
-    u32 GameVersion(TString VersionName);
-    CScriptTemplate* TemplateByID(u32 ObjectID);
+    uint32 GameVersion(TString VersionName);
+    CScriptTemplate* TemplateByID(uint32 ObjectID);
     CScriptTemplate* TemplateByID(const CFourCC& ObjectID);
-    CScriptTemplate* TemplateByIndex(u32 Index);
-    SState StateByID(u32 StateID);
+    CScriptTemplate* TemplateByIndex(uint32 Index);
+    SState StateByID(uint32 StateID);
     SState StateByID(const CFourCC& StateID);
-    SState StateByIndex(u32 Index);
-    SMessage MessageByID(u32 MessageID);
+    SState StateByIndex(uint32 Index);
+    SMessage MessageByID(uint32 MessageID);
     SMessage MessageByID(const CFourCC& MessageID);
-    SMessage MessageByIndex(u32 Index);
+    SMessage MessageByIndex(uint32 Index);
     IProperty* FindPropertyArchetype(const TString& kTypeName);
     TString GetPropertyArchetypeFilePath(const TString& kTypeName);
     bool RenamePropertyArchetype(const TString& kTypeName, const TString& kNewTypeName);
     TString GetGameDirectory() const;
 
     // Inline Accessors
-    inline EGame Game() const               { return mGame; }
-    inline u32 NumScriptTemplates() const   { return mScriptTemplates.size(); }
-    inline u32 NumStates() const            { return mStates.size(); }
-    inline u32 NumMessages() const          { return mMessages.size(); }
-    inline bool IsLoadedSuccessfully()      { return mFullyLoaded; }
+    inline EGame Game() const                   { return mGame; }
+    inline uint32 NumScriptTemplates() const    { return mScriptTemplates.size(); }
+    inline uint32 NumStates() const             { return mStates.size(); }
+    inline uint32 NumMessages() const           { return mMessages.size(); }
+    inline bool IsLoadedSuccessfully()          { return mFullyLoaded; }
 };
 
 #endif // CGAMETEMPLATE_H

@@ -217,10 +217,10 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
             if (!pDir->IsRoot())
                 mDirectories << pDir->Parent();
 
-            for (u32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
+            for (uint32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
                 mDirectories << pDir->SubdirectoryByIndex(iDir);
 
-            for (u32 iRes = 0; iRes < pDir->NumResources(); iRes++)
+            for (uint32 iRes = 0; iRes < pDir->NumResources(); iRes++)
             {
                 CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
 
@@ -258,7 +258,7 @@ void CResourceTableModel::DisplayEntryList(QList<CResourceEntry*>& rkEntries, co
 
 void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
 {
-    for (u32 iRes = 0; iRes < pDir->NumResources(); iRes++)
+    for (uint32 iRes = 0; iRes < pDir->NumResources(); iRes++)
     {
         CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
 
@@ -269,7 +269,7 @@ void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
         }
     }
 
-    for (u32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
+    for (uint32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
         RecursiveAddDirectoryContents(pDir->SubdirectoryByIndex(iDir));
 }
 

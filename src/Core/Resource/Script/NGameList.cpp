@@ -50,11 +50,11 @@ bool IsGameTemplateLoaded(EGame Game)
 inline void SerializeGameList(IArchive& Arc)
 {
     // Serialize the number of games with valid GameInfos.
-    u32 NumGames = 0;
+    uint32 NumGames = 0;
 
     if (Arc.IsWriter())
     {
-        for (u32 GameIdx = 0; GameIdx < (u32) EGame::Max; GameIdx++)
+        for (uint32 GameIdx = 0; GameIdx < (uint32) EGame::Max; GameIdx++)
         {
             if ( gGameList[GameIdx].IsValid )
                 NumGames++;
@@ -64,7 +64,7 @@ inline void SerializeGameList(IArchive& Arc)
     Arc.SerializeArraySize(NumGames);
 
     // Serialize the actual game info
-    for (u32 GameIdx = 0; GameIdx < (u32) EGame::Max; GameIdx++)
+    for (uint32 GameIdx = 0; GameIdx < (uint32) EGame::Max; GameIdx++)
     {
         // Skip games that don't have game templates when writing.
         if (Arc.IsWriter() && !gGameList[GameIdx].IsValid)
@@ -77,7 +77,7 @@ inline void SerializeGameList(IArchive& Arc)
         Arc << SerialParameter("ID", Game, SH_Attribute);
         ASSERT( Game != EGame::Invalid );
 
-        gGameList[ (u32) Game ].Serialize(Arc);
+        gGameList[ (uint32) Game ].Serialize(Arc);
         Arc.ParamEnd();
     }
 }
@@ -86,7 +86,7 @@ inline void SerializeGameList(IArchive& Arc)
 void LoadGameList()
 {
     ASSERT(!gLoadedGameList);
-    Log::Write("Loading game list");
+    debugf("Loading game list");
 
     CXMLReader Reader(gkGameListPath);
     ASSERT(Reader.IsValid());
@@ -99,7 +99,7 @@ void LoadGameList()
 void SaveGameList()
 {
     ASSERT(gLoadedGameList);
-    Log::Write("Saving game list");
+    debugf("Saving game list");
 
     CXMLWriter Writer(gkGameListPath, "GameList");
     ASSERT(Writer.IsValid());

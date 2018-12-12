@@ -15,7 +15,7 @@ CFont::~CFont()
 {
 }
 
-inline float PtsToFloat(s32 Pt)
+inline float PtsToFloat(int32 Pt)
 {
     // This is a bit of an arbitrary number but it works
     // 1 / (1280 / 1.333333f / 2)
@@ -30,7 +30,7 @@ CDependencyTree* CFont::BuildDependencyTree() const
 }
 
 CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/, float /*AspectRatio*/,
-                              CVector2f /*Position*/, CColor FillColor, CColor StrokeColor, u32 FontSize)
+                              CVector2f /*Position*/, CColor FillColor, CColor StrokeColor, uint32 FontSize)
 {
     // WIP
     if (!smBuffersInitialized) InitBuffers();
@@ -55,7 +55,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
     if (FontSize == CFONT_DEFAULT_SIZE) Scale = 1.f;
     else Scale = (float) FontSize / (mDefaultSize != 0 ? mDefaultSize : 18);
 
-    for (u32 iChar = 0; iChar < rkString.Length(); iChar++)
+    for (uint32 iChar = 0; iChar < rkString.Length(); iChar++)
     {
         // Get character, check for newline
         char Char = rkString[iChar];
@@ -80,7 +80,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
         {
             if (pPrevGlyph->KerningIndex != -1)
             {
-                for (u32 iKern = pPrevGlyph->KerningIndex; iKern < mKerningTable.size(); iKern++)
+                for (uint32 iKern = pPrevGlyph->KerningIndex; iKern < mKerningTable.size(); iKern++)
                 {
                     if (mKerningTable[iKern].CharacterA != pPrevGlyph->Character) break;
                     if (mKerningTable[iKern].CharacterB == rkString[iChar])
@@ -110,7 +110,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
         GlyphTransform.Translate(CVector3f(XTrans, YTrans, 0.f));
 
         // Get glyph layer
-        u8 GlyphLayer = pGlyph->RGBAChannel;
+        uint8 GlyphLayer = pGlyph->RGBAChannel;
         if (mTextureFormat == 3) GlyphLayer *= 2;
         else if (mTextureFormat == 8) GlyphLayer = 3;
 
@@ -126,7 +126,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
         // Draw stroke
         if ((mTextureFormat == 1) || (mTextureFormat == 3) || (mTextureFormat == 8))
         {
-            u8 StrokeLayer;
+            uint8 StrokeLayer;
             if (mTextureFormat == 1) StrokeLayer = 1;
             else if (mTextureFormat == 3) StrokeLayer = GlyphLayer + 1;
             else if (mTextureFormat == 8) StrokeLayer = GlyphLayer - 2;

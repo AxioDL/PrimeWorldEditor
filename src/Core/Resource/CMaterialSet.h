@@ -18,7 +18,7 @@ public:
 
     ~CMaterialSet()
     {
-        for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+        for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
             delete mMaterials[iMat];
     }
 
@@ -27,18 +27,18 @@ public:
         CMaterialSet *pOut = new CMaterialSet();
 
         pOut->mMaterials.resize(mMaterials.size());
-        for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+        for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
             pOut->mMaterials[iMat] = mMaterials[iMat]->Clone();
 
         return pOut;
     }
 
-    u32 NumMaterials()
+    uint32 NumMaterials()
     {
         return mMaterials.size();
     }
 
-    CMaterial* MaterialByIndex(u32 Index)
+    CMaterial* MaterialByIndex(uint32 Index)
     {
         if (Index >= NumMaterials()) return nullptr;
         return mMaterials[Index];
@@ -52,9 +52,9 @@ public:
         return nullptr;
     }
 
-    u32 MaterialIndexByName(const TString& rkName)
+    uint32 MaterialIndexByName(const TString& rkName)
     {
-        for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+        for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
             if (mMaterials[iMat]->Name() == rkName) return iMat;
 
         return -1;
@@ -62,12 +62,12 @@ public:
 
     void GetUsedTextureIDs(std::set<CAssetID>& rOut)
     {
-        for (u32 iMat = 0; iMat < mMaterials.size(); iMat++)
+        for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
         {
             CMaterial *pMat = mMaterials[iMat];
             if (pMat->IndTexture()) rOut.insert(pMat->IndTexture()->ID());
 
-            for (u32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+            for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
             {
                 CTexture *pTex = pMat->Pass(iPass)->Texture();
                 if (pTex) rOut.insert(pTex->ID());

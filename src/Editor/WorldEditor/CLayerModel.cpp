@@ -34,7 +34,7 @@ void CLayerModel::SetArea(CGameArea *pArea)
 CScriptLayer* CLayerModel::Layer(const QModelIndex& index) const
 {
     if (!mpArea) return nullptr;
-    u32 NumLayers = mpArea->NumScriptLayers();
+    uint32 NumLayers = mpArea->NumScriptLayers();
 
     if (index.row() < (int) NumLayers)
         return mpArea->ScriptLayer(index.row());

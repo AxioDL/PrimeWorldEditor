@@ -37,22 +37,22 @@ void CStaticModel::BufferGL()
         mVBO.Clear();
         mIBOs.clear();
 
-        for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+        for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         {
             SSurface *pSurf = mSurfaces[iSurf];
 
-            u16 VBOStartOffset = (u16) mVBO.Size();
-            mVBO.Reserve((u16) pSurf->VertexCount);
+            uint16 VBOStartOffset = (uint16) mVBO.Size();
+            mVBO.Reserve((uint16) pSurf->VertexCount);
 
-            for (u32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
+            for (uint32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
             {
                 SSurface::SPrimitive *pPrim = &pSurf->Primitives[iPrim];
                 CIndexBuffer *pIBO = InternalGetIBO(pPrim->Type);
                 pIBO->Reserve(pPrim->Vertices.size() + 1); // Allocate enough space for this primitive, plus the restart index
 
                 // Next step: add new vertices to the VBO and create a small index buffer for the current primitive
-                std::vector<u16> Indices(pPrim->Vertices.size());
-                for (u32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
+                std::vector<uint16> Indices(pPrim->Vertices.size());
+                for (uint32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
                     Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
 
                 // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
@@ -76,15 +76,15 @@ void CStaticModel::BufferGL()
 
             // Make sure the number of submesh offset vectors matches the number of IBOs, then add the offsets
             while (mIBOs.size() > mSurfaceEndOffsets.size())
-                mSurfaceEndOffsets.emplace_back(std::vector<u32>(mSurfaces.size()));
+                mSurfaceEndOffsets.emplace_back(std::vector<uint32>(mSurfaces.size()));
 
-            for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+            for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
                 mSurfaceEndOffsets[iIBO][iSurf] = mIBOs[iIBO].GetSize();
         }
 
         mVBO.Buffer();
 
-        for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+        for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
             mIBOs[iIBO].Buffer();
 
         mBuffered = true;
@@ -115,7 +115,7 @@ void CStaticModel::Draw(FRenderOptions Options)
     mVBO.Bind();
     glLineWidth(1.f);
 
-    for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+    for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
     {
         CIndexBuffer *pIBO = &mIBOs[iIBO];
         pIBO->Bind();
@@ -127,7 +127,7 @@ void CStaticModel::Draw(FRenderOptions Options)
     mVBO.Unbind();
 }
 
-void CStaticModel::DrawSurface(FRenderOptions Options, u32 Surface)
+void CStaticModel::DrawSurface(FRenderOptions Options, uint32 Surface)
 {
     if (!mBuffered) BufferGL();
 
@@ -135,12 +135,12 @@ void CStaticModel::DrawSurface(FRenderOptions Options, u32 Surface)
     glLineWidth(1.f);
     if ((Options & eNoMaterialSetup) == 0) mpMaterial->SetCurrent(Options);
 
-    for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+    for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
     {
         // Since there is a shared IBO for every mesh, we need two things to draw a single one: an offset and a size
-        u32 Offset = 0;
+        uint32 Offset = 0;
         if (Surface > 0) Offset = mSurfaceEndOffsets[iIBO][Surface - 1];
-        u32 Size = mSurfaceEndOffsets[iIBO][Surface] - Offset;
+        uint32 Size = mSurfaceEndOffsets[iIBO][Surface] - Offset;
 
         if (!Size) continue; // The chosen submesh doesn't use this IBO
 
@@ -164,7 +164,7 @@ void CStaticModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CC
     glBlendFunc(GL_ONE, GL_ZERO);
 
     // Draw surfaces
-    for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+    for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         DrawSurface(Options, iSurf);
 
     // Cleanup
@@ -196,7 +196,7 @@ CIndexBuffer* CStaticModel::InternalGetIBO(EGXPrimitiveType Primitive)
 {
     GLenum type = GXPrimToGLPrim(Primitive);
 
-    for (u32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+    for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
     {
         if (mIBOs[iIBO].GetPrimitiveType() == type)
             return &mIBOs[iIBO];

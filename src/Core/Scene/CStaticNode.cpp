@@ -2,9 +2,9 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
-#include <Math/MathUtil.h>
+#include <Common/Math/MathUtil.h>
 
-CStaticNode::CStaticNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CStaticModel *pModel)
+CStaticNode::CStaticNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CStaticModel *pModel)
     : CSceneNode(pScene, NodeID, pParent)
     , mpModel(pModel)
 {
@@ -38,8 +38,8 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
 
     else
     {
-        u32 NumSurfaces = mpModel->GetSurfaceCount();
-        for (u32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
+        uint32 NumSurfaces = mpModel->GetSurfaceCount();
+        for (uint32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
         {
             CAABox TransformedBox = mpModel->GetSurfaceAABox(iSurf).Transformed(Transform());
 
@@ -102,7 +102,7 @@ void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SVie
 
     if (BoxResult.first)
     {
-        for (u32 iSurf = 0; iSurf < mpModel->GetSurfaceCount(); iSurf++)
+        for (uint32 iSurf = 0; iSurf < mpModel->GetSurfaceCount(); iSurf++)
         {
             std::pair<bool,float> SurfResult = mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()).IntersectsRay(rkRay);
 
@@ -112,7 +112,7 @@ void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SVie
     }
 }
 
-SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
+SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo)
 {
     SRayIntersection Out;
     Out.pNode = this;

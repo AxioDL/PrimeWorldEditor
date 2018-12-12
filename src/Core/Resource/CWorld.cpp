@@ -21,7 +21,7 @@ CDependencyTree* CWorld::BuildDependencyTree() const
 {
     CDependencyTree *pTree = new CDependencyTree();
 
-    for (u32 iArea = 0; iArea < mAreas.size(); iArea++)
+    for (uint32 iArea = 0; iArea < mAreas.size(); iArea++)
     {
         pTree->AddDependency(mAreas[iArea].AreaResID);
         pTree->AddDependency(mAreas[iArea].pAreaName);
@@ -38,7 +38,7 @@ CDependencyTree* CWorld::BuildDependencyTree() const
 
 void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 {
-    for (u32 iArea = 0; iArea < mAreas.size(); iArea++)
+    for (uint32 iArea = 0; iArea < mAreas.size(); iArea++)
     {
         if (mAreas[iArea].AreaResID == pArea->ID())
         {
@@ -49,7 +49,7 @@ void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 
     SArea& AreaInfo = mAreas[pArea->WorldIndex()];
 
-    for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+    for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
     {
         if (AreaInfo.Layers.size() <= iLyr) break;
         CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
@@ -68,7 +68,7 @@ TString CWorld::InGameName() const
         return Entry()->Name();
 }
 
-TString CWorld::AreaInGameName(u32 AreaIndex) const
+TString CWorld::AreaInGameName(uint32 AreaIndex) const
 {
     const SArea& rkArea = mAreas[AreaIndex];
 
@@ -78,9 +78,9 @@ TString CWorld::AreaInGameName(u32 AreaIndex) const
         return "!!" + rkArea.InternalName;
 }
 
-u32 CWorld::AreaIndex(CAssetID AreaID) const
+uint32 CWorld::AreaIndex(CAssetID AreaID) const
 {
-    for (u32 AreaIdx = 0; AreaIdx < mAreas.size(); AreaIdx++)
+    for (uint32 AreaIdx = 0; AreaIdx < mAreas.size(); AreaIdx++)
     {
         if (mAreas[AreaIdx].AreaResID == AreaID)
             return AreaIdx;

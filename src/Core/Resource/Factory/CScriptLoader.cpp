@@ -19,7 +19,7 @@ CScriptLoader::CScriptLoader()
 {
 }
 
-void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY)
+void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rSCLY)
 {
     void* pData = (mpArrayItemData ? mpArrayItemData : mpObj->mPropertyData.data());
 
@@ -69,8 +69,13 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
 #if VALIDATE_PROPERTY_VALUES
         if (!pChoice->HasValidValue(pData))
         {
-            u32 Value = pChoice->ValueRef(pData);
-            Log::FileError(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Choice property \"" + pChoice->Name() + "\" (" + pChoice->IDString(true) + ") has unrecognized value: " + TString::HexString(Value));
+            uint32 Value = pChoice->ValueRef(pData);
+            errorf("%s [0x%X]: Choice property \"%s\" (%s) has unrecognized value: 0x%08X",
+                   *rSCLY.GetSourceString(),
+                   rSCLY.Tell() - 4,
+                   *pChoice->Name(),
+                   *pChoice->IDString(true),
+                   Value);
         }
 #endif
         break;
@@ -84,8 +89,13 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
 #if VALIDATE_PROPERTY_VALUES
         if (!pEnum->HasValidValue(pData))
         {
-            u32 Value = pEnum->ValueRef(pData);
-            Log::FileError(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Enum property \"" + pEnum->Name() + "\" (" + pEnum->IDString(true) + ") has unrecognized value: " + TString::HexString(Value));
+            uint32 Value = pEnum->ValueRef(pData);
+            errorf("%s [0x%X]: Enum property \"%s\" (%s) has unrecognized value: 0x%08X",
+                   *rSCLY.GetSourceString(),
+                   rSCLY.Tell() - 4,
+                   *pEnum->Name(),
+                   *pEnum->IDString(true),
+                   Value);
         }
 #endif
         break;
@@ -97,11 +107,16 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
         pFlags->ValueRef(pData) = rSCLY.ReadLong();
 
 #if VALIDATE_PROPERTY_VALUES
-        u32 InvalidBits = pFlags->HasValidValue(pData);
+        uint32 InvalidBits = pFlags->HasValidValue(pData);
 
         if (InvalidBits)
         {
-            Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - 4, "Flags property \"" + pFlags->Name() + "\" + (" + pFlags->IDString(true) + ") has unrecognized flags set: " + TString::HexString(InvalidBits));
+            warnf("%s [0x%X]: Flags property \"%s\" (%s) has unrecognized flags set: 0x%08X",
+                  *rSCLY.GetSourceString(),
+                  rSCLY.Tell() - 4,
+                  *pFlags->Name(),
+                  *pFlags->IDString(true),
+                  InvalidBits);
         }
 #endif
         break;
@@ -146,7 +161,14 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
                 bool Valid = rkFilter.Accepts(pEntry->ResourceType());
 
                 if (!Valid)
-                    Log::FileWarning(rSCLY.GetSourceString(), rSCLY.Tell() - ID.Length(), "Asset property \"" + pAsset->Name() + "\" (" + pAsset->IDString(true) + ") has a reference to an illegal asset type: " + pEntry->CookedExtension());
+                {
+                    warnf("%s [0x%X]: Asset property \"%s\" (%s) has a reference to an illegal asset type: %s",
+                          *rSCLY.GetSourceString(),
+                          rSCLY.Tell() - ID.Length(),
+                          *pAsset->Name(),
+                          *pAsset->IDString(true),
+                          *pEntry->CookedExtension().ToString());
+                }
             }
         }
 #endif
@@ -248,20 +270,20 @@ void CScriptLoader::ReadProperty(IProperty *pProp, u32 Size, IInputStream& rSCLY
 
 void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructProperty* pStruct)
 {
-    u32 StructStart = rSCLY.Tell();
+    uint32 StructStart = rSCLY.Tell();
 
     // Verify property count
-    u32 PropertyCount = pStruct->NumChildren();
-    u32 Version = 0;
+    uint32 PropertyCount = pStruct->NumChildren();
+    uint32 Version = 0;
 
     if (!pStruct->IsAtomic())
     {
-        u32 FilePropCount = rSCLY.ReadLong();
+        uint32 FilePropCount = rSCLY.ReadLong();
         //@todo version checking
     }
 
     // Parse properties
-    for (u32 ChildIndex = 0; ChildIndex < PropertyCount; ChildIndex++)
+    for (uint32 ChildIndex = 0; ChildIndex < PropertyCount; ChildIndex++)
     {
         IProperty *pProperty = pStruct->ChildByIndex(ChildIndex);
 
@@ -273,33 +295,33 @@ void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructProperty* pStruct)
 
 CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
 {
-    u32 StartOffset = rSCLY.Tell();
-    u8 Type = rSCLY.ReadByte();
-    u32 Size = rSCLY.ReadLong();
-    u32 End = rSCLY.Tell() + Size;
+    uint32 StartOffset = rSCLY.Tell();
+    uint8 Type = rSCLY.ReadByte();
+    uint32 Size = rSCLY.ReadLong();
+    uint32 End = rSCLY.Tell() + Size;
 
-    CScriptTemplate *pTemplate = mpGameTemplate->TemplateByID((u32) Type);
+    CScriptTemplate *pTemplate = mpGameTemplate->TemplateByID((uint32) Type);
     if (!pTemplate)
     {
         // No valid template for this object; can't load
-        Log::FileError(rSCLY.GetSourceString(), StartOffset, "Unknown object ID encountered: " + TString::HexString(Type, 2));
+        errorf("%s [0x%X]: Unknown object ID encountered: 0x%02X", *rSCLY.GetSourceString(), StartOffset, Type);
         rSCLY.Seek(End, SEEK_SET);
         return nullptr;
     }
 
-    u32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
+    uint32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
     if (InstanceID == 0x03FFFFFF) InstanceID = mpArea->FindUnusedInstanceID();
     mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemplate);
 
     // Load connections
-    u32 NumLinks = rSCLY.ReadLong();
+    uint32 NumLinks = rSCLY.ReadLong();
     mpObj->mOutLinks.reserve(NumLinks);
 
-    for (u32 iLink = 0; iLink < NumLinks; iLink++)
+    for (uint32 iLink = 0; iLink < NumLinks; iLink++)
     {
-        u32 State = rSCLY.ReadLong();
-        u32 Message = rSCLY.ReadLong();
-        u32 ReceiverID = rSCLY.ReadLong() & 0x03FFFFFF;
+        uint32 State = rSCLY.ReadLong();
+        uint32 Message = rSCLY.ReadLong();
+        uint32 ReceiverID = rSCLY.ReadLong() & 0x03FFFFFF;
 
         CLink *pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
         mpObj->mOutLinks.push_back(pLink);
@@ -318,15 +340,15 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
 
 CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
 {
-    u32 LayerStart = rSCLY.Tell();
+    uint32 LayerStart = rSCLY.Tell();
 
     rSCLY.Seek(0x1, SEEK_CUR); // One unknown byte at the start of each layer
-    u32 NumObjects = rSCLY.ReadLong();
+    uint32 NumObjects = rSCLY.ReadLong();
 
     mpLayer = new CScriptLayer(mpArea);
     mpLayer->Reserve(NumObjects);
 
-    for (u32 ObjectIndex = 0; ObjectIndex < NumObjects; ObjectIndex++)
+    for (uint32 ObjectIndex = 0; ObjectIndex < NumObjects; ObjectIndex++)
     {
         CScriptObject *pObject = LoadObjectMP1(rSCLY);
         if (pObject)
@@ -334,7 +356,7 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
     }
 
     // Layer sizes are always a multiple of 32 - skip end padding before returning
-    u32 Remaining = 32 - ((rSCLY.Tell() - LayerStart) & 0x1F);
+    uint32 Remaining = 32 - ((rSCLY.Tell() - LayerStart) & 0x1F);
     rSCLY.Seek(Remaining, SEEK_CUR);
     return mpLayer;
 }
@@ -342,19 +364,19 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
 void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
 {
     // Verify property count
-    u32 ChildCount = pStruct->NumChildren();
+    uint32 ChildCount = pStruct->NumChildren();
 
     if (!pStruct->IsAtomic())
         ChildCount = rSCLY.ReadShort();
 
     // Parse properties
-    for (u32 ChildIdx = 0; ChildIdx < ChildCount; ChildIdx++)
+    for (uint32 ChildIdx = 0; ChildIdx < ChildCount; ChildIdx++)
     {
         IProperty* pProperty = nullptr;
-        u32 PropertyStart = rSCLY.Tell();
-        u32 PropertyID = -1;
-        u16 PropertySize = 0;
-        u32 NextProperty = 0;
+        uint32 PropertyStart = rSCLY.Tell();
+        uint32 PropertyID = -1;
+        uint16 PropertySize = 0;
+        uint32 NextProperty = 0;
 
         if (pStruct->IsAtomic())
         {
@@ -369,7 +391,7 @@ void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
         }
 
         if (!pProperty)
-            Log::FileError(rSCLY.GetSourceString(), PropertyStart, "Can't find template for property " + TString::HexString(PropertyID) + " - skipping");
+            errorf("%s [0x%X]: Can't find template for property 0x%08X - skipping", *rSCLY.GetSourceString(), PropertyStart, PropertyID);
         else
             ReadProperty(pProperty, PropertySize, rSCLY);
 
@@ -380,33 +402,33 @@ void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
 
 CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
 {
-    u32 ObjStart = rSCLY.Tell();
-    u32 ObjectID = rSCLY.ReadLong();
-    u16 ObjectSize = rSCLY.ReadShort();
-    u32 ObjEnd = rSCLY.Tell() + ObjectSize;
+    uint32 ObjStart = rSCLY.Tell();
+    uint32 ObjectID = rSCLY.ReadLong();
+    uint16 ObjectSize = rSCLY.ReadShort();
+    uint32 ObjEnd = rSCLY.Tell() + ObjectSize;
 
     CScriptTemplate* pTemplate = mpGameTemplate->TemplateByID(ObjectID);
 
     if (!pTemplate)
     {
-        Log::FileError(rSCLY.GetSourceString(), ObjStart, "Unknown object ID encountered: " + CFourCC(ObjectID).ToString());
+        errorf("%s [0x%X]: Unknown object ID encountered: %s", *rSCLY.GetSourceString(), ObjStart, *CFourCC(ObjectID).ToString());
         rSCLY.Seek(ObjEnd, SEEK_SET);
         return nullptr;
     }
 
-    u32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
+    uint32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
     if (InstanceID == 0x03FFFFFF) InstanceID = mpArea->FindUnusedInstanceID();
     mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemplate);
 
     // Load connections
-    u32 NumConnections = rSCLY.ReadShort();
+    uint32 NumConnections = rSCLY.ReadShort();
     mpObj->mOutLinks.reserve(NumConnections);
 
-    for (u32 LinkIdx = 0; LinkIdx < NumConnections; LinkIdx++)
+    for (uint32 LinkIdx = 0; LinkIdx < NumConnections; LinkIdx++)
     {
-        u32 State = rSCLY.ReadLong();
-        u32 Message = rSCLY.ReadLong();
-        u32 ReceiverID = rSCLY.ReadLong() & 0x03FFFFFF;
+        uint32 State = rSCLY.ReadLong();
+        uint32 Message = rSCLY.ReadLong();
+        uint32 ReceiverID = rSCLY.ReadLong() & 0x03FFFFFF;
 
         CLink* pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
         mpObj->mOutLinks.push_back(pLink);
@@ -425,12 +447,12 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
 CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& rSCLY)
 {
     rSCLY.Seek(0x1, SEEK_CUR); // Skipping version. todo: verify this?
-    u32 NumObjects = rSCLY.ReadLong();
+    uint32 NumObjects = rSCLY.ReadLong();
 
     mpLayer = new CScriptLayer(mpArea);
     mpLayer->Reserve(NumObjects);
 
-    for (u32 ObjectIdx = 0; ObjectIdx < NumObjects; ObjectIdx++)
+    for (uint32 ObjectIdx = 0; ObjectIdx < NumObjects; ObjectIdx++)
     {
         CScriptObject* pObject = LoadObjectMP2(rSCLY);
         if (pObject)
@@ -452,7 +474,7 @@ CScriptLayer* CScriptLoader::LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EG
 
     if (!Loader.mpGameTemplate)
     {
-        Log::Write("This game doesn't have a game template; couldn't load script layer");
+        debugf("This game doesn't have a game template; couldn't load script layer");
         return nullptr;
     }
 
@@ -474,7 +496,7 @@ CScriptObject* CScriptLoader::LoadInstance(IInputStream& rSCLY, CGameArea *pArea
 
     if (!Loader.mpGameTemplate)
     {
-        Log::Write("This game doesn't have a game template; couldn't load script instance");
+        debugf("This game doesn't have a game template; couldn't load script instance");
         return nullptr;
     }
 

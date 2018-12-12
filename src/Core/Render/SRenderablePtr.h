@@ -3,13 +3,13 @@
 
 #include "ERenderCommand.h"
 #include "IRenderable.h"
-#include <Common/types.h>
-#include <Math/CAABox.h>
+#include <Common/BasicTypes.h>
+#include <Common/Math/CAABox.h>
 
 struct SRenderablePtr
 {
     IRenderable *pRenderable;
-    u32 ComponentIndex;
+    uint32 ComponentIndex;
     CAABox AABox;
     ERenderCommand Command;
 };

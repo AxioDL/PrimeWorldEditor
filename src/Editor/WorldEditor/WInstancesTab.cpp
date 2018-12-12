@@ -288,7 +288,7 @@ void WInstancesTab::OnHideAllExceptTypeAction()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
         {
             CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
             pLayer->SetVisible( pLayer == mpMenuLayer ? true : false );
@@ -302,7 +302,7 @@ void WInstancesTab::OnHideAllExceptTypeAction()
         EGame Game = mpEditor->CurrentGame();
         CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
-        for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
+        for (uint32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
         {
             CScriptTemplate *pTemplate = pGame->TemplateByIndex(iTemp);
             pTemplate->SetVisible( pTemplate == mpMenuTemplate ? true : false );
@@ -322,7 +322,7 @@ void WInstancesTab::OnUnhideAllTypes()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
             pArea->ScriptLayer(iLyr)->SetVisible(true);
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, TypeParent), mpLayersModel->index(mpLayersModel->rowCount(TypeParent) - 1, 2, TypeParent) );
@@ -333,7 +333,7 @@ void WInstancesTab::OnUnhideAllTypes()
         EGame Game = mpEditor->CurrentGame();
         CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
-        for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
+        for (uint32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
             pGame->TemplateByIndex(iTemp)->SetVisible(true);
 
         mpTypesModel->dataChanged( mpTypesModel->index(0, 2, TypeParent), mpTypesModel->index(mpTypesModel->rowCount(TypeParent) - 1, 2, TypeParent) );
@@ -353,7 +353,7 @@ void WInstancesTab::OnUnhideAll()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
             pArea->ScriptLayer(iLyr)->SetVisible(true);
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, LayersRoot), mpLayersModel->index(mpLayersModel->rowCount(LayersRoot) - 1, 2, LayersRoot) );
@@ -367,21 +367,21 @@ void WInstancesTab::OnUnhideAll()
         EGame Game = mpEditor->CurrentGame();
         CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
-        for (u32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
+        for (uint32 iTemp = 0; iTemp < pGame->NumScriptTemplates(); iTemp++)
             pGame->TemplateByIndex(iTemp)->SetVisible(true);
 
         mpTypesModel->dataChanged( mpTypesModel->index(0, 2, TypesRoot), mpTypesModel->index(mpTypesModel->rowCount(TypesRoot) - 1, 2, TypesRoot) );
     }
 
     // Emit data changed on all instances
-    for (u32 iModel = 0; iModel < 2; iModel++)
+    for (uint32 iModel = 0; iModel < 2; iModel++)
     {
         CInstancesModel *pModel = (iModel == 0 ? mpLayersModel : mpTypesModel);
 
         QModelIndex Base = pModel->index(0, 0);
-        u32 NumRows = pModel->rowCount(Base);
+        uint32 NumRows = pModel->rowCount(Base);
 
-        for (u32 iRow = 0; iRow < NumRows; iRow++)
+        for (uint32 iRow = 0; iRow < NumRows; iRow++)
         {
             QModelIndex RowIndex = pModel->index(iRow, 2, Base);
             pModel->dataChanged( pModel->index(0, 2, RowIndex), pModel->index(pModel->rowCount(RowIndex) - 1, 2, RowIndex) );
@@ -393,7 +393,7 @@ void WInstancesTab::OnUnhideAll()
 
 void WInstancesTab::ExpandTopLevelItems()
 {
-    for (u32 iModel = 0; iModel < 2; iModel++)
+    for (uint32 iModel = 0; iModel < 2; iModel++)
     {
         QAbstractItemModel *pModel = (iModel == 0 ? &mLayersProxyModel : &mTypesProxyModel);
         QTreeView *pView = (iModel == 0 ? ui->LayersTreeView : ui->TypesTreeView);

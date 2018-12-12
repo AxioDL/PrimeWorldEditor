@@ -15,7 +15,7 @@ CScan* CScanLoader::LoadScanMP1(IInputStream& rSCAN)
     mpScan->mCategory = (CScan::ELogbookCategory) rSCAN.ReadLong();
     mpScan->mIsImportant = (rSCAN.ReadByte() == 1);
 
-    for (u32 iImg = 0; iImg < 4; iImg++)
+    for (uint32 iImg = 0; iImg < 4; iImg++)
     {
         mpScan->mScanImageTextures[iImg] = CAssetID(rSCAN, e32Bit);
         rSCAN.Seek(0x18, SEEK_CUR);
@@ -28,40 +28,44 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
 {
     // The SCAN format in MP2 embeds a SNFO object using the same format as SCLY
     // However since the contents of the file are consistent there's no need to delegate to CScriptLoader
-    rSCAN.Seek(0x1, SEEK_CUR);
-    u32 NumInstances = rSCAN.ReadLong();
+    rSCAN.Skip(0x1);
+    uint32 NumInstances = rSCAN.ReadLong();
 
-    if (NumInstances != 1) {
-        Log::FileError(rSCAN.GetSourceString(), "SCAN has multiple instances");
+    if (NumInstances != 1)
+    {
+        errorf("%s: SCAN has multiple instances", *rSCAN.GetSourceString());
         return nullptr;
     }
 
-    u32 ScanInfoStart = rSCAN.Tell();
+    uint32 ScanInfoStart = rSCAN.Tell();
 
     CFourCC SNFO(rSCAN);
-    if (SNFO != "SNFO") {
-        Log::FileError(rSCAN.GetSourceString(), ScanInfoStart, "Unrecognized SCAN object type: " + SNFO.ToString());
+    if (SNFO != FOURCC('SNFO'))
+    {
+        errorf("%s [0x%X]: Unrecognized SCAN object type: %s", *rSCAN.GetSourceString(), ScanInfoStart, *SNFO.ToString());
         return nullptr;
     }
 
-    u16 InstanceSize = rSCAN.ReadShort();
-    u32 InstanceEnd = rSCAN.Tell() + InstanceSize;
-    rSCAN.Seek(0x4, SEEK_CUR);
+    uint16 InstanceSize = rSCAN.ReadShort();
+    uint32 InstanceEnd = rSCAN.Tell() + InstanceSize;
+    rSCAN.Skip(0x4);
 
-    u16 NumConnections = rSCAN.ReadShort();
-    if (NumConnections > 0) {
-        Log::FileWarning(rSCAN.GetSourceString(), ScanInfoStart, "SNFO object in SCAN has connections");
-        rSCAN.Seek(NumConnections * 0xC, SEEK_CUR);
+    uint16 NumConnections = rSCAN.ReadShort();
+    if (NumConnections > 0)
+    {
+        warnf("%s [0x%X]: SNFO object in SCAN has connections", *rSCAN.GetSourceString(), ScanInfoStart);
+        rSCAN.Skip(NumConnections * 0xC);
     }
 
-    u32 BasePropID = rSCAN.ReadLong();
-    if (BasePropID != 0xFFFFFFFF) {
-        Log::FileError(rSCAN.GetSourceString(), rSCAN.Tell() - 4, "Invalid base property ID: " + TString::HexString(BasePropID));
+    uint32 BasePropID = rSCAN.ReadLong();
+    if (BasePropID != 0xFFFFFFFF)
+    {
+        errorf("%s [0x%X]: Invalid base property ID: 0x%08X", *rSCAN.GetSourceString(), rSCAN.Tell() - 4, BasePropID);
         return nullptr;
     }
 
-    rSCAN.Seek(0x2, SEEK_CUR);
-    u16 NumProperties = rSCAN.ReadShort();
+    rSCAN.Skip(0x2);
+    uint16 NumProperties = rSCAN.ReadShort();
 
     switch (NumProperties)
     {
@@ -77,7 +81,7 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
         LoadParamsMP3(rSCAN, NumProperties);
         break;
     default:
-        Log::FileError(rSCAN.GetSourceString(), rSCAN.Tell() - 2, "Invalid SNFO property count: " + TString::HexString(NumProperties));
+        errorf("%s [0x%X]: Invalid SNFO property count: 0x%X", *rSCAN.GetSourceString(), rSCAN.Tell() - 2, NumProperties);
         return nullptr;
     }
 
@@ -85,9 +89,9 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
     if (mpScan->Game() == EGame::Corruption)
     {
         rSCAN.GoTo(InstanceEnd);
-        u32 NumDeps = rSCAN.ReadLong();
+        uint32 NumDeps = rSCAN.ReadLong();
 
-        for (u32 DepIdx = 0; DepIdx < NumDeps; DepIdx++)
+        for (uint32 DepIdx = 0; DepIdx < NumDeps; DepIdx++)
         {
             rSCAN.Skip(4);
             CAssetID ID(rSCAN, mpScan->Game());
@@ -98,16 +102,16 @@ CScan* CScanLoader::LoadScanMP2(IInputStream& rSCAN)
     return mpScan;
 }
 
-void CScanLoader::LoadParamsMP2(IInputStream& rSCAN, u16 NumProperties)
+void CScanLoader::LoadParamsMP2(IInputStream& rSCAN, uint16 NumProperties)
 {
     // Function begins after the SNFO property count
     mpScan->mSecondaryModels.resize(9);
 
-    for (u32 iProp = 0; iProp < NumProperties; iProp++)
+    for (uint32 iProp = 0; iProp < NumProperties; iProp++)
     {
-        u32 PropertyID = rSCAN.ReadLong();
-        u16 PropertySize = rSCAN.ReadShort();
-        u32 Next = rSCAN.Tell() + PropertySize;
+        uint32 PropertyID = rSCAN.ReadLong();
+        uint16 PropertySize = rSCAN.ReadShort();
+        uint32 Next = rSCAN.Tell() + PropertySize;
 
         switch (PropertyID)
         {
@@ -192,20 +196,20 @@ void CScanLoader::LoadParamsMP2(IInputStream& rSCAN, u16 NumProperties)
             break;
         }
 
-        rSCAN.Seek(Next, SEEK_SET);
+        rSCAN.GoTo(Next);
     }
 
     mpScan->mCategory = CScan::eNone;
 }
 
-void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, u16 NumProperties)
+void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, uint16 NumProperties)
 {
     // Function begins after the SNFO property count
-    for (u32 iProp = 0; iProp < NumProperties; iProp++)
+    for (uint32 iProp = 0; iProp < NumProperties; iProp++)
     {
-        u32 PropertyID = rSCAN.ReadLong();
-        u16 PropertySize = rSCAN.ReadShort();
-        u32 Next = rSCAN.Tell() + PropertySize;
+        uint32 PropertyID = rSCAN.ReadLong();
+        uint16 PropertySize = rSCAN.ReadShort();
+        uint32 Next = rSCAN.Tell() + PropertySize;
 
         switch (PropertyID)
         {
@@ -222,7 +226,7 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, u16 NumProperties)
             break;
         }
 
-        rSCAN.Seek(Next, SEEK_SET);
+        rSCAN.GoTo(Next);
     }
 
     mpScan->mCategory = CScan::eNone;
@@ -230,13 +234,13 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, u16 NumProperties)
 
 void CScanLoader::LoadScanInfoSecondaryModel(IInputStream& rSCAN, CScan::SScanInfoSecondaryModel& rSecondaryModel)
 {
-    u16 NumProperties = rSCAN.ReadShort();
+    uint16 NumProperties = rSCAN.ReadShort();
 
-    for (u32 iProp = 0; iProp < NumProperties; iProp++)
+    for (uint32 iProp = 0; iProp < NumProperties; iProp++)
     {
-        u32 PropertyID = rSCAN.ReadLong();
-        u16 PropertySize = rSCAN.ReadShort();
-        u32 Next = rSCAN.Tell() + PropertySize;
+        uint32 PropertyID = rSCAN.ReadLong();
+        uint16 PropertySize = rSCAN.ReadShort();
+        uint32 Next = rSCAN.Tell() + PropertySize;
 
         switch (PropertyID)
         {
@@ -253,7 +257,7 @@ void CScanLoader::LoadScanInfoSecondaryModel(IInputStream& rSCAN, CScan::SScanIn
             break;
         }
 
-        rSCAN.Seek(Next, SEEK_SET);
+        rSCAN.GoTo(Next);
     }
 }
 
@@ -267,11 +271,11 @@ CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN, CResourceEntry *pEntry)
      * MP1 is the only one that starts with 5 so that is a consistent check for now
      * Better version checks will be implemented when the other versions are
      * better-understood. */
-    u32 FileVersion = rSCAN.ReadLong();
-    u32 Magic = rSCAN.ReadLong();
+    uint32 FileVersion = rSCAN.ReadLong();
+    uint32 Magic = rSCAN.ReadLong();
 
     // Echoes+
-    if (CFourCC(FileVersion) == "SCAN")
+    if (FileVersion == FOURCC('SCAN'))
     {
         // The MP2 load function will check for MP3
         CScanLoader Loader;
@@ -283,13 +287,13 @@ CScan* CScanLoader::LoadSCAN(IInputStream& rSCAN, CResourceEntry *pEntry)
 
     if (Magic != 0x0BADBEEF)
     {
-        Log::FileError(rSCAN.GetSourceString(), "Invalid SCAN magic: " + TString::HexString(Magic));
+        errorf("%s: Invalid SCAN magic: 0x%08X", *rSCAN.GetSourceString(), Magic);
         return nullptr;
     }
 
     if (FileVersion != 5)
     {
-        Log::FileError(rSCAN.GetSourceString(), "Unsupported SCAN version: " + TString::HexString(FileVersion, 0));
+        errorf("%s: Unsupported SCAN version: 0x%X", *rSCAN.GetSourceString(), FileVersion);
         return nullptr;
     }
 

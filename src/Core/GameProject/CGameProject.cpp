@@ -14,7 +14,7 @@ CGameProject::~CGameProject()
             gpResourceStore = nullptr;
     }
 
-    for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
         delete mPackages[iPkg];
 
     delete mpAudioManager;
@@ -45,7 +45,7 @@ bool CGameProject::Serialize(IArchive& rArc)
 
     if (!rArc.IsReader())
     {
-        for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+        for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
             PackageList.push_back( mPackages[iPkg]->DefinitionPath(true) );
     }
 
@@ -56,7 +56,7 @@ bool CGameProject::Serialize(IArchive& rArc)
     {
         ASSERT(mPackages.empty());
 
-        for (u32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
+        for (uint32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
         {
             const TString& rkPackagePath = PackageList[iPkg];
             TString PackageName = rkPackagePath.GetFileName(false);
@@ -122,7 +122,7 @@ bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso
 
 void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
 {
-    for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
     {
         CPackage *pPkg = mPackages[iPkg];
 
@@ -130,7 +130,7 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
         // Construct a sorted list of worlds in this package
         std::list<const SNamedResource*> PackageWorlds;
 
-        for (u32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
@@ -153,11 +153,11 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
 
 CAssetID CGameProject::FindNamedResource(const TString& rkName) const
 {
-    for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
     {
         CPackage *pPkg = mPackages[iPkg];
 
-        for (u32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
@@ -171,7 +171,7 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
 
 CPackage* CGameProject::FindPackage(const TString& rkName) const
 {
-    for (u32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
     {
         CPackage *pPackage = mPackages[iPkg];
 

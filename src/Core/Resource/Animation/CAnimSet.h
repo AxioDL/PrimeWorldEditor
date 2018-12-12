@@ -12,14 +12,14 @@
 #include "Core/Resource/CResource.h"
 #include "Core/Resource/TResPtr.h"
 #include "Core/Resource/Model/CModel.h"
-#include <Common/types.h>
+#include <Common/BasicTypes.h>
 
 #include <vector>
 
 // Animation structures
 struct SAdditiveAnim
 {
-    u32 AnimID;
+    uint32 AnimID;
     float FadeInTime;
     float FadeOutTime;
 };
@@ -32,15 +32,15 @@ struct SAnimation
 
 struct STransition
 {
-    u32 Unknown;
-    u32 AnimIdA;
-    u32 AnimIdB;
+    uint32 Unknown;
+    uint32 AnimIdA;
+    uint32 AnimIdB;
     IMetaTransition *pMetaTrans;
 };
 
 struct SHalfTransition
 {
-    u32 AnimID;
+    uint32 AnimID;
     IMetaTransition *pMetaTrans;
 };
 
@@ -62,7 +62,7 @@ struct SOverlayModel
 
 struct SSetCharacter
 {
-    u32 ID;
+    uint32 ID;
     TString Name;
     TResPtr<CModel> pModel;
     TResPtr<CSkin> pSkin;
@@ -79,7 +79,7 @@ struct SSetCharacter
     std::vector<CAssetID> SoundEffects;
     std::vector<CAssetID> DKDependencies;
     CAssetID SpatialPrimitives;
-    std::set<u32> UsedAnimationIndices;
+    std::set<uint32> UsedAnimationIndices;
 };
 
 class CAnimSet : public CResource
@@ -109,19 +109,19 @@ public:
 
     ~CAnimSet()
     {
-        for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+        for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
             delete mAnimations[iAnim].pMetaAnim;
 
-        for (u32 iTrans = 0; iTrans < mTransitions.size(); iTrans++)
+        for (uint32 iTrans = 0; iTrans < mTransitions.size(); iTrans++)
             delete mTransitions[iTrans].pMetaTrans;
 
-        for (u32 iHalf = 0; iHalf < mHalfTransitions.size(); iHalf++)
+        for (uint32 iHalf = 0; iHalf < mHalfTransitions.size(); iHalf++)
             delete mHalfTransitions[iHalf].pMetaTrans;
 
         delete mpDefaultTransition;
 
         // For MP2, anim events need to be cleaned up manually
-        for (u32 iEvent = 0; iEvent < mAnimEvents.size(); iEvent++)
+        for (uint32 iEvent = 0; iEvent < mAnimEvents.size(); iEvent++)
         {
             ASSERT(mAnimEvents[iEvent] && !mAnimEvents[iEvent]->Entry());
             delete mAnimEvents[iEvent];
@@ -133,7 +133,7 @@ public:
         CDependencyTree *pTree = new CDependencyTree();
 
         // Character dependencies
-        for (u32 iChar = 0; iChar < mCharacters.size(); iChar++)
+        for (uint32 iChar = 0; iChar < mCharacters.size(); iChar++)
         {
             CSetCharacterDependency *pCharTree = CSetCharacterDependency::BuildTree( mCharacters[iChar] );
             ASSERT(pCharTree);
@@ -143,7 +143,7 @@ public:
         // Animation dependencies
         if (Game() <= EGame::Echoes)
         {
-            for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+            for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
             {
                 CSetAnimationDependency *pAnimTree = CSetAnimationDependency::BuildTree(this, iAnim);
                 ASSERT(pAnimTree);
@@ -157,7 +157,7 @@ public:
             std::set<CAnimPrimitive> PrimitiveSet;
 
             // Animations
-            for (u32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+            for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
             {
                 const SAnimation& rkAnim = mAnimations[iAnim];
                 rkAnim.pMetaAnim->GetUniquePrimitives(PrimitiveSet);
@@ -174,7 +174,7 @@ public:
             }
 
             // Event sounds
-            for (u32 iSound = 0; iSound < rkChar.SoundEffects.size(); iSound++)
+            for (uint32 iSound = 0; iSound < rkChar.SoundEffects.size(); iSound++)
             {
                 pTree->AddDependency(rkChar.SoundEffects[iSound]);
             }
@@ -184,14 +184,14 @@ public:
         {
             const SSetCharacter& rkChar = mCharacters[0];
 
-            for (u32 iDep = 0; iDep < rkChar.DKDependencies.size(); iDep++)
+            for (uint32 iDep = 0; iDep < rkChar.DKDependencies.size(); iDep++)
                 pTree->AddDependency(rkChar.DKDependencies[iDep]);
         }
 
         return pTree;
     }
 
-    CAnimation* FindAnimationAsset(u32 AnimID) const
+    CAnimation* FindAnimationAsset(uint32 AnimID) const
     {
         if (AnimID >= 0 && AnimID < mAnimPrimitives.size())
         {
@@ -204,27 +204,27 @@ public:
 
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
     {
-        for (u32 iAnim = 0; iAnim < mAnimPrimitives.size(); iAnim++)
+        for (uint32 iAnim = 0; iAnim < mAnimPrimitives.size(); iAnim++)
             rPrimSet.insert(mAnimPrimitives[iAnim]);
     }
 
     // Accessors
-    inline u32 NumCharacters() const        { return mCharacters.size(); }
-    inline u32 NumAnimations() const        { return mAnimations.size(); }
+    inline uint32 NumCharacters() const        { return mCharacters.size(); }
+    inline uint32 NumAnimations() const        { return mAnimations.size(); }
 
-    inline const SSetCharacter* Character(u32 Index) const
+    inline const SSetCharacter* Character(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < NumCharacters());
         return &mCharacters[Index];
     }
 
-    inline const SAnimation* Animation(u32 Index) const
+    inline const SAnimation* Animation(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < NumAnimations());
         return &mAnimations[Index];
     }
 
-    CAnimEventData* AnimationEventData(u32 Index) const
+    CAnimEventData* AnimationEventData(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < NumAnimations());
 

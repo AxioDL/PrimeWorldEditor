@@ -1,7 +1,7 @@
 #include "CDynamicVertexBuffer.h"
 #include "CVertexArrayManager.h"
 
-static const u32 gskAttribSize[] = {
+static const uint32 gskAttribSize[] = {
     0xC, 0xC, 0x4, 0x4, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8
 };
 
@@ -18,7 +18,7 @@ CDynamicVertexBuffer::~CDynamicVertexBuffer()
     ClearBuffers();
 }
 
-void CDynamicVertexBuffer::SetVertexCount(u32 NumVerts)
+void CDynamicVertexBuffer::SetVertexCount(uint32 NumVerts)
 {
     ClearBuffers();
     mNumVertices = NumVerts;
@@ -44,7 +44,7 @@ void CDynamicVertexBuffer::SetActiveAttribs(FVertexDescription AttribFlags)
 
 void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pkData)
 {
-    u32 Index;
+    uint32 Index;
 
     switch (Attrib)
     {
@@ -69,7 +69,7 @@ void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pkD
 
 void CDynamicVertexBuffer::ClearBuffers()
 {
-    for (u32 iAttrib = 0; iAttrib < 12; iAttrib++)
+    for (uint32 iAttrib = 0; iAttrib < 12; iAttrib++)
     {
         int Bit = 1 << iAttrib;
 
@@ -86,7 +86,7 @@ GLuint CDynamicVertexBuffer::CreateVAO()
     glGenVertexArrays(1, &VertexArray);
     glBindVertexArray(VertexArray);
 
-    for (u32 iAttrib = 0; iAttrib < 12; iAttrib++)
+    for (uint32 iAttrib = 0; iAttrib < 12; iAttrib++)
     {
         bool HasAttrib = ((3 << (iAttrib * 2)) != 0);
 
@@ -121,7 +121,7 @@ void CDynamicVertexBuffer::InitBuffers()
 {
     if (mBufferedFlags) ClearBuffers();
 
-    for (u32 iAttrib = 0; iAttrib < 12; iAttrib++)
+    for (uint32 iAttrib = 0; iAttrib < 12; iAttrib++)
     {
         bool HasAttrib = ((3 << (iAttrib * 2)) != 0);
 

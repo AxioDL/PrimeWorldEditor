@@ -16,7 +16,7 @@ void CAddLinkCommand::undo()
 {
     CScriptObject *pSender = mLink.Sender();
     CScriptObject *pReceiver = mLink.Receiver();
-    u32 SenderIndex = pSender->NumLinks(eOutgoing) - 1;
+    uint32 SenderIndex = pSender->NumLinks(eOutgoing) - 1;
     CLink *pLink = pSender->Link(eOutgoing, SenderIndex);
     pSender->RemoveLink(eOutgoing, pLink);
     pReceiver->RemoveLink(eIncoming, pLink);

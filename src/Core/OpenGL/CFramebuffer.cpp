@@ -11,7 +11,7 @@ CFramebuffer::CFramebuffer()
 {
 }
 
-CFramebuffer::CFramebuffer(u32 Width, u32 Height)
+CFramebuffer::CFramebuffer(uint32 Width, uint32 Height)
     : mpRenderbuffer(nullptr)
     , mpTexture(nullptr)
     , mWidth(0)
@@ -60,7 +60,7 @@ void CFramebuffer::Bind(GLenum Target /*= GL_FRAMEBUFFER*/)
     glBindFramebuffer(Target, mFramebuffer);
 }
 
-void CFramebuffer::Resize(u32 Width, u32 Height)
+void CFramebuffer::Resize(uint32 Width, uint32 Height)
 {
     if ((mWidth != Width) || (mHeight != Height))
     {
@@ -109,7 +109,7 @@ void CFramebuffer::InitBuffers()
     mStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 
     if (mStatus != GL_FRAMEBUFFER_COMPLETE)
-        Log::Error("Framebuffer not complete; error " + TString::HexString((u32) mStatus, 0));
+        errorf("Framebuffer not complete; error 0x%X", mStatus);
 }
 
 // ************ STATIC ************

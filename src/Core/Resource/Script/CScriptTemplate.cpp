@@ -27,7 +27,7 @@ CScriptTemplate::CScriptTemplate(CGameTemplate *pGame)
 }
 
 // New constructor
-CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, u32 InObjectID, const TString& kInFilePath)
+CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, uint32 InObjectID, const TString& kInFilePath)
     : mRotationType(eRotationEnabled)
     , mScaleType(eScaleEnabled)
     , mPreviewScale(1.f)
@@ -98,7 +98,7 @@ void CScriptTemplate::Save(bool Force)
 {
     if (IsDirty() || Force)
     {
-        Log::Write("Saving script template: " + mSourceFile);
+        debugf("Saving script template: %s", *mSourceFile);
         CXMLWriter Writer(mSourceFile, "ScriptObject", 0, mpGame->Game());
         ASSERT(Writer.IsValid());
         Serialize(Writer);
@@ -128,13 +128,13 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
 {
     if (pObj->Template() != this)
     {
-        Log::Error(pObj->Template()->Name() + " instance somehow called VolumeShape() on " + Name() + " template");
+        errorf("%s instance somehow called VolumeShape() on %s template", *pObj->Template()->Name(), *Name());
         return eInvalidShape;
     }
 
     if (mVolumeShape == eConditionalShape)
     {
-        s32 Index = CheckVolumeConditions(pObj, true);
+        int32 Index = CheckVolumeConditions(pObj, true);
         if (Index == -1) return eInvalidShape;
         else return mVolumeConditions[Index].Shape;
     }
@@ -145,20 +145,20 @@ float CScriptTemplate::VolumeScale(CScriptObject *pObj)
 {
     if (pObj->Template() != this)
     {
-        Log::Error(pObj->Template()->Name() + " instance somehow called VolumeScale() on " + Name() + " template");
+        errorf("%s instance somehow called VolumeScale() on %s template", *pObj->Template()->Name(), *Name());
         return -1;
     }
 
     if (mVolumeShape == eConditionalShape)
     {
-        s32 Index = CheckVolumeConditions(pObj, false);
+        int32 Index = CheckVolumeConditions(pObj, false);
         if (Index == -1) return mVolumeScale;
         else return mVolumeConditions[Index].Scale;
     }
     else return mVolumeScale;
 }
 
-s32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
+int32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
 {
     // Private function
     if (mVolumeShape == eConditionalShape)
@@ -195,20 +195,20 @@ s32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
         }
 
         // Test and check whether any of the conditions are true
-        for (u32 LinkIdx = 0; LinkIdx < mVolumeConditions.size(); LinkIdx++)
+        for (uint32 LinkIdx = 0; LinkIdx < mVolumeConditions.size(); LinkIdx++)
         {
             if (mVolumeConditions[LinkIdx].Value == Val)
                 return LinkIdx;
         }
 
         if (LogErrors)
-            Log::Error(pObj->Template()->Name() + " instance " + TString::HexString(pObj->InstanceID()) + " has unexpected volume shape value of " + TString::HexString((u32) Val, 0));
+            errorf("%s instance %08X has unexpected volume shape value of 0x%X", *pObj->Template()->Name(), pObj->InstanceID(), Val);
     }
 
     return -1;
 }
 
-CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, u32& rOutCharIndex, u32& rOutAnimIndex, bool& rOutIsInGame)
+CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, uint32& rOutCharIndex, uint32& rOutAnimIndex, bool& rOutIsInGame)
 {
     rOutCharIndex = -1;
     rOutAnimIndex = -1;
@@ -236,8 +236,8 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, u32& rOutCharI
 
                 if (pRes)
                 {
-                    u32 MaxNumChars = static_cast<CAnimSet*>(pRes)->NumCharacters();
-                    rOutCharIndex = (it->ForceNodeIndex >= 0 && it->ForceNodeIndex < (s32) MaxNumChars ? it->ForceNodeIndex : Params.CharacterIndex());
+                    uint32 MaxNumChars = static_cast<CAnimSet*>(pRes)->NumCharacters();
+                    rOutCharIndex = (it->ForceNodeIndex >= 0 && it->ForceNodeIndex < (int32) MaxNumChars ? it->ForceNodeIndex : Params.CharacterIndex());
                     rOutAnimIndex = Params.AnimIndex();
                 }
             }
@@ -297,7 +297,7 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(void* pPropertyData)
 
 
 // ************ OBJECT TRACKING ************
-u32 CScriptTemplate::NumObjects() const
+uint32 CScriptTemplate::NumObjects() const
 {
     return mObjectList.size();
 }

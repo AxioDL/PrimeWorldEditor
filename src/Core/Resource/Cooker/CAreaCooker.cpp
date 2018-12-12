@@ -30,8 +30,8 @@ void CAreaCooker::DetermineSectionNumbersPrime()
 
     // Determine how many sections are taken up by geometry...
     // Each world mesh has 7-9 sections (depending on game) plus one section per surface.
-    u32 GeometrySections = 0;
-    u32 OriginalMeshCount = mpArea->mOriginalWorldMeshCount;
+    uint32 GeometrySections = 0;
+    uint32 OriginalMeshCount = mpArea->mOriginalWorldMeshCount;
 
     switch (mVersion)
     {
@@ -47,11 +47,11 @@ void CAreaCooker::DetermineSectionNumbersPrime()
         break;
     }
 
-    for (u32 iMesh = 0; iMesh < mpArea->mWorldModels.size(); iMesh++)
+    for (uint32 iMesh = 0; iMesh < mpArea->mWorldModels.size(); iMesh++)
         GeometrySections += mpArea->mWorldModels[iMesh]->GetSurfaceCount();
 
     // Set section numbers
-    u32 SecNum = GeometrySections;
+    uint32 SecNum = GeometrySections;
     if (mVersion <= EGame::Prime) mAROTSecNum = SecNum++;
     if (mVersion >= EGame::EchoesDemo) mFFFFSecNum = SecNum++;
 
@@ -81,7 +81,7 @@ void CAreaCooker::DetermineSectionNumbersCorruption()
 {
     // Because we're copying these from the original file (because not all the numbers
     // are present in every file), we don't care about any of these except SCLY and SCGN.
-    for (u32 iNum = 0; iNum < mpArea->mSectionNumbers.size(); iNum++)
+    for (uint32 iNum = 0; iNum < mpArea->mSectionNumbers.size(); iNum++)
     {
         CGameArea::SSectionNumber& rNum = mpArea->mSectionNumbers[iNum];
         if      (rNum.SectionID == "SOBJ") mSCLYSecNum = rNum.Index;
@@ -124,7 +124,7 @@ void CAreaCooker::WritePrimeHeader(IOutputStream& rOut)
         rOut.WriteToBoundary(32, 0);
     }
 
-    for (u32 iSec = 0; iSec < mSectionSizes.size(); iSec++)
+    for (uint32 iSec = 0; iSec < mSectionSizes.size(); iSec++)
         rOut.WriteLong(mSectionSizes[iSec]);
     rOut.WriteToBoundary(32, 0);
 
@@ -144,14 +144,14 @@ void CAreaCooker::WriteCorruptionHeader(IOutputStream& rOut)
     rOut.WriteLong(mpArea->mSectionNumbers.size());
     rOut.WriteToBoundary(32, 0);
 
-    for (u32 iSec = 0; iSec < mSectionSizes.size(); iSec++)
+    for (uint32 iSec = 0; iSec < mSectionSizes.size(); iSec++)
         rOut.WriteLong(mSectionSizes[iSec]);
 
     rOut.WriteToBoundary(32, 0);
 
     WriteCompressionHeader(rOut);
 
-    for (u32 iNum = 0; iNum < mpArea->mSectionNumbers.size(); iNum++)
+    for (uint32 iNum = 0; iNum < mpArea->mSectionNumbers.size(); iNum++)
     {
         CGameArea::SSectionNumber& rNum = mpArea->mSectionNumbers[iNum];
         rOut.WriteLong(rNum.SectionID.ToLong());
@@ -162,7 +162,7 @@ void CAreaCooker::WriteCorruptionHeader(IOutputStream& rOut)
 
 void CAreaCooker::WriteCompressionHeader(IOutputStream& rOut)
 {
-    for (u32 iCmp = 0; iCmp < mCompressedBlocks.size(); iCmp++)
+    for (uint32 iCmp = 0; iCmp < mCompressedBlocks.size(); iCmp++)
     {
         SCompressedBlock& rBlock = mCompressedBlocks[iCmp];
         bool IsCompressed = (rBlock.CompressedSize != 0);
@@ -190,37 +190,37 @@ void CAreaCooker::WritePrimeSCLY(IOutputStream& rOut)
     rOut.WriteFourCC( FOURCC('SCLY') );
     mVersion <= EGame::Prime ? rOut.WriteLong(1) : rOut.WriteByte(1);
 
-    u32 NumLayers = mpArea->mScriptLayers.size();
+    uint32 NumLayers = mpArea->mScriptLayers.size();
     rOut.WriteLong(NumLayers);
 
-    u32 LayerSizesStart = rOut.Tell();
-    for (u32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
+    uint32 LayerSizesStart = rOut.Tell();
+    for (uint32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
         rOut.WriteLong(0);
 
     // SCLY
     CScriptCooker ScriptCooker(mVersion, true);
-    std::vector<u32> LayerSizes(NumLayers);
+    std::vector<uint32> LayerSizes(NumLayers);
 
-    for (u32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
+    for (uint32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
     {
-        u32 LayerStart = rOut.Tell();
+        uint32 LayerStart = rOut.Tell();
         ScriptCooker.WriteLayer(rOut, mpArea->mScriptLayers[LayerIdx]);
 
         // Pad the layer to 32 bytes
-        u32 LayerSize = rOut.Tell() - LayerStart;
-        u32 PaddedSize = (LayerSize + 31) & ~31;
-        u32 NumPadBytes = PaddedSize - LayerSize;
+        uint32 LayerSize = rOut.Tell() - LayerStart;
+        uint32 PaddedSize = (LayerSize + 31) & ~31;
+        uint32 NumPadBytes = PaddedSize - LayerSize;
 
-        for (u32 Pad = 0; Pad < NumPadBytes; Pad++)
+        for (uint32 Pad = 0; Pad < NumPadBytes; Pad++)
             rOut.WriteByte(0);
 
         LayerSizes[LayerIdx] = PaddedSize;
     }
 
-    u32 LayersEnd = rOut.Tell();
+    uint32 LayersEnd = rOut.Tell();
     rOut.Seek(LayerSizesStart, SEEK_SET);
 
-    for (u32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
+    for (uint32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
         rOut.WriteLong(LayerSizes[LayerIdx]);
 
     rOut.Seek(LayersEnd, SEEK_SET);
@@ -241,7 +241,7 @@ void CAreaCooker::WriteEchoesSCLY(IOutputStream& rOut)
     // SCLY
     CScriptCooker ScriptCooker(mVersion);
 
-    for (u32 LayerIdx = 0; LayerIdx < mpArea->mScriptLayers.size(); LayerIdx++)
+    for (uint32 LayerIdx = 0; LayerIdx < mpArea->mScriptLayers.size(); LayerIdx++)
     {
         rOut.WriteFourCC( FOURCC('SCLY') );
         rOut.WriteByte(1);
@@ -261,7 +261,7 @@ void CAreaCooker::WriteDependencies(IOutputStream& rOut)
 {
     // Build dependency list
     std::list<CAssetID> Dependencies;
-    std::list<u32> LayerOffsets;
+    std::list<uint32> LayerOffsets;
 
     CAreaDependencyListBuilder Builder(mpArea->Entry());
     Builder.BuildDependencyList(Dependencies, LayerOffsets);
@@ -289,7 +289,7 @@ void CAreaCooker::WriteModules(IOutputStream& rOut)
 {
     // Build module list
     std::vector<TString> ModuleNames;
-    std::vector<u32> LayerOffsets;
+    std::vector<uint32> LayerOffsets;
 
     CAreaDependencyTree *pAreaDeps = static_cast<CAreaDependencyTree*>(mpArea->Entry()->Dependencies());
     pAreaDeps->GetModuleDependencies(mpArea->Game(), ModuleNames, LayerOffsets);
@@ -297,12 +297,12 @@ void CAreaCooker::WriteModules(IOutputStream& rOut)
     // Write
     rOut.WriteLong(ModuleNames.size());
 
-    for (u32 ModuleIdx = 0; ModuleIdx < ModuleNames.size(); ModuleIdx++)
+    for (uint32 ModuleIdx = 0; ModuleIdx < ModuleNames.size(); ModuleIdx++)
         rOut.WriteString( ModuleNames[ModuleIdx] );
 
     rOut.WriteLong(LayerOffsets.size());
 
-    for (u32 OffsetIdx = 0; OffsetIdx < LayerOffsets.size(); OffsetIdx++)
+    for (uint32 OffsetIdx = 0; OffsetIdx < LayerOffsets.size(); OffsetIdx++)
         rOut.WriteLong(LayerOffsets[OffsetIdx]);
 
     FinishSection(false);
@@ -320,10 +320,10 @@ void CAreaCooker::AddSectionToBlock()
 void CAreaCooker::FinishSection(bool SingleSectionBlock)
 {
     // Our section data is now finished in mSection...
-    const u32 kSizeThreshold = 0x20000;
+    const uint32 kSizeThreshold = 0x20000;
     mSectionData.WriteToBoundary(32, 0);
 
-    u32 SecSize = mSectionData.Size();
+    uint32 SecSize = mSectionData.Size();
     mSectionSizes.push_back(SecSize);
 
     // Only track compressed blocks for MP2+. Write everything to one block for MP1.
@@ -349,26 +349,26 @@ void CAreaCooker::FinishBlock()
 {
     if (mCurBlock.NumSections == 0) return;
 
-    std::vector<u8> CompressedBuf(mCompressedData.Size() * 2);
+    std::vector<uint8> CompressedBuf(mCompressedData.Size() * 2);
     bool EnableCompression = (mVersion >= EGame::Echoes) && mpArea->mUsesCompression && !gkForceDisableCompression;
     bool UseZlib = (mVersion == EGame::DKCReturns);
 
-    u32 CompressedSize = 0;
+    uint32 CompressedSize = 0;
     bool WriteCompressedData = false;
 
     if (EnableCompression)
     {
-        bool Success = CompressionUtil::CompressSegmentedData((u8*) mCompressedData.Data(), mCompressedData.Size(), CompressedBuf.data(), CompressedSize, UseZlib, true);
-        u32 PadBytes = (32 - (CompressedSize % 32)) & 0x1F;
-        WriteCompressedData = Success && (CompressedSize + PadBytes < (u32) mCompressedData.Size());
+        bool Success = CompressionUtil::CompressSegmentedData((uint8*) mCompressedData.Data(), mCompressedData.Size(), CompressedBuf.data(), CompressedSize, UseZlib, true);
+        uint32 PadBytes = (32 - (CompressedSize % 32)) & 0x1F;
+        WriteCompressedData = Success && (CompressedSize + PadBytes < (uint32) mCompressedData.Size());
     }
 
     if (WriteCompressedData)
     {
-        u32 PadBytes = 32 - (CompressedSize % 32);
+        uint32 PadBytes = 32 - (CompressedSize % 32);
         PadBytes &= 0x1F;
 
-        for (u32 iPad = 0; iPad < PadBytes; iPad++)
+        for (uint32 iPad = 0; iPad < PadBytes; iPad++)
             mAreaData.WriteByte(0);
 
         mAreaData.WriteBytes(CompressedBuf.data(), CompressedSize);
@@ -400,7 +400,7 @@ bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
         Cooker.DetermineSectionNumbersCorruption();
 
     // Write pre-SCLY data sections
-    for (u32 iSec = 0; iSec < Cooker.mSCLYSecNum; iSec++)
+    for (uint32 iSec = 0; iSec < Cooker.mSCLYSecNum; iSec++)
     {
         if (iSec == Cooker.mDepsSecNum)
             Cooker.WriteDependencies(Cooker.mSectionData);
@@ -419,8 +419,8 @@ bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
         Cooker.WriteEchoesSCLY(Cooker.mSectionData);
 
     // Write post-SCLY data sections
-    u32 PostSCLY = (Cooker.mVersion <= EGame::Prime ? Cooker.mSCLYSecNum + 1 : Cooker.mSCGNSecNum + 1);
-    for (u32 iSec = PostSCLY; iSec < pArea->mSectionDataBuffers.size(); iSec++)
+    uint32 PostSCLY = (Cooker.mVersion <= EGame::Prime ? Cooker.mSCLYSecNum + 1 : Cooker.mSCGNSecNum + 1);
+    for (uint32 iSec = PostSCLY; iSec < pArea->mSectionDataBuffers.size(); iSec++)
     {
         if (iSec == Cooker.mModulesSecNum)
             Cooker.WriteModules(Cooker.mSectionData);
@@ -444,7 +444,7 @@ bool CAreaCooker::CookMREA(CGameArea *pArea, IOutputStream& rOut)
     return true;
 }
 
-u32 CAreaCooker::GetMREAVersion(EGame Version)
+uint32 CAreaCooker::GetMREAVersion(EGame Version)
 {
     switch (Version)
     {

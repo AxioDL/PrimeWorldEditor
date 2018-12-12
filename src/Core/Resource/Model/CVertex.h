@@ -2,25 +2,25 @@
 #define CVERTEX_H
 
 #include <Common/CColor.h>
-#include <Math/CVector2f.h>
-#include <Math/CVector3f.h>
+#include <Common/Math/CVector2f.h>
+#include <Common/Math/CVector3f.h>
 #include <array>
 
-typedef std::array<u8, 4>       TBoneIndices;
+typedef std::array<uint8, 4>    TBoneIndices;
 typedef std::array<float, 4>    TBoneWeights;
 
 class CVertex
 {
 public:
-    u32 ArrayPosition; // Position of this vertex in the input model file.
-                       // This is needed to resave without breaking rigging.
+    uint32 ArrayPosition; // Position of this vertex in the input model file.
+                          // This is needed to resave without breaking rigging.
     CVector3f Position;
     CVector3f Normal;
     CColor Color[2];
     CVector2f Tex[8];
     TBoneIndices BoneIndices;
     TBoneWeights BoneWeights;
-    u8 MatrixIndices[8];
+    uint8 MatrixIndices[8];
 
     CVertex() {}
 

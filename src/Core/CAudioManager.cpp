@@ -28,13 +28,13 @@ void CAudioManager::LoadAssets()
     });
 
     // Create SFX Define ID -> AGSC map
-    for (u32 iGrp = 0; iGrp < mAudioGroups.size(); iGrp++)
+    for (uint iGrp = 0; iGrp < mAudioGroups.size(); iGrp++)
     {
         CAudioGroup *pGroup = mAudioGroups[iGrp];
 
-        for (u32 iSnd = 0; iSnd < pGroup->NumSoundDefineIDs(); iSnd++)
+        for (uint iSnd = 0; iSnd < pGroup->NumSoundDefineIDs(); iSnd++)
         {
-            u16 DefineID = pGroup->SoundDefineIDByIndex(iSnd);
+            uint16 DefineID = pGroup->SoundDefineIDByIndex(iSnd);
             ASSERT(mSfxIdMap.find(DefineID) == mSfxIdMap.end());
             mSfxIdMap[DefineID] = pGroup;
         }
@@ -64,7 +64,7 @@ void CAudioManager::ClearAssets()
     mSfxIdMap.clear();
 }
 
-SSoundInfo CAudioManager::GetSoundInfo(u32 SoundID)
+SSoundInfo CAudioManager::GetSoundInfo(uint32 SoundID)
 {
     SSoundInfo Out;
     Out.SoundID = SoundID;
@@ -84,18 +84,18 @@ SSoundInfo CAudioManager::GetSoundInfo(u32 SoundID)
     return Out;
 }
 
-void CAudioManager::LogSoundInfo(u32 SoundID)
+void CAudioManager::LogSoundInfo(uint32 SoundID)
 {
     SSoundInfo SoundInfo = GetSoundInfo(SoundID);
 
     if (SoundInfo.DefineID != 0xFFFF)
     {
         if (mpProject->Game() >= EGame::EchoesDemo)
-            Log::Write("Sound Name: " + SoundInfo.Name);
+            debugf("Sound Name:  %s", *SoundInfo.Name);
 
-        Log::Write("Sound ID: " + TString::HexString(SoundInfo.SoundID, 4));
-        Log::Write("Define ID: " + TString::HexString(SoundInfo.DefineID, 4));
-        Log::Write("Audio Group: " + SoundInfo.pAudioGroup->Entry()->Name());
-        Log::Write("");
+        debugf("Sound ID:    0x%04x", SoundInfo.SoundID);
+        debugf("Define ID:   0x%04x", SoundInfo.DefineID);
+        debugf("Audio Group: %s", *SoundInfo.pAudioGroup->Entry()->Name());
+        debugf("");
     }
 }

@@ -1,12 +1,12 @@
 #include "CDependencyGroupLoader.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 
-EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, u32 DepCount)
+EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, uint32 DepCount)
 {
     // Only difference between versions is asset ID length. Just check for EOF with 32-bit ID length.
-    u32 Start = rDGRP.Tell();
+    uint32 Start = rDGRP.Tell();
     rDGRP.Seek(DepCount * 8, SEEK_CUR);
-    u32 Remaining = rDGRP.Size() - rDGRP.Tell();
+    uint32 Remaining = rDGRP.Size() - rDGRP.Tell();
 
     EGame Game = EGame::CorruptionProto;
 
@@ -14,9 +14,9 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, u32 DepCount)
     {
         bool IsEOF = true;
 
-        for (u32 iRem = 0; iRem < Remaining; iRem++)
+        for (uint32 iRem = 0; iRem < Remaining; iRem++)
         {
-            u8 Byte = rDGRP.ReadByte();
+            uint8 Byte = rDGRP.ReadByte();
 
             if (Byte != 0xFF)
             {
@@ -36,12 +36,12 @@ CDependencyGroup* CDependencyGroupLoader::LoadDGRP(IInputStream& rDGRP, CResourc
 {
     if (!rDGRP.IsValid()) return nullptr;
 
-    u32 NumDependencies = rDGRP.ReadLong();
+    uint32 NumDependencies = rDGRP.ReadLong();
     EGame Game = VersionTest(rDGRP, NumDependencies);
 
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
 
-    for (u32 iDep = 0; iDep < NumDependencies; iDep++)
+    for (uint32 iDep = 0; iDep < NumDependencies; iDep++)
     {
         rDGRP.Seek(0x4, SEEK_CUR); // Skip dependency type
         CAssetID AssetID(rDGRP, Game);

@@ -107,12 +107,12 @@ public:
         return mCachedBounds;
     }
 
-    inline u32 Size() const                             { return mSelectedNodes.size(); }
+    inline uint32 Size() const                          { return mSelectedNodes.size(); }
     inline bool IsEmpty() const                         { return Size() == 0; }
-    inline CSceneNode* At(u32 Index) const              { return mSelectedNodes[Index]; }
+    inline CSceneNode* At(uint32 Index) const           { return mSelectedNodes[Index]; }
     inline CSceneNode* Front() const                    { return mSelectedNodes.front(); }
     inline CSceneNode* Back() const                     { return mSelectedNodes.back(); }
-    inline CSceneNode* operator[](u32 Index) const      { return mSelectedNodes[Index]; }
+    inline CSceneNode* operator[](uint32 Index) const   { return mSelectedNodes[Index]; }
     inline void UpdateBounds()                          { mBoundsDirty = true; }
     inline void SetAllowedNodeTypes(FNodeFlags Types)   { mAllowedNodes = Types; }
     inline bool IsAllowedType(ENodeType Type) const     { return (mAllowedNodes & Type) != 0; }

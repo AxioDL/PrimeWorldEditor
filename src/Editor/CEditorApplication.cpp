@@ -7,7 +7,7 @@
 #include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <Common/CTimer.h>
 #include <Core/GameProject/CGameProject.h>
 
@@ -134,7 +134,7 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
                 if (It->Dependencies()->HasDependency(pEntry->ID()))
                 {
                     CWorld *pWorld = (CWorld*) It->Load();
-                    u32 AreaIdx = pWorld->AreaIndex(pEntry->ID());
+                    uint32 AreaIdx = pWorld->AreaIndex(pEntry->ID());
 
                     if (AreaIdx != -1)
                     {
@@ -179,7 +179,7 @@ bool CEditorApplication::CookAllDirtyPackages()
     ASSERT(mpActiveProject != nullptr);
     QList<CPackage*> PackageList;
 
-    for (u32 iPkg = 0; iPkg < mpActiveProject->NumPackages(); iPkg++)
+    for (uint32 iPkg = 0; iPkg < mpActiveProject->NumPackages(); iPkg++)
     {
         CPackage *pPackage = mpActiveProject->PackageByIndex(iPkg);
 

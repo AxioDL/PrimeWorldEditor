@@ -78,7 +78,7 @@ void WEditorProperties::SetLayerComboBox()
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
         CScriptLayer *pLayer = pScript->Instance()->Layer();
-        for (u32 iLyr = 0; iLyr < mpEditor->ActiveArea()->NumScriptLayers(); iLyr++)
+        for (uint32 iLyr = 0; iLyr < mpEditor->ActiveArea()->NumScriptLayers(); iLyr++)
         {
             if (mpEditor->ActiveArea()->ScriptLayer(iLyr) == pLayer)
             {
@@ -161,7 +161,7 @@ void WEditorProperties::OnLayersModified()
 
      if (pArea)
      {
-         for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+         for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
              mpLayersComboBox->addItem(TO_QSTRING(pArea->ScriptLayer(iLyr)->Name()));
      }
 

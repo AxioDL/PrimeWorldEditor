@@ -1,6 +1,6 @@
 #include "CAnimation.h"
-#include <Math/CTransform4f.h>
-#include <Math/MathUtil.h>
+#include <Common/Math/CTransform4f.h>
+#include <Common/Math/MathUtil.h>
 
 CAnimation::CAnimation(CResourceEntry *pEntry /*= 0*/)
     : CResource(pEntry)
@@ -8,7 +8,7 @@ CAnimation::CAnimation(CResourceEntry *pEntry /*= 0*/)
     , mTickInterval(0.0333333f)
     , mNumKeys(0)
 {
-    for (u32 iBone = 0; iBone < 100; iBone++)
+    for (uint32 iBone = 0; iBone < 100; iBone++)
     {
         mBoneInfo[iBone].TranslationChannelIdx = 0xFF;
         mBoneInfo[iBone].RotationChannelIdx = 0xFF;
@@ -23,7 +23,7 @@ CDependencyTree* CAnimation::BuildDependencyTree() const
     return pTree;
 }
 
-void CAnimation::EvaluateTransform(float Time, u32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const
+void CAnimation::EvaluateTransform(float Time, uint32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const
 {
     const bool kInterpolate = true;
     if (!pOutTranslation && !pOutRotation && !pOutScale) return;
@@ -32,12 +32,12 @@ void CAnimation::EvaluateTransform(float Time, u32 BoneID, CVector3f *pOutTransl
     if (Time >= mDuration) Time = mDuration;
     if (Time >= FLT_EPSILON) Time -= FLT_EPSILON;
     float t = fmodf(Time, mTickInterval) / mTickInterval;
-    u32 LowKey = (u32) (Time / mTickInterval);
+    uint32 LowKey = (uint32) (Time / mTickInterval);
     if (LowKey == (mNumKeys - 1)) LowKey = mNumKeys - 2;
 
-    u8 ScaleChannel = mBoneInfo[BoneID].ScaleChannelIdx;
-    u8 RotChannel = mBoneInfo[BoneID].RotationChannelIdx;
-    u8 TransChannel = mBoneInfo[BoneID].TranslationChannelIdx;
+    uint8 ScaleChannel = mBoneInfo[BoneID].ScaleChannelIdx;
+    uint8 RotChannel = mBoneInfo[BoneID].RotationChannelIdx;
+    uint8 TransChannel = mBoneInfo[BoneID].TranslationChannelIdx;
 
     if (ScaleChannel != 0xFF && pOutScale)
     {
@@ -61,7 +61,7 @@ void CAnimation::EvaluateTransform(float Time, u32 BoneID, CVector3f *pOutTransl
     }
 }
 
-bool CAnimation::HasTranslation(u32 BoneID) const
+bool CAnimation::HasTranslation(uint32 BoneID) const
 {
     return (mBoneInfo[BoneID].TranslationChannelIdx != 0xFF);
 }

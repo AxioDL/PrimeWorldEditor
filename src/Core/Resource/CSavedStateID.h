@@ -6,7 +6,7 @@
 // GUID representing a value stored in the save file for MP3/DKCR
 class CSavedStateID
 {
-    u64 m[2];
+    uint64 m[2];
 
 public:
     CSavedStateID()
@@ -15,7 +15,7 @@ public:
         m[1] = 0;
     }
 
-    CSavedStateID(u64 Part1, u64 Part2)
+    CSavedStateID(uint64 Part1, uint64 Part2)
     {
         m[0] = Part1;
         m[1] = Part2;
@@ -29,12 +29,12 @@ public:
 
     TString ToString()
     {
-        u32 Part1 = (m[0] >> 32) & 0xFFFFFFFF;
-        u32 Part2 = (m[0] >> 16) & 0x0000FFFF;
-        u32 Part3 = (m[0] >> 00) & 0x0000FFFF;
-        u32 Part4 = (m[1] >> 48) & 0x0000FFFF;
-        u32 Part5 = (m[1] >> 32) & 0x0000FFFF;
-        u32 Part6 = (m[1] >> 00) & 0xFFFFFFFF;
+        uint32 Part1 = (m[0] >> 32) & 0xFFFFFFFF;
+        uint32 Part2 = (m[0] >> 16) & 0x0000FFFF;
+        uint32 Part3 = (m[0] >> 00) & 0x0000FFFF;
+        uint32 Part4 = (m[1] >> 48) & 0x0000FFFF;
+        uint32 Part5 = (m[1] >> 32) & 0x0000FFFF;
+        uint32 Part6 = (m[1] >> 00) & 0xFFFFFFFF;
         return TString::Format("%08X-%04X-%04X-%04X-%04X%08X", Part1, Part2, Part3, Part4, Part5, Part6);
     }
 
@@ -83,8 +83,7 @@ public:
         ASSERT(Str.Size() == 32);
 
         CSavedStateID Out;
-        Out.m[0] = Str.SubString(0, 16).ToInt64(16);
-        Out.m[1] = Str.SubString(16, 16).ToInt64(16);
+        Str.ToInt128(&Out.m[0]);
         return Out;
     }
 

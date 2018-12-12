@@ -11,7 +11,6 @@
 #include <Common/EGame.h>
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
-#include <Common/types.h>
 #include <Common/FileIO/CFileLock.h>
 
 namespace nod { class DiscWii; }
@@ -92,8 +91,8 @@ public:
     inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
 
     inline TString Name() const                         { return mProjectName; }
-    inline u32 NumPackages() const                      { return mPackages.size(); }
-    inline CPackage* PackageByIndex(u32 Index) const    { return mPackages[Index]; }
+    inline uint32 NumPackages() const                   { return mPackages.size(); }
+    inline CPackage* PackageByIndex(uint32 Index) const { return mPackages[Index]; }
     inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
     inline CResourceStore* ResourceStore() const        { return mpResourceStore; }
     inline CGameInfo* GameInfo() const                  { return mpGameInfo; }

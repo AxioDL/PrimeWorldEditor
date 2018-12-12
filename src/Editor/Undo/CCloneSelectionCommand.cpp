@@ -17,7 +17,7 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
             CScriptNode *pScript = static_cast<CScriptNode*>(*It);
             CScriptObject *pInst = pScript->Instance();
 
-            for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+            for (uint32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
             {
                 CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pInst->Link(eOutgoing, iLink)->Receiver());
 
@@ -52,8 +52,8 @@ void CCloneSelectionCommand::redo()
 {
     QList<CSceneNode*> ToClone = mNodesToClone.DereferenceList();
     QList<CSceneNode*> ClonedNodes;
-    QList<u32> ToCloneInstanceIDs;
-    QList<u32> ClonedInstanceIDs;
+    QList<uint32> ToCloneInstanceIDs;
+    QList<uint32> ClonedInstanceIDs;
 
     // Clone nodes
     foreach (CSceneNode *pNode, ToClone)
@@ -85,12 +85,12 @@ void CCloneSelectionCommand::redo()
         CScriptObject *pSrc = static_cast<CScriptNode*>(ToClone[iNode])->Instance();
         CScriptObject *pClone = static_cast<CScriptNode*>(ClonedNodes[iNode])->Instance();
 
-        for (u32 iLink = 0; iLink < pSrc->NumLinks(eOutgoing); iLink++)
+        for (uint32 iLink = 0; iLink < pSrc->NumLinks(eOutgoing); iLink++)
         {
             CLink *pSrcLink = pSrc->Link(eOutgoing, iLink);
 
             // If we're cloning the receiver then target the cloned receiver instead of the original one.
-            u32 ReceiverID = pSrcLink->ReceiverID();
+            uint32 ReceiverID = pSrcLink->ReceiverID();
             if (ToCloneInstanceIDs.contains(ReceiverID))
                 ReceiverID = ClonedInstanceIDs[ToCloneInstanceIDs.indexOf(ReceiverID)];
 

@@ -13,7 +13,7 @@ class CCharacterUsageMap
     std::map<CAssetID, std::vector<bool>> mUsageMap;
     std::set<CAssetID> mStillLookingIDs;
     CResourceStore *mpStore;
-    u32 mLayerIndex;
+    uint32 mLayerIndex;
     bool mIsInitialArea;
     bool mCurrentAreaAllowsDupes;
 
@@ -22,12 +22,12 @@ public:
         : mpStore(pStore), mLayerIndex(-1), mIsInitialArea(true), mCurrentAreaAllowsDupes(false)
     {}
 
-    bool IsCharacterUsed(const CAssetID& rkID, u32 CharacterIndex) const;
+    bool IsCharacterUsed(const CAssetID& rkID, uint32 CharacterIndex) const;
     bool IsAnimationUsed(const CAssetID& rkID, CSetAnimationDependency *pAnim) const;
     void FindUsagesForAsset(CResourceEntry *pEntry);
     void FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntry);
-    void FindUsagesForArea(CWorld *pWorld, u32 AreaIndex);
-    void FindUsagesForLayer(CResourceEntry *pAreaEntry, u32 LayerIndex);
+    void FindUsagesForArea(CWorld *pWorld, uint32 AreaIndex);
+    void FindUsagesForLayer(CResourceEntry *pAreaEntry, uint32 LayerIndex);
     void Clear();
     void DebugPrintContents();
 
@@ -91,7 +91,7 @@ public:
         ASSERT(mpAreaEntry->ResourceType() == eArea);
     }
 
-    void BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<u32>& rLayerOffsetsOut, std::set<CAssetID> *pAudioGroupsOut = nullptr);
+    void BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<uint32>& rLayerOffsetsOut, std::set<CAssetID> *pAudioGroupsOut = nullptr);
     void AddDependency(const CAssetID& rkID, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut);
     void EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut);
 };

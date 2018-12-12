@@ -49,7 +49,7 @@ void CGameInfo::Serialize(IArchive& rArc)
 
 TString CGameInfo::GetBuildName(float BuildVer, ERegion Region) const
 {
-    for (u32 iBuild = 0; iBuild < mBuilds.size(); iBuild++)
+    for (uint32 iBuild = 0; iBuild < mBuilds.size(); iBuild++)
     {
         const SBuildInfo& rkBuildInfo = mBuilds[iBuild];
 

@@ -16,8 +16,8 @@
 #include "Core/Scene/CSceneNode.h"
 
 #include <Common/CColor.h>
-#include <Math/CAABox.h>
-#include <Math/CMatrix4f.h>
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CMatrix4f.h>
 
 #include <GL/glew.h>
 
@@ -33,10 +33,10 @@ private:
     EBloomMode mBloomMode;
     bool mDrawGrid;
     CColor mClearColor;
-    u32 mContextIndex;
+    uint32 mContextIndex;
     bool mInitialized;
-    u32 mViewportWidth, mViewportHeight;
-    u32 mBloomWidth, mBloomHeight;
+    uint32 mViewportWidth, mViewportHeight;
+    uint32 mBloomWidth, mBloomHeight;
     float mBloomHScale, mBloomVScale;
 
     CFramebuffer mSceneFramebuffer;
@@ -50,7 +50,7 @@ private:
     CRenderBucket mUIBucket;
 
     // Static Members
-    static u32 sNumRenderers;
+    static uint32 sNumRenderers;
 
 public:
     // Initialization
@@ -67,7 +67,7 @@ public:
     void ToggleAlphaDisabled(bool Enable);
     void SetBloom(EBloomMode BloomMode);
     void SetClearColor(const CColor& rkClear);
-    void SetViewportSize(u32 Width, u32 Height);
+    void SetViewportSize(uint32 Width, uint32 Height);
 
     // Render
     void RenderBuckets(const SViewInfo& rkViewInfo);
@@ -83,6 +83,6 @@ private:
     void InitFramebuffer();
 };
 
-extern u32 gDrawCount;
+extern uint32 gDrawCount;
 
 #endif // RENDERMANAGER_H

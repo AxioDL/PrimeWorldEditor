@@ -9,7 +9,7 @@ class CAnimEventData : public CResource
 
     struct SEvent
     {
-        u32 mCharacterIndex;
+        uint32 mCharacterIndex;
         CAssetID mAssetRef;
     };
 
@@ -30,7 +30,7 @@ public:
 
     void AddDependenciesToTree(CDependencyTree *pTree) const
     {
-        for (u32 iEvt = 0; iEvt < mEvents.size(); iEvt++)
+        for (uint32 iEvt = 0; iEvt < mEvents.size(); iEvt++)
         {
             const SEvent& rkEvent = mEvents[iEvt];
             CAssetID ID = rkEvent.mAssetRef;
@@ -43,11 +43,11 @@ public:
         }
     }
 
-    inline u32 NumEvents() const                        { return mEvents.size(); }
-    inline u32 EventCharacterIndex(u32 EventIdx) const  { return mEvents[EventIdx].mCharacterIndex; }
-    inline CAssetID EventAssetRef(u32 EventIdx) const   { return mEvents[EventIdx].mAssetRef; }
+    inline uint32 NumEvents() const                             { return mEvents.size(); }
+    inline uint32 EventCharacterIndex(uint32 EventIdx) const    { return mEvents[EventIdx].mCharacterIndex; }
+    inline CAssetID EventAssetRef(uint32 EventIdx) const        { return mEvents[EventIdx].mAssetRef; }
 
-    inline void AddEvent(u32 CharIdx, CAssetID AssetID) { mEvents.push_back( SEvent { CharIdx, AssetID } ); }
+    inline void AddEvent(uint32 CharIdx, CAssetID AssetID)      { mEvents.push_back( SEvent { CharIdx, AssetID } ); }
 };
 
 #endif // CANIMEVENTDATA

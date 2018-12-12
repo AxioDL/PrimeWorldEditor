@@ -13,8 +13,8 @@ class CEditLinkCommand : public IUndoCommand
 
     CLink mOldLink;
     CLink mNewLink;
-    u32 mOldSenderIndex;
-    u32 mOldReceiverIndex;
+    uint32 mOldSenderIndex;
+    uint32 mOldReceiverIndex;
 
     CInstancePtrList mAffectedInstances;
 

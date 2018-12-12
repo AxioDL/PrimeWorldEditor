@@ -20,9 +20,9 @@ public:
             delete *it;
     }
 
-    inline u32 NumMeshes() const                        { return mMeshes.size(); }
-    inline CCollisionMesh* MeshByIndex(u32 Index) const { return mMeshes[Index]; }
-    inline void AddMesh(CCollisionMesh *pMesh)          { mMeshes.push_back(pMesh); }
+    inline uint32 NumMeshes() const                         { return mMeshes.size(); }
+    inline CCollisionMesh* MeshByIndex(uint32 Index) const  { return mMeshes[Index]; }
+    inline void AddMesh(CCollisionMesh *pMesh)              { mMeshes.push_back(pMesh); }
 
     inline void Draw()
     {

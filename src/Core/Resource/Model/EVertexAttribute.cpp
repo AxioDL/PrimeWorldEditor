@@ -1,9 +1,9 @@
 #include "EVertexAttribute.h"
 #include <Common/Log.h>
 
-const u32 gkNumVertexAttribs = 22;
+const uint32 gkNumVertexAttribs = 22;
 
-u32 VertexAttributeSize(EVertexAttribute Attrib)
+uint32 VertexAttributeSize(EVertexAttribute Attrib)
 {
     switch (Attrib)
     {
@@ -26,7 +26,7 @@ u32 VertexAttributeSize(EVertexAttribute Attrib)
     case eBoneIndices:
         return 0x04;
     default:
-        Log::Error("AttributeSize(): Unknown vertex attribute: " + TString::FromInt32(Attrib, 0, 10));
+        errorf("AttributeSize(): Unknown vertex attribute: %d", Attrib);
         return 0x00;
     }
 }

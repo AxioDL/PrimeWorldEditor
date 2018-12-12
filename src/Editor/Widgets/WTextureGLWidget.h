@@ -1,8 +1,8 @@
 #ifndef WTEXTUREGLWIDGET_H
 #define WTEXTUREGLWIDGET_H
 
-#include <Math/CTransform4f.h>
-#include <Math/CVector2f.h>
+#include <Common/Math/CTransform4f.h>
+#include <Common/Math/CVector2f.h>
 #include <Core/Resource/TResPtr.h>
 #include <Core/Resource/CTexture.h>
 
@@ -19,7 +19,7 @@ class WTextureGLWidget : public QOpenGLWidget
     float mTexAspectRatio;
     CTransform4f mTexTransform;
     CVector2f mCheckerCoords[4];
-    u32 mContextID;
+    uint32 mContextID;
     bool mInitialized;
 
 public:

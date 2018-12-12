@@ -32,7 +32,7 @@ void CRenderBucket::CSubBucket::Sort(const CCamera* pkCamera, bool DebugVisualiz
 
     if (DebugVisualization)
     {
-        for (u32 iPtr = 0; iPtr < mSize; iPtr++)
+        for (uint32 iPtr = 0; iPtr < mSize; iPtr++)
         {
             SRenderablePtr *pPtr = &mRenderables[iPtr];
             CVector3f Point = pPtr->AABox.ClosestPointAlongVector(pkCamera->Direction());
@@ -63,7 +63,7 @@ void CRenderBucket::CSubBucket::Draw(const SViewInfo& rkViewInfo)
 {
     FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
-    for (u32 iPtr = 0; iPtr < mSize; iPtr++)
+    for (uint32 iPtr = 0; iPtr < mSize; iPtr++)
     {
         const SRenderablePtr& rkPtr = mRenderables[iPtr];
 

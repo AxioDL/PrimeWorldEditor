@@ -22,10 +22,10 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
     else                     mpFont->mpFontTexture = gpResourceStore->LoadResource(rFONT.ReadLongLong(), eTexture);
 
     mpFont->mTextureFormat = rFONT.ReadLong();
-    u32 NumGlyphs = rFONT.ReadLong();
+    uint32 NumGlyphs = rFONT.ReadLong();
     mpFont->mGlyphs.reserve(NumGlyphs);
 
-    for (u32 iGlyph = 0; iGlyph < NumGlyphs; iGlyph++)
+    for (uint32 iGlyph = 0; iGlyph < NumGlyphs; iGlyph++)
     {
         CFont::SGlyph Glyph;
         Glyph.Character = rFONT.ReadShort();
@@ -64,10 +64,10 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
         mpFont->mGlyphs[Glyph.Character] = Glyph;
     }
 
-    u32 NumKerningPairs = rFONT.ReadLong();
+    uint32 NumKerningPairs = rFONT.ReadLong();
     mpFont->mKerningTable.reserve(NumKerningPairs);
 
-    for (u32 iKern = 0; iKern < NumKerningPairs; iKern++)
+    for (uint32 iKern = 0; iKern < NumKerningPairs; iKern++)
     {
         CFont::SKerningPair Pair;
         Pair.CharacterA = rFONT.ReadShort();
@@ -84,17 +84,17 @@ CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
     if (!rFONT.IsValid()) return nullptr;
 
     CFourCC Magic(rFONT);
-    if (Magic != "FONT")
+    if (Magic != FOURCC('FONT'))
     {
-        Log::FileError(rFONT.GetSourceString(), "Invalid FONT magic: " + TString::HexString(Magic.ToLong()));
+        errorf("%s: Invalid FONT magic: 0x%08X", *rFONT.GetSourceString(), Magic.ToLong());
         return nullptr;
     }
 
-    u32 FileVersion = rFONT.ReadLong();
+    uint32 FileVersion = rFONT.ReadLong();
     EGame Version = GetFormatVersion(FileVersion);
     if (Version == EGame::Invalid)
     {
-        Log::FileError(rFONT.GetSourceString(), "Unsupported FONT version: " + TString::HexString(FileVersion, 0));
+        errorf("%s: Unsupported FONT version: %d", *rFONT.GetSourceString(), FileVersion);
         return nullptr;
     }
 
@@ -104,7 +104,7 @@ CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
     return Loader.LoadFont(rFONT);
 }
 
-EGame CFontLoader::GetFormatVersion(u32 Version)
+EGame CFontLoader::GetFormatVersion(uint32 Version)
 {
     switch (Version)
     {

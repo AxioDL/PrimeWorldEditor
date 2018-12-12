@@ -1,7 +1,7 @@
 #include "CSelectResourcePanel.h"
 #include "ui_CSelectResourcePanel.h"
 #include "Editor/CEditorApplication.h"
-#include <Math/MathUtil.h>
+#include <Common/Math/MathUtil.h>
 #include <QDesktopWidget>
 #include <QDebug>
 

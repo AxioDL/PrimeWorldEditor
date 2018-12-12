@@ -79,7 +79,7 @@ void CWaypointExtra::BuildLinks()
 {
     mLinks.clear();
 
-    for (u32 iLink = 0; iLink < mpInstance->NumLinks(eOutgoing); iLink++)
+    for (uint32 iLink = 0; iLink < mpInstance->NumLinks(eOutgoing); iLink++)
     {
         CLink *pLink = mpInstance->Link(eOutgoing, iLink);
 
@@ -130,7 +130,7 @@ void CWaypointExtra::GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut)
 {
     if (!mLinksBuilt) BuildLinks();
 
-    for (u32 iLink = 0; iLink < mLinks.size(); iLink++)
+    for (uint32 iLink = 0; iLink < mLinks.size(); iLink++)
     {
         const SWaypointLink& rkLink = mLinks[iLink];
         CWaypointExtra *pExtra = static_cast<CWaypointExtra*>(rkLink.pWaypoint->Extra());
@@ -140,7 +140,7 @@ void CWaypointExtra::GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut)
 
 void CWaypointExtra::OnTransformed()
 {
-    for (u32 iLink = 0; iLink < mLinks.size(); iLink++)
+    for (uint32 iLink = 0; iLink < mLinks.size(); iLink++)
     {
         SWaypointLink& rLink = mLinks[iLink];
         rLink.LineAABB = CAABox::skInfinite;
@@ -162,7 +162,7 @@ void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
 
     if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & eShowObjectGeometry) && mpParent->IsVisible() && !mpParent->IsSelected())
     {
-        for (u32 iLink = 0; iLink < mLinks.size(); iLink++)
+        for (uint32 iLink = 0; iLink < mLinks.size(); iLink++)
         {
             CScriptNode *pNode = mLinks[iLink].pWaypoint;
 

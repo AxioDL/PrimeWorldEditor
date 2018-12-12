@@ -6,7 +6,7 @@
 #include "CStringTable.h"
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Model/CModel.h"
-#include <Math/CTransform4f.h>
+#include <Common/Math/CTransform4f.h>
 
 class CWorld : public CResource
 {
@@ -21,7 +21,7 @@ class CWorld : public CResource
     TResPtr<CResource>    mpSaveWorld;
     TResPtr<CModel>       mpDefaultSkybox;
     TResPtr<CResource>    mpMapWorld;
-    u32 mTempleKeyWorldIndex;
+    uint32 mTempleKeyWorldIndex;
 
     struct STimeAttackData
     {
@@ -36,15 +36,15 @@ class CWorld : public CResource
     struct SAudioGrp
     {
         CAssetID ResID;
-        u32 GroupID;
+        uint32 GroupID;
     };
     std::vector<SAudioGrp> mAudioGrps;
 
     struct SMemoryRelay
     {
-        u32 InstanceID;
-        u32 TargetID;
-        u16 Message;
+        uint32 InstanceID;
+        uint32 TargetID;
+        uint16 Message;
         bool Active;
     };
     std::vector<SMemoryRelay> mMemoryRelays;
@@ -60,16 +60,16 @@ class CWorld : public CResource
         bool AllowPakDuplicates;
 
         std::vector<SMemoryRelay> MemoryRelays; // Only needed for MP1
-        std::vector<u16> AttachedAreaIDs;
+        std::vector<uint16> AttachedAreaIDs;
         std::vector<TString> RelFilenames; // Needs to be removed & generated at cook; temporarily leaving for debugging
-        std::vector<u32> RelOffsets;
+        std::vector<uint32> RelOffsets;
 
         struct SDock
         {
             struct SConnectingDock
             {
-                u32 AreaIndex;
-                u32 DockIndex;
+                uint32 AreaIndex;
+                uint32 DockIndex;
             };
             std::vector<SConnectingDock> ConnectingDocks;
             std::vector<CVector3f> DockCoordinates;
@@ -93,8 +93,8 @@ public:
     CDependencyTree* BuildDependencyTree() const;
     void SetAreaLayerInfo(CGameArea *pArea);
     TString InGameName() const;
-    TString AreaInGameName(u32 AreaIndex) const;
-    u32 AreaIndex(CAssetID AreaID) const;
+    TString AreaInGameName(uint32 AreaIndex) const;
+    uint32 AreaIndex(CAssetID AreaID) const;
 
     // Serialization
     virtual void Serialize(IArchive& rArc);
@@ -114,16 +114,16 @@ public:
     inline CModel* DefaultSkybox() const        { return mpDefaultSkybox; }
     inline CResource* MapWorld() const          { return mpMapWorld; }
 
-    inline u32 NumAreas() const                                         { return mAreas.size(); }
-    inline CAssetID AreaResourceID(u32 AreaIndex) const                 { return mAreas[AreaIndex].AreaResID; }
-    inline u32 AreaAttachedCount(u32 AreaIndex) const                   { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
-    inline u32 AreaAttachedID(u32 AreaIndex, u32 AttachedIndex) const   { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
-    inline TString AreaInternalName(u32 AreaIndex) const                { return mAreas[AreaIndex].InternalName; }
-    inline CStringTable* AreaName(u32 AreaIndex) const                  { return mAreas[AreaIndex].pAreaName; }
-    inline bool DoesAreaAllowPakDuplicates(u32 AreaIndex) const         { return mAreas[AreaIndex].AllowPakDuplicates; }
+    inline uint32 NumAreas() const                                              { return mAreas.size(); }
+    inline CAssetID AreaResourceID(uint32 AreaIndex) const                      { return mAreas[AreaIndex].AreaResID; }
+    inline uint32 AreaAttachedCount(uint32 AreaIndex) const                     { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
+    inline uint32 AreaAttachedID(uint32 AreaIndex, uint32 AttachedIndex) const  { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
+    inline TString AreaInternalName(uint32 AreaIndex) const                     { return mAreas[AreaIndex].InternalName; }
+    inline CStringTable* AreaName(uint32 AreaIndex) const                       { return mAreas[AreaIndex].pAreaName; }
+    inline bool DoesAreaAllowPakDuplicates(uint32 AreaIndex) const              { return mAreas[AreaIndex].AllowPakDuplicates; }
 
-    inline void SetName(const TString& rkName)  { mName = rkName; }
-    inline void SetAreaAllowsPakDuplicates(u32 AreaIndex, bool Allow)   { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
+    inline void SetName(const TString& rkName)                              { mName = rkName; }
+    inline void SetAreaAllowsPakDuplicates(uint32 AreaIndex, bool Allow)    { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
 };
 
 #endif // CWORLD_H

@@ -32,7 +32,7 @@ private:
     CAABox mAABox;
     EGame mVersion;
 
-    u32 mNumVertices;
+    uint32 mNumVertices;
     std::vector<CVector3f> mPositions;
     std::vector<CVector3f> mNormals;
     std::vector<CColor> mColors;
@@ -40,8 +40,8 @@ private:
     std::vector<CVector2f> mTex1;
     bool mSurfaceUsingTex1;
 
-    u32 mSurfaceCount;
-    std::vector<u32> mSurfaceOffsets;
+    uint32 mSurfaceCount;
+    std::vector<uint32> mSurfaceOffsets;
 
     FModelFlags mFlags;
 
@@ -59,10 +59,10 @@ private:
 public:
     static CModel* LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry);
     static CModel* LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version);
-    static CModel* LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, u32 HeaderSecNum, u32 GPUSecNum, EGame Version);
+    static CModel* LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, uint32 HeaderSecNum, uint32 GPUSecNum, EGame Version);
     static void BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels);
     static CModel* ImportAssimpNode(const aiNode *pkNode, const aiScene *pkScene, CMaterialSet& rMatSet);
-    static EGame GetFormatVersion(u32 Version);
+    static EGame GetFormatVersion(uint32 Version);
 };
 
 #endif // CMODELLOADER_H

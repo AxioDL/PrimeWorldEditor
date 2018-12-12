@@ -96,7 +96,7 @@ bool CResourceEntry::LoadMetadata()
     }
     else
     {
-        Log::Error(Path + ": Failed to load metadata file!");
+        errorf("%s: Failed to load metadata file!", *Path);
     }
 
     return false;
@@ -174,7 +174,7 @@ void CResourceEntry::UpdateDependencies()
 
     if (!mpResource)
     {
-        Log::Error("Unable to update cached dependencies; failed to load resource");
+        errorf("Unable to update cached dependencies; failed to load resource");
         mpDependencies = new CDependencyTree();
         return;
     }
@@ -237,7 +237,7 @@ bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const
     return false;
 }
 
-u64 CResourceEntry::Size() const
+uint64 CResourceEntry::Size() const
 {
     if (mCachedSize == -1)
     {
@@ -294,8 +294,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
 
         if (!Writer.Save())
         {
-            Log::Error("Failed to save raw resource: " + Path);
-            DEBUG_BREAK;
+            errorf("Failed to save raw resource: %s", *Path);
             return false;
         }
 
@@ -309,7 +308,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
 
         if (!CookSuccess)
         {
-            Log::Error("Failed to save resource: " + Name() + "." + CookedExtension().ToString());
+            errorf("Failed to save resource: %s.%s", *Name(), *CookedExtension().ToString());
             return false;
         }
     }
@@ -324,7 +323,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
         mpStore->ConditionalSaveStore();
 
         // Flag dirty any packages that contain this resource.
-        for (u32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
+        for (uint32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
         {
             CPackage *pPkg = mpStore->Project()->PackageByIndex(iPkg);
 
@@ -352,7 +351,7 @@ bool CResourceEntry::Cook()
     CFileOutStream File(Path, IOUtil::eBigEndian);
     if (!File.IsValid())
     {
-        Log::Error("Failed to open cooked file for writing: " + Path);
+        errorf("Failed to open cooked file for writing: %s", *Path);
         return false;
     }
 
@@ -390,7 +389,7 @@ CResource* CResourceEntry::Load()
 
             if (!Reader.IsValid())
             {
-                Log::Error("Failed to load raw resource; falling back on cooked. Raw path: " + RawAssetPath());
+                errorf("Failed to load raw resource; falling back on cooked. Raw path: %s", *RawAssetPath());
                 delete mpResource;
                 mpResource = nullptr;
             }
@@ -414,7 +413,7 @@ CResource* CResourceEntry::Load()
 
         if (!File.IsValid())
         {
-            Log::Error("Failed to open cooked resource: " + CookedAssetPath(true));
+            errorf("Failed to open cooked resource: %s", *CookedAssetPath(true));
             return nullptr;
         }
 
@@ -423,7 +422,7 @@ CResource* CResourceEntry::Load()
 
     else
     {
-        Log::Error("Couldn't locate resource: " + CookedAssetPath(true));
+        errorf("Couldn't locate resource: %s", *CookedAssetPath(true));
         return nullptr;
     }
 }
@@ -500,7 +499,10 @@ bool CResourceEntry::MoveAndRename(const TString& rkDir, const TString& rkName, 
     TString NewRawPath = RawAssetPath();
     TString NewMetaPath = MetadataFilePath();
 
-    Log::Write("MOVING RESOURCE: " + FileUtil::MakeRelative(OldCookedPath, mpStore->ResourcesDir()) + " --> " + FileUtil::MakeRelative(NewCookedPath, mpStore->ResourcesDir()));
+    debugf("MOVING RESOURCE: %s --> %s",
+           *FileUtil::MakeRelative(OldCookedPath, mpStore->ResourcesDir()),
+           *FileUtil::MakeRelative(NewCookedPath, mpStore->ResourcesDir())
+    );
 
     // If the old/new paths are the same then we should have already exited as CanMoveTo() should have returned false
     ASSERT(OldCookedPath != NewCookedPath && OldRawPath != NewRawPath && OldMetaPath != NewMetaPath);
@@ -586,7 +588,7 @@ bool CResourceEntry::MoveAndRename(const TString& rkDir, const TString& rkName, 
     // Otherwise, revert changes and let the caller know the move failed
     else
     {
-        Log::Error("MOVE FAILED: " + MoveFailReason);
+        errorf("MOVE FAILED: %s", *MoveFailReason);
         mpDirectory = pOldDir;
         mName = OldName;
         mpStore->ConditionalDeleteDirectory(pNewDir, false);

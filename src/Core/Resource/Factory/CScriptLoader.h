@@ -19,7 +19,7 @@ class CScriptLoader
     void* mpArrayItemData;
 
     CScriptLoader();
-    void ReadProperty(IProperty* pProp, u32 Size, IInputStream& rSCLY);
+    void ReadProperty(IProperty* pProp, uint32 Size, IInputStream& rSCLY);
 
     void LoadStructMP1(IInputStream& rSCLY, CStructProperty* pStruct);
     CScriptObject* LoadObjectMP1(IInputStream& rSCLY);

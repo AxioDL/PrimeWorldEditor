@@ -59,7 +59,7 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
             // are often missing, confusing, or just straight-up inaccurate, which makes the internal name a better
             // means of telling worlds apart.
             // For DKCR worlds, we only display the world name in the first column.
-            u32 InternalNameCol = (gpEdApp->ActiveProject()->Game() >= EGame::Corruption ? 0 : 1);
+            uint32 InternalNameCol = (gpEdApp->ActiveProject()->Game() >= EGame::Corruption ? 0 : 1);
 
             // Internal name
             if (rkIndex.column() == InternalNameCol)
@@ -241,7 +241,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
                         Info.pWorld = pWorld;
 
                         // Add areas
-                        for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+                        for (uint32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
                         {
                             CAssetID AreaID = pWorld->AreaResourceID(iArea);
                             CResourceEntry *pAreaEntry = pWorld->Entry()->ResourceStore()->FindEntry(AreaID);
@@ -282,7 +282,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
 
                 CAssetID WorldID;
                 TString WorldName;
-                u32 IDSplit = Line.IndexOf(' ');
+                uint32 IDSplit = Line.IndexOf(' ');
 
                 if (IDSplit != -1)
                 {
@@ -292,8 +292,8 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
 
                     // Get world name
                     TString WorldPath = (IDSplit == -1 ? "" : Line.SubString(IDSplit + 1, Line.Size() - IDSplit - 1));
-                    u32 UnderscoreIdx = WorldPath.IndexOf('_');
-                    u32 WorldDirEnd = WorldPath.IndexOf("\\/", UnderscoreIdx);
+                    uint32 UnderscoreIdx = WorldPath.IndexOf('_');
+                    uint32 WorldDirEnd = WorldPath.IndexOf("\\/", UnderscoreIdx);
 
                     if (UnderscoreIdx != -1 && WorldDirEnd != -1)
                         WorldName = WorldPath.SubString(UnderscoreIdx + 1, WorldDirEnd - UnderscoreIdx - 1);

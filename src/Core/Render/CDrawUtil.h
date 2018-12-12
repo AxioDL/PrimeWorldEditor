@@ -92,7 +92,7 @@ public:
     static void UseCollisionShader(bool IsFloor, bool IsUnstandable, const CColor& TintColor = CColor::skWhite);
 
     static CShader* GetTextShader();
-    static void LoadCheckerboardTexture(u32 GLTextureUnit);
+    static void LoadCheckerboardTexture(uint32 GLTextureUnit);
     static CTexture* GetLightTexture(ELightType Type);
     static CTexture* GetLightMask(ELightType Type);
     static CModel* GetCubeModel();

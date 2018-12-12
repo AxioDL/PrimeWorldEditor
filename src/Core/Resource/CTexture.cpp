@@ -16,11 +16,11 @@ CTexture::CTexture(CResourceEntry *pEntry /*= 0*/)
 {
 }
 
-CTexture::CTexture(u32 Width, u32 Height)
+CTexture::CTexture(uint32 Width, uint32 Height)
     : mTexelFormat(eRGBA8)
     , mSourceTexelFormat(eRGBA8)
-    , mWidth((u16) Width)
-    , mHeight((u16) Height)
+    , mWidth((uint16) Width)
+    , mHeight((uint16) Height)
     , mNumMipMaps(1)
     , mLinearSize(Width * Height * 4)
     , mEnableMultisampling(false)
@@ -75,11 +75,11 @@ bool CTexture::BufferGL()
 
     // The smallest mipmaps are probably not being loaded correctly, because mipmaps in GX textures have a minimum size depending on the format, and these don't.
     // Not sure specifically what accomodations should be made to fix that though so whatever.
-    u32 MipSize = mLinearSize;
-    u32 MipOffset = 0;
-    u16 MipW = mWidth, MipH = mHeight;
+    uint32 MipSize = mLinearSize;
+    uint32 MipOffset = 0;
+    uint16 MipW = mWidth, MipH = mHeight;
 
-    for (u32 iMip = 0; iMip < mNumMipMaps; iMip++)
+    for (uint32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
         GLvoid *pData = (mBufferExists) ? (mpImgDataBuffer + MipOffset) : NULL;
 
@@ -115,7 +115,7 @@ bool CTexture::BufferGL()
     return true;
 }
 
-void CTexture::Bind(u32 GLTextureUnit)
+void CTexture::Bind(uint32 GLTextureUnit)
 {
     glActiveTexture(GL_TEXTURE0 + GLTextureUnit);
 
@@ -126,13 +126,13 @@ void CTexture::Bind(u32 GLTextureUnit)
     glBindTexture(BindTarget, mTextureID);
 }
 
-void CTexture::Resize(u32 Width, u32 Height)
+void CTexture::Resize(uint32 Width, uint32 Height)
 {
     if ((mWidth != Width) || (mHeight != Height))
     {
         DeleteBuffers();
-        mWidth = (u16) Width;
-        mHeight = (u16) Height;
+        mWidth = (uint16) Width;
+        mHeight = (uint16) Height;
         mNumMipMaps = 1;
         CalcLinearSize();
     }
@@ -142,23 +142,23 @@ float CTexture::ReadTexelAlpha(const CVector2f& rkTexCoord)
 {
     // todo: support texel formats other than DXT1
     // DXT1 is definitely the most complicated one anyway; try reusing CTextureDecoder functions for other formats
-    u32 TexelX = (u32) ((mWidth - 1) * rkTexCoord.X);
-    u32 TexelY = (u32) ((mHeight - 1) * (1.f - fmodf(rkTexCoord.Y, 1.f)));
+    uint32 TexelX = (uint32) ((mWidth - 1) * rkTexCoord.X);
+    uint32 TexelY = (uint32) ((mHeight - 1) * (1.f - fmodf(rkTexCoord.Y, 1.f)));
 
     if (mTexelFormat == eDXT1 && mBufferExists)
     {
         CMemoryInStream Buffer(mpImgDataBuffer, mImgDataSize, IOUtil::kSystemEndianness);
 
         // 8 bytes per 4x4 16-pixel block, left-to-right top-to-bottom
-        u32 BlockIdxX = TexelX / 4;
-        u32 BlockIdxY = TexelY / 4;
-        u32 BlocksPerRow = mWidth / 4;
+        uint32 BlockIdxX = TexelX / 4;
+        uint32 BlockIdxY = TexelY / 4;
+        uint32 BlocksPerRow = mWidth / 4;
 
-        u32 BufferPos = (8 * BlockIdxX) + (8 * BlockIdxY * BlocksPerRow);
+        uint32 BufferPos = (8 * BlockIdxX) + (8 * BlockIdxY * BlocksPerRow);
         Buffer.Seek(BufferPos, SEEK_SET);
 
-        u16 PaletteA = Buffer.ReadShort();
-        u16 PaletteB = Buffer.ReadShort();
+        uint16 PaletteA = Buffer.ReadShort();
+        uint16 PaletteB = Buffer.ReadShort();
 
         if (PaletteA > PaletteB)
         {
@@ -168,13 +168,13 @@ float CTexture::ReadTexelAlpha(const CVector2f& rkTexCoord)
 
         // We only care about alpha, which is only present on palette index 3.
         // We don't need to calculate/decode the actual palette colors.
-        u32 BlockCol = (TexelX & 0xF) / 4;
-        u32 BlockRow = (TexelY & 0xF) / 4;
+        uint32 BlockCol = (TexelX & 0xF) / 4;
+        uint32 BlockRow = (TexelY & 0xF) / 4;
 
         Buffer.Seek(BlockRow, SEEK_CUR);
-        u8 Row = Buffer.ReadByte();
-        u8 Shift = (u8) (6 - (BlockCol * 2));
-        u8 PaletteIndex = (Row >> Shift) & 0x3;
+        uint8 Row = Buffer.ReadByte();
+        uint8 Shift = (uint8) (6 - (BlockCol * 2));
+        uint8 PaletteIndex = (Row >> Shift) & 0x3;
         return (PaletteIndex == 3 ? 0.f : 1.f);
     }
 
@@ -196,12 +196,12 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
     rOut.WriteLong(0);               // dwDepth
     rOut.WriteLong(mNumMipMaps - 1); // dwMipMapCount
 
-    for (u32 iRes = 0; iRes < 11; iRes++)
+    for (uint32 iRes = 0; iRes < 11; iRes++)
         rOut.WriteLong(0);           // dwReserved1[11]
 
     // DDS_PIXELFORMAT
     rOut.WriteLong(32); // DDS_PIXELFORMAT.dwSize
-    u32 PFFlags = 0, PFBpp = 0, PFRBitMask = 0, PFGBitMask = 0, PFBBitMask = 0, PFABitMask = 0;
+    uint32 PFFlags = 0, PFBpp = 0, PFRBitMask = 0, PFGBitMask = 0, PFBBitMask = 0, PFABitMask = 0;
 
     switch (mTexelFormat)
     {
@@ -263,7 +263,7 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
 }
 
 // ************ STATIC ************
-u32 CTexture::FormatBPP(ETexelFormat Format)
+uint32 CTexture::FormatBPP(ETexelFormat Format)
 {
     switch (Format)
     {
@@ -291,18 +291,18 @@ u32 CTexture::FormatBPP(ETexelFormat Format)
 void CTexture::CalcLinearSize()
 {
     float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
-    mLinearSize = (u32) (mWidth * mHeight * BytesPerPixel);
+    mLinearSize = (uint32) (mWidth * mHeight * BytesPerPixel);
 }
 
-u32 CTexture::CalcTotalSize()
+uint32 CTexture::CalcTotalSize()
 {
     float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
-    u32 MipW = mWidth, MipH = mHeight;
-    u32 Size = 0;
+    uint32 MipW = mWidth, MipH = mHeight;
+    uint32 Size = 0;
 
-    for (u32 iMip = 0; iMip < mNumMipMaps; iMip++)
+    for (uint32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
-        Size += (u32) (MipW * MipH * BytesPerPixel);
+        Size += (uint32) (MipW * MipH * BytesPerPixel);
         MipW /= 2;
         MipH /= 2;
     }
@@ -325,23 +325,23 @@ void CTexture::CopyGLBuffer()
 
     // Calculate buffer size
     mImgDataSize = CalcTotalSize();
-    mpImgDataBuffer = new u8[mImgDataSize];
+    mpImgDataBuffer = new uint8[mImgDataSize];
     mBufferExists = true;
 
     // Get texture
-    u32 MipW = mWidth, MipH = mHeight, MipOffset = 0;
+    uint32 MipW = mWidth, MipH = mHeight, MipOffset = 0;
     float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
 
     GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
     glBindTexture(BindTarget, mTextureID);
 
-    for (u32 iMip = 0; iMip < mNumMipMaps; iMip++)
+    for (uint32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
         void *pData = mpImgDataBuffer + MipOffset;
 
         glGetTexImage(BindTarget, iMip, GL_RGBA, GL_UNSIGNED_BYTE, pData);
 
-        MipOffset += (u32) (MipW * MipH * BytesPerPixel);
+        MipOffset += (uint32) (MipW * MipH * BytesPerPixel);
         MipW /= 2;
         MipH /= 2;
     }

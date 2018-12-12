@@ -8,7 +8,6 @@
 #include <Common/CAssetID.h>
 #include <Common/Flags.h>
 #include <Common/TString.h>
-#include <Common/types.h>
 #include <map>
 #include <nod/nod.hpp>
 
@@ -54,8 +53,8 @@ class CGameExporter
         TString PakFile;
         CAssetID ResourceID;
         CFourCC ResourceType;
-        u32 PakOffset;
-        u32 PakSize;
+        uint32 PakOffset;
+        uint32 PakSize;
         bool Compressed;
         bool Exported;
     };
@@ -76,7 +75,7 @@ class CGameExporter
 public:
     CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
     bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress);
-    void LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer);
+    void LoadResource(const CAssetID& rkID, std::vector<uint8>& rBuffer);
     bool ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot);
 
     inline TString ProjectPath() const  { return mProjectPath; }
@@ -85,7 +84,7 @@ protected:
     bool ExtractDiscData();
     bool ExtractDiscNodeRecursive(const nod::Node *pkNode, const TString& rkDir, bool RootNode, const nod::ExtractionContext& rkContext);
     void LoadPaks();
-    void LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer);
+    void LoadResource(const SResourceInstance& rkResource, std::vector<uint8>& rBuffer);
     void ExportCookedResources();
     void ExportResourceEditorData();
     void ExportResource(SResourceInstance& rRes);
@@ -94,7 +93,7 @@ protected:
     // Convenience Functions
     inline SResourceInstance* FindResourceInstance(const CAssetID& rkID)
     {
-        u64 IntegralID = rkID.ToLongLong();
+        uint64 IntegralID = rkID.ToLongLong();
         auto Found = mResourceMap.find(IntegralID);
         return (Found == mResourceMap.end() ? nullptr : &Found->second);
     }

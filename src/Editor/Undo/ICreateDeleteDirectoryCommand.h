@@ -52,7 +52,7 @@ protected:
             }
             else
             {
-                Log::Write("Directory delete failed, directory is not empty: " + mParentPath + mDirName);
+                debugf("Directory delete failed, directory is not empty: %s", *(mParentPath + mDirName));
             }
         }
     }

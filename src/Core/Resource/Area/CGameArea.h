@@ -8,9 +8,9 @@
 #include "Core/Resource/CPoiToWorld.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/Model/CStaticModel.h"
-#include <Common/types.h>
-#include <Math/CQuaternion.h>
-#include <Math/CTransform4f.h>
+#include <Common/BasicTypes.h>
+#include <Common/Math/CQuaternion.h>
+#include <Common/Math/CTransform4f.h>
 
 #include <unordered_map>
 
@@ -24,22 +24,22 @@ class CGameArea : public CResource
     friend class CAreaLoader;
     friend class CAreaCooker;
 
-    u32 mWorldIndex;
-    u32 mVertexCount;
-    u32 mTriangleCount;
+    uint32 mWorldIndex;
+    uint32 mVertexCount;
+    uint32 mTriangleCount;
     bool mTerrainMerged;
     CTransform4f mTransform;
     CAABox mAABox;
 
     // Data saved from the original file to help on recook
-    std::vector<std::vector<u8>> mSectionDataBuffers;
-    u32 mOriginalWorldMeshCount;
+    std::vector<std::vector<uint8>> mSectionDataBuffers;
+    uint32 mOriginalWorldMeshCount;
     bool mUsesCompression;
 
     struct SSectionNumber
     {
         CFourCC SectionID;
-        u32 Index;
+        uint32 Index;
     };
     std::vector<SSectionNumber> mSectionNumbers;
 
@@ -49,7 +49,7 @@ class CGameArea : public CResource
     std::vector<CStaticModel*> mStaticWorldModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
     // Script
     std::vector<CScriptLayer*> mScriptLayers;
-    std::unordered_map<u32, CScriptObject*> mObjectMap;
+    std::unordered_map<uint32, CScriptObject*> mObjectMap;
     // Collision
     CCollisionMeshGroup *mpCollision;
     // Lights
@@ -73,38 +73,38 @@ public:
     void MergeTerrain();
     void ClearTerrain();
     void ClearScriptLayers();
-    u32 TotalInstanceCount() const;
-    CScriptObject* InstanceByID(u32 InstanceID);
-    u32 FindUnusedInstanceID() const;
+    uint32 TotalInstanceCount() const;
+    CScriptObject* InstanceByID(uint32 InstanceID);
+    uint32 FindUnusedInstanceID() const;
     CScriptObject* SpawnInstance(CScriptTemplate *pTemplate, CScriptLayer *pLayer,
                                  const CVector3f& rkPosition = CVector3f::skZero,
                                  const CQuaternion& rkRotation = CQuaternion::skIdentity,
                                  const CVector3f& rkScale = CVector3f::skOne,
-                                 u32 SuggestedID = -1, u32 SuggestedLayerIndex = -1);
+                                 uint32 SuggestedID = -1, uint32 SuggestedLayerIndex = -1);
     void AddInstanceToArea(CScriptObject *pInstance);
     void DeleteInstance(CScriptObject *pInstance);
     void ClearExtraDependencies();
 
     // Inline Accessors
-    inline u32 WorldIndex() const                               { return mWorldIndex; }
-    inline CTransform4f Transform() const                       { return mTransform; }
-    inline CMaterialSet* Materials() const                      { return mpMaterialSet; }
-    inline u32 NumWorldModels() const                           { return mWorldModels.size(); }
-    inline u32 NumStaticModels() const                          { return mStaticWorldModels.size(); }
-    inline CModel* TerrainModel(u32 iMdl) const                 { return mWorldModels[iMdl]; }
-    inline CStaticModel* StaticModel(u32 iMdl) const            { return mStaticWorldModels[iMdl]; }
-    inline CCollisionMeshGroup* Collision() const               { return mpCollision; }
-    inline u32 NumScriptLayers() const                          { return mScriptLayers.size(); }
-    inline CScriptLayer* ScriptLayer(u32 Index) const           { return mScriptLayers[Index]; }
-    inline u32 NumLightLayers() const                           { return mLightLayers.size(); }
-    inline u32 NumLights(u32 LayerIndex) const                  { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
-    inline CLight* Light(u32 LayerIndex, u32 LightIndex) const  { return mLightLayers[LayerIndex][LightIndex]; }
-    inline CAssetID PathID() const                              { return mPathID; }
-    inline CPoiToWorld* PoiToWorldMap() const                   { return mpPoiToWorldMap; }
-    inline CAssetID PortalAreaID() const                        { return mPortalAreaID; }
-    inline CAABox AABox() const                                 { return mAABox; }
+    inline uint32 WorldIndex() const                                    { return mWorldIndex; }
+    inline CTransform4f Transform() const                               { return mTransform; }
+    inline CMaterialSet* Materials() const                              { return mpMaterialSet; }
+    inline uint32 NumWorldModels() const                                { return mWorldModels.size(); }
+    inline uint32 NumStaticModels() const                               { return mStaticWorldModels.size(); }
+    inline CModel* TerrainModel(uint32 iMdl) const                      { return mWorldModels[iMdl]; }
+    inline CStaticModel* StaticModel(uint32 iMdl) const                 { return mStaticWorldModels[iMdl]; }
+    inline CCollisionMeshGroup* Collision() const                       { return mpCollision; }
+    inline uint32 NumScriptLayers() const                               { return mScriptLayers.size(); }
+    inline CScriptLayer* ScriptLayer(uint32 Index) const                { return mScriptLayers[Index]; }
+    inline uint32 NumLightLayers() const                                { return mLightLayers.size(); }
+    inline uint32 NumLights(uint32 LayerIndex) const                    { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
+    inline CLight* Light(uint32 LayerIndex, uint32 LightIndex) const    { return mLightLayers[LayerIndex][LightIndex]; }
+    inline CAssetID PathID() const                                      { return mPathID; }
+    inline CPoiToWorld* PoiToWorldMap() const                           { return mpPoiToWorldMap; }
+    inline CAssetID PortalAreaID() const                                { return mPortalAreaID; }
+    inline CAABox AABox() const                                         { return mAABox; }
 
-    inline void SetWorldIndex(u32 NewWorldIndex)                { mWorldIndex = NewWorldIndex; }
+    inline void SetWorldIndex(uint32 NewWorldIndex)                     { mWorldIndex = NewWorldIndex; }
 };
 
 #endif // CGAMEAREA_H

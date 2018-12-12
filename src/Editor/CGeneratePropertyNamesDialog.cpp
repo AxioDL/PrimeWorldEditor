@@ -51,11 +51,11 @@ void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
 {
     if (!pProperty->UsesNameMap())
     {
-        Log::Error("Failed to add property " + pProperty->IDString(false) + " to the generator ID pool because it doesn't use the name map");
+        errorf("Failed to add property %s to the generator ID pool because it doesn't use the name map", *pProperty->IDString(false));
         return;
     }
 
-    u32 ID = pProperty->ID();
+    uint32 ID = pProperty->ID();
     const char* pkTypeName = pProperty->HashableTypeName();
     mIdPairs << SPropertyIdTypePair { ID, pkTypeName };
 
@@ -73,7 +73,7 @@ void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
 /** Populate the ID pool with the children of the given property */
 void CGeneratePropertyNamesDialog::AddChildrenToIDPool(IProperty* pProperty, bool Recursive)
 {
-    for (u32 ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
+    for (uint32 ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
     {
         IProperty* pChild = pProperty->ChildByIndex(ChildIdx);
 
@@ -287,7 +287,7 @@ void CGeneratePropertyNamesDialog::ApplyChanges()
     for (int ItemIdx = 0; ItemIdx < mCheckedItems.size(); ItemIdx++)
     {
         QTreeWidgetItem* pItem = mCheckedItems[ItemIdx];
-        u32 ID = TO_TSTRING( pItem->text(2) ).ToInt32();
+        uint32 ID = TO_TSTRING( pItem->text(2) ).ToInt32(16);
         TString Type = TO_TSTRING( pItem->text(1) );
         TString NewName = TO_TSTRING( pItem->text(0) );
 

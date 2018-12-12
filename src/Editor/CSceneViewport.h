@@ -72,7 +72,7 @@ public:
 protected:
     void CreateContextMenu();
     QMouseEvent CreateMouseEvent();
-    void FindConnectedObjects(u32 InstanceID, bool SearchOutgoing, bool SearchIncoming, QList<u32>& rIDList);
+    void FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing, bool SearchIncoming, QList<uint32>& rIDList);
 
 signals:
     void InputProcessed(const SRayIntersection& rkIntersect, QMouseEvent *pEvent);

@@ -15,16 +15,16 @@ CBasicModel::CBasicModel(CResourceEntry *pEntry /*= 0*/)
 CBasicModel::~CBasicModel()
 {
     if (mHasOwnSurfaces)
-        for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+        for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
             delete mSurfaces[iSurf];
 }
 
-u32 CBasicModel::GetVertexCount()
+uint32 CBasicModel::GetVertexCount()
 {
     return mVertexCount;
 }
 
-u32 CBasicModel::GetTriangleCount()
+uint32 CBasicModel::GetTriangleCount()
 {
     return mTriangleCount;
 }
@@ -39,17 +39,17 @@ bool CBasicModel::IsBuffered()
     return mBuffered;
 }
 
-u32 CBasicModel::GetSurfaceCount()
+uint32 CBasicModel::GetSurfaceCount()
 {
     return mSurfaces.size();
 }
 
-CAABox CBasicModel::GetSurfaceAABox(u32 Surface)
+CAABox CBasicModel::GetSurfaceAABox(uint32 Surface)
 {
     return mSurfaces[Surface]->AABox;
 }
 
-SSurface* CBasicModel::GetSurface(u32 Surface)
+SSurface* CBasicModel::GetSurface(uint32 Surface)
 {
     return mSurfaces[Surface];
 }

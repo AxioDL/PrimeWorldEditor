@@ -13,8 +13,8 @@ class CScanLoader
     CScanLoader();
     CScan* LoadScanMP1(IInputStream& rSCAN);
     CScan* LoadScanMP2(IInputStream& rSCAN);
-    void LoadParamsMP2(IInputStream& rSCAN, u16 NumProperties);
-    void LoadParamsMP3(IInputStream& rSCAN, u16 NumProperties);
+    void LoadParamsMP2(IInputStream& rSCAN, uint16 NumProperties);
+    void LoadParamsMP3(IInputStream& rSCAN, uint16 NumProperties);
     void LoadScanInfoSecondaryModel(IInputStream& rSCAN, CScan::SScanInfoSecondaryModel& rSecondaryModel);
 
 public:

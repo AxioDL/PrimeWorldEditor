@@ -163,13 +163,14 @@ void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
 
 void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
 {
-    u32 NumChildren = mpModel->rowCount(rkParent);
+    uint32 NumChildren = mpModel->rowCount(rkParent);
 
-    for (u32 iChild = 0; iChild < NumChildren; iChild++)
+    for (uint32 iChild = 0; iChild < NumChildren; iChild++)
     {
         QModelIndex ChildIndex = mpModel->index(iChild, 1, rkParent);
         IProperty *pProp = mpModel->PropertyForIndex(ChildIndex, false);
         EPropertyType Type = (pProp ? pProp->Type() : EPropertyType::Invalid);
+        bool IsAnimSet = false;
 
         // Handle persistent editors under character properties
         if (!pProp && ChildIndex.internalId() & 0x80000000)
@@ -180,6 +181,7 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
             {
                 EGame Game = mpObject->Area()->Game();
                 Type = mpDelegate->DetermineCharacterPropType(Game, ChildIndex);
+                IsAnimSet = true;
             }
 
             if (pProp->Type() == EPropertyType::Flags)
@@ -197,7 +199,7 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
 
         case EPropertyType::Enum:
         case EPropertyType::Choice:
-            if (TPropCast<CEnumProperty>(pProp)->NumPossibleValues() > 0)
+            if (IsAnimSet || TPropCast<CEnumProperty>(pProp)->NumPossibleValues() > 0)
                 openPersistentEditor(ChildIndex);
             break;
 
@@ -213,9 +215,9 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
 
 void CPropertyView::ClosePersistentEditors(const QModelIndex& rkIndex)
 {
-    u32 NumChildren = mpModel->rowCount(rkIndex);
+    uint32 NumChildren = mpModel->rowCount(rkIndex);
 
-    for (u32 iChild = 0; iChild < NumChildren; iChild++)
+    for (uint32 iChild = 0; iChild < NumChildren; iChild++)
     {
         QModelIndex ChildIndex = rkIndex.child(iChild, 1);
         closePersistentEditor(ChildIndex);

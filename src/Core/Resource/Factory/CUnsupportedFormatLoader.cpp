@@ -6,13 +6,13 @@
 void CUnsupportedFormatLoader::PerformCheating(IInputStream& rFile, EGame Game, std::list<CAssetID>& rAssetList)
 {
     // Analyze file contents and check every sequence of 4/8 bytes for asset IDs
-    std::vector<u8> Data(rFile.Size() - rFile.Tell());
+    std::vector<uint8> Data(rFile.Size() - rFile.Tell());
     rFile.ReadBytes(Data.data(), Data.size());
 
-    u32 MaxIndex = (Game <= EGame::Echoes ? Data.size() - 3 : Data.size() - 7);
+    uint32 MaxIndex = (Game <= EGame::Echoes ? Data.size() - 3 : Data.size() - 7);
     CAssetID ID;
 
-    for (u32 iByte = 0; iByte < MaxIndex; iByte++)
+    for (uint32 iByte = 0; iByte < MaxIndex; iByte++)
     {
         if (Game <= EGame::Echoes)
         {
@@ -23,14 +23,14 @@ void CUnsupportedFormatLoader::PerformCheating(IInputStream& rFile, EGame Game, 
         }
         else
         {
-            ID = ( ((u64) Data[iByte+0] << 56) |
-                   ((u64) Data[iByte+1] << 48) |
-                   ((u64) Data[iByte+2] << 40) |
-                   ((u64) Data[iByte+3] << 32) |
-                   ((u64) Data[iByte+4] << 24) |
-                   ((u64) Data[iByte+5] << 16) |
-                   ((u64) Data[iByte+6] <<  8) |
-                   ((u64) Data[iByte+7] <<  0) );
+            ID = ( ((uint64) Data[iByte+0] << 56) |
+                   ((uint64) Data[iByte+1] << 48) |
+                   ((uint64) Data[iByte+2] << 40) |
+                   ((uint64) Data[iByte+3] << 32) |
+                   ((uint64) Data[iByte+4] << 24) |
+                   ((uint64) Data[iByte+5] << 16) |
+                   ((uint64) Data[iByte+6] <<  8) |
+                   ((uint64) Data[iByte+7] <<  0) );
         }
 
         if (gpResourceStore->IsResourceRegistered(ID))
@@ -40,10 +40,10 @@ void CUnsupportedFormatLoader::PerformCheating(IInputStream& rFile, EGame Game, 
 
 CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry)
 {
-    u32 Magic = rCAUD.ReadLong();
+    uint32 Magic = rCAUD.ReadLong();
     ASSERT(Magic == FOURCC('CAUD'));
 
-    u32 Version = rCAUD.ReadLong();
+    uint32 Version = rCAUD.ReadLong();
     EGame Game = (Version == 0x2 ? EGame::CorruptionProto :
                   Version == 0x9 ? EGame::Corruption :
                   Version == 0xE ? EGame::DKCReturns :
@@ -66,19 +66,19 @@ CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEn
     }
 
     // Skip past the rest of the header
-    u32 NumVolGroups = rCAUD.ReadLong();
+    uint32 NumVolGroups = rCAUD.ReadLong();
 
-    for (u32 iVol = 0; iVol < NumVolGroups; iVol++)
+    for (uint32 iVol = 0; iVol < NumVolGroups; iVol++)
         rCAUD.ReadString();
 
-    u32 SkipAmt = (Game == EGame::CorruptionProto ? 0x10 : 0x14);
+    uint32 SkipAmt = (Game == EGame::CorruptionProto ? 0x10 : 0x14);
     rCAUD.Seek(SkipAmt, SEEK_CUR);
-    u32 NumSamples = rCAUD.ReadLong();
+    uint32 NumSamples = rCAUD.ReadLong();
 
-    for (u32 iSamp = 0; iSamp < NumSamples; iSamp++)
+    for (uint32 iSamp = 0; iSamp < NumSamples; iSamp++)
     {
-        u32 SampleDataSize = rCAUD.ReadLong();
-        u32 SampleDataEnd = rCAUD.Tell() + SampleDataSize;
+        uint32 SampleDataSize = rCAUD.ReadLong();
+        uint32 SampleDataEnd = rCAUD.Tell() + SampleDataSize;
 
         CAssetID SampleID(rCAUD, Game);
         ASSERT(gpResourceStore->IsResourceRegistered(SampleID) == true);
@@ -92,7 +92,7 @@ CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEn
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry)
 {
-    u32 Magic = rCSNG.ReadLong();
+    uint32 Magic = rCSNG.ReadLong();
     ASSERT(Magic == 0x2);
     rCSNG.Seek(0x8, SEEK_CUR);
 
@@ -121,16 +121,16 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadDUMB(IInputStream& rDUMB, CResou
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResourceEntry *pEntry)
 {
-    u32 Version = rFRME.ReadLong();
+    uint32 Version = rFRME.ReadLong();
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
 
     // Prime 1
     if (Version == 0 || Version == 1)
     {
         rFRME.Seek(0xC, SEEK_CUR);
-        u32 NumWidgets = rFRME.ReadLong();
+        uint32 NumWidgets = rFRME.ReadLong();
 
-        for (u32 iWgt = 0; iWgt < NumWidgets; iWgt++)
+        for (uint32 iWgt = 0; iWgt < NumWidgets; iWgt++)
         {
             // Widget Header
             CFourCC WidgetType = rFRME.ReadLong();
@@ -139,13 +139,13 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             rFRME.Seek(0x18, SEEK_CUR);
 
             // Head Widget / Base Widget
-            if (WidgetType == "HWIG" || WidgetType == "BWIG")
+            if (WidgetType == FOURCC('HWIG') || WidgetType == FOURCC('BWIG'))
             {}
 
             // Camera
-            else if (WidgetType == "CAMR")
+            else if (WidgetType == FOURCC('CAMR'))
             {
-                u32 ProjectionType = rFRME.ReadLong();
+                uint32 ProjectionType = rFRME.ReadLong();
 
                 if (ProjectionType == 0)
                     rFRME.Seek(0x10, SEEK_CUR);
@@ -154,34 +154,34 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             }
 
             // Light
-            else if (WidgetType == "LITE")
+            else if (WidgetType == FOURCC('LITE'))
             {
-                u32 LightType = rFRME.ReadLong();
+                uint32 LightType = rFRME.ReadLong();
                 rFRME.Seek(0x1C, SEEK_CUR);
                 if (LightType == 0) rFRME.Seek(0x4, SEEK_CUR);
             }
 
             // Meter
-            else if (WidgetType == "METR")
+            else if (WidgetType == FOURCC('METR'))
                 rFRME.Seek(0xA, SEEK_CUR);
 
             // Group
-            else if (WidgetType == "GRUP")
+            else if (WidgetType == FOURCC('GRUP'))
                 rFRME.Seek(0x3, SEEK_CUR);
 
             // Table Group
-            else if (WidgetType == "TBGP")
+            else if (WidgetType == FOURCC('TBGP'))
                 rFRME.Seek(0x23, SEEK_CUR);
 
             // Model
-            else if (WidgetType == "MODL")
+            else if (WidgetType == FOURCC('MODL'))
             {
                 pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // CMDL
                 rFRME.Seek(0x8, SEEK_CUR);
             }
 
             // Text Pane
-            else if (WidgetType == "TXPN")
+            else if (WidgetType == FOURCC('TXPN'))
             {
                 rFRME.Seek(0x14, SEEK_CUR);
                 pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
@@ -195,33 +195,33 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             }
 
             // Image Pane
-            else if (WidgetType == "IMGP")
+            else if (WidgetType == FOURCC('IMGP'))
             {
                 pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
                 if (rFRME.ReadLong() != 0xFFFFFFFF) DEBUG_BREAK;
                 rFRME.Seek(0x4, SEEK_CUR);
 
-                u32 NumQuadCoords = rFRME.ReadLong();
+                uint32 NumQuadCoords = rFRME.ReadLong();
                 rFRME.Seek(NumQuadCoords * 0xC, SEEK_CUR);
-                u32 NumUVCoords = rFRME.ReadLong();
+                uint32 NumUVCoords = rFRME.ReadLong();
                 rFRME.Seek(NumUVCoords * 8, SEEK_CUR);
             }
 
             // Energy Bar
-            else if (WidgetType == "ENRG")
+            else if (WidgetType == FOURCC('ENRG'))
             {
                 pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
             }
 
             // Slider Group
-            else if (WidgetType == "SLGP")
+            else if (WidgetType == FOURCC('SLGP'))
             {
                 rFRME.Seek(0x10, SEEK_CUR);
             }
 
             else
             {
-                Log::Error("Unrecognized FRME widget type: " + WidgetType.ToString());
+                errorf("Unrecognized FRME widget type: %s", *WidgetType.ToString());
                 DEBUG_BREAK;
             }
 
@@ -241,9 +241,9 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
         else if (Version == 0x10)   Game = EGame::DKCReturns;
         else                        Game = EGame::Corruption;
 
-        u32 NumDependencies = rFRME.ReadLong();
+        uint32 NumDependencies = rFRME.ReadLong();
 
-        for (u32 iDep = 0; iDep < NumDependencies; iDep++)
+        for (uint32 iDep = 0; iDep < NumDependencies; iDep++)
         {
             rFRME.Seek(0x4, SEEK_CUR);
             pGroup->AddDependency( CAssetID(rFRME, Game) );
@@ -252,7 +252,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
 
     else
     {
-        Log::Error("Unrecognized FRME version: " + TString::HexString(Version, 2));
+        errorf("Unrecognized FRME version: %d", Version);
         delete pGroup;
         return nullptr;
     }
@@ -262,38 +262,38 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResourceEntry *pEntry)
 {
-    u32 Magic = rFSM2.ReadLong();
+    uint32 Magic = rFSM2.ReadLong();
     ASSERT(Magic == FOURCC('FSM2'));
 
     CDependencyGroup *pOut = new CDependencyGroup(pEntry);
-    u32 Version = rFSM2.ReadLong();
-    u32 NumStates = rFSM2.ReadLong();
-    u32 NumUnkA = rFSM2.ReadLong();
-    u32 NumUnkB = rFSM2.ReadLong();
-    u32 NumUnkC = rFSM2.ReadLong();
+    uint32 Version = rFSM2.ReadLong();
+    uint32 NumStates = rFSM2.ReadLong();
+    uint32 NumUnkA = rFSM2.ReadLong();
+    uint32 NumUnkB = rFSM2.ReadLong();
+    uint32 NumUnkC = rFSM2.ReadLong();
     ASSERT(Version == 1 || Version == 2);
 
-    for (u32 iState = 0; iState < NumStates; iState++)
+    for (uint32 iState = 0; iState < NumStates; iState++)
     {
         rFSM2.ReadString();
         if (Version >= 2) rFSM2.Seek(0x10, SEEK_CUR);
-        u32 UnkCount = rFSM2.ReadLong();
+        uint32 UnkCount = rFSM2.ReadLong();
 
-        for (u32 iUnk = 0; iUnk < UnkCount; iUnk++)
+        for (uint32 iUnk = 0; iUnk < UnkCount; iUnk++)
         {
             rFSM2.ReadString();
             rFSM2.Seek(0x4, SEEK_CUR);
         }
     }
 
-    for (u32 iUnkA = 0; iUnkA < NumUnkA; iUnkA++)
+    for (uint32 iUnkA = 0; iUnkA < NumUnkA; iUnkA++)
     {
         rFSM2.ReadString();
         if (Version >= 2) rFSM2.Seek(0x10, SEEK_CUR);
         rFSM2.Seek(0x4, SEEK_CUR);
-        u32 UnkCount = rFSM2.ReadLong();
+        uint32 UnkCount = rFSM2.ReadLong();
 
-        for (u32 iUnkA2 = 0; iUnkA2 < UnkCount; iUnkA2++)
+        for (uint32 iUnkA2 = 0; iUnkA2 < UnkCount; iUnkA2++)
         {
             rFSM2.ReadString();
             rFSM2.Seek(0x4, SEEK_CUR);
@@ -302,26 +302,26 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
         rFSM2.Seek(0x1, SEEK_CUR);
     }
 
-    for (u32 iUnkB = 0; iUnkB < NumUnkB; iUnkB++)
+    for (uint32 iUnkB = 0; iUnkB < NumUnkB; iUnkB++)
     {
         rFSM2.ReadString();
         if (Version >= 2) rFSM2.Seek(0x10, SEEK_CUR);
-        u32 UnkCount = rFSM2.ReadLong();
+        uint32 UnkCount = rFSM2.ReadLong();
 
-        for (u32 iUnkB2 = 0; iUnkB2 < UnkCount; iUnkB2++)
+        for (uint32 iUnkB2 = 0; iUnkB2 < UnkCount; iUnkB2++)
         {
             rFSM2.ReadString();
             rFSM2.Seek(0x4, SEEK_CUR);
         }
     }
 
-    for (u32 iUnkC = 0; iUnkC < NumUnkC; iUnkC++)
+    for (uint32 iUnkC = 0; iUnkC < NumUnkC; iUnkC++)
     {
         rFSM2.ReadString();
         if (Version >= 2) rFSM2.Seek(0x10, SEEK_CUR);
-        u32 UnkCount = rFSM2.ReadLong();
+        uint32 UnkCount = rFSM2.ReadLong();
 
-        for (u32 iUnkC2 = 0; iUnkC2 < UnkCount; iUnkC2++)
+        for (uint32 iUnkC2 = 0; iUnkC2 < UnkCount; iUnkC2++)
         {
             rFSM2.ReadString();
             rFSM2.Seek(0x4, SEEK_CUR);
@@ -354,7 +354,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResou
     CFourCC Magic = rHIER.ReadLong();
     ASSERT(Magic == "HIER");
 
-    u32 NumNodes = rHIER.ReadLong();
+    uint32 NumNodes = rHIER.ReadLong();
     CDependencyGroup *pOut = new CDependencyGroup(pEntry);
 
     // Note: For some reason this file still exists in MP3 and it's identical to MP2, including with 32-bit asset IDs.
@@ -362,7 +362,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResou
     if (pEntry->Game() > EGame::Echoes)
         return pOut;
 
-    for (u32 iNode = 0; iNode < NumNodes; iNode++)
+    for (uint32 iNode = 0; iNode < NumNodes; iNode++)
     {
         // NOTE: The SCAN ID isn't considered a real dependency!
         pOut->AddDependency( rHIER.ReadLong() );
@@ -375,11 +375,11 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResou
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResourceEntry *pEntry)
 {
-    u32 Magic = rHINT.ReadLong();
+    uint32 Magic = rHINT.ReadLong();
     ASSERT(Magic == 0x00BADBAD);
 
     // Determine version
-    u32 Version = rHINT.ReadLong();
+    uint32 Version = rHINT.ReadLong();
     EGame Game;
 
     if (Version == 0x1) Game = EGame::Prime;
@@ -387,15 +387,15 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
 
     else
     {
-        Log::Error("Unrecognized HINT version: " + TString::FromInt32(Version, 0, 10));
+        errorf("Unrecognized HINT version: %d", Version);
         return nullptr;
     }
 
     // Read main file
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
-    u32 NumHints = rHINT.ReadLong();
+    uint32 NumHints = rHINT.ReadLong();
 
-    for (u32 iHint = 0; iHint < NumHints; iHint++)
+    for (uint32 iHint = 0; iHint < NumHints; iHint++)
     {
         rHINT.ReadString(); // Skip hint name
         rHINT.Seek(0x8, SEEK_CUR); // Skip unknown + appear time
@@ -413,9 +413,9 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
 
         else
         {
-            u32 NumLocations = rHINT.ReadLong();
+            uint32 NumLocations = rHINT.ReadLong();
 
-            for (u32 iLoc = 0; iLoc < NumLocations; iLoc++)
+            for (uint32 iLoc = 0; iLoc < NumLocations; iLoc++)
             {
                 rHINT.Seek(0x14, SEEK_CUR); // Skip world/area ID, area index
                 pGroup->AddDependency( CAssetID(rHINT, Game) ); // Objective string
@@ -436,13 +436,13 @@ CMapArea* CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMAPA*/, CResourceE
 
     // Find a MapWorld that contains this MapArea
     CAssetID MapWorldID;
-    u32 WorldIndex = -1;
+    uint32 WorldIndex = -1;
 
     for (TResourceIterator<eMapWorld> It; It; ++It)
     {
         CDependencyGroup *pGroup = (CDependencyGroup*) It->Load();
 
-        for (u32 AreaIdx = 0; AreaIdx < pGroup->NumDependencies(); AreaIdx++)
+        for (uint32 AreaIdx = 0; AreaIdx < pGroup->NumDependencies(); AreaIdx++)
         {
             if (pGroup->DependencyByIndex(AreaIdx) == MapAreaID)
             {
@@ -479,16 +479,16 @@ CMapArea* CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMAPA*/, CResourceE
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResourceEntry *pEntry)
 {
-    u32 Magic = rMAPW.ReadLong();
+    uint32 Magic = rMAPW.ReadLong();
     ASSERT(Magic == 0xDEADF00D);
 
-    u32 Version = rMAPW.ReadLong();
+    uint32 Version = rMAPW.ReadLong();
     ASSERT(Version == 1);
 
-    u32 NumAreas = rMAPW.ReadLong();
+    uint32 NumAreas = rMAPW.ReadLong();
 
     // Version check
-    u32 AreasStart = rMAPW.Tell();
+    uint32 AreasStart = rMAPW.Tell();
     rMAPW.Seek(NumAreas * 4, SEEK_CUR);
     EIDLength IDLength = (rMAPW.EoF() || rMAPW.ReadLong() == 0xFFFFFFFF ? e32Bit : e64Bit);
     rMAPW.Seek(AreasStart, SEEK_SET);
@@ -496,7 +496,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResou
     // Read MAPA IDs
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
 
-    for (u32 iArea = 0; iArea < NumAreas; iArea++)
+    for (uint32 iArea = 0; iArea < NumAreas; iArea++)
         pGroup->AddDependency( CAssetID(rMAPW, IDLength) );
 
     return pGroup;
@@ -504,24 +504,24 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResou
 
 CDependencyGroup* CUnsupportedFormatLoader::LoadMAPU(IInputStream& rMAPU, CResourceEntry *pEntry)
 {
-    u32 Magic = rMAPU.ReadLong();
+    uint32 Magic = rMAPU.ReadLong();
     ASSERT(Magic == 0xABCDEF01);
 
-    u32 Version = rMAPU.ReadLong();
+    uint32 Version = rMAPU.ReadLong();
     ASSERT(Version == 0x1);
 
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
     pGroup->AddDependency(rMAPU.ReadLong());
 
     // Read worlds
-    u32 NumWorlds = rMAPU.ReadLong();
+    uint32 NumWorlds = rMAPU.ReadLong();
 
-    for (u32 iWorld = 0; iWorld < NumWorlds; iWorld++)
+    for (uint32 iWorld = 0; iWorld < NumWorlds; iWorld++)
     {
         rMAPU.ReadString(); // Skip world name
         pGroup->AddDependency(rMAPU.ReadLong()); // World MLVL
         rMAPU.Seek(0x30, SEEK_CUR); // Skip world map transform
-        u32 NumHexagons = rMAPU.ReadLong();
+        uint32 NumHexagons = rMAPU.ReadLong();
         rMAPU.Seek(NumHexagons * 0x30, SEEK_CUR); // Skip hexagon transforms
         rMAPU.Seek(0x10, SEEK_CUR); // Skip world color
     }
@@ -532,16 +532,16 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadMAPU(IInputStream& rMAPU, CResou
 CDependencyGroup* CUnsupportedFormatLoader::LoadRULE(IInputStream& rRULE, CResourceEntry *pEntry)
 {
     // RULE files can contain a reference to another RULE file, but has no other dependencies.
-    u32 Magic = rRULE.ReadLong();
+    uint32 Magic = rRULE.ReadLong();
     ASSERT(Magic == FOURCC('RULE'));
 
     CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
     rRULE.Seek(0x1, SEEK_CUR);
 
     // Version test
-    u32 IDOffset = rRULE.Tell();
+    uint32 IDOffset = rRULE.Tell();
     rRULE.Seek(0x4, SEEK_CUR);
-    u32 RuleSetCount = rRULE.ReadShort();
+    uint32 RuleSetCount = rRULE.ReadShort();
     EIDLength IDLength = (RuleSetCount > 0xFF ? e64Bit : e32Bit);
     rRULE.Seek(IDOffset, SEEK_SET);
 

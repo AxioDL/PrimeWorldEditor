@@ -1,7 +1,7 @@
 #include "DependencyListBuilders.h"
 
 // ************ CCharacterUsageMap ************
-bool CCharacterUsageMap::IsCharacterUsed(const CAssetID& rkID, u32 CharacterIndex) const
+bool CCharacterUsageMap::IsCharacterUsed(const CAssetID& rkID, uint32 CharacterIndex) const
 {
     if (mpStore->Game() >= EGame::CorruptionProto) return true;
     auto Find = mUsageMap.find(rkID);
@@ -18,7 +18,7 @@ bool CCharacterUsageMap::IsAnimationUsed(const CAssetID& rkID, CSetAnimationDepe
     if (Find == mUsageMap.end()) return false;
     const std::vector<bool>& rkUsageList = Find->second;
 
-    for (u32 iChar = 0; iChar < rkUsageList.size(); iChar++)
+    for (uint32 iChar = 0; iChar < rkUsageList.size(); iChar++)
     {
         if (rkUsageList[iChar] && pAnim->IsUsedByCharacter(iChar))
             return true;
@@ -37,7 +37,7 @@ void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntr
 {
     ASSERT(pEntry->ResourceType() == eArea);
 
-    for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+    for (uint32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
     {
         if (pWorld->AreaResourceID(iArea) == pEntry->ID())
         {
@@ -47,12 +47,12 @@ void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntr
     }
 }
 
-void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, u32 AreaIndex)
+void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, uint32 AreaIndex)
 {
     // We only need to search forward from this area to other areas that both use the same character(s) + have duplicates enabled
     Clear();
 
-    for (u32 iArea = AreaIndex; iArea < pWorld->NumAreas(); iArea++)
+    for (uint32 iArea = AreaIndex; iArea < pWorld->NumAreas(); iArea++)
     {
         if (!mIsInitialArea && mStillLookingIDs.empty()) break;
         mCurrentAreaAllowsDupes = pWorld->DoesAreaAllowPakDuplicates(iArea);
@@ -66,7 +66,7 @@ void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, u32 AreaIndex)
     }
 }
 
-void CCharacterUsageMap::FindUsagesForLayer(CResourceEntry *pAreaEntry, u32 LayerIndex)
+void CCharacterUsageMap::FindUsagesForLayer(CResourceEntry *pAreaEntry, uint32 LayerIndex)
 {
     Clear();
     mLayerIndex = LayerIndex;
@@ -76,10 +76,10 @@ void CCharacterUsageMap::FindUsagesForLayer(CResourceEntry *pAreaEntry, u32 Laye
 
     // Only examine dependencies of the particular layer specified by the caller
     bool IsLastLayer = (mLayerIndex == pTree->NumScriptLayers() - 1);
-    u32 StartIdx = pTree->ScriptLayerOffset(mLayerIndex);
-    u32 EndIdx = (IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(mLayerIndex + 1));
+    uint32 StartIdx = pTree->ScriptLayerOffset(mLayerIndex);
+    uint32 EndIdx = (IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(mLayerIndex + 1));
 
-    for (u32 iInst = StartIdx; iInst < EndIdx; iInst++)
+    for (uint32 iInst = StartIdx; iInst < EndIdx; iInst++)
         ParseDependencyNode(pTree->ChildByIndex(iInst));
 }
 
@@ -101,11 +101,11 @@ void CCharacterUsageMap::DebugPrintContents()
         std::vector<bool>& rUsedList = Iter->second;
         CAnimSet *pSet = mpStore->LoadResource<CAnimSet>(ID);
 
-        for (u32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
+        for (uint32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
         {
             bool Used = (rUsedList.size() > iChar && rUsedList[iChar]);
             TString CharName = pSet->Character(iChar)->Name;
-            Log::Write(ID.ToString() + " : Char " + TString::FromInt32(iChar, 0, 10) + " : " + CharName + " : " + (Used ? "USED" : "UNUSED"));
+            debugf("%s : Char %d : %s : %s", *ID.ToString(), iChar, *CharName, (Used ? "USED" : "UNUSED"));
         }
     }
 }
@@ -141,7 +141,7 @@ void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
         }
 
         std::vector<bool>& rUsageList = mUsageMap[ResID];
-        u32 UsedChar = pDep->UsedChar();
+        uint32 UsedChar = pDep->UsedChar();
 
         if (rUsageList.size() <= UsedChar)
             rUsageList.resize(UsedChar + 1, false);
@@ -164,7 +164,7 @@ void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
     // Look for sub-dependencies of the current node
     else
     {
-        for (u32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+        for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
             ParseDependencyNode(pNode->ChildByIndex(iChild));
     }
 }
@@ -176,7 +176,7 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
     FindUniversalAreaAssets();
 
     // Iterate over all resources and parse their dependencies
-    for (u32 iRes = 0; iRes < mpkPackage->NumNamedResources(); iRes++)
+    for (uint32 iRes = 0; iRes < mpkPackage->NumNamedResources(); iRes++)
     {
         const SNamedResource& rkRes = mpkPackage->NamedResourceByIndex(iRes);
         CResourceEntry *pEntry = mpStore->FindEntry(rkRes.ID);
@@ -240,7 +240,7 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
 
         if (mEnableDuplicates)
         {
-            for (u32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
+            for (uint32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
             {
                 if (mpWorld->AreaResourceID(iArea) == rkID)
                 {
@@ -285,7 +285,7 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
     else if (Type == eDNT_AnimEvent)
     {
         CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pNode);
-        u32 CharIndex = pDep->CharIndex();
+        uint32 CharIndex = pDep->CharIndex();
 
         if (CharIndex == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
             AddDependency(pCurEntry, pDep->ID(), rOut);
@@ -313,11 +313,11 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
     {
         if (Type == eDNT_ScriptInstance)
         {
-            u32 ObjType = static_cast<CScriptInstanceDependency*>(pNode)->ObjectType();
+            uint32 ObjType = static_cast<CScriptInstanceDependency*>(pNode)->ObjectType();
             mIsPlayerActor = (ObjType == 0x4C || ObjType == FOURCC('PLAC'));
         }
 
-        for (u32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+        for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
             EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), rOut);
 
         if (Type == eDNT_ScriptInstance)
@@ -333,7 +333,7 @@ void CPackageDependencyListBuilder::FindUniversalAreaAssets()
     if (pPackage)
     {
         // Iterate over all the package contents, keep track of all universal area assets
-        for (u32 ResIdx = 0; ResIdx < pPackage->NumNamedResources(); ResIdx++)
+        for (uint32 ResIdx = 0; ResIdx < pPackage->NumNamedResources(); ResIdx++)
         {
             const SNamedResource& rkRes = pPackage->NamedResourceByIndex(ResIdx);
 
@@ -349,7 +349,7 @@ void CPackageDependencyListBuilder::FindUniversalAreaAssets()
                     if (pUniverseWorld)
                     {
                         // Area IDs
-                        for (u32 AreaIdx = 0; AreaIdx < pUniverseWorld->NumAreas(); AreaIdx++)
+                        for (uint32 AreaIdx = 0; AreaIdx < pUniverseWorld->NumAreas(); AreaIdx++)
                         {
                             CAssetID AreaID = pUniverseWorld->AreaResourceID(AreaIdx);
 
@@ -362,7 +362,7 @@ void CPackageDependencyListBuilder::FindUniversalAreaAssets()
 
                         if (pMapWorld)
                         {
-                            for (u32 DepIdx = 0; DepIdx < pMapWorld->NumDependencies(); DepIdx++)
+                            for (uint32 DepIdx = 0; DepIdx < pMapWorld->NumDependencies(); DepIdx++)
                             {
                                 CAssetID DepID = pMapWorld->DependencyByIndex(DepIdx);
 
@@ -378,14 +378,14 @@ void CPackageDependencyListBuilder::FindUniversalAreaAssets()
 }
 
 // ************ CAreaDependencyListBuilder ************
-void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<u32>& rLayerOffsetsOut, std::set<CAssetID> *pAudioGroupsOut)
+void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<uint32>& rLayerOffsetsOut, std::set<CAssetID> *pAudioGroupsOut)
 {
     CAreaDependencyTree *pTree = static_cast<CAreaDependencyTree*>(mpAreaEntry->Dependencies());
 
     // Fill area base used assets set (don't actually add to list yet)
-    u32 BaseEndIndex = (pTree->NumScriptLayers() > 0 ? pTree->ScriptLayerOffset(0) : pTree->NumChildren());
+    uint32 BaseEndIndex = (pTree->NumScriptLayers() > 0 ? pTree->ScriptLayerOffset(0) : pTree->NumChildren());
 
-    for (u32 iDep = 0; iDep < BaseEndIndex; iDep++)
+    for (uint32 iDep = 0; iDep < BaseEndIndex; iDep++)
     {
         CResourceDependency *pRes = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
         ASSERT(pRes->Type() == eDNT_ResourceDependency);
@@ -393,17 +393,17 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
     }
 
     // Get dependencies of each layer
-    for (u32 iLyr = 0; iLyr < pTree->NumScriptLayers(); iLyr++)
+    for (uint32 iLyr = 0; iLyr < pTree->NumScriptLayers(); iLyr++)
     {
         mLayerUsedAssets.clear();
         mCharacterUsageMap.FindUsagesForLayer(mpAreaEntry, iLyr);
         rLayerOffsetsOut.push_back(rAssetsOut.size());
 
         bool IsLastLayer = (iLyr == pTree->NumScriptLayers() - 1);
-        u32 StartIdx = pTree->ScriptLayerOffset(iLyr);
-        u32 EndIdx = (IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(iLyr + 1));
+        uint32 StartIdx = pTree->ScriptLayerOffset(iLyr);
+        uint32 EndIdx = (IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(iLyr + 1));
 
-        for (u32 iChild = StartIdx; iChild < EndIdx; iChild++)
+        for (uint32 iChild = StartIdx; iChild < EndIdx; iChild++)
         {
             IDependencyNode *pNode = pTree->ChildByIndex(iChild);
 
@@ -412,7 +412,7 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
                 CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(pNode);
                 mIsPlayerActor = (pInst->ObjectType() == 0x4C || pInst->ObjectType() == FOURCC('PLAC'));
 
-                for (u32 iDep = 0; iDep < pInst->NumChildren(); iDep++)
+                for (uint32 iDep = 0; iDep < pInst->NumChildren(); iDep++)
                 {
                     CPropertyDependency *pDep = static_cast<CPropertyDependency*>(pInst->ChildByIndex(iDep));
 
@@ -452,7 +452,7 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
     mLayerUsedAssets.clear();
     rLayerOffsetsOut.push_back(rAssetsOut.size());
 
-    for (u32 iDep = 0; iDep < BaseEndIndex; iDep++)
+    for (uint32 iDep = 0; iDep < BaseEndIndex; iDep++)
     {
         CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
         AddDependency(pDep->ID(), rAssetsOut, pAudioGroupsOut);
@@ -525,7 +525,7 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
     else if (Type == eDNT_AnimEvent)
     {
         CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pNode);
-        u32 CharIndex = pDep->CharIndex();
+        uint32 CharIndex = pDep->CharIndex();
 
         if (CharIndex == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
             AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
@@ -534,10 +534,10 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
     else if (Type == eDNT_SetCharacter)
     {
         // Note: For MP1/2 PlayerActor, always treat as if Empty Suit is the only used one
-        const u32 kEmptySuitIndex = (mGame >= EGame::EchoesDemo ? 3 : 5);
+        const uint32 kEmptySuitIndex = (mGame >= EGame::EchoesDemo ? 3 : 5);
 
         CSetCharacterDependency *pChar = static_cast<CSetCharacterDependency*>(pNode);
-        u32 SetIndex = pChar->CharSetIndex();
+        uint32 SetIndex = pChar->CharSetIndex();
         ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->CharSetIndex()) || (mIsPlayerActor && SetIndex == kEmptySuitIndex);
     }
 
@@ -552,7 +552,7 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
 
     if (ParseChildren)
     {
-        for (u32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+        for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
             EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), rOut, pAudioGroupsOut);
     }
 }

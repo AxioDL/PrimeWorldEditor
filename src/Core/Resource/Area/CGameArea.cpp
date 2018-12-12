@@ -21,11 +21,11 @@ CGameArea::~CGameArea()
 
     delete mpCollision;
 
-    for (u32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
+    for (uint32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
         delete mScriptLayers[iSCLY];
 
-    for (u32 iLyr = 0; iLyr < mLightLayers.size(); iLyr++)
-        for (u32 iLight = 0; iLight < mLightLayers[iLyr].size(); iLight++)
+    for (uint32 iLyr = 0; iLyr < mLightLayers.size(); iLyr++)
+        for (uint32 iLight = 0; iLight < mLightLayers[iLyr].size(); iLight++)
             delete mLightLayers[iLyr][iLight];
 }
 
@@ -49,13 +49,13 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
     }
     
     // Extra deps
-    for (u32 iDep = 0; iDep < mExtraAreaDeps.size(); iDep++)
+    for (uint32 iDep = 0; iDep < mExtraAreaDeps.size(); iDep++)
         pTree->AddDependency(mExtraAreaDeps[iDep]);
 
     // Layer dependencies
     std::vector<CAssetID> DummyDeps;
 
-    for (u32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)
+    for (uint32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)
     {
         const std::vector<CAssetID>& rkExtras = (mExtraLayerDeps.size() > iLayer ? mExtraLayerDeps[iLayer] : DummyDeps);
         pTree->AddScriptLayer(mScriptLayers[iLayer], rkExtras);
@@ -77,12 +77,12 @@ void CGameArea::MergeTerrain()
     if (mTerrainMerged) return;
 
     // Nothing really complicated here - iterate through every terrain submesh, add each to a static model
-    for (u32 iMdl = 0; iMdl < mWorldModels.size(); iMdl++)
+    for (uint32 iMdl = 0; iMdl < mWorldModels.size(); iMdl++)
     {
         CModel *pMdl = mWorldModels[iMdl];
-        u32 SubmeshCount = pMdl->GetSurfaceCount();
+        uint32 SubmeshCount = pMdl->GetSurfaceCount();
 
-        for (u32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
+        for (uint32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
         {
             SSurface *pSurf = pMdl->GetSurface(iSurf);
             CMaterial *pMat = mpMaterialSet->MaterialByIndex(pSurf->MaterialID);
@@ -118,11 +118,11 @@ void CGameArea::MergeTerrain()
 
 void CGameArea::ClearTerrain()
 {
-    for (u32 iModel = 0; iModel < mWorldModels.size(); iModel++)
+    for (uint32 iModel = 0; iModel < mWorldModels.size(); iModel++)
         delete mWorldModels[iModel];
     mWorldModels.clear();
 
-    for (u32 iStatic = 0; iStatic < mStaticWorldModels.size(); iStatic++)
+    for (uint32 iStatic = 0; iStatic < mStaticWorldModels.size(); iStatic++)
         delete mStaticWorldModels[iStatic];
     mStaticWorldModels.clear();
 
@@ -141,26 +141,26 @@ void CGameArea::ClearScriptLayers()
     mScriptLayers.clear();
 }
 
-u32 CGameArea::TotalInstanceCount() const
+uint32 CGameArea::TotalInstanceCount() const
 {
-    u32 Num = 0;
+    uint32 Num = 0;
 
-    for (u32 iLyr = 0; iLyr < mScriptLayers.size(); iLyr++)
+    for (uint32 iLyr = 0; iLyr < mScriptLayers.size(); iLyr++)
         Num += mScriptLayers[iLyr]->NumInstances();
 
     return Num;
 }
 
-CScriptObject* CGameArea::InstanceByID(u32 InstanceID)
+CScriptObject* CGameArea::InstanceByID(uint32 InstanceID)
 {
     auto it = mObjectMap.find(InstanceID);
     if (it != mObjectMap.end()) return it->second;
     else return nullptr;
 }
 
-u32 CGameArea::FindUnusedInstanceID() const
+uint32 CGameArea::FindUnusedInstanceID() const
 {
-    u32 InstanceID = (mWorldIndex << 16) | 1;
+    uint32 InstanceID = (mWorldIndex << 16) | 1;
 
     while (true)
     {
@@ -180,20 +180,20 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
                                         const CVector3f& rkPosition /*= CVector3f::skZero*/,
                                         const CQuaternion& rkRotation /*= CQuaternion::skIdentity*/,
                                         const CVector3f& rkScale /*= CVector3f::skOne*/,
-                                        u32 SuggestedID /*= -1*/,
-                                        u32 SuggestedLayerIndex /*= -1*/ )
+                                        uint32 SuggestedID /*= -1*/,
+                                        uint32 SuggestedLayerIndex /*= -1*/ )
 {
     // Verify we can fit another instance in this area.
-    u32 NumInstances = TotalInstanceCount();
+    uint32 NumInstances = TotalInstanceCount();
 
     if (NumInstances >= 0xFFFF)
     {
-        Log::Error("Unable to spawn a new script instance; too many instances in area (" + TString::FromInt32(NumInstances, 0, 10) + ")");
+        errorf("Unable to spawn a new script instance; too many instances in area (%d)", NumInstances);
         return nullptr;
     }
 
     // Check whether the suggested instance ID is valid
-    u32 InstanceID = SuggestedID;
+    uint32 InstanceID = SuggestedID;
 
     if (InstanceID != -1)
     {
@@ -205,11 +205,11 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
     if (InstanceID == -1)
     {
         // Determine layer index
-        u32 LayerIndex = pLayer->AreaIndex();
+        uint32 LayerIndex = pLayer->AreaIndex();
 
         if (LayerIndex == -1)
         {
-            Log::Error("Unable to spawn a new script instance; invalid script layer passed in");
+            errorf("Unable to spawn a new script instance; invalid script layer passed in");
             return nullptr;
         }
 

@@ -1,36 +1,36 @@
 #include "SSurface.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/CRayCollisionTester.h"
-#include <Math/MathUtil.h>
+#include <Common/Math/MathUtil.h>
 
 std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackfaces, float LineThreshold)
 {
     bool Hit = false;
     float HitDist;
 
-    for (u32 iPrim = 0; iPrim < Primitives.size(); iPrim++)
+    for (uint32 iPrim = 0; iPrim < Primitives.size(); iPrim++)
     {
         SPrimitive *pPrim = &Primitives[iPrim];
-        u32 NumVerts = pPrim->Vertices.size();
+        uint32 NumVerts = pPrim->Vertices.size();
 
         // Triangles
         if ((pPrim->Type == eGX_Triangles) || (pPrim->Type == eGX_TriangleFan) || (pPrim->Type == eGX_TriangleStrip))
         {
-            u32 NumTris;
+            uint32 NumTris;
 
             if (pPrim->Type == eGX_Triangles)
                 NumTris = NumVerts / 3;
             else
                 NumTris = NumVerts - 2;
 
-            for (u32 iTri = 0; iTri < NumTris; iTri++)
+            for (uint32 iTri = 0; iTri < NumTris; iTri++)
             {
                 CVector3f VtxA, VtxB, VtxC;
 
                 // Get the three vertices that make up the current tri
                 if (pPrim->Type == eGX_Triangles)
                 {
-                    u32 VertIndex = iTri * 3;
+                    uint32 VertIndex = iTri * 3;
                     VtxA = pPrim->Vertices[VertIndex].Position;
                     VtxB = pPrim->Vertices[VertIndex+1].Position;
                     VtxC = pPrim->Vertices[VertIndex+2].Position;
@@ -77,19 +77,19 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackf
         // Lines
         if ((pPrim->Type == eGX_Lines) || (pPrim->Type == eGX_LineStrip))
         {
-            u32 NumLines;
+            uint32 NumLines;
 
             if (pPrim->Type == eGX_Lines)
                 NumLines = NumVerts / 2;
             else
                 NumLines = NumVerts - 1;
 
-            for (u32 iLine = 0; iLine < NumLines; iLine++)
+            for (uint32 iLine = 0; iLine < NumLines; iLine++)
             {
                 CVector3f VtxA, VtxB;
 
                 // Get the two vertices that make up the current line
-                u32 Index = (pPrim->Type == eGX_Lines ? iLine * 2 : iLine);
+                uint32 Index = (pPrim->Type == eGX_Lines ? iLine * 2 : iLine);
                 VtxA = pPrim->Vertices[Index].Position;
                 VtxB = pPrim->Vertices[Index+1].Position;
 

@@ -9,7 +9,7 @@ class CGameProject;
 class COpeningBanner
 {
     CGameProject *mpProj;
-    std::vector<u8> mBannerData;
+    std::vector<uint8> mBannerData;
     bool mWii;
 
 public:
@@ -18,7 +18,7 @@ public:
     void SetEnglishGameName(const TString& rkName);
     void Save();
 
-    u32 MaxGameNameLength() const;
+    uint32 MaxGameNameLength() const;
 };
 
 #endif // COPENINGBANNER_H

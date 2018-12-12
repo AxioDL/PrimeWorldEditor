@@ -3,7 +3,7 @@
 #include "CGameTemplate.h"
 #include "Core/Resource/Animation/CAnimSet.h"
 
-CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate)
+CScriptObject::CScriptObject(uint32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate)
     : mpTemplate(pTemplate)
     , mpArea(pArea)
     , mpLayer(pLayer)
@@ -16,7 +16,7 @@ CScriptObject::CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLa
 
     // Init properties
     CStructProperty* pProperties = pTemplate->Properties();
-    u32 PropertiesSize = pProperties->DataSize();
+    uint32 PropertiesSize = pProperties->DataSize();
 
     mPropertyData.resize( PropertiesSize );
     void* pData = mPropertyData.data();
@@ -41,7 +41,7 @@ CScriptObject::~CScriptObject()
     mpTemplate->RemoveObject(this);
 
     // Note: Incoming links will be deleted by the sender.
-    for (u32 iLink = 0; iLink < mOutLinks.size(); iLink++)
+    for (uint32 iLink = 0; iLink < mOutLinks.size(); iLink++)
         delete mOutLinks[iLink];
 }
 
@@ -97,7 +97,7 @@ bool CScriptObject::IsEditorProperty(IProperty *pProp)
            );
 }
 
-void CScriptObject::SetLayer(CScriptLayer *pLayer, u32 NewLayerIndex)
+void CScriptObject::SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex)
 {
     ASSERT(pLayer != nullptr);
 
@@ -109,11 +109,11 @@ void CScriptObject::SetLayer(CScriptLayer *pLayer, u32 NewLayerIndex)
     }
 }
 
-u32 CScriptObject::LayerIndex() const
+uint32 CScriptObject::LayerIndex() const
 {
     if (!mpLayer) return -1;
 
-    for (u32 iInst = 0; iInst < mpLayer->NumInstances(); iInst++)
+    for (uint32 iInst = 0; iInst < mpLayer->NumInstances(); iInst++)
     {
         if (mpLayer->InstanceByIndex(iInst) == this)
             return iInst;
@@ -135,7 +135,7 @@ bool CScriptObject::HasNearVisibleActivation() const
     if (mIsCheckingNearVisibleActivation) return false;
     mIsCheckingNearVisibleActivation = true;
 
-    for (u32 iLink = 0; iLink < mInLinks.size(); iLink++)
+    for (uint32 iLink = 0; iLink < mInLinks.size(); iLink++)
     {
         CLink *pLink = mInLinks[iLink];
 
@@ -183,7 +183,7 @@ bool CScriptObject::HasNearVisibleActivation() const
     return false;
 }
 
-void CScriptObject::AddLink(ELinkType Type, CLink *pLink, u32 Index /*= -1*/)
+void CScriptObject::AddLink(ELinkType Type, CLink *pLink, uint32 Index /*= -1*/)
 {
     std::vector<CLink*> *pLinkVec = (Type == eIncoming ? &mInLinks : &mOutLinks);
 

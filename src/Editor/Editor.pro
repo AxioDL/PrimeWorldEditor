@@ -33,18 +33,16 @@ CONFIG(debug, debug|release) {
     TARGET = PrimeWorldEditor-debug
 
     # Debug Libs
-    LIBS += -L$$BUILD_DIR/Common/ -lCommond \
-            -L$$BUILD_DIR/Math/ -lMathd \
-            -L$$BUILD_DIR/Core/ -lCored \
+    LIBS += -L$$BUILD_DIR/Core/ -lCored \
             -L$$EXTERNALS_DIR/assimp/lib/Debug -lassimp-vc140-mt \
+            -L$$EXTERNALS_DIR/LibCommon/Build -lLibCommond \
             -L$$EXTERNALS_DIR/nod/lib/Debug -lnod \
             -L$$EXTERNALS_DIR/nod/logvisor/Debug -llogvisor \
             -L$$EXTERNALS_DIR/zlib/lib/ -lzlibd
 
     # Debug Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$BUILD_DIR/Common/Commond.lib \
-                          $$BUILD_DIR/Math/Mathd.lib \
+        PRE_TARGETDEPS += $$EXTERNALS_DIR/LibCommon/Build/LibCommond.lib \
                           $$BUILD_DIR/Core/Cored.lib
     }
 }
@@ -57,18 +55,16 @@ CONFIG(release, debug|release) {
     TARGET = PrimeWorldEditor
 
     # Release Libs
-    LIBS += -L$$BUILD_DIR/Common/ -lCommon \
-            -L$$BUILD_DIR/Math/ -lMath \
-            -L$$BUILD_DIR/Core/ -lCore \
+    LIBS += -L$$BUILD_DIR/Core/ -lCore \
             -L$$EXTERNALS_DIR/assimp/lib/Release -lassimp-vc140-mt \
+            -L$$EXTERNALS_DIR/LibCommon/Build -lLibCommon \
             -L$$EXTERNALS_DIR/nod/lib/Release -lnod \
             -L$$EXTERNALS_DIR/nod/logvisor/Release -llogvisor \
             -L$$EXTERNALS_DIR/zlib/lib/ -lzlib
 
     # Release Target Dependencies
     win32 {
-        PRE_TARGETDEPS += $$BUILD_DIR/Common/Common.lib \
-                          $$BUILD_DIR/Math/Math.lib \
+        PRE_TARGETDEPS += $$EXTERNALS_DIR/LibCommon/Build/LibCommon.lib \
                           $$BUILD_DIR/Core/Core.lib
     }
 }
@@ -82,6 +78,7 @@ INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/assimp/include \
                $$EXTERNALS_DIR/CodeGen/include \
                $$EXTERNALS_DIR/glew-2.1.0/include \
+               $$EXTERNALS_DIR/LibCommon/Source \
                $$EXTERNALS_DIR/lzo-2.10/include \
                $$EXTERNALS_DIR/nod/include \
                $$EXTERNALS_DIR/nod/logvisor/include \

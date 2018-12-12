@@ -4,7 +4,7 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
 
-CCollisionNode::CCollisionNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CCollisionMeshGroup *pCollision)
+CCollisionNode::CCollisionNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CCollisionMeshGroup *pCollision)
     : CSceneNode(pScene, NodeID, pParent)
 {
     SetCollision(pCollision);
@@ -47,11 +47,11 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
 
     CColor BaseTint = TintColor(rkViewInfo);
 
-    for (u32 iMesh = 0; iMesh < mpCollision->NumMeshes(); iMesh++)
+    for (uint32 iMesh = 0; iMesh < mpCollision->NumMeshes(); iMesh++)
     {
         CCollisionMesh *pMesh = mpCollision->MeshByIndex(iMesh);
 
-        for (u32 iMat = 0; iMat < pMesh->NumMaterials(); iMat++)
+        for (uint32 iMat = 0; iMat < pMesh->NumMaterials(); iMat++)
         {
             CCollisionMaterial& rMat = pMesh->GetMaterial(iMat);
 
@@ -95,7 +95,7 @@ void CCollisionNode::RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, con
     // todo
 }
 
-SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
+SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*rkRay*/, uint32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
 {
     // todo
     SRayIntersection Result;

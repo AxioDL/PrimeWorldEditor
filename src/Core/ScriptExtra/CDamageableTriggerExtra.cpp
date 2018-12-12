@@ -1,14 +1,14 @@
 #include "CDamageableTriggerExtra.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
-#include <Common/AssertMacro.h>
-#include <Math/MathUtil.h>
+#include <Common/Macros.h>
+#include <Common/Math/MathUtil.h>
 
 CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
     , mpMat(nullptr)
 {
-    for (u32 iTex = 0; iTex < 3; iTex++)
+    for (uint32 iTex = 0; iTex < 3; iTex++)
         mpTextures[iTex] = nullptr;
 
     SetInheritance(true, false, false);
@@ -25,7 +25,7 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     if (mPlaneSize.IsValid()) PropertyModified(mPlaneSize.Property());
 
     // Fetch textures
-    for (u32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
+    for (uint32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
     {
         mTextureAssets[TextureIdx] = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIndex(6 + TextureIdx));
         if (mTextureAssets[TextureIdx].IsValid()) PropertyModified(mTextureAssets[TextureIdx].Property());
@@ -134,7 +134,7 @@ CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::RenderSideForDirec
 {
     // Get the index of the largest XYZ component
     CVector3f AbsDir(Math::Abs(rkDir.X), Math::Abs(rkDir.Y), Math::Abs(rkDir.Z));
-    u32 Max = (AbsDir.X > AbsDir.Y ? 0 : 1);
+    uint32 Max = (AbsDir.X > AbsDir.Y ? 0 : 1);
     Max = (AbsDir[Max] > AbsDir.Z ? Max : 2);
 
     // Check whether the direction is positive or negative. If the absolute value of the component matches the input one, then it's positive.
@@ -187,7 +187,7 @@ void CDamageableTriggerExtra::PropertyModified(IProperty* pProperty)
 
     else
     {
-        for (u32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
+        for (uint32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
         {
             if (pProperty == mTextureAssets[TextureIdx].Property())
             {
@@ -280,7 +280,7 @@ void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester
     }
 }
 
-SRayIntersection CDamageableTriggerExtra::RayNodeIntersectTest(const CRay& rkRay, u32 /*ComponentIndex*/, const SViewInfo& /*rkViewInfo*/)
+SRayIntersection CDamageableTriggerExtra::RayNodeIntersectTest(const CRay& rkRay, uint32 /*ComponentIndex*/, const SViewInfo& /*rkViewInfo*/)
 {
     // The bounding box and all other tests already passed in RayAABoxIntersectTest, so we
     // already know that we have a positive.

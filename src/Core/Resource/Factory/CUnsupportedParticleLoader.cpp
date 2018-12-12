@@ -4,7 +4,7 @@
 // ************ PARAMETER LOADING ************
 bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
 {
-    u32 ParamOffset = rPART.Tell();
+    uint32 ParamOffset = rPART.Tell();
     CFourCC Param = rPART.ReadLong();
     if (Param == FOURCC('_END'))
         return false;
@@ -212,8 +212,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
         break;
 
     default:
-        Log::FileError(rPART.GetSourceString(), ParamOffset, "Unknown PART parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown PART parameter: %s", *rPART.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -222,7 +221,7 @@ bool CUnsupportedParticleLoader::ParseParticleParameter(IInputStream& rPART)
 
 bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
 {
-    u32 ParamOffset = rELSC.Tell();
+    uint32 ParamOffset = rELSC.Tell();
     CFourCC Param = rELSC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -276,8 +275,7 @@ bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
         break;
 
     default:
-        Log::FileError(rELSC.GetSourceString(), ParamOffset, "Unknown ELSC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown ELSC parameter: %s", *rELSC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -286,7 +284,7 @@ bool CUnsupportedParticleLoader::ParseElectricParameter(IInputStream& rELSC)
 
 bool CUnsupportedParticleLoader::ParseSortedParameter(IInputStream& rSRSC)
 {
-    u32 ParamOffset = rSRSC.Tell();
+    uint32 ParamOffset = rSRSC.Tell();
     CFourCC Param = rSRSC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -295,8 +293,7 @@ bool CUnsupportedParticleLoader::ParseSortedParameter(IInputStream& rSRSC)
 
     else
     {
-        Log::FileError(rSRSC.GetSourceString(), ParamOffset, "Unknown SRSC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown SRSC parameter: %s", *rSRSC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -305,7 +302,7 @@ bool CUnsupportedParticleLoader::ParseSortedParameter(IInputStream& rSRSC)
 
 bool CUnsupportedParticleLoader::ParseSpawnParameter(IInputStream& rSPSC)
 {
-    u32 ParamOffset = rSPSC.Tell();
+    uint32 ParamOffset = rSPSC.Tell();
     CFourCC Param = rSPSC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -354,8 +351,7 @@ bool CUnsupportedParticleLoader::ParseSpawnParameter(IInputStream& rSPSC)
         break;
 
     default:
-        Log::FileError(rSPSC.GetSourceString(), ParamOffset, "Unknown SPSC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown SPSC parameter: %s", *rSPSC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -364,7 +360,7 @@ bool CUnsupportedParticleLoader::ParseSpawnParameter(IInputStream& rSPSC)
 
 bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
 {
-    u32 ParamOffset = rSWHC.Tell();
+    uint32 ParamOffset = rSWHC.Tell();
     CFourCC Param = rSWHC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -432,8 +428,7 @@ bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
         break;
 
     default:
-        Log::FileError(rSWHC.GetSourceString(), ParamOffset, "Unknown SWHC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown SWHC parameter: %s", *rSWHC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -442,7 +437,7 @@ bool CUnsupportedParticleLoader::ParseSwooshParameter(IInputStream& rSWHC)
 
 bool CUnsupportedParticleLoader::ParseDecalParameter(IInputStream& rDPSC)
 {
-    u32 ParamOffset = rDPSC.Tell();
+    uint32 ParamOffset = rDPSC.Tell();
     CFourCC Param = rDPSC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -492,8 +487,7 @@ bool CUnsupportedParticleLoader::ParseDecalParameter(IInputStream& rDPSC)
         break;
 
     default:
-        Log::FileError(rDPSC.GetSourceString(), ParamOffset, "Unknown DPSC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown DPSC parameter: %s", *rDPSC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -502,7 +496,7 @@ bool CUnsupportedParticleLoader::ParseDecalParameter(IInputStream& rDPSC)
 
 bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
 {
-    u32 ParamOffset = rWPSC.Tell();
+    uint32 ParamOffset = rWPSC.Tell();
     CFourCC Param = rWPSC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -604,8 +598,7 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
         break;
 
     default:
-        Log::FileError(rWPSC.GetSourceString(), ParamOffset, "Unknown WPSC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown WPSC parameter: %s", *rWPSC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -614,12 +607,12 @@ bool CUnsupportedParticleLoader::ParseWeaponParameter(IInputStream& rWPSC)
 
 bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& rCRSC)
 {
-    u32 ParamOffset = rCRSC.Tell();
+    uint32 ParamOffset = rCRSC.Tell();
     CFourCC Param = rCRSC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
     // CRSC has way too many useless extra parameters that are never used to bother typing out, so just skip past them
-    u32 FuncPeek = rCRSC.PeekLong();
+    uint32 FuncPeek = rCRSC.PeekLong();
 
     if (FuncPeek == FOURCC('NONE'))
     {
@@ -732,8 +725,7 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
         break;
 
     default:
-        Log::FileError(rCRSC.GetSourceString(), ParamOffset, "Unknown CRSC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown CRSC parameter: %s", *rCRSC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -742,7 +734,7 @@ bool CUnsupportedParticleLoader::ParseCollisionResponseParameter(IInputStream& r
 
 bool CUnsupportedParticleLoader::ParseBurstFireParameter(IInputStream& rBFRC)
 {
-    u32 ParamOffset = rBFRC.Tell();
+    uint32 ParamOffset = rBFRC.Tell();
     CFourCC Param = rBFRC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -775,8 +767,7 @@ bool CUnsupportedParticleLoader::ParseBurstFireParameter(IInputStream& rBFRC)
         break;
 
     default:
-        Log::FileError(rBFRC.GetSourceString(), ParamOffset, "Unknown BFRC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown BFRC parameter: %s", *rBFRC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -785,7 +776,7 @@ bool CUnsupportedParticleLoader::ParseBurstFireParameter(IInputStream& rBFRC)
 
 bool CUnsupportedParticleLoader::ParseUserEvaluatorParameter(IInputStream& rUSRC)
 {
-    u32 ParamOffset = rUSRC.Tell();
+    uint32 ParamOffset = rUSRC.Tell();
     CFourCC Param = rUSRC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -837,8 +828,7 @@ bool CUnsupportedParticleLoader::ParseUserEvaluatorParameter(IInputStream& rUSRC
         break;
 
     default:
-        Log::FileError(rUSRC.GetSourceString(), ParamOffset, "Unknown USRC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown USRC parameter: %s", *rUSRC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -847,7 +837,7 @@ bool CUnsupportedParticleLoader::ParseUserEvaluatorParameter(IInputStream& rUSRC
 
 bool CUnsupportedParticleLoader::ParseTransformParameter(IInputStream& rXFSC)
 {
-    u32 ParamOffset = rXFSC.Tell();
+    uint32 ParamOffset = rXFSC.Tell();
     CFourCC Param = rXFSC.ReadLong();
     if (Param == FOURCC('_END')) return false;
 
@@ -889,8 +879,7 @@ bool CUnsupportedParticleLoader::ParseTransformParameter(IInputStream& rXFSC)
         break;
 
     default:
-        Log::FileError(rXFSC.GetSourceString(), ParamOffset, "Unknown XFSC parameter: " + Param.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown XFSC parameter: %s", *rXFSC.GetSourceString(), ParamOffset, *Param.ToString());
         return false;
     }
 
@@ -900,7 +889,7 @@ bool CUnsupportedParticleLoader::ParseTransformParameter(IInputStream& rXFSC)
 // ************ FUNCTION LOADING ************
 void CUnsupportedParticleLoader::ParseBool(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -913,15 +902,14 @@ void CUnsupportedParticleLoader::ParseBool(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown bool constant function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown bool constant function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseBoolFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -945,8 +933,7 @@ void CUnsupportedParticleLoader::ParseBoolFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown bool function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown bool function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
@@ -954,12 +941,12 @@ void CUnsupportedParticleLoader::ParseBoolFunction(IInputStream& rFile)
 void CUnsupportedParticleLoader::ParseBitfieldFunction(IInputStream& rFile)
 {
     // todo: probably not the correct way to do this...
-    rFile.Seek(0x10, SEEK_CUR);
+    rFile.Skip(0x10);
 }
 
 void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1012,7 +999,7 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
 
     case FOURCC('CNST'):
     {
-        u32 Value = rFile.ReadLong();
+        uint32 Value = rFile.ReadLong();
         ASSERT(gpResourceStore->FindEntry(CAssetID(Value)) == nullptr);
         break;
     }
@@ -1039,15 +1026,14 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown int function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown int function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1230,15 +1216,14 @@ void CUnsupportedParticleLoader::ParseFloatFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown float function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown float function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1364,15 +1349,14 @@ void CUnsupportedParticleLoader::ParseVectorFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown vector function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown vector function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1453,15 +1437,14 @@ void CUnsupportedParticleLoader::ParseModVectorFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown mod vector function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown mod vector function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseColorFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1535,15 +1518,14 @@ void CUnsupportedParticleLoader::ParseColorFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown color function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown color function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseRotationFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1593,15 +1575,14 @@ void CUnsupportedParticleLoader::ParseRotationFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown rotation function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown rotation function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseUVFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1631,15 +1612,14 @@ void CUnsupportedParticleLoader::ParseUVFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown UV function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown UV function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1691,15 +1671,14 @@ void CUnsupportedParticleLoader::ParseEmitterFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown emitter function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown emitter function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseSoundFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
     
     switch (Func.ToLong())
@@ -1709,7 +1688,7 @@ void CUnsupportedParticleLoader::ParseSoundFunction(IInputStream& rFile)
         
     case FOURCC('CNST'):
     {
-        u32 SoundID = rFile.ReadLong() & 0xFFFF;
+        uint32 SoundID = rFile.ReadLong() & 0xFFFF;
 
         if (SoundID != 0xFFFF)
         {
@@ -1721,14 +1700,14 @@ void CUnsupportedParticleLoader::ParseSoundFunction(IInputStream& rFile)
     }
         
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown sound function: " + Func.ToString());
+        errorf("%s [0x%X]: Unknown sound function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
 
 void CUnsupportedParticleLoader::ParseAssetFunction(IInputStream& rFile)
 {
-    u32 FuncOffset = rFile.Tell();
+    uint32 FuncOffset = rFile.Tell();
     CFourCC Func = rFile.ReadLong();
 
     switch (Func.ToLong())
@@ -1741,8 +1720,7 @@ void CUnsupportedParticleLoader::ParseAssetFunction(IInputStream& rFile)
         break;
 
     default:
-        Log::FileError(rFile.GetSourceString(), FuncOffset, "Unknown asset function: " + Func.ToString());
-        DEBUG_BREAK;
+        errorf("%s [0x%X]: Unknown asset function: %s", *rFile.GetSourceString(), FuncOffset, *Func.ToString());
         break;
     }
 }
@@ -1754,14 +1732,14 @@ void CUnsupportedParticleLoader::ParseSpawnSystemKeyframeData(IInputStream& rFil
     ASSERT(Func == "CNST");
 
     rFile.Seek(0x10, SEEK_CUR); // Skip unneeded values
-    u32 Count = rFile.ReadLong();
+    uint32 Count = rFile.ReadLong();
 
-    for (u32 iKey = 0; iKey < Count; iKey++)
+    for (uint32 iKey = 0; iKey < Count; iKey++)
     {
         rFile.Seek(0x4, SEEK_CUR); // Skip frame number
-        u32 InfoCount = rFile.ReadLong();
+        uint32 InfoCount = rFile.ReadLong();
 
-        for (u32 iInfo = 0; iInfo < InfoCount; iInfo++)
+        for (uint32 iInfo = 0; iInfo < InfoCount; iInfo++)
         {
             mpGroup->AddDependency( CAssetID(rFile, mpGroup->Game()) );
             rFile.Seek(0xC, SEEK_CUR); // Skip unknown/unneeded values
@@ -1769,7 +1747,7 @@ void CUnsupportedParticleLoader::ParseSpawnSystemKeyframeData(IInputStream& rFil
     }
 }
 
-void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, const CFourCC& rkFunc, u32 ElemSize)
+void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, const CFourCC& rkFunc, uint32 ElemSize)
 {
     // Skip unneeded values
     if (rkFunc == "KEYE" || rkFunc == "KEYP")
@@ -1777,7 +1755,7 @@ void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, c
     else if (rkFunc == "KEYF")
         rFile.Seek(0x1A, SEEK_CUR);
 
-    u32 KeyCount = rFile.ReadLong();
+    uint32 KeyCount = rFile.ReadLong();
     rFile.Seek(KeyCount * ElemSize, SEEK_CUR);
 
     if (rkFunc == "KEYF")
@@ -1793,11 +1771,11 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
     // Validate DKCR asset header
     if (pEntry->Game() == EGame::DKCReturns)
     {
-        u32 AssetHeader = rFile.ReadLong();
+        uint32 AssetHeader = rFile.ReadLong();
 
         if (AssetHeader != 0x6E190001)
         {
-            Log::Error("Invalid DKCR particle header: " + TString::HexString(AssetHeader));
+            errorf("Invalid DKCR particle header: %08X", AssetHeader);
             return Loader.mpGroup;
         }
     }
@@ -1824,7 +1802,7 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
         case FOURCC('XFSM'): ShouldContinue = Loader.ParseTransformParameter(rFile);         break;
 
         default:
-            Log::Error("Unrecognized particle system magic: " + Magic.ToString());
+            errorf("Unrecognized particle system magic: %s", *Magic.ToString());
             ShouldContinue = false;
             break;
         }

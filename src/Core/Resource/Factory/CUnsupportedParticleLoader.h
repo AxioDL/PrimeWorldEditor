@@ -38,7 +38,7 @@ class CUnsupportedParticleLoader
     void ParseSoundFunction(IInputStream& rFile);
     void ParseAssetFunction(IInputStream& rFile);
     void ParseSpawnSystemKeyframeData(IInputStream& rFile);
-    void ParseKeyframeEmitterData(IInputStream& rFile, const CFourCC& rkFunc, u32 ElemSize);
+    void ParseKeyframeEmitterData(IInputStream& rFile, const CFourCC& rkFunc, uint32 ElemSize);
 
 public:
     static CDependencyGroup* LoadParticle(IInputStream& rPART, CResourceEntry *pEntry);

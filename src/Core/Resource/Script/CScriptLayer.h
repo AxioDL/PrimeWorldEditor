@@ -3,7 +3,7 @@
 
 #include "CScriptObject.h"
 #include "Core/Resource/CDependencyGroup.h"
-#include <Common/types.h>
+#include <Common/BasicTypes.h>
 #include <string>
 #include <vector>
 
@@ -30,7 +30,7 @@ public:
     }
 
     // Data Manipulation
-    void AddInstance(CScriptObject *pObject, u32 Index = -1)
+    void AddInstance(CScriptObject *pObject, uint32 Index = -1)
     {
         if (Index != -1 && Index < mInstances.size())
         {
@@ -55,12 +55,12 @@ public:
         }
     }
 
-    void RemoveInstanceByIndex(u32 Index)
+    void RemoveInstanceByIndex(uint32 Index)
     {
         mInstances.erase(mInstances.begin() + Index);
     }
 
-    void RemoveInstanceByID(u32 ID)
+    void RemoveInstanceByID(uint32 ID)
     {
         for (auto it = mInstances.begin(); it != mInstances.end(); it++)
         {
@@ -72,7 +72,7 @@ public:
         }
     }
 
-    void Reserve(u32 Amount)
+    void Reserve(uint32 Amount)
     {
         mInstances.reserve(Amount);
     }
@@ -82,10 +82,10 @@ public:
     inline TString Name() const         { return mLayerName; }
     inline bool IsActive() const        { return mActive; }
     inline bool IsVisible() const       { return mVisible; }
-    inline u32 NumInstances() const     { return mInstances.size(); }
-    inline CScriptObject* InstanceByIndex(u32 Index) const { return mInstances[Index]; }
+    inline uint32 NumInstances() const  { return mInstances.size(); }
+    inline CScriptObject* InstanceByIndex(uint32 Index) const { return mInstances[Index]; }
 
-    inline CScriptObject* InstanceByID(u32 ID) const
+    inline CScriptObject* InstanceByID(uint32 ID) const
     {
         for (auto it = mInstances.begin(); it != mInstances.end(); it++)
         {
@@ -100,9 +100,9 @@ public:
     inline void SetActive(bool Active)          { mActive = Active; }
     inline void SetVisible(bool Visible)        { mVisible = Visible; }
 
-    inline u32 AreaIndex() const
+    inline uint32 AreaIndex() const
     {
-        for (u32 iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
+        for (uint32 iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
         {
             if (mpArea->ScriptLayer(iLyr) == this)
                 return iLyr;
@@ -112,7 +112,7 @@ public:
     }
 
     // Operators
-    CScriptObject* operator[](u32 Index) { return InstanceByIndex(Index); }
+    CScriptObject* operator[](uint32 Index) { return InstanceByIndex(Index); }
 };
 
 #endif // CSCRIPTLAYER_H

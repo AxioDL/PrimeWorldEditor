@@ -4,7 +4,7 @@
 #include "CGraphics.h"
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Factory/CTextureDecoder.h"
-#include <Math/CTransform4f.h>
+#include <Common/Math/CTransform4f.h>
 
 #include <algorithm>
 #include <iostream>
@@ -13,7 +13,7 @@
 #include <sstream>
 
 // ************ STATIC MEMBER INITIALIZATION ************
-u32 CRenderer::sNumRenderers = 0;
+uint32 CRenderer::sNumRenderers = 0;
 
 // ************ INITIALIZATION ************
 CRenderer::CRenderer()
@@ -99,14 +99,14 @@ void CRenderer::SetClearColor(const CColor& rkClear)
     glClearColor(mClearColor.R, mClearColor.G, mClearColor.B, mClearColor.A);
 }
 
-void CRenderer::SetViewportSize(u32 Width, u32 Height)
+void CRenderer::SetViewportSize(uint32 Width, uint32 Height)
 {
     mViewportWidth = Width;
     mViewportHeight = Height;
     mBloomHScale = ((float) Width / 640);
     mBloomVScale = ((float) Height / 528);
-    mBloomWidth  = (u32) (320 * mBloomHScale);
-    mBloomHeight = (u32) (224 * mBloomVScale);
+    mBloomWidth  = (uint32) (320 * mBloomHScale);
+    mBloomHeight = (uint32) (224 * mBloomVScale);
     mBloomHScale = 1.f / mBloomHScale;
     mBloomVScale = 1.f / mBloomVScale;
 }
@@ -161,8 +161,8 @@ void CRenderer::RenderBloom()
                                             CColor::Integral(53, 53, 53),
                                             CColor::Integral(17, 17, 17) };
 
-    u32 BloomWidth  = (mBloomMode == eBloom ? mBloomWidth  : mViewportWidth);
-    u32 BloomHeight = (mBloomMode == eBloom ? mBloomHeight : mViewportHeight);
+    uint32 BloomWidth  = (mBloomMode == eBloom ? mBloomWidth  : mViewportWidth);
+    uint32 BloomHeight = (mBloomMode == eBloom ? mBloomHeight : mViewportHeight);
     float BloomHScale = (mBloomMode == eBloom ? mBloomHScale : 0);
     float BloomVScale = (mBloomMode == eBloom ? mBloomVScale : 0);
 
@@ -199,7 +199,7 @@ void CRenderer::RenderBloom()
     mBloomFramebuffers[0].Texture()->Bind(0);
     CDrawUtil::DrawSquare();
 
-    for (u32 iPass = 0; iPass < 6; iPass++)
+    for (uint32 iPass = 0; iPass < 6; iPass++)
     {
         CDrawUtil::UseTextureShader(skTintColors[iPass]);
         CVector3f Translate(skHOffset[iPass] * BloomHScale, 0.f, 0.f);
@@ -219,7 +219,7 @@ void CRenderer::RenderBloom()
     mBloomFramebuffers[1].Texture()->Bind(0);
     CDrawUtil::DrawSquare();
 
-    for (u32 iPass = 0; iPass < 6; iPass++)
+    for (uint32 iPass = 0; iPass < 6; iPass++)
     {
         CDrawUtil::UseTextureShader(skTintColors[iPass]);
         CVector3f Translate(0.f, skVOffset[iPass] * BloomVScale, 0.f);
@@ -353,4 +353,4 @@ void CRenderer::InitFramebuffer()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-u32 gDrawCount;
+uint32 gDrawCount;

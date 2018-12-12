@@ -5,8 +5,8 @@
 #include "EVolumeShape.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CCollisionMeshGroup.h"
+#include <Common/BasicTypes.h>
 #include <Common/CFourCC.h>
-#include <Common/types.h>
 #include <list>
 #include <vector>
 
@@ -64,14 +64,14 @@ private:
         } AssetSource;
 
         TIDString AssetLocation;
-        s32 ForceNodeIndex; // Force animsets to use specific node instead of one from property
+        int32 ForceNodeIndex; // Force animsets to use specific node instead of one from property
 
         void Serialize(IArchive& Arc)
         {
             Arc << SerialParameter("Type", AssetType, SH_Attribute)
                 << SerialParameter("Source", AssetSource, SH_Attribute)
                 << SerialParameter("Location", AssetLocation, SH_Attribute)
-                << SerialParameter("ForceCharacterIndex", ForceNodeIndex, SH_Attribute | SH_Optional, (s32) -1);
+                << SerialParameter("ForceCharacterIndex", ForceNodeIndex, SH_Attribute | SH_Optional, (int32) -1);
         }
     };
 
@@ -90,7 +90,7 @@ private:
     TIDString mVolumeConditionIDString;
 
     TString mSourceFile;
-    u32 mObjectID;
+    uint32 mObjectID;
 
     // Editor Properties
     TIDString mNameIDString;
@@ -111,7 +111,7 @@ private:
     CStructProperty* mpLightParametersProperty;
 
     struct SVolumeCondition {
-        u32 Value;
+        uint32 Value;
         EVolumeShape Shape;
         float Scale;
 
@@ -132,7 +132,7 @@ public:
     // Old constructor
     CScriptTemplate(CGameTemplate *pGame);
     // New constructor
-    CScriptTemplate(CGameTemplate* pGame, u32 ObjectID, const TString& kFilePath);
+    CScriptTemplate(CGameTemplate* pGame, uint32 ObjectID, const TString& kFilePath);
     ~CScriptTemplate();
     void Serialize(IArchive& rArc);
     void Save(bool Force = false);
@@ -141,7 +141,7 @@ public:
     // Property Fetching
     EVolumeShape VolumeShape(CScriptObject *pObj);
     float VolumeScale(CScriptObject *pObj);
-    CResource* FindDisplayAsset(void* pPropertyData, u32& rOutCharIndex, u32& rOutAnimIndex, bool& rOutIsInGame);
+    CResource* FindDisplayAsset(void* pPropertyData, uint32& rOutCharIndex, uint32& rOutAnimIndex, bool& rOutIsInGame);
     CCollisionMeshGroup* FindCollision(void* pPropertyData);
 
     // Accessors
@@ -150,12 +150,12 @@ public:
     inline ERotationType RotationType() const               { return mRotationType; }
     inline EScaleType ScaleType() const                     { return mScaleType; }
     inline float PreviewScale() const                       { return mPreviewScale; }
-    inline u32 ObjectID() const                             { return mObjectID; }
+    inline uint32 ObjectID() const                          { return mObjectID; }
     inline bool IsVisible() const                           { return mVisible; }
     inline TString SourceFile() const                       { return mSourceFile; }
     inline CStructProperty* Properties() const              { return mpProperties.get(); }
-    inline u32 NumAttachments() const                       { return mAttachments.size(); }
-    const SAttachment& Attachment(u32 Index) const          { return mAttachments[Index]; }
+    inline uint32 NumAttachments() const                    { return mAttachments.size(); }
+    const SAttachment& Attachment(uint32 Index) const       { return mAttachments[Index]; }
     const std::vector<TString>& RequiredModules() const     { return mModules; }
 
     inline CStringProperty* NameProperty() const                { return mpNameProperty; }
@@ -170,14 +170,14 @@ public:
     inline bool IsDirty() const             { return mDirty || mpProperties->IsDirty(); }
 
     // Object Tracking
-    u32 NumObjects() const;
+    uint32 NumObjects() const;
     const std::list<CScriptObject*>& ObjectList() const;
     void AddObject(CScriptObject *pObject);
     void RemoveObject(CScriptObject *pObject);
     void SortObjects();
 
 private:
-    s32 CheckVolumeConditions(CScriptObject *pObj, bool LogErrors);
+    int32 CheckVolumeConditions(CScriptObject *pObj, bool LogErrors);
 };
 
 #endif // CSCRIPTTEMPLATE_H

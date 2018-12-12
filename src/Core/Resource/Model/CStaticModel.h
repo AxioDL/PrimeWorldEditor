@@ -12,7 +12,7 @@ class CStaticModel : public CBasicModel
 {
     CMaterial *mpMaterial;
     std::vector<CIndexBuffer> mIBOs;
-    std::vector<std::vector<u32>> mSurfaceEndOffsets;
+    std::vector<std::vector<uint32>> mSurfaceEndOffsets;
     bool mTransparent;
 
 public:
@@ -25,7 +25,7 @@ public:
     void GenerateMaterialShaders();
     void ClearGLBuffer();
     void Draw(FRenderOptions Options);
-    void DrawSurface(FRenderOptions Options, u32 Surface);
+    void DrawSurface(FRenderOptions Options, uint32 Surface);
     void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::skWhite);
 
     CMaterial* GetMaterial();

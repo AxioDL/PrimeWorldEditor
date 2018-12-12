@@ -22,10 +22,10 @@ TString COpeningBanner::EnglishGameName() const
     // this and prevent the string-reading function from overrunning the buffer
     CMemoryInStream Banner(mBannerData.data(), mBannerData.size(), IOUtil::eBigEndian);
 
-    u32 CharSize = mWii ? 2 : 1;
-    u32 MaxLen = MaxGameNameLength();
+    uint32 CharSize = mWii ? 2 : 1;
+    uint32 MaxLen = MaxGameNameLength();
 
-    std::vector<u8> NameBuffer((MaxLen + 1) * CharSize, 0);
+    std::vector<uint8> NameBuffer((MaxLen + 1) * CharSize, 0);
     Banner.GoTo( mWii ? 0xB0 : 0x1860 );
     Banner.ReadBytes(NameBuffer.data(), MaxLen * CharSize);
 
@@ -36,9 +36,9 @@ TString COpeningBanner::EnglishGameName() const
 void COpeningBanner::SetEnglishGameName(const TString& rkName)
 {
         CMemoryOutStream Banner(mBannerData.data(), mBannerData.size(), IOUtil::eBigEndian);
-    u32 PadCount = 0;
+    uint32 PadCount = 0;
 
-    u32 MaxLen = MaxGameNameLength();
+    uint32 MaxLen = MaxGameNameLength();
     ASSERT(rkName.Size() <= MaxLen);
 
     if (mWii)
@@ -54,7 +54,7 @@ void COpeningBanner::SetEnglishGameName(const TString& rkName)
         PadCount = MaxLen - rkName.Size();
     }
 
-    for (u32 Pad = 0; Pad < PadCount; Pad++)
+    for (uint32 Pad = 0; Pad < PadCount; Pad++)
         Banner.WriteByte(0);
 }
 
@@ -65,7 +65,7 @@ void COpeningBanner::Save()
     Banner.WriteBytes(mBannerData.data(), mBannerData.size());
 }
 
-u32 COpeningBanner::MaxGameNameLength() const
+uint32 COpeningBanner::MaxGameNameLength() const
 {
     return (mWii ? 21 : 64);
 }

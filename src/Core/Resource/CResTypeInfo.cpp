@@ -1,5 +1,5 @@
 #include "CResTypeInfo.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <algorithm>
 
 std::unordered_map<EResType, CResTypeInfo*> CResTypeInfo::smTypeMap;
@@ -19,7 +19,7 @@ CResTypeInfo::CResTypeInfo(EResType Type, const TString& rkTypeName, const TStri
 
 bool CResTypeInfo::IsInGame(EGame Game) const
 {
-    for (u32 iGame = 0; iGame < mCookedExtensions.size(); iGame++)
+    for (uint32 iGame = 0; iGame < mCookedExtensions.size(); iGame++)
     {
         if (mCookedExtensions[iGame].Game == Game)
             return true;
@@ -33,7 +33,7 @@ CFourCC CResTypeInfo::CookedExtension(EGame Game) const
     if (Game == EGame::Invalid)
         Game = EGame::Prime;
 
-    for (u32 iGame = 0; iGame < mCookedExtensions.size(); iGame++)
+    for (uint32 iGame = 0; iGame < mCookedExtensions.size(); iGame++)
     {
         if (mCookedExtensions[iGame].Game == Game)
             return mCookedExtensions[iGame].CookedExt;
@@ -90,7 +90,7 @@ CResTypeInfo* CResTypeInfo::TypeForCookedExtension(EGame Game, CFourCC Ext)
     // Note UNKN is used to indicate unknown asset type
     if (Ext != FOURCC('UNKN'))
     {
-        Log::Error("Failed to find resource type for cooked extension: " + Ext.ToString());
+        errorf("Failed to find resource type for cooked extension: %s", *Ext.ToString());
         DEBUG_BREAK;
     }
     sCachedTypeMap[Ext] = nullptr;

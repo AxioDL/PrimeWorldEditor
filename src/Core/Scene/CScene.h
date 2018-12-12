@@ -15,7 +15,7 @@
 #include "Core/Resource/CWorld.h"
 #include "Core/CAreaAttributes.h"
 #include "Core/SRayIntersection.h"
-#include <Common/types.h>
+#include <Common/BasicTypes.h>
 
 #include <unordered_map>
 #include <vector>
@@ -27,7 +27,7 @@ class CScene
     bool mSplitTerrain;
     bool mRanPostLoad;
 
-    u32 mNumNodes;
+    uint32 mNumNodes;
     CRootNode *mpSceneRootNode;
     std::unordered_map<ENodeType, std::vector<CSceneNode*>> mNodes;
 
@@ -39,30 +39,30 @@ class CScene
     std::vector<CAreaAttributes> mAreaAttributesObjects;
 
     // Node Management
-    std::unordered_map<u32, CSceneNode*> mNodeMap;
-    std::unordered_map<u32, CScriptNode*> mScriptMap;
+    std::unordered_map<uint32, CSceneNode*> mNodeMap;
+    std::unordered_map<uint32, CScriptNode*> mScriptMap;
 
 public:
     CScene();
     ~CScene();
 
     // Scene Management
-    bool IsNodeIDUsed(u32 ID) const;
-    u32 CreateNodeID(u32 SuggestedID = -1) const;
+    bool IsNodeIDUsed(uint32 ID) const;
+    uint32 CreateNodeID(uint32 SuggestedID = -1) const;
 
-    CModelNode* CreateModelNode(CModel *pModel, u32 NodeID = -1);
-    CStaticNode* CreateStaticNode(CStaticModel *pModel, u32 NodeID = -1);
-    CCollisionNode* CreateCollisionNode(CCollisionMeshGroup *pMesh, u32 NodeID = -1);
-    CScriptNode* CreateScriptNode(CScriptObject *pObj, u32 NodeID = -1);
-    CLightNode* CreateLightNode(CLight *pLight, u32 NodeID = -1);
+    CModelNode* CreateModelNode(CModel *pModel, uint32 NodeID = -1);
+    CStaticNode* CreateStaticNode(CStaticModel *pModel, uint32 NodeID = -1);
+    CCollisionNode* CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 NodeID = -1);
+    CScriptNode* CreateScriptNode(CScriptObject *pObj, uint32 NodeID = -1);
+    CLightNode* CreateLightNode(CLight *pLight, uint32 NodeID = -1);
     void DeleteNode(CSceneNode *pNode);
     void SetActiveArea(CWorld *pWorld, CGameArea *pArea);
     void PostLoad();
     void ClearScene();
     void AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
     SRayIntersection SceneRayCast(const CRay& rkRay, const SViewInfo& rkViewInfo);
-    CSceneNode* NodeByID(u32 NodeID);
-    CScriptNode* NodeForInstanceID(u32 InstanceID);
+    CSceneNode* NodeByID(uint32 NodeID);
+    CScriptNode* NodeForInstanceID(uint32 InstanceID);
     CScriptNode* NodeForInstance(CScriptObject *pObj);
     CLightNode* NodeForLight(CLight *pLight);
     CModel* ActiveSkybox();

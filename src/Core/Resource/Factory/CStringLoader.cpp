@@ -8,20 +8,20 @@ void CStringLoader::LoadPrimeDemoSTRG(IInputStream& rSTRG)
     mpStringTable->mLangTables.resize(1);
     CStringTable::SLangTable* Lang = &mpStringTable->mLangTables[1];
     Lang->Language = "ENGL";
-    u32 TableStart = rSTRG.Tell();
+    uint32 TableStart = rSTRG.Tell();
 
     // Header
-    u32 NumStrings = rSTRG.ReadLong();
+    uint32 NumStrings = rSTRG.ReadLong();
     Lang->Strings.resize(NumStrings);
     mpStringTable->mNumStrings = NumStrings;
 
     // String offsets (yeah, that wasn't much of a header)
-    std::vector<u32> StringOffsets(NumStrings);
-    for (u32 iOff = 0; iOff < StringOffsets.size(); iOff++)
+    std::vector<uint32> StringOffsets(NumStrings);
+    for (uint32 iOff = 0; iOff < StringOffsets.size(); iOff++)
         StringOffsets[iOff] = rSTRG.ReadLong();
 
     // Strings
-    for (u32 iStr = 0; iStr < NumStrings; iStr++)
+    for (uint32 iStr = 0; iStr < NumStrings; iStr++)
     {
         rSTRG.Seek(TableStart + StringOffsets[iStr], SEEK_SET);
         Lang->Strings[iStr] = rSTRG.ReadWString().ToUTF8();
@@ -32,15 +32,15 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& rSTRG)
 {
     // This function starts at 0x8 in the file, after magic/version
     // Header
-    u32 NumLanguages = rSTRG.ReadLong();
-    u32 NumStrings = rSTRG.ReadLong();
+    uint32 NumLanguages = rSTRG.ReadLong();
+    uint32 NumStrings = rSTRG.ReadLong();
     mpStringTable->mNumStrings = NumStrings;
 
     // Language definitions
     mpStringTable->mLangTables.resize(NumLanguages);
-    std::vector<u32> LangOffsets(NumLanguages);
+    std::vector<uint32> LangOffsets(NumLanguages);
 
-    for (u32 iLang = 0; iLang < NumLanguages; iLang++)
+    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
     {
         mpStringTable->mLangTables[iLang].Language = CFourCC(rSTRG);
         LangOffsets[iLang] = rSTRG.ReadLong();
@@ -52,23 +52,23 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& rSTRG)
         LoadNameTable(rSTRG);
 
     // Strings
-    u32 StringsStart = rSTRG.Tell();
-    for (u32 iLang = 0; iLang < NumLanguages; iLang++)
+    uint32 StringsStart = rSTRG.Tell();
+    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
     {
         rSTRG.Seek(StringsStart + LangOffsets[iLang], SEEK_SET);
         if (mVersion == EGame::Prime) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
 
-        u32 LangStart = rSTRG.Tell();
+        uint32 LangStart = rSTRG.Tell();
         CStringTable::SLangTable* pLang = &mpStringTable->mLangTables[iLang];
         pLang->Strings.resize(NumStrings);
 
         // Offsets
-        std::vector<u32> StringOffsets(NumStrings);
-        for (u32 iOff = 0; iOff < NumStrings; iOff++)
+        std::vector<uint32> StringOffsets(NumStrings);
+        for (uint32 iOff = 0; iOff < NumStrings; iOff++)
             StringOffsets[iOff] = rSTRG.ReadLong();
 
         // The actual strings
-        for (u32 iStr = 0; iStr < NumStrings; iStr++)
+        for (uint32 iStr = 0; iStr < NumStrings; iStr++)
         {
             rSTRG.Seek(LangStart + StringOffsets[iStr], SEEK_SET);
             pLang->Strings[iStr] = rSTRG.ReadWString().ToUTF8();
@@ -80,8 +80,8 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& rSTRG)
 {
     // This function starts at 0x8 in the file, after magic/version
     // Header
-    u32 NumLanguages = rSTRG.ReadLong();
-    u32 NumStrings = rSTRG.ReadLong();
+    uint32 NumLanguages = rSTRG.ReadLong();
+    uint32 NumStrings = rSTRG.ReadLong();
     mpStringTable->mNumStrings = NumStrings;
 
     // String names
@@ -89,30 +89,30 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& rSTRG)
 
     // Language definitions
     mpStringTable->mLangTables.resize(NumLanguages);
-    std::vector<std::vector<u32>> LangOffsets(NumLanguages);
+    std::vector<std::vector<uint32>> LangOffsets(NumLanguages);
 
-    for (u32 iLang = 0; iLang < NumLanguages; iLang++)
+    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
         mpStringTable->mLangTables[iLang].Language = CFourCC(rSTRG);
 
-    for (u32 iLang = 0; iLang < NumLanguages; iLang++)
+    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
     {
         LangOffsets[iLang].resize(NumStrings);
 
         rSTRG.Seek(0x4, SEEK_CUR); // Skipping total string size
 
-        for (u32 iStr = 0; iStr < NumStrings; iStr++)
+        for (uint32 iStr = 0; iStr < NumStrings; iStr++)
             LangOffsets[iLang][iStr] = rSTRG.ReadLong();
     }
 
     // Strings
-    u32 StringsStart = rSTRG.Tell();
+    uint32 StringsStart = rSTRG.Tell();
 
-    for (u32 iLang = 0; iLang < NumLanguages; iLang++)
+    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
     {
         CStringTable::SLangTable *pLang = &mpStringTable->mLangTables[iLang];
         pLang->Strings.resize(NumStrings);
 
-        for (u32 iStr = 0; iStr < NumStrings; iStr++)
+        for (uint32 iStr = 0; iStr < NumStrings; iStr++)
         {
             rSTRG.Seek(StringsStart + LangOffsets[iLang][iStr], SEEK_SET);
             rSTRG.Seek(0x4, SEEK_CUR); // Skipping string size
@@ -125,18 +125,18 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& rSTRG)
 void CStringLoader::LoadNameTable(IInputStream& rSTRG)
 {
     // Name table header
-    u32 NameCount = rSTRG.ReadLong();
-    u32 NameTableSize = rSTRG.ReadLong();
-    u32 NameTableStart = rSTRG.Tell();
-    u32 NameTableEnd = NameTableStart + NameTableSize;
+    uint32 NameCount = rSTRG.ReadLong();
+    uint32 NameTableSize = rSTRG.ReadLong();
+    uint32 NameTableStart = rSTRG.Tell();
+    uint32 NameTableEnd = NameTableStart + NameTableSize;
 
     // Name definitions
     struct SNameDef {
-        u32 NameOffset, StringIndex;
+        uint32 NameOffset, StringIndex;
     };
     std::vector<SNameDef> NameDefs(NameCount);
 
-    for (u32 iName = 0; iName < NameCount; iName++)
+    for (uint32 iName = 0; iName < NameCount; iName++)
     {
         NameDefs[iName].NameOffset = rSTRG.ReadLong() + NameTableStart;
         NameDefs[iName].StringIndex = rSTRG.ReadLong();
@@ -144,7 +144,7 @@ void CStringLoader::LoadNameTable(IInputStream& rSTRG)
 
     // Name strings
     mpStringTable->mStringNames.resize(mpStringTable->mNumStrings);
-    for (u32 iName = 0; iName < NameCount; iName++)
+    for (uint32 iName = 0; iName < NameCount; iName++)
     {
         SNameDef *pDef = &NameDefs[iName];
         rSTRG.Seek(pDef->NameOffset, SEEK_SET);
@@ -159,14 +159,14 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
     // Verify that this is a valid STRG
     if (!rSTRG.IsValid()) return nullptr;
 
-    u32 Magic = rSTRG.ReadLong();
+    uint32 Magic = rSTRG.ReadLong();
     EGame Version = EGame::Invalid;
 
     if (Magic != 0x87654321)
     {
         // Check for MP1 Demo STRG format - no magic/version; the first value is actually the filesize
         // so the best I can do is verify the first value actually points to the end of the file
-        if (Magic <= (u32) rSTRG.Size())
+        if (Magic <= (uint32) rSTRG.Size())
         {
             rSTRG.Seek(Magic, SEEK_SET);
             if ((rSTRG.EoF()) || (rSTRG.ReadShort() == 0xFFFF))
@@ -175,19 +175,19 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
 
         if (Version != EGame::PrimeDemo)
         {
-            Log::FileError(rSTRG.GetSourceString(), "Invalid STRG magic: " + TString::HexString(Magic));
+            errorf("%s: Invalid STRG magic: 0x%08X", *rSTRG.GetSourceString(), Magic);
             return nullptr;
         }
     }
 
     else
     {
-        u32 FileVersion = rSTRG.ReadLong();
+        uint32 FileVersion = rSTRG.ReadLong();
         Version = GetFormatVersion(FileVersion);
 
         if (Version == EGame::Invalid)
         {
-            Log::FileError(rSTRG.GetSourceString(), "Unsupported STRG version: " + TString::HexString(FileVersion, 0));
+            errorf("%s: Unsupported STRG version: 0x%X", *rSTRG.GetSourceString(), FileVersion);
             return nullptr;
         }
     }
@@ -204,7 +204,7 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
     return Loader.mpStringTable;
 }
 
-EGame CStringLoader::GetFormatVersion(u32 Version)
+EGame CStringLoader::GetFormatVersion(uint32 Version)
 {
     switch (Version)
     {

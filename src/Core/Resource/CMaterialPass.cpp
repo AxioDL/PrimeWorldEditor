@@ -17,7 +17,7 @@ CMaterialPass::CMaterialPass(CMaterial *pParent)
     , mTexCoordSource(0xFF)
     , mAnimMode(eNoUVAnim)
 {
-    for (u32 iParam = 0; iParam < 4; iParam++)
+    for (uint32 iParam = 0; iParam < 4; iParam++)
     {
         mColorInputs[iParam] = eZeroRGB;
         mAlphaInputs[iParam] = eZeroAlpha;
@@ -35,7 +35,7 @@ CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
     pOut->mPassType = mPassType;
     pOut->mSettings = mSettings;
 
-    for (u32 iIn = 0; iIn < 4; iIn++)
+    for (uint32 iIn = 0; iIn < 4; iIn++)
     {
         pOut->mColorInputs[iIn] = mColorInputs[iIn];
         pOut->mAlphaInputs[iIn] = mAlphaInputs[iIn];
@@ -50,7 +50,7 @@ CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
     pOut->mpTexture = mpTexture;
     pOut->mAnimMode = mAnimMode;
 
-    for (u32 iParam = 0; iParam < 4; iParam++)
+    for (uint32 iParam = 0; iParam < 4; iParam++)
         pOut->mAnimParams[iParam] = mAnimParams[iParam];
 
     pOut->mEnabled = mEnabled;
@@ -78,13 +78,13 @@ void CMaterialPass::HashParameters(CFNV1A& rHash)
     }
 }
 
-void CMaterialPass::LoadTexture(u32 PassIndex)
+void CMaterialPass::LoadTexture(uint32 PassIndex)
 {
     if (mpTexture)
         mpTexture->Bind(PassIndex);
 }
 
-void CMaterialPass::SetAnimCurrent(FRenderOptions Options, u32 PassIndex)
+void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
 {
     if (mAnimMode == eNoUVAnim) return;
 
@@ -269,7 +269,7 @@ void CMaterialPass::SetRasSel(ETevRasSel Sel)
     mpParentMat->Update();
 }
 
-void CMaterialPass::SetTexCoordSource(u32 Source)
+void CMaterialPass::SetTexCoordSource(uint32 Source)
 {
     mTexCoordSource = Source;
     mpParentMat->Update();
@@ -286,7 +286,7 @@ void CMaterialPass::SetAnimMode(EUVAnimMode Mode)
     mpParentMat->Update();
 }
 
-void CMaterialPass::SetAnimParam(u32 ParamIndex, float Value)
+void CMaterialPass::SetAnimParam(uint32 ParamIndex, float Value)
 {
     mAnimParams[ParamIndex] = Value;
 }

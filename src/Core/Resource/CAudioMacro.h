@@ -20,16 +20,16 @@ public:
     {
         CDependencyTree *pTree = new CDependencyTree();
 
-        for (u32 iSamp = 0; iSamp < mSamples.size(); iSamp++)
+        for (uint32 iSamp = 0; iSamp < mSamples.size(); iSamp++)
             pTree->AddDependency(mSamples[iSamp]);
 
         return pTree;
     }
 
     // Accessors
-    inline TString MacroName() const                { return mMacroName; }
-    inline u32 NumSamples() const                   { return mSamples.size(); }
-    inline CAssetID SampleByIndex(u32 Index) const  { return mSamples[Index]; }
+    inline TString MacroName() const                    { return mMacroName; }
+    inline uint32 NumSamples() const                    { return mSamples.size(); }
+    inline CAssetID SampleByIndex(uint32 Index) const   { return mSamples[Index]; }
 };
 
 #endif // CAUDIOMACRO_H

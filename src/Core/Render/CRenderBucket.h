@@ -6,7 +6,7 @@
 #include "CGraphics.h"
 #include "FRenderOptions.h"
 #include "SRenderablePtr.h"
-#include <Common/types.h>
+#include <Common/BasicTypes.h>
 #include <algorithm>
 #include <vector>
 
@@ -17,8 +17,8 @@ class CRenderBucket
     class CSubBucket
     {
         std::vector<SRenderablePtr> mRenderables;
-        u32 mEstSize;
-        u32 mSize;
+        uint32 mEstSize;
+        uint32 mSize;
 
     public:
         CSubBucket()

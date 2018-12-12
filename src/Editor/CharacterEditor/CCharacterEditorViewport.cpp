@@ -28,7 +28,7 @@ void CCharacterEditorViewport::SetNode(CCharacterNode *pNode)
 
 void CCharacterEditorViewport::CheckUserInput()
 {
-    u32 HoverBoneID = -1;
+    uint32 HoverBoneID = -1;
 
     if (underMouse() && !IsMouseInputActive())
     {

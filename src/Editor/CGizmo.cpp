@@ -1,5 +1,5 @@
 #include "CGizmo.h"
-#include <Math/MathUtil.h>
+#include <Common/Math/MathUtil.h>
 #include <Core/GameProject/CResourceStore.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CRenderer.h>
@@ -47,14 +47,14 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
     SModelPart *pPart = mpCurrentParts;
 
     // Add all parts to renderer
-    for (u32 iPart = 0; iPart < mNumCurrentParts; iPart++)
+    for (uint32 iPart = 0; iPart < mNumCurrentParts; iPart++)
     {
         CModel *pModel = pPart->pModel;
 
         // Determine whether to use the mat set for regular (0) or highlight (1)
         FGizmoAxes PartAxes = pPart->ModelAxes;
         bool IsHighlighted = (PartAxes != eNone) && ((mSelectedAxes & PartAxes) == pPart->ModelAxes);
-        u32 SetID = (IsHighlighted ? 1 : 0);
+        uint32 SetID = (IsHighlighted ? 1 : 0);
 
         // Add to renderer...
         pRenderer->AddMesh(this, iPart, pModel->AABox().Transformed(mTransform), pModel->HasTransparency(SetID), eDrawMesh, eForeground);
@@ -85,7 +85,7 @@ void CGizmo::Draw(FRenderOptions /*Options*/, int ComponentIndex, ERenderCommand
     // Choose material set
     FGizmoAxes PartAxes = pPart[ComponentIndex].ModelAxes;
     bool IsHighlighted = (PartAxes != eNone) && ((mSelectedAxes & PartAxes) == pPart[ComponentIndex].ModelAxes);
-    u32 SetID = (IsHighlighted ? 1 : 0);
+    uint32 SetID = (IsHighlighted ? 1 : 0);
 
     // Draw model
     pPart[ComponentIndex].pModel->Draw((FRenderOptions) 0, SetID);
@@ -141,7 +141,7 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
     };
     std::list<SResult> Results;
 
-    for (u32 iPart = 0; iPart < mNumCurrentParts; iPart++)
+    for (uint32 iPart = 0; iPart < mNumCurrentParts; iPart++)
     {
         if (!pPart->EnableRayCast)
         {
@@ -162,7 +162,7 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
             bool Hit = false;
             float Dist;
 
-            for (u32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+            for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
             {
                 // Skip surface/box check - since we use lines the boxes might be too small
                 SSurface *pSurf = pModel->GetSurface(iSurf);
@@ -209,11 +209,11 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
     return (mSelectedAxes != eNone);
 }
 
-u32 CGizmo::NumSelectedAxes()
+uint32 CGizmo::NumSelectedAxes()
 {
-    u32 Out = 0;
+    uint32 Out = 0;
 
-    for (u32 iAxis = 1; iAxis < 8; iAxis <<= 1)
+    for (uint32 iAxis = 1; iAxis < 8; iAxis <<= 1)
         if (mSelectedAxes & FGizmoAxes(iAxis)) Out++;
 
     return Out;
@@ -291,7 +291,7 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
     {
         // Create translate plane
         CVector3f AxisA, AxisB;
-        u32 NumAxes = NumSelectedAxes();
+        uint32 NumAxes = NumSelectedAxes();
 
         if (NumAxes == 1)
         {
@@ -541,7 +541,7 @@ void CGizmo::LoadModels()
 {
     if (!smModelsLoaded)
     {
-        Log::Write("Loading transform gizmo models");
+        debugf("Loading transform gizmo models");
 
         smTranslateModels[CGIZMO_TRANSLATE_X]        = SModelPart(eX,  true,  false, gpEditorStore->LoadResource("editor/TranslateX.CMDL"));
         smTranslateModels[CGIZMO_TRANSLATE_Y]        = SModelPart(eY,  true,  false, gpEditorStore->LoadResource("editor/TranslateY.CMDL"));

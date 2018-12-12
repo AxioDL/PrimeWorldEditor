@@ -11,20 +11,20 @@
  *  In PWE, however, they are both implemented the same way under the hood.
  */
 template<EPropertyType TypeEnum>
-class TEnumPropertyBase : public TSerializeableTypedProperty<s32, TypeEnum>
+class TEnumPropertyBase : public TSerializeableTypedProperty<int32, TypeEnum>
 {
     friend class IProperty;
 
     struct SEnumValue
     {
         TString Name;
-        u32 ID;
+        uint32 ID;
 
         SEnumValue()
             : ID(0)
         {}
 
-        SEnumValue(const TString& rkInName, u32 InID)
+        SEnumValue(const TString& rkInName, uint32 InID)
             : Name(rkInName), ID(InID) {}
 
 
@@ -70,7 +70,7 @@ public:
         TTypedProperty::Serialize(rArc);
 
         TEnumPropertyBase* pArchetype = static_cast<TEnumPropertyBase*>(mpArchetype);
-        u32 DefaultValueFlags = SH_HexDisplay | (pArchetype || Game() <= EGame::Prime ? SH_Optional : 0);
+        uint32 DefaultValueFlags = SH_HexDisplay | (pArchetype || Game() <= EGame::Prime ? SH_Optional : 0);
 
         rArc << SerialParameter("DefaultValue", mDefaultValue, DefaultValueFlags, pArchetype ? pArchetype->mDefaultValue : 0);
 
@@ -88,7 +88,7 @@ public:
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        Arc.SerializePrimitive( (u32&) ValueRef(pData), 0 );
+        Arc.SerializePrimitive( (uint32&) ValueRef(pData), 0 );
     }
 
     virtual void InitFromArchetype(IProperty* pOther)
@@ -103,16 +103,16 @@ public:
         return TString::FromInt32( Value(pData), 0, 10 );
     }
 
-    void AddValue(TString ValueName, u32 ValueID)
+    void AddValue(TString ValueName, uint32 ValueID)
     {
         mValues.push_back( SEnumValue(ValueName, ValueID) );
     }
 
-    inline u32 NumPossibleValues() const { return mValues.size(); }
+    inline uint32 NumPossibleValues() const { return mValues.size(); }
 
-    u32 ValueIndex(u32 ID) const
+    uint32 ValueIndex(uint32 ID) const
     {
-        for (u32 ValueIdx = 0; ValueIdx < mValues.size(); ValueIdx++)
+        for (uint32 ValueIdx = 0; ValueIdx < mValues.size(); ValueIdx++)
         {
             if (mValues[ValueIdx].ID == ID)
             {
@@ -122,13 +122,13 @@ public:
         return -1;
     }
 
-    u32 ValueID(u32 Index) const
+    uint32 ValueID(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < mValues.size());
         return mValues[Index].ID;
     }
 
-    TString ValueName(u32 Index) const
+    TString ValueName(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < mValues.size());
         return mValues[Index].Name;
@@ -138,7 +138,7 @@ public:
     {
         if (mValues.empty()) return true;
         int ID = ValueRef(pPropertyData);
-        u32 Index = ValueIndex(ID);
+        uint32 Index = ValueIndex(ID);
         return Index >= 0 && Index < mValues.size();
     }
 

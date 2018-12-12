@@ -4,15 +4,15 @@
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Resource/Area/CGameArea.h"
-#include <Common/AssertMacro.h>
-#include <Math/CTransform4f.h>
+#include <Common/Macros.h>
+#include <Common/Math/CTransform4f.h>
 
 #include <algorithm>
 
-u32 CSceneNode::smNumNodes = 0;
+uint32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);
 
-CSceneNode::CSceneNode(CScene *pScene, u32 NodeID, CSceneNode *pParent)
+CSceneNode::CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent)
     : mpScene(pScene)
     , mpParent(pParent)
     , _mID(NodeID)
@@ -134,7 +134,7 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     mLightCount = 0;
     mAmbientColor = CColor::skBlack;
 
-    u32 Index = mLightLayerIndex;
+    uint32 Index = mLightLayerIndex;
     if ((pArea->NumLightLayers() <= Index) || (pArea->NumLights(Index) == 0)) Index = 0;
 
     struct SLightEntry {
@@ -151,10 +151,10 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     std::vector<SLightEntry> LightEntries;
 
     // Default ambient color to white if there are no lights on the selected layer
-    u32 NumLights = pArea->NumLights(Index);
+    uint32 NumLights = pArea->NumLights(Index);
     if (NumLights == 0) mAmbientColor = CColor::skWhite;
 
-    for (u32 iLight = 0; iLight < NumLights; iLight++)
+    for (uint32 iLight = 0; iLight < NumLights; iLight++)
     {
         CLight* pLight = pArea->Light(Index, iLight);
 
@@ -179,7 +179,7 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     std::sort(LightEntries.begin(), LightEntries.end());
     mLightCount = (LightEntries.size() > 8) ? 8 : LightEntries.size();
 
-    for (u32 iLight = 0; iLight < mLightCount; iLight++)
+    for (uint32 iLight = 0; iLight < mLightCount; iLight++)
         mLights[iLight] = LightEntries[iLight].pLight;
 }
 
@@ -205,7 +205,7 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
         // World lighting: world ambient color, node dynamic lights
         CGraphics::sVertexBlock.COLOR0_Amb = mAmbientColor;
 
-        for (u32 iLight = 0; iLight < mLightCount; iLight++)
+        for (uint32 iLight = 0; iLight < mLightCount; iLight++)
             mLights[iLight]->Load();
         break;
     }
@@ -214,7 +214,7 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
     CGraphics::UpdateLightBlock();
 }
 
-void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet)
+void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32 MatSet)
 {
     ASSERT(pModel);
 
@@ -228,7 +228,7 @@ void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, u32 Ma
     }
 }
 
-void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, u32 MatSet, ERenderCommand RenderCommand)
+void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, uint32 MatSet, ERenderCommand RenderCommand)
 {
     // Common rendering functionality
     if (RenderCommand == eDrawMesh)
@@ -239,7 +239,7 @@ void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, u32 MatS
         bool DrawOpaque = (RenderCommand == eDrawMesh || RenderCommand == eDrawOpaqueParts);
         bool DrawTransparent = (RenderCommand == eDrawMesh || RenderCommand == eDrawTransparentParts);
 
-        for (u32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+        for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
         {
             bool ShouldRender = ( (DrawOpaque && DrawTransparent) ||
                                   (DrawOpaque && !pModel->IsSurfaceTransparent(iSurf, MatSet)) ||

@@ -34,10 +34,10 @@ public:
 
     ~CSourceAnimData()
     {
-        for (u32 TransIdx = 0; TransIdx < mTransitions.size(); TransIdx++)
+        for (uint32 TransIdx = 0; TransIdx < mTransitions.size(); TransIdx++)
             delete mTransitions[TransIdx].pTransition;
 
-        for (u32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
+        for (uint32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
             delete mHalfTransitions[HalfIdx].pTransition;
 
         delete mpDefaultTransition;
@@ -54,10 +54,10 @@ public:
 
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
     {
-        for (u32 TransIdx = 0; TransIdx < mTransitions.size(); TransIdx++)
+        for (uint32 TransIdx = 0; TransIdx < mTransitions.size(); TransIdx++)
             mTransitions[TransIdx].pTransition->GetUniquePrimitives(rPrimSet);
 
-        for (u32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
+        for (uint32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
             mHalfTransitions[HalfIdx].pTransition->GetUniquePrimitives(rPrimSet);
 
         if (mpDefaultTransition)
@@ -80,7 +80,7 @@ public:
                 UsedTransitions.insert(mpDefaultTransition);
             }
 
-            for (u32 TransitionIdx = 0; TransitionIdx < mTransitions.size(); TransitionIdx++)
+            for (uint32 TransitionIdx = 0; TransitionIdx < mTransitions.size(); TransitionIdx++)
             {
                 const STransition& rkTransition = mTransitions[TransitionIdx];
                 IMetaTransition *pTransition = rkTransition.pTransition;
@@ -94,7 +94,7 @@ public:
                 }
             }
 
-            for (u32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
+            for (uint32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
             {
                 const SHalfTransition& rkHalfTrans = mHalfTransitions[HalfIdx];
                 IMetaTransition *pTransition = rkHalfTrans.pTransition;

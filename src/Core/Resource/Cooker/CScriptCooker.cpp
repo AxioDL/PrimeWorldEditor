@@ -7,7 +7,7 @@
 
 void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, bool InAtomicStruct)
 {
-    u32 SizeOffset = 0, PropStart = 0;
+    uint32 SizeOffset = 0, PropStart = 0;
     void* pData = (mpArrayItemData ? mpArrayItemData : mpObject->PropertyData());
 
     if (mGame >= EGame::EchoesDemo && !InAtomicStruct)
@@ -180,7 +180,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
         CStructProperty* pStruct = TPropCast<CStructProperty>(pProperty);
         std::vector<IProperty*> PropertiesToWrite;
 
-        for (u32 ChildIdx = 0; ChildIdx < pStruct->NumChildren(); ChildIdx++)
+        for (uint32 ChildIdx = 0; ChildIdx < pStruct->NumChildren(); ChildIdx++)
         {
             IProperty *pChild = pStruct->ChildByIndex(ChildIdx);
 
@@ -193,10 +193,10 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
             if (mGame <= EGame::Prime)
                 rOut.WriteLong(PropertiesToWrite.size());
             else
-                rOut.WriteShort((u16) PropertiesToWrite.size());
+                rOut.WriteShort((uint16) PropertiesToWrite.size());
         }
 
-        for (u32 PropertyIdx = 0; PropertyIdx < PropertiesToWrite.size(); PropertyIdx++)
+        for (uint32 PropertyIdx = 0; PropertyIdx < PropertiesToWrite.size(); PropertyIdx++)
             WriteProperty(rOut, PropertiesToWrite[PropertyIdx], pStruct->IsAtomic());
 
         break;
@@ -205,12 +205,12 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
     case EPropertyType::Array:
     {
         CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
-        u32 Count = pArray->ArrayCount(pData);
+        uint32 Count = pArray->ArrayCount(pData);
         rOut.WriteLong(Count);
 
         void* pOldItemData = mpArrayItemData;
 
-        for (u32 ElementIdx = 0; ElementIdx < pArray->ArrayCount(pData); ElementIdx++)
+        for (uint32 ElementIdx = 0; ElementIdx < pArray->ArrayCount(pData); ElementIdx++)
         {
             mpArrayItemData = pArray->ItemPointer(pData, ElementIdx);
             WriteProperty(rOut, pArray->ItemArchetype(), true);
@@ -224,9 +224,9 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
 
     if (SizeOffset != 0)
     {
-        u32 PropEnd = rOut.Tell();
+        uint32 PropEnd = rOut.Tell();
         rOut.Seek(SizeOffset, SEEK_SET);
-        rOut.WriteShort((u16) (PropEnd - PropStart));
+        rOut.WriteShort((uint16) (PropEnd - PropStart));
         rOut.Seek(PropEnd, SEEK_SET);
     }
 }
@@ -240,20 +240,20 @@ void CScriptCooker::WriteInstance(IOutputStream& rOut, CScriptObject *pInstance)
     // number of fields changed size between MP1 and 2, but they're still the same fields
     bool IsPrime1 = (mGame <= EGame::Prime);
 
-    u32 ObjectType = pInstance->ObjectTypeID();
-    IsPrime1 ? rOut.WriteByte((u8) ObjectType) : rOut.WriteLong(ObjectType);
+    uint32 ObjectType = pInstance->ObjectTypeID();
+    IsPrime1 ? rOut.WriteByte((uint8) ObjectType) : rOut.WriteLong(ObjectType);
 
-    u32 SizeOffset = rOut.Tell();
+    uint32 SizeOffset = rOut.Tell();
     IsPrime1 ? rOut.WriteLong(0) : rOut.WriteShort(0);
 
-    u32 InstanceStart = rOut.Tell();
-    u32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
+    uint32 InstanceStart = rOut.Tell();
+    uint32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
     rOut.WriteLong(InstanceID);
 
-    u32 NumLinks = pInstance->NumLinks(eOutgoing);
-    IsPrime1 ? rOut.WriteLong(NumLinks) : rOut.WriteShort((u16) NumLinks);
+    uint32 NumLinks = pInstance->NumLinks(eOutgoing);
+    IsPrime1 ? rOut.WriteLong(NumLinks) : rOut.WriteShort((uint16) NumLinks);
 
-    for (u32 LinkIdx = 0; LinkIdx < NumLinks; LinkIdx++)
+    for (uint32 LinkIdx = 0; LinkIdx < NumLinks; LinkIdx++)
     {
         CLink *pLink = pInstance->Link(eOutgoing, LinkIdx);
         rOut.WriteLong(pLink->State());
@@ -263,11 +263,11 @@ void CScriptCooker::WriteInstance(IOutputStream& rOut, CScriptObject *pInstance)
 
     mpObject = pInstance;
     WriteProperty(rOut, pInstance->Template()->Properties(), false);
-    u32 InstanceEnd = rOut.Tell();
+    uint32 InstanceEnd = rOut.Tell();
 
     rOut.Seek(SizeOffset, SEEK_SET);
-    u32 Size = InstanceEnd - InstanceStart;
-    IsPrime1 ? rOut.WriteLong(Size) : rOut.WriteShort((u16) Size);
+    uint32 Size = InstanceEnd - InstanceStart;
+    IsPrime1 ? rOut.WriteLong(Size) : rOut.WriteShort((uint16) Size);
     rOut.Seek(InstanceEnd, SEEK_SET);
 }
 
@@ -277,11 +277,11 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
 
     rOut.WriteByte( mGame <= EGame::Prime ? 0 : 1 ); // Version
 
-    u32 InstanceCountOffset = rOut.Tell();
-    u32 NumWrittenInstances = 0;
+    uint32 InstanceCountOffset = rOut.Tell();
+    uint32 NumWrittenInstances = 0;
     rOut.WriteLong(0);
 
-    for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
+    for (uint32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
         CScriptObject *pInstance = pLayer->InstanceByIndex(iInst);
 
@@ -298,7 +298,7 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
             // Generate/Attach message (MP3+) should be written to SCGN, not SCLY
             else
             {
-                for (u32 LinkIdx = 0; LinkIdx < pInstance->NumLinks(eIncoming); LinkIdx++)
+                for (uint32 LinkIdx = 0; LinkIdx < pInstance->NumLinks(eIncoming); LinkIdx++)
                 {
                     CLink *pLink = pInstance->Link(eIncoming, LinkIdx);
 
@@ -336,7 +336,7 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
         }
     }
 
-    u32 LayerEnd = rOut.Tell();
+    uint32 LayerEnd = rOut.Tell();
     rOut.GoTo(InstanceCountOffset);
     rOut.WriteLong(NumWrittenInstances);
     rOut.GoTo(LayerEnd);
@@ -347,6 +347,6 @@ void CScriptCooker::WriteGeneratedLayer(IOutputStream& rOut)
     rOut.WriteByte(1); // Version
     rOut.WriteLong(mGeneratedObjects.size());
 
-    for (u32 ObjectIdx = 0; ObjectIdx < mGeneratedObjects.size(); ObjectIdx++)
+    for (uint32 ObjectIdx = 0; ObjectIdx < mGeneratedObjects.size(); ObjectIdx++)
         WriteInstance(rOut, mGeneratedObjects[ObjectIdx]);
 }

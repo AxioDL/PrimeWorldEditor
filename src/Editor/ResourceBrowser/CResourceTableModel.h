@@ -50,8 +50,8 @@ protected:
 
 public:
     // Accessors
-    inline u32 NumDirectories() const               { return mDirectories.size(); }
-    inline u32 NumResources() const                 { return mEntries.size(); }
+    inline uint32 NumDirectories() const            { return mDirectories.size(); }
+    inline uint32 NumResources() const              { return mEntries.size(); }
     inline CVirtualDirectory* CurrentDir() const    { return mpCurrentDir; }
     inline bool IsDisplayingAssetList() const       { return mIsAssetListMode; }
     inline bool IsDisplayingUserEntryList() const   { return mIsDisplayingUserEntryList; }

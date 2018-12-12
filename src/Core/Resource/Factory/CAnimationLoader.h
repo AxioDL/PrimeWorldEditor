@@ -14,21 +14,21 @@ class CAnimationLoader
     // Compression data
     std::vector<bool> mKeyFlags;
     float mTranslationMultiplier;
-    u32 mRotationDivisor;
+    uint32 mRotationDivisor;
     float mScaleMultiplier;
 
     struct SCompressedChannel
     {
-        u32 BoneID;
-        u16 NumRotationKeys;
-        s16 Rotation[3];
-        u8 RotationBits[3];
-        u16 NumTranslationKeys;
-        s16 Translation[3];
-        u8 TranslationBits[3];
-        u16 NumScaleKeys;
-        s16 Scale[3];
-        u8 ScaleBits[3];
+        uint32 BoneID;
+        uint16 NumRotationKeys;
+        int16 Rotation[3];
+        uint8 RotationBits[3];
+        uint16 NumTranslationKeys;
+        int16 Translation[3];
+        uint8 TranslationBits[3];
+        uint16 NumScaleKeys;
+        int16 Scale[3];
+        uint8 ScaleBits[3];
     };
     std::vector<SCompressedChannel> mCompressedChannels;
 
@@ -38,7 +38,7 @@ class CAnimationLoader
     void ReadUncompressedANIM();
     void ReadCompressedANIM();
     void ReadCompressedAnimationData();
-    CQuaternion DequantizeRotation(bool Sign, s16 X, s16 Y, s16 Z);
+    CQuaternion DequantizeRotation(bool Sign, int16 X, int16 Y, int16 Z);
 
 public:
     static CAnimation* LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry);

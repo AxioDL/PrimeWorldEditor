@@ -504,7 +504,7 @@ bool CResourceBrowser::CreateDirectory()
     {
         TString DirNameBase = "New Folder";
         TString DirName = DirNameBase;
-        u32 AppendNum = 0;
+        uint32 AppendNum = 0;
 
         while (mpSelectedDir->FindChildDirectory(DirName, false) != nullptr)
         {
@@ -631,6 +631,7 @@ void CResourceBrowser::FindAssetByID()
     {
         EGame Game = mpStore->Game();
         EIDLength IDLength = CAssetID::GameIDLength(Game);
+        bool WasValid = false;
 
         if (StringAssetID.IsHexString(false, IDLength * 2))
         {
@@ -638,20 +639,27 @@ void CResourceBrowser::FindAssetByID()
                 StringAssetID = StringAssetID.ChopFront(2);
 
             // Find the resource entry
-            CAssetID ID = (IDLength == e32Bit ? StringAssetID.ToInt32(16) : StringAssetID.ToInt64(16));
-            CResourceEntry *pEntry = mpStore->FindEntry(ID);
+            if ( (IDLength == e32Bit && StringAssetID.Length() == 8) ||
+                 (IDLength == e64Bit && StringAssetID.Length() == 16) )
+            {
+                CAssetID ID = (IDLength == e32Bit ? StringAssetID.ToInt32(16) : StringAssetID.ToInt64(16));
+                CResourceEntry *pEntry = mpStore->FindEntry(ID);
+                WasValid = true;
 
-            if (pEntry)
-                SelectResource(pEntry, true);
+                if (pEntry)
+                    SelectResource(pEntry, true);
 
-            // User entered unrecognized ID
-            else
-                UICommon::ErrorMsg(this, QString("Couldn't find any asset with ID %1").arg(QStringAssetID));
+                // User entered valid but unrecognized ID
+                else
+                    UICommon::ErrorMsg(this, QString("Couldn't find any asset with ID %1").arg(QStringAssetID));
+            }
         }
 
         // User entered invalid string
-        else
+        if (!WasValid)
+        {
             UICommon::ErrorMsg(this, "The entered string is not a valid asset ID!");
+        }
     }
 
     // User entered nothing, don't do anything

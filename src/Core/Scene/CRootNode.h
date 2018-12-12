@@ -8,7 +8,7 @@
 class CRootNode : public CSceneNode
 {
 public:
-    explicit CRootNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0)
+    explicit CRootNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0)
         : CSceneNode(pScene, NodeID, pParent) {}
     ~CRootNode() {}
 
@@ -19,7 +19,7 @@ public:
 
     inline void RayAABoxIntersectTest(CRayCollisionTester&, const SViewInfo&) {}
 
-    inline SRayIntersection RayNodeIntersectTest(const CRay &, u32, const SViewInfo&)
+    inline SRayIntersection RayNodeIntersectTest(const CRay &, uint32, const SViewInfo&)
     {
         return SRayIntersection();
     }

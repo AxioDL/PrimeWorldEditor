@@ -1,7 +1,7 @@
 #include "CCamera.h"
 #include "CGraphics.h"
-#include <Math/CQuaternion.h>
-#include <Math/MathUtil.h>
+#include <Common/Math/CQuaternion.h>
+#include <Common/Math/MathUtil.h>
 
 CCamera::CCamera()
     : mMode(eFreeCamera)

@@ -5,7 +5,7 @@
 #include "Core/CompressionUtil.h"
 #include "Core/Resource/CWorld.h"
 #include "Core/Resource/Script/CGameTemplate.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <Common/CScopedTimer.h>
 #include <Common/FileIO.h>
 #include <Common/FileUtil.h>
@@ -92,7 +92,7 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
     return !mpProgress->ShouldCancel();
 }
 
-void CGameExporter::LoadResource(const CAssetID& rkID, std::vector<u8>& rBuffer)
+void CGameExporter::LoadResource(const CAssetID& rkID, std::vector<uint8>& rBuffer)
 {
     SResourceInstance *pInst = FindResourceInstance(rkID);
     if (pInst) LoadResource(*pInst, rBuffer);
@@ -268,7 +268,7 @@ void CGameExporter::LoadPaks()
 
         if (!Pak.IsValid())
         {
-            Log::Error("Couldn't open pak: " + PakPath);
+            errorf("Couldn't open pak: %s", *PakPath);
             continue;
         }
 
@@ -278,38 +278,38 @@ void CGameExporter::LoadPaks()
         // MP1-MP3Proto
         if (mGame < EGame::Corruption)
         {
-            u32 PakVersion = Pak.ReadLong();
+            uint32 PakVersion = Pak.ReadLong();
             Pak.Seek(0x4, SEEK_CUR);
             ASSERT(PakVersion == 0x00030005);
 
             // Echoes demo disc has a pak that ends right here.
             if (!Pak.EoF())
             {
-                u32 NumNamedResources = Pak.ReadLong();
+                uint32 NumNamedResources = Pak.ReadLong();
                 ASSERT(NumNamedResources > 0);
 
-                for (u32 iName = 0; iName < NumNamedResources; iName++)
+                for (uint32 iName = 0; iName < NumNamedResources; iName++)
                 {
                     CFourCC ResType = Pak.ReadLong();
                     CAssetID ResID(Pak, mGame);
-                    u32 NameLen = Pak.ReadLong();
+                    uint32 NameLen = Pak.ReadLong();
                     TString Name = Pak.ReadString(NameLen);
                     pPackage->AddResource(Name, ResID, ResType);
                 }
 
-                u32 NumResources = Pak.ReadLong();
+                uint32 NumResources = Pak.ReadLong();
 
                 // Keep track of which areas have duplicate resources
                 std::set<CAssetID> PakResourceSet;
                 bool AreaHasDuplicates = true; // Default to true so that first area is always considered as having duplicates
 
-                for (u32 iRes = 0; iRes < NumResources; iRes++)
+                for (uint32 iRes = 0; iRes < NumResources; iRes++)
                 {
                     bool Compressed = (Pak.ReadLong() == 1);
                     CFourCC ResType = Pak.ReadLong();
                     CAssetID ResID(Pak, mGame);
-                    u32 ResSize = Pak.ReadLong();
-                    u32 ResOffset = Pak.ReadLong();
+                    uint32 ResSize = Pak.ReadLong();
+                    uint32 ResOffset = Pak.ReadLong();
 
                     if (mResourceMap.find(ResID) == mResourceMap.end())
                         mResourceMap[ResID] = SResourceInstance { PakPath, ResID, ResType, ResOffset, ResSize, Compressed, false };
@@ -333,37 +333,37 @@ void CGameExporter::LoadPaks()
         // MP3 + DKCR
         else
         {
-            u32 PakVersion = Pak.ReadLong();
-            u32 PakHeaderLen = Pak.ReadLong();
+            uint32 PakVersion = Pak.ReadLong();
+            uint32 PakHeaderLen = Pak.ReadLong();
             Pak.Seek(PakHeaderLen - 0x8, SEEK_CUR);
             ASSERT(PakVersion == 2);
 
             struct SPakSection {
-                CFourCC Type; u32 Size;
+                CFourCC Type; uint32 Size;
             };
             std::vector<SPakSection> PakSections;
 
-            u32 NumPakSections = Pak.ReadLong();
+            uint32 NumPakSections = Pak.ReadLong();
             ASSERT(NumPakSections == 3);
 
-            for (u32 iSec = 0; iSec < NumPakSections; iSec++)
+            for (uint32 iSec = 0; iSec < NumPakSections; iSec++)
             {
                 CFourCC Type = Pak.ReadLong();
-                u32 Size = Pak.ReadLong();
+                uint32 Size = Pak.ReadLong();
                 PakSections.push_back(SPakSection { Type, Size });
             }
             Pak.SeekToBoundary(64);
 
-            for (u32 iSec = 0; iSec < NumPakSections; iSec++)
+            for (uint32 iSec = 0; iSec < NumPakSections; iSec++)
             {
-                u32 Next = Pak.Tell() + PakSections[iSec].Size;
+                uint32 Next = Pak.Tell() + PakSections[iSec].Size;
 
                 // Named Resources
                 if (PakSections[iSec].Type == "STRG")
                 {
-                    u32 NumNamedResources = Pak.ReadLong();
+                    uint32 NumNamedResources = Pak.ReadLong();
 
-                    for (u32 iName = 0; iName < NumNamedResources; iName++)
+                    for (uint32 iName = 0; iName < NumNamedResources; iName++)
                     {
                         TString Name = Pak.ReadString();
                         CFourCC ResType = Pak.ReadLong();
@@ -375,20 +375,20 @@ void CGameExporter::LoadPaks()
                 else if (PakSections[iSec].Type == "RSHD")
                 {
                     ASSERT(PakSections[iSec + 1].Type == "DATA");
-                    u32 DataStart = Next;
-                    u32 NumResources = Pak.ReadLong();
+                    uint32 DataStart = Next;
+                    uint32 NumResources = Pak.ReadLong();
 
                     // Keep track of which areas have duplicate resources
                     std::set<CAssetID> PakResourceSet;
                     bool AreaHasDuplicates = true; // Default to true so that first area is always considered as having duplicates
 
-                    for (u32 iRes = 0; iRes < NumResources; iRes++)
+                    for (uint32 iRes = 0; iRes < NumResources; iRes++)
                     {
                         bool Compressed = (Pak.ReadLong() == 1);
                         CFourCC Type = Pak.ReadLong();
                         CAssetID ResID(Pak, mGame);
-                        u32 Size = Pak.ReadLong();
-                        u32 Offset = DataStart + Pak.ReadLong();
+                        uint32 Size = Pak.ReadLong();
+                        uint32 Offset = DataStart + Pak.ReadLong();
 
                         if (mResourceMap.find(ResID) == mResourceMap.end())
                             mResourceMap[ResID] = SResourceInstance { PakPath, ResID, Type, Offset, Size, Compressed, false };
@@ -425,7 +425,7 @@ void CGameExporter::LoadPaks()
 #endif
 }
 
-void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vector<u8>& rBuffer)
+void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vector<uint8>& rBuffer)
 {
     CFileInStream Pak(rkResource.PakFile, IOUtil::eBigEndian);
 
@@ -440,15 +440,15 @@ void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vecto
 
             if (mGame <= EGame::CorruptionProto)
             {
-                std::vector<u8> CompressedData(rkResource.PakSize);
+                std::vector<uint8> CompressedData(rkResource.PakSize);
 
-                u32 UncompressedSize = Pak.ReadLong();
+                uint32 UncompressedSize = Pak.ReadLong();
                 rBuffer.resize(UncompressedSize);
                 Pak.ReadBytes(CompressedData.data(), CompressedData.size());
 
                 if (ZlibCompressed)
                 {
-                    u32 TotalOut;
+                    uint32 TotalOut;
                     CompressionUtil::DecompressZlib(CompressedData.data(), CompressedData.size(), rBuffer.data(), rBuffer.size(), TotalOut);
                 }
                 else
@@ -462,40 +462,40 @@ void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vecto
                 CFourCC Magic = Pak.ReadLong();
                 ASSERT(Magic == "CMPD");
 
-                u32 NumBlocks = Pak.ReadLong();
+                uint32 NumBlocks = Pak.ReadLong();
 
                 struct SCompressedBlock {
-                    u32 CompressedSize; u32 UncompressedSize;
+                    uint32 CompressedSize; uint32 UncompressedSize;
                 };
                 std::vector<SCompressedBlock> CompressedBlocks;
 
-                u32 TotalUncompressedSize = 0;
-                for (u32 iBlock = 0; iBlock < NumBlocks; iBlock++)
+                uint32 TotalUncompressedSize = 0;
+                for (uint32 iBlock = 0; iBlock < NumBlocks; iBlock++)
                 {
-                    u32 CompressedSize = (Pak.ReadLong() & 0x00FFFFFF);
-                    u32 UncompressedSize = Pak.ReadLong();
+                    uint32 CompressedSize = (Pak.ReadLong() & 0x00FFFFFF);
+                    uint32 UncompressedSize = Pak.ReadLong();
 
                     TotalUncompressedSize += UncompressedSize;
                     CompressedBlocks.push_back( SCompressedBlock { CompressedSize, UncompressedSize } );
                 }
 
                 rBuffer.resize(TotalUncompressedSize);
-                u32 Offset = 0;
+                uint32 Offset = 0;
 
-                for (u32 iBlock = 0; iBlock < NumBlocks; iBlock++)
+                for (uint32 iBlock = 0; iBlock < NumBlocks; iBlock++)
                 {
-                    u32 CompressedSize = CompressedBlocks[iBlock].CompressedSize;
-                    u32 UncompressedSize = CompressedBlocks[iBlock].UncompressedSize;
+                    uint32 CompressedSize = CompressedBlocks[iBlock].CompressedSize;
+                    uint32 UncompressedSize = CompressedBlocks[iBlock].UncompressedSize;
 
                     // Block is compressed
                     if (CompressedSize != UncompressedSize)
                     {
-                        std::vector<u8> CompressedData(CompressedBlocks[iBlock].CompressedSize);
+                        std::vector<uint8> CompressedData(CompressedBlocks[iBlock].CompressedSize);
                         Pak.ReadBytes(CompressedData.data(), CompressedData.size());
 
                         if (ZlibCompressed)
                         {
-                            u32 TotalOut;
+                            uint32 TotalOut;
                             CompressionUtil::DecompressZlib(CompressedData.data(), CompressedData.size(), rBuffer.data() + Offset, UncompressedSize, TotalOut);
                         }
                         else
@@ -570,7 +570,7 @@ void CGameExporter::ExportResourceEditorData()
                 CWorld *pWorld = (CWorld*) It->Load();
 
                 // Set area duplicate flags
-                for (u32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+                for (uint32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
                 {
                     CAssetID AreaID = pWorld->AreaResourceID(iArea);
                     auto Find = mAreaDuplicateMap.find(AreaID);
@@ -612,7 +612,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 {
     if (!rRes.Exported)
     {
-        std::vector<u8> ResourceData;
+        std::vector<uint8> ResourceData;
         LoadResource(rRes, ResourceData);
 
         // Register resource and write to file
@@ -657,11 +657,11 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
     // Find the original world name in the package resource names
     TString WorldName;
 
-    for (u32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
+    for (uint32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
     {
         CPackage *pPkg = mpProject->PackageByIndex(iPkg);
 
-        for (u32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
@@ -712,8 +712,8 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         // MP2 demo - Use text between the first and second underscores
         else if (mGame == EGame::EchoesDemo)
         {
-            u32 UnderscoreA = WorldName.IndexOf('_');
-            u32 UnderscoreB = WorldName.IndexOf('_', UnderscoreA + 1);
+            uint32 UnderscoreA = WorldName.IndexOf('_');
+            uint32 UnderscoreB = WorldName.IndexOf('_', UnderscoreA + 1);
 
             if (UnderscoreA != UnderscoreB && UnderscoreA != -1 && UnderscoreB != -1)
                 WorldName = WorldName.SubString(UnderscoreA + 1, UnderscoreB - UnderscoreA - 1);
@@ -722,8 +722,8 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         // MP2 - Remove text before first underscore and after last underscore, strip remaining underscores (except multiplayer maps, which have one underscore)
         else if (mGame == EGame::Echoes)
         {
-            u32 FirstUnderscore = WorldName.IndexOf('_');
-            u32 LastUnderscore = WorldName.LastIndexOf('_');
+            uint32 FirstUnderscore = WorldName.IndexOf('_');
+            uint32 LastUnderscore = WorldName.LastIndexOf('_');
 
             if (FirstUnderscore != LastUnderscore && FirstUnderscore != -1 && LastUnderscore != -1)
             {
@@ -739,14 +739,14 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
             if (WorldName.StartsWith('!'))
                 WorldName = WorldName.ChopFront(1);
 
-            u32 LastUnderscore = WorldName.LastIndexOf('_');
+            uint32 LastUnderscore = WorldName.LastIndexOf('_');
             WorldName = WorldName.ChopBack(WorldName.Size() - LastUnderscore);
         }
 
         // MP3 - Remove text after last underscore
         else if (mGame == EGame::Corruption)
         {
-            u32 LastUnderscore = WorldName.LastIndexOf('_');
+            uint32 LastUnderscore = WorldName.LastIndexOf('_');
 
             if (LastUnderscore != -1 && !WorldName.StartsWith("front_end_"))
                 WorldName = WorldName.ChopBack(WorldName.Size() - LastUnderscore);
@@ -755,7 +755,7 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
         // DKCR - Remove text prior to first underscore
         else if (mGame == EGame::DKCReturns)
         {
-            u32 Underscore = WorldName.IndexOf('_');
+            uint32 Underscore = WorldName.IndexOf('_');
             WorldName = WorldName.ChopFront(Underscore + 1);
         }
     }

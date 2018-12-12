@@ -26,13 +26,13 @@ extern CMetaAnimFactory gMetaAnimFactory;
 class CAnimPrimitive
 {
     TResPtr<CAnimation> mpAnim;
-    u32 mID;
+    uint32 mID;
     TString mName;
 
 public:
     CAnimPrimitive() : mID(0) {}
 
-    CAnimPrimitive(const CAssetID& rkAnimAssetID, u32 CharAnimID, const TString& rkAnimName)
+    CAnimPrimitive(const CAssetID& rkAnimAssetID, uint32 CharAnimID, const TString& rkAnimName)
         : mID(CharAnimID), mName(rkAnimName)
     {
         mpAnim = gpResourceStore->LoadResource(rkAnimAssetID);
@@ -50,7 +50,7 @@ public:
 
     // Accessors
     CAnimation* Animation() const   { return mpAnim; }
-    u32 ID() const                  { return mID; }
+    uint32 ID() const               { return mID; }
     TString Name() const            { return mName; }
 };
 
@@ -73,10 +73,10 @@ class CMetaAnimPlay : public IMetaAnimation
 protected:
     CAnimPrimitive mPrimitive;
     float mUnknownA;
-    u32 mUnknownB;
+    uint32 mUnknownB;
 
 public:
-    CMetaAnimPlay(const CAnimPrimitive& rkPrimitive, float UnkA, u32 UnkB);
+    CMetaAnimPlay(const CAnimPrimitive& rkPrimitive, float UnkA, uint32 UnkB);
     CMetaAnimPlay(IInputStream& rInput, EGame Game);
     virtual EMetaAnimationType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
@@ -84,7 +84,7 @@ public:
     // Accessors
     inline CAnimPrimitive Primitive() const { return mPrimitive; }
     inline float UnknownA() const           { return mUnknownA; }
-    inline u32 UnknownB() const             { return mUnknownB; }
+    inline uint32 UnknownB() const          { return mUnknownB; }
 };
 
 // CMetaAnimBlend - blend between two animations
@@ -114,7 +114,7 @@ public:
 struct SAnimProbabilityPair
 {
     IMetaAnimation *pAnim;
-    u32 Probability;
+    uint32 Probability;
 };
 
 // CMetaAnimRandom - play random animation

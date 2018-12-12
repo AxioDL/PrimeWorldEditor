@@ -2,10 +2,10 @@
 #define CGIZMO_H
 
 #include <Common/Flags.h>
-#include <Math/CPlane.h>
-#include <Math/CQuaternion.h>
-#include <Math/CVector3f.h>
-#include <Math/ETransformSpace.h>
+#include <Common/Math/CPlane.h>
+#include <Common/Math/CQuaternion.h>
+#include <Common/Math/CVector3f.h>
+#include <Common/Math/ETransformSpace.h>
 #include <Core/Render/CCamera.h>
 #include <Core/Render/IRenderable.h>
 #include <Core/Resource/Model/CModel.h>
@@ -115,7 +115,7 @@ private:
             ModelAxes(Axes), EnableRayCast(RayCastOn), IsBillboard(Billboard), pModel(_pModel) {}
     };
     SModelPart *mpCurrentParts;
-    u32 mNumCurrentParts;
+    uint32 mNumCurrentParts;
 
     // Static
     static bool smModelsLoaded;
@@ -134,7 +134,7 @@ public:
     void DecrementSize();
     void UpdateForCamera(const CCamera& rkCamera);
     bool CheckSelectedAxes(const CRay& rkRay);
-    u32 NumSelectedAxes();
+    uint32 NumSelectedAxes();
     void ResetSelectedAxes();
     void StartTransform();
     bool TransformFromInput(const CRay& rkRay, CCamera& rkCamera);

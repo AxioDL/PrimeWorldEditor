@@ -25,9 +25,9 @@ public:
     CVertexBuffer();
     CVertexBuffer(FVertexDescription Desc);
     ~CVertexBuffer();
-    u16 AddVertex(const CVertex& rkVtx);
-    u16 AddIfUnique(const CVertex& rkVtx, u16 Start);
-    void Reserve(u16 Size);
+    uint16 AddVertex(const CVertex& rkVtx);
+    uint16 AddIfUnique(const CVertex& rkVtx, uint16 Start);
+    void Reserve(uint16 Size);
     void Clear();
     void Buffer();
     void Bind();
@@ -36,7 +36,7 @@ public:
     FVertexDescription VertexDesc();
     void SetVertexDesc(FVertexDescription Desc);
     void SetSkin(CSkin *pSkin);
-    u32 Size();
+    uint32 Size();
     GLuint CreateVAO();
 };
 

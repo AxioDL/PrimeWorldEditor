@@ -1,8 +1,8 @@
 #include "CCharacterEditor.h"
 #include "ui_CCharacterEditor.h"
 #include "Editor/UICommon.h"
-#include <Common/AssertMacro.h>
-#include <Math/MathUtil.h>
+#include <Common/Macros.h>
+#include <Common/Math/MathUtil.h>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QTreeView>
@@ -43,7 +43,7 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     mpAnimComboBox->setMinimumWidth(175);
     ui->ToolBar->addWidget(mpAnimComboBox);
 
-    connect(ui->Viewport, SIGNAL(HoverBoneChanged(u32)), this, SLOT(OnViewportHoverBoneChanged(u32)));
+    connect(ui->Viewport, SIGNAL(HoverBoneChanged(uint32)), this, SLOT(OnViewportHoverBoneChanged(uint32)));
     connect(ui->Viewport, SIGNAL(ViewportClick(QMouseEvent*)), this, SLOT(OnViewportClick()));
     connect(ui->ActionShowGrid, SIGNAL(toggled(bool)), this, SLOT(ToggleGrid(bool)));
     connect(ui->ActionShowMesh, SIGNAL(toggled(bool)), this, SLOT(ToggleMeshVisible(bool)));
@@ -185,7 +185,7 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     mpCharComboBox->blockSignals(true);
     mpCharComboBox->clear();
 
-    for (u32 iChar = 0; iChar < mpSet->NumCharacters(); iChar++)
+    for (uint32 iChar = 0; iChar < mpSet->NumCharacters(); iChar++)
         mpCharComboBox->addItem( TO_QSTRING(mpSet->Character(iChar)->Name) );
 
     SetActiveCharacterIndex(0);
@@ -195,7 +195,7 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     mpAnimComboBox->blockSignals(true);
     mpAnimComboBox->clear();
 
-    for (u32 iAnim = 0; iAnim < mpSet->NumAnimations(); iAnim++)
+    for (uint32 iAnim = 0; iAnim < mpSet->NumAnimations(); iAnim++)
         mpAnimComboBox->addItem( TO_QSTRING(mpSet->Animation(iAnim)->Name) );
 
     SetActiveAnimation(0);
@@ -276,7 +276,7 @@ void CCharacterEditor::RefreshViewport()
     ui->Viewport->Render();
 }
 
-void CCharacterEditor::OnViewportHoverBoneChanged(u32 BoneID)
+void CCharacterEditor::OnViewportHoverBoneChanged(uint32 BoneID)
 {
     if (BoneID == 0xFFFFFFFF)
         ui->StatusBar->clearMessage();
@@ -286,7 +286,7 @@ void CCharacterEditor::OnViewportHoverBoneChanged(u32 BoneID)
 
 void CCharacterEditor::OnViewportClick()
 {
-    u32 HoverBoneID = ui->Viewport->HoverBoneID();
+    uint32 HoverBoneID = ui->Viewport->HoverBoneID();
     CSkeleton *pSkel = (mpSet ? mpSet->Character(mCurrentChar)->pSkeleton : nullptr);
     CBone *pBone = (pSkel ? pSkel->BoneByID(HoverBoneID) : nullptr);
 
@@ -313,13 +313,13 @@ void CCharacterEditor::OnSkeletonTreeSelectionChanged(const QModelIndex& rkIndex
 void CCharacterEditor::SetActiveCharacterIndex(int CharIndex)
 {
     mCurrentChar = CharIndex;
-    mpCharNode->SetActiveChar((u32) CharIndex);
+    mpCharNode->SetActiveChar((uint32) CharIndex);
 }
 
 void CCharacterEditor::SetActiveAnimation(int AnimIndex)
 {
     mCurrentAnim = AnimIndex;
-    mpCharNode->SetActiveAnim((u32) AnimIndex);
+    mpCharNode->SetActiveAnim((uint32) AnimIndex);
 
     ui->AnimSlider->blockSignals(true);
     ui->AnimSlider->setMaximum((int) (CurrentAnimation() ? CurrentAnimation()->Duration() * 1000 : 0));
@@ -339,7 +339,7 @@ void CCharacterEditor::PrevAnim()
 
 void CCharacterEditor::NextAnim()
 {
-    u32 MaxAnim = (mpSet ? mpSet->NumAnimations() - 1 : 0);
+    uint32 MaxAnim = (mpSet ? mpSet->NumAnimations() - 1 : 0);
     if (mCurrentAnim < MaxAnim) SetActiveAnimation(mCurrentAnim + 1);
 }
 
@@ -363,12 +363,12 @@ void CCharacterEditor::SetAnimTime(float Time)
     mpCharNode->SetAnimTime(Time);
 
     CAnimation *pAnim = CurrentAnimation();
-    u32 NumKeys = 1, CurKey = 0;
+    uint32 NumKeys = 1, CurKey = 0;
 
     if (pAnim)
     {
         NumKeys = pAnim->NumKeys();
-        CurKey = Math::Min<u32>((u32) (Time / pAnim->TickInterval()) + 1, NumKeys - 1);
+        CurKey = Math::Min<uint32>((uint32) (Time / pAnim->TickInterval()) + 1, NumKeys - 1);
     }
 
     ui->FrameLabel->setText(QString("Frame %1 / %2 (%3s/%4s)").arg(CurKey).arg(NumKeys - 1).arg(mAnimTime, 0, 'f', 3).arg(pAnim ? pAnim->Duration() : 0.f, 0, 'f', 3));

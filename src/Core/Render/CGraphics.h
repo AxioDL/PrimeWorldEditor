@@ -6,9 +6,9 @@
 #include "Core/OpenGL/CVertexArrayManager.h"
 #include "Core/Resource/CLight.h"
 #include <Common/CColor.h>
-#include <Math/CMatrix4f.h>
-#include <Math/CVector3f.h>
-#include <Math/CVector4f.h>
+#include <Common/Math/CMatrix4f.h>
+#include <Common/Math/CVector3f.h>
+#include <Common/Math/CVector4f.h>
 #include <GL/glew.h>
 
 /**
@@ -25,8 +25,8 @@ class CGraphics
     static CUniformBuffer *mpPixelBlockBuffer;
     static CUniformBuffer *mpLightBlockBuffer;
     static CUniformBuffer *mpBoneTransformBuffer;
-    static u32 mContextIndices;
-    static u32 mActiveContext;
+    static uint32 mContextIndices;
+    static uint32 mActiveContext;
     static bool mInitialized;
     static std::vector<CVertexArrayManager*> mVAMs;
     static bool mIdentityBoneTransforms;
@@ -81,7 +81,7 @@ public:
     // Lighting-related
     enum ELightingMode { eNoLighting, eBasicLighting, eWorldLighting };
     static ELightingMode sLightMode;
-    static u32 sNumLights;
+    static uint32 sNumLights;
     static const CColor skDefaultAmbientColor;
     static CColor sAreaAmbientColor;
     static float sWorldLightMultiplier;
@@ -99,10 +99,10 @@ public:
     static GLuint PixelBlockBindingPoint();
     static GLuint LightBlockBindingPoint();
     static GLuint BoneTransformBlockBindingPoint();
-    static u32 GetContextIndex();
-    static u32 GetActiveContext();
-    static void ReleaseContext(u32 Index);
-    static void SetActiveContext(u32 Index);
+    static uint32 GetContextIndex();
+    static uint32 GetActiveContext();
+    static void ReleaseContext(uint32 Index);
+    static void SetActiveContext(uint32 Index);
     static void SetDefaultLighting();
     static void SetupAmbientColor();
     static void SetIdentityMVP();

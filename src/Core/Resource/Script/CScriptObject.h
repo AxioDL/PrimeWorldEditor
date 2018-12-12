@@ -24,9 +24,9 @@ class CScriptObject
     CScriptTemplate *mpTemplate;
     CGameArea *mpArea;
     CScriptLayer *mpLayer;
-    u32 mVersion;
+    uint32 mVersion;
 
-    u32 mInstanceID;
+    uint32 mInstanceID;
     std::vector<CLink*> mOutLinks;
     std::vector<CLink*> mInLinks;
     std::vector<char> mPropertyData;
@@ -40,8 +40,8 @@ class CScriptObject
 
     TResPtr<CResource> mpDisplayAsset;
     TResPtr<CCollisionMeshGroup> mpCollision;
-    u32 mActiveCharIndex;
-    u32 mActiveAnimIndex;
+    uint32 mActiveCharIndex;
+    uint32 mActiveAnimIndex;
     bool mHasInGameModel;
 
     EVolumeShape mVolumeShape;
@@ -51,7 +51,7 @@ class CScriptObject
     mutable bool mIsCheckingNearVisibleActivation;
 
 public:
-    CScriptObject(u32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
+    CScriptObject(uint32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);
     ~CScriptObject();
 
     void CopyProperties(CScriptObject* pObject);
@@ -60,11 +60,11 @@ public:
     void EvaluateCollisionModel();
     void EvaluateVolume();
     bool IsEditorProperty(IProperty *pProp);
-    void SetLayer(CScriptLayer *pLayer, u32 NewLayerIndex = -1);
-    u32 LayerIndex() const;
+    void SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex = -1);
+    uint32 LayerIndex() const;
     bool HasNearVisibleActivation() const;
 
-    void AddLink(ELinkType Type, CLink *pLink, u32 Index = -1);
+    void AddLink(ELinkType Type, CLink *pLink, uint32 Index = -1);
     void RemoveLink(ELinkType Type, CLink *pLink);
     void BreakAllLinks();
 
@@ -73,11 +73,11 @@ public:
     CGameTemplate* GameTemplate() const                             { return mpTemplate->GameTemplate(); }
     CGameArea* Area() const                                         { return mpArea; }
     CScriptLayer* Layer() const                                     { return mpLayer; }
-    u32 Version() const                                             { return mVersion; }
-    u32 ObjectTypeID() const                                        { return mpTemplate->ObjectID(); }
-    u32 InstanceID() const                                          { return mInstanceID; }
-    u32 NumLinks(ELinkType Type) const                              { return (Type == eIncoming ? mInLinks.size() : mOutLinks.size()); }
-    CLink* Link(ELinkType Type, u32 Index) const                    { return (Type == eIncoming ? mInLinks[Index] : mOutLinks[Index]); }
+    uint32 Version() const                                          { return mVersion; }
+    uint32 ObjectTypeID() const                                     { return mpTemplate->ObjectID(); }
+    uint32 InstanceID() const                                       { return mInstanceID; }
+    uint32 NumLinks(ELinkType Type) const                           { return (Type == eIncoming ? mInLinks.size() : mOutLinks.size()); }
+    CLink* Link(ELinkType Type, uint32 Index) const                 { return (Type == eIncoming ? mInLinks[Index] : mOutLinks[Index]); }
     void* PropertyData() const                                      { return (void*) mPropertyData.data(); }
 
     CVector3f Position() const                  { return mPosition.IsValid() ? mPosition.Get() : CVector3f::skZero; }
@@ -88,8 +88,8 @@ public:
     bool HasInGameModel() const                 { return mHasInGameModel; }
     CStructRef LightParameters() const          { return mLightParameters; }
     CResource* DisplayAsset() const             { return mpDisplayAsset; }
-    u32 ActiveCharIndex() const                 { return mActiveCharIndex; }
-    u32 ActiveAnimIndex() const                 { return mActiveAnimIndex; }
+    uint32 ActiveCharIndex() const              { return mActiveCharIndex; }
+    uint32 ActiveAnimIndex() const              { return mActiveAnimIndex; }
     CCollisionMeshGroup* Collision() const      { return mpCollision; }
     EVolumeShape VolumeShape() const            { return mVolumeShape; }
     float VolumeScale() const                   { return mVolumeScale; }

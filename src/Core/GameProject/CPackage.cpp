@@ -3,7 +3,7 @@
 #include "CGameProject.h"
 #include "Core/CompressionUtil.h"
 #include "Core/Resource/Cooker/CWorldCooker.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <Common/FileIO.h>
 #include <Common/FileUtil.h>
 #include <Common/Serialization/XML.h>
@@ -69,7 +69,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
     CPackageDependencyListBuilder Builder(this);
     std::list<CAssetID> AssetList;
     Builder.BuildDependencyList(true, AssetList);
-    Log::Write(TString::FromInt32(AssetList.size(), 0, 10) + " assets in " + Name() + ".pak");
+    debugf("%d assets in %s.pak", AssetList.size(), *Name());
 
     // Write new pak
     TString PakPath = CookedPackagePath(false);
@@ -77,19 +77,19 @@ void CPackage::Cook(IProgressNotifier *pProgress)
 
     if (!Pak.IsValid())
     {
-        Log::Error("Couldn't cook package " + CookedPackagePath(true) + "; unable to open package for writing");
+        errorf("Couldn't cook package %s; unable to open package for writing", *CookedPackagePath(true));
         return;
     }
 
     EGame Game = mpProject->Game();
-    u32 Alignment = (Game <= EGame::CorruptionProto ? 0x20 : 0x40);
-    u32 AlignmentMinusOne = Alignment - 1;
+    uint32 Alignment = (Game <= EGame::CorruptionProto ? 0x20 : 0x40);
+    uint32 AlignmentMinusOne = Alignment - 1;
 
-    u32 TocOffset = 0;
-    u32 NamesSize = 0;
-    u32 ResTableOffset = 0;
-    u32 ResTableSize = 0;
-    u32 ResDataSize = 0;
+    uint32 TocOffset = 0;
+    uint32 NamesSize = 0;
+    uint32 ResTableOffset = 0;
+    uint32 ResTableSize = 0;
+    uint32 ResDataSize = 0;
 
     // Write MP1 pak header
     if (Game <= EGame::CorruptionProto)
@@ -123,7 +123,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
         Pak.WriteToBoundary(0x40, 0);
 
         // Named Resources
-        u32 NamesStart = Pak.Tell();
+        uint32 NamesStart = Pak.Tell();
         Pak.WriteLong(mResources.size());
 
         for (auto Iter = mResources.begin(); Iter != mResources.end(); Iter++)
@@ -143,7 +143,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
     Pak.WriteLong(AssetList.size());
     CAssetID Dummy = CAssetID::InvalidID(Game);
 
-    for (u32 iRes = 0; iRes < AssetList.size(); iRes++)
+    for (uint32 iRes = 0; iRes < AssetList.size(); iRes++)
     {
         Pak.WriteLongLong(0);
         Dummy.Write(Pak);
@@ -157,18 +157,18 @@ void CPackage::Cook(IProgressNotifier *pProgress)
     struct SResourceTableInfo
     {
         CResourceEntry *pEntry;
-        u32 Offset;
-        u32 Size;
+        uint32 Offset;
+        uint32 Size;
         bool Compressed;
     };
     std::vector<SResourceTableInfo> ResourceTableData(AssetList.size());
-    u32 ResIdx = 0;
-    u32 ResDataOffset = Pak.Tell();
+    uint32 ResIdx = 0;
+    uint32 ResDataOffset = Pak.Tell();
 
     for (auto Iter = AssetList.begin(); Iter != AssetList.end() && !pProgress->ShouldCancel(); Iter++, ResIdx++)
     {
         // Initialize entry, recook assets if needed
-        u32 AssetOffset = Pak.Tell();
+        uint32 AssetOffset = Pak.Tell();
         CAssetID ID = *Iter;
         CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
         ASSERT(pEntry != nullptr);
@@ -193,15 +193,15 @@ void CPackage::Cook(IProgressNotifier *pProgress)
         // Load resource data
         CFileInStream CookedAsset(pEntry->CookedAssetPath(), IOUtil::eBigEndian);
         ASSERT(CookedAsset.IsValid());
-        u32 ResourceSize = CookedAsset.Size();
+        uint32 ResourceSize = CookedAsset.Size();
 
-        std::vector<u8> ResourceData(ResourceSize);
+        std::vector<uint8> ResourceData(ResourceSize);
         CookedAsset.ReadBytes(ResourceData.data(), ResourceData.size());
 
         // Check if this asset should be compressed; there are a few resource types that are
         // always compressed, and some types that are compressed if they're over a certain size
         EResType Type = pEntry->ResourceType();
-        u32 CompressThreshold = (Game <= EGame::CorruptionProto ? 0x400 : 0x80);
+        uint32 CompressThreshold = (Game <= EGame::CorruptionProto ? 0x400 : 0x80);
 
         bool ShouldAlwaysCompress = (Type == eTexture || Type == eModel || Type == eSkin ||
                                      Type == eAnimSet || Type == eAnimation || Type == eFont);
@@ -230,8 +230,8 @@ void CPackage::Cook(IProgressNotifier *pProgress)
 
         else
         {
-            u32 CompressedSize;
-            std::vector<u8> CompressedData(ResourceData.size() * 2);
+            uint32 CompressedSize;
+            std::vector<uint8> CompressedData(ResourceData.size() * 2);
             bool Success = false;
 
             if (Game <= EGame::EchoesDemo || Game == EGame::DKCReturns)
@@ -242,9 +242,9 @@ void CPackage::Cook(IProgressNotifier *pProgress)
             // Make sure that the compressed data is actually smaller, accounting for padding + uncompressed size value
             if (Success)
             {
-                u32 CompressionHeaderSize = (Game <= EGame::CorruptionProto ? 4 : 0x10);
-                u32 PaddedUncompressedSize = (ResourceSize + AlignmentMinusOne) & ~AlignmentMinusOne;
-                u32 PaddedCompressedSize = (CompressedSize + CompressionHeaderSize + AlignmentMinusOne) & ~AlignmentMinusOne;
+                uint32 CompressionHeaderSize = (Game <= EGame::CorruptionProto ? 4 : 0x10);
+                uint32 PaddedUncompressedSize = (ResourceSize + AlignmentMinusOne) & ~AlignmentMinusOne;
+                uint32 PaddedCompressedSize = (CompressedSize + CompressionHeaderSize + AlignmentMinusOne) & ~AlignmentMinusOne;
                 Success = (PaddedCompressedSize < PaddedUncompressedSize);
             }
 
@@ -307,7 +307,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
         // Write resource table for real
         Pak.Seek(ResTableOffset+4, SEEK_SET);
 
-        for (u32 iRes = 0; iRes < AssetList.size(); iRes++)
+        for (uint32 iRes = 0; iRes < AssetList.size(); iRes++)
         {
             const SResourceTableInfo& rkInfo = ResourceTableData[iRes];
             CResourceEntry *pEntry = rkInfo.pEntry;
@@ -321,7 +321,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
 
         // Clear recook flag
         mNeedsRecook = false;
-        Log::Write("Finished writing " + PakPath);
+        debugf("Finished writing %s", *PakPath);
     }
 
     Save();
@@ -346,31 +346,31 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
 
     if (!Pak.IsValid() || Pak.Size() == 0)
     {
-        Log::Error("Failed to compare to original asset list; couldn't open the original pak");
+        errorf("Failed to compare to original asset list; couldn't open the original pak");
         return;
     }
 
     // Determine pak version
-    u32 PakVersion = Pak.ReadLong();
+    uint32 PakVersion = Pak.ReadLong();
     std::set<CAssetID> OldListSet;
 
     // Read MP1/2 pak
     if (PakVersion == 0x00030005)
     {
         Pak.Seek(0x4, SEEK_CUR);
-        u32 NumNamedResources = Pak.ReadLong();
+        uint32 NumNamedResources = Pak.ReadLong();
 
-        for (u32 iName = 0; iName < NumNamedResources; iName++)
+        for (uint32 iName = 0; iName < NumNamedResources; iName++)
         {
             Pak.Seek(0x8, SEEK_CUR);
-            u32 NameLen = Pak.ReadLong();
+            uint32 NameLen = Pak.ReadLong();
             Pak.Seek(NameLen, SEEK_CUR);
         }
 
         // Build a set out of the original pak resource list
-        u32 NumResources = Pak.ReadLong();
+        uint32 NumResources = Pak.ReadLong();
 
-        for (u32 iRes = 0; iRes < NumResources; iRes++)
+        for (uint32 iRes = 0; iRes < NumResources; iRes++)
         {
             Pak.Seek(0x8, SEEK_CUR);
             OldListSet.insert( CAssetID(Pak, e32Bit) );
@@ -386,15 +386,15 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         // Skip named resources
         Pak.Seek(0x44, SEEK_SET);
         CFourCC StringSecType = Pak.ReadLong();
-        u32 StringSecSize = Pak.ReadLong();
+        uint32 StringSecSize = Pak.ReadLong();
         ASSERT(StringSecType == "STRG");
 
         Pak.Seek(0x80 + StringSecSize, SEEK_SET);
 
         // Read resource table
-        u32 NumResources = Pak.ReadLong();
+        uint32 NumResources = Pak.ReadLong();
 
-        for (u32 iRes = 0; iRes < NumResources; iRes++)
+        for (uint32 iRes = 0; iRes < NumResources; iRes++)
         {
             Pak.Seek(0x8, SEEK_CUR);
             OldListSet.insert( CAssetID(Pak, e64Bit) );
@@ -411,7 +411,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         {
             CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
             TString Extension = (pEntry ? "." + pEntry->CookedExtension() : "");
-            Log::Error("Missing resource: " + ID.ToString() + Extension);
+            warnf("Missing resource: %s%s", *ID.ToString(), *Extension);
         }
     }
 
@@ -424,7 +424,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         {
             CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
             TString Extension = (pEntry ? "." + pEntry->CookedExtension() : "");
-            Log::Error("Extra resource: " + ID.ToString() + Extension);
+            warnf("Extra resource: %s%s", *ID.ToString(), *Extension);
         }
     }
 }

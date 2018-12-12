@@ -2,7 +2,7 @@
 #include "CScriptNode.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Resource/Script/Property/IProperty.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 
 CScriptAttachNode::CScriptAttachNode(CScene *pScene, const SAttachment& rkAttachment, CScriptNode *pParent)
     : CSceneNode(pScene, -1, pParent)
@@ -117,7 +117,7 @@ void CScriptAttachNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, cons
         rTester.AddNodeModel(this, pModel);
 }
 
-SRayIntersection CScriptAttachNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
+SRayIntersection CScriptAttachNode::RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo)
 {
     FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 

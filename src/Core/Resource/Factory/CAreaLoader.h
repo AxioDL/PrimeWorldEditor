@@ -17,38 +17,38 @@ class CAreaLoader
     IInputStream *mpMREA;
     CSectionMgrIn *mpSectionMgr;
     EGame mVersion;
-    u32 mNumMeshes;
-    u32 mNumLayers;
+    uint32 mNumMeshes;
+    uint32 mNumLayers;
 
     // Object connections
-    std::unordered_map<u32, std::vector<CLink*>> mConnectionMap;
+    std::unordered_map<uint32, std::vector<CLink*>> mConnectionMap;
 
     // Compression
-    u8 *mpDecmpBuffer;
+    uint8 *mpDecmpBuffer;
     bool mHasDecompressedBuffer;
     std::vector<SCompressedCluster> mClusters;
-    u32 mTotalDecmpSize;
+    uint32 mTotalDecmpSize;
 
     // Block numbers
-    u32 mGeometryBlockNum;
-    u32 mScriptLayerBlockNum;
-    u32 mCollisionBlockNum;
-    u32 mUnknownBlockNum;
-    u32 mLightsBlockNum;
-    u32 mVisiBlockNum;
-    u32 mPathBlockNum;
-    u32 mOctreeBlockNum;
-    u32 mScriptGeneratorBlockNum;
-    u32 mFFFFBlockNum;
-    u32 mPTLABlockNum;
-    u32 mEGMCBlockNum;
-    u32 mBoundingBoxesBlockNum;
-    u32 mDependenciesBlockNum;
-    u32 mGPUBlockNum;
-    u32 mRSOBlockNum;
+    uint32 mGeometryBlockNum;
+    uint32 mScriptLayerBlockNum;
+    uint32 mCollisionBlockNum;
+    uint32 mUnknownBlockNum;
+    uint32 mLightsBlockNum;
+    uint32 mVisiBlockNum;
+    uint32 mPathBlockNum;
+    uint32 mOctreeBlockNum;
+    uint32 mScriptGeneratorBlockNum;
+    uint32 mFFFFBlockNum;
+    uint32 mPTLABlockNum;
+    uint32 mEGMCBlockNum;
+    uint32 mBoundingBoxesBlockNum;
+    uint32 mDependenciesBlockNum;
+    uint32 mGPUBlockNum;
+    uint32 mRSOBlockNum;
 
     struct SCompressedCluster {
-        u32 BufferSize, DecompressedSize, CompressedSize, NumSections;
+        uint32 BufferSize, DecompressedSize, CompressedSize, NumSections;
     };
 
     CAreaLoader();
@@ -82,7 +82,7 @@ class CAreaLoader
 
 public:
     static CGameArea* LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry);
-    static EGame GetFormatVersion(u32 Version);
+    static EGame GetFormatVersion(uint32 Version);
 };
 
 #endif // CAREALOADER_H

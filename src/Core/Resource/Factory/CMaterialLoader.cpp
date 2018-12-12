@@ -15,7 +15,7 @@ CMaterialLoader::~CMaterialLoader()
 {
 }
 
-FVertexDescription CMaterialLoader::ConvertToVertexDescription(u32 VertexFlags)
+FVertexDescription CMaterialLoader::ConvertToVertexDescription(uint32 VertexFlags)
 {
     FVertexDescription Desc;
     if (VertexFlags & 0x00000003) Desc |= ePosition;
@@ -44,24 +44,24 @@ FVertexDescription CMaterialLoader::ConvertToVertexDescription(u32 VertexFlags)
 void CMaterialLoader::ReadPrimeMatSet()
 {
     // Textures
-    u32 NumTextures = mpFile->ReadLong();
+    uint32 NumTextures = mpFile->ReadLong();
     mTextures.resize(NumTextures);
 
-    for (u32 iTex = 0; iTex < NumTextures; iTex++)
+    for (uint32 iTex = 0; iTex < NumTextures; iTex++)
     {
-        u32 TextureID = mpFile->ReadLong();
+        uint32 TextureID = mpFile->ReadLong();
         mTextures[iTex] = gpResourceStore->LoadResource<CTexture>(TextureID);
     }
 
     // Materials
-    u32 NumMats = mpFile->ReadLong();
-    std::vector<u32> Offsets(NumMats);
-    for (u32 iMat = 0; iMat < NumMats; iMat++)
+    uint32 NumMats = mpFile->ReadLong();
+    std::vector<uint32> Offsets(NumMats);
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
         Offsets[iMat] = mpFile->ReadLong();
 
-    u32 MatsStart = mpFile->Tell();
+    uint32 MatsStart = mpFile->Tell();
     mpSet->mMaterials.resize(NumMats);
-    for (u32 iMat = 0; iMat < NumMats; iMat++)
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
         mpSet->mMaterials[iMat] = ReadPrimeMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
@@ -79,12 +79,12 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     pMat->mOptions = (mpFile->ReadLong() & CMaterial::eAllMP1Settings);
 
     // Textures
-    u32 NumTextures = mpFile->ReadLong();
-    std::vector<u32> TextureIndices(NumTextures);
+    uint32 NumTextures = mpFile->ReadLong();
+    std::vector<uint32> TextureIndices(NumTextures);
 
-    for (u32 iTex = 0; iTex < NumTextures; iTex++)
+    for (uint32 iTex = 0; iTex < NumTextures; iTex++)
     {
-        u32 Index = mpFile->ReadLong();
+        uint32 Index = mpFile->ReadLong();
         TextureIndices[iTex] = Index;
     }
 
@@ -102,9 +102,9 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     // Konst
     if (pMat->mOptions & CMaterial::eKonst)
     {
-        u32 KonstCount = mpFile->ReadLong();
+        uint32 KonstCount = mpFile->ReadLong();
 
-        for (u32 iKonst = 0; iKonst < KonstCount; iKonst++)
+        for (uint32 iKonst = 0; iKonst < KonstCount; iKonst++)
         {
             if (iKonst >= 4) break;
             pMat->mKonstColors[iKonst] = CColor(*mpFile, true);
@@ -119,33 +119,33 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     // Indirect texture
     if (pMat->mOptions & CMaterial::eIndStage)
     {
-        u32 IndTexIndex = mpFile->ReadLong();
+        uint32 IndTexIndex = mpFile->ReadLong();
         pMat->mpIndirectTexture = mTextures[TextureIndices[IndTexIndex]];
     }
 
     // Color channels
-    u32 ChanCount = mpFile->ReadLong();
+    uint32 ChanCount = mpFile->ReadLong();
     pMat->mLightingEnabled = ((mpFile->ReadLong() & 0x1) == 1);
     mpFile->Seek((4 * ChanCount) - 4, SEEK_CUR);
 
     // TEV
-    u32 TevCount = mpFile->ReadLong();
+    uint32 TevCount = mpFile->ReadLong();
     pMat->mPasses.resize(TevCount);
 
-    for (u32 iTev = 0; iTev < TevCount; iTev++)
+    for (uint32 iTev = 0; iTev < TevCount; iTev++)
     {
         CMaterialPass *pPass = new CMaterialPass(pMat);
 
-        u32 ColorIn = mpFile->ReadLong();
-        u32 AlphaIn = mpFile->ReadLong();
+        uint32 ColorIn = mpFile->ReadLong();
+        uint32 AlphaIn = mpFile->ReadLong();
         pPass->mColorOutput = (ETevOutput) ((mpFile->ReadLong() & 0x600) >> 9);
         pPass->mAlphaOutput = (ETevOutput) ((mpFile->ReadLong() & 0x600) >> 9);
         mpFile->Seek(0x1, SEEK_CUR); // Padding byte
         pPass->mKAlphaSel = (ETevKSel) mpFile->ReadByte();
         pPass->mKColorSel = (ETevKSel) mpFile->ReadByte();
-        pPass->mRasSel = (ETevRasSel) (u8) mpFile->ReadByte();
+        pPass->mRasSel = (ETevRasSel) (uint8) mpFile->ReadByte();
 
-        for (u32 iInput = 0; iInput < 4; iInput++)
+        for (uint32 iInput = 0; iInput < 4; iInput++)
         {
             pPass->mColorInputs[iInput] = (ETevColorInput) ((ColorIn >> (iInput * 5)) & 0xF);
             pPass->mAlphaInputs[iInput] = (ETevAlphaInput) ((AlphaIn >> (iInput * 5)) & 0x7);
@@ -154,13 +154,13 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
         pMat->mPasses[iTev] = pPass;
     }
 
-    std::vector<u8> TevCoordIndices(TevCount);
-    for (u32 iTev = 0; iTev < TevCount; iTev++)
+    std::vector<uint8> TevCoordIndices(TevCount);
+    for (uint32 iTev = 0; iTev < TevCount; iTev++)
     {
         mpFile->Seek(0x2, SEEK_CUR);
         CMaterialPass *pPass = pMat->Pass(iTev);
 
-        u8 TexSel = mpFile->ReadByte();
+        uint8 TexSel = mpFile->ReadByte();
 
         if ((TexSel == 0xFF) || (TexSel >= TextureIndices.size()))
             pPass->mpTexture = nullptr;
@@ -171,22 +171,22 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     }
 
     // TexGens
-    u32 TexGenCount = mpFile->ReadLong();
-    std::vector<u32> TexGens(TexGenCount);
+    uint32 TexGenCount = mpFile->ReadLong();
+    std::vector<uint32> TexGens(TexGenCount);
 
-    for (u32 iTex = 0; iTex < TexGenCount; iTex++)
+    for (uint32 iTex = 0; iTex < TexGenCount; iTex++)
         TexGens[iTex] = mpFile->ReadLong();
 
     // UV animations
     mpFile->Seek(0x4, SEEK_CUR); // Skipping UV anims size
-    u32 NumAnims = mpFile->ReadLong();
+    uint32 NumAnims = mpFile->ReadLong();
 
     struct SUVAnim {
-        s32 Mode; float Params[4];
+        int32 Mode; float Params[4];
     };
     std::vector <SUVAnim> Anims(NumAnims);
 
-    for (u32 iAnim = 0; iAnim < NumAnims; iAnim++)
+    for (uint32 iAnim = 0; iAnim < NumAnims; iAnim++)
     {
         Anims[iAnim].Mode = mpFile->ReadLong();
 
@@ -210,16 +210,16 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
         case 6: // Model Matrix
             break;
         default:
-            Log::FileError(mpFile->GetSourceString(), mpFile->Tell() - 4, "Unsupported animation mode encountered: " + TString::HexString((u32) Anims[iAnim].Mode));
+            errorf("%s [0x%X]: Unsupported animation mode encountered: %d", *mpFile->GetSourceString(), mpFile->Tell() - 4, Anims[iAnim].Mode);
             break;
         }
     }
 
     // Move TexGen and anims into passes
-    for (u32 iPass = 0; iPass < pMat->mPasses.size(); iPass++)
+    for (uint32 iPass = 0; iPass < pMat->mPasses.size(); iPass++)
     {
         CMaterialPass *pPass = pMat->mPasses[iPass];
-        u8 TexCoordIdx = TevCoordIndices[iPass];
+        uint8 TexCoordIdx = TevCoordIndices[iPass];
 
         if ((TexGens.size() == 0) || (TexCoordIdx == 0xFF))
         {
@@ -229,11 +229,11 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
 
         else
         {
-            pPass->mTexCoordSource = (u8) ((TexGens[TexCoordIdx] & 0x1F0) >> 4);
+            pPass->mTexCoordSource = (uint8) ((TexGens[TexCoordIdx] & 0x1F0) >> 4);
 
             // Next step - find which animation is used by this pass
             // Texture matrix is a reliable way to tell, because every UV anim mode generates a texture matrix
-            u32 TexMtxIdx = ((TexGens[TexCoordIdx] & 0x3E00) >> 9) / 3;
+            uint32 TexMtxIdx = ((TexGens[TexCoordIdx] & 0x3E00) >> 9) / 3;
 
             if (TexMtxIdx == 10) pPass->mAnimMode = eNoUVAnim; // 10 is identity matrix; indicates no UV anim for this pass
 
@@ -241,7 +241,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
             {
                 pPass->mAnimMode = (EUVAnimMode) Anims[TexMtxIdx].Mode;
 
-                for (u32 iParam = 0; iParam < 4; iParam++)
+                for (uint32 iParam = 0; iParam < 4; iParam++)
                     pPass->mAnimParams[iParam] = Anims[TexMtxIdx].Params[iParam];
             }
         }
@@ -252,13 +252,13 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
 
 void CMaterialLoader::ReadCorruptionMatSet()
 {
-    u32 NumMats = mpFile->ReadLong();
+    uint32 NumMats = mpFile->ReadLong();
     mpSet->mMaterials.resize(NumMats);
 
-    for (u32 iMat = 0; iMat < NumMats; iMat++)
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
-        u32 Size = mpFile->ReadLong();
-        u32 Next = mpFile->Tell() + Size;
+        uint32 Size = mpFile->ReadLong();
+        uint32 Next = mpFile->Tell() + Size;
         mpSet->mMaterials[iMat] = ReadCorruptionMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
         mpSet->mMaterials[iMat]->mName = TString("Material #") + TString::FromInt32(iMat + 1, 0, 10);
@@ -273,7 +273,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
     pMat->mEnableBloom = true;
 
     // Flags
-    u32 Flags = mpFile->ReadLong();
+    uint32 Flags = mpFile->ReadLong();
     if (Flags & 0x8)
     {
         pMat->mBlendSrcFac = GL_SRC_ALPHA;
@@ -317,7 +317,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
         if (Type == "INT ")
         {
             CFourCC IntType = mpFile->ReadLong();
-            u8 IntVal = (u8) mpFile->ReadLong();
+            uint8 IntVal = (uint8) mpFile->ReadLong();
 
             if (IntType == "OPAC")
             {
@@ -352,14 +352,14 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
             CMaterialPass *pPass = new CMaterialPass(pMat);
             mPassOffsets.push_back(mpFile->Tell() - 4);
 
-            u32 Size = mpFile->ReadLong();
-            u32 Next = Size + mpFile->Tell();
+            uint32 Size = mpFile->ReadLong();
+            uint32 Next = Size + mpFile->Tell();
 
             pPass->mPassType = mpFile->ReadLong();
             pPass->mSettings = (CMaterialPass::EPassSettings) mpFile->ReadLong();
 
             // Skip passes that don't have a texture. Honestly don't really know what to do with these right now
-            u64 TextureID = mpFile->ReadLongLong();
+            uint64 TextureID = mpFile->ReadLongLong();
             if (TextureID == 0xFFFFFFFFFFFFFFFF)
             {
                 //Log::FileWarning(mpFile->GetSourceString(), mPassOffsets.back(), "Skipping " + pPass->mPassType.ToString() + " pass with no texture");
@@ -369,8 +369,8 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
 
             pPass->mpTexture = gpResourceStore->LoadResource<CTexture>(TextureID);
 
-            pPass->mTexCoordSource = 4 + (u8) mpFile->ReadLong();
-            u32 AnimSize = mpFile->ReadLong();
+            pPass->mTexCoordSource = 4 + (uint8) mpFile->ReadLong();
+            uint32 AnimSize = mpFile->ReadLong();
 
             if (AnimSize > 0)
             {
@@ -403,7 +403,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
                 case 11:
                     break;
                 default:
-                    Log::FileError(mpFile->GetSourceString(), mpFile->Tell() - 8, "Unsupported animation mode encountered: " + TString::HexString((u32) pPass->mAnimMode));
+                    errorf("%s [0x%X]: Unsupported animation mode encountered: %d", *mpFile->GetSourceString(), mpFile->Tell() - 8, pPass->mAnimMode);
                     break;
                 }
 
@@ -426,11 +426,11 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
 
 void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
 {
-    u32 NumPass = pMat->PassCount();
+    uint32 NumPass = pMat->PassCount();
     bool Lightmap = false;
     bool AlphaBlended = ((pMat->mBlendSrcFac == GL_SRC_ALPHA) && (pMat->mBlendDstFac == GL_ONE_MINUS_SRC_ALPHA));
 
-    for (u32 iPass = 0; iPass < NumPass; iPass++)
+    for (uint32 iPass = 0; iPass < NumPass; iPass++)
     {
         CMaterialPass *pPass = pMat->Pass(iPass);
         CFourCC Type = pPass->Type();
@@ -611,8 +611,7 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
 
         else
         {
-            //
-            Log::FileError(mpFile->GetSourceString(), mPassOffsets[iPass], "Unsupported material pass type: " + Type.ToString());
+            errorf("%s [0x%X]: Unsupported material pass type: %s", *mpFile->GetSourceString(), mPassOffsets[iPass], *Type.ToString());
             pPass->mEnabled = false;
         }
     }
@@ -664,7 +663,7 @@ CMaterialSet* CMaterialLoader::ImportAssimpMaterials(const aiScene *pScene, EGam
     CMaterialSet *pOut = new CMaterialSet();
     pOut->mMaterials.reserve(pScene->mNumMaterials);
 
-    for (u32 iMat = 0; iMat < pScene->mNumMaterials; iMat++)
+    for (uint32 iMat = 0; iMat < pScene->mNumMaterials; iMat++)
     {
         CMaterial *pMat = Loader.LoadAssimpMaterial(pScene->mMaterials[iMat]);
         pOut->mMaterials.push_back(pMat);

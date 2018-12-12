@@ -8,13 +8,13 @@
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/CLight.h"
 #include "Core/CRayCollisionTester.h"
-#include <Common/types.h>
-#include <Math/CAABox.h>
-#include <Math/CQuaternion.h>
-#include <Math/CRay.h>
-#include <Math/CTransform4f.h>
-#include <Math/CVector3f.h>
-#include <Math/ETransformSpace.h>
+#include <Common/BasicTypes.h>
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CQuaternion.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CTransform4f.h>
+#include <Common/Math/CVector3f.h>
+#include <Common/Math/ETransformSpace.h>
 
 class CRenderer;
 class CScene;
@@ -30,10 +30,10 @@ private:
     bool _mInheritsRotation;
     bool _mInheritsScale;
 
-    u32 _mID;
+    uint32 _mID;
 
 protected:
-    static u32 smNumNodes;
+    static uint32 smNumNodes;
     TString mName;
     CSceneNode *mpParent;
     CScene *mpScene;
@@ -48,13 +48,13 @@ protected:
     bool mVisible;
     std::list<CSceneNode*> mChildren;
 
-    u32 mLightLayerIndex;
-    u32 mLightCount;
+    uint32 mLightLayerIndex;
+    uint32 mLightCount;
     CLight* mLights[8];
     CColor mAmbientColor;
 
 public:
-    explicit CSceneNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0);
+    explicit CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0);
     virtual ~CSceneNode();
     virtual ENodeType NodeType() = 0;
     virtual void PostLoad() {}
@@ -62,7 +62,7 @@ public:
     virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*rkViewInfo*/) {}
     virtual void DrawSelection();
     virtual void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo) = 0;
+    virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo) = 0;
     virtual bool AllowsTranslate() const { return true; }
     virtual bool AllowsRotate() const { return true; }
     virtual bool AllowsScale() const { return true; }
@@ -80,8 +80,8 @@ public:
     void LoadModelMatrix();
     void BuildLightList(CGameArea *pArea);
     void LoadLights(const SViewInfo& rkViewInfo);
-    void AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, u32 MatSet);
-    void DrawModelParts(CModel *pModel, FRenderOptions Options, u32 MatSet, ERenderCommand RenderCommand);
+    void AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32 MatSet);
+    void DrawModelParts(CModel *pModel, FRenderOptions Options, uint32 MatSet, ERenderCommand RenderCommand);
     void DrawBoundingBox() const;
     void DrawRotationArrow() const;
 
@@ -107,12 +107,12 @@ public:
     TString Name() const                    { return mName; }
     CSceneNode* Parent() const              { return mpParent; }
     CScene* Scene() const                   { return mpScene; }
-    u32 ID() const                          { return _mID; }
+    uint32 ID() const                       { return _mID; }
     CVector3f LocalPosition() const         { return mPosition; }
     CQuaternion LocalRotation() const       { return mRotation; }
     CVector3f LocalScale() const            { return mScale; }
     CVector3f CenterPoint() const           { return AABox().Center(); }
-    u32 LightLayerIndex() const             { return mLightLayerIndex; }
+    uint32 LightLayerIndex() const          { return mLightLayerIndex; }
     bool MarkedVisible() const              { return mVisible; }
     bool IsMouseHovering() const            { return mMouseHovering; }
     bool IsSelected() const                 { return mSelected; }
@@ -126,7 +126,7 @@ public:
     void SetRotation(const CQuaternion& rkRotation) { mRotation = rkRotation; MarkTransformChanged(); }
     void SetRotation(const CVector3f& rkRotEuler)   { mRotation = CQuaternion::FromEuler(rkRotEuler); MarkTransformChanged(); }
     void SetScale(const CVector3f& rkScale)         { mScale = rkScale; MarkTransformChanged(); }
-    void SetLightLayerIndex(u32 Index)              { mLightLayerIndex = Index; }
+    void SetLightLayerIndex(uint32 Index)           { mLightLayerIndex = Index; }
     void SetMouseHovering(bool Hovering)            { mMouseHovering = Hovering; }
     void SetSelected(bool Selected)                 { mSelected = Selected; }
     void SetVisible(bool Visible)                   { mVisible = Visible; }

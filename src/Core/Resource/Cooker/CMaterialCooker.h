@@ -10,11 +10,11 @@ class CMaterialCooker
     CMaterialSet *mpSet;
     CMaterial *mpMat;
     EGame mVersion;
-    std::vector<u32> mTextureIDs;
-    std::vector<u64> mMaterialHashes;
+    std::vector<uint32> mTextureIDs;
+    std::vector<uint64> mMaterialHashes;
 
     CMaterialCooker();
-    u32 ConvertFromVertexDescription(FVertexDescription VtxDesc);
+    uint32 ConvertFromVertexDescription(FVertexDescription VtxDesc);
     void WriteMatSetPrime(IOutputStream& rOut);
     void WriteMatSetCorruption(IOutputStream& rOut);
     void WriteMaterialPrime(IOutputStream& rOut);

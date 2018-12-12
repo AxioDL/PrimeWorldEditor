@@ -1,5 +1,5 @@
 #include "WTextureGLWidget.h"
-#include <Math/CTransform4f.h>
+#include <Common/Math/CTransform4f.h>
 #include <Core/GameProject/CResourceStore.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CGraphics.h>
@@ -146,7 +146,7 @@ void WTextureGLWidget::CalcCheckerCoords()
     }
 
     // Finally, apply translation/scale
-    for (u32 iCoord = 0; iCoord < 4; iCoord++)
+    for (uint32 iCoord = 0; iCoord < 4; iCoord++)
     {
         mCheckerCoords[iCoord] += Trans;
         mCheckerCoords[iCoord] *= 10.f;

@@ -4,7 +4,7 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
 {
     // For now we only load sound define IDs and the group ID!
     // Version check
-    u32 Check = rAGSC.PeekLong();
+    uint32 Check = rAGSC.PeekLong();
     EGame Game = (Check == 0x1 ? EGame::Echoes : EGame::Prime);
     CAudioGroup *pOut = new CAudioGroup(pEntry);
 
@@ -13,7 +13,7 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
     {
         rAGSC.ReadString();
         pOut->mGroupName = rAGSC.ReadString();
-        u32 PoolSize = rAGSC.ReadLong();
+        uint32 PoolSize = rAGSC.ReadLong();
         rAGSC.Seek(PoolSize + 0x4, SEEK_CUR);
     }
 
@@ -22,21 +22,21 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
         rAGSC.Seek(0x4, SEEK_CUR);
         pOut->mGroupName = rAGSC.ReadString();
         pOut->mGroupID = rAGSC.ReadShort();
-        u32 PoolSize = rAGSC.ReadLong();
+        uint32 PoolSize = rAGSC.ReadLong();
         rAGSC.Seek(0xC + PoolSize, SEEK_CUR);
     }
 
     // Read needed data from the Proj chunk
-    u16 Peek = rAGSC.PeekShort();
+    uint16 Peek = rAGSC.PeekShort();
 
     if (Peek != 0xFFFF)
     {
-        u32 ProjStart = rAGSC.Tell();
+        uint32 ProjStart = rAGSC.Tell();
         rAGSC.Seek(0x4, SEEK_CUR);
-        u16 GroupID = rAGSC.ReadShort();
-        u16 GroupType = rAGSC.ReadShort();
+        uint16 GroupID = rAGSC.ReadShort();
+        uint16 GroupType = rAGSC.ReadShort();
         rAGSC.Seek(0x14, SEEK_CUR);
-        u32 SfxTableStart = rAGSC.ReadLong();
+        uint32 SfxTableStart = rAGSC.ReadLong();
 
         if (Game == EGame::Prime)
             pOut->mGroupID = GroupID;
@@ -46,10 +46,10 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
         if (GroupType == 1)
         {
             rAGSC.Seek(ProjStart + SfxTableStart, SEEK_SET);
-            u16 NumSounds = rAGSC.ReadShort();
+            uint16 NumSounds = rAGSC.ReadShort();
             rAGSC.Seek(0x2, SEEK_CUR);
 
-            for (u32 iSfx = 0; iSfx < NumSounds; iSfx++)
+            for (uint32 iSfx = 0; iSfx < NumSounds; iSfx++)
             {
                 pOut->mDefineIDs.push_back( rAGSC.ReadShort() );
                 rAGSC.Seek(0x8, SEEK_CUR);
@@ -63,9 +63,9 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
 CAudioLookupTable* CAudioGroupLoader::LoadATBL(IInputStream& rATBL, CResourceEntry *pEntry)
 {
     CAudioLookupTable *pOut = new CAudioLookupTable(pEntry);
-    u32 NumMacroIDs = rATBL.ReadLong();
+    uint32 NumMacroIDs = rATBL.ReadLong();
 
-    for (u32 iMacro = 0; iMacro < NumMacroIDs; iMacro++)
+    for (uint32 iMacro = 0; iMacro < NumMacroIDs; iMacro++)
         pOut->mDefineIDs.push_back( rATBL.ReadShort() );
 
     return pOut;
@@ -74,10 +74,10 @@ CAudioLookupTable* CAudioGroupLoader::LoadATBL(IInputStream& rATBL, CResourceEnt
 CStringList* CAudioGroupLoader::LoadSTLC(IInputStream& rSTLC, CResourceEntry *pEntry)
 {
     CStringList *pOut = new CStringList(pEntry);
-    u32 NumStrings = rSTLC.ReadLong();
+    uint32 NumStrings = rSTLC.ReadLong();
     pOut->mStringList.reserve(NumStrings);
 
-    for (u32 iStr = 0; iStr < NumStrings; iStr++)
+    for (uint32 iStr = 0; iStr < NumStrings; iStr++)
         pOut->mStringList.push_back( rSTLC.ReadString() );
 
     return pOut;
