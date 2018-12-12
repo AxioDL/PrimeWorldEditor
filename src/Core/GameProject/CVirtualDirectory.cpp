@@ -22,7 +22,7 @@ CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, const TString& 
 
 CVirtualDirectory::~CVirtualDirectory()
 {
-    for (u32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
+    for (uint32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
         delete mSubdirectories[iSub];
 }
 
@@ -31,7 +31,7 @@ bool CVirtualDirectory::IsEmpty(bool CheckFilesystem) const
     if (!mResources.empty())
         return false;
 
-    for (u32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
+    for (uint32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
         if (!mSubdirectories[iSub]->IsEmpty(CheckFilesystem))
             return false;
 
@@ -66,10 +66,10 @@ CVirtualDirectory* CVirtualDirectory::GetRoot()
 
 CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TString& rkName, bool AllowCreate)
 {
-    u32 SlashIdx = rkName.IndexOf("\\/");
+    uint32 SlashIdx = rkName.IndexOf("\\/");
     TString DirName = (SlashIdx == -1 ? rkName : rkName.SubString(0, SlashIdx));
 
-    for (u32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
+    for (uint32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
     {
         CVirtualDirectory *pChild = mSubdirectories[iSub];
 
@@ -126,7 +126,7 @@ CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkPath)
 
 CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkName, EResType Type)
 {
-    for (u32 iRes = 0; iRes < mResources.size(); iRes++)
+    for (uint32 iRes = 0; iRes < mResources.size(); iRes++)
     {
         if (rkName.CaseInsensitiveCompare(mResources[iRes]->Name()) && mResources[iRes]->ResourceType() == Type)
             return mResources[iRes];
@@ -150,14 +150,14 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
 
     else if (IsValidDirectoryPath(rkPath))
     {
-        u32 SlashIdx = rkPath.IndexOf("\\/");
+        uint32 SlashIdx = rkPath.IndexOf("\\/");
         TString DirName = (SlashIdx == -1 ? rkPath : rkPath.SubString(0, SlashIdx));
         TString Remaining = (SlashIdx == -1 ? "" : rkPath.SubString(SlashIdx + 1, rkPath.Size() - SlashIdx));
 
         // Check if this subdirectory already exists
         CVirtualDirectory *pSubdir = nullptr;
 
-        for (u32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
+        for (uint32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
         {
             if (mSubdirectories[iSub]->Name() == DirName)
             {
@@ -264,7 +264,7 @@ void CVirtualDirectory::SortSubdirectories()
 
 bool CVirtualDirectory::Rename(const TString& rkNewName)
 {
-    Log::Write("MOVING DIRECTORY: " + FullPath() + " -> " + mpParent->FullPath() + rkNewName + '/');
+    debugf("MOVING DIRECTORY: %s --> %s", *FullPath(), *mpParent->FullPath() + rkNewName + '/');
 
     if (!IsRoot())
     {
@@ -283,7 +283,7 @@ bool CVirtualDirectory::Rename(const TString& rkNewName)
         }
     }
 
-    Log::Error("DIRECTORY MOVE FAILED");
+    errorf("DIRECTORY MOVE FAILED");
     return false;
 }
 
@@ -309,7 +309,7 @@ bool CVirtualDirectory::Delete()
 
 void CVirtualDirectory::DeleteEmptySubdirectories()
 {
-    for (u32 SubdirIdx = 0; SubdirIdx < mSubdirectories.size(); SubdirIdx++)
+    for (uint32 SubdirIdx = 0; SubdirIdx < mSubdirectories.size(); SubdirIdx++)
     {
         CVirtualDirectory *pDir = mSubdirectories[SubdirIdx];
 
@@ -332,7 +332,7 @@ bool CVirtualDirectory::CreateFilesystemDirectory()
         bool CreateSuccess = FileUtil::MakeDirectory(AbsPath);
 
         if (!CreateSuccess)
-            Log::Error("FAILED to create filesystem directory: " + AbsPath);
+            errorf("FAILED to create filesystem directory: %s", *AbsPath);
 
         return CreateSuccess;
     }
@@ -345,14 +345,14 @@ bool CVirtualDirectory::SetParent(CVirtualDirectory *pParent)
     ASSERT(!pParent->IsDescendantOf(this));
     if (mpParent == pParent) return true;
 
-    Log::Write("MOVING DIRECTORY: " + FullPath() + " -> " + pParent->FullPath() + mName + '/');
+    debugf("MOVING DIRECTORY: %s -> %s", *FullPath(), *(pParent->FullPath() + mName + '/'));
 
     // Check for a conflict
     CVirtualDirectory *pConflictDir = pParent->FindChildDirectory(mName, false);
 
     if (pConflictDir)
     {
-        Log::Error("DIRECTORY MOVE FAILED: Conflicting directory exists at the destination path!");
+        errorf("DIRECTORY MOVE FAILED: Conflicting directory exists at the destination path!");
         return false;
     }
 
@@ -369,7 +369,7 @@ bool CVirtualDirectory::SetParent(CVirtualDirectory *pParent)
     }
     else
     {
-        Log::Error("DIRECTORY MOVE FAILED: Filesystem move operation failed!");
+        errorf("DIRECTORY MOVE FAILED: Filesystem move operation failed!");
         mpParent->AddChild(this);
         return false;
     }

@@ -3,7 +3,7 @@
 
 #include "IProperty.h"
 
-class CIntProperty : public TNumericalProperty< s32, EPropertyType::Int >
+class CIntProperty : public TNumericalProperty< int32, EPropertyType::Int >
 {
     friend class IProperty;
 

@@ -2,7 +2,7 @@
 #define IPROGRESSNOTIFIER_H
 
 #include <Common/Common.h>
-#include <Math/MathUtil.h>
+#include <Common/Math/MathUtil.h>
 
 class IProgressNotifier
 {

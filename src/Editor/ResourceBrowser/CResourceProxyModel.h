@@ -21,9 +21,9 @@ private:
     ESortMode mSortMode;
     QSet<CResTypeInfo*> mTypeFilter;
 
-    u64 mCompareID;
-    u64 mCompareMask;
-    u32 mCompareBitLength;
+    uint64 mCompareID;
+    uint64 mCompareMask;
+    uint32 mCompareBitLength;
 
 public:
     explicit CResourceProxyModel(QObject *pParent = 0)
@@ -97,17 +97,17 @@ public:
 
                 if (mCompareBitLength > 0)
                 {
-                    u32 IDBitLength = pEntry->ID().Length() * 8;
+                    uint32 IDBitLength = pEntry->ID().Length() * 8;
 
                     if (mCompareBitLength <= IDBitLength)
                     {
-                        u64 ID = pEntry->ID().ToLongLong();
-                        u32 MaxShift = IDBitLength - mCompareBitLength;
+                        uint64 ID = pEntry->ID().ToLongLong();
+                        uint32 MaxShift = IDBitLength - mCompareBitLength;
 
-                        for (u32 Shift = 0; Shift <= MaxShift; Shift += 4)
+                        for (uint32 Shift = 0; Shift <= MaxShift; Shift += 4)
                         {
-                            u64 ShiftCompare = mCompareID << Shift;
-                            u64 Mask = mCompareMask << Shift;
+                            uint64 ShiftCompare = mCompareID << Shift;
+                            uint64 Mask = mCompareMask << Shift;
 
                             if ((ID & Mask) == ShiftCompare)
                             {
@@ -173,7 +173,7 @@ public slots:
         if (IDString.Size() <= 16 && IDString.IsHexString())
         {
             mCompareBitLength = IDString.Size() * 4;
-            mCompareMask = ((u64) 1 << mCompareBitLength) - 1;
+            mCompareMask = ((uint64) 1 << mCompareBitLength) - 1;
             mCompareID = IDString.ToInt64(16);
 
             if (mCompareMask == 0)

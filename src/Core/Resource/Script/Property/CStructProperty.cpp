@@ -14,7 +14,7 @@ void CStructProperty::PostInitialize()
     ASSERT( IsRootParent() || mpArchetype != nullptr );
 }
 
-u32 CStructProperty::DataSize() const
+uint32 CStructProperty::DataSize() const
 {
     if (!mChildren.empty())
     {
@@ -27,7 +27,7 @@ u32 CStructProperty::DataSize() const
     }
 }
 
-u32 CStructProperty::DataAlignment() const
+uint32 CStructProperty::DataAlignment() const
 {
     // Structs are aligned to the first child property.
     return (mChildren.empty() ? 1 : mChildren[0]->DataAlignment());
@@ -102,10 +102,10 @@ void CStructProperty::Serialize(IArchive& rArc)
             // We've initialized from the archetypes, now serialize parameter overrides
             if (rArc.ParamBegin("SubProperties", 0))
             {
-                u32 NumChildOverrides;
+                uint32 NumChildOverrides;
                 rArc.SerializeArraySize(NumChildOverrides);
 
-                for (u32 ChildIdx = 0; ChildIdx < NumChildOverrides; ChildIdx++)
+                for (uint32 ChildIdx = 0; ChildIdx < NumChildOverrides; ChildIdx++)
                 {
                     if (rArc.ParamBegin("Element", SH_IgnoreName))
                     {
@@ -113,7 +113,7 @@ void CStructProperty::Serialize(IArchive& rArc)
                         // We don't really need the type, but it's a good sanity check, and it's also good practice
                         // to guarantee that parameters are read in order, as some serializers are order-dependent.
                         EPropertyType ChildType;
-                        u32 ChildID;
+                        uint32 ChildID;
 
                         rArc << SerialParameter("Type", ChildType, SH_Attribute)
                              << SerialParameter("ID", ChildID, SH_Attribute | SH_HexDisplay );
@@ -134,7 +134,7 @@ void CStructProperty::Serialize(IArchive& rArc)
             // Check if any properties need to override parameters from their archetype.
             std::vector<IProperty*> PropertiesToSerialize;
 
-            for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+            for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
             {
                 if (mChildren[ChildIdx]->ShouldSerialize())
                 {
@@ -142,7 +142,7 @@ void CStructProperty::Serialize(IArchive& rArc)
                 }
             }
 
-            u32 NumChildOverrides = PropertiesToSerialize.size();
+            uint32 NumChildOverrides = PropertiesToSerialize.size();
 
             if (NumChildOverrides > 0)
             {
@@ -158,7 +158,7 @@ void CStructProperty::Serialize(IArchive& rArc)
 
 void CStructProperty::SerializeValue(void* pData, IArchive& Arc) const
 {
-    for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
         if (Arc.ParamBegin("Property", 0))
         {
@@ -176,7 +176,7 @@ void CStructProperty::InitFromArchetype(IProperty* pOther)
     _ClearChildren();
     mChildren.reserve( pOther->NumChildren() );
 
-    for (u32 ChildIdx = 0; ChildIdx < pOther->NumChildren(); ChildIdx++)
+    for (uint32 ChildIdx = 0; ChildIdx < pOther->NumChildren(); ChildIdx++)
     {
         IProperty* pChild = CreateCopy( pOther->ChildByIndex(ChildIdx) );
         mChildren.push_back( pChild );
@@ -188,7 +188,7 @@ bool CStructProperty::ShouldSerialize() const
     if (IProperty::ShouldSerialize())
         return true;
 
-    for (u32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
         if (mChildren[ChildIdx]->ShouldSerialize())
             return true;

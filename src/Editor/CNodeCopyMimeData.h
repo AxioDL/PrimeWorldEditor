@@ -2,7 +2,7 @@
 #define CNODECOPYMIMEDATA
 
 #include <Common/TString.h>
-#include <Math/CVector3f.h>
+#include <Common/Math/CVector3f.h>
 #include <Core/Resource/Cooker/CScriptCooker.h>
 #include <Core/Resource/Factory/CScriptLoader.h>
 #include <Core/Scene/CSceneNode.h>
@@ -24,7 +24,7 @@ public:
         CQuaternion Rotation;
         CVector3f Scale;
 
-        u32 OriginalInstanceID;
+        uint32 OriginalInstanceID;
         std::vector<char> InstanceData;
     };
 
@@ -51,7 +51,7 @@ public:
         CNodeSelection *pSelection = pEditor->Selection();
         mCopiedNodes.resize(pSelection->Size());
 
-        u32 NodeIndex = 0;
+        uint32 NodeIndex = 0;
         CVector3f FirstNodePos;
         bool SetFirstNodePos = false;
 
@@ -75,7 +75,7 @@ public:
                 Cooker.WriteInstance(Out, static_cast<CScriptNode*>(*It)->Instance());
 
                 // Replace instance ID with 0xFFFFFFFF to force it to generate a new one.
-                Out.Seek(mGame <= ePrime ? 0x5 : 0x6, SEEK_SET);
+                Out.Seek(mGame <= EGame::Prime ? 0x5 : 0x6, SEEK_SET);
                 Out.WriteLong(0xFFFFFFFF);
 
                 if (!SetFirstNodePos)
@@ -91,7 +91,7 @@ public:
         }
     }
 
-    int IndexOfInstanceID(u32 InstanceID) const
+    int IndexOfInstanceID(uint32 InstanceID) const
     {
         for (int iNode = 0; iNode < mCopiedNodes.size(); iNode++)
         {

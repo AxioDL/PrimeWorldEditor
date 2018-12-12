@@ -15,7 +15,7 @@ class CFontLoader
 
 public:
     static CFont* LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry);
-    static EGame GetFormatVersion(u32 Version);
+    static EGame GetFormatVersion(uint32 Version);
 };
 
 #endif // CFONTLOADER_H

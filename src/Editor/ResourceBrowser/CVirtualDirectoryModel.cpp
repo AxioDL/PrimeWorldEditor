@@ -27,7 +27,7 @@ QModelIndex CVirtualDirectoryModel::index(int Row, int Column, const QModelIndex
 
     CVirtualDirectory *pDir = IndexDirectory(rkParent);
 
-    if (pDir && pDir->NumSubdirectories() > (u32) Row)
+    if (pDir && pDir->NumSubdirectories() > (uint32) Row)
         return createIndex(Row, Column, pDir->SubdirectoryByIndex(Row));
 
     else if (!pDir)
@@ -47,7 +47,7 @@ QModelIndex CVirtualDirectoryModel::parent(const QModelIndex& rkChild) const
 
         if (pGrandparent)
         {
-            for (u32 iSub = 0; iSub < pGrandparent->NumSubdirectories(); iSub++)
+            for (uint32 iSub = 0; iSub < pGrandparent->NumSubdirectories(); iSub++)
             {
                 if (pGrandparent->SubdirectoryByIndex(iSub) == pParent)
                     return createIndex(iSub, 0, pParent);
@@ -207,7 +207,7 @@ QModelIndex CVirtualDirectoryModel::GetIndexForDirectory(CVirtualDirectory *pDir
     {
         bool Found = false;
 
-        for (u32 iDir = 0; iDir < pParent->NumSubdirectories(); iDir++)
+        for (uint32 iDir = 0; iDir < pParent->NumSubdirectories(); iDir++)
         {
             if (pParent->SubdirectoryByIndex(iDir) == pDir)
             {
@@ -253,7 +253,7 @@ bool CVirtualDirectoryModel::GetProposedIndex(QString Path, QModelIndex& rOutPar
     if (FullPath.EndsWith('/') || FullPath.EndsWith('\\'))
         FullPath = FullPath.ChopBack(1);
 
-    u32 LastSlash = FullPath.LastIndexOf("\\/");
+    uint32 LastSlash = FullPath.LastIndexOf("\\/");
     TString ParentPath = FullPath.ChopBack( FullPath.Size() - LastSlash );
 
     // Find parent index

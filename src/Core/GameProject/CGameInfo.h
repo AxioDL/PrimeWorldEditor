@@ -1,7 +1,7 @@
 #ifndef CGAMEINFO
 #define CGAMEINFO
 
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <Common/CAssetID.h>
 #include <Common/TString.h>
 #include <Common/Serialization/IArchive.h>

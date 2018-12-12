@@ -9,7 +9,7 @@
 class CChangeLayerCommand : public IUndoCommand
 {
     CNodePtrList mNodes;
-    QMap<u32, CScriptLayer*> mOldLayers;
+    QMap<uint32, CScriptLayer*> mOldLayers;
     CScriptLayer *mpNewLayer;
     CWorldEditor *mpEditor;
 

@@ -3,7 +3,7 @@
 
 #include "IProperty.h"
 
-class CAnimationProperty : public TSerializeableTypedProperty< u32, EPropertyType::Animation >
+class CAnimationProperty : public TSerializeableTypedProperty< uint32, EPropertyType::Animation >
 {
     friend class IProperty;
 
@@ -15,12 +15,12 @@ protected:
 public:
     virtual void SerializeValue(void* pData, IArchive& rArc) const
     {
-        rArc.SerializePrimitive( (u32&) ValueRef(pData), SH_HexDisplay );
+        rArc.SerializePrimitive( (uint32&) ValueRef(pData), SH_HexDisplay );
     }
 
     virtual TString ValueAsString(void* pData) const
     {
-        return TString::HexString( (u32) Value(pData) );
+        return TString::HexString( (uint32) Value(pData) );
     }
 };
 

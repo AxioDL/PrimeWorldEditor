@@ -40,7 +40,7 @@ QModelIndex CSkeletonHierarchyModel::parent(const QModelIndex& rkChild) const
         {
             CBone *pGrandparent = pParent->Parent();
 
-            for (u32 iChild = 0; iChild < pGrandparent->NumChildren(); iChild++)
+            for (uint32 iChild = 0; iChild < pGrandparent->NumChildren(); iChild++)
             {
                 if (pGrandparent->ChildByIndex(iChild) == pParent)
                     return createIndex(iChild, 0, pParent);
@@ -88,7 +88,7 @@ QModelIndex CSkeletonHierarchyModel::IndexForBone(CBone *pBone) const
 
     QModelIndex ParentIndex = IndexForBone(pParent);
 
-    for (u32 iChild = 0; iChild < pParent->NumChildren(); iChild++)
+    for (uint32 iChild = 0; iChild < pParent->NumChildren(); iChild++)
     {
        if (pParent->ChildByIndex(iChild) == pBone)
            return index(iChild, 0, ParentIndex);

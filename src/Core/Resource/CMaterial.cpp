@@ -9,9 +9,9 @@
 #include <iostream>
 #include <GL/glew.h>
 
-u64 CMaterial::sCurrentMaterial = 0;
+uint64 CMaterial::sCurrentMaterial = 0;
 CColor CMaterial::sCurrentTint = CColor::skWhite;
-std::map<u64, CMaterial::SMaterialShader> CMaterial::smShaderMap;
+std::map<uint64, CMaterial::SMaterialShader> CMaterial::smShaderMap;
 
 CMaterial::CMaterial()
     : mpShader(nullptr)
@@ -62,7 +62,7 @@ CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
 
 CMaterial::~CMaterial()
 {
-    for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+    for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
         delete mPasses[iPass];
 
     ClearShader();
@@ -76,7 +76,7 @@ CMaterial* CMaterial::Clone()
     pOut->mVersion = mVersion;
     pOut->mOptions = mOptions;
     pOut->mVtxDesc = mVtxDesc;
-    for (u32 iKonst = 0; iKonst < 4; iKonst++)
+    for (uint32 iKonst = 0; iKonst < 4; iKonst++)
         pOut->mKonstColors[iKonst] = mKonstColors[iKonst];
     pOut->mBlendSrcFac = mBlendSrcFac;
     pOut->mBlendDstFac = mBlendDstFac;
@@ -86,7 +86,7 @@ CMaterial* CMaterial::Clone()
     pOut->mpIndirectTexture = mpIndirectTexture;
 
     pOut->mPasses.resize(mPasses.size());
-    for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+    for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
         pOut->mPasses[iPass] = mPasses[iPass]->Clone(pOut);
 
     return pOut;
@@ -193,7 +193,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
 
         // Set konst inputs
-        for (u32 iKonst = 0; iKonst < 4; iKonst++)
+        for (uint32 iKonst = 0; iKonst < 4; iKonst++)
             CGraphics::sPixelBlock.Konst[iKonst] = mKonstColors[iKonst];
 
         // Set color channels
@@ -205,7 +205,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         else glDepthMask(GL_FALSE);
 
         // Load uniforms
-        for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
             mPasses[iPass]->SetAnimCurrent(Options, iPass);
 
         sCurrentMaterial = HashParameters();
@@ -214,7 +214,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
     // If the passes are otherwise the same, update UV anims that use the model matrix
     else
     {
-        for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
         {
             EUVAnimMode mode = mPasses[iPass]->AnimMode();
 
@@ -225,7 +225,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
     }
 
     // Set up shader uniforms
-    for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+    for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
         mPasses[iPass]->LoadTexture(iPass);
 
     CShader *pShader = CShader::CurrentShader();
@@ -239,7 +239,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
     return true;
 }
 
-u64 CMaterial::HashParameters()
+uint64 CMaterial::HashParameters()
 {
     if (mRecalcHash)
     {
@@ -255,10 +255,10 @@ u64 CMaterial::HashParameters()
         Hash.HashLong(mEchoesUnknownA);
         Hash.HashLong(mEchoesUnknownB);
 
-        for (u32 iPass = 0; iPass < mPasses.size(); iPass++)
+        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
             mPasses[iPass]->HashParameters(Hash);
 
-        u64 NewHash = Hash.GetHash64();
+        uint64 NewHash = Hash.GetHash64();
 
         if (mParametersHash != NewHash)
             ClearShader();
@@ -276,20 +276,20 @@ void CMaterial::Update()
     mShaderStatus = eNoShader;
 }
 
-void CMaterial::SetNumPasses(u32 NumPasses)
+void CMaterial::SetNumPasses(uint32 NumPasses)
 {
     if (NumPasses < mPasses.size())
     {
-        for (u32 iPass = NumPasses; iPass < mPasses.size(); iPass++)
+        for (uint32 iPass = NumPasses; iPass < mPasses.size(); iPass++)
             delete mPasses[iPass];
     }
 
-    u32 OldCount = mPasses.size();
+    uint32 OldCount = mPasses.size();
     mPasses.resize(NumPasses);
 
     if (NumPasses > OldCount)
     {
-        for (u32 iPass = OldCount; iPass < NumPasses; iPass++)
+        for (uint32 iPass = OldCount; iPass < NumPasses; iPass++)
             mPasses[iPass] = new CMaterialPass(this);
     }
 

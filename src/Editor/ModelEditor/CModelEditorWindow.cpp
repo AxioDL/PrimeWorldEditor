@@ -163,10 +163,10 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     mpCurrentModel = pModel;
     ui->Viewport->Camera().SetOrbit(pModel->AABox());
 
-    u32 NumVertices = (pModel ? pModel->GetVertexCount() : 0);
-    u32 NumTriangles = (pModel ? pModel->GetTriangleCount() : 0);
-    u32 NumMats = (pModel ? pModel->GetMatCount() : 0);
-    u32 NumMatSets = (pModel ? pModel->GetMatSetCount() : 0);
+    uint32 NumVertices = (pModel ? pModel->GetVertexCount() : 0);
+    uint32 NumTriangles = (pModel ? pModel->GetTriangleCount() : 0);
+    uint32 NumMats = (pModel ? pModel->GetMatCount() : 0);
+    uint32 NumMatSets = (pModel ? pModel->GetMatSetCount() : 0);
     ui->MeshInfoLabel->setText(QString::number(NumVertices) + " vertices, " + QString::number(NumTriangles) + " triangles");
     ui->MatInfoLabel->setText(QString::number(NumMats) + " materials, " + QString::number(NumMatSets) + " set" + (NumMatSets == 1 ? "" : "s"));
 
@@ -174,7 +174,7 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     ui->SetSelectionComboBox->blockSignals(true);
     ui->SetSelectionComboBox->clear();
 
-    for (u32 iSet = 0; iSet < NumMatSets; iSet++)
+    for (uint32 iSet = 0; iSet < NumMatSets; iSet++)
         ui->SetSelectionComboBox->addItem("Set #" + QString::number(iSet + 1));
 
     ui->SetSelectionComboBox->setCurrentIndex(0);
@@ -184,7 +184,7 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     ui->MatSelectionComboBox->blockSignals(true);
     ui->MatSelectionComboBox->clear();
 
-    for (u32 iMat = 0; iMat < NumMats; iMat++)
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
         TString MatName = pModel->GetMaterialByIndex(0, iMat)->Name();
         ui->MatSelectionComboBox->addItem(TO_QSTRING(MatName));
@@ -206,7 +206,7 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
 {
     if (!mpCurrentModel) return;
 
-    u32 SetIndex = ui->SetSelectionComboBox->currentIndex();
+    uint32 SetIndex = ui->SetSelectionComboBox->currentIndex();
     mpCurrentMat = mpCurrentModel->GetMaterialByIndex(SetIndex, MatIndex);
     ui->Viewport->SetActiveMaterial(mpCurrentMat);
     if (!mpCurrentMat) return;
@@ -224,8 +224,8 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     ui->EnableLightmapCheck->setChecked( Settings & CMaterial::eLightmap );
     ui->EnableDynamicLightingCheck->setChecked( mpCurrentMat->IsLightingEnabled() );
 
-    u32 SrcFac = (u32) mpCurrentMat->BlendSrcFac();
-    u32 DstFac = (u32) mpCurrentMat->BlendDstFac();
+    uint32 SrcFac = (uint32) mpCurrentMat->BlendSrcFac();
+    uint32 DstFac = (uint32) mpCurrentMat->BlendDstFac();
     if (SrcFac >= 0x300) SrcFac -= 0x2FE;
     if (DstFac >= 0x300) DstFac -= 0x2FE;
     ui->SourceBlendComboBox->setCurrentIndex(SrcFac);
@@ -236,7 +236,7 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     else
         ui->IndTextureResSelector->Clear();
 
-    for (u32 iKonst = 0; iKonst < 4; iKonst++)
+    for (uint32 iKonst = 0; iKonst < 4; iKonst++)
     {
         QColor Color;
         CColor KColor = mpCurrentMat->Konst(iKonst);
@@ -251,11 +251,11 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
         else if (iKonst == 3) ui->KonstColorPickerD->SetColor(Color);
     }
 
-    u32 PassCount = mpCurrentMat->PassCount();
+    uint32 PassCount = mpCurrentMat->PassCount();
     ui->PassTable->clear();
     ui->PassTable->setRowCount(PassCount);
 
-    for (u32 iPass = 0; iPass < PassCount; iPass++)
+    for (uint32 iPass = 0; iPass < PassCount; iPass++)
     {
         CMaterialPass *pPass = mpCurrentMat->Pass(iPass);
 
@@ -303,10 +303,10 @@ void CModelEditorWindow::SetActivePass(int PassIndex)
     mIgnoreSignals = true;
     mpCurrentPass = mpCurrentMat->Pass(PassIndex);
 
-    u32 KColor = mpCurrentPass->KColorSel();
-    u32 KAlpha = mpCurrentPass->KAlphaSel();
-    u32 Ras = mpCurrentPass->RasSel();
-    u32 TexCoordSrc = mpCurrentPass->TexCoordSource();
+    uint32 KColor = mpCurrentPass->KColorSel();
+    uint32 KAlpha = mpCurrentPass->KAlphaSel();
+    uint32 Ras = mpCurrentPass->RasSel();
+    uint32 TexCoordSrc = mpCurrentPass->TexCoordSource();
     if (KColor >= 0xC) KColor -= 4;
     if (KAlpha >= 0x10) KAlpha -= 8;
     if (Ras == 0xFF) Ras = 7;
@@ -330,7 +330,7 @@ void CModelEditorWindow::SetActivePass(int PassIndex)
     ui->TevAlpha4ComboBox->setCurrentIndex(mpCurrentPass->AlphaInput(3));
     ui->TevAlphaOutputComboBox->setCurrentIndex(mpCurrentPass->AlphaOutput());
 
-    s32 AnimMode = mpCurrentPass->AnimMode();
+    int32 AnimMode = mpCurrentPass->AnimMode();
     ui->AnimTypeComboBox->setCurrentIndex(AnimMode + 1);
     UpdateAnimParamUI(AnimMode);
 

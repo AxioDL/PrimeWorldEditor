@@ -5,7 +5,7 @@
 #include "CResource.h"
 #include "Core/OpenGL/CVertexBuffer.h"
 #include "Core/OpenGL/CIndexBuffer.h"
-#include <Math/CAABox.h>
+#include <Common/Math/CAABox.h>
 
 class CCollisionMesh
 {
@@ -19,12 +19,12 @@ class CCollisionMesh
         struct SLeaf : public SOctreeNode
         {
             CAABox AABox;
-            std::vector<u16> FaceIndices;
+            std::vector<uint16> FaceIndices;
         };
 
         struct SBranch : public SOctreeNode
         {
-            u16 Flags;
+            uint16 Flags;
             SOctreeNode *pChildren[8];
         };
 
@@ -34,29 +34,29 @@ class CCollisionMesh
     class CCollisionVertex
     {
     public:
-        u32 MaterialIdx;
+        uint32 MaterialIdx;
         CVector3f Pos;
     };
 
     class CCollisionLine
     {
     public:
-        u32 MaterialIdx;
-        u16 Vertices[2];
+        uint32 MaterialIdx;
+        uint16 Vertices[2];
     };
 
     class CCollisionFace
     {
     public:
-        u32 MaterialIdx;
-        u16 Lines[3];
+        uint32 MaterialIdx;
+        uint16 Lines[3];
     };
 
     CVertexBuffer mVBO;
     CIndexBuffer mIBO;
-    u32 mVertexCount;
-    u32 mLineCount;
-    u32 mFaceCount;
+    uint32 mVertexCount;
+    uint32 mLineCount;
+    uint32 mFaceCount;
     bool mBuffered;
 
     CAABox mAABox;
@@ -65,12 +65,12 @@ class CCollisionMesh
     std::vector<CCollisionVertex> mCollisionVertices;
     std::vector<CCollisionLine> mCollisionLines;
     std::vector<CCollisionFace> mCollisionFaces;
-    std::vector<u32> mMaterialOffsets;
+    std::vector<uint32> mMaterialOffsets;
     bool mOctreeLoaded;
 
-    CCollisionVertex *GetVertex(u16 Index);
-    CCollisionLine *GetLine(u16 Index);
-    CCollisionFace *GetFace(u16 Index);
+    CCollisionVertex *GetVertex(uint16 Index);
+    CCollisionLine *GetLine(uint16 Index);
+    CCollisionFace *GetFace(uint16 Index);
 
 public:
     CCollisionMesh();
@@ -78,12 +78,12 @@ public:
 
     void BufferGL();
     void Draw();
-    void DrawMaterial(u32 MatIdx, bool Wireframe);
+    void DrawMaterial(uint32 MatIdx, bool Wireframe);
     void DrawWireframe();
 
-    inline u32 NumMaterials() const                     { return mMaterials.size(); }
-    inline CCollisionMaterial& GetMaterial(u32 Index)   { return mMaterials[Index]; }
-    inline const CAABox& BoundingBox() const            { return mAABox; }
+    inline uint32 NumMaterials() const                      { return mMaterials.size(); }
+    inline CCollisionMaterial& GetMaterial(uint32 Index)    { return mMaterials[Index]; }
+    inline const CAABox& BoundingBox() const                { return mAABox; }
 };
 
 #endif // CCOLLISIONMESH_H

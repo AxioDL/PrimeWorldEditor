@@ -128,9 +128,9 @@ void CWorldInfoSidebar::OnWorldTreeClicked(QModelIndex Index)
 
         mpUI->AttachedAreasList->clear();
 
-        for (u32 iAtt = 0; iAtt < pWorld->AreaAttachedCount(AreaIndex); iAtt++)
+        for (uint32 iAtt = 0; iAtt < pWorld->AreaAttachedCount(AreaIndex); iAtt++)
         {
-            u32 AttachedIdx = pWorld->AreaAttachedID(AreaIndex, iAtt);
+            uint32 AttachedIdx = pWorld->AreaAttachedID(AreaIndex, iAtt);
             QString Name = TO_QSTRING( pWorld->AreaInGameName(AttachedIdx) );
             mpUI->AttachedAreasList->addItem(Name);
         }

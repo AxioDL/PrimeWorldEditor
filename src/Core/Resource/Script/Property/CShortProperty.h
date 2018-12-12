@@ -3,7 +3,7 @@
 
 #include "IProperty.h"
 
-class CShortProperty : public TNumericalProperty< s16, EPropertyType::Short >
+class CShortProperty : public TNumericalProperty< int16, EPropertyType::Short >
 {
     friend class IProperty;
 
@@ -20,7 +20,7 @@ public:
 
     virtual TString ValueAsString(void* pData) const
     {
-        return TString::FromInt32( (s32) Value(pData), 0, 10 );
+        return TString::FromInt32( (int32) Value(pData), 0, 10 );
     }
 };
 

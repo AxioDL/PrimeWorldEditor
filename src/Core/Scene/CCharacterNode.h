@@ -9,30 +9,30 @@ class CCharacterNode : public CSceneNode
 {
     TResPtr<CAnimSet> mpCharacter;
     CBoneTransformData mTransformData;
-    u32 mActiveCharSet;
-    u32 mActiveAnim;
+    uint32 mActiveCharSet;
+    uint32 mActiveAnim;
     bool mAnimated;
     float mAnimTime;
 
     mutable bool mTransformDataDirty;
 
 public:
-    explicit CCharacterNode(CScene *pScene, u32 NodeID, CAnimSet *pChar = 0, CSceneNode *pParent = 0);
+    explicit CCharacterNode(CScene *pScene, uint32 NodeID, CAnimSet *pChar = 0, CSceneNode *pParent = 0);
 
     virtual ENodeType NodeType();
     virtual void PostLoad();
     virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
     virtual void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
+    virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo);
 
-    CVector3f BonePosition(u32 BoneID);
+    CVector3f BonePosition(uint32 BoneID);
     void SetCharSet(CAnimSet *pChar);
-    void SetActiveChar(u32 CharIndex);
-    void SetActiveAnim(u32 AnimIndex);
+    void SetActiveChar(uint32 CharIndex);
+    void SetActiveAnim(uint32 AnimIndex);
 
     inline CAnimSet* Character() const      { return mpCharacter; }
-    inline u32 ActiveCharIndex() const      { return mActiveCharSet; }
-    inline u32 ActiveAnimIndex() const      { return mActiveAnim; }
+    inline uint32 ActiveCharIndex() const   { return mActiveCharSet; }
+    inline uint32 ActiveAnimIndex() const   { return mActiveAnim; }
     inline CAnimation* CurrentAnim() const  { return (mAnimated && mpCharacter ? mpCharacter->FindAnimationAsset(mActiveAnim) : nullptr); }
     inline bool IsAnimated() const          { return (mAnimated && CurrentAnim() != nullptr); }
 

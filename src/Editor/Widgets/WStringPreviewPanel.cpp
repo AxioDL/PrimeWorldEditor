@@ -39,7 +39,7 @@ void WStringPreviewPanel::SetResource(CResource *pRes)
         CStringTable *pString = static_cast<CStringTable*>(pRes);
         mLabels.reserve(pString->NumStrings());
 
-        for (u32 iStr = 0; iStr < pString->NumStrings(); iStr++)
+        for (uint32 iStr = 0; iStr < pString->NumStrings(); iStr++)
         {
             QString text = TO_QSTRING(pString->String("ENGL", iStr));
             QLabel *pLabel = new QLabel(text, this);

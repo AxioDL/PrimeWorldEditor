@@ -1,7 +1,7 @@
 #ifndef CSECTIONMGRIN_H
 #define CSECTIONMGRIN_H
 
-#include <Common/types.h>
+#include <Common/BasicTypes.h>
 #include <Common/FileIO/IInputStream.h>
 #include <vector>
 
@@ -9,18 +9,18 @@
 class CSectionMgrIn
 {
     IInputStream *mpInputStream;
-    std::vector<u32> mSectionSizes;
-    u32 mCurSec;
-    u32 mCurSecStart;
-    u32 mSecsStart;
+    std::vector<uint32> mSectionSizes;
+    uint32 mCurSec;
+    uint32 mCurSecStart;
+    uint32 mSecsStart;
 
 public:
-    CSectionMgrIn(u32 Count, IInputStream* pSrc)
+    CSectionMgrIn(uint32 Count, IInputStream* pSrc)
         : mpInputStream(pSrc)
     {
         mSectionSizes.resize(Count);
 
-        for (u32 iSec = 0; iSec < Count; iSec++)
+        for (uint32 iSec = 0; iSec < Count; iSec++)
             mSectionSizes[iSec] = pSrc->ReadLong();
     }
 
@@ -32,10 +32,10 @@ public:
         mSecsStart = mCurSecStart;
     }
 
-    void ToSection(u32 SecNum)
+    void ToSection(uint32 SecNum)
     {
-        u32 Offset = mSecsStart;
-        for (u32 iSec = 0; iSec < SecNum; iSec++)
+        uint32 Offset = mSecsStart;
+        for (uint32 iSec = 0; iSec < SecNum; iSec++)
             Offset += mSectionSizes[iSec];
 
         mpInputStream->Seek(Offset, SEEK_SET);
@@ -50,10 +50,10 @@ public:
         mCurSec++;
     }
 
-    inline u32 NextOffset()                         { return mCurSecStart + mSectionSizes[mCurSec]; }
-    inline u32 CurrentSection()                     { return mCurSec; }
-    inline u32 CurrentSectionSize()                 { return mSectionSizes[mCurSec]; }
-    inline u32 NumSections()                        { return mSectionSizes.size(); }
+    inline uint32 NextOffset()                      { return mCurSecStart + mSectionSizes[mCurSec]; }
+    inline uint32 CurrentSection()                  { return mCurSec; }
+    inline uint32 CurrentSectionSize()              { return mSectionSizes[mCurSec]; }
+    inline uint32 NumSections()                     { return mSectionSizes.size(); }
     inline void SetInputStream(IInputStream *pIn)   { mpInputStream = pIn; }
 };
 

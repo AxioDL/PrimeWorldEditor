@@ -3,7 +3,7 @@
 #include "CProgressDialog.h"
 #include "UICommon.h"
 
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <Core/GameProject/CAssetNameMap.h>
 #include <Core/GameProject/CGameExporter.h>
 #include <Core/GameProject/CGameInfo.h>
@@ -273,13 +273,13 @@ float CExportGameDialog::FindBuildVersion()
 
     // Get DOL buffer
     std::unique_ptr<uint8_t[]> pDolData = mpDisc->getDataPartition()->getDOLBuf();
-    u32 DolSize = (u32) mpDisc->getDataPartition()->getDOLSize();
+    uint32 DolSize = (uint32) mpDisc->getDataPartition()->getDOLSize();
 
     // Find build info string
     const char *pkSearchText = "!#$MetroidBuildInfo!#$";
     const int SearchTextSize = strlen(pkSearchText);
 
-    for (u32 SearchIdx = 0; SearchIdx < DolSize - SearchTextSize + 1; SearchIdx++)
+    for (uint32 SearchIdx = 0; SearchIdx < DolSize - SearchTextSize + 1; SearchIdx++)
     {
         int Match = 0;
 
@@ -297,7 +297,7 @@ float CExportGameDialog::FindBuildVersion()
         }
     }
 
-    Log::Error("Failed to find MetroidBuildInfo string. Build Version will be set to 0.");
+    errorf("Failed to find MetroidBuildInfo string. Build Version will be set to 0.");
     return 0.f;
 }
 

@@ -3,7 +3,7 @@
 
 #include "Core/Scene/CSceneNode.h"
 #include "Core/Scene/CScriptNode.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 
 /* CScriptExtra is a class that allows for additional coded behavior on any given
  * script object type. Subclass IScriptExtra, add the new class to CScriptExtra.cpp,
@@ -36,7 +36,7 @@ public:
     // Default implementations for CSceneNode
     virtual ENodeType NodeType() { return eScriptExtraNode; }
     virtual void RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, const SViewInfo& /*rkViewInfo*/) {}
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& /*rkRay*/, u32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
+    virtual SRayIntersection RayNodeIntersectTest(const CRay& /*rkRay*/, uint32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
     {
         SRayIntersection out;
         out.Hit = false;

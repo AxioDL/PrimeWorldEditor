@@ -9,8 +9,8 @@ CUniformBuffer* CGraphics::mpVertexBlockBuffer;
 CUniformBuffer* CGraphics::mpPixelBlockBuffer;
 CUniformBuffer* CGraphics::mpLightBlockBuffer;
 CUniformBuffer* CGraphics::mpBoneTransformBuffer;
-u32 CGraphics::mContextIndices = 0;
-u32 CGraphics::mActiveContext = -1;
+uint32 CGraphics::mContextIndices = 0;
+uint32 CGraphics::mActiveContext = -1;
 bool CGraphics::mInitialized = false;
 std::vector<CVertexArrayManager*> CGraphics::mVAMs;
 bool CGraphics::mIdentityBoneTransforms = false;
@@ -21,7 +21,7 @@ CGraphics::SPixelBlock  CGraphics::sPixelBlock;
 CGraphics::SLightBlock  CGraphics::sLightBlock;
 
 CGraphics::ELightingMode CGraphics::sLightMode;
-u32 CGraphics::sNumLights;
+uint32 CGraphics::sNumLights;
 const CColor CGraphics::skDefaultAmbientColor = CColor(0.5f, 0.5f, 0.5f, 1.f);
 CColor CGraphics::sAreaAmbientColor = CColor::skBlack;
 float CGraphics::sWorldLightMultiplier;
@@ -36,12 +36,12 @@ void CGraphics::Initialize()
 {
     if (!mInitialized)
     {
-        Log::Write("Initializing GLEW");
+        debugf("Initializing GLEW");
         glewExperimental = true;
         glewInit();
         glGetError(); // This is to work around a glew bug - error is always set after initializing
 
-        Log::Write("Creating uniform buffers");
+        debugf("Creating uniform buffers");
         mpMVPBlockBuffer = new CUniformBuffer(sizeof(sMVPBlock));
         mpVertexBlockBuffer = new CUniformBuffer(sizeof(sVertexBlock));
         mpPixelBlockBuffer = new CUniformBuffer(sizeof(sPixelBlock));
@@ -66,7 +66,7 @@ void CGraphics::Shutdown()
 {
     if (mInitialized)
     {
-        Log::Write("Shutting down CGraphics");
+        debugf("Shutting down CGraphics");
         delete mpMVPBlockBuffer;
         delete mpVertexBlockBuffer;
         delete mpPixelBlockBuffer;
@@ -121,11 +121,11 @@ GLuint CGraphics::BoneTransformBlockBindingPoint()
     return 4;
 }
 
-u32 CGraphics::GetContextIndex()
+uint32 CGraphics::GetContextIndex()
 {
-    for (u32 iCon = 0; iCon < 32; iCon++)
+    for (uint32 iCon = 0; iCon < 32; iCon++)
     {
-        u32 Mask = (1 << iCon);
+        uint32 Mask = (1 << iCon);
         if ((mContextIndices & Mask) == 0)
         {
             mContextIndices |= Mask;
@@ -141,19 +141,19 @@ u32 CGraphics::GetContextIndex()
     return -1;
 }
 
-u32 CGraphics::GetActiveContext()
+uint32 CGraphics::GetActiveContext()
 {
     return mActiveContext;
 }
 
-void CGraphics::ReleaseContext(u32 Index)
+void CGraphics::ReleaseContext(uint32 Index)
 {
     if (Index < 32) mContextIndices &= ~(1 << Index);
     if (mActiveContext == Index) mActiveContext = -1;
     delete mVAMs[Index];
 }
 
-void CGraphics::SetActiveContext(u32 Index)
+void CGraphics::SetActiveContext(uint32 Index)
 {
     mActiveContext = Index;
     mVAMs[Index]->SetCurrent();

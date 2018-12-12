@@ -33,11 +33,11 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
             rNode.pLayer = pInst->Layer();
             rNode.LayerIndex = pInst->LayerIndex();
 
-            for (u32 iType = 0; iType < 2; iType++)
+            for (uint32 iType = 0; iType < 2; iType++)
             {
                 ELinkType Type = (iType == 0 ? eOutgoing : eIncoming);
 
-                for (u32 iLink = 0; iLink < pInst->NumLinks(Type); iLink++)
+                for (uint32 iLink = 0; iLink < pInst->NumLinks(Type); iLink++)
                 {
                     CLink *pLink = pInst->Link(Type, iLink);
 
@@ -87,7 +87,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
 void CDeleteSelectionCommand::undo()
 {
     QList<CSceneNode*> NewNodes;
-    QList<u32> NewInstanceIDs;
+    QList<uint32> NewInstanceIDs;
 
     // Spawn nodes
     for (int iNode = 0; iNode < mDeletedNodes.size(); iNode++)

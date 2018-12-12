@@ -32,14 +32,14 @@ void CCollisionLoader::ParseOBBNode(IInputStream& rDCLN)
         if (!b) ParseOBBNode(rDCLN);
     }
 
-    u32 NumFaces = rDCLN.ReadLong();
+    uint32 NumFaces = rDCLN.ReadLong();
     rDCLN.Seek(NumFaces * 2, SEEK_CUR);
 }
 
 void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
 {
     CCollisionMaterial Material;
-    u64 RawFlags = (mVersion <= EGame::Prime ? rSrc.ReadLong() : rSrc.ReadLongLong());
+    uint64 RawFlags = (mVersion <= EGame::Prime ? rSrc.ReadLong() : rSrc.ReadLongLong());
     Material.mRawFlags = RawFlags;
 
     if (mVersion <= EGame::Prime)
@@ -116,27 +116,27 @@ void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
 void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox)
 {
     // Properties
-    u32 PropSetCount = rFile.ReadLong();
-    for (u32 iProp = 0; iProp < PropSetCount; iProp++)
+    uint32 PropSetCount = rFile.ReadLong();
+    for (uint32 iProp = 0; iProp < PropSetCount; iProp++)
         ReadPropertyFlags(rFile);
 
     // Property indices for vertices/lines/faces
-    u32 VtxIndexCount = rFile.ReadLong();
-    std::vector<u8> VtxIndices(VtxIndexCount);
+    uint32 VtxIndexCount = rFile.ReadLong();
+    std::vector<uint8> VtxIndices(VtxIndexCount);
     rFile.ReadBytes(VtxIndices.data(), VtxIndices.size());
 
-    u32 LineIndexCount = rFile.ReadLong();
-    std::vector<u8> LineIndices(LineIndexCount);
+    uint32 LineIndexCount = rFile.ReadLong();
+    std::vector<uint8> LineIndices(LineIndexCount);
     rFile.ReadBytes(LineIndices.data(), LineIndices.size());
 
-    u32 FaceIndexCount = rFile.ReadLong();
-    std::vector<u8> FaceIndices(FaceIndexCount);
+    uint32 FaceIndexCount = rFile.ReadLong();
+    std::vector<uint8> FaceIndices(FaceIndexCount);
     rFile.ReadBytes(FaceIndices.data(), FaceIndices.size());
 
     // Lines
     mpMesh->mLineCount = rFile.ReadLong();
     mpMesh->mCollisionLines.resize(mpMesh->mLineCount);
-    for (u32 iLine = 0; iLine < mpMesh->mLineCount; iLine++)
+    for (uint32 iLine = 0; iLine < mpMesh->mLineCount; iLine++)
     {
         CCollisionMesh::CCollisionLine *pLine = &mpMesh->mCollisionLines[iLine];
         pLine->Vertices[0] = rFile.ReadShort();
@@ -148,7 +148,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
     mpMesh->mFaceCount = rFile.ReadLong() / 3; // Not sure why they store it this way. It's inconsistent.
     mpMesh->mCollisionFaces.resize(mpMesh->mFaceCount);
 
-    for (u32 iFace = 0; iFace < mpMesh->mFaceCount; iFace++)
+    for (uint32 iFace = 0; iFace < mpMesh->mFaceCount; iFace++)
     {
         CCollisionMesh::CCollisionFace *pFace = &mpMesh->mCollisionFaces[iFace];
         pFace->Lines[0] = rFile.ReadShort();
@@ -160,7 +160,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
     // Echoes introduces a new data chunk; don't know what it is yet, skipping for now
     if (mVersion >= EGame::Echoes)
     {
-        u32 UnknownCount = rFile.ReadLong();
+        uint32 UnknownCount = rFile.ReadLong();
         rFile.Seek(UnknownCount * 2, SEEK_CUR);
     }
 
@@ -169,7 +169,7 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox
     mpMesh->mCollisionVertices.resize(mpMesh->mVertexCount);
     CAABox Bounds;
 
-    for (u32 iVtx = 0; iVtx < mpMesh->mVertexCount; iVtx++)
+    for (uint32 iVtx = 0; iVtx < mpMesh->mVertexCount; iVtx++)
     {
         CCollisionMesh::CCollisionVertex *pVtx = &mpMesh->mCollisionVertices[iVtx];
         pVtx->Pos = CVector3f(rFile);
@@ -186,10 +186,10 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
     CCollisionLoader loader;
 
     rMREA.Seek(0x8, SEEK_CUR);
-    u32 DeafBabe = rMREA.ReadLong();
+    uint32 DeafBabe = rMREA.ReadLong();
     if (DeafBabe != 0xDEAFBABE)
     {
-        Log::FileError(rMREA.GetSourceString(), rMREA.Tell() - 4, "Invalid collision magic: " + TString::HexString(DeafBabe));
+        errorf("%s [0x%X]: Invalid collision magic: 0x%08X", *rMREA.GetSourceString(), rMREA.Tell() - 4, DeafBabe);
         return nullptr;
     }
 
@@ -201,7 +201,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
     // Octree - structure is known, but not coding this right now
     loader.mpMesh->mAABox = CAABox(rMREA);
     rMREA.Seek(0x4, SEEK_CUR);
-    u32 OctreeSize = rMREA.ReadLong();
+    uint32 OctreeSize = rMREA.ReadLong();
     rMREA.Seek(OctreeSize, SEEK_CUR); // Skipping the octree for now
     loader.mpMesh->mOctreeLoaded = false;
 
@@ -218,15 +218,15 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEn
     CCollisionLoader Loader;
     Loader.mpGroup = new CCollisionMeshGroup(pEntry);
 
-    u32 NumMeshes = rDCLN.ReadLong();
+    uint32 NumMeshes = rDCLN.ReadLong();
 
-    for (u32 iMesh = 0; iMesh < NumMeshes; iMesh++)
+    for (uint32 iMesh = 0; iMesh < NumMeshes; iMesh++)
     {
-        u32 DeafBabe = rDCLN.ReadLong();
+        uint32 DeafBabe = rDCLN.ReadLong();
 
         if (DeafBabe != 0xDEAFBABE)
         {
-            Log::FileError(rDCLN.GetSourceString(), rDCLN.Tell() - 4, "Invalid collision magic: " + TString::HexString(DeafBabe));
+            errorf("%s [0x%X]: Invalid collision magic: 0x%08X", *rDCLN.GetSourceString(), rDCLN.Tell() - 4, DeafBabe);
             Loader.mpGroup.Delete();
             return nullptr;
         }
@@ -250,7 +250,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEn
     return Loader.mpGroup;
 }
 
-EGame CCollisionLoader::GetFormatVersion(u32 Version)
+EGame CCollisionLoader::GetFormatVersion(uint32 Version)
 {
     switch (Version)
     {

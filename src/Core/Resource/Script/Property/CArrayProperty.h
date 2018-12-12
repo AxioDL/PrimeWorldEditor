@@ -20,7 +20,7 @@ struct SScriptArray
 
 /** You probably shouldn't use this on intrinsic classes; script only */
 /** @todo proper support of default values for arrays (this would be used for prefabs) */
-class CArrayProperty : public TTypedProperty<u32, EPropertyType::Array>
+class CArrayProperty : public TTypedProperty<uint32, EPropertyType::Array>
 {
     friend class IProperty;
 
@@ -37,7 +37,7 @@ class CArrayProperty : public TTypedProperty<u32, EPropertyType::Array>
         return *( (SScriptArray*) RawValuePtr(pData) );
     }
 
-    u32 _InternalArrayCount(void* pPropertyData) const
+    uint32 _InternalArrayCount(void* pPropertyData) const
     {
         std::vector<char>& rArray = _GetInternalArray(pPropertyData).Array;
         return rArray.size() / ItemSize();
@@ -50,12 +50,12 @@ protected:
     {}
 
 public:
-    virtual u32 DataSize() const
+    virtual uint32 DataSize() const
     {
         return sizeof(SScriptArray);
     }
 
-    virtual u32 DataAlignment() const
+    virtual uint32 DataAlignment() const
     {
         return alignof(SScriptArray);
     }
@@ -112,13 +112,13 @@ public:
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        u32 Count = ArrayCount(pData);
+        uint32 Count = ArrayCount(pData);
         Arc.SerializeArraySize(Count);
 
         if (Arc.IsReader())
             Resize(pData, Count);
 
-        for (u32 ItemIdx = 0; ItemIdx < Count; ItemIdx++)
+        for (uint32 ItemIdx = 0; ItemIdx < Count; ItemIdx++)
         {
             if (Arc.ParamBegin("ArrayElement", 0))
             {
@@ -142,14 +142,14 @@ public:
         mpItemArchetype->Initialize(this, mpScriptTemplate, 0);
     }
 
-    u32 ArrayCount(void* pPropertyData) const
+    uint32 ArrayCount(void* pPropertyData) const
     {
         return ValueRef(pPropertyData);
     }
 
-    void Resize(void* pPropertyData, u32 NewCount) const
+    void Resize(void* pPropertyData, uint32 NewCount) const
     {
-        u32 OldCount = _InternalArrayCount(pPropertyData);
+        uint32 OldCount = _InternalArrayCount(pPropertyData);
 
         if (OldCount != NewCount)
         {
@@ -158,21 +158,21 @@ public:
             // Handle destruction of old elements
             if (OldCount > NewCount)
             {
-                for (u32 ItemIdx = NewCount; ItemIdx < OldCount; ItemIdx++)
+                for (uint32 ItemIdx = NewCount; ItemIdx < OldCount; ItemIdx++)
                 {
                     void* pItemPtr = ItemPointer(pPropertyData, ItemIdx);
                     mpItemArchetype->Destruct(pItemPtr);
                 }
             }
 
-            u32 NewSize = NewCount * ItemSize();
+            uint32 NewSize = NewCount * ItemSize();
             rArray.Array.resize(NewSize);
             rArray.Count = NewCount;
 
             // Handle construction of new elements
             if (NewCount > OldCount)
             {
-                for (u32 ItemIdx = OldCount; ItemIdx < NewCount; ItemIdx++)
+                for (uint32 ItemIdx = OldCount; ItemIdx < NewCount; ItemIdx++)
                 {
                     void* pItemPtr = ItemPointer(pPropertyData, ItemIdx);
                     mpItemArchetype->Construct(pItemPtr);
@@ -181,19 +181,19 @@ public:
         }
     }
 
-    void* ItemPointer(void* pPropertyData, u32 ItemIndex) const
+    void* ItemPointer(void* pPropertyData, uint32 ItemIndex) const
     {
         ASSERT(_InternalArrayCount(pPropertyData) > ItemIndex);
         std::vector<char>& rArray = _GetInternalArray(pPropertyData).Array;
-        u32 MyItemSize = ItemSize();
+        uint32 MyItemSize = ItemSize();
         ASSERT(rArray.size() >= (MyItemSize * (ItemIndex+1)));
         return rArray.data() + (MyItemSize * ItemIndex);
     }
 
-    u32 ItemSize() const
+    uint32 ItemSize() const
     {
-        u32 ItemAlign = mpItemArchetype->DataAlignment();
-        u32 ItemSize = ALIGN(mpItemArchetype->DataSize(), ItemAlign);
+        uint32 ItemAlign = mpItemArchetype->DataAlignment();
+        uint32 ItemSize = ALIGN(mpItemArchetype->DataSize(), ItemAlign);
         return ItemSize;
     }
 

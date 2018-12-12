@@ -14,19 +14,19 @@ void CTextureEncoder::WriteTXTR(IOutputStream& rTXTR)
     rTXTR.WriteShort(mpTexture->mHeight);
     rTXTR.WriteLong(mpTexture->mNumMipMaps);
 
-    u32 MipW = mpTexture->Width() / 4;
-    u32 MipH = mpTexture->Height() / 4;
+    uint32 MipW = mpTexture->Width() / 4;
+    uint32 MipH = mpTexture->Height() / 4;
     CMemoryInStream Image(mpTexture->mpImgDataBuffer, mpTexture->mImgDataSize, IOUtil::eLittleEndian);
-    u32 MipOffset = Image.Tell();
+    uint32 MipOffset = Image.Tell();
 
-    for (u32 iMip = 0; iMip < mpTexture->mNumMipMaps; iMip++)
+    for (uint32 iMip = 0; iMip < mpTexture->mNumMipMaps; iMip++)
     {
-        for (u32 iBlockY = 0; iBlockY < MipH; iBlockY += 2)
-            for (u32 iBlockX = 0; iBlockX < MipW; iBlockX += 2)
-                for (u32 iImgY = iBlockY; iImgY < iBlockY + 2; iImgY++)
-                    for (u32 iImgX = iBlockX; iImgX < iBlockX + 2; iImgX++)
+        for (uint32 iBlockY = 0; iBlockY < MipH; iBlockY += 2)
+            for (uint32 iBlockX = 0; iBlockX < MipW; iBlockX += 2)
+                for (uint32 iImgY = iBlockY; iImgY < iBlockY + 2; iImgY++)
+                    for (uint32 iImgX = iBlockX; iImgX < iBlockX + 2; iImgX++)
                     {
-                        u32 SrcPos = ((iImgY * MipW) + iImgX) * 8;
+                        uint32 SrcPos = ((iImgY * MipW) + iImgX) * 8;
                         Image.Seek(MipOffset + SrcPos, SEEK_SET);
 
                         ReadSubBlockCMPR(Image, rTXTR);
@@ -50,9 +50,9 @@ void CTextureEncoder::ReadSubBlockCMPR(IInputStream& rSource, IOutputStream& rDe
     rDest.WriteShort(rSource.ReadShort());
     rDest.WriteShort(rSource.ReadShort());
 
-    for (u32 iByte = 0; iByte < 4; iByte++)
+    for (uint32 iByte = 0; iByte < 4; iByte++)
     {
-        u8 Byte = rSource.ReadByte();
+        uint8 Byte = rSource.ReadByte();
         Byte = ((Byte & 0x3) << 6) | ((Byte & 0xC) << 2) | ((Byte & 0x30) >> 2) | ((Byte & 0xC0) >> 6);
         rDest.WriteByte(Byte);
     }
@@ -63,7 +63,7 @@ void CTextureEncoder::EncodeTXTR(IOutputStream& rTXTR, CTexture *pTex)
 {
     if (pTex->mTexelFormat != eDXT1)
     {
-        Log::Error("Unsupported texel format for decoding");
+        errorf("Unsupported texel format for decoding");
         return;
     }
 

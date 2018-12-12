@@ -236,7 +236,7 @@ QMouseEvent CSceneViewport::CreateMouseEvent()
     return QMouseEvent(QEvent::MouseMove, mapFromGlobal(QCursor::pos()), Qt::NoButton, qApp->mouseButtons(), qApp->keyboardModifiers());
 }
 
-void CSceneViewport::FindConnectedObjects(u32 InstanceID, bool SearchOutgoing, bool SearchIncoming, QList<u32>& rIDList)
+void CSceneViewport::FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing, bool SearchIncoming, QList<uint32>& rIDList)
 {
     CScriptNode *pScript = mpScene->NodeForInstanceID(InstanceID);
     if (!pScript) return;
@@ -246,7 +246,7 @@ void CSceneViewport::FindConnectedObjects(u32 InstanceID, bool SearchOutgoing, b
 
     if (SearchOutgoing)
     {
-        for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+        for (uint32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
         {
             CLink *pLink = pInst->Link(eOutgoing, iLink);
 
@@ -257,7 +257,7 @@ void CSceneViewport::FindConnectedObjects(u32 InstanceID, bool SearchOutgoing, b
 
     if (SearchIncoming)
     {
-        for (u32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
+        for (uint32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
         {
             CLink *pLink = pInst->Link(eIncoming, iLink);
 
@@ -430,13 +430,13 @@ void CSceneViewport::OnToggleSelect()
 
 void CSceneViewport::OnSelectConnected()
 {
-    QList<u32> InstanceIDs;
+    QList<uint32> InstanceIDs;
     bool SearchOutgoing = (sender() == mpSelectConnectedOutgoingAction || sender() == mpSelectConnectedAllAction);
     bool SearchIncoming = (sender() == mpSelectConnectedIncomingAction || sender() == mpSelectConnectedAllAction);
     FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Instance()->InstanceID(), SearchOutgoing, SearchIncoming, InstanceIDs);
 
     QList<CSceneNode*> Nodes;
-    foreach (u32 ID, InstanceIDs)
+    foreach (uint32 ID, InstanceIDs)
         Nodes << mpScene->NodeForInstanceID(ID);
 
     bool ShouldClear = ((qApp->keyboardModifiers() & Qt::ControlModifier) == 0);

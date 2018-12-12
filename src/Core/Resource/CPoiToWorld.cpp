@@ -11,7 +11,7 @@ CPoiToWorld::~CPoiToWorld()
         delete *it;
 }
 
-void CPoiToWorld::AddPoi(u32 PoiID)
+void CPoiToWorld::AddPoi(uint32 PoiID)
 {
     // Check if this POI already exists
     auto it = mPoiLookupMap.find(PoiID);
@@ -26,7 +26,7 @@ void CPoiToWorld::AddPoi(u32 PoiID)
     }
 }
 
-void CPoiToWorld::AddPoiMeshMap(u32 PoiID, u32 ModelID)
+void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
 {
     // Make sure the POI exists; the add function won't do anything if it does
     AddPoi(PoiID);
@@ -43,7 +43,7 @@ void CPoiToWorld::AddPoiMeshMap(u32 PoiID, u32 ModelID)
     pMap->ModelIDs.push_back(ModelID);
 }
 
-void CPoiToWorld::RemovePoi(u32 PoiID)
+void CPoiToWorld::RemovePoi(uint32 PoiID)
 {
     for (auto it = mMaps.begin(); it != mMaps.end(); it++)
     {
@@ -56,7 +56,7 @@ void CPoiToWorld::RemovePoi(u32 PoiID)
     }
 }
 
-void CPoiToWorld::RemovePoiMeshMap(u32 PoiID, u32 ModelID)
+void CPoiToWorld::RemovePoiMeshMap(uint32 PoiID, uint32 ModelID)
 {
     auto MapIt = mPoiLookupMap.find(PoiID);
 

@@ -12,8 +12,8 @@ public:
     CDependencyGroup(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
 
     inline void Clear()                                     { mDependencies.clear(); }
-    inline u32 NumDependencies() const                      { return mDependencies.size(); }
-    inline CAssetID DependencyByIndex(u32 Index) const      { return mDependencies[Index]; }
+    inline uint32 NumDependencies() const                   { return mDependencies.size(); }
+    inline CAssetID DependencyByIndex(uint32 Index) const   { return mDependencies[Index]; }
 
     inline void AddDependency(const CAssetID& rkID)
     {
@@ -41,7 +41,7 @@ public:
     
     bool HasDependency(const CAssetID &rkID) const
     {
-        for (u32 iDep = 0; iDep < mDependencies.size(); iDep++)
+        for (uint32 iDep = 0; iDep < mDependencies.size(); iDep++)
         {
             if (mDependencies[iDep] == rkID)
                 return true;

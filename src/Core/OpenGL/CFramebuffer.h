@@ -10,7 +10,7 @@ class CFramebuffer
     GLuint mFramebuffer;
     CRenderbuffer *mpRenderbuffer;
     CTexture *mpTexture;
-    u32 mWidth, mHeight;
+    uint32 mWidth, mHeight;
     bool mEnableMultisampling;
     bool mInitialized;
     GLenum mStatus;
@@ -20,11 +20,11 @@ class CFramebuffer
 
 public:
     CFramebuffer();
-    CFramebuffer(u32 Width, u32 Height);
+    CFramebuffer(uint32 Width, uint32 Height);
     ~CFramebuffer();
     void Init();
     void Bind(GLenum Target = GL_FRAMEBUFFER);
-    void Resize(u32 Width, u32 Height);
+    void Resize(uint32 Width, uint32 Height);
     void SetMultisamplingEnabled(bool Enable);
 
     // Accessors

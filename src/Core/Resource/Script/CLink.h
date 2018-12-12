@@ -3,13 +3,13 @@
 
 #include "CScriptObject.h"
 #include "Core/Resource/Area/CGameArea.h"
+#include <Common/BasicTypes.h>
 #include <Common/TString.h>
-#include <Common/types.h>
 
 struct SState
 {
     union {
-        u32 ID;
+        uint32 ID;
         CFourCC ID_4CC;
     };
     TString Name;
@@ -17,7 +17,7 @@ struct SState
     SState()
     {}
 
-    SState(u32 InID, const TString& kInName)
+    SState(uint32 InID, const TString& kInName)
         : ID(InID)
         , Name(kInName)
     {}
@@ -36,7 +36,7 @@ struct SState
 struct SMessage
 {
     union {
-        u32 ID;
+        uint32 ID;
         CFourCC ID_4CC;
     };
     TString Name;
@@ -44,7 +44,7 @@ struct SMessage
     SMessage()
     {}
 
-    SMessage(u32 InID, const TString& kInName)
+    SMessage(uint32 InID, const TString& kInName)
         : ID(InID)
         , Name(kInName)
     {}
@@ -63,10 +63,10 @@ struct SMessage
 class CLink
 {
     CGameArea *mpArea;
-    u32 mStateID;
-    u32 mMessageID;
-    u32 mSenderID;
-    u32 mReceiverID;
+    uint32 mStateID;
+    uint32 mMessageID;
+    uint32 mSenderID;
+    uint32 mReceiverID;
 
 public:
     CLink(CGameArea *pArea)
@@ -77,7 +77,7 @@ public:
         , mReceiverID(-1)
     {}
 
-    CLink(CGameArea *pArea, u32 StateID, u32 MessageID, u32 SenderID, u32 ReceiverID)
+    CLink(CGameArea *pArea, uint32 StateID, uint32 MessageID, uint32 SenderID, uint32 ReceiverID)
         : mpArea(pArea)
         , mStateID(StateID)
         , mMessageID(MessageID)
@@ -85,9 +85,9 @@ public:
         , mReceiverID(ReceiverID)
     {}
 
-    void SetSender(u32 NewSenderID, u32 Index = -1)
+    void SetSender(uint32 NewSenderID, uint32 Index = -1)
     {
-        u32 OldSenderID = mSenderID;
+        uint32 OldSenderID = mSenderID;
         CScriptObject *pOldSender = mpArea->InstanceByID(OldSenderID);
         CScriptObject *pNewSender = mpArea->InstanceByID(NewSenderID);
 
@@ -96,9 +96,9 @@ public:
         pNewSender->AddLink(eOutgoing, this, Index);
     }
 
-    void SetReceiver(u32 NewReceiverID, u32 Index = -1)
+    void SetReceiver(uint32 NewReceiverID, uint32 Index = -1)
     {
-        u32 OldReceiverID = mSenderID;
+        uint32 OldReceiverID = mSenderID;
         CScriptObject *pOldReceiver = mpArea->InstanceByID(OldReceiverID);
         CScriptObject *pNewReceiver = mpArea->InstanceByID(NewReceiverID);
 
@@ -107,13 +107,13 @@ public:
         pNewReceiver->AddLink(eIncoming, this, Index);
     }
 
-    u32 SenderIndex() const
+    uint32 SenderIndex() const
     {
         CScriptObject *pSender = mpArea->InstanceByID(mSenderID);
 
         if (pSender)
         {
-            for (u32 iLink = 0; iLink < pSender->NumLinks(eOutgoing); iLink++)
+            for (uint32 iLink = 0; iLink < pSender->NumLinks(eOutgoing); iLink++)
             {
                 if (pSender->Link(eOutgoing, iLink) == this)
                     return iLink;
@@ -123,13 +123,13 @@ public:
         return -1;
     }
 
-    u32 ReceiverIndex() const
+    uint32 ReceiverIndex() const
     {
         CScriptObject *pReceiver = mpArea->InstanceByID(mReceiverID);
 
         if (pReceiver)
         {
-            for (u32 iLink = 0; iLink < pReceiver->NumLinks(eIncoming); iLink++)
+            for (uint32 iLink = 0; iLink < pReceiver->NumLinks(eIncoming); iLink++)
             {
                 if (pReceiver->Link(eIncoming, iLink) == this)
                     return iLink;
@@ -156,15 +156,15 @@ public:
 
     // Accessors
     inline CGameArea* Area() const          { return mpArea; }
-    inline u32 State() const                { return mStateID; }
-    inline u32 Message() const              { return mMessageID; }
-    inline u32 SenderID() const             { return mSenderID; }
-    inline u32 ReceiverID() const           { return mReceiverID; }
+    inline uint32 State() const             { return mStateID; }
+    inline uint32 Message() const           { return mMessageID; }
+    inline uint32 SenderID() const          { return mSenderID; }
+    inline uint32 ReceiverID() const        { return mReceiverID; }
     inline CScriptObject* Sender() const    { return mpArea->InstanceByID(mSenderID); }
     inline CScriptObject* Receiver() const  { return mpArea->InstanceByID(mReceiverID); }
 
-    inline void SetState(u32 StateID)       { mStateID = StateID; }
-    inline void SetMessage(u32 MessageID)   { mMessageID = MessageID; }
+    inline void SetState(uint32 StateID)       { mStateID = StateID; }
+    inline void SetMessage(uint32 MessageID)   { mMessageID = MessageID; }
 };
 
 

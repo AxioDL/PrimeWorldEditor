@@ -10,7 +10,7 @@ CRayCollisionTester::~CRayCollisionTester()
 {
 }
 
-void CRayCollisionTester::AddNode(CSceneNode *pNode, u32 ComponentIndex, float Distance)
+void CRayCollisionTester::AddNode(CSceneNode *pNode, uint32 ComponentIndex, float Distance)
 {
     mBoxIntersectList.emplace_back(SRayIntersection());
     SRayIntersection& rIntersection = mBoxIntersectList.back();
@@ -22,7 +22,7 @@ void CRayCollisionTester::AddNode(CSceneNode *pNode, u32 ComponentIndex, float D
 void CRayCollisionTester::AddNodeModel(CSceneNode *pNode, CBasicModel *pModel)
 {
     // Check each of the model's surfaces and queue them for further testing if they hit
-    for (u32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+    for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
     {
         std::pair<bool,float> SurfResult = pModel->GetSurfaceAABox(iSurf).Transformed(pNode->Transform()).IntersectsRay(mRay);
 

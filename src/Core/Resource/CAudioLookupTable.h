@@ -7,14 +7,14 @@ class CAudioLookupTable : public CResource
 {
     DECLARE_RESOURCE_TYPE(eAudioLookupTable)
     friend class CAudioGroupLoader;
-    std::vector<u16> mDefineIDs;
+    std::vector<uint16> mDefineIDs;
 
 public:
     CAudioLookupTable(CResourceEntry *pEntry = 0)
         : CResource(pEntry)
     {}
 
-    inline u16 FindSoundDefineID(u32 SoundID)
+    inline uint16 FindSoundDefineID(uint32 SoundID)
     {
         if (SoundID >= mDefineIDs.size()) return -1;
         return mDefineIDs[SoundID];

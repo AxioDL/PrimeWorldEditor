@@ -9,13 +9,13 @@
 // ************ IDependencyNode ************
 IDependencyNode::~IDependencyNode()
 {
-    for (u32 iChild = 0; iChild < mChildren.size(); iChild++)
+    for (uint32 iChild = 0; iChild < mChildren.size(); iChild++)
         delete mChildren[iChild];
 }
 
 bool IDependencyNode::HasDependency(const CAssetID& rkID) const
 {
-    for (u32 iChild = 0; iChild < mChildren.size(); iChild++)
+    for (uint32 iChild = 0; iChild < mChildren.size(); iChild++)
     {
         if (mChildren[iChild]->HasDependency(rkID))
             return true;
@@ -26,7 +26,7 @@ bool IDependencyNode::HasDependency(const CAssetID& rkID) const
 
 void IDependencyNode::GetAllResourceReferences(std::set<CAssetID>& rOutSet) const
 {
-    for (u32 iChild = 0; iChild < mChildren.size(); iChild++)
+    for (uint32 iChild = 0; iChild < mChildren.size(); iChild++)
         mChildren[iChild]->GetAllResourceReferences(rOutSet);
 }
 
@@ -158,7 +158,7 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
     // Recursive function for parsing script dependencies and loading them into the script instance dependency
     void* pPropertyData = pInstance->PropertyData();
 
-    for (u32 PropertyIdx = 0; PropertyIdx < pStruct->NumChildren(); PropertyIdx++)
+    for (uint32 PropertyIdx = 0; PropertyIdx < pStruct->NumChildren(); PropertyIdx++)
     {
         IProperty *pProp = pStruct->ChildByIndex(PropertyIdx);
         EPropertyType Type = pProp->Type();
@@ -170,7 +170,7 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
 
         else if (Type == EPropertyType::Sound)
         {
-            u32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pPropertyData);
+            uint32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pPropertyData);
 
             if (SoundID != -1)
             {
@@ -246,13 +246,13 @@ CSetCharacterDependency* CSetCharacterDependency::BuildTree(const SSetCharacter&
         &rkChar.EffectParticles
     };
 
-    for (u32 iVec = 0; iVec < 5; iVec++)
+    for (uint32 iVec = 0; iVec < 5; iVec++)
     {
-        for (u32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
+        for (uint32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
             pTree->AddDependency(pkParticleVectors[iVec]->at(iPart));
     }
 
-    for (u32 iOverlay = 0; iOverlay < rkChar.OverlayModels.size(); iOverlay++)
+    for (uint32 iOverlay = 0; iOverlay < rkChar.OverlayModels.size(); iOverlay++)
     {
         const SOverlayModel& rkOverlay = rkChar.OverlayModels[iOverlay];
         pTree->AddDependency(rkOverlay.ModelID);
@@ -276,13 +276,13 @@ void CSetAnimationDependency::Serialize(IArchive& rArc)
          << SerialParameter("Children", mChildren);
 }
 
-CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOwnerSet, u32 AnimIndex)
+CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOwnerSet, uint32 AnimIndex)
 {
     CSetAnimationDependency *pTree = new CSetAnimationDependency;
     const SAnimation *pkAnim = pkOwnerSet->Animation(AnimIndex);
 
     // Find relevant character indices
-    for (u32 iChar = 0; iChar < pkOwnerSet->NumCharacters(); iChar++)
+    for (uint32 iChar = 0; iChar < pkOwnerSet->NumCharacters(); iChar++)
     {
         const SSetCharacter *pkChar = pkOwnerSet->Character(iChar);
 
@@ -340,7 +340,7 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
     mLayerOffsets.push_back(mChildren.size());
     std::set<CAssetID> UsedIDs;
 
-    for (u32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
+    for (uint32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
         CScriptInstanceDependency *pTree = CScriptInstanceDependency::BuildTree( pLayer->InstanceByIndex(iInst) );
         ASSERT(pTree != nullptr);
@@ -355,34 +355,34 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
             delete pTree;
     }
 
-    for (u32 iDep = 0; iDep < rkExtraDeps.size(); iDep++)
+    for (uint32 iDep = 0; iDep < rkExtraDeps.size(); iDep++)
         AddDependency(rkExtraDeps[iDep]);
 }
 
-void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<u32>& rModuleLayerOffsetsOut) const
+void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<uint32>& rModuleLayerOffsetsOut) const
 {
     CGameTemplate *pGame = NGameList::GetGameTemplate(Game);
 
     // Output module list will be split per-script layer
     // The output offset list contains two offsets per layer - start index and end index
-    for (u32 iLayer = 0; iLayer < mLayerOffsets.size(); iLayer++)
+    for (uint32 iLayer = 0; iLayer < mLayerOffsets.size(); iLayer++)
     {
-        u32 StartIdx = mLayerOffsets[iLayer];
-        u32 EndIdx = (iLayer == mLayerOffsets.size() - 1 ? mChildren.size() : mLayerOffsets[iLayer + 1]);
+        uint32 StartIdx = mLayerOffsets[iLayer];
+        uint32 EndIdx = (iLayer == mLayerOffsets.size() - 1 ? mChildren.size() : mLayerOffsets[iLayer + 1]);
 
-        u32 ModuleStartIdx = rModuleDepsOut.size();
+        uint32 ModuleStartIdx = rModuleDepsOut.size();
         rModuleLayerOffsetsOut.push_back(ModuleStartIdx);
 
         // Keep track of which types we've already checked on this layer to speed things up a little...
-        std::set<u32> UsedObjectTypes;
+        std::set<uint32> UsedObjectTypes;
 
-        for (u32 iInst = StartIdx; iInst < EndIdx; iInst++)
+        for (uint32 iInst = StartIdx; iInst < EndIdx; iInst++)
         {
             IDependencyNode *pNode = mChildren[iInst];
             if (pNode->Type() != eDNT_ScriptInstance) continue;
 
             CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(pNode);
-            u32 ObjType = pInst->ObjectType();
+            uint32 ObjType = pInst->ObjectType();
 
             if (UsedObjectTypes.find(ObjType) == UsedObjectTypes.end())
             {
@@ -390,12 +390,12 @@ void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>
                 CScriptTemplate *pTemplate = pGame->TemplateByID(ObjType);
                 const std::vector<TString>& rkModules = pTemplate->RequiredModules();
 
-                for (u32 iMod = 0; iMod < rkModules.size(); iMod++)
+                for (uint32 iMod = 0; iMod < rkModules.size(); iMod++)
                 {
                     TString ModuleName = rkModules[iMod];
                     bool NewModule = true;
 
-                    for (u32 iUsed = ModuleStartIdx; iUsed < rModuleDepsOut.size(); iUsed++)
+                    for (uint32 iUsed = ModuleStartIdx; iUsed < rModuleDepsOut.size(); iUsed++)
                     {
                         if (rModuleDepsOut[iUsed] == ModuleName)
                         {

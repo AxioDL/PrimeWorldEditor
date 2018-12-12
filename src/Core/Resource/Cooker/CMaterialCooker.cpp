@@ -6,9 +6,9 @@ CMaterialCooker::CMaterialCooker()
 {
 }
 
-u32 CMaterialCooker::ConvertFromVertexDescription(FVertexDescription VtxDesc)
+uint32 CMaterialCooker::ConvertFromVertexDescription(FVertexDescription VtxDesc)
 {
-    u32 Flags = 0;
+    uint32 Flags = 0;
     if (VtxDesc & ePosition)    Flags |= 0x00000003;
     if (VtxDesc & eNormal)      Flags |= 0x0000000C;
     if (VtxDesc & eColor0)      Flags |= 0x00000030;
@@ -36,14 +36,14 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
 {
     // Gather texture list from the materials before starting
     mTextureIDs.clear();
-    u32 NumMats = mpSet->mMaterials.size();
+    uint32 NumMats = mpSet->mMaterials.size();
 
-    for (u32 iMat = 0; iMat < NumMats; iMat++)
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
         CMaterial *pMat = mpSet->mMaterials[iMat];
 
-        u32 NumPasses  = pMat->PassCount();
-        for (u32 iPass = 0; iPass < NumPasses; iPass++)
+        uint32 NumPasses  = pMat->PassCount();
+        for (uint32 iPass = 0; iPass < NumPasses; iPass++)
         {
             CTexture *pTex = pMat->Pass(iPass)->Texture();
             if (pTex)
@@ -58,21 +58,21 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
     // Write texture IDs
     rOut.WriteLong(mTextureIDs.size());
 
-    for (u32 iTex = 0; iTex < mTextureIDs.size(); iTex++)
+    for (uint32 iTex = 0; iTex < mTextureIDs.size(); iTex++)
         rOut.WriteLong(mTextureIDs[iTex]);
 
     // Write material offset filler
     rOut.WriteLong(NumMats);
-    u32 MatOffsetsStart = rOut.Tell();
+    uint32 MatOffsetsStart = rOut.Tell();
 
-    for (u32 iMat = 0; iMat < NumMats; iMat++)
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
         rOut.WriteLong(0);
 
     // Write materials
-    u32 MatsStart = rOut.Tell();
-    std::vector<u32> MatEndOffsets(NumMats);
+    uint32 MatsStart = rOut.Tell();
+    std::vector<uint32> MatEndOffsets(NumMats);
 
-    for (u32 iMat = 0; iMat < NumMats; iMat++)
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
         mpMat = mpSet->mMaterials[iMat];
         WriteMaterialPrime(rOut);
@@ -80,10 +80,10 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
     }
 
     // Write material offsets
-    u32 MatsEnd = rOut.Tell();
+    uint32 MatsEnd = rOut.Tell();
     rOut.Seek(MatOffsetsStart, SEEK_SET);
 
-    for (u32 iMat = 0; iMat < NumMats; iMat++)
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
         rOut.WriteLong(MatEndOffsets[iMat]);
 
     // Done!
@@ -98,19 +98,19 @@ void CMaterialCooker::WriteMatSetCorruption(IOutputStream& /*rOut*/)
 void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
 {
     // Gather data from the passes before we start writing
-    u32 TexFlags = 0;
-    u32 NumKonst = 0;
-    std::vector<u32> TexIndices;
+    uint32 TexFlags = 0;
+    uint32 NumKonst = 0;
+    std::vector<uint32> TexIndices;
 
-    for (u32 iPass = 0; iPass < mpMat->mPasses.size(); iPass++)
+    for (uint32 iPass = 0; iPass < mpMat->mPasses.size(); iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
 
         if ((pPass->KColorSel() >= 0xC) || (pPass->KAlphaSel() >= 0x10))
         {
             // Determine the highest Konst index being used
-            u32 KColorIndex = pPass->KColorSel() % 4;
-            u32 KAlphaIndex = pPass->KAlphaSel() % 4;
+            uint32 KColorIndex = pPass->KColorSel() % 4;
+            uint32 KAlphaIndex = pPass->KAlphaSel() % 4;
 
             if (KColorIndex >= NumKonst)
                 NumKonst = KColorIndex + 1;
@@ -122,9 +122,9 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
         if (pPassTex != nullptr)
         {
             TexFlags |= (1 << iPass);
-            u32 TexID = pPassTex->ID().ToLong();
+            uint32 TexID = pPassTex->ID().ToLong();
 
-            for (u32 iTex = 0; iTex < mTextureIDs.size(); iTex++)
+            for (uint32 iTex = 0; iTex < mTextureIDs.size(); iTex++)
             {
                 if (mTextureIDs[iTex] == TexID)
                 {
@@ -136,11 +136,11 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     }
 
     // Get group index
-    u32 GroupIndex;
-    u64 MatHash = mpMat->HashParameters();
+    uint32 GroupIndex;
+    uint64 MatHash = mpMat->HashParameters();
     bool NewHash = true;
 
-    for (u32 iHash = 0; iHash < mMaterialHashes.size(); iHash++)
+    for (uint32 iHash = 0; iHash < mMaterialHashes.size(); iHash++)
     {
         if (mMaterialHashes[iHash] == MatHash)
         {
@@ -159,7 +159,7 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     // Start writing!
     // Generate flags value
     bool HasKonst = (NumKonst > 0);
-    u32 Flags;
+    uint32 Flags;
 
     if (mVersion <= EGame::Prime)
         Flags = 0x1003;
@@ -172,11 +172,11 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
 
     // Texture indices
     rOut.WriteLong(TexIndices.size());
-    for (u32 iTex = 0; iTex < TexIndices.size(); iTex++)
+    for (uint32 iTex = 0; iTex < TexIndices.size(); iTex++)
         rOut.WriteLong(TexIndices[iTex]);
 
     // Vertex description
-    u32 VtxFlags = ConvertFromVertexDescription( mpMat->VtxDesc() );
+    uint32 VtxFlags = ConvertFromVertexDescription( mpMat->VtxDesc() );
 
     if (mVersion < EGame::Echoes)
         VtxFlags &= 0x00FFFFFF;
@@ -197,14 +197,14 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     if (HasKonst)
     {
         rOut.WriteLong(NumKonst);
-        for (u32 iKonst = 0; iKonst < NumKonst; iKonst++)
+        for (uint32 iKonst = 0; iKonst < NumKonst; iKonst++)
             rOut.WriteLong( mpMat->Konst(iKonst).ToLongRGBA() );
     }
 
     // Blend Mode
     // Some modifications are done to convert the GLenum to the corresponding GX enum
-    u16 BlendSrcFac = (u16) mpMat->BlendSrcFac();
-    u16 BlendDstFac = (u16) mpMat->BlendDstFac();
+    uint16 BlendSrcFac = (uint16) mpMat->BlendSrcFac();
+    uint16 BlendDstFac = (uint16) mpMat->BlendDstFac();
     if (BlendSrcFac >= 0x300) BlendSrcFac -= 0x2FE;
     if (BlendDstFac >= 0x300) BlendDstFac -= 0x2FE;
     rOut.WriteShort(BlendDstFac);
@@ -215,24 +215,24 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     rOut.WriteLong(0x3000 | (mpMat->IsLightingEnabled() ? 1 : 0));
 
     // TEV
-    u32 NumPasses = mpMat->PassCount();
+    uint32 NumPasses = mpMat->PassCount();
     rOut.WriteLong(NumPasses);
 
-    for (u32 iPass = 0; iPass < NumPasses; iPass++)
+    for (uint32 iPass = 0; iPass < NumPasses; iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
 
-        u32 ColorInputFlags = ((pPass->ColorInput(0)) |
+        uint32 ColorInputFlags = ((pPass->ColorInput(0)) |
                                (pPass->ColorInput(1) << 5) |
                                (pPass->ColorInput(2) << 10) |
                                (pPass->ColorInput(3) << 15));
-        u32 AlphaInputFlags = ((pPass->AlphaInput(0)) |
+        uint32 AlphaInputFlags = ((pPass->AlphaInput(0)) |
                                (pPass->AlphaInput(1) << 5) |
                                (pPass->AlphaInput(2) << 10) |
                                (pPass->AlphaInput(3) << 15));
 
-        u32 ColorOpFlags = 0x100 | (pPass->ColorOutput() << 9);
-        u32 AlphaOpFlags = 0x100 | (pPass->AlphaOutput() << 9);
+        uint32 ColorOpFlags = 0x100 | (pPass->ColorOutput() << 9);
+        uint32 AlphaOpFlags = 0x100 | (pPass->AlphaOutput() << 9);
 
         rOut.WriteLong(ColorInputFlags);
         rOut.WriteLong(AlphaInputFlags);
@@ -245,37 +245,37 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     }
 
     // TEV Tex/UV input selection
-    u32 CurTexIdx = 0;
+    uint32 CurTexIdx = 0;
 
-    for (u32 iPass = 0; iPass < NumPasses; iPass++)
+    for (uint32 iPass = 0; iPass < NumPasses; iPass++)
     {
         rOut.WriteShort(0); // Padding
 
         if (mpMat->Pass(iPass)->Texture())
         {
-            rOut.WriteByte((u8) CurTexIdx);
-            rOut.WriteByte((u8) CurTexIdx);
+            rOut.WriteByte((uint8) CurTexIdx);
+            rOut.WriteByte((uint8) CurTexIdx);
             CurTexIdx++;
         }
 
         else
-            rOut.WriteShort((u16) 0xFFFF);
+            rOut.WriteShort((uint16) 0xFFFF);
     }
 
     // TexGen
-    u32 NumTexCoords = CurTexIdx; // TexIdx is currently equal to the tex coord count
+    uint32 NumTexCoords = CurTexIdx; // TexIdx is currently equal to the tex coord count
     rOut.WriteLong(NumTexCoords);
-    u32 CurTexMtx = 0;
+    uint32 CurTexMtx = 0;
 
-    for (u32 iPass = 0; iPass < NumPasses; iPass++)
+    for (uint32 iPass = 0; iPass < NumPasses; iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
         if (pPass->Texture() == nullptr) continue;
 
-        u32 AnimType = pPass->AnimMode();
-        u32 CoordSource = pPass->TexCoordSource();
+        uint32 AnimType = pPass->AnimMode();
+        uint32 CoordSource = pPass->TexCoordSource();
 
-        u32 TexMtxIdx, PostMtxIdx;
+        uint32 TexMtxIdx, PostMtxIdx;
         bool Normalize;
 
         // No animation - set TexMtx and PostMtx to identity, disable normalization
@@ -304,21 +304,21 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
             CurTexMtx += 3;
         }
 
-        u32 TexGenFlags = (CoordSource << 4) | (TexMtxIdx << 9) | (Normalize << 14) | (PostMtxIdx << 15);
+        uint32 TexGenFlags = (CoordSource << 4) | (TexMtxIdx << 9) | (Normalize << 14) | (PostMtxIdx << 15);
         rOut.WriteLong(TexGenFlags);
     }
 
     // Animations
-    u32 AnimSizeOffset = rOut.Tell();
-    u32 NumAnims = CurTexMtx; // CurTexMtx is currently equal to the anim count
+    uint32 AnimSizeOffset = rOut.Tell();
+    uint32 NumAnims = CurTexMtx; // CurTexMtx is currently equal to the anim count
     rOut.WriteLong(0);         // Anim size filler
-    u32 AnimsStart = rOut.Tell();
+    uint32 AnimsStart = rOut.Tell();
     rOut.WriteLong(NumAnims);
 
-    for (u32 iPass = 0; iPass < NumPasses; iPass++)
+    for (uint32 iPass = 0; iPass < NumPasses; iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
-        u32 AnimMode = pPass->AnimMode();
+        uint32 AnimMode = pPass->AnimMode();
         if (AnimMode == eNoUVAnim) continue;
 
         rOut.WriteLong(AnimMode);
@@ -336,8 +336,8 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
         }
     }
 
-    u32 AnimsEnd = rOut.Tell();
-    u32 AnimsSize = AnimsEnd - AnimsStart;
+    uint32 AnimsEnd = rOut.Tell();
+    uint32 AnimsSize = AnimsEnd - AnimsStart;
     rOut.Seek(AnimSizeOffset, SEEK_SET);
     rOut.WriteLong(AnimsSize);
     rOut.Seek(AnimsEnd, SEEK_SET);

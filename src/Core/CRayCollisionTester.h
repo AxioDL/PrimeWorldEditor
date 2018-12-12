@@ -4,10 +4,10 @@
 #include "SRayIntersection.h"
 #include "Core/Render/SViewInfo.h"
 #include "Core/Resource/Model/CBasicModel.h"
-#include <Common/types.h>
-#include <Math/CAABox.h>
-#include <Math/CRay.h>
-#include <Math/CVector3f.h>
+#include <Common/BasicTypes.h>
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CVector3f.h>
 
 #include <list>
 
@@ -23,7 +23,7 @@ public:
     ~CRayCollisionTester();
     const CRay& Ray() const { return mRay; }
 
-    void AddNode(CSceneNode *pNode, u32 AssetIndex, float Distance);
+    void AddNode(CSceneNode *pNode, uint32 AssetIndex, float Distance);
     void AddNodeModel(CSceneNode *pNode, CBasicModel *pModel);
     SRayIntersection TestNodes(const SViewInfo& rkViewInfo);
 };

@@ -21,7 +21,7 @@ CVertexBuffer::~CVertexBuffer()
         glDeleteBuffers(14, mAttribBuffers);
 }
 
-u16 CVertexBuffer::AddVertex(const CVertex& rkVtx)
+uint16 CVertexBuffer::AddVertex(const CVertex& rkVtx)
 {
     if (mPositions.size() == 0xFFFF) throw std::overflow_error("VBO contains too many vertices");
 
@@ -30,10 +30,10 @@ u16 CVertexBuffer::AddVertex(const CVertex& rkVtx)
     if (mVtxDesc & eColor0)   mColors[0].push_back(rkVtx.Color[0]);
     if (mVtxDesc & eColor1)   mColors[1].push_back(rkVtx.Color[1]);
 
-    for (u32 iTex = 0; iTex < 8; iTex++)
+    for (uint32 iTex = 0; iTex < 8; iTex++)
         if (mVtxDesc & (eTex0 << iTex)) mTexCoords[iTex].push_back(rkVtx.Tex[iTex]);
 
-    for (u32 iMtx = 0; iMtx < 8; iMtx++)
+    for (uint32 iMtx = 0; iMtx < 8; iMtx++)
         if (mVtxDesc & (ePosMtx << iMtx)) mTexCoords[iMtx].push_back(rkVtx.MatrixIndices[iMtx]);
 
     if (mVtxDesc.HasAnyFlags(eBoneIndices | eBoneWeights) && mpSkin)
@@ -46,11 +46,11 @@ u16 CVertexBuffer::AddVertex(const CVertex& rkVtx)
     return (mPositions.size() - 1);
 }
 
-u16 CVertexBuffer::AddIfUnique(const CVertex& rkVtx, u16 Start)
+uint16 CVertexBuffer::AddIfUnique(const CVertex& rkVtx, uint16 Start)
 {
     if (Start < mPositions.size())
     {
-        for (u16 iVert = Start; iVert < mPositions.size(); iVert++)
+        for (uint16 iVert = Start; iVert < mPositions.size(); iVert++)
         {
             // I use a bool because "continue" doesn't work properly within the iTex loop
             bool Unique = false;
@@ -68,7 +68,7 @@ u16 CVertexBuffer::AddIfUnique(const CVertex& rkVtx, u16 Start)
                 if (rkVtx.Color[1] != mColors[1][iVert]) Unique = true;
 
             if (!Unique)
-                for (u32 iTex = 0; iTex < 8; iTex++)
+                for (uint32 iTex = 0; iTex < 8; iTex++)
                     if ((mVtxDesc & (eTex0 << iTex)))
                         if (rkVtx.Tex[iTex] != mTexCoords[iTex][iVert])
                         {
@@ -80,7 +80,7 @@ u16 CVertexBuffer::AddIfUnique(const CVertex& rkVtx, u16 Start)
             {
                 const SVertexWeights& rkWeights = mpSkin->WeightsForVertex(rkVtx.ArrayPosition);
 
-                for (u32 iWgt = 0; iWgt < 4; iWgt++)
+                for (uint32 iWgt = 0; iWgt < 4; iWgt++)
                 {
                     if ( ((mVtxDesc & eBoneIndices) && (rkWeights.Indices[iWgt] != mBoneIndices[iVert][iWgt])) ||
                          ((mVtxDesc & eBoneWeights) && (rkWeights.Weights[iWgt] != mBoneWeights[iVert][iWgt])) )
@@ -98,9 +98,9 @@ u16 CVertexBuffer::AddIfUnique(const CVertex& rkVtx, u16 Start)
     return AddVertex(rkVtx);
 }
 
-void CVertexBuffer::Reserve(u16 Size)
+void CVertexBuffer::Reserve(uint16 Size)
 {
-    u32 ReserveSize = mPositions.size() + Size;
+    uint32 ReserveSize = mPositions.size() + Size;
 
     if (mVtxDesc & ePosition)
         mPositions.reserve(ReserveSize);
@@ -114,7 +114,7 @@ void CVertexBuffer::Reserve(u16 Size)
     if (mVtxDesc & eColor1)
         mColors[1].reserve(ReserveSize);
 
-    for (u32 iTex = 0; iTex < 8; iTex++)
+    for (uint32 iTex = 0; iTex < 8; iTex++)
         if (mVtxDesc & (eTex0 << iTex))
             mTexCoords[iTex].reserve(ReserveSize);
 
@@ -136,7 +136,7 @@ void CVertexBuffer::Clear()
     mColors[0].clear();
     mColors[1].clear();
 
-    for (u32 iTex = 0; iTex < 8; iTex++)
+    for (uint32 iTex = 0; iTex < 8; iTex++)
         mTexCoords[iTex].clear();
 
     mBoneIndices.clear();
@@ -155,7 +155,7 @@ void CVertexBuffer::Buffer()
     // Generate buffers
     glGenBuffers(14, mAttribBuffers);
 
-    for (u32 iAttrib = 0; iAttrib < 14; iAttrib++)
+    for (uint32 iAttrib = 0; iAttrib < 14; iAttrib++)
     {
         int Attrib = (ePosition << iAttrib);
         bool HasAttrib = ((mVtxDesc & Attrib) != 0);
@@ -171,7 +171,7 @@ void CVertexBuffer::Buffer()
 
         else if (iAttrib < 4)
         {
-            u8 Index = (u8) (iAttrib - 2);
+            uint8 Index = (uint8) (iAttrib - 2);
 
             glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[iAttrib]);
             glBufferData(GL_ARRAY_BUFFER, mColors[Index].size() * sizeof(CColor), mColors[Index].data(), GL_STATIC_DRAW);
@@ -179,7 +179,7 @@ void CVertexBuffer::Buffer()
 
         else if (iAttrib < 12)
         {
-            u8 Index = (u8) (iAttrib - 4);
+            uint8 Index = (uint8) (iAttrib - 4);
 
             glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[iAttrib]);
             glBufferData(GL_ARRAY_BUFFER, mTexCoords[Index].size() * sizeof(CVector2f), mTexCoords[Index].data(), GL_STATIC_DRAW);
@@ -234,7 +234,7 @@ void CVertexBuffer::SetSkin(CSkin *pSkin)
     mpSkin = pSkin;
 }
 
-u32 CVertexBuffer::Size()
+uint32 CVertexBuffer::Size()
 {
     return mPositions.size();
 }
@@ -245,7 +245,7 @@ GLuint CVertexBuffer::CreateVAO()
     glGenVertexArrays(1, &VertexArray);
     glBindVertexArray(VertexArray);
 
-    for (u32 iAttrib = 0; iAttrib < 14; iAttrib++)
+    for (uint32 iAttrib = 0; iAttrib < 14; iAttrib++)
     {
         int Attrib = (ePosition << iAttrib);
         bool HasAttrib = ((mVtxDesc & Attrib) != 0);

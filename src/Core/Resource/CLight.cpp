@@ -177,7 +177,7 @@ CStructProperty* CLight::GetProperties() const
 // ************ OTHER ************
 void CLight::Load() const
 {
-    u8 Index = (u8) CGraphics::sNumLights;
+    uint8 Index = (uint8) CGraphics::sNumLights;
     if (Index >= 8) return;
 
     CGraphics::SLightBlock::SGXLight *pLight = &CGraphics::sLightBlock.Lights[Index];

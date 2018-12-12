@@ -8,10 +8,10 @@
 #include "Core/Resource/Script/CGameTemplate.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/ScriptExtra/CScriptExtra.h"
-#include <Common/AssertMacro.h>
-#include <Math/MathUtil.h>
+#include <Common/Macros.h>
+#include <Common/Math/MathUtil.h>
 
-CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScriptObject *pInstance)
+CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CScriptObject *pInstance)
     : CSceneNode(pScene, NodeID, pParent)
     , mGameModeVisibility(eUntested)
     , mpVolumePreviewNode(nullptr)
@@ -58,7 +58,7 @@ CScriptNode::CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CScrip
         }
 
         // Create attachment nodes
-        for (u32 iAttach = 0; iAttach < pTemp->NumAttachments(); iAttach++)
+        for (uint32 iAttach = 0; iAttach < pTemp->NumAttachments(); iAttach++)
         {
             const SAttachment& rkAttach = pTemp->Attachment(iAttach);
             CScriptAttachNode *pAttach = new CScriptAttachNode(pScene, rkAttach, this);
@@ -141,7 +141,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
 
         if (rkViewInfo.ShowFlags & eShowObjectGeometry || rkViewInfo.GameMode)
         {
-            for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+            for (uint32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
                 mAttachments[iAttach]->AddToRenderer(pRenderer, rkViewInfo);
 
             if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
@@ -267,7 +267,7 @@ void CScriptNode::DrawSelection()
         CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();
 
-        for (u32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
+        for (uint32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
         {
             // Don't draw in links if the other object is selected.
             CLink *pLink = mpInstance->Link(eIncoming, iIn);
@@ -275,7 +275,7 @@ void CScriptNode::DrawSelection()
             if (pLinkNode && !pLinkNode->IsSelected()) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentRed);
         }
 
-        for (u32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
+        for (uint32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
         {
             CLink *pLink = mpInstance->Link(eOutgoing, iOut);
             CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
@@ -340,11 +340,11 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SVie
     // Run ray check on child nodes as well
     mpCollisionNode->RayAABoxIntersectTest(rTester, rkViewInfo);
 
-    for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+    for (uint32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
         mAttachments[iAttach]->RayAABoxIntersectTest(rTester, rkViewInfo);
 }
 
-SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
+SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo)
 {
     FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
@@ -514,7 +514,7 @@ void CScriptNode::PropertyModified(IProperty* pProp)
     SetLightLayerIndex(mpLightParameters->LightLayerIndex());
 
     // Notify attachments
-    for (u32 AttachIdx = 0; AttachIdx < mAttachments.size(); AttachIdx++)
+    for (uint32 AttachIdx = 0; AttachIdx < mAttachments.size(); AttachIdx++)
     {
         CScriptAttachNode* pAttachNode = mAttachments[AttachIdx];
 
@@ -572,12 +572,12 @@ void CScriptNode::GeneratePosition()
 
         // Ideal way to generate the position is to find a spot close to where it's being used.
         // To do this I check the location of the objects that this one is linked to.
-        u32 NumLinks = mpInstance->NumLinks(eIncoming) + mpInstance->NumLinks(eOutgoing);
+        uint32 NumLinks = mpInstance->NumLinks(eIncoming) + mpInstance->NumLinks(eOutgoing);
 
         // In the case of one link, apply an offset so the new position isn't the same place as the object it's linked to
         if (NumLinks == 1)
         {
-            u32 LinkedID = (mpInstance->NumLinks(eIncoming) > 0 ? mpInstance->Link(eIncoming, 0)->SenderID() : mpInstance->Link(eOutgoing, 0)->ReceiverID());
+            uint32 LinkedID = (mpInstance->NumLinks(eIncoming) > 0 ? mpInstance->Link(eIncoming, 0)->SenderID() : mpInstance->Link(eOutgoing, 0)->ReceiverID());
             CScriptNode *pNode = mpScene->NodeForInstanceID(LinkedID);
             pNode->GeneratePosition();
             mPosition = pNode->AbsolutePosition();
@@ -591,7 +591,7 @@ void CScriptNode::GeneratePosition()
         {
             CVector3f NewPos = CVector3f::skZero;
 
-            for (u32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
+            for (uint32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
             {
                 CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(eIncoming, iIn)->SenderID());
 
@@ -602,7 +602,7 @@ void CScriptNode::GeneratePosition()
                 }
             }
 
-            for (u32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
+            for (uint32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
             {
                 CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(eOutgoing, iOut)->ReceiverID());
 
@@ -718,7 +718,7 @@ CVector2f CScriptNode::BillboardScale() const
     return Out * 0.5f * Template()->PreviewScale();
 }
 
-CTransform4f CScriptNode::BoneTransform(u32 BoneID, EAttachType AttachType, bool Absolute) const
+CTransform4f CScriptNode::BoneTransform(uint32 BoneID, EAttachType AttachType, bool Absolute) const
 {
     CTransform4f Out;
     CSkeleton *pSkel = ActiveSkeleton();
@@ -750,7 +750,7 @@ void CScriptNode::SetDisplayAsset(CResource *pRes)
     mLocalAABox = (pModel ? pModel->AABox() : CAABox::skOne);
     MarkTransformChanged();
 
-    for (u32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
+    for (uint32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
         mAttachments[iAttach]->ParentDisplayAssetChanged(pRes);
 
     if (mpExtra)

@@ -11,7 +11,7 @@ class CAnimEventLoader
 
     CAnimEventLoader() {}
     void LoadEvents(IInputStream& rEVNT);
-    s32 LoadEventBase(IInputStream& rEVNT);
+    int32 LoadEventBase(IInputStream& rEVNT);
     void LoadLoopEvent(IInputStream& rEVNT);
     void LoadUserEvent(IInputStream& rEVNT);
     void LoadEffectEvent(IInputStream& rEVNT);

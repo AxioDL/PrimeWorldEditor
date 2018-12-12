@@ -46,7 +46,7 @@ void CAreaLoader::ReadHeaderPrime()
 {
     mpArea->mTransform = CTransform4f(*mpMREA);
     mNumMeshes = mpMREA->ReadLong();
-    u32 mNumBlocks = mpMREA->ReadLong();
+    uint32 mNumBlocks = mpMREA->ReadLong();
 
     mGeometryBlockNum = mpMREA->ReadLong();
     mScriptLayerBlockNum = mpMREA->ReadLong();
@@ -76,7 +76,7 @@ void CAreaLoader::ReadGeometryPrime()
     // Geometry
     std::vector<CModel*> FileModels;
 
-    for (u32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
+    for (uint32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
         CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, mVersion);
         FileModels.push_back(pModel);
@@ -87,9 +87,9 @@ void CAreaLoader::ReadGeometryPrime()
         // For Echoes+, load surface mesh IDs, then skip to the start of the next mesh
         else
         {
-            u16 NumSurfaces = mpMREA->ReadShort();
+            uint16 NumSurfaces = mpMREA->ReadShort();
 
-            for (u32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
+            for (uint32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
             {
                 mpMREA->Seek(0x2, SEEK_CUR);
                 pModel->GetSurface(iSurf)->MeshID = mpMREA->ReadShort();
@@ -106,7 +106,7 @@ void CAreaLoader::ReadGeometryPrime()
         std::vector<CModel*> SplitModels;
         CModelLoader::BuildWorldMeshes(FileModels, SplitModels, true);
 
-        for (u32 iMdl = 0; iMdl < SplitModels.size(); iMdl++)
+        for (uint32 iMdl = 0; iMdl < SplitModels.size(); iMdl++)
             mpArea->AddWorldModel(SplitModels[iMdl]);
     }
 
@@ -119,9 +119,9 @@ void CAreaLoader::ReadSCLYPrime()
     mpSectionMgr->ToSection(mScriptLayerBlockNum);
 
     CFourCC SCLY(*mpMREA);
-    if (SCLY != "SCLY")
+    if (SCLY != FOURCC('SCLY'))
     {
-        Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCLY magic: " + SCLY.ToString());
+        errorf("%s [0x%X]: Invalid SCLY magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, *SCLY.ToString());
         return;
     }
     mpMREA->Seek(mVersion <= EGame::Prime ? 4 : 1, SEEK_CUR); // Skipping unknown value which is always 1
@@ -129,15 +129,15 @@ void CAreaLoader::ReadSCLYPrime()
     // Read layer sizes
     mNumLayers = mpMREA->ReadLong();
     mpArea->mScriptLayers.resize(mNumLayers);
-    std::vector<u32> LayerSizes(mNumLayers);
+    std::vector<uint32> LayerSizes(mNumLayers);
 
-    for (u32 iLyr = 0; iLyr < mNumLayers; iLyr++)
+    for (uint32 iLyr = 0; iLyr < mNumLayers; iLyr++)
         LayerSizes[iLyr] = mpMREA->ReadLong();
 
     // SCLY
-    for (u32 iLyr = 0; iLyr < mNumLayers; iLyr++)
+    for (uint32 iLyr = 0; iLyr < mNumLayers; iLyr++)
     {
-        u32 Next = mpMREA->Tell() + LayerSizes[iLyr];
+        uint32 Next = mpMREA->Tell() + LayerSizes[iLyr];
         mpArea->mScriptLayers[iLyr] = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
         mpMREA->Seek(Next, SEEK_SET);
     }
@@ -151,7 +151,7 @@ void CAreaLoader::ReadSCLYPrime()
         CFourCC SCGN = mpMREA->ReadFourCC();
 
         if (SCGN != FOURCC('SCGN'))
-            Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCGN magic: " + SCGN.ToString());
+            errorf("%s [0x%X]: Invalid SCGN magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, SCGN.ToString());
 
         else
         {
@@ -168,17 +168,17 @@ void CAreaLoader::ReadLightsPrime()
 {
     mpSectionMgr->ToSection(mLightsBlockNum);
 
-    u32 BabeDead = mpMREA->ReadLong();
+    uint32 BabeDead = mpMREA->ReadLong();
     if (BabeDead != 0xbabedead) return;
 
     mpArea->mLightLayers.resize(2);
 
-    for (u32 iLyr = 0; iLyr < 2; iLyr++)
+    for (uint32 iLyr = 0; iLyr < 2; iLyr++)
     {
-        u32 NumLights = mpMREA->ReadLong();
+        uint32 NumLights = mpMREA->ReadLong();
         mpArea->mLightLayers[iLyr].resize(NumLights);
 
-        for (u32 iLight = 0; iLight < NumLights; iLight++)
+        for (uint32 iLight = 0; iLight < NumLights; iLight++)
         {
             ELightType Type = ELightType(mpMREA->ReadLong());
             CVector3f Color(*mpMREA);
@@ -187,7 +187,7 @@ void CAreaLoader::ReadLightsPrime()
             float Multiplier = mpMREA->ReadFloat();
             float SpotCutoff = mpMREA->ReadFloat();
             mpMREA->Seek(0x9, SEEK_CUR);
-            u32 FalloffType = mpMREA->ReadLong();
+            uint32 FalloffType = mpMREA->ReadLong();
             mpMREA->Seek(0x4, SEEK_CUR);
 
             // Relevant data is read - now we process and form a CLight out of it
@@ -253,7 +253,7 @@ void CAreaLoader::ReadHeaderEchoes()
     mpArea->mTransform = CTransform4f(*mpMREA);
     mNumMeshes = mpMREA->ReadLong();
     if (mVersion == EGame::Echoes) mNumLayers = mpMREA->ReadLong();
-    u32 numBlocks = mpMREA->ReadLong();
+    uint32 numBlocks = mpMREA->ReadLong();
 
     mGeometryBlockNum = mpMREA->ReadLong();
     mScriptLayerBlockNum = mpMREA->ReadLong();
@@ -291,12 +291,12 @@ void CAreaLoader::ReadSCLYEchoes()
     mpArea->mScriptLayers.resize(mNumLayers);
 
     // SCLY
-    for (u32 iLyr = 0; iLyr < mNumLayers; iLyr++)
+    for (uint32 iLyr = 0; iLyr < mNumLayers; iLyr++)
     {
         CFourCC SCLY(*mpMREA);
-        if (SCLY != "SCLY")
+        if (SCLY != FOURCC('SCLY'))
         {
-            Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Layer " + TString::FromInt32(iLyr, 0, 10) + " - Invalid SCLY magic: " + SCLY.ToString());
+            errorf("%s [0x%X]: Layer %d - Invalid SCLY magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, iLyr, *SCLY.ToString());
             mpSectionMgr->ToNextSection();
             continue;
         }
@@ -308,9 +308,9 @@ void CAreaLoader::ReadSCLYEchoes()
 
     // SCGN
     CFourCC SCGN(*mpMREA);
-    if (SCGN != "SCGN")
+    if (SCGN != FOURCC('SCGN'))
     {
-        Log::FileError(mpMREA->GetSourceString(), mpMREA->Tell() - 4, "Invalid SCGN magic: " + SCGN.ToString());
+        errorf("%s [0x%X]: Invalid SCGN magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, *SCGN.ToString());
         return;
     }
 
@@ -327,9 +327,9 @@ void CAreaLoader::ReadHeaderCorruption()
     mpArea->mTransform = CTransform4f(*mpMREA);
     mNumMeshes = mpMREA->ReadLong();
     mNumLayers = mpMREA->ReadLong();
-    u32 NumSections = mpMREA->ReadLong();
+    uint32 NumSections = mpMREA->ReadLong();
     mClusters.resize(mpMREA->ReadLong());
-    u32 SectionNumberCount = mpMREA->ReadLong();
+    uint32 SectionNumberCount = mpMREA->ReadLong();
     mpMREA->SeekToBoundary(32);
 
     mpSectionMgr = new CSectionMgrIn(NumSections, mpMREA);
@@ -337,10 +337,10 @@ void CAreaLoader::ReadHeaderCorruption()
 
     ReadCompressedBlocks();
 
-    for (u32 iNum = 0; iNum < SectionNumberCount; iNum++)
+    for (uint32 iNum = 0; iNum < SectionNumberCount; iNum++)
     {
         CFourCC Type(*mpMREA);
-        u32 Num = mpMREA->ReadLong();
+        uint32 Num = mpMREA->ReadLong();
 
         if      (Type == "AABB") mBoundingBoxesBlockNum = Num;
         else if (Type == "APTL") mPTLABlockNum = Num;
@@ -381,10 +381,10 @@ void CAreaLoader::ReadGeometryCorruption()
 
     // Geometry
     std::vector<CModel*> FileModels;
-    u32 CurWOBJSection = 1;
-    u32 CurGPUSection = mGPUBlockNum;
+    uint32 CurWOBJSection = 1;
+    uint32 CurGPUSection = mGPUBlockNum;
 
-    for (u32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
+    for (uint32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
         CModel *pWorldModel = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
         FileModels.push_back(pWorldModel);
@@ -394,9 +394,9 @@ void CAreaLoader::ReadGeometryCorruption()
 
         // Load surface mesh IDs
         mpSectionMgr->ToSection(CurWOBJSection -  2);
-        u16 NumSurfaces = mpMREA->ReadShort();
+        uint16 NumSurfaces = mpMREA->ReadShort();
 
-        for (u32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
+        for (uint32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
         {
             mpMREA->Seek(0x2, SEEK_CUR);
             pWorldModel->GetSurface(iSurf)->MeshID = mpMREA->ReadShort();
@@ -406,7 +406,7 @@ void CAreaLoader::ReadGeometryCorruption()
     std::vector<CModel*> SplitModels;
     CModelLoader::BuildWorldMeshes(FileModels, SplitModels, true);
 
-    for (u32 iMdl = 0; iMdl < SplitModels.size(); iMdl++)
+    for (uint32 iMdl = 0; iMdl < SplitModels.size(); iMdl++)
         mpArea->AddWorldModel(SplitModels[iMdl]);
 
     mpArea->MergeTerrain();
@@ -417,28 +417,28 @@ void CAreaLoader::ReadDependenciesCorruption()
     mpSectionMgr->ToSection(mDependenciesBlockNum);
 
     // Read the offsets first so we can read the deps directly into their corresponding arrays
-    u32 NumDeps = mpMREA->ReadLong();
-    u32 DepsStart = mpMREA->Tell();
+    uint32 NumDeps = mpMREA->ReadLong();
+    uint32 DepsStart = mpMREA->Tell();
     mpMREA->Skip(NumDeps * 0xC);
 
-    u32 NumOffsets = mpMREA->ReadLong();
-    std::vector<u32> Offsets(NumOffsets);
+    uint32 NumOffsets = mpMREA->ReadLong();
+    std::vector<uint32> Offsets(NumOffsets);
 
-    for (u32 OffsetIdx = 0; OffsetIdx < NumOffsets; OffsetIdx++)
+    for (uint32 OffsetIdx = 0; OffsetIdx < NumOffsets; OffsetIdx++)
         Offsets[OffsetIdx] = mpMREA->ReadLong();
 
     mpMREA->GoTo(DepsStart);
 
     // Read layer dependencies
-    u32 NumLayers = NumOffsets - 1;
+    uint32 NumLayers = NumOffsets - 1;
     mpArea->mExtraLayerDeps.resize(NumLayers);
 
-    for (u32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
+    for (uint32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
     {
-        u32 NumLayerDeps = Offsets[LayerIdx+1] - Offsets[LayerIdx];
+        uint32 NumLayerDeps = Offsets[LayerIdx+1] - Offsets[LayerIdx];
         mpArea->mExtraLayerDeps[LayerIdx].reserve(NumLayerDeps);
 
-        for (u32 DepIdx = 0; DepIdx < NumLayerDeps; DepIdx++)
+        for (uint32 DepIdx = 0; DepIdx < NumLayerDeps; DepIdx++)
         {
             CAssetID AssetID(*mpMREA, EGame::Corruption);
             mpMREA->Skip(4);
@@ -447,10 +447,10 @@ void CAreaLoader::ReadDependenciesCorruption()
     }
 
     // Read area dependencies
-    u32 NumAreaDeps = NumDeps - Offsets[NumLayers];
+    uint32 NumAreaDeps = NumDeps - Offsets[NumLayers];
     mpArea->mExtraAreaDeps.reserve(NumAreaDeps);
 
-    for (u32 DepIdx = 0; DepIdx < NumAreaDeps; DepIdx++)
+    for (uint32 DepIdx = 0; DepIdx < NumAreaDeps; DepIdx++)
     {
         CAssetID AssetID(*mpMREA, EGame::Corruption);
         mpMREA->Skip(4);
@@ -462,17 +462,17 @@ void CAreaLoader::ReadLightsCorruption()
 {
     mpSectionMgr->ToSection(mLightsBlockNum);
 
-    u32 BabeDead = mpMREA->ReadLong();
+    uint32 BabeDead = mpMREA->ReadLong();
     if (BabeDead != 0xbabedead) return;
 
     mpArea->mLightLayers.resize(4);
 
-    for (u32 iLayer = 0; iLayer < 4; iLayer++)
+    for (uint32 iLayer = 0; iLayer < 4; iLayer++)
     {
-        u32 NumLights = mpMREA->ReadLong();
+        uint32 NumLights = mpMREA->ReadLong();
         mpArea->mLightLayers[iLayer].resize(NumLights);
 
-        for (u32 iLight = 0; iLight < NumLights; iLight++)
+        for (uint32 iLight = 0; iLight < NumLights; iLight++)
         {
             ELightType Type = (ELightType) mpMREA->ReadLong();
 
@@ -489,7 +489,7 @@ void CAreaLoader::ReadLightsCorruption()
             float Multiplier = mpMREA->ReadFloat();
             float SpotCutoff = mpMREA->ReadFloat();
             mpMREA->Seek(0x9, SEEK_CUR);
-            u32 FalloffType = mpMREA->ReadLong();
+            uint32 FalloffType = mpMREA->ReadLong();
             mpMREA->Seek(0x18, SEEK_CUR);
 
             // Relevant data is read - now we process and form a CLight out of it
@@ -544,7 +544,7 @@ void CAreaLoader::ReadCompressedBlocks()
 {
     mTotalDecmpSize = 0;
 
-    for (u32 iClust = 0; iClust < mClusters.size(); iClust++)
+    for (uint32 iClust = 0; iClust < mClusters.size(); iClust++)
     {
         mClusters[iClust].BufferSize = mpMREA->ReadLong();
         mClusters[iClust].DecompressedSize = mpMREA->ReadLong();
@@ -565,10 +565,10 @@ void CAreaLoader::Decompress()
     if (mVersion < EGame::Echoes) return;
 
     // Decompress clusters
-    mpDecmpBuffer = new u8[mTotalDecmpSize];
-    u32 Offset = 0;
+    mpDecmpBuffer = new uint8[mTotalDecmpSize];
+    uint32 Offset = 0;
 
-    for (u32 iClust = 0; iClust < mClusters.size(); iClust++)
+    for (uint32 iClust = 0; iClust < mClusters.size(); iClust++)
     {
         SCompressedCluster *pClust = &mClusters[iClust];
 
@@ -581,11 +581,11 @@ void CAreaLoader::Decompress()
 
         else
         {
-            u32 StartOffset = 32 - (mClusters[iClust].CompressedSize % 32); // For some reason they pad the beginning instead of the end
+            uint32 StartOffset = 32 - (mClusters[iClust].CompressedSize % 32); // For some reason they pad the beginning instead of the end
             if (StartOffset != 32)
                 mpMREA->Seek(StartOffset, SEEK_CUR);
 
-            std::vector<u8> CompressedBuf(mClusters[iClust].CompressedSize);
+            std::vector<uint8> CompressedBuf(mClusters[iClust].CompressedSize);
             mpMREA->ReadBytes(CompressedBuf.data(), CompressedBuf.size());
 
             bool Success = CompressionUtil::DecompressSegmentedData(CompressedBuf.data(), CompressedBuf.size(), mpDecmpBuffer + Offset, pClust->DecompressedSize);
@@ -608,9 +608,9 @@ void CAreaLoader::LoadSectionDataBuffers()
    mpArea->mSectionDataBuffers.resize(mpSectionMgr->NumSections());
    mpSectionMgr->ToSection(0);
 
-   for (u32 iSec = 0; iSec < mpSectionMgr->NumSections(); iSec++)
+   for (uint32 iSec = 0; iSec < mpSectionMgr->NumSections(); iSec++)
    {
-       u32 Size = mpSectionMgr->CurrentSectionSize();
+       uint32 Size = mpSectionMgr->CurrentSectionSize();
        mpArea->mSectionDataBuffers[iSec].resize(Size);
        mpMREA->ReadBytes(mpArea->mSectionDataBuffers[iSec].data(), mpArea->mSectionDataBuffers[iSec].size());
        mpSectionMgr->ToNextSection();
@@ -645,14 +645,14 @@ void CAreaLoader::ReadEGMC()
 void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
 {
     // Create instance map
-    for (u32 LayerIdx = 0; LayerIdx < mpArea->NumScriptLayers(); LayerIdx++)
+    for (uint32 LayerIdx = 0; LayerIdx < mpArea->NumScriptLayers(); LayerIdx++)
     {
         CScriptLayer *pLayer = mpArea->mScriptLayers[LayerIdx];
 
-        for (u32 InstIdx = 0; InstIdx < pLayer->NumInstances(); InstIdx++)
+        for (uint32 InstIdx = 0; InstIdx < pLayer->NumInstances(); InstIdx++)
         {
             CScriptObject *pInst = pLayer->InstanceByIndex(InstIdx);
-            u32 InstanceID = pInst->InstanceID();
+            uint32 InstanceID = pInst->InstanceID();
             CScriptObject *pExisting = mpArea->InstanceByID(InstanceID);
             ASSERT(pExisting == nullptr);
             mpArea->mObjectMap[InstanceID] = pInst;
@@ -665,13 +665,13 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
         while (pGenLayer->NumInstances() != 0)
         {
             CScriptObject *pInst = pGenLayer->InstanceByIndex(0);
-            u32 InstanceID = pInst->InstanceID();
+            uint32 InstanceID = pInst->InstanceID();
 
             // Check if this is a duplicate of an existing instance (this only happens with DKCR GenericCreature as far as I'm aware)
             if (mpArea->InstanceByID(InstanceID) != nullptr)
             {
                 if (pInst->ObjectTypeID() != FOURCC('GCTR'))
-                    Log::Write("Duplicate SCGN object: [" + pInst->Template()->Name() + "] " + pInst->InstanceName() + " (" + TString::HexString(pInst->InstanceID(), 8, false) + ")");
+                    debugf("Duplicate SCGN object: [%s] %s (%08X)", *pInst->Template()->Name(), *pInst->InstanceName(), pInst->InstanceID());
 
                 pGenLayer->RemoveInstance(pInst);
                 delete pInst;
@@ -679,7 +679,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
 
             else
             {
-                u32 LayerIdx = (InstanceID >> 26) & 0x3F;
+                uint32 LayerIdx = (InstanceID >> 26) & 0x3F;
                 pInst->SetLayer( mpArea->ScriptLayer(LayerIdx) );
                 mpArea->mObjectMap[InstanceID] = pInst;
             }
@@ -692,7 +692,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
         CScriptObject *pInst = Iter->second;
 
         // Store outgoing connections
-        for (u32 iCon = 0; iCon < pInst->NumLinks(eOutgoing); iCon++)
+        for (uint32 iCon = 0; iCon < pInst->NumLinks(eOutgoing); iCon++)
         {
             CLink *pLink = pInst->Link(eOutgoing, iCon);
             mConnectionMap[pLink->ReceiverID()].push_back(pLink);
@@ -713,7 +713,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
     // Store connections
     for (auto it = mpArea->mObjectMap.begin(); it != mpArea->mObjectMap.end(); it++)
     {
-        u32 InstanceID = it->first;
+        uint32 InstanceID = it->first;
         auto iConMap = mConnectionMap.find(InstanceID);
 
         if (iConMap != mConnectionMap.end())
@@ -732,16 +732,16 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
     // Validation
     if (!MREA.IsValid()) return nullptr;
 
-    u32 DeadBeef = MREA.ReadLong();
+    uint32 DeadBeef = MREA.ReadLong();
     if (DeadBeef != 0xdeadbeef)
     {
-        Log::FileError(MREA.GetSourceString(), "Invalid MREA magic: " + TString::HexString(DeadBeef));
+        errorf("%s: Invalid MREA magic: 0x%08X", *MREA.GetSourceString(), DeadBeef);
         return nullptr;
     }
 
     // Header
     Loader.mpArea = new CGameArea(pEntry);
-    u32 Version = MREA.ReadLong();
+    uint32 Version = MREA.ReadLong();
     Loader.mVersion = GetFormatVersion(Version);
     Loader.mpMREA = &MREA;
 
@@ -803,7 +803,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
             }
             break;
         default:
-            Log::FileError(MREA.GetSourceString(), "Unsupported MREA version: " + TString::HexString(Version, 0));
+            errorf("%s: Unsupported MREA version: 0x%X", *MREA.GetSourceString(), Version);
             Loader.mpArea.Delete();
             return nullptr;
     }
@@ -813,7 +813,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
     return Loader.mpArea;
 }
 
-EGame CAreaLoader::GetFormatVersion(u32 Version)
+EGame CAreaLoader::GetFormatVersion(uint32 Version)
 {
     switch (Version)
     {

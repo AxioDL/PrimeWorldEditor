@@ -69,14 +69,14 @@ void CCollisionRenderSettingsDialog::SetupWidgets()
 void CCollisionRenderSettingsDialog::OnHideMaskChanged(QString NewMask)
 {
     TString MaskStr = TO_TSTRING(NewMask);
-    u64 Mask = (MaskStr.IsHexString() ? MaskStr.ToInt64(16) : 0);
+    uint64 Mask = (MaskStr.IsHexString() ? MaskStr.ToInt64(16) : 0);
     mpEditor->Viewport()->CollisionRenderSettings().HideMask = Mask;
 }
 
 void CCollisionRenderSettingsDialog::OnHighlightMaskChanged(QString NewMask)
 {
     TString MaskStr = TO_TSTRING(NewMask);
-    u64 Mask = (MaskStr.IsHexString() ? MaskStr.ToInt64(16) : 0);
+    uint64 Mask = (MaskStr.IsHexString() ? MaskStr.ToInt64(16) : 0);
     mpEditor->Viewport()->CollisionRenderSettings().HighlightMask = Mask;
 }
 
@@ -108,9 +108,9 @@ void CCollisionRenderSettingsDialog::OnBackfacesToggled(bool Enable)
 void CCollisionRenderSettingsDialog::OnHideCheckboxesToggled()
 {
     CCollisionMaterial& rMat = mpEditor->Viewport()->CollisionRenderSettings().HideMaterial;
-    mpUi->HideShootThruCheckBox->isChecked() ? rMat |= eCF_ShootThru : rMat &= ~eCF_ShootThru;
+    mpUi->HideShootThruCheckBox->isChecked()  ? rMat |= eCF_ShootThru  : rMat &= ~eCF_ShootThru;
     mpUi->HideCameraThruCheckBox->isChecked() ? rMat |= eCF_CameraThru : rMat &= ~eCF_CameraThru;
-    mpUi->HideScanThruCheckBox->isChecked() ? rMat |= eCF_ScanThru : rMat &= ~eCF_ScanThru;
+    mpUi->HideScanThruCheckBox->isChecked()   ? rMat |= eCF_ScanThru   : rMat &= ~eCF_ScanThru;
     mpUi->HideAiWalkThruCheckBox->isChecked() ? rMat |= eCF_AiWalkThru : rMat &= ~eCF_AiWalkThru;
-    mpUi->HideAiBlockCheckBox->isChecked() ? rMat |= eCF_AiBlock : rMat &= ~eCF_AiBlock;
+    mpUi->HideAiBlockCheckBox->isChecked()    ? rMat |= eCF_AiBlock    : rMat &= ~eCF_AiBlock;
 }

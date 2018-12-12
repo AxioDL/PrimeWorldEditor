@@ -13,34 +13,34 @@ class CPoiToWorld : public CResource
 public:
     struct SPoiMap
     {
-        u32 PoiID;
-        std::list<u32> ModelIDs;
+        uint32 PoiID;
+        std::list<uint32> ModelIDs;
     };
 
 private:
     std::vector<SPoiMap*> mMaps;
-    std::map<u32,SPoiMap*> mPoiLookupMap;
+    std::map<uint32,SPoiMap*> mPoiLookupMap;
 
 public:
     CPoiToWorld(CResourceEntry *pEntry = 0);
     ~CPoiToWorld();
 
-    void AddPoi(u32 PoiID);
-    void AddPoiMeshMap(u32 PoiID, u32 ModelID);
-    void RemovePoi(u32 PoiID);
-    void RemovePoiMeshMap(u32 PoiID, u32 ModelID);
+    void AddPoi(uint32 PoiID);
+    void AddPoiMeshMap(uint32 PoiID, uint32 ModelID);
+    void RemovePoi(uint32 PoiID);
+    void RemovePoiMeshMap(uint32 PoiID, uint32 ModelID);
 
-    inline u32 NumMappedPOIs() const
+    inline uint32 NumMappedPOIs() const
     {
         return mMaps.size();
     }
 
-    inline const SPoiMap* MapByIndex(u32 Index) const
+    inline const SPoiMap* MapByIndex(uint32 Index) const
     {
         return mMaps[Index];
     }
 
-    inline const SPoiMap* MapByID(u32 InstanceID) const
+    inline const SPoiMap* MapByID(uint32 InstanceID) const
     {
         auto it = mPoiLookupMap.find(InstanceID);
 
@@ -50,7 +50,7 @@ public:
             return nullptr;
     }
 
-    bool HasPoiMappings(u32 InstanceID) const
+    bool HasPoiMappings(uint32 InstanceID) const
     {
         auto it = mPoiLookupMap.find(InstanceID);
         return (it != mPoiLookupMap.end());

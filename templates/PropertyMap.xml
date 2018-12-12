@@ -1927,7 +1927,7 @@
         </Element>
         <Element>
             <Key ID="0xDABF0AF" Type="asset"/>
-            <Value Name="PART"/>
+            <Value Name="GrappleBeamPart"/>
         </Element>
         <Element>
             <Key ID="0xDB10F6B" Type="sound"/>
@@ -6600,10 +6600,6 @@
         <Element>
             <Key ID="0x2CBF989B" Type="asset"/>
             <Value Name="Beam"/>
-        </Element>
-        <Element>
-            <Key ID="0x2CC54E77" Type="Flags"/>
-            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x2CC54E77" Type="int"/>
@@ -13859,10 +13855,6 @@
         </Element>
         <Element>
             <Key ID="0x5D28CCE5" Type="float"/>
-            <Value Name="Unknown"/>
-        </Element>
-        <Element>
-            <Key ID="0x5D298A43" Type="Flags"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -34235,7 +34227,7 @@
         </Element>
         <Element>
             <Key ID="0xE51746D1" Type="asset"/>
-            <Value Name="PART"/>
+            <Value Name="GrappleHitFx"/>
         </Element>
         <Element>
             <Key ID="0xE51869BA" Type="asset"/>

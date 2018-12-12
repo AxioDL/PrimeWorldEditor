@@ -142,7 +142,7 @@ bool CPoiMapModel::IsModelMapped(const QModelIndex& rkIndex, CModelNode *pNode) 
 
 CScriptNode* CPoiMapModel::PoiNodePointer(const QModelIndex& rkIndex) const
 {
-    if ((u32) rkIndex.row() < mpPoiToWorld->NumMappedPOIs())
+    if ((uint32) rkIndex.row() < mpPoiToWorld->NumMappedPOIs())
     {
         const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(rkIndex.row());
         return mpEditor->Scene()->NodeForInstanceID(pkMap->PoiID);
@@ -171,7 +171,7 @@ void CPoiMapModel::OnMapChange(CWorld*, CGameArea *pArea)
     if (mpPoiToWorld)
     {
         // Create an ID -> Model Node lookup map
-        QMap<u32,CModelNode*> NodeMap;
+        QMap<uint32,CModelNode*> NodeMap;
 
         for (CSceneIterator It(mpEditor->Scene(), eModelNode, true); !It.DoneIterating(); ++It)
         {
@@ -180,7 +180,7 @@ void CPoiMapModel::OnMapChange(CWorld*, CGameArea *pArea)
         }
 
         // Create internal model map
-        for (u32 iPoi = 0; iPoi < mpPoiToWorld->NumMappedPOIs(); iPoi++)
+        for (uint32 iPoi = 0; iPoi < mpPoiToWorld->NumMappedPOIs(); iPoi++)
         {
             const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(iPoi);
             CScriptNode *pPoiNode = mpEditor->Scene()->NodeForInstanceID(pkMap->PoiID);

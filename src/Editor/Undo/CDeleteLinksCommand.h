@@ -12,18 +12,18 @@ class CDeleteLinksCommand : public IUndoCommand
 
     struct SDeletedLink
     {
-        u32 State;
-        u32 Message;
+        uint32 State;
+        uint32 Message;
         CInstancePtr pSender;
         CInstancePtr pReceiver;
-        u32 SenderIndex;
-        u32 ReceiverIndex;
+        uint32 SenderIndex;
+        uint32 ReceiverIndex;
     };
     QVector<SDeletedLink> mLinks;
 
 public:
     CDeleteLinksCommand() {}
-    CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *pObject, ELinkType Type, const QVector<u32>& rkIndices);
+    CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *pObject, ELinkType Type, const QVector<uint32>& rkIndices);
     void undo();
     void redo();
     bool AffectsCleanState() const { return true; }

@@ -1,7 +1,7 @@
 #include "CCollisionMesh.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Render/CDrawUtil.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 
 CCollisionMesh::CCollisionMesh()
 {
@@ -43,11 +43,11 @@ void CCollisionMesh::BufferGL()
     mIBO.Reserve(SortedTris.size() * 3);
 
     mMaterialOffsets.reserve(mMaterials.size());
-    u32 CurMat = 0;
+    uint32 CurMat = 0;
 
-    for (u32 iTri = 0; iTri < SortedTris.size(); iTri++)
+    for (uint32 iTri = 0; iTri < SortedTris.size(); iTri++)
     {
-        u16 Verts[3];
+        uint16 Verts[3];
 
         CCollisionFace *pFace = &SortedTris[iTri];
         CCollisionLine *pLineA = GetLine(pFace->Lines[0]);
@@ -75,7 +75,7 @@ void CCollisionMesh::BufferGL()
         // Some faces have a property that indicates they need to be inverted
         if (GetMaterial(pFace->MaterialIdx) & eCF_FlippedTri)
         {
-            u16 V0 = Verts[0];
+            uint16 V0 = Verts[0];
             Verts[0] = Verts[2];
             Verts[2] = V0;
         }
@@ -89,12 +89,12 @@ void CCollisionMesh::BufferGL()
         CVector3f V0toV2 = (rVert2.Pos - rVert0.Pos).Normalized();
         CVector3f FaceNormal = V0toV1.Cross(V0toV2).Normalized();
 
-        for (u32 iVtx = 0; iVtx < 3; iVtx++)
+        for (uint32 iVtx = 0; iVtx < 3; iVtx++)
         {
             CVertex Vtx;
             Vtx.Position = mCollisionVertices[ Verts[iVtx] ].Pos;
             Vtx.Normal = FaceNormal;
-            u16 Index = mVBO.AddVertex(Vtx);
+            uint16 Index = mVBO.AddVertex(Vtx);
             mIBO.AddIndex(Index);
         }
     }
@@ -122,14 +122,14 @@ void CCollisionMesh::Draw()
     mVBO.Unbind();
 }
 
-void CCollisionMesh::DrawMaterial(u32 MatIdx, bool Wireframe)
+void CCollisionMesh::DrawMaterial(uint32 MatIdx, bool Wireframe)
 {
     if (!mBuffered) BufferGL();
     ASSERT(MatIdx < mMaterials.size());
 
     mVBO.Bind();
-    u32 StartIdx = (MatIdx == 0 ? 0 : mMaterialOffsets[MatIdx - 1]);
-    u32 NumElements = mMaterialOffsets[MatIdx] - StartIdx;
+    uint32 StartIdx = (MatIdx == 0 ? 0 : mMaterialOffsets[MatIdx - 1]);
+    uint32 NumElements = mMaterialOffsets[MatIdx] - StartIdx;
 
     if (Wireframe)
     {
@@ -153,17 +153,17 @@ void CCollisionMesh::DrawWireframe()
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-CCollisionMesh::CCollisionVertex* CCollisionMesh::GetVertex(u16 Index)
+CCollisionMesh::CCollisionVertex* CCollisionMesh::GetVertex(uint16 Index)
 {
     return &mCollisionVertices[Index];
 }
 
-CCollisionMesh::CCollisionLine* CCollisionMesh::GetLine(u16 Index)
+CCollisionMesh::CCollisionLine* CCollisionMesh::GetLine(uint16 Index)
 {
     return &mCollisionLines[Index];
 }
 
-CCollisionMesh::CCollisionFace* CCollisionMesh::GetFace(u16 Index)
+CCollisionMesh::CCollisionFace* CCollisionMesh::GetFace(uint16 Index)
 {
     return &mCollisionFaces[Index];
 }

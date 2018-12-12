@@ -71,8 +71,8 @@ public:
     inline TString Name() const                                         { return mPakName; }
     inline TString Path() const                                         { return mPakPath; }
     inline CGameProject* Project() const                                { return mpProject; }
-    inline u32 NumNamedResources() const                                { return mResources.size(); }
-    inline const SNamedResource& NamedResourceByIndex(u32 Idx) const    { return mResources[Idx]; }
+    inline uint32 NumNamedResources() const                             { return mResources.size(); }
+    inline const SNamedResource& NamedResourceByIndex(uint32 Idx) const { return mResources[Idx]; }
     inline bool NeedsRecook() const                                     { return mNeedsRecook; }
 
     inline void SetPakName(TString NewName) { mPakName = NewName; }

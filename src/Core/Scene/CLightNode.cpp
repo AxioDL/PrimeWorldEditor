@@ -2,9 +2,9 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Render/CRenderer.h"
-#include <Math/MathUtil.h>
+#include <Common/Math/MathUtil.h>
 
-CLightNode::CLightNode(CScene *pScene, u32 NodeID, CSceneNode *pParent, CLight *pLight)
+CLightNode::CLightNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CLight *pLight)
     : CSceneNode(pScene, NodeID, pParent)
     , mpLight(pLight)
 {
@@ -63,7 +63,7 @@ void CLightNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SView
     if (BoxResult.first) rTester.AddNode(this, 0, BoxResult.second);
 }
 
-SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo)
+SRayIntersection CLightNode::RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo)
 {
     // todo: come up with a better way to share this code between CScriptNode and CLightNode
     SRayIntersection Out;

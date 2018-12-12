@@ -15,7 +15,7 @@ enum class ENameCasing
 /** ID/type pairing for ID pool */
 struct SPropertyIdTypePair
 {
-    u32 ID;
+    uint32 ID;
     const char* pkType;
 };
 
@@ -55,7 +55,7 @@ struct SGeneratedPropertyName
 {
     TString Name;
     TString Type;
-    u32 ID;
+    uint32 ID;
     std::set<TString> XmlList;
 };
 
@@ -78,7 +78,7 @@ class CPropertyNameGenerator
     std::vector<TString> mTypeNames;
 
     /** Mapping of valid ID/type pairs; if empty, all property names in NPropertyMap are allowed */
-    std::unordered_map<u32, const char*> mValidTypePairMap;
+    std::unordered_map<uint32, const char*> mValidTypePairMap;
 
     /** List of words */
     struct SWord
@@ -105,7 +105,7 @@ public:
     void Generate(const SPropertyNameGenerationParameters& rkParams, IProgressNotifier* pProgressNotifier);
 
     /** Returns whether a given property ID is valid */
-    bool IsValidPropertyID(u32 ID, const char*& pkType, const SPropertyNameGenerationParameters& rkParams);
+    bool IsValidPropertyID(uint32 ID, const char*& pkType, const SPropertyNameGenerationParameters& rkParams);
 
     /** Accessors */
     bool IsRunning() const

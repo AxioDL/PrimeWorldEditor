@@ -3,7 +3,7 @@
 
 /* Virtual directory system used to look up resources by their location in the filesystem. */
 #include "Core/Resource/EResType.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <Common/TString.h>
 #include <vector>
 
@@ -51,10 +51,10 @@ public:
     inline bool IsRoot() const                  { return !mpParent; }
     inline TString Name() const                 { return mName; }
 
-    inline u32 NumSubdirectories() const                        { return mSubdirectories.size(); }
-    inline CVirtualDirectory* SubdirectoryByIndex(u32 Index)    { return mSubdirectories[Index]; }
-    inline u32 NumResources() const                             { return mResources.size(); }
-    inline CResourceEntry* ResourceByIndex(u32 Index)           { return mResources[Index]; }
+    inline uint32 NumSubdirectories() const                         { return mSubdirectories.size(); }
+    inline CVirtualDirectory* SubdirectoryByIndex(uint32 Index)     { return mSubdirectories[Index]; }
+    inline uint32 NumResources() const                              { return mResources.size(); }
+    inline CResourceEntry* ResourceByIndex(uint32 Index)            { return mResources[Index]; }
 };
 
 #endif // CVIRTUALDIRECTORY

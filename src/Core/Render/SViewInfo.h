@@ -3,14 +3,14 @@
 
 #include "Core/Resource/CCollisionMaterial.h"
 #include "Core/Scene/FShowFlags.h"
-#include <Math/CFrustumPlanes.h>
-#include <Math/CMatrix4f.h>
-#include <Math/CRay.h>
+#include <Common/Math/CFrustumPlanes.h>
+#include <Common/Math/CMatrix4f.h>
+#include <Common/Math/CRay.h>
 
 struct SCollisionRenderSettings
 {
-    u64 HighlightMask;
-    u64 HideMask;
+    uint64 HighlightMask;
+    uint64 HideMask;
 
     CCollisionMaterial HideMaterial;
     bool DrawWireframe;

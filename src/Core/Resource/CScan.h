@@ -71,7 +71,7 @@ public:
         // Corruption's SCAN has a list of all assets - just grab that
         if (Game() >= EGame::CorruptionProto)
         {
-            for (u32 iDep = 0; iDep < mDependencyList.size(); iDep++)
+            for (uint32 iDep = 0; iDep < mDependencyList.size(); iDep++)
             {
                 pTree->AddDependency(mDependencyList[iDep]);
             }
@@ -87,7 +87,7 @@ public:
 
         if (Game() <= EGame::Prime)
         {
-            for (u32 iImg = 0; iImg < 4; iImg++)
+            for (uint32 iImg = 0; iImg < 4; iImg++)
                 pTree->AddDependency(mScanImageTextures[iImg]);
         }
 
@@ -98,7 +98,7 @@ public:
             pTree->AddCharacterDependency(mLogbookAnimParams);
             pTree->AddCharacterDependency(mUnknownAnimParams);
 
-            for (u32 iSec = 0; iSec < mSecondaryModels.size(); iSec++)
+            for (uint32 iSec = 0; iSec < mSecondaryModels.size(); iSec++)
             {
                 const SScanInfoSecondaryModel& rkSecModel = mSecondaryModels[iSec];
                 pTree->AddDependency(rkSecModel.ModelID);
@@ -110,13 +110,13 @@ public:
     }
 
     // Accessors
-    inline CStringTable* ScanText() const           { return mpStringTable; }
-    inline bool IsImportant() const                 { return mIsImportant; }
-    inline bool IsSlow() const                      { return mIsSlow; }
-    inline ELogbookCategory LogbookCategory() const { return mCategory; }
-    inline CAssetID GuiFrame() const                { return mFrameID; }
-    inline CAssetID ScanImage(u32 ImgIndex) const   { return mScanImageTextures[ImgIndex]; }
-    inline CAssetID LogbookDisplayAssetID() const   { return (mLogbookAnimParams.ID().IsValid() ? mLogbookAnimParams.ID() : mLogbookModel); }
+    inline CStringTable* ScanText() const               { return mpStringTable; }
+    inline bool IsImportant() const                     { return mIsImportant; }
+    inline bool IsSlow() const                          { return mIsSlow; }
+    inline ELogbookCategory LogbookCategory() const     { return mCategory; }
+    inline CAssetID GuiFrame() const                    { return mFrameID; }
+    inline CAssetID ScanImage(uint32 ImgIndex) const    { return mScanImageTextures[ImgIndex]; }
+    inline CAssetID LogbookDisplayAssetID() const       { return (mLogbookAnimParams.ID().IsValid() ? mLogbookAnimParams.ID() : mLogbookModel); }
 };
 
 #endif // CSCAN_H

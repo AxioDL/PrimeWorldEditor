@@ -48,7 +48,7 @@ QVariant CLinkModel::data(const QModelIndex& rkIndex, int Role) const
 
         case 0: // Column 0 - Target Object
         {
-            u32 TargetID = (mType == eIncoming ? pLink->SenderID() : pLink->ReceiverID());
+            uint32 TargetID = (mType == eIncoming ? pLink->SenderID() : pLink->ReceiverID());
             CScriptObject *pTarget = mpObject->Area()->InstanceByID(TargetID);
 
             if (pTarget)

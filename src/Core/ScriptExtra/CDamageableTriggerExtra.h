@@ -41,7 +41,7 @@ public:
     void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
-    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 ComponentIndex, const SViewInfo& rkViewInfo);
+    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 ComponentIndex, const SViewInfo& rkViewInfo);
 };
 
 #endif // CDAMAGEABLETRIGGEREXTRA_H

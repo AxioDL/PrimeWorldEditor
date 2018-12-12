@@ -1,7 +1,7 @@
 #ifndef CPROGRESSBARNOTIFIER_H
 #define CPROGRESSBARNOTIFIER_H
 
-#include <Math/MathUtil.h>
+#include <Common/Math/MathUtil.h>
 #include <Core/IProgressNotifier.h>
 #include <QProgressBar>
 

@@ -46,7 +46,7 @@ void CSplinePathExtra::AddWaypoints()
 
     std::set<CWaypointExtra*> CheckedWaypoints;
 
-    for (u32 LinkIdx = 0; LinkIdx < mpInstance->NumLinks(eOutgoing); LinkIdx++)
+    for (uint32 LinkIdx = 0; LinkIdx < mpInstance->NumLinks(eOutgoing); LinkIdx++)
     {
         CLink* pLink = mpInstance->Link(eOutgoing, LinkIdx);
 

@@ -54,7 +54,7 @@
 
 class CNodePtr
 {
-    u32 mNodeID;
+    uint32 mNodeID;
     CScene *mpScene;
     bool mValid;
 
@@ -70,7 +70,7 @@ public:
     }
 
     inline bool Valid() const       { return mValid; }
-    inline u32 NodeID() const       { return mNodeID; }
+    inline uint32 NodeID() const    { return mNodeID; }
     inline CScene* Scene() const    { return mpScene; }
     inline CSceneNode* operator* () const { return mValid ? mpScene->NodeByID(mNodeID) : nullptr; }
     inline CSceneNode* operator->() const { return mValid ? mpScene->NodeByID(mNodeID) : nullptr; }
@@ -84,7 +84,7 @@ public:
 
 class CInstancePtr
 {
-    u32 mInstanceID;
+    uint32 mInstanceID;
     CGameArea *mpArea;
     bool mValid;
 
@@ -99,7 +99,7 @@ public:
         mValid = pInst ? true : false;
     }
 
-    inline u32 InstanceID() const   { return mInstanceID; }
+    inline uint32 InstanceID() const   { return mInstanceID; }
     inline CGameArea* Area() const  { return mpArea; }
     inline CScriptObject* operator* () const { return mValid ? mpArea->InstanceByID(mInstanceID) : nullptr; }
     inline CScriptObject* operator->() const { return mValid ? mpArea->InstanceByID(mInstanceID) : nullptr; }
@@ -114,7 +114,7 @@ public:
 class CLinkPtr
 {
     CInstancePtr mpInstance;
-    u32 mLinkIndex;
+    uint32 mLinkIndex;
     bool mValid;
 
 public:
@@ -128,7 +128,7 @@ public:
         mValid = pLink ? true : false;
     }
 
-    inline u32 LinkIndex() const        { return mLinkIndex; }
+    inline uint32 LinkIndex() const        { return mLinkIndex; }
     inline CLink* operator* () const    { return mValid ? mpInstance->Link(eOutgoing, mLinkIndex) : nullptr; }
     inline CLink* operator->() const    { return mValid ? mpInstance->Link(eOutgoing, mLinkIndex) : nullptr; }
     inline CLinkPtr& operator=(CLink *pLink) { SetLink(pLink); return *this; }

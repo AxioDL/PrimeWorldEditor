@@ -93,7 +93,7 @@ void CPasteNodesCommand::redo()
         {
             CScriptObject *pInstance = static_cast<CScriptNode*>(pNode)->Instance();
 
-            for (u32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
+            for (uint32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
             {
                 CLink *pLink = pInstance->Link(eOutgoing, iLink);
                 int Index = mpMimeData->IndexOfInstanceID(pLink->ReceiverID());

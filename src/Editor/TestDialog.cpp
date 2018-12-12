@@ -26,7 +26,7 @@ void TestDialog::OnSpinBoxChanged(int NewValue)
 
 void TestDialog::OnFind()
 {
-    u32 SoundID = ui->spinBox->value();
+    uint32 SoundID = ui->spinBox->value();
     CGameProject *pProj = gpEdApp->ActiveProject();
 
     if (pProj)

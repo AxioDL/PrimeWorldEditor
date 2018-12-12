@@ -2,8 +2,8 @@
 #include "Core/Render/CBoneTransformData.h"
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CGraphics.h"
-#include <Common/AssertMacro.h>
-#include <Math/MathUtil.h>
+#include <Common/Macros.h>
+#include <Common/Math/MathUtil.h>
 
 // ************ CBone ************
 CBone::CBone(CSkeleton *pSkel)
@@ -37,7 +37,7 @@ void CBone::UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo&
     rTransform *= mInvBind;
 
     // Calculate children
-    for (u32 iChild = 0; iChild < mChildren.size(); iChild++)
+    for (uint32 iChild = 0; iChild < mChildren.size(); iChild++)
         mChildren[iChild]->UpdateTransform(rData, TransformInfo, pAnim, Time, AnchorRoot);
 }
 
@@ -70,13 +70,13 @@ CSkeleton::CSkeleton(CResourceEntry *pEntry /*= 0*/)
 
 CSkeleton::~CSkeleton()
 {
-    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    for (uint32 iBone = 0; iBone < mBones.size(); iBone++)
         delete mBones[iBone];
 }
 
-CBone* CSkeleton::BoneByID(u32 BoneID) const
+CBone* CSkeleton::BoneByID(uint32 BoneID) const
 {
-    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    for (uint32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         if (mBones[iBone]->ID() == BoneID)
             return mBones[iBone];
@@ -87,7 +87,7 @@ CBone* CSkeleton::BoneByID(u32 BoneID) const
 
 CBone* CSkeleton::BoneByName(const TString& rkBoneName) const
 {
-    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    for (uint32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         if (mBones[iBone]->Name() == rkBoneName)
             return mBones[iBone];
@@ -96,11 +96,11 @@ CBone* CSkeleton::BoneByName(const TString& rkBoneName) const
     return nullptr;
 }
 
-u32 CSkeleton::MaxBoneID() const
+uint32 CSkeleton::MaxBoneID() const
 {
-    u32 ID = 0;
+    uint32 ID = 0;
 
-    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    for (uint32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         if (mBones[iBone]->ID() > ID)
             ID = mBones[iBone]->ID();
@@ -121,7 +121,7 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkDat
     glLineWidth(1.f);
 
     // Draw all child links first to minimize model matrix swaps.
-    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    for (uint32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         CBone *pBone = mBones[iBone];
         CVector3f BonePos = pkData ? pBone->TransformedPosition(*pkData) : pBone->Position();
@@ -136,7 +136,7 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkDat
         }
 
         // Draw child links
-        for (u32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
+        for (uint32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
         {
             CBone *pChild = pBone->ChildByIndex(iChild);
             CVector3f ChildPos = pkData ? pChild->TransformedPosition(*pkData) : pChild->Position();
@@ -147,7 +147,7 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkDat
     // Draw bone spheres
     CTransform4f BaseTransform = CGraphics::sMVPBlock.ModelMatrix;
 
-    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    for (uint32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         CBone *pBone = mBones[iBone];
         CVector3f BonePos = pkData ? pBone->TransformedPosition(*pkData) : pBone->Position();
@@ -161,11 +161,11 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkDat
     }
 }
 
-std::pair<s32,float> CSkeleton::RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData)
+std::pair<int32,float> CSkeleton::RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData)
 {
-    std::pair<s32,float> Out(-1, FLT_MAX);
+    std::pair<int32,float> Out(-1, FLT_MAX);
 
-    for (u32 iBone = 0; iBone < mBones.size(); iBone++)
+    for (uint32 iBone = 0; iBone < mBones.size(); iBone++)
     {
         CBone *pBone = mBones[iBone];
         CVector3f BonePos = pBone->TransformedPosition(rkData);

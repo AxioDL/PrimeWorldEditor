@@ -55,7 +55,7 @@ void CGameTemplate::Load(const TString& kFilePath)
 
 void CGameTemplate::Save()
 {
-    Log::Write("Saving game template: " + mSourceFile);
+    debugf("Saving game template: %s", *mSourceFile);
     CXMLWriter Writer(mSourceFile, "Game", 0, mGame);
     ASSERT(Writer.IsValid());
     Serialize(Writer);
@@ -109,7 +109,7 @@ void CGameTemplate::SaveGameTemplates(bool ForceAll /*= false*/)
                 const TString kOutPath = kGameDir + Path.Path;
                 FileUtil::MakeDirectory( kOutPath.GetFileDirectory() );
 
-                Log::Write("Saving property template: " + kOutPath);
+                debugf("Saving property template: %s", *kOutPath);
                 CXMLWriter Writer(kOutPath, "PropertyTemplate", 0, Game());
                 ASSERT(Writer.IsValid());
 
@@ -120,12 +120,12 @@ void CGameTemplate::SaveGameTemplates(bool ForceAll /*= false*/)
     }
 }
 
-u32 CGameTemplate::GameVersion(TString VersionName)
+uint32 CGameTemplate::GameVersion(TString VersionName)
 {
     return -1;
 }
 
-CScriptTemplate* CGameTemplate::TemplateByID(u32 ObjectID)
+CScriptTemplate* CGameTemplate::TemplateByID(uint32 ObjectID)
 {
     auto it = mScriptTemplates.find(ObjectID);
 
@@ -140,13 +140,13 @@ CScriptTemplate* CGameTemplate::TemplateByID(const CFourCC& ObjectID)
     return TemplateByID(ObjectID.ToLong());
 }
 
-CScriptTemplate* CGameTemplate::TemplateByIndex(u32 Index)
+CScriptTemplate* CGameTemplate::TemplateByIndex(uint32 Index)
 {
     auto it = mScriptTemplates.begin();
     return (std::next(it, Index))->second.pTemplate.get();
 }
 
-SState CGameTemplate::StateByID(u32 StateID)
+SState CGameTemplate::StateByID(uint32 StateID)
 {
     auto Iter = mStates.find(StateID);
 
@@ -161,14 +161,14 @@ SState CGameTemplate::StateByID(const CFourCC& State)
     return StateByID(State.ToLong());
 }
 
-SState CGameTemplate::StateByIndex(u32 Index)
+SState CGameTemplate::StateByIndex(uint32 Index)
 {
     auto Iter = mStates.begin();
     Iter = std::next(Iter, Index);
     return SState(Iter->first, Iter->second);
 }
 
-SMessage CGameTemplate::MessageByID(u32 MessageID)
+SMessage CGameTemplate::MessageByID(uint32 MessageID)
 {
     auto Iter = mMessages.find(MessageID);
 
@@ -183,7 +183,7 @@ SMessage CGameTemplate::MessageByID(const CFourCC& MessageID)
     return MessageByID(MessageID.ToLong());
 }
 
-SMessage CGameTemplate::MessageByIndex(u32 Index)
+SMessage CGameTemplate::MessageByIndex(uint32 Index)
 {
     auto Iter = mMessages.begin();
     Iter = std::next(Iter, Index);

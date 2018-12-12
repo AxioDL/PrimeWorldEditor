@@ -14,7 +14,7 @@ class CAnimSetLoader
     CAnimSet* LoadCorruptionCHAR(IInputStream& rCHAR);
     CAnimSet* LoadReturnsCHAR(IInputStream& rCHAR);
     void LoadPASDatabase(IInputStream& rPAS4);
-    void LoadParticleResourceData(IInputStream& rFile, SSetCharacter *pChar, u16 Version);
+    void LoadParticleResourceData(IInputStream& rFile, SSetCharacter *pChar, uint16 Version);
 
     void LoadAnimationSet(IInputStream& rANCS);
     void ProcessPrimitives();

@@ -11,28 +11,28 @@ class CAreaCooker
     TResPtr<CGameArea> mpArea;
     EGame mVersion;
 
-    std::vector<u32> mSectionSizes;
+    std::vector<uint32> mSectionSizes;
 
-    u32 mGeometrySecNum;
-    u32 mSCLYSecNum;
-    u32 mSCGNSecNum;
-    u32 mCollisionSecNum;
-    u32 mUnknownSecNum;
-    u32 mLightsSecNum;
-    u32 mVISISecNum;
-    u32 mPATHSecNum;
-    u32 mAROTSecNum;
-    u32 mFFFFSecNum;
-    u32 mPTLASecNum;
-    u32 mEGMCSecNum;
-    u32 mDepsSecNum;
-    u32 mModulesSecNum;
+    uint32 mGeometrySecNum;
+    uint32 mSCLYSecNum;
+    uint32 mSCGNSecNum;
+    uint32 mCollisionSecNum;
+    uint32 mUnknownSecNum;
+    uint32 mLightsSecNum;
+    uint32 mVISISecNum;
+    uint32 mPATHSecNum;
+    uint32 mAROTSecNum;
+    uint32 mFFFFSecNum;
+    uint32 mPTLASecNum;
+    uint32 mEGMCSecNum;
+    uint32 mDepsSecNum;
+    uint32 mModulesSecNum;
 
     struct SCompressedBlock
     {
-        u32 CompressedSize;
-        u32 DecompressedSize;
-        u32 NumSections;
+        uint32 CompressedSize;
+        uint32 DecompressedSize;
+        uint32 NumSections;
 
         SCompressedBlock()
             : CompressedSize(0), DecompressedSize(0), NumSections(0) {}
@@ -70,7 +70,7 @@ class CAreaCooker
 
 public:
     static bool CookMREA(CGameArea *pArea, IOutputStream& rOut);
-    static u32 GetMREAVersion(EGame Version);
+    static uint32 GetMREAVersion(EGame Version);
 };
 
 #endif // CAREACOOKER_H

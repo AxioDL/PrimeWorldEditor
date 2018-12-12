@@ -18,7 +18,7 @@ CErrorLogDialog::~CErrorLogDialog()
 
 bool CErrorLogDialog::GatherErrors()
 {
-    const TStringList& rkErrors = Log::GetErrorLog();
+    const TStringList& rkErrors = NLog::GetErrorLog();
     if (rkErrors.empty()) return false;
 
     QString DialogString;
@@ -46,6 +46,6 @@ bool CErrorLogDialog::GatherErrors()
     }
 
     ui->ErrorLogTextEdit->setText(DialogString);
-    Log::ClearErrorLog();
+    NLog::ClearErrorLog();
     return true;
 }

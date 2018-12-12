@@ -18,7 +18,7 @@ class CWorldLoader
 
 public:
     static CWorld* LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry);
-    static EGame GetFormatVersion(u32 Version);
+    static EGame GetFormatVersion(uint32 Version);
 };
 
 #endif // CWORLDLOADER_H

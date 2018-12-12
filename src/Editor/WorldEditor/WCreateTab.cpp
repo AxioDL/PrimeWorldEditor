@@ -73,7 +73,7 @@ void WCreateTab::OnLayersChanged()
     ui->SpawnLayerComboBox->blockSignals(true);
     ui->SpawnLayerComboBox->clear();
 
-    for (u32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+    for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
         ui->SpawnLayerComboBox->addItem(TO_QSTRING(pArea->ScriptLayer(iLyr)->Name()));
 
     ui->SpawnLayerComboBox->setCurrentIndex(0);

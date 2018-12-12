@@ -64,7 +64,7 @@ public:
 
         if (mpGame)
         {
-            for (u32 iTemp = 0; iTemp < mpGame->NumScriptTemplates(); iTemp++)
+            for (uint32 iTemp = 0; iTemp < mpGame->NumScriptTemplates(); iTemp++)
                 mTemplates << mpGame->TemplateByIndex(iTemp);
 
             qSort(mTemplates.begin(), mTemplates.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {

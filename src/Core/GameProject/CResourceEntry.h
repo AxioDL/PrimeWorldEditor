@@ -8,7 +8,6 @@
 #include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
 #include <Common/Flags.h>
-#include <Common/types.h>
 
 class CResource;
 class CGameProject;
@@ -37,7 +36,7 @@ class CResourceEntry
     FResEntryFlags mFlags;
 
     mutable bool mMetadataDirty;
-    mutable u64 mCachedSize;
+    mutable uint64 mCachedSize;
     mutable TString mCachedUppercaseName; // This is used to speed up case-insensitive sorting and filtering.
 
     // Private constructor
@@ -66,7 +65,7 @@ public:
     CFourCC CookedExtension() const;
     TString MetadataFilePath(bool Relative = false) const;
     bool IsInDirectory(CVirtualDirectory *pDir) const;
-    u64 Size() const;
+    uint64 Size() const;
     bool NeedsRecook() const;
     bool Save(bool SkipCacheSave = false);
     bool Cook();

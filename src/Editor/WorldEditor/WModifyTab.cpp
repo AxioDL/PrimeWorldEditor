@@ -147,13 +147,13 @@ void WModifyTab::OnLinksSelectionModified()
 {
     if (sender() == ui->InLinksTableView->selectionModel())
     {
-        u32 NumSelectedRows = ui->InLinksTableView->selectionModel()->selectedRows().size();
+        uint32 NumSelectedRows = ui->InLinksTableView->selectionModel()->selectedRows().size();
         ui->EditIncomingConnectionButton->setEnabled(NumSelectedRows == 1);
         ui->DeleteIncomingConnectionButton->setEnabled(NumSelectedRows > 0);
     }
     else
     {
-        u32 NumSelectedRows = ui->OutLinksTableView->selectionModel()->selectedRows().size();
+        uint32 NumSelectedRows = ui->OutLinksTableView->selectionModel()->selectedRows().size();
         ui->EditOutgoingConnectionButton->setEnabled(NumSelectedRows == 1);
         ui->DeleteOutgoingConnectionButton->setEnabled(NumSelectedRows > 0);
     }
@@ -229,7 +229,7 @@ void WModifyTab::OnDeleteLinksClicked()
 
         if (!SelectedIndices.isEmpty())
         {
-            QVector<u32> Indices;
+            QVector<uint32> Indices;
 
             for (int iIdx = 0; iIdx < SelectedIndices.size(); iIdx++)
                 Indices << SelectedIndices[iIdx].row();
@@ -265,7 +265,7 @@ void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
     {
         // The link table will only be visible if the selected node is a script node
         CScriptNode *pNode = static_cast<CScriptNode*>(mpSelectedNode);
-        u32 InstanceID;
+        uint32 InstanceID;
 
         if (sender() == ui->InLinksTableView)
             InstanceID = pNode->Instance()->Link(eIncoming, Index.row())->SenderID();

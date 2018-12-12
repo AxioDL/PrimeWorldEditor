@@ -6,7 +6,7 @@
 class CSelectionIterator
 {
     CNodeSelection *mpSelection;
-    u32 mCurrentIndex;
+    uint32 mCurrentIndex;
 
 public:
     CSelectionIterator(CNodeSelection *pSelection)

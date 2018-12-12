@@ -21,11 +21,11 @@ public:
 private:
     struct SEntry
     {
-        u32 ID;
+        uint32 ID;
         QString Name;
 
         SEntry() {}
-        SEntry(u32 _ID, const QString& rkName)
+        SEntry(uint32 _ID, const QString& rkName)
             : ID(_ID), Name(rkName) {}
 
         bool operator<(const SEntry& rkOther) const
@@ -71,7 +71,7 @@ public:
 
         if (mType == eStates)
         {
-            for (u32 iState = 0; iState < pGame->NumStates(); iState++)
+            for (uint32 iState = 0; iState < pGame->NumStates(); iState++)
             {
                 SState State = pGame->StateByIndex(iState);
                 mEntries << SEntry(State.ID, TO_QSTRING(State.Name));
@@ -80,7 +80,7 @@ public:
 
         else
         {
-            for (u32 iMsg = 0; iMsg < pGame->NumMessages(); iMsg++)
+            for (uint32 iMsg = 0; iMsg < pGame->NumMessages(); iMsg++)
             {
                 SMessage Message = pGame->MessageByIndex(iMsg);
                 mEntries << SEntry(Message.ID, TO_QSTRING(Message.Name));
@@ -91,7 +91,7 @@ public:
         endResetModel();
     }
 
-    u32 StateIndex(u32 StateID) const
+    uint32 StateIndex(uint32 StateID) const
     {
         if (mType == eMessages) return -1;
 
@@ -104,7 +104,7 @@ public:
         return -1;
     }
 
-    u32 MessageIndex(u32 MessageID) const
+    uint32 MessageIndex(uint32 MessageID) const
     {
         if (mType == eStates) return -1;
 
@@ -122,12 +122,12 @@ public:
         mpScript = pScript;
     }
 
-    inline u32 State(u32 Index) const
+    inline uint32 State(uint32 Index) const
     {
         return (mType == eStates ? mEntries[Index].ID : 0);
     }
 
-    inline u32 Message(u32 Index) const
+    inline uint32 Message(uint32 Index) const
     {
         return (mType == eMessages ? mEntries[Index].ID : 0);
     }

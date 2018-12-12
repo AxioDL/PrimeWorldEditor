@@ -5,7 +5,7 @@
 #include "CProgressDialog.h"
 #include "UICommon.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <Core/GameProject/CGameExporter.h>
 #include <Core/GameProject/COpeningBanner.h>
 
@@ -101,7 +101,7 @@ void CProjectSettingsDialog::SetupPackagesList()
     mpUI->PackagesList->clear();
     if (!mpProject) return;
 
-    for (u32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
+    for (uint32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
     {
         CPackage *pPackage = mpProject->PackageByIndex(iPkg);
         ASSERT(pPackage != nullptr);
@@ -114,7 +114,7 @@ void CProjectSettingsDialog::SetupPackagesList()
 
 void CProjectSettingsDialog::CookPackage()
 {
-    u32 PackageIdx = mpUI->PackagesList->currentRow();
+    uint32 PackageIdx = mpUI->PackagesList->currentRow();
 
     if (PackageIdx != -1)
     {

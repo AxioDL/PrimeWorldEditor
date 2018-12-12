@@ -20,7 +20,7 @@ class CDeleteSelectionCommand : public IUndoCommand
     {
         // Node Info
         CNodePtr NodePtr;
-        u32 NodeID;
+        uint32 NodeID;
         CVector3f Position;
         CQuaternion Rotation;
         CVector3f Scale;
@@ -28,19 +28,19 @@ class CDeleteSelectionCommand : public IUndoCommand
         // Instance Info
         CGameArea *pArea;
         CScriptLayer *pLayer;
-        u32 LayerIndex;
+        uint32 LayerIndex;
         std::vector<char> InstanceData;
     };
     QVector<SDeletedNode> mDeletedNodes;
 
     struct SDeletedLink
     {
-        u32 State;
-        u32 Message;
-        u32 SenderID;
-        u32 SenderIndex;
-        u32 ReceiverID;
-        u32 ReceiverIndex;
+        uint32 State;
+        uint32 Message;
+        uint32 SenderID;
+        uint32 SenderIndex;
+        uint32 ReceiverID;
+        uint32 ReceiverIndex;
         CInstancePtr pSender;
         CInstancePtr pReceiver;
     };

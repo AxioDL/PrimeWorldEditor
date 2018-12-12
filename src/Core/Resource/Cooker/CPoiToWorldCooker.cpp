@@ -5,12 +5,12 @@ bool CPoiToWorldCooker::CookEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut)
     // Create mappings list
     struct SPoiMapping
     {
-        u32 MeshID;
-        u32 PoiID;
+        uint32 MeshID;
+        uint32 PoiID;
     };
     std::vector<SPoiMapping> Mappings;
 
-    for (u32 iPoi = 0; iPoi < pPoiToWorld->NumMappedPOIs(); iPoi++)
+    for (uint32 iPoi = 0; iPoi < pPoiToWorld->NumMappedPOIs(); iPoi++)
     {
         const CPoiToWorld::SPoiMap *pkMap = pPoiToWorld->MapByIndex(iPoi);
 
@@ -26,7 +26,7 @@ bool CPoiToWorldCooker::CookEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut)
     // Write EGMC
     rOut.WriteLong(Mappings.size());
 
-    for (u32 iMap = 0; iMap < Mappings.size(); iMap++)
+    for (uint32 iMap = 0; iMap < Mappings.size(); iMap++)
     {
         rOut.WriteLong(Mappings[iMap].MeshID);
         rOut.WriteLong(Mappings[iMap].PoiID);

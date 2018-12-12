@@ -3,20 +3,20 @@
 
 #include "IProperty.h"
 
-class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyType::Flags>
+class CFlagsProperty : public TSerializeableTypedProperty<uint32, EPropertyType::Flags>
 {
     friend class IProperty;
 
     struct SBitFlag
     {
         TString Name;
-        u32 Mask;
+        uint32 Mask;
 
         SBitFlag()
             : Mask(0)
         {}
 
-        SBitFlag(const TString& rkInName, u32 InMask)
+        SBitFlag(const TString& rkInName, uint32 InMask)
             : Name(rkInName), Mask(InMask)
         {}
 
@@ -32,7 +32,7 @@ class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyType::Fl
         }
     };
     std::vector<SBitFlag> mBitFlags;
-    u32 mAllFlags;
+    uint32 mAllFlags;
 
     CFlagsProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
@@ -40,18 +40,18 @@ class CFlagsProperty : public TSerializeableTypedProperty<u32, EPropertyType::Fl
     {}
 
 public:
-    inline u32 NumFlags() const
+    inline uint32 NumFlags() const
     {
         return mBitFlags.size();
     }
 
-    inline TString FlagName(u32 Idx) const
+    inline TString FlagName(uint32 Idx) const
     {
         ASSERT(Idx >= 0 && Idx < mBitFlags.size());
         return mBitFlags[Idx].Name;
     }
 
-    inline u32 FlagMask(u32 Idx) const
+    inline uint32 FlagMask(uint32 Idx) const
     {
         ASSERT(Idx >= 0 && Idx < mBitFlags.size());
         return mBitFlags[Idx].Mask;
@@ -67,7 +67,7 @@ public:
      * Checks whether there are any unrecognized bits toggled on in the property value.
      * Returns the mask of any invalid bits. If all bits are valid, returns 0.
      */
-    u32 HasValidValue(void* pPropertyData);
+    uint32 HasValidValue(void* pPropertyData);
 };
 
 #endif // CFLAGSPROPERTY_H

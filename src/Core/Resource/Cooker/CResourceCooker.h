@@ -26,7 +26,7 @@ public:
         case eWorld:                return CWorldCooker::CookMLVL((CWorld*) pRes, rOutput);
 
         default:
-            Log::Warning("Failed to cook " + pEntry->CookedExtension().ToString() + " asset; this resource type is not supported for cooking");
+            warnf("Failed to cook %s asset; this resource type is not supported for cooking", *pEntry->CookedExtension().ToString());
             return false;
         }
     }

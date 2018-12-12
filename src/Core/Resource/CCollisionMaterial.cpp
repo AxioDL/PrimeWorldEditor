@@ -1,5 +1,5 @@
 #include "CCollisionMaterial.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <unordered_map>
 
 ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
@@ -19,7 +19,7 @@ ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
 
     // Determine which list we should use.
     const ECollisionFlag* pkFlagArray;
-    u32 Num;
+    uint32 Num;
 
     if (Game <= EGame::Prime)
     {
@@ -33,7 +33,7 @@ ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
     }
 
     // Locate type.
-    for (u32 iType = 0; iType < Num; iType++)
+    for (uint32 iType = 0; iType < Num; iType++)
     {
         if (*this & pkFlagArray[iType])
             return pkFlagArray[iType];

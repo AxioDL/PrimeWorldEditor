@@ -7,7 +7,6 @@
 #include <Common/CFourCC.h>
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
-#include <Common/types.h>
 #include <map>
 #include <set>
 
@@ -82,8 +81,8 @@ public:
     inline TString ResourcesDir() const             { return IsEditorStore() ? DatabaseRootPath() : DatabaseRootPath() + "Resources/"; }
     inline TString DatabasePath() const             { return DatabaseRootPath() + "ResourceDatabaseCache.bin"; }
     inline CVirtualDirectory* RootDirectory() const { return mpDatabaseRoot; }
-    inline u32 NumTotalResources() const            { return mResourceEntries.size(); }
-    inline u32 NumLoadedResources() const           { return mLoadedResources.size(); }
+    inline uint32 NumTotalResources() const         { return mResourceEntries.size(); }
+    inline uint32 NumLoadedResources() const        { return mLoadedResources.size(); }
     inline bool IsCacheDirty() const                { return mDatabaseCacheDirty; }
 
     inline void SetCacheDirty()                     { mDatabaseCacheDirty = true; }

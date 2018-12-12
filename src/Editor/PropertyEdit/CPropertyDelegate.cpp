@@ -130,7 +130,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionVie
             QComboBox *pComboBox = new QComboBox(pParent);
             CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProp);
 
-            for (u32 ValueIdx = 0; ValueIdx < pEnum->NumPossibleValues(); ValueIdx++)
+            for (uint32 ValueIdx = 0; ValueIdx < pEnum->NumPossibleValues(); ValueIdx++)
                 pComboBox->addItem(TO_QSTRING(pEnum->ValueName(ValueIdx)));
 
             CONNECT_RELAY(pComboBox, rkIndex, currentIndexChanged(int))
@@ -344,7 +344,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
             {
                 QCheckBox *pCheckBox = static_cast<QCheckBox*>(pEditor);
                 CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
-                u32 Mask = pFlags->FlagMask(rkIndex.row());
+                uint32 Mask = pFlags->FlagMask(rkIndex.row());
                 bool Set = (pFlags->Value(pData) & Mask) != 0;
                 pCheckBox->setChecked(Set);
             }
@@ -386,7 +386,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                 {
                     QCheckBox* pCheckBox = static_cast<QCheckBox*>(pEditor);
                     CFlagsProperty* pFlags = static_cast<CFlagsProperty*>(pProp);
-                    u32 Mask = pFlags->FlagMask(rkIndex.row());
+                    uint32 Mask = pFlags->FlagMask(rkIndex.row());
 
                     int Flags = pFlags->Value(pData);
                     if (pCheckBox->isChecked()) Flags |= Mask;
@@ -580,7 +580,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
 
         if (pAnimSet)
         {
-            for (u32 CharIdx = 0; CharIdx < pAnimSet->NumCharacters(); CharIdx++)
+            for (uint32 CharIdx = 0; CharIdx < pAnimSet->NumCharacters(); CharIdx++)
                 pComboBox->addItem(TO_QSTRING(pAnimSet->Character(CharIdx)->Name));
         }
 
@@ -617,7 +617,7 @@ void CPropertyDelegate::SetCharacterEditorData(QWidget *pEditor, const QModelInd
     else if (Type == EPropertyType::Int && !pEditor->hasFocus())
     {
         int UnkIndex = (Params.Version() <= EGame::Echoes ? rkIndex.row() - 2 : rkIndex.row() - 1);
-        u32 Value = Params.Unknown(UnkIndex);
+        uint32 Value = Params.Unknown(UnkIndex);
         static_cast<WIntegralSpinBox*>(pEditor)->setValue(Value);
     }
 }

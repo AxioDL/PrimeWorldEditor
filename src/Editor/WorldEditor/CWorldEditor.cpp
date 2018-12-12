@@ -43,7 +43,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     , mpNewLinkSender(nullptr)
     , mpNewLinkReceiver(nullptr)
 {
-    Log::Write("Creating World Editor");
+    debugf("Creating World Editor");
     ui->setupUi(this);
     UpdateWindowTitle();
 
@@ -127,7 +127,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     mpOpenRecentMenu = new QMenu(this);
     ui->ActionOpenRecent->setMenu(mpOpenRecentMenu);
 
-    for (u32 iAct = 0; iAct < mskMaxRecentProjects; iAct++)
+    for (uint32 iAct = 0; iAct < mskMaxRecentProjects; iAct++)
     {
         QAction *pAction = new QAction(this);
         pAction->setVisible(false);
@@ -292,9 +292,9 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     QString AreaName = TO_QSTRING(mpWorld->AreaInGameName(AreaIndex));
 
     if (CurrentGame() < EGame::DKCReturns)
-        Log::Write("Loaded area: " + mpArea->Entry()->Name() + " (" + TO_TSTRING(AreaName) + ")");
+        debugf("Loaded area: %s (%s)", *mpArea->Entry()->Name(), *TO_TSTRING(AreaName));
     else
-        Log::Write("Loaded level: World " + mpWorld->Entry()->Name() + " / Area " + mpArea->Entry()->Name() + " (" + TO_TSTRING(AreaName) + ")");
+        debugf("Loaded level: World %s / Area %s (%s)", *mpWorld->Entry()->Name(), *mpArea->Entry()->Name(), *TO_TSTRING(AreaName));
 
     // Update paste action
     OnClipboardDataModified();
@@ -1087,8 +1087,8 @@ void CWorldEditor::OnUnlinkClicked()
 
                 if (UnlinkIncoming)
                 {
-                    QVector<u32> LinkIndices;
-                    for (u32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
+                    QVector<uint32> LinkIndices;
+                    for (uint32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
                         LinkIndices << iLink;
 
                     CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, eIncoming, LinkIndices);
@@ -1097,8 +1097,8 @@ void CWorldEditor::OnUnlinkClicked()
 
                 if (UnlinkOutgoing)
                 {
-                    QVector<u32> LinkIndices;
-                    for (u32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+                    QVector<uint32> LinkIndices;
+                    for (uint32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
                         LinkIndices << iLink;
 
                     CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, eOutgoing, LinkIndices);

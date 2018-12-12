@@ -4,7 +4,7 @@
 #include "IEditor.h"
 #include "CGizmo.h"
 #include "CNodeSelection.h"
-#include <Math/ETransformSpace.h>
+#include <Common/Math/ETransformSpace.h>
 #include <Core/Scene/CScene.h>
 
 #include <QMainWindow>

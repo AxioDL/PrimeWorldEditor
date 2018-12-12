@@ -19,8 +19,8 @@ protected:
 public:
     virtual EPropertyType Type() const;
     virtual void PostInitialize();
-    virtual u32 DataSize() const;
-    virtual u32 DataAlignment() const;
+    virtual uint32 DataSize() const;
+    virtual uint32 DataAlignment() const;
     virtual void Construct(void* pData) const;
     virtual void Destruct(void* pData) const;
     virtual bool MatchesDefault(void* pData) const;

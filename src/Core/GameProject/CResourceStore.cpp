@@ -4,7 +4,7 @@
 #include "CResourceIterator.h"
 #include "Core/IUIRelay.h"
 #include "Core/Resource/CResource.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <Common/FileUtil.h>
 #include <Common/Log.h>
 #include <Common/Serialization/Binary.h>
@@ -54,7 +54,7 @@ void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rO
     }
     else
     {
-        for (u32 SubIdx = 0; SubIdx < pDir->NumSubdirectories(); SubIdx++)
+        for (uint32 SubIdx = 0; SubIdx < pDir->NumSubdirectories(); SubIdx++)
             RecursiveGetListOfEmptyDirectories(pDir->SubdirectoryByIndex(SubIdx), rOutList);
     }
 }
@@ -65,12 +65,12 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
     if (rArc.ParamBegin("Resources", 0))
     {
         // Serialize resources
-        u32 ResourceCount = mResourceEntries.size();
+        uint32 ResourceCount = mResourceEntries.size();
         rArc << SerialParameter("ResourceCount", ResourceCount);
 
         if (rArc.IsReader())
         {
-            for (u32 ResIdx = 0; ResIdx < ResourceCount; ResIdx++)
+            for (uint32 ResIdx = 0; ResIdx < ResourceCount; ResIdx++)
             {
                 if (rArc.ParamBegin("Resource", 0))
                 {
@@ -195,12 +195,12 @@ void CResourceStore::CloseProject()
     // If there are, that means something didn't clean up resource references properly on project close!!!
     if (!mLoadedResources.empty())
     {
-        Log::Error(TString::FromInt32(mLoadedResources.size(), 0, 10) + " resources still loaded on project close:");
+        warnf("%d resources still loaded on project close:", mLoadedResources.size());
 
         for (auto Iter = mLoadedResources.begin(); Iter != mLoadedResources.end(); Iter++)
         {
             CResourceEntry *pEntry = Iter->second;
-            Log::Write("\t" + pEntry->Name() + "." + pEntry->CookedExtension().ToString());
+            warnf("\t%s.%s", *pEntry->Name(), *pEntry->CookedExtension().ToString());
         }
 
         ASSERT(false);
@@ -325,7 +325,7 @@ bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
 
             if (!pTypeInfo)
             {
-                Log::Error("Found resource but couldn't register because failed to identify resource type: " + RelPath);
+                errorf("Found resource but couldn't register because failed to identify resource type: %s", *RelPath);
                 continue;
             }
 
@@ -389,7 +389,7 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
     CResourceEntry *pEntry = FindEntry(rkID);
 
     if (pEntry)
-        Log::Error("Attempted to register resource that's already tracked in the database: " + rkID.ToString() + " / " + rkDir + " / " + rkName);
+        errorf("Attempted to register resource that's already tracked in the database: %s / %s / %s", *rkID.ToString(), *rkDir, *rkName);
 
     else
     {
@@ -401,7 +401,7 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType 
         }
 
         else
-            Log::Error("Invalid resource path, failed to register: " + rkDir + rkName);
+            errorf("Invalid resource path, failed to register: %s%s", *rkDir, *rkName);
     }
 
     return pEntry;
@@ -419,7 +419,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID)
     else
     {
         // Resource doesn't seem to exist
-        Log::Error("Can't find requested resource with ID \"" + rkID.ToString() + "\".");;
+        warnf("Can't find requested resource with ID \"%s\"", *rkID.ToString());
         return nullptr;
     }
 }
@@ -440,7 +440,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, EResType Type)
             CResTypeInfo *pGotType = pRes->TypeInfo();
             ASSERT(pExpectedType && pGotType);
 
-            Log::Error("Resource with ID \"" + rkID.ToString() + "\" requested with the wrong type; expected " + pExpectedType->TypeName() + " asset, got " + pGotType->TypeName() + " asset");
+            errorf("Resource with ID \"%s\" requested with the wrong type; expected %s asset, get %s asset", *rkID.ToString(), *pExpectedType->TypeName(), *pGotType->TypeName());
             return nullptr;
         }
     }
@@ -487,7 +487,7 @@ void CResourceStore::TrackLoadedResource(CResourceEntry *pEntry)
 void CResourceStore::DestroyUnreferencedResources()
 {
     // This can be updated to avoid the do-while loop when reference lookup is implemented.
-    u32 NumDeleted;
+    uint32 NumDeleted;
 
     do
     {
@@ -546,7 +546,7 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
 
     if (!pContentsFile)
     {
-        Log::Error("Failed to open .contents.txt file: " + rkTxtPath);
+        errorf("Failed to open .contents.txt file: %s", *rkTxtPath);
         return;
     }
 
@@ -559,12 +559,12 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
         TString Line(LineBuffer);
         if (Line.IsEmpty()) break;
 
-        u32 IDStart = Line.IndexOfPhrase("0x") + 2;
+        uint32 IDStart = Line.IndexOfPhrase("0x") + 2;
         if (IDStart == 1) continue;
 
-        u32 IDEnd = Line.IndexOf(" \t", IDStart);
-        u32 PathStart = IDEnd + 1;
-        u32 PathEnd = Line.Size() - 5;
+        uint32 IDEnd = Line.IndexOf(" \t", IDStart);
+        uint32 PathStart = IDEnd + 1;
+        uint32 PathEnd = Line.Size() - 5;
 
         TString IDStr = Line.SubString(IDStart, IDEnd - IDStart);
         TString Path = Line.SubString(PathStart, PathEnd - PathStart);
@@ -576,7 +576,7 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
         if (pEntry)
         {
             // Chop name to just after "x_rep"
-            u32 RepStart = Path.IndexOfPhrase("_rep");
+            uint32 RepStart = Path.IndexOfPhrase("_rep");
 
             if (RepStart != -1)
                 Path = Path.ChopFront(RepStart + 5);

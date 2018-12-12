@@ -3,7 +3,7 @@
 #include "Core/Render/CRenderer.h"
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/OpenGL/GLCommon.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 
 CModel::CModel(CResourceEntry *pEntry /*= 0*/)
     : CBasicModel(pEntry)
@@ -25,7 +25,7 @@ CModel::CModel(CMaterialSet *pSet, bool OwnsMatSet)
 CModel::~CModel()
 {
     if (mHasOwnMaterials)
-        for (u32 iMat = 0; iMat < mMaterialSets.size(); iMat++)
+        for (uint32 iMat = 0; iMat < mMaterialSets.size(); iMat++)
             delete mMaterialSets[iMat];
 }
 
@@ -35,7 +35,7 @@ CDependencyTree* CModel::BuildDependencyTree() const
     CDependencyTree *pTree = new CDependencyTree();
     std::set<CAssetID> TextureIDs;
 
-    for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+    for (uint32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
     {
         CMaterialSet *pSet = mMaterialSets[iSet];
         pSet->GetUsedTextureIDs(TextureIDs);
@@ -56,21 +56,21 @@ void CModel::BufferGL()
 
         mSurfaceIndexBuffers.resize(mSurfaces.size());
 
-        for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+        for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         {
             SSurface *pSurf = mSurfaces[iSurf];
 
-            u16 VBOStartOffset = (u16) mVBO.Size();
-            mVBO.Reserve((u16) pSurf->VertexCount);
+            uint16 VBOStartOffset = (uint16) mVBO.Size();
+            mVBO.Reserve((uint16) pSurf->VertexCount);
 
-            for (u32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
+            for (uint32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
             {
                 SSurface::SPrimitive *pPrim = &pSurf->Primitives[iPrim];
                 CIndexBuffer *pIBO = InternalGetIBO(iSurf, pPrim->Type);
                 pIBO->Reserve(pPrim->Vertices.size() + 1); // Allocate enough space for this primitive, plus the restart index
 
-                std::vector<u16> Indices(pPrim->Vertices.size());
-                for (u32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
+                std::vector<uint16> Indices(pPrim->Vertices.size());
+                for (uint32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
                     Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
 
                 // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
@@ -92,7 +92,7 @@ void CModel::BufferGL()
                 }
             }
 
-            for (u32 iIBO = 0; iIBO < mSurfaceIndexBuffers[iSurf].size(); iIBO++)
+            for (uint32 iIBO = 0; iIBO < mSurfaceIndexBuffers[iSurf].size(); iIBO++)
                 mSurfaceIndexBuffers[iSurf][iIBO].Buffer();
         }
 
@@ -102,11 +102,11 @@ void CModel::BufferGL()
 
 void CModel::GenerateMaterialShaders()
 {
-    for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+    for (uint32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
     {
         CMaterialSet *pSet = mMaterialSets[iSet];
 
-        for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+        for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
         {
             CMaterial *pMat = pSet->MaterialByIndex(iMat);
             pMat->GenerateShader(false);
@@ -121,14 +121,14 @@ void CModel::ClearGLBuffer()
     mBuffered = false;
 }
 
-void CModel::Draw(FRenderOptions Options, u32 MatSet)
+void CModel::Draw(FRenderOptions Options, uint32 MatSet)
 {
     if (!mBuffered) BufferGL();
-    for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+    for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         DrawSurface(Options, iSurf, MatSet);
 }
 
-void CModel::DrawSurface(FRenderOptions Options, u32 Surface, u32 MatSet)
+void CModel::DrawSurface(FRenderOptions Options, uint32 Surface, uint32 MatSet)
 {
     if (!mBuffered) BufferGL();
 
@@ -152,7 +152,7 @@ void CModel::DrawSurface(FRenderOptions Options, u32 Surface, u32 MatSet)
     mVBO.Bind();
     glLineWidth(1.f);
 
-    for (u32 iIBO = 0; iIBO < mSurfaceIndexBuffers[Surface].size(); iIBO++)
+    for (uint32 iIBO = 0; iIBO < mSurfaceIndexBuffers[Surface].size(); iIBO++)
     {
         CIndexBuffer *pIBO = &mSurfaceIndexBuffers[Surface][iIBO];
         pIBO->DrawElements();
@@ -173,7 +173,7 @@ void CModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::
     glBlendFunc(GL_ONE, GL_ZERO);
 
     // Draw surfaces
-    for (u32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+    for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         DrawSurface(Options, iSurf, 0);
 
     // Cleanup
@@ -198,11 +198,11 @@ void CModel::SetSkin(CSkin *pSkin)
         else if (!pSkin && mVBO.VertexDesc().HasAnyFlags(kBoneFlags))
             mVBO.SetVertexDesc(mVBO.VertexDesc() & ~kBoneFlags);
 
-        for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+        for (uint32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
         {
             CMaterialSet *pSet = mMaterialSets[iSet];
 
-            for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+            for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
             {
                 CMaterial *pMat = pSet->MaterialByIndex(iMat);
                 FVertexDescription VtxDesc = pMat->VtxDesc();
@@ -223,23 +223,23 @@ void CModel::SetSkin(CSkin *pSkin)
     }
 }
 
-u32 CModel::GetMatSetCount()
+uint32 CModel::GetMatSetCount()
 {
     return mMaterialSets.size();
 }
 
-u32 CModel::GetMatCount()
+uint32 CModel::GetMatCount()
 {
     if (mMaterialSets.empty()) return 0;
     else return mMaterialSets[0]->NumMaterials();
 }
 
-CMaterialSet* CModel::GetMatSet(u32 MatSet)
+CMaterialSet* CModel::GetMatSet(uint32 MatSet)
 {
     return mMaterialSets[MatSet];
 }
 
-CMaterial* CModel::GetMaterialByIndex(u32 MatSet, u32 Index)
+CMaterial* CModel::GetMaterialByIndex(uint32 MatSet, uint32 Index)
 {
     if (MatSet >= mMaterialSets.size())
         MatSet = mMaterialSets.size() - 1;
@@ -250,38 +250,38 @@ CMaterial* CModel::GetMaterialByIndex(u32 MatSet, u32 Index)
     return mMaterialSets[MatSet]->MaterialByIndex(Index);
 }
 
-CMaterial* CModel::GetMaterialBySurface(u32 MatSet, u32 Surface)
+CMaterial* CModel::GetMaterialBySurface(uint32 MatSet, uint32 Surface)
 {
     return GetMaterialByIndex(MatSet, mSurfaces[Surface]->MaterialID);
 }
 
-bool CModel::HasTransparency(u32 MatSet)
+bool CModel::HasTransparency(uint32 MatSet)
 {
     if (MatSet >= mMaterialSets.size())
         MatSet = mMaterialSets.size() - 1;
 
-    for (u32 iMat = 0; iMat < mMaterialSets[MatSet]->NumMaterials(); iMat++)
+    for (uint32 iMat = 0; iMat < mMaterialSets[MatSet]->NumMaterials(); iMat++)
         if (mMaterialSets[MatSet]->MaterialByIndex(iMat)->Options() & CMaterial::eTransparent ) return true;
 
     return false;
 }
 
-bool CModel::IsSurfaceTransparent(u32 Surface, u32 MatSet)
+bool CModel::IsSurfaceTransparent(uint32 Surface, uint32 MatSet)
 {
     if (MatSet >= mMaterialSets.size())
         MatSet = mMaterialSets.size() - 1;
 
-    u32 matID = mSurfaces[Surface]->MaterialID;
+    uint32 matID = mSurfaces[Surface]->MaterialID;
     return (mMaterialSets[MatSet]->MaterialByIndex(matID)->Options() & CMaterial::eTransparent) != 0;
 }
 
 bool CModel::IsLightmapped() const
 {
-    for (u32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+    for (uint32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
     {
         CMaterialSet *pSet = mMaterialSets[iSet];
 
-        for (u32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+        for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
         {
             CMaterial *pMat = pSet->MaterialByIndex(iMat);
             if (pMat->Options().HasFlag(CMaterial::eLightmap))
@@ -291,12 +291,12 @@ bool CModel::IsLightmapped() const
     return false;
 }
 
-CIndexBuffer* CModel::InternalGetIBO(u32 Surface, EGXPrimitiveType Primitive)
+CIndexBuffer* CModel::InternalGetIBO(uint32 Surface, EGXPrimitiveType Primitive)
 {
     std::vector<CIndexBuffer> *pIBOs = &mSurfaceIndexBuffers[Surface];
     GLenum Type = GXPrimToGLPrim(Primitive);
 
-    for (u32 iIBO = 0; iIBO < pIBOs->size(); iIBO++)
+    for (uint32 iIBO = 0; iIBO < pIBOs->size(); iIBO++)
     {
         if ((*pIBOs)[iIBO].GetPrimitiveType() == Type)
             return &(*pIBOs)[iIBO];

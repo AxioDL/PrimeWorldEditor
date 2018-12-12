@@ -8,7 +8,6 @@
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
-#include <Common/types.h>
 #include <Common/TString.h>
 #include <Common/Serialization/IArchive.h>
 

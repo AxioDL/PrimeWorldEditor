@@ -3,8 +3,9 @@
 
 #include "Core/Resource/Animation/CAnimationParameters.h"
 #include <Common/Common.h>
-#include <Math/CVector3f.h>
-#include <Math/MathUtil.h>
+#include <Common/CFourCC.h>
+#include <Common/Math/CVector3f.h>
+#include <Common/Math/MathUtil.h>
 
 #include <memory>
 
@@ -17,7 +18,7 @@ class CStructProperty;
 typedef TString TIDString;
 
 /** Property flags */
-enum class EPropertyFlag : u32
+enum class EPropertyFlag : uint32
 {
     /** Property has been fully initialized and has had PostLoad called */
     IsInitialized               = 0x1,
@@ -139,10 +140,10 @@ protected:
     CScriptTemplate* mpScriptTemplate;
 
     /** Offset of this property within the property block */
-    u32 mOffset;
+    uint32 mOffset;
 
     /** Property ID. This ID is used to uniquely identify this property within this struct. */
-    u32 mID;
+    uint32 mID;
 
     /** Property metadata */
     TString mName;
@@ -166,8 +167,8 @@ public:
 
     /** Interface */
     virtual EPropertyType Type() const = 0;
-    virtual u32 DataSize() const = 0;
-    virtual u32 DataAlignment() const = 0;
+    virtual uint32 DataSize() const = 0;
+    virtual uint32 DataAlignment() const = 0;
     virtual void Construct(void* pData) const = 0;
     virtual void Destruct(void* pData) const = 0;
     virtual bool MatchesDefault(void* pData) const = 0;
@@ -187,9 +188,9 @@ public:
     virtual bool ShouldSerialize() const;
     
     /** Utility methods */
-    void Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u32 InOffset);
+    void Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, uint32 InOffset);
     void* RawValuePtr(void* pData) const;
-    IProperty* ChildByID(u32 ID) const;
+    IProperty* ChildByID(uint32 ID) const;
     IProperty* ChildByIDString(const TIDString& rkIdString);
     void GatherAllSubInstances(std::list<IProperty*>& OutList, bool Recursive);
     TString GetTemplateFileName();
@@ -206,8 +207,8 @@ public:
     /** Accessors */
     EGame Game() const;
     inline ECookPreference CookPreference() const;
-    inline u32 NumChildren() const;
-    inline IProperty* ChildByIndex(u32 ChildIndex) const;
+    inline uint32 NumChildren() const;
+    inline IProperty* ChildByIndex(uint32 ChildIndex) const;
     inline IProperty* Parent() const;
     inline IProperty* RootParent();
     inline IProperty* Archetype() const;
@@ -217,8 +218,8 @@ public:
     inline TString Description() const;
     inline TString Suffix() const;
     inline TIDString IDString(bool FullyQualified) const;
-    inline u32 Offset() const;
-    inline u32 ID() const;
+    inline uint32 Offset() const;
+    inline uint32 ID() const;
 
     inline bool IsInitialized() const       { return mFlags.HasFlag(EPropertyFlag::IsInitialized); }
     inline bool IsArchetype() const         { return mFlags.HasFlag(EPropertyFlag::IsArchetype); }
@@ -237,12 +238,12 @@ public:
 
     static IProperty* CreateIntrinsic(EPropertyType Type,
                                          EGame Game,
-                                         u32 Offset,
+                                         uint32 Offset,
                                          const TString& rkName);
 
     static IProperty* CreateIntrinsic(EPropertyType Type,
                                          IProperty* pParent,
-                                         u32 Offset,
+                                         uint32 Offset,
                                          const TString& rkName);
 
     static IProperty* ArchiveConstructor(EPropertyType Type,
@@ -254,12 +255,12 @@ inline ECookPreference IProperty::CookPreference() const
     return mCookPreference;
 }
 
-inline u32 IProperty::NumChildren() const
+inline uint32 IProperty::NumChildren() const
 {
     return mChildren.size();
 }
 
-inline IProperty* IProperty::ChildByIndex(u32 ChildIndex) const
+inline IProperty* IProperty::ChildByIndex(uint32 ChildIndex) const
 {
     ASSERT(ChildIndex >= 0 && ChildIndex < mChildren.size());
     return mChildren[ChildIndex];
@@ -331,12 +332,12 @@ inline TString IProperty::IDString(bool FullyQualified) const
         return TString::HexString(mID);
 }
 
-inline u32 IProperty::Offset() const
+inline uint32 IProperty::Offset() const
 {
     return mOffset;
 }
 
-inline u32 IProperty::ID() const
+inline uint32 IProperty::ID() const
 {
     return mID;
 }
@@ -360,8 +361,8 @@ protected:
 
 public:
     virtual EPropertyType Type() const              { return PropEnum; }
-    virtual u32 DataSize() const                    { return sizeof(PropType); }
-    virtual u32 DataAlignment() const               { return alignof(PropType); }
+    virtual uint32 DataSize() const                 { return sizeof(PropType); }
+    virtual uint32 DataAlignment() const            { return alignof(PropType); }
     virtual void Construct(void* pData) const       { new(ValuePtr(pData)) PropType(mDefaultValue); }
     virtual void Destruct(void* pData) const        { ValueRef(pData).~PropType(); }
     virtual bool MatchesDefault(void* pData) const  { return ValueRef(pData) == mDefaultValue; }

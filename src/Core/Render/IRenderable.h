@@ -4,7 +4,7 @@
 #include "ERenderCommand.h"
 #include "FRenderOptions.h"
 #include "SViewInfo.h"
-#include <Common/types.h>
+#include <Common/BasicTypes.h>
 
 class CRenderer;
 

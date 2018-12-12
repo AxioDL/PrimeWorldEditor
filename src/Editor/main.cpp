@@ -16,10 +16,10 @@ void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*/, cons
 {
     switch (Type)
     {
-    case QtDebugMsg:    Log::Write(TString("Qt Debug: ") + TO_TSTRING(rkMessage)); break;
-    case QtWarningMsg:  Log::Write(TString("Qt Warning: ") + TO_TSTRING(rkMessage)); break;
-    case QtCriticalMsg: Log::Write(TString("Qt Critical: ") + TO_TSTRING(rkMessage)); break;
-    case QtFatalMsg:    Log::Write(TString("Qt Fatal: ") + TO_TSTRING(rkMessage)); break;
+    case QtDebugMsg:    debugf("Qt Debug: %s",    *TO_TSTRING(rkMessage)); break;
+    case QtWarningMsg:  warnf ("Qt Warning: %s",  *TO_TSTRING(rkMessage)); break;
+    case QtCriticalMsg: errorf("Qt Critical: %s", *TO_TSTRING(rkMessage)); break;
+    case QtFatalMsg:    fatalf("Qt Fatal: %s",    *TO_TSTRING(rkMessage)); break;
     }
 }
 
@@ -46,7 +46,7 @@ public:
         SetupPalette();
 
         // Init log
-        bool Initialized = Log::InitLog("primeworldeditor.log");
+        bool Initialized = NLog::InitLog("primeworldeditor.log");
         if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
         qInstallMessageHandler(QtLogRedirect);
 
@@ -55,7 +55,7 @@ public:
 
         if (!gpEditorStore->AreAllEntriesValid())
         {
-            Log::Write("Editor store has invalid entries. Rebuilding database...");
+            debugf("Editor store has invalid entries. Rebuilding database...");
             gpEditorStore->RebuildFromDirectory();
             gpEditorStore->ConditionalSaveStore();
         }

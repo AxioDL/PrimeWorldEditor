@@ -2,7 +2,7 @@
 #include "Core/Render/CRenderer.h"
 #include <Common/CTimer.h>
 
-CCharacterNode::CCharacterNode(CScene *pScene, u32 NodeID, CAnimSet *pChar /*= 0*/, CSceneNode *pParent /*= 0*/)
+CCharacterNode::CCharacterNode(CScene *pScene, uint32 NodeID, CAnimSet *pChar /*= 0*/, CSceneNode *pParent /*= 0*/)
     : CSceneNode(pScene, NodeID, pParent)
     , mAnimated(true)
     , mAnimTime(0.f)
@@ -19,7 +19,7 @@ void CCharacterNode::PostLoad()
 {
     if (mpCharacter)
     {
-        for (u32 iChar = 0; iChar < mpCharacter->NumCharacters(); iChar++)
+        for (uint32 iChar = 0; iChar < mpCharacter->NumCharacters(); iChar++)
             mpCharacter->Character(iChar)->pModel->BufferGL();
     }
 }
@@ -78,7 +78,7 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCom
     }
 }
 
-SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*AssetID*/, const SViewInfo& rkViewInfo)
+SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, uint32 /*AssetID*/, const SViewInfo& rkViewInfo)
 {
     // Check for bone under ray. Doesn't check for model intersections atm
     if (mpCharacter && rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
@@ -88,7 +88,7 @@ SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*A
         if (pSkel)
         {
             UpdateTransformData();
-            std::pair<s32,float> Hit = pSkel->RayIntersect(rkRay, mTransformData);
+            std::pair<int32,float> Hit = pSkel->RayIntersect(rkRay, mTransformData);
 
             if (Hit.first != -1)
             {
@@ -106,7 +106,7 @@ SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, u32 /*A
     return SRayIntersection();
 }
 
-CVector3f CCharacterNode::BonePosition(u32 BoneID)
+CVector3f CCharacterNode::BonePosition(uint32 BoneID)
 {
     UpdateTransformData();
     CSkeleton *pSkel = (mpCharacter ? mpCharacter->Character(mActiveCharSet)->pSkeleton : nullptr);
@@ -128,7 +128,7 @@ void CCharacterNode::SetCharSet(CAnimSet *pChar)
         mLocalAABox = CAABox::skOne;
 }
 
-void CCharacterNode::SetActiveChar(u32 CharIndex)
+void CCharacterNode::SetActiveChar(uint32 CharIndex)
 {
     mActiveCharSet = CharIndex;
     ConditionalSetDirty();
@@ -142,7 +142,7 @@ void CCharacterNode::SetActiveChar(u32 CharIndex)
     }
 }
 
-void CCharacterNode::SetActiveAnim(u32 AnimIndex)
+void CCharacterNode::SetActiveAnim(uint32 AnimIndex)
 {
     mActiveAnim = AnimIndex;
     ConditionalSetDirty();

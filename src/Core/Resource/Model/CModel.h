@@ -29,24 +29,24 @@ public:
     void BufferGL();
     void GenerateMaterialShaders();
     void ClearGLBuffer();
-    void Draw(FRenderOptions Options, u32 MatSet);
-    void DrawSurface(FRenderOptions Options, u32 Surface, u32 MatSet);
+    void Draw(FRenderOptions Options, uint32 MatSet);
+    void DrawSurface(FRenderOptions Options, uint32 Surface, uint32 MatSet);
     void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::skWhite);
     void SetSkin(CSkin *pSkin);
 
-    u32 GetMatSetCount();
-    u32 GetMatCount();
-    CMaterialSet* GetMatSet(u32 MatSet);
-    CMaterial* GetMaterialByIndex(u32 MatSet, u32 Index);
-    CMaterial* GetMaterialBySurface(u32 MatSet, u32 Surface);
-    bool HasTransparency(u32 MatSet);
-    bool IsSurfaceTransparent(u32 Surface, u32 MatSet);
+    uint32 GetMatSetCount();
+    uint32 GetMatCount();
+    CMaterialSet* GetMatSet(uint32 MatSet);
+    CMaterial* GetMaterialByIndex(uint32 MatSet, uint32 Index);
+    CMaterial* GetMaterialBySurface(uint32 MatSet, uint32 Surface);
+    bool HasTransparency(uint32 MatSet);
+    bool IsSurfaceTransparent(uint32 Surface, uint32 MatSet);
     bool IsLightmapped() const;
 
     inline bool IsSkinned() const       { return (mpSkin != nullptr); }
 
 private:
-    CIndexBuffer* InternalGetIBO(u32 Surface, EGXPrimitiveType Primitive);
+    CIndexBuffer* InternalGetIBO(uint32 Surface, EGXPrimitiveType Primitive);
 };
 
 #endif // MODEL_H

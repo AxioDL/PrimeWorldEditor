@@ -14,12 +14,12 @@ public:
         : CResource(pEntry)
     {}
 
-    inline u32 NumStrings() const
+    inline uint32 NumStrings() const
     {
         return mStringList.size();
     }
 
-    inline TString StringByIndex(u32 Index) const
+    inline TString StringByIndex(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < mStringList.size());
         return mStringList[Index];

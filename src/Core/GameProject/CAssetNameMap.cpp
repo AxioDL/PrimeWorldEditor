@@ -18,15 +18,15 @@ bool CAssetNameMap::LoadAssetNames(TString Path /*= ""*/)
         }
         else
         {
-            TString ExpectedIDLength = (mIDLength == e32Bit ? "32-bit" : "64-bit");
-            TString GotIDLength = (FileIDLength == e32Bit ? "32-bit" : "64-bit");
-            Log::Error("Failed to load asset names; expected " + ExpectedIDLength + " IDs, got " + GotIDLength);
+            debugf("Failed to load asset names; expected %s IDs, got %s",
+                   mIDLength    == e32Bit ? "32-bit" : "64-bit",
+                   FileIDLength == e32Bit ? "32-bit" : "64-bit"  );
             return false;
         }
     }
     else
     {
-        Log::Error("Failed to load asset names; couldn't open XML.");
+        errorf("Failed to load asset names; couldn't open XML.");
         return false;
     }
 }
@@ -117,9 +117,9 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
 
                 TString OldPath = NameInfo.FullPath();
                 TString NewPath = NewNameInfo.FullPath();
-                Log::Warning("Detected name conflict when copying asset name from the resource store; renaming.");
-                Log::Warning("\tOld Path: " + OldPath);
-                Log::Warning("\tNew Path: " + NewPath);
+                warnf("Detected name conflict when copying asset name from the resource store; renaming.");
+                warnf("\tOld Path: %s", *OldPath);
+                warnf("\tNew Path: %s", *NewPath);
                 NameInfo.Name = NewNameInfo.Name;
             }
 
@@ -160,7 +160,7 @@ void CAssetNameMap::PostLoadValidate()
             // Verify the name/path is valid
             if (!CResourceStore::IsValidResourcePath(rkInfo.Directory, rkInfo.Name))
             {
-                Log::Error("Invalid resource path in asset name map: " + rkInfo.Directory + rkInfo.Name + "." + rkInfo.Type.ToString());
+                errorf("Invalid resource path in asset name map: %s%s.%s", *rkInfo.Directory, *rkInfo.Name, *rkInfo.Type.ToString());
                 Iter = mMap.erase(Iter);
                 FoundErrors = true;
             }
@@ -168,7 +168,7 @@ void CAssetNameMap::PostLoadValidate()
             // Verify correct ID length
             if (Iter->first.Length() != mIDLength)
             {
-                Log::Error("Incorrect asset ID length in asset name map: " + Iter->first.ToString());
+                errorf("Incorrect asset ID length in asset name map: %s", *Iter->first.ToString());
                 Iter = mMap.erase(Iter);
                 FoundErrors = true;
             }
@@ -178,13 +178,11 @@ void CAssetNameMap::PostLoadValidate()
     // If we detected any dupes, then this map can't be used
     if (!Dupes.empty())
     {
-        Log::Error("Asset name map is invalid and cannot be used! Duplicate asset entries detected:");
+        errorf("Asset name map is invalid and cannot be used! Duplicate asset entries detected:");
 
         for (auto Iter = Dupes.begin(); Iter != Dupes.end(); Iter++)
         {
-            const SAssetNameInfo& rkInfo = *Iter;
-            TString FullPath = rkInfo.FullPath();
-            Log::Error("\t" + FullPath);
+            warnf("\t%s", Iter->FullPath());
         }
 
         mMap.clear();

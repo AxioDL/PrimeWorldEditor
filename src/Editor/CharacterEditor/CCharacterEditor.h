@@ -29,8 +29,8 @@ class CCharacterEditor : public IEditor
     QComboBox *mpAnimComboBox;
 
     TResPtr<CAnimSet> mpSet;
-    u32 mCurrentChar;
-    u32 mCurrentAnim;
+    uint32 mCurrentChar;
+    uint32 mCurrentAnim;
     bool mBindPose;
 
     // Playback Controls
@@ -62,7 +62,7 @@ public slots:
     void ToggleBindPose(bool Enable);
     void ToggleOrbit(bool Enable);
     void RefreshViewport();
-    void OnViewportHoverBoneChanged(u32 BoneID);
+    void OnViewportHoverBoneChanged(uint32 BoneID);
     void OnViewportClick();
     void OnSkeletonTreeSelectionChanged(const QModelIndex& rkIndex);
     void SetActiveCharacterIndex(int CharIndex);

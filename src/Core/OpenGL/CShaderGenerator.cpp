@@ -1,5 +1,5 @@
 #include "CShaderGenerator.h"
-#include <Common/AssertMacro.h>
+#include <Common/Macros.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -179,7 +179,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
     if (VtxDesc & eColor0)  ShaderCode  << "out vec4 Color0;\n";
     if (VtxDesc & eColor1)  ShaderCode  << "out vec4 Color1;\n";
 
-    for (u32 iPass = 0; iPass < rkMat.PassCount(); iPass++)
+    for (uint32 iPass = 0; iPass < rkMat.PassCount(); iPass++)
         if (rkMat.Pass(iPass)->TexCoordSource() != 0xFF)
             ShaderCode << "out vec3 Tex" << iPass << ";\n";
 
@@ -332,9 +332,9 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
     ShaderCode  << "    \n"
                 << "    // TexGen\n";
 
-    u32 PassCount = rkMat.PassCount();
+    uint32 PassCount = rkMat.PassCount();
 
-    for (u32 iPass = 0; iPass < PassCount; iPass++)
+    for (uint32 iPass = 0; iPass < PassCount; iPass++)
     {
         CMaterialPass *pPass = rkMat.Pass(iPass);
         if (pPass->TexCoordSource() == 0xFF) continue;
@@ -378,9 +378,9 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
     if (VtxDesc & eColor0)   ShaderCode << "in vec4 Color0;\n";
     if (VtxDesc & eColor1)   ShaderCode << "in vec4 Color1;\n";
 
-    u32 PassCount = rkMat.PassCount();
+    uint32 PassCount = rkMat.PassCount();
 
-    for (u32 iPass = 0; iPass < PassCount; iPass++)
+    for (uint32 iPass = 0; iPass < PassCount; iPass++)
         if (rkMat.Pass(iPass)->TexCoordSource() != 0xFF)
             ShaderCode << "in vec3 Tex" << iPass << ";\n";
 
@@ -396,7 +396,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
                << "    float LightmapMultiplier;\n"
                << "};\n\n";
 
-    for (u32 iPass = 0; iPass < PassCount; iPass++)
+    for (uint32 iPass = 0; iPass < PassCount; iPass++)
         if (rkMat.Pass(iPass)->Texture() != nullptr)
             ShaderCode << "uniform sampler2D Texture" << iPass << ";\n";
 
@@ -413,7 +413,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
                << "    \n";
 
     bool Lightmap = false;
-    for (u32 iPass = 0; iPass < PassCount; iPass++)
+    for (uint32 iPass = 0; iPass < PassCount; iPass++)
     {
         const CMaterialPass *pPass = rkMat.Pass(iPass);
         CFourCC PassType = pPass->Type();
@@ -451,7 +451,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
         if (pPass->RasSel() != eRasColorNull)
             ShaderCode << "    Ras = " << gkRasSel[pPass->RasSel()] << ";\n";
 
-        for (u8 iInput = 0; iInput < 4; iInput++)
+        for (uint8 iInput = 0; iInput < 4; iInput++)
         {
             char TevChar = iInput + 0x41; // the current stage number represented as an ASCII letter; eg 0 is 'A'
 

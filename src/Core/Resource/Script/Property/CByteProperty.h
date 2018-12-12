@@ -3,7 +3,7 @@
 
 #include "IProperty.h"
 
-class CByteProperty : public TNumericalProperty< s8, EPropertyType::Byte >
+class CByteProperty : public TNumericalProperty< int8, EPropertyType::Byte >
 {
     friend class IProperty;
 
@@ -15,12 +15,12 @@ protected:
 public:
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        Arc.SerializePrimitive( (u8&) ValueRef(pData), 0 );
+        Arc.SerializePrimitive( (int8&) ValueRef(pData), 0 );
     }
 
     virtual TString ValueAsString(void* pData) const
     {
-        return TString::FromInt32( (s32) Value(pData), 0, 10 );
+        return TString::FromInt32( (int32) Value(pData), 0, 10 );
     }
 };
 

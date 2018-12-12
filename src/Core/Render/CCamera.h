@@ -1,15 +1,15 @@
 #ifndef CCAMERA_H
 #define CCAMERA_H
 
-#include <Common/types.h>
+#include <Common/BasicTypes.h>
 #include <Common/EKeyInputs.h>
 #include <Common/EMouseInputs.h>
-#include <Math/CAABox.h>
-#include <Math/CFrustumPlanes.h>
-#include <Math/CMatrix4f.h>
-#include <Math/CRay.h>
-#include <Math/CVector2i.h>
-#include <Math/CVector3f.h>
+#include <Common/Math/CAABox.h>
+#include <Common/Math/CFrustumPlanes.h>
+#include <Common/Math/CMatrix4f.h>
+#include <Common/Math/CRay.h>
+#include <Common/Math/CVector2i.h>
+#include <Common/Math/CVector3f.h>
 
 enum ECameraMoveMode
 {

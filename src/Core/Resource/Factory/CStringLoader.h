@@ -19,7 +19,7 @@ class CStringLoader
 
 public:
     static CStringTable* LoadSTRG(IInputStream &rSTRG, CResourceEntry *pEntry);
-    static EGame GetFormatVersion(u32 Version);
+    static EGame GetFormatVersion(uint32 Version);
 };
 
 #endif // CSTRINGLOADER_H

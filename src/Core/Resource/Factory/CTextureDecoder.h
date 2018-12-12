@@ -3,8 +3,8 @@
 
 #include "Core/Resource/CTexture.h"
 #include "Core/Resource/ETexelFormat.h"
+#include <Common/BasicTypes.h>
 #include <Common/CColor.h>
-#include <Common/types.h>
 
 #include <Common/FileIO.h>
 
@@ -12,26 +12,26 @@ class CTextureDecoder
 {
     CResourceEntry *mpEntry;
     ETexelFormat mTexelFormat;
-    u16 mWidth, mHeight;
-    u32 mNumMipMaps;
+    uint16 mWidth, mHeight;
+    uint32 mNumMipMaps;
 
     bool mHasPalettes;
     EGXPaletteFormat mPaletteFormat;
-    std::vector<u8> mPalettes;
+    std::vector<uint8> mPalettes;
     CMemoryInStream mPaletteInput;
 
     struct SDDSInfo
     {
         enum { DXT1, DXT2, DXT3, DXT4, DXT5, RGBA } Format;
-        u32 Flags;
-        u32 BitCount;
-        u32 RBitMask, GBitMask, BBitMask, ABitMask;
-        u32 RShift, GShift, BShift, AShift;
-        u32 RSize, GSize, BSize, ASize;
+        uint32 Flags;
+        uint32 BitCount;
+        uint32 RBitMask, GBitMask, BBitMask, ABitMask;
+        uint32 RShift, GShift, BShift, AShift;
+        uint32 RSize, GSize, BSize, ASize;
     } mDDSInfo;
 
-    u8 *mpDataBuffer;
-    u32 mDataBufferSize;
+    uint8 *mpDataBuffer;
+    uint32 mDataBufferSize;
 
     // Private Functions
     CTextureDecoder();
@@ -60,20 +60,20 @@ class CTextureDecoder
     void ReadSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst);
 
     // Decode Pixels (convert to RGBA8)
-    CColor DecodePixelI4(u8 Byte, u8 WhichPixel);
-    CColor DecodePixelI8(u8 Byte);
-    CColor DecodePixelIA4(u8 Byte);
-    CColor DecodePixelIA8(u16 Short);
-    CColor DecodePixelC4(u8 Byte, u8 WhichPixel, IInputStream& rPaletteStream);
-    CColor DecodePixelC8(u8 Byte, IInputStream& rPaletteStream);
-    CColor DecodePixelRGB565(u16 Short);
-    CColor DecodePixelRGB5A3(u16 Short);
+    CColor DecodePixelI4(uint8 Byte, uint8 WhichPixel);
+    CColor DecodePixelI8(uint8 Byte);
+    CColor DecodePixelIA4(uint8 Byte);
+    CColor DecodePixelIA8(uint16 Short);
+    CColor DecodePixelC4(uint8 Byte, uint8 WhichPixel, IInputStream& rPaletteStream);
+    CColor DecodePixelC8(uint8 Byte, IInputStream& rPaletteStream);
+    CColor DecodePixelRGB565(uint16 Short);
+    CColor DecodePixelRGB5A3(uint16 Short);
     CColor DecodePixelRGBA8(IInputStream& rSrc, IOutputStream& rDst);
-    void DecodeSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst, u16 Width);
+    void DecodeSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst, uint16 Width);
 
-    void DecodeBlockBC1(IInputStream& rSrc, IOutputStream& rDst, u32 Width);
-    void DecodeBlockBC2(IInputStream& rSrc, IOutputStream& rDst, u32 Width);
-    void DecodeBlockBC3(IInputStream& rSrc, IOutputStream& rDst, u32 Width);
+    void DecodeBlockBC1(IInputStream& rSrc, IOutputStream& rDst, uint32 Width);
+    void DecodeBlockBC2(IInputStream& rSrc, IOutputStream& rDst, uint32 Width);
+    void DecodeBlockBC3(IInputStream& rSrc, IOutputStream& rDst, uint32 Width);
     CColor DecodeDDSPixel(IInputStream& rDDS);
 
     // Static
@@ -84,12 +84,12 @@ public:
     static CTexture* DoFullDecode(CTexture *pTexture);
 
     // Utility
-    static u8 Extend3to8(u8 In);
-    static u8 Extend4to8(u8 In);
-    static u8 Extend5to8(u8 In);
-    static u8 Extend6to8(u8 In);
-    static u32 CalculateShiftForMask(u32 BitMask);
-    static u32 CalculateMaskBitCount(u32 BitMask);
+    static uint8 Extend3to8(uint8 In);
+    static uint8 Extend4to8(uint8 In);
+    static uint8 Extend5to8(uint8 In);
+    static uint8 Extend6to8(uint8 In);
+    static uint32 CalculateShiftForMask(uint32 BitMask);
+    static uint32 CalculateMaskBitCount(uint32 BitMask);
 };
 
 #endif // CTEXTUREDECODER_H

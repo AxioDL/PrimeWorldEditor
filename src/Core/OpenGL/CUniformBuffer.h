@@ -1,13 +1,13 @@
 #ifndef CUNIFORMBUFFER_H
 #define CUNIFORMBUFFER_H
 
-#include <Common/types.h>
+#include <Common/BasicTypes.h>
 #include <GL/glew.h>
 
 class CUniformBuffer
 {
     GLuint mUniformBuffer;
-    u32 mBufferSize;
+    uint mBufferSize;
 
 public:
 
@@ -17,7 +17,7 @@ public:
         SetBufferSize(0);
     }
 
-    CUniformBuffer(u32 Size)
+    CUniformBuffer(uint Size)
     {
         glGenBuffers(1, &mUniformBuffer);
         SetBufferSize(Size);
@@ -52,20 +52,20 @@ public:
         Unbind();
     }
 
-    void BufferRange(const void *pkData, u32 Offset, u32 Size)
+    void BufferRange(const void *pkData, uint Offset, uint Size)
     {
         Bind();
         glBufferSubData(GL_UNIFORM_BUFFER, Offset, Size, pkData);
         Unbind();
     }
 
-    void SetBufferSize(u32 Size)
+    void SetBufferSize(uint Size)
     {
         mBufferSize = Size;
         InitializeBuffer();
     }
 
-    u32 GetBufferSize()
+    uint GetBufferSize()
     {
         return mBufferSize;
     }

@@ -10,10 +10,10 @@ class CAnimationParameters
     EGame mGame;
     CAssetID mCharacterID;
 
-    u32 mCharIndex;
-    u32 mAnimIndex;
-    u32 mUnknown2;
-    u32 mUnknown3;
+    uint32 mCharIndex;
+    uint32 mAnimIndex;
+    uint32 mUnknown2;
+    uint32 mUnknown3;
 
 public:
     CAnimationParameters();
@@ -22,18 +22,18 @@ public:
     void Write(IOutputStream& rSCLY);
     void Serialize(IArchive& rArc);
 
-    const SSetCharacter* GetCurrentSetCharacter(s32 NodeIndex = -1);
-    CModel* GetCurrentModel(s32 NodeIndex = -1);
-    TString GetCurrentCharacterName(s32 NodeIndex = -1);
+    const SSetCharacter* GetCurrentSetCharacter(int32 NodeIndex = -1);
+    CModel* GetCurrentModel(int32 NodeIndex = -1);
+    TString GetCurrentCharacterName(int32 NodeIndex = -1);
 
     // Accessors
-    inline EGame Version() const        { return mGame; }
-    inline CAssetID ID() const          { return mCharacterID; }
-    inline CAnimSet* AnimSet() const    { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID); }
-    inline u32 CharacterIndex() const   { return mCharIndex; }
-    inline u32 AnimIndex() const        { return mAnimIndex; }
-    inline void SetCharIndex(u32 Index) { mCharIndex = Index; }
-    inline void SetAnimIndex(u32 Index) { mAnimIndex = Index; }
+    inline EGame Version() const            { return mGame; }
+    inline CAssetID ID() const              { return mCharacterID; }
+    inline CAnimSet* AnimSet() const        { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID); }
+    inline uint32 CharacterIndex() const    { return mCharIndex; }
+    inline uint32 AnimIndex() const         { return mAnimIndex; }
+    inline void SetCharIndex(uint32 Index)  { mCharIndex = Index; }
+    inline void SetAnimIndex(uint32 Index)  { mAnimIndex = Index; }
 
     inline void SetGame(EGame Game)
     {
@@ -49,9 +49,9 @@ public:
         }
     }
 
-    u32 Unknown(u32 Index);
+    uint32 Unknown(uint32 Index);
     void SetResource(const CAssetID& rkID);
-    void SetUnknown(u32 Index, u32 Value);
+    void SetUnknown(uint32 Index, uint32 Value);
 
     // Operators
     inline CAnimationParameters& operator=(const CAnimationParameters& rkOther)

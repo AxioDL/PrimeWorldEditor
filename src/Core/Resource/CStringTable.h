@@ -2,9 +2,9 @@
 #define CSTRINGTABLE_H
 
 #include "CResource.h"
+#include <Common/BasicTypes.h>
 #include <Common/CFourCC.h>
 #include <Common/TString.h>
-#include <Common/types.h>
 #include <vector>
 
 class CStringTable : public CResource
@@ -13,7 +13,7 @@ class CStringTable : public CResource
     friend class CStringLoader;
 
     std::vector<TString> mStringNames;
-    u32 mNumStrings;
+    uint32 mNumStrings;
 
     struct SLangTable
     {
@@ -25,15 +25,15 @@ class CStringTable : public CResource
 public:
     CStringTable(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
 
-    inline u32 NumStrings() const               { return mNumStrings; }
-    inline u32 NumLanguages() const             { return mLangTables.size(); }
-    inline CFourCC LanguageTag(u32 Index) const { return mLangTables[Index].Language; }
-    inline TString String(u32 LangIndex, u32 StringIndex) const { return mLangTables[LangIndex].Strings[StringIndex]; }
-    inline TString StringName(u32 StringIndex) const            { return mStringNames[StringIndex]; }
+    inline uint32 NumStrings() const                                    { return mNumStrings; }
+    inline uint32 NumLanguages() const                                  { return mLangTables.size(); }
+    inline CFourCC LanguageTag(uint32 Index) const                      { return mLangTables[Index].Language; }
+    inline TString String(uint32 LangIndex, uint32 StringIndex) const   { return mLangTables[LangIndex].Strings[StringIndex]; }
+    inline TString StringName(uint32 StringIndex) const                 { return mStringNames[StringIndex]; }
 
-    TString String(CFourCC Lang, u32 StringIndex) const
+    TString String(CFourCC Lang, uint32 StringIndex) const
     {
-        for (u32 iLang = 0; iLang < NumLanguages(); iLang++)
+        for (uint32 iLang = 0; iLang < NumLanguages(); iLang++)
         {
             if (LanguageTag(iLang) == Lang)
                 return String(iLang, StringIndex);
@@ -48,15 +48,15 @@ public:
         CDependencyTree *pTree = new CDependencyTree();
         EIDLength IDLength = (Game() <= EGame::Echoes ? e32Bit : e64Bit);
 
-        for (u32 iLang = 0; iLang < mLangTables.size(); iLang++)
+        for (uint32 iLang = 0; iLang < mLangTables.size(); iLang++)
         {
             const SLangTable& rkTable = mLangTables[iLang];
 
-            for (u32 iStr = 0; iStr < rkTable.Strings.size(); iStr++)
+            for (uint32 iStr = 0; iStr < rkTable.Strings.size(); iStr++)
             {
                 const TString& rkStr = rkTable.Strings[iStr];
 
-                for (u32 TagIdx = rkStr.IndexOf('&'); TagIdx != -1; TagIdx = rkStr.IndexOf('&', TagIdx + 1))
+                for (uint32 TagIdx = rkStr.IndexOf('&'); TagIdx != -1; TagIdx = rkStr.IndexOf('&', TagIdx + 1))
                 {
                     // Check for double ampersand (escape character in DKCR, not sure about other games)
                     if (rkStr.At(TagIdx + 1) == '&')
@@ -66,8 +66,8 @@ public:
                     }
 
                     // Get tag name and parameters
-                    u32 NameEnd = rkStr.IndexOf('=', TagIdx);
-                    u32 TagEnd = rkStr.IndexOf(';', TagIdx);
+                    uint32 NameEnd = rkStr.IndexOf('=', TagIdx);
+                    uint32 TagEnd = rkStr.IndexOf(';', TagIdx);
                     if (NameEnd == -1 || TagEnd == -1) continue;
 
                     TString TagName = rkStr.SubString(TagIdx + 1, NameEnd - TagIdx - 1);
@@ -93,7 +93,7 @@ public:
                         // Determine which params are textures based on image type
                         TStringList Params = ParamString.Split(",");
                         TString ImageType = Params.front();
-                        u32 TexturesStart = -1;
+                        uint32 TexturesStart = -1;
 
                         if (ImageType == "A")
                             TexturesStart = 2;
@@ -112,15 +112,14 @@ public:
 
                         else
                         {
-                            Log::Error("Unrecognized image type: " + ImageType);
-                            DEBUG_BREAK;
+                            errorf("Unrecognized image type: %s", *ImageType);
                             continue;
                         }
 
                         // Load texture IDs
                         TStringList::iterator Iter = Params.begin();
 
-                        for (u32 iParam = 0; iParam < Params.size(); iParam++, Iter++)
+                        for (uint32 iParam = 0; iParam < Params.size(); iParam++, Iter++)
                         {
                             if (iParam >= TexturesStart)
                             {
@@ -149,7 +148,7 @@ public:
         TString Out = rkStr;
         int TagStart = -1;
 
-        for (u32 iChr = 0; iChr < Out.Size(); iChr++)
+        for (uint32 iChr = 0; iChr < Out.Size(); iChr++)
         {
             if (Out[iChr] == '&')
             {

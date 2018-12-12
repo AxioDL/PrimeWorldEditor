@@ -7,7 +7,7 @@
 
 #include <Common/FileIO/CFileInStream.h>
 #include <Common/TString.h>
-#include <Math/CRay.h>
+#include <Common/Math/CRay.h>
 
 #include <list>
 #include <string>
@@ -29,22 +29,22 @@ CScene::~CScene()
     delete mpSceneRootNode;
 }
 
-bool CScene::IsNodeIDUsed(u32 ID) const
+bool CScene::IsNodeIDUsed(uint32 ID) const
 {
     return (mNodeMap.find(ID) != mNodeMap.end());
 }
 
-u32 CScene::CreateNodeID(u32 SuggestedID /*= -1*/) const
+uint32 CScene::CreateNodeID(uint32 SuggestedID /*= -1*/) const
 {
     if (SuggestedID != -1)
     {
         if (IsNodeIDUsed(SuggestedID))
-            Log::Error("Suggested node ID is already being used! New ID will be created.");
+            errorf("Suggested node ID is already being used! New ID will be created.");
         else
             return SuggestedID;
     }
 
-    u32 ID = 0;
+    uint32 ID = 0;
 
     while (IsNodeIDUsed(ID))
         ID++;
@@ -52,11 +52,11 @@ u32 CScene::CreateNodeID(u32 SuggestedID /*= -1*/) const
     return ID;
 }
 
-CModelNode* CScene::CreateModelNode(CModel *pModel, u32 NodeID /*= -1*/)
+CModelNode* CScene::CreateModelNode(CModel *pModel, uint32 NodeID /*= -1*/)
 {
     if (pModel == nullptr) return nullptr;
 
-    u32 ID = CreateNodeID(NodeID);
+    uint32 ID = CreateNodeID(NodeID);
     CModelNode *pNode = new CModelNode(this, ID, mpAreaRootNode, pModel);
     mNodes[eModelNode].push_back(pNode);
     mNodeMap[ID] = pNode;
@@ -64,11 +64,11 @@ CModelNode* CScene::CreateModelNode(CModel *pModel, u32 NodeID /*= -1*/)
     return pNode;
 }
 
-CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, u32 NodeID /*= -1*/)
+CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, uint32 NodeID /*= -1*/)
 {
     if (pModel == nullptr) return nullptr;
 
-    u32 ID = CreateNodeID(NodeID);
+    uint32 ID = CreateNodeID(NodeID);
     CStaticNode *pNode = new CStaticNode(this, ID, mpAreaRootNode, pModel);
     mNodes[eStaticNode].push_back(pNode);
     mNodeMap[ID] = pNode;
@@ -76,11 +76,11 @@ CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, u32 NodeID /*= -1*/)
     return pNode;
 }
 
-CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, u32 NodeID /*= -1*/)
+CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 NodeID /*= -1*/)
 {
     if (pMesh == nullptr) return nullptr;
 
-    u32 ID = CreateNodeID(NodeID);
+    uint32 ID = CreateNodeID(NodeID);
     CCollisionNode *pNode = new CCollisionNode(this, ID, mpAreaRootNode, pMesh);
     mNodes[eCollisionNode].push_back(pNode);
     mNodeMap[ID] = pNode;
@@ -88,12 +88,12 @@ CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, u32 Node
     return pNode;
 }
 
-CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, u32 NodeID /*= -1*/)
+CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID /*= -1*/)
 {
     if (pObj == nullptr) return nullptr;
 
-    u32 ID = CreateNodeID(NodeID);
-    u32 InstanceID = pObj->InstanceID();
+    uint32 ID = CreateNodeID(NodeID);
+    uint32 InstanceID = pObj->InstanceID();
 
     CScriptNode *pNode = new CScriptNode(this, ID, mpAreaRootNode, pObj);
     mNodes[eScriptNode].push_back(pNode);
@@ -114,11 +114,11 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, u32 NodeID /*= -1*/)
     return pNode;
 }
 
-CLightNode* CScene::CreateLightNode(CLight *pLight, u32 NodeID /*= -1*/)
+CLightNode* CScene::CreateLightNode(CLight *pLight, uint32 NodeID /*= -1*/)
 {
     if (pLight == nullptr) return nullptr;
 
-    u32 ID = CreateNodeID(NodeID);
+    uint32 ID = CreateNodeID(NodeID);
     CLightNode *pNode = new CLightNode(this, ID, mpAreaRootNode, pLight);
     mNodes[eLightNode].push_back(pNode);
     mNodeMap[ID] = pNode;
@@ -183,9 +183,9 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     mpAreaRootNode = new CRootNode(this, -1, mpSceneRootNode);
 
     // Create static nodes
-    u32 Count = mpArea->NumStaticModels();
+    uint32 Count = mpArea->NumStaticModels();
 
-    for (u32 iMdl = 0; iMdl < Count; iMdl++)
+    for (uint32 iMdl = 0; iMdl < Count; iMdl++)
     {
         CStaticNode *pNode = CreateStaticNode(mpArea->StaticModel(iMdl));
         pNode->SetName("Static World Model " + TString::FromInt32(iMdl, 0, 10));
@@ -194,7 +194,7 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     // Create model nodes
     Count = mpArea->NumWorldModels();
 
-    for (u32 iMdl = 0; iMdl < Count; iMdl++)
+    for (uint32 iMdl = 0; iMdl < Count; iMdl++)
     {
         CModel *pModel = mpArea->TerrainModel(iMdl);
         CModelNode *pNode = CreateModelNode(pModel);
@@ -204,15 +204,15 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
 
     CreateCollisionNode(mpArea->Collision());
 
-    u32 NumLayers = mpArea->NumScriptLayers();
+    uint32 NumLayers = mpArea->NumScriptLayers();
 
-    for (u32 iLyr = 0; iLyr < NumLayers; iLyr++)
+    for (uint32 iLyr = 0; iLyr < NumLayers; iLyr++)
     {
         CScriptLayer *pLayer = mpArea->ScriptLayer(iLyr);
-        u32 NumObjects = pLayer->NumInstances();
+        uint32 NumObjects = pLayer->NumInstances();
         mNodes[eScriptNode].reserve(mNodes[eScriptNode].size() + NumObjects);
 
-        for (u32 iObj = 0; iObj < NumObjects; iObj++)
+        for (uint32 iObj = 0; iObj < NumObjects; iObj++)
         {
             CScriptObject *pObj = pLayer->InstanceByIndex(iObj);
             CreateScriptNode(pObj);
@@ -227,14 +227,14 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
         pScript->BuildLightList(mpArea);
     }
 
-    u32 NumLightLayers = mpArea->NumLightLayers();
+    uint32 NumLightLayers = mpArea->NumLightLayers();
     CGraphics::sAreaAmbientColor = CColor::skBlack;
 
-    for (u32 iLyr = 0; iLyr < NumLightLayers; iLyr++)
+    for (uint32 iLyr = 0; iLyr < NumLightLayers; iLyr++)
     {
-        u32 NumLights = mpArea->NumLights(iLyr);
+        uint32 NumLights = mpArea->NumLights(iLyr);
 
-        for (u32 iLit = 0; iLit < NumLights; iLit++)
+        for (uint32 iLit = 0; iLit < NumLights; iLit++)
         {
             CLight *pLight = mpArea->Light(iLyr, iLit);
 
@@ -246,7 +246,7 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     }
 
     mRanPostLoad = false;
-    Log::Write( TString::FromInt32(CSceneNode::NumNodes(), 0, 10) + " nodes" );
+    debugf("%d nodes", CSceneNode::NumNodes());
 }
 
 void CScene::PostLoad()
@@ -306,7 +306,7 @@ SRayIntersection CScene::SceneRayCast(const CRay& rkRay, const SViewInfo& rkView
     return Tester.TestNodes(rkViewInfo);
 }
 
-CSceneNode* CScene::NodeByID(u32 NodeID)
+CSceneNode* CScene::NodeByID(uint32 NodeID)
 {
     auto it = mNodeMap.find(NodeID);
 
@@ -314,7 +314,7 @@ CSceneNode* CScene::NodeByID(u32 NodeID)
     else return nullptr;
 }
 
-CScriptNode* CScene::NodeForInstanceID(u32 InstanceID)
+CScriptNode* CScene::NodeForInstanceID(uint32 InstanceID)
 {
     auto it = mScriptMap.find(InstanceID);
 
@@ -345,7 +345,7 @@ CModel* CScene::ActiveSkybox()
 {
     bool SkyEnabled = false;
 
-    for (u32 iAtt = 0; iAtt < mAreaAttributesObjects.size(); iAtt++)
+    for (uint32 iAtt = 0; iAtt < mAreaAttributesObjects.size(); iAtt++)
     {
         const CAreaAttributes& rkAttributes = mAreaAttributesObjects[iAtt];
         if (rkAttributes.IsSkyEnabled()) SkyEnabled = true;

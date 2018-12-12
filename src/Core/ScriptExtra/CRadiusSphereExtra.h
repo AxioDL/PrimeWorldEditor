@@ -6,7 +6,7 @@
 class CRadiusSphereExtra : public CScriptExtra
 {
     // Sphere visualization for objects that have a float radius property.
-    u32 mObjectType;
+    uint32 mObjectType;
     CFloatRef mRadius;
 
 public:

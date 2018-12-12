@@ -24,7 +24,7 @@ IMetaTransition* CMetaTransFactory::LoadFromStream(IInputStream& rInput, EGame G
         return new CMetaTransType4(rInput, Game);
 
     default:
-        Log::Error("Unrecognized meta-transition type: " + TString::FromInt32(Type, 0, 10));
+        errorf("Unrecognized meta-transition type: %d", Type);
         return nullptr;
     }
 }

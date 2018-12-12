@@ -3,7 +3,7 @@
 
 #include "IProperty.h"
 
-class CSoundProperty : public TSerializeableTypedProperty< s32, EPropertyType::Sound >
+class CSoundProperty : public TSerializeableTypedProperty< int32, EPropertyType::Sound >
 {
     friend class IProperty;
 

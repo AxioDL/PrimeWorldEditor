@@ -19,13 +19,13 @@ class CMaterialLoader
     bool mHas0x400;
 
     CColor mCorruptionColors[4];
-    u8 mCorruptionInts[5];
-    u32 mCorruptionFlags;
-    std::vector<u32> mPassOffsets;
+    uint8 mCorruptionInts[5];
+    uint32 mCorruptionFlags;
+    std::vector<uint32> mPassOffsets;
 
     CMaterialLoader();
     ~CMaterialLoader();
-    FVertexDescription ConvertToVertexDescription(u32 VertexFlags);
+    FVertexDescription ConvertToVertexDescription(uint32 VertexFlags);
 
     // Load Functions
     void ReadPrimeMatSet();

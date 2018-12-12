@@ -16,8 +16,8 @@ class CScriptNode : public CSceneNode
     CScriptExtra *mpExtra;
 
     TResPtr<CResource> mpDisplayAsset;
-    u32 mCharIndex;
-    u32 mAnimIndex;
+    uint32 mCharIndex;
+    uint32 mAnimIndex;
     CCollisionNode *mpCollisionNode;
     std::vector<CScriptAttachNode*> mAttachments;
 
@@ -33,7 +33,7 @@ class CScriptNode : public CSceneNode
     } mGameModeVisibility;
 
 public:
-    CScriptNode(CScene *pScene, u32 NodeID, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
+    CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
     ENodeType NodeType();
     void PostLoad();
     void OnTransformed();
@@ -41,7 +41,7 @@ public:
     void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     void DrawSelection();
     void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
-    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, u32 AssetID, const SViewInfo& rkViewInfo);
+    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo);
     bool AllowsRotate() const;
     bool AllowsScale() const;
     bool IsVisible() const;
@@ -60,7 +60,7 @@ public:
     bool HasPreviewVolume() const;
     CAABox PreviewVolumeAABox() const;
     CVector2f BillboardScale() const;
-    CTransform4f BoneTransform(u32 BoneID, EAttachType AttachType, bool Absolute) const;
+    CTransform4f BoneTransform(uint32 BoneID, EAttachType AttachType, bool Absolute) const;
 
     CModel* ActiveModel() const;
     CAnimSet* ActiveAnimSet() const;
@@ -69,9 +69,9 @@ public:
     CTexture* ActiveBillboard() const;
     bool UsesModel() const;
 
-    inline u32 NumAttachments() const                       { return mAttachments.size(); }
-    inline CScriptAttachNode* Attachment(u32 Index) const   { return mAttachments[Index]; }
-    inline CResource* DisplayAsset() const                  { return mpDisplayAsset; }
+    inline uint32 NumAttachments() const                        { return mAttachments.size(); }
+    inline CScriptAttachNode* Attachment(uint32 Index) const    { return mAttachments[Index]; }
+    inline CResource* DisplayAsset() const                      { return mpDisplayAsset; }
 
 protected:
     void SetDisplayAsset(CResource *pRes);

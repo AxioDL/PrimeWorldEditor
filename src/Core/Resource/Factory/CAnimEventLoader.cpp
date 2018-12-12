@@ -4,29 +4,29 @@
 
 void CAnimEventLoader::LoadEvents(IInputStream& rEVNT)
 {
-    u32 Version = rEVNT.ReadLong();
+    uint32 Version = rEVNT.ReadLong();
     ASSERT(Version == 1 || Version == 2);
 
     // Loop Events
-    u32 NumLoopEvents = rEVNT.ReadLong();
+    uint32 NumLoopEvents = rEVNT.ReadLong();
 
-    for (u32 iLoop = 0; iLoop < NumLoopEvents; iLoop++)
+    for (uint32 iLoop = 0; iLoop < NumLoopEvents; iLoop++)
     {
         LoadLoopEvent(rEVNT);
     }
 
     // User Events
-    u32 NumUserEvents = rEVNT.ReadLong();
+    uint32 NumUserEvents = rEVNT.ReadLong();
 
-    for (u32 iUser = 0; iUser < NumUserEvents; iUser++)
+    for (uint32 iUser = 0; iUser < NumUserEvents; iUser++)
     {
         LoadUserEvent(rEVNT);
     }
 
     // Effect Events
-    u32 NumEffectEvents = rEVNT.ReadLong();
+    uint32 NumEffectEvents = rEVNT.ReadLong();
 
-    for (u32 iFX = 0; iFX < NumEffectEvents; iFX++)
+    for (uint32 iFX = 0; iFX < NumEffectEvents; iFX++)
     {
         LoadEffectEvent(rEVNT);
     }
@@ -34,21 +34,21 @@ void CAnimEventLoader::LoadEvents(IInputStream& rEVNT)
     // Sound Events
     if (Version == 2)
     {
-        u32 NumSoundEvents = rEVNT.ReadLong();
+        uint32 NumSoundEvents = rEVNT.ReadLong();
 
-        for (u32 iSound = 0; iSound < NumSoundEvents; iSound++)
+        for (uint32 iSound = 0; iSound < NumSoundEvents; iSound++)
         {
             LoadSoundEvent(rEVNT);
         }
     }
 }
 
-s32 CAnimEventLoader::LoadEventBase(IInputStream& rEVNT)
+int32 CAnimEventLoader::LoadEventBase(IInputStream& rEVNT)
 {
     rEVNT.Skip(0x2);
     rEVNT.ReadString();
     rEVNT.Skip(mGame < EGame::CorruptionProto ? 0x13 : 0x17);
-    s32 CharacterIndex = rEVNT.ReadLong();
+    int32 CharacterIndex = rEVNT.ReadLong();
     rEVNT.Skip(mGame < EGame::CorruptionProto ? 0x4 : 0x18);
     return CharacterIndex;
 }
@@ -68,7 +68,7 @@ void CAnimEventLoader::LoadUserEvent(IInputStream& rEVNT)
 
 void CAnimEventLoader::LoadEffectEvent(IInputStream& rEVNT)
 {
-    s32 CharIndex = LoadEventBase(rEVNT);
+    int32 CharIndex = LoadEventBase(rEVNT);
     rEVNT.Skip(mGame < EGame::CorruptionProto ? 0x8 : 0x4);
     CAssetID ParticleID(rEVNT, mGame);
     mpEventData->AddEvent(CharIndex, ParticleID);
@@ -83,12 +83,12 @@ void CAnimEventLoader::LoadEffectEvent(IInputStream& rEVNT)
 
 void CAnimEventLoader::LoadSoundEvent(IInputStream& rEVNT)
 {
-    s32 CharIndex = LoadEventBase(rEVNT);
+    int32 CharIndex = LoadEventBase(rEVNT);
 
     // Metroid Prime 1/2
     if (mGame <= EGame::Echoes)
     {
-        u32 SoundID = rEVNT.ReadLong() & 0xFFFF;
+        uint32 SoundID = rEVNT.ReadLong() & 0xFFFF;
         rEVNT.Skip(0x8);
         if (mGame >= EGame::Echoes) rEVNT.Skip(0xC);
 
@@ -108,9 +108,9 @@ void CAnimEventLoader::LoadSoundEvent(IInputStream& rEVNT)
         mpEventData->AddEvent(CharIndex, SoundID);
         rEVNT.Skip(0x8);
 
-        for (u32 StructIdx = 0; StructIdx < 2; StructIdx++)
+        for (uint32 StructIdx = 0; StructIdx < 2; StructIdx++)
         {
-            u32 StructType = rEVNT.ReadLong();
+            uint32 StructType = rEVNT.ReadLong();
             ASSERT(StructType <= 2);
 
             if (StructType == 1)
@@ -121,7 +121,7 @@ void CAnimEventLoader::LoadSoundEvent(IInputStream& rEVNT)
             {
                 // This is a maya spline
                 rEVNT.Skip(2);
-                u32 KnotCount = rEVNT.ReadLong();
+                uint32 KnotCount = rEVNT.ReadLong();
                 rEVNT.Skip(0xA * KnotCount);
                 rEVNT.Skip(9);
             }
@@ -159,18 +159,18 @@ CAnimEventData* CAnimEventLoader::LoadCorruptionCharacterEventSet(IInputStream& 
     rCHAR.ReadString(); // Skip set name
 
     // Read effect events
-    u32 NumEffectEvents = rCHAR.ReadLong();
+    uint32 NumEffectEvents = rCHAR.ReadLong();
 
-    for (u32 EventIdx = 0; EventIdx < NumEffectEvents; EventIdx++)
+    for (uint32 EventIdx = 0; EventIdx < NumEffectEvents; EventIdx++)
     {
         rCHAR.ReadString();
         Loader.LoadEffectEvent(rCHAR);
     }
 
     // Read sound events
-    u32 NumSoundEvents = rCHAR.ReadLong();
+    uint32 NumSoundEvents = rCHAR.ReadLong();
 
-    for (u32 EventIdx = 0; EventIdx < NumSoundEvents; EventIdx++)
+    for (uint32 EventIdx = 0; EventIdx < NumSoundEvents; EventIdx++)
     {
         rCHAR.ReadString();
         Loader.LoadSoundEvent(rCHAR);

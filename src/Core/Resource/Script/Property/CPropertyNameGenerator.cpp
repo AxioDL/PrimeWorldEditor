@@ -178,7 +178,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
             CCRC32 FullHash = BaseHash;
             const char* pkTypeName = *mTypeNames[TypeIdx];
             FullHash.Hash( pkTypeName );
-            u32 PropertyID = FullHash.Digest();
+            uint32 PropertyID = FullHash.Digest();
 
             // Check if this hash is a property ID
             if (IsValidPropertyID(PropertyID, pkTypeName, rkParams))
@@ -234,8 +234,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                         DelimitedXmlList += *Iter + "\n";
                     }
 
-                    TString LogMsg = TString::Format("%s [%s] : 0x%08X\n", *PropertyName.Name, *PropertyName.Type, PropertyName.ID) + DelimitedXmlList;
-                    Log::Write(LogMsg);
+                    debugf("%s [%s] : 0x%08X\n%s", *PropertyName.Name, *PropertyName.Type, PropertyName.ID, *DelimitedXmlList);
                 }
             }
         }
@@ -258,7 +257,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
 }
 
 /** Returns whether a given property ID is valid */
-bool CPropertyNameGenerator::IsValidPropertyID(u32 ID, const char*& pkType, const SPropertyNameGenerationParameters& rkParams)
+bool CPropertyNameGenerator::IsValidPropertyID(uint32 ID, const char*& pkType, const SPropertyNameGenerationParameters& rkParams)
 {
     if (!mValidTypePairMap.empty())
     {

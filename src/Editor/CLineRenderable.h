@@ -2,7 +2,7 @@
 #define CLINERENDERABLE
 
 #include <Common/CColor.h>
-#include <Math/CVector3f.h>
+#include <Common/Math/CVector3f.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CRenderer.h>
 #include <Core/Render/IRenderable.h>
