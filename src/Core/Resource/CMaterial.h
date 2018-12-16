@@ -16,35 +16,33 @@
 
 class CMaterialSet;
 
+// Enums
+enum class EMaterialOption
+{
+    None                    = 0,
+    Konst                   = 0x8,
+    Transparent             = 0x10,
+    Masked                  = 0x20,
+    Reflection              = 0x40,
+    DepthWrite              = 0x80,
+    SurfaceReflection       = 0x100,
+    Occluder                = 0x200,
+    IndStage                = 0x400,
+    Lightmap                = 0x800,
+    ShortTexCoord           = 0x2000,
+    AllMP1Settings          = 0x2FF8,
+    DrawWhiteAmbientDKCR    = 0x80000
+};
+DECLARE_FLAGS_ENUMCLASS(EMaterialOption, FMaterialOptions)
+
 class CMaterial
 {
-public:
     friend class CMaterialLoader;
     friend class CMaterialCooker;
 
-    // Enums
-    enum EMaterialOption
+    enum class EShaderStatus
     {
-        eNoSettings             = 0,
-        eKonst                  = 0x8,
-        eTransparent            = 0x10,
-        ePunchthrough           = 0x20,
-        eReflection             = 0x40,
-        eDepthWrite             = 0x80,
-        eSurfaceReflection      = 0x100,
-        eOccluder               = 0x200,
-        eIndStage               = 0x400,
-        eLightmap               = 0x800,
-        eShortTexCoord          = 0x2000,
-        eAllMP1Settings         = 0x2FF8,
-        eDrawWhiteAmbientDKCR   = 0x80000
-    };
-    DECLARE_FLAGS(EMaterialOption, FMaterialOptions)
-
-private:
-    enum EShaderStatus
-    {
-        eNoShader, eShaderExists, eShaderFailed
+        NoShader, ShaderExists, ShaderFailed
     };
 
     // Statics

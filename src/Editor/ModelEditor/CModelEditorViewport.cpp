@@ -3,7 +3,7 @@
 
 CModelEditorViewport::CModelEditorViewport(QWidget *pParent)
     : CBasicViewport(pParent)
-    , mMode(eDrawMesh)
+    , mMode(EDrawMode::DrawMesh)
     , mpActiveMaterial(nullptr)
     , mpModelNode(nullptr)
     , mGridEnabled(true)
@@ -61,7 +61,7 @@ void CModelEditorViewport::Paint()
         mpRenderer->RenderBuckets(mViewInfo);
     }
 
-    else if (mMode == eDrawMesh)
+    else if (mMode == EDrawMode::DrawMesh)
     {
         if (mGridEnabled)
             mGrid.AddToRenderer(mpRenderer, mViewInfo);
@@ -70,7 +70,7 @@ void CModelEditorViewport::Paint()
         mpRenderer->RenderBuckets(mViewInfo);
     }
 
-    else if (mMode == eDrawSphere)
+    else if (mMode == EDrawMode::DrawSphere)
     {
         if (!mpActiveMaterial) return;
         glEnable(GL_CULL_FACE);
@@ -80,12 +80,12 @@ void CModelEditorViewport::Paint()
         CGraphics::UpdateMVPBlock();
         CGraphics::SetDefaultLighting();
         CGraphics::UpdateLightBlock(); // Note: vertex block is updated by the material
-        mpActiveMaterial->SetCurrent(eEnableUVScroll | eEnableBackfaceCull | eEnableOccluders);
+        mpActiveMaterial->SetCurrent(ERenderOption::EnableUVScroll | ERenderOption::EnableBackfaceCull | ERenderOption::EnableOccluders);
 
         CDrawUtil::DrawSphere(true);
     }
 
-    else if (mMode == eDrawSquare)
+    else if (mMode == EDrawMode::DrawSquare)
     {
         if (!mpActiveMaterial) return;
         glDisable(GL_CULL_FACE);
@@ -99,7 +99,7 @@ void CModelEditorViewport::Paint()
         CGraphics::sMVPBlock.ProjectionMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();
 
-        mpActiveMaterial->SetCurrent(eEnableUVScroll | eEnableOccluders);
+        mpActiveMaterial->SetCurrent(ERenderOption::EnableUVScroll | ERenderOption::EnableOccluders);
         float Aspect = (float) width() / (float) height();
         CDrawUtil::DrawSquare(CVector2f(0,1), CVector2f(1 * Aspect, 1), CVector2f(1 * Aspect, 0), CVector2f(0,0));
     }

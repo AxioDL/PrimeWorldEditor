@@ -10,7 +10,7 @@
 
 class CWorld : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eWorld)
+    DECLARE_RESOURCE_TYPE(World)
     friend class CWorldLoader;
     friend class CWorldCooker;
 

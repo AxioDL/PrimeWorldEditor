@@ -1,15 +1,15 @@
 #ifndef EVOLUMESHAPE
 #define EVOLUMESHAPE
 
-enum EVolumeShape
+enum class EVolumeShape
 {
-    eNoShape,
-    eAxisAlignedBoxShape,
-    eBoxShape,
-    eEllipsoidShape,
-    eCylinderShape,
-    eConditionalShape,
-    eInvalidShape
+    NoShape,
+    AxisAlignedBoxShape,
+    BoxShape,
+    EllipsoidShape,
+    CylinderShape,
+    ConditionalShape,
+    InvalidShape
 };
 
 #endif // EVOLUMESHAPE

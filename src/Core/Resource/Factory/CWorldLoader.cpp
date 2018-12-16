@@ -16,19 +16,19 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     // Header
     if (mVersion < EGame::CorruptionProto)
     {
-        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), eStringTable);
-        if (mVersion == EGame::Echoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), eStringTable);
+        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), EResourceType::StringTable);
+        if (mVersion == EGame::Echoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), EResourceType::StringTable);
         if (mVersion >= EGame::Echoes) mpWorld->mTempleKeyWorldIndex = rMLVL.ReadLong();
-        if (mVersion >= EGame::Prime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), eSaveWorld);
-        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLong(), eModel);
+        if (mVersion >= EGame::Prime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), EResourceType::SaveWorld);
+        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLong(), EResourceType::Model);
     }
 
     else
     {
-        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eStringTable);
+        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), EResourceType::StringTable);
         rMLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value
-        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eSaveWorld);
-        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eModel);
+        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), EResourceType::SaveWorld);
+        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), EResourceType::Model);
     }
 
     // Memory relays - only in MP1
@@ -132,7 +132,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     }
 
     // MapWorld
-    mpWorld->mpMapWorld = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), eMapWorld );
+    mpWorld->mpMapWorld = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), EResourceType::MapWorld );
     rMLVL.Seek(0x5, SEEK_CUR); // Unknown values which are always 0
 
     // Audio Groups - we don't need this info as we regenerate it on cook
@@ -200,7 +200,7 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         rData.ShinyGoldTime = rMLVL.ReadFloat();
     }
 
-    mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), eSaveWorld);
+    mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), EResourceType::SaveWorld);
     mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource<CModel>(rMLVL.ReadLongLong());
 
     // Areas

@@ -57,14 +57,14 @@ void CDoorExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
 {
     if (!mpShieldModel) return;
     if (rkViewInfo.GameMode && !mpInstance->IsActive()) return;
-    if (!rkViewInfo.GameMode && ((rkViewInfo.ShowFlags & eShowObjectGeometry) == 0)) return;
+    if (!rkViewInfo.GameMode && ((rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry) == 0)) return;
 
     if (mpParent->IsVisible() && rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
     {
         AddModelToRenderer(pRenderer, mpShieldModel, 0);
 
         if (mpParent->IsSelected() && !rkViewInfo.GameMode)
-            pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
+            pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
     }
 }
 
@@ -88,7 +88,7 @@ void CDoorExtra::DrawSelection()
 {
     LoadModelMatrix();
     glBlendFunc(GL_ONE, GL_ZERO);
-    mpShieldModel->DrawWireframe(eNoRenderOptions, mpParent->WireframeColor());
+    mpShieldModel->DrawWireframe(ERenderOption::None, mpParent->WireframeColor());
 }
 
 void CDoorExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo)
@@ -112,7 +112,7 @@ SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay& rkRay, uint32 Asse
     Out.ComponentIndex = AssetID;
 
     CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
-    std::pair<bool,float> Result = mpShieldModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
+    std::pair<bool,float> Result = mpShieldModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
 
     if (Result.first)
     {

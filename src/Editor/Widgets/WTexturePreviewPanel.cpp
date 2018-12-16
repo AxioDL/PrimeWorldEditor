@@ -16,9 +16,9 @@ WTexturePreviewPanel::~WTexturePreviewPanel()
     delete ui;
 }
 
-EResType WTexturePreviewPanel::ResType()
+EResourceType WTexturePreviewPanel::ResType()
 {
-    return eTexture;
+    return EResourceType::Texture;
 }
 
 void WTexturePreviewPanel::SetResource(CResource *pRes)
@@ -37,18 +37,18 @@ void WTexturePreviewPanel::SetResource(CResource *pRes)
 
         switch (pTexture->SourceTexelFormat())
         {
-        case eGX_I4:     TexInfo += "I4";     break;
-        case eGX_I8:     TexInfo += "I8";     break;
-        case eGX_IA4:    TexInfo += "IA4";    break;
-        case eGX_IA8:    TexInfo += "IA8";    break;
-        case eGX_C4:     TexInfo += "C4";     break;
-        case eGX_C8:     TexInfo += "C8";     break;
-        case eGX_C14x2:  TexInfo += "C14x2";  break;
-        case eGX_RGB565: TexInfo += "RGB565"; break;
-        case eGX_RGB5A3: TexInfo += "RGB5A3"; break;
-        case eGX_RGBA8:  TexInfo += "RGBA8";  break;
-        case eGX_CMPR:   TexInfo += "CMPR";   break;
-        default:         TexInfo += "Invalid Format"; break;
+        case ETexelFormat::GX_I4:     TexInfo += "I4";     break;
+        case ETexelFormat::GX_I8:     TexInfo += "I8";     break;
+        case ETexelFormat::GX_IA4:    TexInfo += "IA4";    break;
+        case ETexelFormat::GX_IA8:    TexInfo += "IA8";    break;
+        case ETexelFormat::GX_C4:     TexInfo += "C4";     break;
+        case ETexelFormat::GX_C8:     TexInfo += "C8";     break;
+        case ETexelFormat::GX_C14x2:  TexInfo += "C14x2";  break;
+        case ETexelFormat::GX_RGB565: TexInfo += "RGB565"; break;
+        case ETexelFormat::GX_RGB5A3: TexInfo += "RGB5A3"; break;
+        case ETexelFormat::GX_RGBA8:  TexInfo += "RGBA8";  break;
+        case ETexelFormat::GX_CMPR:   TexInfo += "CMPR";   break;
+        default:                      TexInfo += "Invalid Format"; break;
         }
 
         TexInfo += " / ";

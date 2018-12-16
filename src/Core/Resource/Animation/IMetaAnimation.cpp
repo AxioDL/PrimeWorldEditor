@@ -5,21 +5,21 @@ CMetaAnimFactory gMetaAnimFactory;
 
 IMetaAnimation* CMetaAnimFactory::LoadFromStream(IInputStream& rInput, EGame Game)
 {
-    EMetaAnimationType Type = (EMetaAnimationType) rInput.ReadLong();
+    EMetaAnimType Type = (EMetaAnimType) rInput.ReadLong();
 
     switch (Type)
     {
-    case eMAT_Play:
+    case EMetaAnimType::Play:
         return new CMetaAnimPlay(rInput, Game);
 
-    case eMAT_Blend:
-    case eMAT_PhaseBlend:
+    case EMetaAnimType::Blend:
+    case EMetaAnimType::PhaseBlend:
         return new CMetaAnimBlend(Type, rInput, Game);
 
-    case eMAT_Random:
+    case EMetaAnimType::Random:
         return new CMetaAnimRandom(rInput, Game);
 
-    case eMAT_Sequence:
+    case EMetaAnimType::Sequence:
         return new CMetaAnimSequence(rInput, Game);
 
     default:
@@ -43,9 +43,9 @@ CMetaAnimPlay::CMetaAnimPlay(IInputStream& rInput, EGame Game)
     mUnknownB = rInput.ReadLong();
 }
 
-EMetaAnimationType CMetaAnimPlay::Type() const
+EMetaAnimType CMetaAnimPlay::Type() const
 {
-    return eMAT_Play;
+    return EMetaAnimType::Play;
 }
 
 void CMetaAnimPlay::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
@@ -54,9 +54,9 @@ void CMetaAnimPlay::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) cons
 }
 
 // ************ CMetaAnimBlend ************
-CMetaAnimBlend::CMetaAnimBlend(EMetaAnimationType Type, IInputStream& rInput, EGame Game)
+CMetaAnimBlend::CMetaAnimBlend(EMetaAnimType Type, IInputStream& rInput, EGame Game)
 {
-    ASSERT(Type == eMAT_Blend || Type == eMAT_PhaseBlend);
+    ASSERT(Type == EMetaAnimType::Blend || Type == EMetaAnimType::PhaseBlend);
     mType = Type;
     mpMetaAnimA = gMetaAnimFactory.LoadFromStream(rInput, Game);
     mpMetaAnimB = gMetaAnimFactory.LoadFromStream(rInput, Game);
@@ -70,7 +70,7 @@ CMetaAnimBlend::~CMetaAnimBlend()
     delete mpMetaAnimB;
 }
 
-EMetaAnimationType CMetaAnimBlend::Type() const
+EMetaAnimType CMetaAnimBlend::Type() const
 {
     return mType;
 }
@@ -102,9 +102,9 @@ CMetaAnimRandom::~CMetaAnimRandom()
         delete mProbabilityPairs[iPair].pAnim;
 }
 
-EMetaAnimationType CMetaAnimRandom::Type() const
+EMetaAnimType CMetaAnimRandom::Type() const
 {
-    return eMAT_Random;
+    return EMetaAnimType::Random;
 }
 
 void CMetaAnimRandom::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
@@ -132,9 +132,9 @@ CMetaAnimSequence::~CMetaAnimSequence()
         delete mAnimations[iAnim];
 }
 
-EMetaAnimationType CMetaAnimSequence::Type() const
+EMetaAnimType CMetaAnimSequence::Type() const
 {
-    return eMAT_Sequence;
+    return EMetaAnimType::Sequence;
 }
 
 void CMetaAnimSequence::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const

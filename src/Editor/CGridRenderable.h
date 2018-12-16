@@ -24,7 +24,7 @@ public:
 
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
     {
-        pRenderer->AddMesh(this, 0, CAABox::skOne, false, eDrawMesh);
+        pRenderer->AddMesh(this, 0, CAABox::skOne, false, ERenderCommand::DrawMesh);
     }
 
     void Draw(FRenderOptions, int, ERenderCommand, const SViewInfo&)

@@ -27,9 +27,9 @@ class CScriptNode : public CSceneNode
 
     CLightParameters *mpLightParameters;
 
-    enum EGameModeVisibility
+    enum class EGameModeVisibility
     {
-        eVisible, eNotVisible, eUntested
+        Visible, NotVisible, Untested
     } mGameModeVisibility;
 
 public:

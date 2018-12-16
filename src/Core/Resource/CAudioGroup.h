@@ -6,7 +6,7 @@
 // Very limited functionality - mostly just intended to find the AGSC that a sound ID belongs to
 class CAudioGroup : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eAudioGroup)
+    DECLARE_RESOURCE_TYPE(AudioGroup)
     friend class CAudioGroupLoader;
 
     TString mGroupName;

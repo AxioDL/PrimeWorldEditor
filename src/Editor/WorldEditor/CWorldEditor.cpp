@@ -47,7 +47,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->setupUi(this);
     UpdateWindowTitle();
 
-    mpSelection->SetAllowedNodeTypes(eScriptNode | eLightNode);
+    mpSelection->SetAllowedNodeTypes(ENodeType::Script | ENodeType::Light);
 
     // Add resource browser to the layout
     QVBoxLayout *pLayout = new QVBoxLayout();
@@ -274,7 +274,7 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     // Snap camera to new area
     CCamera *pCamera = &ui->MainViewport->Camera();
 
-    if (pCamera->MoveMode() == eFreeCamera)
+    if (pCamera->MoveMode() == ECameraMoveMode::Free)
     {
         CTransform4f AreaTransform = mpArea->Transform();
         CVector3f AreaPosition(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
@@ -341,7 +341,7 @@ bool CWorldEditor::HasAnyScriptNodesSelected() const
 {
     for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        if (It->NodeType() == eScriptNode)
+        if (It->NodeType() == ENodeType::Script)
             return true;
     }
 
@@ -607,7 +607,7 @@ void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IProperty *pProp)
         CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
         const CResTypeFilter& rkFilter = pAsset->GetTypeFilter();
 
-        if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
+        if (rkFilter.Accepts(EResourceType::Model) || rkFilter.Accepts(EResourceType::AnimSet) || rkFilter.Accepts(EResourceType::Character))
             SelectionModified();
     }
     else if (pProp->Type() == EPropertyType::AnimationSet)
@@ -624,7 +624,7 @@ void CWorldEditor::SetSelectionActive(bool Active)
 
     for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        if (It->NodeType() == eScriptNode)
+        if (It->NodeType() == ENodeType::Script)
         {
             CScriptNode* pScript = static_cast<CScriptNode*>(*It);
             CScriptObject* pInst = pScript->Instance();
@@ -700,7 +700,7 @@ void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)
 
     for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        if (It->NodeType() == eScriptNode)
+        if (It->NodeType() == ENodeType::Script)
             ScriptNodes << static_cast<CScriptNode*>(*It);
     }
 
@@ -813,21 +813,21 @@ void CWorldEditor::UpdateGizmoUI()
         {
             switch (mGizmo.Mode())
             {
-            case CGizmo::eTranslate:
+            case CGizmo::EGizmoMode::Translate:
                 if (mGizmoTransforming && mGizmo.HasTransformed())
                     SpinBoxValue = mGizmo.TotalTranslation();
                 else if (!mpSelection->IsEmpty())
                     SpinBoxValue = mpSelection->Front()->AbsolutePosition();
                 break;
 
-            case CGizmo::eRotate:
+            case CGizmo::EGizmoMode::Rotate:
                 if (mGizmoTransforming && mGizmo.HasTransformed())
                     SpinBoxValue = mGizmo.TotalRotation();
                 else if (!mpSelection->IsEmpty())
                     SpinBoxValue = mpSelection->Front()->AbsoluteRotation().ToEuler();
                 break;
 
-            case CGizmo::eScale:
+            case CGizmo::EGizmoMode::Scale:
                 if (mGizmoTransforming && mGizmo.HasTransformed())
                     SpinBoxValue = mGizmo.TotalScale();
                 else if (!mpSelection->IsEmpty())
@@ -915,7 +915,7 @@ void CWorldEditor::UpdateNewLinkLine()
         }
         else if (mIsMakingLink && mpNewLinkSender)
             pSender = mpNewLinkSender;
-        else if (mpScriptSidebar->ModifyTab()->IsPicking() && mpScriptSidebar->ModifyTab()->EditNode()->NodeType() == eScriptNode)
+        else if (mpScriptSidebar->ModifyTab()->IsPicking() && mpScriptSidebar->ModifyTab()->EditNode()->NodeType() == ENodeType::Script)
             pSender = static_cast<CScriptNode*>(mpScriptSidebar->ModifyTab()->EditNode())->Instance();
 
         // No sender and no receiver = no line
@@ -940,7 +940,7 @@ void CWorldEditor::UpdateNewLinkLine()
                 CScriptObject *pInst = (pSender ? pSender : pReceiver);
 
                 CVector3f Start = mScene.NodeForInstance(pInst)->CenterPoint();
-                CVector3f End = (pHoverNode && pHoverNode->NodeType() == eScriptNode ? pHoverNode->CenterPoint() : ui->MainViewport->HoverPoint());
+                CVector3f End = (pHoverNode && pHoverNode->NodeType() == ENodeType::Script ? pHoverNode->CenterPoint() : ui->MainViewport->HoverPoint());
                 ui->MainViewport->SetLinkLineEnabled(true);
                 ui->MainViewport->SetLinkLine(Start, End);
             }
@@ -990,8 +990,8 @@ void CWorldEditor::SetSidebar(CWorldEditorSidebar *pSidebar)
 
 void CWorldEditor::GizmoModeChanged(CGizmo::EGizmoMode mode)
 {
-    ui->TransformSpinBox->SetSingleStep( (mode == CGizmo::eRotate ? 1.0 : 0.1) );
-    ui->TransformSpinBox->SetDefaultValue( (mode == CGizmo::eScale ? 1.0 : 0.0) );
+    ui->TransformSpinBox->SetSingleStep( (mode == CGizmo::EGizmoMode::Rotate ? 1.0 : 0.1) );
+    ui->TransformSpinBox->SetDefaultValue( (mode == CGizmo::EGizmoMode::Scale ? 1.0 : 0.0) );
 }
 
 // ************ PRIVATE SLOTS ************
@@ -1019,7 +1019,7 @@ void CWorldEditor::OnLinkButtonToggled(bool Enabled)
 {
     if (Enabled)
     {
-        EnterPickMode(eScriptNode, true, false, false);
+        EnterPickMode(ENodeType::Script, true, false, false);
         connect(this, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnLinkClick(SRayIntersection)));
         connect(this, SIGNAL(PickModeExited()), this, SLOT(OnLinkEnd()));
         mIsMakingLink = true;
@@ -1066,7 +1066,7 @@ void CWorldEditor::OnUnlinkClicked()
 
     for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        if (It->NodeType() == eScriptNode)
+        if (It->NodeType() == ENodeType::Script)
             SelectedScriptNodes << static_cast<CScriptNode*>(*It);
     }
 
@@ -1075,11 +1075,11 @@ void CWorldEditor::OnUnlinkClicked()
         CConfirmUnlinkDialog Dialog(this);
         Dialog.exec();
 
-        if (Dialog.UserChoice() != CConfirmUnlinkDialog::eCancel)
+        if (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::Cancel)
         {
             mUndoStack.beginMacro("Unlink");
-            bool UnlinkIncoming = (Dialog.UserChoice() != CConfirmUnlinkDialog::eOutgoingOnly);
-            bool UnlinkOutgoing = (Dialog.UserChoice() != CConfirmUnlinkDialog::eIncomingOnly);
+            bool UnlinkIncoming = (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::OutgoingOnly);
+            bool UnlinkOutgoing = (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::IncomingOnly);
 
             foreach (CScriptNode *pNode, SelectedScriptNodes)
             {
@@ -1088,20 +1088,20 @@ void CWorldEditor::OnUnlinkClicked()
                 if (UnlinkIncoming)
                 {
                     QVector<uint32> LinkIndices;
-                    for (uint32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
+                    for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Incoming); iLink++)
                         LinkIndices << iLink;
 
-                    CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, eIncoming, LinkIndices);
+                    CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, ELinkType::Incoming, LinkIndices);
                     mUndoStack.push(pCmd);
                 }
 
                 if (UnlinkOutgoing)
                 {
                     QVector<uint32> LinkIndices;
-                    for (uint32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+                    for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
                         LinkIndices << iLink;
 
-                    CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, eOutgoing, LinkIndices);
+                    CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, ELinkType::Outgoing, LinkIndices);
                     mUndoStack.push(pCmd);
                 }
             }
@@ -1205,21 +1205,21 @@ void CWorldEditor::OnTransformSpinBoxModified(CVector3f Value)
     switch (mGizmo.Mode())
     {
         // Use absolute position/rotation, but relative scale. (This way spinbox doesn't show preview multiplier)
-        case CGizmo::eTranslate:
+        case CGizmo::EGizmoMode::Translate:
         {
             CVector3f Delta = Value - mpSelection->Front()->AbsolutePosition();
             mUndoStack.push(new CTranslateNodeCommand(this, mpSelection->SelectedNodeList(), Delta, mTranslateSpace));
             break;
         }
 
-        case CGizmo::eRotate:
+        case CGizmo::EGizmoMode::Rotate:
         {
             CQuaternion Delta = CQuaternion::FromEuler(Value) * mpSelection->Front()->AbsoluteRotation().Inverse();
             mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), mGizmo.Rotation(), Delta, mRotateSpace));
             break;
         }
 
-        case CGizmo::eScale:
+        case CGizmo::EGizmoMode::Scale:
         {
             CVector3f Delta = Value / mpSelection->Front()->AbsoluteScale();
             mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), Delta));
@@ -1234,9 +1234,9 @@ void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
 {
     if (mpSelection->IsEmpty()) return;
 
-    if (mGizmo.Mode() == CGizmo::eTranslate)   mUndoStack.push(CTranslateNodeCommand::End());
-    else if (mGizmo.Mode() == CGizmo::eRotate) mUndoStack.push(CRotateNodeCommand::End());
-    else if (mGizmo.Mode() == CGizmo::eScale)  mUndoStack.push(CScaleNodeCommand::End());
+    if (mGizmo.Mode() == CGizmo::EGizmoMode::Translate)   mUndoStack.push(CTranslateNodeCommand::End());
+    else if (mGizmo.Mode() == CGizmo::EGizmoMode::Rotate) mUndoStack.push(CRotateNodeCommand::End());
+    else if (mGizmo.Mode() == CGizmo::EGizmoMode::Scale)  mUndoStack.push(CScaleNodeCommand::End());
 
     UpdateGizmoUI();
 }
@@ -1244,14 +1244,14 @@ void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
 void CWorldEditor::SelectAllTriggered()
 {
     FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
-    NodeFlags &= ~(eModelNode | eStaticNode | eCollisionNode);
+    NodeFlags &= ~(ENodeType::Model | ENodeType::Static | ENodeType::Collision);
     SelectAll(NodeFlags);
 }
 
 void CWorldEditor::InvertSelectionTriggered()
 {
     FNodeFlags NodeFlags = CScene::NodeFlagsForShowFlags(ui->MainViewport->ShowFlags());
-    NodeFlags &= ~(eModelNode | eStaticNode | eCollisionNode);
+    NodeFlags &= ~(ENodeType::Model | ENodeType::Static | ENodeType::Collision);
     InvertSelection(NodeFlags);
 }
 
@@ -1262,27 +1262,27 @@ void CWorldEditor::ToggleDrawWorld()
 
 void CWorldEditor::ToggleDrawObjects()
 {
-    ui->MainViewport->SetShowFlag(eShowObjectGeometry, ui->ActionDrawObjects->isChecked());
+    ui->MainViewport->SetShowFlag(EShowFlag::ObjectGeometry, ui->ActionDrawObjects->isChecked());
 }
 
 void CWorldEditor::ToggleDrawCollision()
 {
-    ui->MainViewport->SetShowFlag(eShowWorldCollision, ui->ActionDrawCollision->isChecked());
+    ui->MainViewport->SetShowFlag(EShowFlag::WorldCollision, ui->ActionDrawCollision->isChecked());
 }
 
 void CWorldEditor::ToggleDrawObjectCollision()
 {
-    ui->MainViewport->SetShowFlag(eShowObjectCollision, ui->ActionDrawObjectCollision->isChecked());
+    ui->MainViewport->SetShowFlag(EShowFlag::ObjectCollision, ui->ActionDrawObjectCollision->isChecked());
 }
 
 void CWorldEditor::ToggleDrawLights()
 {
-    ui->MainViewport->SetShowFlag(eShowLights, ui->ActionDrawLights->isChecked());
+    ui->MainViewport->SetShowFlag(EShowFlag::Lights, ui->ActionDrawLights->isChecked());
 }
 
 void CWorldEditor::ToggleDrawSky()
 {
-    ui->MainViewport->SetShowFlag(eShowSky, ui->ActionDrawSky->isChecked());
+    ui->MainViewport->SetShowFlag(EShowFlag::Sky, ui->ActionDrawSky->isChecked());
 }
 
 void CWorldEditor::ToggleGameMode()
@@ -1297,7 +1297,7 @@ void CWorldEditor::ToggleDisableAlpha()
 
 void CWorldEditor::SetNoLighting()
 {
-    CGraphics::sLightMode = CGraphics::eNoLighting;
+    CGraphics::sLightMode = CGraphics::ELightingMode::None;
     ui->ActionNoLighting->setChecked(true);
     ui->ActionBasicLighting->setChecked(false);
     ui->ActionWorldLighting->setChecked(false);
@@ -1305,7 +1305,7 @@ void CWorldEditor::SetNoLighting()
 
 void CWorldEditor::SetBasicLighting()
 {
-    CGraphics::sLightMode = CGraphics::eBasicLighting;
+    CGraphics::sLightMode = CGraphics::ELightingMode::Basic;
     ui->ActionNoLighting->setChecked(false);
     ui->ActionBasicLighting->setChecked(true);
     ui->ActionWorldLighting->setChecked(false);
@@ -1313,7 +1313,7 @@ void CWorldEditor::SetBasicLighting()
 
 void CWorldEditor::SetWorldLighting()
 {
-    CGraphics::sLightMode = CGraphics::eWorldLighting;
+    CGraphics::sLightMode = CGraphics::ELightingMode::World;
     ui->ActionNoLighting->setChecked(false);
     ui->ActionBasicLighting->setChecked(false);
     ui->ActionWorldLighting->setChecked(true);
@@ -1321,7 +1321,7 @@ void CWorldEditor::SetWorldLighting()
 
 void CWorldEditor::SetNoBloom()
 {
-    ui->MainViewport->Renderer()->SetBloom(CRenderer::eNoBloom);
+    ui->MainViewport->Renderer()->SetBloom(EBloomMode::NoBloom);
     ui->ActionNoBloom->setChecked(true);
     ui->ActionBloomMaps->setChecked(false);
     ui->ActionFakeBloom->setChecked(false);
@@ -1330,7 +1330,7 @@ void CWorldEditor::SetNoBloom()
 
 void CWorldEditor::SetBloomMaps()
 {
-    ui->MainViewport->Renderer()->SetBloom(CRenderer::eBloomMaps);
+    ui->MainViewport->Renderer()->SetBloom(EBloomMode::BloomMaps);
     ui->ActionNoBloom->setChecked(false);
     ui->ActionBloomMaps->setChecked(true);
     ui->ActionFakeBloom->setChecked(false);
@@ -1339,7 +1339,7 @@ void CWorldEditor::SetBloomMaps()
 
 void CWorldEditor::SetFakeBloom()
 {
-    ui->MainViewport->Renderer()->SetBloom(CRenderer::eFakeBloom);
+    ui->MainViewport->Renderer()->SetBloom(EBloomMode::FakeBloom);
     ui->ActionNoBloom->setChecked(false);
     ui->ActionBloomMaps->setChecked(false);
     ui->ActionFakeBloom->setChecked(true);
@@ -1348,7 +1348,7 @@ void CWorldEditor::SetFakeBloom()
 
 void CWorldEditor::SetBloom()
 {
-    ui->MainViewport->Renderer()->SetBloom(CRenderer::eBloom);
+    ui->MainViewport->Renderer()->SetBloom(EBloomMode::Bloom);
     ui->ActionNoBloom->setChecked(false);
     ui->ActionBloomMaps->setChecked(false);
     ui->ActionFakeBloom->setChecked(false);

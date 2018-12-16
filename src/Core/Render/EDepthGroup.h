@@ -1,12 +1,12 @@
 #ifndef EDEPTHGROUP
 #define EDEPTHGROUP
 
-enum EDepthGroup
+enum class EDepthGroup
 {
-    eBackground,
-    eMidground,
-    eForeground,
-    eUI
+    Background,
+    Midground,
+    Foreground,
+    UI
 };
 
 #endif // EDEPTHGROUP

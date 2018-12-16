@@ -6,7 +6,7 @@
 CLinkModel::CLinkModel(QObject *pParent)
     : QAbstractTableModel(pParent)
     , mpObject(nullptr)
-    , mType(eOutgoing)
+    , mType(ELinkType::Outgoing)
 {
 }
 
@@ -48,7 +48,7 @@ QVariant CLinkModel::data(const QModelIndex& rkIndex, int Role) const
 
         case 0: // Column 0 - Target Object
         {
-            uint32 TargetID = (mType == eIncoming ? pLink->SenderID() : pLink->ReceiverID());
+            uint32 TargetID = (mType == ELinkType::Incoming ? pLink->SenderID() : pLink->ReceiverID());
             CScriptObject *pTarget = mpObject->Area()->InstanceByID(TargetID);
 
             if (pTarget)
@@ -91,7 +91,7 @@ QVariant CLinkModel::headerData(int Section, Qt::Orientation Orientation, int Ro
     {
         switch (Section)
         {
-        case 0: return (mType == eIncoming ? "Sender" : "Target");
+        case 0: return (mType == ELinkType::Incoming ? "Sender" : "Target");
         case 1: return "State";
         case 2: return "Message";
         default: return QVariant::Invalid;

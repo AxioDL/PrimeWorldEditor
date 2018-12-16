@@ -48,7 +48,7 @@ void CGraphics::Initialize()
         mpLightBlockBuffer = new CUniformBuffer(sizeof(sLightBlock));
         mpBoneTransformBuffer = new CUniformBuffer(sizeof(CTransform4f) * 100);
 
-        sLightMode = eWorldLighting;
+        sLightMode = ELightingMode::World;
         sNumLights = 0;
         sWorldLightMultiplier = 1.f;
 
@@ -175,9 +175,9 @@ void CGraphics::SetDefaultLighting()
 
 void CGraphics::SetupAmbientColor()
 {
-    if (sLightMode == eWorldLighting)
+    if (sLightMode == ELightingMode::World)
         sVertexBlock.COLOR0_Amb = sAreaAmbientColor * sWorldLightMultiplier;
-    else if (sLightMode == eBasicLighting)
+    else if (sLightMode == ELightingMode::Basic)
         sVertexBlock.COLOR0_Amb = skDefaultAmbientColor;
     else
         sVertexBlock.COLOR0_Amb = CColor::skWhite;

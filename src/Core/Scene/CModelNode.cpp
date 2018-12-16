@@ -17,7 +17,7 @@ CModelNode::CModelNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CMode
 
 ENodeType CModelNode::NodeType()
 {
-    return eModelNode;
+    return ENodeType::Model;
 }
 
 void CModelNode::PostLoad()
@@ -38,12 +38,12 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
     // Transparent world models should have each surface processed separately
     if (mWorldModel && mpModel->HasTransparency(mActiveMatSet))
     {
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawOpaqueParts);
+        pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawOpaqueParts);
 
         for (uint32 iSurf = 0; iSurf < mpModel->GetSurfaceCount(); iSurf++)
         {
             if (mpModel->IsSurfaceTransparent(iSurf, mActiveMatSet))
-                pRenderer->AddMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), true, eDrawTransparentParts);
+                pRenderer->AddMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), true, ERenderCommand::DrawTransparentParts);
         }
     }
 
@@ -52,13 +52,13 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
         AddModelToRenderer(pRenderer, mpModel, mActiveMatSet);
 
     if (mSelected)
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
+        pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
 }
 
 void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
     if (!mpModel) return;
-    if (mForceAlphaOn) Options = (FRenderOptions) (Options & ~eNoAlpha);
+    if (mForceAlphaOn) Options = (FRenderOptions) (Options & ~ERenderOption::NoAlpha);
 
     if (!mWorldModel)
     {
@@ -70,7 +70,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
     }
     else
     {
-        bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || rkViewInfo.GameMode;
+        bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::ELightingMode::World || rkViewInfo.GameMode;
 
         if (IsLightingEnabled)
         {
@@ -83,7 +83,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
         else
         {
             LoadLights(rkViewInfo);
-            if (CGraphics::sLightMode == CGraphics::eNoLighting)
+            if (CGraphics::sLightMode == CGraphics::ELightingMode::None)
                 CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
         }
 
@@ -106,7 +106,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
     {
         CDrawUtil::UseColorShader(mScanOverlayColor);
         glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ZERO, GL_ZERO);
-        Options |= eNoMaterialSetup;
+        Options |= ERenderOption::NoMaterialSetup;
         DrawModelParts(mpModel, Options, 0, Command);
     }
 }
@@ -115,7 +115,7 @@ void CModelNode::DrawSelection()
 {
     if (!mpModel) return;
     LoadModelMatrix();
-    mpModel->DrawWireframe(eNoRenderOptions, WireframeColor());
+    mpModel->DrawWireframe(ERenderOption::None, WireframeColor());
 }
 
 void CModelNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
@@ -137,7 +137,7 @@ SRayIntersection CModelNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Asse
 
     CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
     FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
-    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
+    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
 
     if (Result.first)
     {

@@ -12,7 +12,7 @@ CCharacterNode::CCharacterNode(CScene *pScene, uint32 NodeID, CAnimSet *pChar /*
 
 ENodeType CCharacterNode::NodeType()
 {
-    return eCharacterNode;
+    return ENodeType::Character;
 }
 
 void CCharacterNode::PostLoad()
@@ -34,13 +34,13 @@ void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     CModel *pModel = mpCharacter->Character(mActiveCharSet)->pModel;
     CSkeleton *pSkel = mpCharacter->Character(mActiveCharSet)->pSkeleton;
 
-    if (pModel && rkViewInfo.ShowFlags.HasFlag(eShowObjectGeometry))
+    if (pModel && rkViewInfo.ShowFlags.HasFlag(EShowFlag::ObjectGeometry))
         AddModelToRenderer(pRenderer, pModel, 0);
 
     if (pSkel)
     {
-        if (rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
-            pRenderer->AddMesh(this, 0, AABox(), false, eDrawMesh, eForeground);
+        if (rkViewInfo.ShowFlags.HasFlag(EShowFlag::Skeletons))
+            pRenderer->AddMesh(this, 0, AABox(), false, ERenderCommand::DrawMesh, EDepthGroup::Foreground);
     }
 }
 
@@ -81,7 +81,7 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCom
 SRayIntersection CCharacterNode::RayNodeIntersectTest(const CRay& rkRay, uint32 /*AssetID*/, const SViewInfo& rkViewInfo)
 {
     // Check for bone under ray. Doesn't check for model intersections atm
-    if (mpCharacter && rkViewInfo.ShowFlags.HasFlag(eShowSkeletons))
+    if (mpCharacter && rkViewInfo.ShowFlags.HasFlag(EShowFlag::Skeletons))
     {
         CSkeleton *pSkel = mpCharacter->Character(mActiveCharSet)->pSkeleton;
 

@@ -11,8 +11,8 @@ INodeEditor::INodeEditor(QWidget *pParent)
     , mShowGizmo(false)
     , mGizmoHovering(false)
     , mGizmoTransforming(false)
-    , mTranslateSpace(eWorldTransform)
-    , mRotateSpace(eWorldTransform)
+    , mTranslateSpace(ETransformSpace::World)
+    , mRotateSpace(ETransformSpace::World)
     , mCloneState(eNotCloning)
 {
     // Create undo actions
@@ -101,11 +101,11 @@ void INodeEditor::EndGizmoTransform()
 
     if (mGizmo.HasTransformed())
     {
-        if (mGizmo.Mode() == CGizmo::eTranslate)
+        if (mGizmo.Mode() == CGizmo::EGizmoMode::Translate)
             mUndoStack.push(CTranslateNodeCommand::End());
-        else if (mGizmo.Mode() == CGizmo::eRotate)
+        else if (mGizmo.Mode() == CGizmo::EGizmoMode::Rotate)
             mUndoStack.push(CRotateNodeCommand::End());
-        else if (mGizmo.Mode() == CGizmo::eScale)
+        else if (mGizmo.Mode() == CGizmo::EGizmoMode::Scale)
             mUndoStack.push(CScaleNodeCommand::End());
     }
 
@@ -119,10 +119,10 @@ ETransformSpace INodeEditor::CurrentTransformSpace()
 {
     switch (mGizmo.Mode())
     {
-    case CGizmo::eTranslate: return mTranslateSpace;
-    case CGizmo::eRotate:    return mRotateSpace;
-    case CGizmo::eScale:     return eLocalTransform;
-    default:                 return eWorldTransform;
+    case CGizmo::EGizmoMode::Translate: return mTranslateSpace;
+    case CGizmo::EGizmoMode::Rotate:    return mRotateSpace;
+    case CGizmo::EGizmoMode::Scale:     return ETransformSpace::Local;
+    default:                            return ETransformSpace::World;
     }
 }
 
@@ -320,21 +320,21 @@ void INodeEditor::OnGizmoMoved()
 
     switch (mGizmo.Mode())
     {
-        case CGizmo::eTranslate:
+        case CGizmo::EGizmoMode::Translate:
         {
             CVector3f Delta = mGizmo.DeltaTranslation();
             mUndoStack.push(new CTranslateNodeCommand(this, mpSelection->SelectedNodeList(), Delta, mTranslateSpace));
             break;
         }
 
-        case CGizmo::eRotate:
+        case CGizmo::EGizmoMode::Rotate:
         {
             CQuaternion Delta = mGizmo.DeltaRotation();
             mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), mGizmo.Rotation(), Delta, mRotateSpace));
             break;
         }
 
-        case CGizmo::eScale:
+        case CGizmo::EGizmoMode::Scale:
         {
             CVector3f Delta = mGizmo.DeltaScale();
             mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), Delta));
@@ -454,8 +454,8 @@ void INodeEditor::UpdateTransformActionsEnabled()
 // ************ PRIVATE SLOTS ************
 void INodeEditor::OnSelectObjectsTriggered()
 {
-    mGizmo.SetMode(CGizmo::eOff);
-    mGizmo.SetTransformSpace(eWorldTransform);
+    mGizmo.SetMode(CGizmo::EGizmoMode::Off);
+    mGizmo.SetTransformSpace(ETransformSpace::World);
     mShowGizmo = false;
 
     mpTransformCombo->setEnabled(false);
@@ -463,44 +463,44 @@ void INodeEditor::OnSelectObjectsTriggered()
     mpTransformCombo->setCurrentIndex(0);
     mpTransformCombo->blockSignals(false);
 
-    GizmoModeChanged(CGizmo::eOff);
+    GizmoModeChanged(CGizmo::EGizmoMode::Off);
     UpdateGizmoUI();
 }
 
 void INodeEditor::OnTranslateTriggered()
 {
-    mGizmo.SetMode(CGizmo::eTranslate);
+    mGizmo.SetMode(CGizmo::EGizmoMode::Translate);
     mGizmo.SetTransformSpace(mTranslateSpace);
     mShowGizmo = true;
 
     mpTransformCombo->setEnabled(true);
     mpTransformCombo->blockSignals(true);
-    mpTransformCombo->setCurrentIndex( (mTranslateSpace == eWorldTransform) ? 0 : 1 );
+    mpTransformCombo->setCurrentIndex( (mTranslateSpace == ETransformSpace::World) ? 0 : 1 );
     mpTransformCombo->blockSignals(false);
 
-    GizmoModeChanged(CGizmo::eTranslate);
+    GizmoModeChanged(CGizmo::EGizmoMode::Translate);
     UpdateGizmoUI();
 }
 
 void INodeEditor::OnRotateTriggered()
 {
-    mGizmo.SetMode(CGizmo::eRotate);
+    mGizmo.SetMode(CGizmo::EGizmoMode::Rotate);
     mGizmo.SetTransformSpace(mRotateSpace);
     mShowGizmo = true;
 
     mpTransformCombo->setEnabled(true);
     mpTransformCombo->blockSignals(true);
-    mpTransformCombo->setCurrentIndex( (mRotateSpace == eWorldTransform) ? 0 : 1 );
+    mpTransformCombo->setCurrentIndex( (mRotateSpace == ETransformSpace::World) ? 0 : 1 );
     mpTransformCombo->blockSignals(false);
 
-    GizmoModeChanged(CGizmo::eRotate);
+    GizmoModeChanged(CGizmo::EGizmoMode::Rotate);
     UpdateGizmoUI();
 }
 
 void INodeEditor::OnScaleTriggered()
 {
-    mGizmo.SetMode(CGizmo::eScale);
-    mGizmo.SetTransformSpace(eLocalTransform);
+    mGizmo.SetMode(CGizmo::EGizmoMode::Scale);
+    mGizmo.SetTransformSpace(ETransformSpace::Local);
     mShowGizmo = true;
 
     mpTransformCombo->setEnabled(false);
@@ -508,17 +508,17 @@ void INodeEditor::OnScaleTriggered()
     mpTransformCombo->setCurrentIndex(1);
     mpTransformCombo->blockSignals(false);
 
-    GizmoModeChanged(CGizmo::eScale);
+    GizmoModeChanged(CGizmo::EGizmoMode::Scale);
     UpdateGizmoUI();
 }
 
 void INodeEditor::OnTransformSpaceChanged(int SpaceIndex)
 {
-    if ((mGizmo.Mode() == CGizmo::eScale) || (mGizmo.Mode() == CGizmo::eOff)) return;
+    if ((mGizmo.Mode() == CGizmo::EGizmoMode::Scale) || (mGizmo.Mode() == CGizmo::EGizmoMode::Off)) return;
 
-    ETransformSpace Space = (SpaceIndex == 0 ? eWorldTransform : eLocalTransform);
+    ETransformSpace Space = (SpaceIndex == 0 ? ETransformSpace::World : ETransformSpace::Local);
 
-    if (mGizmo.Mode() == CGizmo::eTranslate)
+    if (mGizmo.Mode() == CGizmo::EGizmoMode::Translate)
         mTranslateSpace = Space;
     else
         mRotateSpace = Space;

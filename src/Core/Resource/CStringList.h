@@ -5,7 +5,7 @@
 
 class CStringList : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eStringList)
+    DECLARE_RESOURCE_TYPE(StringList)
     friend class CAudioGroupLoader;
     std::vector<TString> mStringList;
 

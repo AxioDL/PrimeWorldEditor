@@ -44,23 +44,23 @@ struct SAttachment
 class CScriptTemplate
 {
 public:
-    enum ERotationType {
-        eRotationEnabled, eRotationDisabled
+    enum class ERotationType {
+        RotationEnabled, RotationDisabled,
     };
 
-    enum EScaleType {
-        eScaleEnabled, eScaleDisabled, eScaleVolume
+    enum class EScaleType {
+        ScaleEnabled, ScaleDisabled, ScaleVolume
     };
 
 private:
     struct SEditorAsset
     {
-        enum EAssetType {
-            eModel, eAnimParams, eBillboard, eCollision
+        enum class EAssetType {
+            Model, AnimParams, Billboard, Collision
         } AssetType;
 
-        enum EAssetSource {
-            eProperty, eFile
+        enum class EAssetSource {
+            Property, File
         } AssetSource;
 
         TIDString AssetLocation;

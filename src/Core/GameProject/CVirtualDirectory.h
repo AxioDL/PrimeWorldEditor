@@ -31,7 +31,7 @@ public:
     CVirtualDirectory* GetRoot();
     CVirtualDirectory* FindChildDirectory(const TString& rkName, bool AllowCreate);
     CResourceEntry* FindChildResource(const TString& rkPath);
-    CResourceEntry* FindChildResource(const TString& rkName, EResType Type);
+    CResourceEntry* FindChildResource(const TString& rkName, EResourceType Type);
     bool AddChild(const TString& rkPath, CResourceEntry *pEntry);
     bool AddChild(CVirtualDirectory *pDir);
     bool RemoveChildDirectory(CVirtualDirectory *pSubdir);

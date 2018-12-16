@@ -21,14 +21,35 @@
 
 #include <GL/glew.h>
 
+enum class EBloomMode
+{
+    NoBloom,
+    Bloom,
+    BloomMaps,
+    FakeBloom
+};
+
+/**
+ * @todo this rendering subsystem is bad and needs a rewrite
+ * there's quite a lot of problems overall, but generally speaking, one of the
+ * biggest problems with it is that scene nodes have too much control over how
+ * they render, and the renderer doesn't have enough. for example, if a certain
+ * render option is set, it should not be up to the node classes to respect that
+ * option, the renderer should be able to enforce it. there's a lot of other issues
+ * that make the renderer suboptimal and harder to maintain/extend than it should be.
+ * this is also a more general issue but graphics stuff needs to be further abstracted
+ * so that rendering code isn't directly calling OpenGL functions, ideally it should
+ * just have more abstracted code that gets redirected to OpenGL at a lower level so
+ * that other graphics backends could be supported in the future without needing to
+ * majorly rewrite everything (but I guess that's the point we're at right now anyway).
+ * I'm also pretty sure there's been no attempt made whatsoever to reduce the number of
+ * shader/texture state changes needed per frame, outside batching world geometry (via
+ * CStaticModel), which might be a performance drain.
+ *
+ * for more complaints about the rendering system implementation, see CSceneNode
+ */
 class CRenderer
 {
-public:
-    enum EBloomMode {
-        eNoBloom, eBloom, eBloomMaps, eFakeBloom
-    };
-
-private:
     FRenderOptions mOptions;
     EBloomMode mBloomMode;
     bool mDrawGrid;
@@ -73,7 +94,7 @@ public:
     void RenderBuckets(const SViewInfo& rkViewInfo);
     void RenderBloom();
     void RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo);
-    void AddMesh(IRenderable *pRenderable, int ComponentIndex, const CAABox& rkAABox, bool Transparent, ERenderCommand Command, EDepthGroup DepthGroup = eMidground);
+    void AddMesh(IRenderable *pRenderable, int ComponentIndex, const CAABox& rkAABox, bool Transparent, ERenderCommand Command, EDepthGroup DepthGroup = EDepthGroup::Midground);
     void BeginFrame();
     void EndFrame();
     void ClearDepthBuffer();

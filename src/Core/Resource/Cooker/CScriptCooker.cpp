@@ -250,12 +250,12 @@ void CScriptCooker::WriteInstance(IOutputStream& rOut, CScriptObject *pInstance)
     uint32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
     rOut.WriteLong(InstanceID);
 
-    uint32 NumLinks = pInstance->NumLinks(eOutgoing);
+    uint32 NumLinks = pInstance->NumLinks(ELinkType::Outgoing);
     IsPrime1 ? rOut.WriteLong(NumLinks) : rOut.WriteShort((uint16) NumLinks);
 
     for (uint32 LinkIdx = 0; LinkIdx < NumLinks; LinkIdx++)
     {
-        CLink *pLink = pInstance->Link(eOutgoing, LinkIdx);
+        CLink *pLink = pInstance->Link(ELinkType::Outgoing, LinkIdx);
         rOut.WriteLong(pLink->State());
         rOut.WriteLong(pLink->Message());
         rOut.WriteLong(pLink->ReceiverID());
@@ -298,9 +298,9 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
             // Generate/Attach message (MP3+) should be written to SCGN, not SCLY
             else
             {
-                for (uint32 LinkIdx = 0; LinkIdx < pInstance->NumLinks(eIncoming); LinkIdx++)
+                for (uint32 LinkIdx = 0; LinkIdx < pInstance->NumLinks(ELinkType::Incoming); LinkIdx++)
                 {
-                    CLink *pLink = pInstance->Link(eIncoming, LinkIdx);
+                    CLink *pLink = pInstance->Link(ELinkType::Incoming, LinkIdx);
 
                     if (mGame <= EGame::Echoes)
                     {

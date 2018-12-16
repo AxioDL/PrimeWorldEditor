@@ -92,8 +92,8 @@ public:
         CScriptObject *pNewSender = mpArea->InstanceByID(NewSenderID);
 
         mSenderID = NewSenderID;
-        if (pOldSender) pOldSender->RemoveLink(eOutgoing, this);
-        pNewSender->AddLink(eOutgoing, this, Index);
+        if (pOldSender) pOldSender->RemoveLink(ELinkType::Outgoing, this);
+        pNewSender->AddLink(ELinkType::Outgoing, this, Index);
     }
 
     void SetReceiver(uint32 NewReceiverID, uint32 Index = -1)
@@ -103,8 +103,8 @@ public:
         CScriptObject *pNewReceiver = mpArea->InstanceByID(NewReceiverID);
 
         mReceiverID = NewReceiverID;
-        if (pOldReceiver) pOldReceiver->RemoveLink(eIncoming, this);
-        pNewReceiver->AddLink(eIncoming, this, Index);
+        if (pOldReceiver) pOldReceiver->RemoveLink(ELinkType::Incoming, this);
+        pNewReceiver->AddLink(ELinkType::Incoming, this, Index);
     }
 
     uint32 SenderIndex() const
@@ -113,9 +113,9 @@ public:
 
         if (pSender)
         {
-            for (uint32 iLink = 0; iLink < pSender->NumLinks(eOutgoing); iLink++)
+            for (uint32 iLink = 0; iLink < pSender->NumLinks(ELinkType::Outgoing); iLink++)
             {
-                if (pSender->Link(eOutgoing, iLink) == this)
+                if (pSender->Link(ELinkType::Outgoing, iLink) == this)
                     return iLink;
             }
         }
@@ -129,9 +129,9 @@ public:
 
         if (pReceiver)
         {
-            for (uint32 iLink = 0; iLink < pReceiver->NumLinks(eIncoming); iLink++)
+            for (uint32 iLink = 0; iLink < pReceiver->NumLinks(ELinkType::Incoming); iLink++)
             {
-                if (pReceiver->Link(eIncoming, iLink) == this)
+                if (pReceiver->Link(ELinkType::Incoming, iLink) == this)
                     return iLink;
             }
         }

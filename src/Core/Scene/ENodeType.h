@@ -3,21 +3,22 @@
 
 #include <Common/Flags.h>
 
-enum ENodeType
+enum class ENodeType : uint32
 {
-    eRootNode           = 0x0,
-    eModelNode          = 0x1,
-    eCharacterNode      = 0x2,
-    eStaticNode         = 0x4,
-    eCollisionNode      = 0x8,
-    eScriptNode         = 0x10,
-    eScriptExtraNode    = 0x20,
-    eScriptAttachNode   = 0x40,
-    eLightNode          = 0x80,
-    eAllNodeTypes       = 0xFFFFFFFF
+    None            = 0x0,
+    Root            = 0x1,
+    Model           = 0x2,
+    Character       = 0x4,
+    Static          = 0x8,
+    Collision       = 0x10,
+    Script          = 0x20,
+    ScriptExtra     = 0x40,
+    ScriptAttach    = 0x80,
+    Light           = 0x100,
+    All             = 0xFFFFFFFF
 };
 
-DECLARE_FLAGS(ENodeType, FNodeFlags)
+DECLARE_FLAGS_ENUMCLASS(ENodeType, FNodeFlags)
 
 #endif // ENODETYPE_H
 

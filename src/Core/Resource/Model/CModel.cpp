@@ -76,13 +76,13 @@ void CModel::BufferGL()
                 // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
                 switch (pPrim->Type)
                 {
-                    case eGX_Triangles:
+                    case EPrimitiveType::Triangles:
                         pIBO->TrianglesToStrips(Indices.data(), Indices.size());
                         break;
-                    case eGX_TriangleFan:
+                    case EPrimitiveType::TriangleFan:
                         pIBO->FansToStrips(Indices.data(), Indices.size());
                         break;
-                    case eGX_Quads:
+                    case EPrimitiveType::Quads:
                         pIBO->QuadsToStrips(Indices.data(), Indices.size());
                         break;
                     default:
@@ -137,12 +137,12 @@ void CModel::DrawSurface(FRenderOptions Options, uint32 Surface, uint32 MatSet)
         MatSet = mMaterialSets.size() - 1;
 
     // Bind material
-    if ((Options & eNoMaterialSetup) == 0)
+    if ((Options & ERenderOption::NoMaterialSetup) == 0)
     {
         SSurface *pSurf = mSurfaces[Surface];
         CMaterial *pMat = mMaterialSets[MatSet]->MaterialByIndex(pSurf->MaterialID);
 
-        if (!Options.HasFlag(eEnableOccluders) && pMat->Options().HasFlag(CMaterial::eOccluder))
+        if (!Options.HasFlag(ERenderOption::EnableOccluders) && pMat->Options().HasFlag(EMaterialOption::Occluder))
             return;
 
         pMat->SetCurrent(Options);
@@ -168,7 +168,7 @@ void CModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::
     // Set up wireframe
     WireColor.A = 0;
     CDrawUtil::UseColorShader(WireColor);
-    Options |= eNoMaterialSetup;
+    Options |= ERenderOption::NoMaterialSetup;
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glBlendFunc(GL_ONE, GL_ZERO);
 
@@ -185,9 +185,11 @@ void CModel::SetSkin(CSkin *pSkin)
     // Assert commented out because it actually failed somewhere! Needs to be addressed.
     //ASSERT(!mpSkin || !pSkin || mpSkin == pSkin); // This is to verify no model has more than one unique skin applied
 
+    //@todo this is actually really dumb and could be handled much better (and much more inline with how the game does it)
+    // by simply storing skinning data in a different vertex buffer that isn't tied to the model's vertex buffer
     if (mpSkin != pSkin)
     {
-        const FVertexDescription kBoneFlags = (eBoneIndices | eBoneWeights);
+        const FVertexDescription kBoneFlags = (EVertexAttribute::BoneIndices | EVertexAttribute::BoneWeights);
 
         mpSkin = pSkin;
         mVBO.SetSkin(pSkin);
@@ -261,7 +263,7 @@ bool CModel::HasTransparency(uint32 MatSet)
         MatSet = mMaterialSets.size() - 1;
 
     for (uint32 iMat = 0; iMat < mMaterialSets[MatSet]->NumMaterials(); iMat++)
-        if (mMaterialSets[MatSet]->MaterialByIndex(iMat)->Options() & CMaterial::eTransparent ) return true;
+        if (mMaterialSets[MatSet]->MaterialByIndex(iMat)->Options() & EMaterialOption::Transparent ) return true;
 
     return false;
 }
@@ -272,7 +274,7 @@ bool CModel::IsSurfaceTransparent(uint32 Surface, uint32 MatSet)
         MatSet = mMaterialSets.size() - 1;
 
     uint32 matID = mSurfaces[Surface]->MaterialID;
-    return (mMaterialSets[MatSet]->MaterialByIndex(matID)->Options() & CMaterial::eTransparent) != 0;
+    return (mMaterialSets[MatSet]->MaterialByIndex(matID)->Options() & EMaterialOption::Transparent) != 0;
 }
 
 bool CModel::IsLightmapped() const
@@ -284,14 +286,14 @@ bool CModel::IsLightmapped() const
         for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
         {
             CMaterial *pMat = pSet->MaterialByIndex(iMat);
-            if (pMat->Options().HasFlag(CMaterial::eLightmap))
+            if (pMat->Options().HasFlag(EMaterialOption::Lightmap))
                 return true;
         }
     }
     return false;
 }
 
-CIndexBuffer* CModel::InternalGetIBO(uint32 Surface, EGXPrimitiveType Primitive)
+CIndexBuffer* CModel::InternalGetIBO(uint32 Surface, EPrimitiveType Primitive)
 {
     std::vector<CIndexBuffer> *pIBOs = &mSurfaceIndexBuffers[Surface];
     GLenum Type = GXPrimToGLPrim(Primitive);

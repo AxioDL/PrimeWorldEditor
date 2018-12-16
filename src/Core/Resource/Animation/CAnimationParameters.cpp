@@ -160,7 +160,7 @@ const SSetCharacter* CAnimationParameters::GetCurrentSetCharacter(int32 NodeInde
 {
     CAnimSet *pSet = AnimSet();
 
-    if (pSet && (pSet->Type() == eAnimSet || pSet->Type() == eCharacter))
+    if (pSet && (pSet->Type() == EResourceType::AnimSet || pSet->Type() == EResourceType::Character))
     {
         if (NodeIndex == -1)
             NodeIndex = mCharIndex;
@@ -215,7 +215,7 @@ void CAnimationParameters::SetResource(const CAssetID& rkID)
 
             if (!pEntry)
                 errorf("Invalid resource ID passed to CAnimationParameters: %s", *rkID.ToString());
-            else if (pEntry->ResourceType() != eAnimSet && pEntry->ResourceType() != eCharacter)
+            else if (pEntry->ResourceType() != EResourceType::AnimSet && pEntry->ResourceType() != EResourceType::Character)
                 errorf("Resource with invalid type passed to CAnimationParameters: %s", *pEntry->CookedAssetPath().GetFileName());
         }
     }

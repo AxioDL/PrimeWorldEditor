@@ -10,23 +10,22 @@
 
 class CMaterial;
 
+enum class EPassSettings
+{
+    None                = 0x0,
+    EmissiveBloom       = 0x4,
+    InvertOpacityMap    = 0x10
+};
+DECLARE_FLAGS_ENUMCLASS(EPassSettings, FPassSettings)
+
 class CMaterialPass
 {
     friend class CMaterialLoader;
     friend class CMaterialCooker;
 
-public:
-    enum EPassSettings
-    {
-        eNoPassSettings   = 0x0,
-        eEmissiveBloom    = 0x4,
-        eInvertOpacityMap = 0x10
-    };
-
-private:
     CMaterial *mpParentMat;
     CFourCC mPassType;
-    EPassSettings mSettings;
+    FPassSettings mSettings;
 
     ETevColorInput mColorInputs[4];
     ETevAlphaInput mAlphaInputs[4];

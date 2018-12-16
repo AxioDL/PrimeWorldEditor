@@ -2,8 +2,8 @@
 
 CTexture::CTexture(CResourceEntry *pEntry /*= 0*/)
     : CResource(pEntry)
-    , mTexelFormat(eRGBA8)
-    , mSourceTexelFormat(eRGBA8)
+    , mTexelFormat(ETexelFormat::RGBA8)
+    , mSourceTexelFormat(ETexelFormat::RGBA8)
     , mWidth(0)
     , mHeight(0)
     , mNumMipMaps(0)
@@ -17,8 +17,8 @@ CTexture::CTexture(CResourceEntry *pEntry /*= 0*/)
 }
 
 CTexture::CTexture(uint32 Width, uint32 Height)
-    : mTexelFormat(eRGBA8)
-    , mSourceTexelFormat(eRGBA8)
+    : mTexelFormat(ETexelFormat::RGBA8)
+    , mSourceTexelFormat(ETexelFormat::RGBA8)
     , mWidth((uint16) Width)
     , mHeight((uint16) Height)
     , mNumMipMaps(1)
@@ -47,27 +47,27 @@ bool CTexture::BufferGL()
 
     switch (mTexelFormat)
     {
-        case eLuminance:
+        case ETexelFormat::Luminance:
             GLFormat = GL_LUMINANCE;
             GLType = GL_UNSIGNED_BYTE;
             break;
-        case eLuminanceAlpha:
+        case ETexelFormat::LuminanceAlpha:
             GLFormat = GL_LUMINANCE_ALPHA;
             GLType = GL_UNSIGNED_BYTE;
             break;
-        case eRGB565:
+        case ETexelFormat::RGB565:
             GLFormat = GL_RGB;
             GLType = GL_UNSIGNED_SHORT_5_6_5;
             break;
-        case eRGBA4:
+        case ETexelFormat::RGBA4:
             GLFormat = GL_RGBA;
             GLType = GL_UNSIGNED_SHORT_4_4_4_4;
             break;
-        case eRGBA8:
+        case ETexelFormat::RGBA8:
             GLFormat = GL_RGBA;
             GLType = GL_UNSIGNED_BYTE;
             break;
-        case eDXT1:
+        case ETexelFormat::DXT1:
             GLFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
             IsCompressed = true;
             break;
@@ -145,9 +145,9 @@ float CTexture::ReadTexelAlpha(const CVector2f& rkTexCoord)
     uint32 TexelX = (uint32) ((mWidth - 1) * rkTexCoord.X);
     uint32 TexelY = (uint32) ((mHeight - 1) * (1.f - fmodf(rkTexCoord.Y, 1.f)));
 
-    if (mTexelFormat == eDXT1 && mBufferExists)
+    if (mTexelFormat == ETexelFormat::DXT1 && mBufferExists)
     {
-        CMemoryInStream Buffer(mpImgDataBuffer, mImgDataSize, IOUtil::kSystemEndianness);
+        CMemoryInStream Buffer(mpImgDataBuffer, mImgDataSize, EEndian::SystemEndian);
 
         // 8 bytes per 4x4 16-pixel block, left-to-right top-to-bottom
         uint32 BlockIdxX = TexelX / 4;
@@ -205,18 +205,18 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
 
     switch (mTexelFormat)
     {
-        case eLuminance:
+        case ETexelFormat::Luminance:
             PFFlags = 0x20000;
             PFBpp = 0x8;
             PFRBitMask = 0xFF;
             break;
-        case eLuminanceAlpha:
+        case ETexelFormat::LuminanceAlpha:
             PFFlags = 0x20001;
             PFBpp = 0x10;
             PFRBitMask = 0x00FF;
             PFABitMask = 0xFF00;
             break;
-        case eRGBA4:
+        case ETexelFormat::RGBA4:
             PFFlags = 0x41;
             PFBpp = 0x10;
             PFRBitMask = 0x0F00;
@@ -224,14 +224,14 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
             PFBBitMask = 0x000F;
             PFABitMask = 0xF000;
             break;
-        case eRGB565:
+        case ETexelFormat::RGB565:
             PFFlags = 0x40;
             PFBpp = 0x10;
             PFRBitMask = 0xF800;
             PFGBitMask = 0x7E0;
             PFBBitMask = 0x1F;
             break;
-        case eRGBA8:
+        case ETexelFormat::RGBA8:
             PFFlags = 0x41;
             PFBpp = 0x20;
             PFRBitMask = 0x00FF0000;
@@ -239,13 +239,13 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
             PFBBitMask = 0x000000FF;
             PFABitMask = 0xFF000000;
             break;
-        case eDXT1:
+        case ETexelFormat::DXT1:
             PFFlags = 0x4;
             break;
     }
 
     rOut.WriteLong(PFFlags);    // DDS_PIXELFORMAT.dwFlags
-    (mTexelFormat == eDXT1) ? rOut.WriteFourCC(FOURCC('DXT1')) : rOut.WriteLong(0); // DDS_PIXELFORMAT.dwFourCC
+    (mTexelFormat == ETexelFormat::DXT1) ? rOut.WriteFourCC(FOURCC('DXT1')) : rOut.WriteLong(0); // DDS_PIXELFORMAT.dwFourCC
     rOut.WriteLong(PFBpp);      // DDS_PIXELFORMAT.dwRGBBitCount
     rOut.WriteLong(PFRBitMask); // DDS_PIXELFORMAT.dwRBitMask
     rOut.WriteLong(PFGBitMask); // DDS_PIXELFORMAT.dwGBitMask
@@ -267,23 +267,23 @@ uint32 CTexture::FormatBPP(ETexelFormat Format)
 {
     switch (Format)
     {
-    case eGX_I4:          return 4;
-    case eGX_I8:          return 8;
-    case eGX_IA4:         return 8;
-    case eGX_IA8:         return 16;
-    case eGX_C4:          return 4;
-    case eGX_C8:          return 8;
-    case eGX_RGB565:      return 16;
-    case eGX_RGB5A3:      return 16;
-    case eGX_RGBA8:       return 32;
-    case eGX_CMPR:        return 4;
-    case eLuminance:      return 8;
-    case eLuminanceAlpha: return 16;
-    case eRGBA4:          return 16;
-    case eRGB565:         return 16;
-    case eRGBA8:          return 32;
-    case eDXT1:           return 4;
-    default:              return 0;
+    case ETexelFormat::GX_I4:          return 4;
+    case ETexelFormat::GX_I8:          return 8;
+    case ETexelFormat::GX_IA4:         return 8;
+    case ETexelFormat::GX_IA8:         return 16;
+    case ETexelFormat::GX_C4:          return 4;
+    case ETexelFormat::GX_C8:          return 8;
+    case ETexelFormat::GX_RGB565:      return 16;
+    case ETexelFormat::GX_RGB5A3:      return 16;
+    case ETexelFormat::GX_RGBA8:       return 32;
+    case ETexelFormat::GX_CMPR:        return 4;
+    case ETexelFormat::Luminance:      return 8;
+    case ETexelFormat::LuminanceAlpha: return 16;
+    case ETexelFormat::RGBA4:          return 16;
+    case ETexelFormat::RGB565:         return 16;
+    case ETexelFormat::RGBA8:          return 32;
+    case ETexelFormat::DXT1:           return 4;
+    default:                           return 0;
     }
 }
 
@@ -346,7 +346,7 @@ void CTexture::CopyGLBuffer()
         MipH /= 2;
     }
 
-    mTexelFormat = eRGBA8;
+    mTexelFormat = ETexelFormat::RGBA8;
     mLinearSize = mWidth * mHeight * 4;
 }
 

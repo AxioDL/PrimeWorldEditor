@@ -35,23 +35,23 @@ IDependencyNode* IDependencyNode::ArchiveConstructor(EDependencyNodeType Type)
 {
     switch (Type)
     {
-    case eDNT_DependencyTree:       return new CDependencyTree;
-    case eDNT_ResourceDependency:   return new CResourceDependency;
-    case eDNT_ScriptInstance:       return new CScriptInstanceDependency;
-    case eDNT_ScriptProperty:       return new CPropertyDependency;
-    case eDNT_CharacterProperty:    return new CCharPropertyDependency;
-    case eDNT_SetCharacter:         return new CSetCharacterDependency;
-    case eDNT_SetAnimation:         return new CSetAnimationDependency;
-    case eDNT_AnimEvent:            return new CAnimEventDependency;
-    case eDNT_Area:                 return new CAreaDependencyTree;
-    default:                        ASSERT(false); return nullptr;
+    case EDependencyNodeType::DependencyTree:       return new CDependencyTree;
+    case EDependencyNodeType::Resource:             return new CResourceDependency;
+    case EDependencyNodeType::ScriptInstance:       return new CScriptInstanceDependency;
+    case EDependencyNodeType::ScriptProperty:       return new CPropertyDependency;
+    case EDependencyNodeType::CharacterProperty:    return new CCharPropertyDependency;
+    case EDependencyNodeType::SetCharacter:         return new CSetCharacterDependency;
+    case EDependencyNodeType::SetAnimation:         return new CSetAnimationDependency;
+    case EDependencyNodeType::AnimEvent:            return new CAnimEventDependency;
+    case EDependencyNodeType::Area:                 return new CAreaDependencyTree;
+    default:                                        ASSERT(false); return nullptr;
     }
 }
 
 // ************ CDependencyTree ************
 EDependencyNodeType CDependencyTree::Type() const
 {
-    return eDNT_DependencyTree;
+    return EDependencyNodeType::DependencyTree;
 }
 
 void CDependencyTree::Serialize(IArchive& rArc)
@@ -90,7 +90,7 @@ void CDependencyTree::AddCharacterDependency(const CAnimationParameters& rkAnimP
 // ************ CResourceDependency ************
 EDependencyNodeType CResourceDependency::Type() const
 {
-    return eDNT_ResourceDependency;
+    return EDependencyNodeType::Resource;
 }
 
 void CResourceDependency::Serialize(IArchive& rArc)
@@ -111,7 +111,7 @@ bool CResourceDependency::HasDependency(const CAssetID& rkID) const
 // ************ CPropertyDependency ************
 EDependencyNodeType CPropertyDependency::Type() const
 {
-    return eDNT_ScriptProperty;
+    return EDependencyNodeType::ScriptProperty;
 }
 
 void CPropertyDependency::Serialize(IArchive& rArc)
@@ -123,7 +123,7 @@ void CPropertyDependency::Serialize(IArchive& rArc)
 // ************ CCharacterPropertyDependency ************
 EDependencyNodeType CCharPropertyDependency::Type() const
 {
-    return eDNT_CharacterProperty;
+    return EDependencyNodeType::CharacterProperty;
 }
 
 void CCharPropertyDependency::Serialize(IArchive& rArc)
@@ -135,7 +135,7 @@ void CCharPropertyDependency::Serialize(IArchive& rArc)
 // ************ CScriptInstanceDependency ************
 EDependencyNodeType CScriptInstanceDependency::Type() const
 {
-    return eDNT_ScriptInstance;
+    return EDependencyNodeType::ScriptInstance;
 }
 
 void CScriptInstanceDependency::Serialize(IArchive& rArc)
@@ -222,7 +222,7 @@ void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependenc
 // ************ CSetCharacterDependency ************
 EDependencyNodeType CSetCharacterDependency::Type() const
 {
-    return eDNT_SetCharacter;
+    return EDependencyNodeType::SetCharacter;
 }
 
 void CSetCharacterDependency::Serialize(IArchive& rArc)
@@ -267,7 +267,7 @@ CSetCharacterDependency* CSetCharacterDependency::BuildTree(const SSetCharacter&
 // ************ CSetAnimationDependency ************
 EDependencyNodeType CSetAnimationDependency::Type() const
 {
-    return eDNT_SetAnimation;
+    return EDependencyNodeType::SetAnimation;
 }
 
 void CSetAnimationDependency::Serialize(IArchive& rArc)
@@ -313,7 +313,7 @@ CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOw
 // ************ CAnimEventDependency ************
 EDependencyNodeType CAnimEventDependency::Type() const
 {
-    return eDNT_AnimEvent;
+    return EDependencyNodeType::AnimEvent;
 }
 
 void CAnimEventDependency::Serialize(IArchive& rArc)
@@ -325,7 +325,7 @@ void CAnimEventDependency::Serialize(IArchive& rArc)
 // ************ CAreaDependencyTree ************
 EDependencyNodeType CAreaDependencyTree::Type() const
 {
-    return eDNT_Area;
+    return EDependencyNodeType::Area;
 }
 
 void CAreaDependencyTree::Serialize(IArchive& rArc)
@@ -379,7 +379,7 @@ void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>
         for (uint32 iInst = StartIdx; iInst < EndIdx; iInst++)
         {
             IDependencyNode *pNode = mChildren[iInst];
-            if (pNode->Type() != eDNT_ScriptInstance) continue;
+            if (pNode->Type() != EDependencyNodeType::ScriptInstance) continue;
 
             CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(pNode);
             uint32 ObjType = pInst->ObjectType();

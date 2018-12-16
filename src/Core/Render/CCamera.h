@@ -11,9 +11,9 @@
 #include <Common/Math/CVector2i.h>
 #include <Common/Math/CVector3f.h>
 
-enum ECameraMoveMode
+enum class ECameraMoveMode
 {
-    eFreeCamera, eOrbitCamera
+    Free, Orbit
 };
 
 /* This class uses a lot of mutable members as an optimization so that they can

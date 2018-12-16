@@ -17,17 +17,17 @@ class CResTypeInfo
         CFourCC CookedExt;
     };
 
-    EResType mType;
+    EResourceType mType;
     TString mTypeName;
     std::vector<SGameExtension> mCookedExtensions;
     TString mRetroExtension; // File extension in Retro's directory tree. We don't use it directly but it is needed for generating asset ID hashes
     bool mCanBeSerialized;
     bool mCanHaveDependencies;
 
-    static std::unordered_map<EResType, CResTypeInfo*> smTypeMap;
+    static std::unordered_map<EResourceType, CResTypeInfo*> smTypeMap;
 
     // Private Methods
-    CResTypeInfo(EResType Type, const TString& rkTypeName, const TString& rkRetroExtension);
+    CResTypeInfo(EResourceType Type, const TString& rkTypeName, const TString& rkRetroExtension);
     ~CResTypeInfo() {}
 
     // Public Methods
@@ -36,7 +36,7 @@ public:
     CFourCC CookedExtension(EGame Game) const;
 
     // Accessors
-    inline EResType Type() const            { return mType; }
+    inline EResourceType Type() const            { return mType; }
     inline TString TypeName() const         { return mTypeName; }
     inline bool CanBeSerialized() const     { return mCanBeSerialized; }
     inline bool CanHaveDependencies() const { return mCanHaveDependencies; }
@@ -45,7 +45,7 @@ public:
     static void GetAllTypesInGame(EGame Game, std::list<CResTypeInfo*>& rOut);
     static CResTypeInfo* TypeForCookedExtension(EGame, CFourCC Ext);
 
-    inline static CResTypeInfo* FindTypeInfo(EResType Type)
+    inline static CResTypeInfo* FindTypeInfo(EResourceType Type)
     {
         auto Iter = smTypeMap.find(Type);
         return (Iter == smTypeMap.end() ? nullptr : Iter->second);

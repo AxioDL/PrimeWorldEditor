@@ -13,10 +13,10 @@ CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pPa
 {
     ui->setupUi(this);
 
-    mLayersModel.SetModelType(CInstancesModel::eLayers);
+    mLayersModel.SetModelType(CInstancesModel::EInstanceModelType::Layers);
     mLayersModel.SetShowColumnEnabled(false);
 
-    mTypesModel.SetModelType(CInstancesModel::eTypes);
+    mTypesModel.SetModelType(CInstancesModel::EInstanceModelType::Types);
     mTypesModel.SetShowColumnEnabled(false);
 
     int Col0Width = ui->LayersTreeView->width() * 0.9;

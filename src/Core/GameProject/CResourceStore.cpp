@@ -384,7 +384,7 @@ bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
     return FindEntry(rkID) != nullptr;
 }
 
-CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResType Type, const TString& rkDir, const TString& rkName)
+CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -424,7 +424,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID)
     }
 }
 
-CResource* CResourceStore::LoadResource(const CAssetID& rkID, EResType Type)
+CResource* CResourceStore::LoadResource(const CAssetID& rkID, EResourceType Type)
 {
     CResource *pRes = LoadResource(rkID);
 

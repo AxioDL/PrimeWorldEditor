@@ -159,7 +159,7 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
         CLight* pLight = pArea->Light(Index, iLight);
 
         // Ambient lights should only be present one per layer; need to check how the game deals with multiple ambients
-        if (pLight->Type() == eLocalAmbient)
+        if (pLight->Type() == ELightType::LocalAmbient)
             mAmbientColor = pLight->Color();
 
         // Other lights will be used depending which are closest to the node
@@ -186,22 +186,22 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
 void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
 {
     CGraphics::sNumLights = 0;
-    CGraphics::ELightingMode Mode = (rkViewInfo.GameMode ? CGraphics::eWorldLighting : CGraphics::sLightMode);
+    CGraphics::ELightingMode Mode = (rkViewInfo.GameMode ? CGraphics::ELightingMode::World : CGraphics::sLightMode);
 
     switch (Mode)
     {
-    case CGraphics::eNoLighting:
+    case CGraphics::ELightingMode::None:
         // No lighting: full white ambient, no dynamic lights
         CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
         break;
 
-    case CGraphics::eBasicLighting:
+    case CGraphics::ELightingMode::Basic:
         // Basic lighting: default ambient color, default dynamic lights
         CGraphics::SetDefaultLighting();
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
         break;
 
-    case CGraphics::eWorldLighting:
+    case CGraphics::ELightingMode::World:
         // World lighting: world ambient color, node dynamic lights
         CGraphics::sVertexBlock.COLOR0_Amb = mAmbientColor;
 
@@ -210,7 +210,7 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
         break;
     }
 
-    CGraphics::sPixelBlock.LightmapMultiplier = (Mode == CGraphics::eWorldLighting ? 1.f : 0.f);
+    CGraphics::sPixelBlock.LightmapMultiplier = (Mode == CGraphics::ELightingMode::World ? 1.f : 0.f);
     CGraphics::UpdateLightBlock();
 }
 
@@ -219,25 +219,25 @@ void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32
     ASSERT(pModel);
 
     if (!pModel->HasTransparency(MatSet))
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+        pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
 
     else
     {
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawOpaqueParts);
-        pRenderer->AddMesh(this, -1, AABox(), true, eDrawTransparentParts);
+        pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawOpaqueParts);
+        pRenderer->AddMesh(this, -1, AABox(), true, ERenderCommand::DrawTransparentParts);
     }
 }
 
 void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, uint32 MatSet, ERenderCommand RenderCommand)
 {
     // Common rendering functionality
-    if (RenderCommand == eDrawMesh)
+    if (RenderCommand == ERenderCommand::DrawMesh)
         pModel->Draw(Options, MatSet);
 
     else
     {
-        bool DrawOpaque = (RenderCommand == eDrawMesh || RenderCommand == eDrawOpaqueParts);
-        bool DrawTransparent = (RenderCommand == eDrawMesh || RenderCommand == eDrawTransparentParts);
+        bool DrawOpaque = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawOpaqueParts);
+        bool DrawTransparent = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawTransparentParts);
 
         for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
         {
@@ -259,7 +259,7 @@ void CSceneNode::DrawBoundingBox() const
 void CSceneNode::DrawRotationArrow() const
 {
     static TResPtr<CModel> spArrowModel = gpEditorStore->LoadResource("RotationArrow.CMDL");
-    spArrowModel->Draw(eNoRenderOptions, 0);
+    spArrowModel->Draw(ERenderOption::None, 0);
 }
 
 // ************ TRANSFORM ************
@@ -267,10 +267,10 @@ void CSceneNode::Translate(const CVector3f& rkTranslation, ETransformSpace Trans
 {
     switch (TransformSpace)
     {
-    case eWorldTransform:
+    case ETransformSpace::World:
         mPosition += rkTranslation;
         break;
-    case eLocalTransform:
+    case ETransformSpace::Local:
         mPosition += mRotation * rkTranslation;
         break;
     }
@@ -281,10 +281,10 @@ void CSceneNode::Rotate(const CQuaternion& rkRotation, ETransformSpace Transform
 {
     switch (TransformSpace)
     {
-    case eWorldTransform:
+    case ETransformSpace::World:
         mRotation = rkRotation * mRotation;
         break;
-    case eLocalTransform:
+    case ETransformSpace::Local:
         mRotation *= rkRotation;
         break;
     }
@@ -295,10 +295,10 @@ void CSceneNode::Rotate(const CQuaternion& rkRotation, const CVector3f& rkPivot,
 {
     switch (TransformSpace)
     {
-    case eWorldTransform:
+    case ETransformSpace::World:
         mPosition = rkPivot + (rkRotation * (mPosition - rkPivot));
         break;
-    case eLocalTransform:
+    case ETransformSpace::Local:
         mPosition = rkPivot + ((rkPivotRotation * rkRotation * rkPivotRotation.Inverse()) * (mPosition - rkPivot));
         break;
     }

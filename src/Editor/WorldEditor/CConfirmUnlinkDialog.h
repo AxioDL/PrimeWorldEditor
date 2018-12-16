@@ -12,12 +12,12 @@ class CConfirmUnlinkDialog : public QDialog
 {
     Q_OBJECT
 public:
-    enum EChoice
+    enum class EChoice
     {
-        eAll,
-        eIncomingOnly,
-        eOutgoingOnly,
-        eCancel
+        All,
+        IncomingOnly,
+        OutgoingOnly,
+        Cancel
     };
 
 private:
@@ -34,7 +34,7 @@ private:
 public:
     explicit CConfirmUnlinkDialog(QWidget *pParent = 0)
         : QDialog(pParent)
-        , mChoice(eCancel)
+        , mChoice(EChoice::Cancel)
     {
         mpLabel = new QLabel("Which links should be removed from the selected instances?");
         mpAllButton = new QPushButton("All");
@@ -64,25 +64,25 @@ public:
 protected slots:
     void OnAllClicked()
     {
-        mChoice = eAll;
+        mChoice = EChoice::All;
         accept();
     }
 
     void OnIncomingClicked()
     {
-        mChoice = eIncomingOnly;
+        mChoice = EChoice::IncomingOnly;
         accept();
     }
 
     void OnOutgoingClicked()
     {
-        mChoice = eOutgoingOnly;
+        mChoice = EChoice::OutgoingOnly;
         accept();
     }
 
     void OnCancelClicked()
     {
-        mChoice = eCancel;
+        mChoice = EChoice::Cancel;
         reject();
     }
 };

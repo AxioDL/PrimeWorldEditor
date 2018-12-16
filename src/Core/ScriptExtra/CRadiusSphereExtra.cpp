@@ -27,12 +27,12 @@ CRadiusSphereExtra::CRadiusSphereExtra(CScriptObject* pInstance, CScene* pScene,
 
 void CRadiusSphereExtra::AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo)
 {
-    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & eShowObjectGeometry) && mRadius.IsValid() && mpParent->IsVisible() && mpParent->IsSelected())
+    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry) && mRadius.IsValid() && mpParent->IsVisible() && mpParent->IsSelected())
     {
         CAABox BoundingBox = Bounds();
 
         if (rkViewInfo.ViewFrustum.BoxInFrustum(BoundingBox))
-            pRenderer->AddMesh(this, -1, BoundingBox, false, eDrawMesh);
+            pRenderer->AddMesh(this, -1, BoundingBox, false, ERenderCommand::DrawMesh);
     }
 }
 
@@ -51,12 +51,12 @@ CColor CRadiusSphereExtra::Color() const
     {
     // Repulsor
     case 0x63:
-    case 0x5245504C:
+    case FOURCC('REPL'):
         return CColor::skGreen;
 
     // RadialDamage
     case 0x68:
-    case 0x52414444:
+    case FOURCC('RADD'):
         return CColor::skRed;
 
     default:

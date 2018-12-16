@@ -7,23 +7,23 @@ uint32 VertexAttributeSize(EVertexAttribute Attrib)
 {
     switch (Attrib)
     {
-    case ePosition:
-    case eNormal:
+    case EVertexAttribute::Position:
+    case EVertexAttribute::Normal:
         return 0x0C;
-    case eColor0:
-    case eColor1:
-    case eBoneWeights:
+    case EVertexAttribute::Color0:
+    case EVertexAttribute::Color1:
+    case EVertexAttribute::BoneWeights:
         return 0x10;
-    case eTex0:
-    case eTex1:
-    case eTex2:
-    case eTex3:
-    case eTex4:
-    case eTex5:
-    case eTex6:
-    case eTex7:
+    case EVertexAttribute::Tex0:
+    case EVertexAttribute::Tex1:
+    case EVertexAttribute::Tex2:
+    case EVertexAttribute::Tex3:
+    case EVertexAttribute::Tex4:
+    case EVertexAttribute::Tex5:
+    case EVertexAttribute::Tex6:
+    case EVertexAttribute::Tex7:
         return 0x08;
-    case eBoneIndices:
+    case EVertexAttribute::BoneIndices:
         return 0x04;
     default:
         errorf("AttributeSize(): Unknown vertex attribute: %d", Attrib);

@@ -79,9 +79,9 @@ void CWaypointExtra::BuildLinks()
 {
     mLinks.clear();
 
-    for (uint32 iLink = 0; iLink < mpInstance->NumLinks(eOutgoing); iLink++)
+    for (uint32 iLink = 0; iLink < mpInstance->NumLinks(ELinkType::Outgoing); iLink++)
     {
-        CLink *pLink = mpInstance->Link(eOutgoing, iLink);
+        CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iLink);
 
         if (IsPathLink(pLink))
         {
@@ -111,8 +111,8 @@ bool CWaypointExtra::IsPathLink(CLink *pLink)
     {
         CFourCC State(pLink->State());
         CFourCC Message(pLink->Message());
-        if (State == "ARRV" && Message == "NEXT") Valid = true; // Arrived / Next (MP2)
-        if (State == "NEXT" && Message == "ATCH") Valid = true; // Next / Attach (MP3/DKCR)
+        if (State == FOURCC('ARRV') && Message == FOURCC('NEXT')) Valid = true; // Arrived / Next (MP2)
+        if (State == FOURCC('NEXT') && Message == FOURCC('ATCH')) Valid = true; // Next / Attach (MP3/DKCR)
     }
 
     if (Valid)
@@ -160,14 +160,14 @@ void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     // won't work properly because we haven't finished loading the scene yet.
     if (!mLinksBuilt) BuildLinks();
 
-    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & eShowObjectGeometry) && mpParent->IsVisible() && !mpParent->IsSelected())
+    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry) && mpParent->IsVisible() && !mpParent->IsSelected())
     {
         for (uint32 iLink = 0; iLink < mLinks.size(); iLink++)
         {
             CScriptNode *pNode = mLinks[iLink].pWaypoint;
 
             if (pNode->IsVisible() && !pNode->IsSelected() && rkViewInfo.ViewFrustum.BoxInFrustum(mLinks[iLink].LineAABB))
-                pRenderer->AddMesh(this, iLink, mLinks[iLink].LineAABB, false, eDrawMesh);
+                pRenderer->AddMesh(this, iLink, mLinks[iLink].LineAABB, false, ERenderCommand::DrawMesh);
         }
     }
 }

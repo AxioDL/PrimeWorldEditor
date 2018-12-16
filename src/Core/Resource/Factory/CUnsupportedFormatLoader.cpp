@@ -176,7 +176,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             // Model
             else if (WidgetType == FOURCC('MODL'))
             {
-                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // CMDL
+                pGroup->AddDependency( CAssetID(rFRME, k32Bit) ); // CMDL
                 rFRME.Seek(0x8, SEEK_CUR);
             }
 
@@ -184,12 +184,12 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             else if (WidgetType == FOURCC('TXPN'))
             {
                 rFRME.Seek(0x14, SEEK_CUR);
-                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
+                pGroup->AddDependency( CAssetID(rFRME, k32Bit) ); // FONT
                 rFRME.Seek(0x32, SEEK_CUR);
 
                 if (Version == 1)
                 {
-                    pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // FONT
+                    pGroup->AddDependency( CAssetID(rFRME, k32Bit) ); // FONT
                     rFRME.Seek(0x8, SEEK_CUR);
                 }
             }
@@ -197,7 +197,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             // Image Pane
             else if (WidgetType == FOURCC('IMGP'))
             {
-                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
+                pGroup->AddDependency( CAssetID(rFRME, k32Bit) ); // TXTR
                 if (rFRME.ReadLong() != 0xFFFFFFFF) DEBUG_BREAK;
                 rFRME.Seek(0x4, SEEK_CUR);
 
@@ -210,7 +210,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             // Energy Bar
             else if (WidgetType == FOURCC('ENRG'))
             {
-                pGroup->AddDependency( CAssetID(rFRME, e32Bit) ); // TXTR
+                pGroup->AddDependency( CAssetID(rFRME, k32Bit) ); // TXTR
             }
 
             // Slider Group
@@ -438,7 +438,7 @@ CMapArea* CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMAPA*/, CResourceE
     CAssetID MapWorldID;
     uint32 WorldIndex = -1;
 
-    for (TResourceIterator<eMapWorld> It; It; ++It)
+    for (TResourceIterator<EResourceType::MapWorld> It; It; ++It)
     {
         CDependencyGroup *pGroup = (CDependencyGroup*) It->Load();
 
@@ -459,7 +459,7 @@ CMapArea* CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMAPA*/, CResourceE
     // Find a world that contains this MapWorld
     if (WorldIndex != -1)
     {
-        for (TResourceIterator<eWorld> It; It; ++It)
+        for (TResourceIterator<EResourceType::World> It; It; ++It)
         {
             CWorld *pWorld = (CWorld*) It->Load();
             CDependencyGroup *pMapWorld = (CDependencyGroup*) pWorld->MapWorld();
@@ -490,7 +490,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResou
     // Version check
     uint32 AreasStart = rMAPW.Tell();
     rMAPW.Seek(NumAreas * 4, SEEK_CUR);
-    EIDLength IDLength = (rMAPW.EoF() || rMAPW.ReadLong() == 0xFFFFFFFF ? e32Bit : e64Bit);
+    EIDLength IDLength = (rMAPW.EoF() || rMAPW.ReadLong() == 0xFFFFFFFF ? k32Bit : k64Bit);
     rMAPW.Seek(AreasStart, SEEK_SET);
 
     // Read MAPA IDs
@@ -542,7 +542,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadRULE(IInputStream& rRULE, CResou
     uint32 IDOffset = rRULE.Tell();
     rRULE.Seek(0x4, SEEK_CUR);
     uint32 RuleSetCount = rRULE.ReadShort();
-    EIDLength IDLength = (RuleSetCount > 0xFF ? e64Bit : e32Bit);
+    EIDLength IDLength = (RuleSetCount > 0xFF ? k64Bit : k32Bit);
     rRULE.Seek(IDOffset, SEEK_SET);
 
     // Read rule ID

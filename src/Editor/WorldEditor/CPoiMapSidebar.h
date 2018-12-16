@@ -18,11 +18,11 @@ class CPoiMapSidebar : public CWorldEditorSidebar
     Q_OBJECT
     Ui::CPoiMapSidebar *ui;
 
-    enum EHighlightMode
+    enum class EHighlightMode
     {
-        eHighlightAll,
-        eHighlightNone,
-        eHighlightSelected
+        HighlightAll,
+        HighlightNone,
+        HighlightSelected
     };
 
     CPoiMapModel mSourceModel;
@@ -30,12 +30,12 @@ class CPoiMapSidebar : public CWorldEditorSidebar
     EHighlightMode mHighlightMode;
 
     // Viewport Picking
-    enum EPickType
+    enum class EPickType
     {
-        eNotPicking,
-        eAddMeshes,
-        eRemoveMeshes,
-        eAddPOIs
+        NotPicking,
+        AddMeshes,
+        RemoveMeshes,
+        AddPOIs
     } mPickType;
 
     CModelNode *mpHoverModel;

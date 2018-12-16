@@ -17,7 +17,7 @@ public:
     explicit WStringPreviewPanel(QWidget *pParent = 0);
     ~WStringPreviewPanel();
     QSize sizeHint() const;
-    EResType ResType();
+    EResourceType ResType();
     void SetResource(CResource *pRes);
 };
 

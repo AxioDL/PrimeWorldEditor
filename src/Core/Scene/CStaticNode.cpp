@@ -15,7 +15,7 @@ CStaticNode::CStaticNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CSt
 
 ENodeType CStaticNode::NodeType()
 {
-    return eStaticNode;
+    return ENodeType::Static;
 }
 
 void CStaticNode::PostLoad()
@@ -34,7 +34,7 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
     if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
 
     if (!mpModel->IsTransparent())
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+        pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
 
     else
     {
@@ -44,20 +44,20 @@ void CStaticNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
             CAABox TransformedBox = mpModel->GetSurfaceAABox(iSurf).Transformed(Transform());
 
             if (rkViewInfo.ViewFrustum.BoxInFrustum(TransformedBox))
-                pRenderer->AddMesh(this, iSurf, TransformedBox, true, eDrawMesh);
+                pRenderer->AddMesh(this, iSurf, TransformedBox, true, ERenderCommand::DrawMesh);
         }
     }
 
     if (mSelected && !rkViewInfo.GameMode)
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
+        pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
 }
 
 void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand /*Command*/, const SViewInfo& rkViewInfo)
 {
     if (!mpModel) return;
 
-    bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::eWorldLighting || rkViewInfo.GameMode;
-    bool UseWhiteAmbient   = (mpModel->GetMaterial()->Options() & CMaterial::eDrawWhiteAmbientDKCR) != 0;
+    bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::ELightingMode::World || rkViewInfo.GameMode;
+    bool UseWhiteAmbient   = (mpModel->GetMaterial()->Options() & EMaterialOption::DrawWhiteAmbientDKCR) != 0;
 
     if (IsLightingEnabled)
     {
@@ -70,7 +70,7 @@ void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderComman
     else
     {
         LoadLights(rkViewInfo);
-        if (CGraphics::sLightMode == CGraphics::eNoLighting || UseWhiteAmbient)
+        if (CGraphics::sLightMode == CGraphics::ELightingMode::None || UseWhiteAmbient)
             CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
     }
 
@@ -89,7 +89,7 @@ void CStaticNode::DrawSelection()
 {
     if (!mpModel) return;
     LoadModelMatrix();
-    mpModel->DrawWireframe(eNoRenderOptions, WireframeColor());
+    mpModel->DrawWireframe(ERenderOption::None, WireframeColor());
 }
 
 void CStaticNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
@@ -120,7 +120,7 @@ SRayIntersection CStaticNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
 
     CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
     FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
-    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
+    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
 
     if (Result.first)
     {

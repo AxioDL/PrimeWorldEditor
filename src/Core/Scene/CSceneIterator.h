@@ -18,7 +18,7 @@ class CSceneIterator
     std::vector<CSceneNode*>::iterator mVectorIterator;
 
 public:
-    CSceneIterator(CScene *pScene, FNodeFlags AllowedNodeTypes = eAllNodeTypes, bool AllowHiddenNodes = false);
+    CSceneIterator(CScene *pScene, FNodeFlags AllowedNodeTypes = ENodeType::All, bool AllowHiddenNodes = false);
 
     inline CSceneNode* Next()
     {

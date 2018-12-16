@@ -73,7 +73,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
 
     // Write new pak
     TString PakPath = CookedPackagePath(false);
-    CFileOutStream Pak(PakPath, IOUtil::eBigEndian);
+    CFileOutStream Pak(PakPath, EEndian::BigEndian);
 
     if (!Pak.IsValid())
     {
@@ -191,7 +191,7 @@ void CPackage::Cook(IProgressNotifier *pProgress)
         rTableInfo.Offset = (Game <= EGame::Echoes ? AssetOffset : AssetOffset - ResDataOffset);
 
         // Load resource data
-        CFileInStream CookedAsset(pEntry->CookedAssetPath(), IOUtil::eBigEndian);
+        CFileInStream CookedAsset(pEntry->CookedAssetPath(), EEndian::BigEndian);
         ASSERT(CookedAsset.IsValid());
         uint32 ResourceSize = CookedAsset.Size();
 
@@ -200,24 +200,28 @@ void CPackage::Cook(IProgressNotifier *pProgress)
 
         // Check if this asset should be compressed; there are a few resource types that are
         // always compressed, and some types that are compressed if they're over a certain size
-        EResType Type = pEntry->ResourceType();
+        EResourceType Type = pEntry->ResourceType();
         uint32 CompressThreshold = (Game <= EGame::CorruptionProto ? 0x400 : 0x80);
 
-        bool ShouldAlwaysCompress = (Type == eTexture || Type == eModel || Type == eSkin ||
-                                     Type == eAnimSet || Type == eAnimation || Type == eFont);
+        bool ShouldAlwaysCompress = (Type == EResourceType::Texture || Type == EResourceType::Model ||
+                                     Type == EResourceType::Skin || Type == EResourceType::AnimSet ||
+                                     Type == EResourceType::Animation || Type == EResourceType::Font);
 
         if (Game >= EGame::Corruption)
         {
             ShouldAlwaysCompress = ShouldAlwaysCompress ||
-                                   (Type == eCharacter || Type == eSourceAnimData || Type == eScan ||
-                                    Type == eAudioSample || Type == eStringTable || Type == eAudioAmplitudeData ||
-                                    Type == eDynamicCollision);
+                                   (Type == EResourceType::Character || Type == EResourceType::SourceAnimData ||
+                                    Type == EResourceType::Scan || Type == EResourceType::AudioSample ||
+                                    Type == EResourceType::StringTable || Type == EResourceType::AudioAmplitudeData ||
+                                    Type == EResourceType::DynamicCollision);
         }
 
         bool ShouldCompressConditional = !ShouldAlwaysCompress &&
-                (Type == eParticle || Type == eParticleElectric || Type == eParticleSwoosh ||
-                 Type == eParticleWeapon || Type == eParticleDecal || Type == eParticleCollisionResponse ||
-                 Type == eParticleSpawn || Type == eParticleSorted || Type == eBurstFireData);
+                (Type == EResourceType::Particle || Type == EResourceType::ParticleElectric ||
+                 Type == EResourceType::ParticleSwoosh || Type == EResourceType::ParticleWeapon ||
+                 Type == EResourceType::ParticleDecal || Type == EResourceType::ParticleCollisionResponse ||
+                 Type == EResourceType::ParticleSpawn || Type == EResourceType::ParticleSorted ||
+                 Type == EResourceType::BurstFireData);
 
         bool ShouldCompress = ShouldAlwaysCompress || (ShouldCompressConditional && ResourceSize >= CompressThreshold);
 
@@ -342,7 +346,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
 
     // Read the original pak
     TString CookedPath = CookedPackagePath(false);
-    CFileInStream Pak(CookedPath, IOUtil::eBigEndian);
+    CFileInStream Pak(CookedPath, EEndian::BigEndian);
 
     if (!Pak.IsValid() || Pak.Size() == 0)
     {
@@ -373,7 +377,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         for (uint32 iRes = 0; iRes < NumResources; iRes++)
         {
             Pak.Seek(0x8, SEEK_CUR);
-            OldListSet.insert( CAssetID(Pak, e32Bit) );
+            OldListSet.insert( CAssetID(Pak, k32Bit) );
             Pak.Seek(0x8, SEEK_CUR);
         }
     }
@@ -397,7 +401,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         for (uint32 iRes = 0; iRes < NumResources; iRes++)
         {
             Pak.Seek(0x8, SEEK_CUR);
-            OldListSet.insert( CAssetID(Pak, e64Bit) );
+            OldListSet.insert( CAssetID(Pak, k64Bit) );
             Pak.Seek(0x8, SEEK_CUR);
         }
     }

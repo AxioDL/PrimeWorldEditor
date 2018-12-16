@@ -13,16 +13,16 @@ CLightNode::CLightNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CLigh
 
     switch (pLight->Type())
     {
-    case eLocalAmbient: SetName("Ambient Light");     break;
-    case eDirectional:  SetName("Directional Light"); break;
-    case eSpot:         SetName("Spot Light");        break;
-    case eCustom:       SetName("Custom Light");      break;
+    case ELightType::LocalAmbient: SetName("Ambient Light");     break;
+    case ELightType::Directional:  SetName("Directional Light"); break;
+    case ELightType::Spot:         SetName("Spot Light");        break;
+    case ELightType::Custom:       SetName("Custom Light");      break;
     }
 }
 
 ENodeType CLightNode::NodeType()
 {
-    return eLightNode;
+    return ENodeType::Light;
 }
 
 void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
@@ -30,14 +30,14 @@ void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
     if (rkViewInfo.GameMode) return;
 
     if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+        pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
 
-    if (IsSelected() && mpLight->Type() == eCustom)
+    if (IsSelected() && mpLight->Type() == ELightType::Custom)
     {
         CAABox RadiusBox = (CAABox::skOne * 2.f * mpLight->GetRadius()) + mPosition;
 
         if (rkViewInfo.ViewFrustum.BoxInFrustum(RadiusBox))
-            pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
+            pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
     }
 }
 

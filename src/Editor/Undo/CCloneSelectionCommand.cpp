@@ -9,7 +9,7 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
 
     for (CSelectionIterator It(mpEditor->Selection()); It; ++It)
     {
-        if (It->NodeType() == eScriptNode)
+        if (It->NodeType() == ENodeType::Script)
         {
             mNodesToClone << *It;
 
@@ -17,9 +17,9 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
             CScriptNode *pScript = static_cast<CScriptNode*>(*It);
             CScriptObject *pInst = pScript->Instance();
 
-            for (uint32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+            for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
             {
-                CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pInst->Link(eOutgoing, iLink)->Receiver());
+                CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pInst->Link(ELinkType::Outgoing, iLink)->Receiver());
 
                 if (!pNode->IsSelected())
                     mLinkedInstances << pNode->Instance();
@@ -85,9 +85,9 @@ void CCloneSelectionCommand::redo()
         CScriptObject *pSrc = static_cast<CScriptNode*>(ToClone[iNode])->Instance();
         CScriptObject *pClone = static_cast<CScriptNode*>(ClonedNodes[iNode])->Instance();
 
-        for (uint32 iLink = 0; iLink < pSrc->NumLinks(eOutgoing); iLink++)
+        for (uint32 iLink = 0; iLink < pSrc->NumLinks(ELinkType::Outgoing); iLink++)
         {
-            CLink *pSrcLink = pSrc->Link(eOutgoing, iLink);
+            CLink *pSrcLink = pSrc->Link(ELinkType::Outgoing, iLink);
 
             // If we're cloning the receiver then target the cloned receiver instead of the original one.
             uint32 ReceiverID = pSrcLink->ReceiverID();
@@ -95,8 +95,8 @@ void CCloneSelectionCommand::redo()
                 ReceiverID = ClonedInstanceIDs[ToCloneInstanceIDs.indexOf(ReceiverID)];
 
             CLink *pCloneLink = new CLink(pSrcLink->Area(), pSrcLink->State(), pSrcLink->Message(), pClone->InstanceID(), ReceiverID);
-            pCloneLink->Sender()->AddLink(eOutgoing, pCloneLink);
-            pCloneLink->Receiver()->AddLink(eIncoming, pCloneLink);
+            pCloneLink->Sender()->AddLink(ELinkType::Outgoing, pCloneLink);
+            pCloneLink->Receiver()->AddLink(ELinkType::Incoming, pCloneLink);
         }
     }
 

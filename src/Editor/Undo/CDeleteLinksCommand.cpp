@@ -20,7 +20,7 @@ CDeleteLinksCommand::CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *p
         DelLink.ReceiverIndex = pLink->ReceiverIndex();
         mLinks << DelLink;
 
-        if (Type == eOutgoing)
+        if (Type == ELinkType::Outgoing)
         {
             if (!mAffectedInstances.contains(DelLink.pReceiver))
                 mAffectedInstances << DelLink.pReceiver;
@@ -58,7 +58,7 @@ void CDeleteLinksCommand::undo()
     for (int iLink = 0; iLink < NewLinks.size(); iLink++)
     {
         SNewLink& rNew = NewLinks[iLink];
-        rNew.pDelLink->pSender->AddLink(eOutgoing, rNew.pLink, rNew.pDelLink->SenderIndex);
+        rNew.pDelLink->pSender->AddLink(ELinkType::Outgoing, rNew.pLink, rNew.pDelLink->SenderIndex);
     }
 
     // Add to receivers
@@ -67,7 +67,7 @@ void CDeleteLinksCommand::undo()
     for (int iLink = 0; iLink < NewLinks.size(); iLink++)
     {
         SNewLink& rNew = NewLinks[iLink];
-        rNew.pDelLink->pReceiver->AddLink(eIncoming, rNew.pLink, rNew.pDelLink->ReceiverIndex);
+        rNew.pDelLink->pReceiver->AddLink(ELinkType::Incoming, rNew.pLink, rNew.pDelLink->ReceiverIndex);
     }
 
     // Notify world editor
@@ -81,14 +81,14 @@ void CDeleteLinksCommand::redo()
     for (int iLink = 0; iLink < mLinks.size(); iLink++)
     {
         SDeletedLink& rLink = mLinks[iLink];
-        Links << rLink.pSender->Link(eOutgoing, rLink.SenderIndex);
+        Links << rLink.pSender->Link(ELinkType::Outgoing, rLink.SenderIndex);
     }
 
     for (int iLink = 0; iLink < Links.size(); iLink++)
     {
         CLink *pLink = Links[iLink];
-        pLink->Sender()->RemoveLink(eOutgoing, pLink);
-        pLink->Receiver()->RemoveLink(eIncoming, pLink);
+        pLink->Sender()->RemoveLink(ELinkType::Outgoing, pLink);
+        pLink->Receiver()->RemoveLink(ELinkType::Incoming, pLink);
         delete pLink;
     }
 

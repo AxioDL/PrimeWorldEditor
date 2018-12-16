@@ -6,13 +6,13 @@
 class IMetaAnimation;
 class IMetaTransition;
 
-enum EMetaTransitionType
+enum class EMetaTransType
 {
-    eMTT_MetaAnim = 0,
-    eMTT_Trans = 1,
-    eMTT_PhaseTrans = 2, // note: structure shared with eMTT_Trans
-    eMTT_Snap = 3,
-    eMTT_Type4 = 4 // MP3 only
+    MetaAnim = 0,
+    Trans = 1,
+    PhaseTrans = 2, // note: structure shared with eMTT_Trans
+    Snap = 3,
+    Type4 = 4 // MP3 only
 };
 
 // Factory class
@@ -29,7 +29,7 @@ class IMetaTransition
 public:
     IMetaTransition() {}
     virtual ~IMetaTransition() {}
-    virtual EMetaTransitionType Type() const = 0;
+    virtual EMetaTransType Type() const = 0;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const = 0;
 };
 
@@ -41,14 +41,14 @@ class CMetaTransMetaAnim : public IMetaTransition
 public:
     CMetaTransMetaAnim(IInputStream& rInput, EGame Game);
     ~CMetaTransMetaAnim();
-    virtual EMetaTransitionType Type() const;
+    virtual EMetaTransType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 };
 
 // CMetaTransTrans
 class CMetaTransTrans : public IMetaTransition
 {
-    EMetaTransitionType mType;
+    EMetaTransType mType;
     float mUnknownA;
     uint32 mUnknownB;
     bool mUnknownC;
@@ -56,8 +56,8 @@ class CMetaTransTrans : public IMetaTransition
     uint32 mUnknownE;
 
 public:
-    CMetaTransTrans(EMetaTransitionType Type, IInputStream& rInput, EGame Game);
-    virtual EMetaTransitionType Type() const;
+    CMetaTransTrans(EMetaTransType Type, IInputStream& rInput, EGame Game);
+    virtual EMetaTransType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 };
 
@@ -66,7 +66,7 @@ class CMetaTransSnap : public IMetaTransition
 {
 public:
     CMetaTransSnap(IInputStream& rInput, EGame Game);
-    virtual EMetaTransitionType Type() const;
+    virtual EMetaTransType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 };
 
@@ -75,7 +75,7 @@ class CMetaTransType4 : public IMetaTransition
 {
 public:
     CMetaTransType4(IInputStream& rInput, EGame Game);
-    virtual EMetaTransitionType Type() const;
+    virtual EMetaTransType Type() const;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
 };
 

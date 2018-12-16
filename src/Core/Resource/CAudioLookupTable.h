@@ -5,7 +5,7 @@
 
 class CAudioLookupTable : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eAudioLookupTable)
+    DECLARE_RESOURCE_TYPE(AudioLookupTable)
     friend class CAudioGroupLoader;
     std::vector<uint16> mDefineIDs;
 

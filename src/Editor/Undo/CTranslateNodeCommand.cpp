@@ -31,14 +31,14 @@ CTranslateNodeCommand::CTranslateNodeCommand(INodeEditor *pEditor, const QList<C
 
 int CTranslateNodeCommand::id() const
 {
-    return eTranslateNodeCmd;
+    return (int) EUndoCommand::TranslateNodeCmd;
 }
 
 bool CTranslateNodeCommand::mergeWith(const QUndoCommand *pkOther)
 {
     if (mCommandEnded) return false;
 
-    if (pkOther->id() == eTranslateNodeCmd)
+    if (pkOther->id() == (int) EUndoCommand::TranslateNodeCmd)
     {
         const CTranslateNodeCommand *pkCmd = static_cast<const CTranslateNodeCommand*>(pkOther);
 

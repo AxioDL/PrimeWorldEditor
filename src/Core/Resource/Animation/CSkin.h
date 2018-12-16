@@ -12,7 +12,7 @@ struct SVertexWeights
 
 class CSkin : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eSkin)
+    DECLARE_RESOURCE_TYPE(Skin)
     friend class CSkinLoader;
 
     struct SVertGroup

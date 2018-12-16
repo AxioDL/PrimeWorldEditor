@@ -60,14 +60,14 @@ float CLight::CalculateIntensity() const
     float Greatest = (mColor.G >= mColor.B) ? mColor.G : mColor.B;
     Greatest = (mColor.R >= Greatest) ? mColor.R : Greatest;
 
-    float Multiplier = (mType == eCustom) ? mAngleAttenCoefficients.X : 1.0f;
+    float Multiplier = (mType == ELightType::Custom) ? mAngleAttenCoefficients.X : 1.0f;
     return Greatest * Multiplier;
 }
 
 // As is this one... partly
 CVector3f CLight::CalculateSpotAngleAtten()
 {
-    if (mType != eSpot) return CVector3f(1.f, 0.f, 0.f);
+    if (mType != ELightType::Spot) return CVector3f(1.f, 0.f, 0.f);
 
     if ((mSpotCutoff < 0.f) || (mSpotCutoff > 90.f))
         return CVector3f(1.f, 0.f, 0.f);
@@ -141,14 +141,15 @@ CStructProperty* CLight::GetProperties() const
                                                                           0,
                                                                           "Light");
 
+        //@todo it would be really cool if the property could detect all possible values automatically from TEnumReflection
         CChoiceProperty* pLightType = (CChoiceProperty*) IProperty::CreateIntrinsic(EPropertyType::Choice,
                                                                                        pProperties,
                                                                                        MEMBER_OFFSET(CLight, mType),
                                                                                        "LightType");
-        pLightType->AddValue("LocalAmbient", eLocalAmbient);
-        pLightType->AddValue("Directional", eDirectional);
-        pLightType->AddValue("Spot", eSpot);
-        pLightType->AddValue("Custom", eCustom);
+        pLightType->AddValue("LocalAmbient", (uint32) ELightType::LocalAmbient);
+        pLightType->AddValue("Directional", (uint32) ELightType::Directional);
+        pLightType->AddValue("Spot", (uint32) ELightType::Spot);
+        pLightType->AddValue("Custom", (uint32) ELightType::Custom);
 
         IProperty::CreateIntrinsic(EPropertyType::Color,
                                       pProperties,
@@ -184,24 +185,24 @@ void CLight::Load() const
 
     switch (mType)
     {
-    case eLocalAmbient:
+    case ELightType::LocalAmbient:
         // LocalAmbient is already accounted for in CGraphics::sAreaAmbientColor
         return;
-    case eDirectional:
+    case ELightType::Directional:
         pLight->Position = CVector4f(-mDirection * 1048576.f, 1.f);
         pLight->Direction = CVector4f(mDirection, 0.f);
         pLight->Color = mColor * CGraphics::sWorldLightMultiplier;
         pLight->DistAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
         pLight->AngleAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
         break;
-    case eSpot:
+    case ELightType::Spot:
         pLight->Position = CVector4f(mPosition,  1.f);
         pLight->Direction = CVector4f(mDirection, 0.f);
         pLight->Color = mColor * CGraphics::sWorldLightMultiplier;
         pLight->DistAtten = mDistAttenCoefficients;
         pLight->AngleAtten = mAngleAttenCoefficients;
         break;
-    case eCustom:
+    case ELightType::Custom:
         pLight->Position = CVector4f(mPosition,  1.f);
         pLight->Direction = CVector4f(mDirection, 0.f);
         pLight->Color = mColor * CGraphics::sWorldLightMultiplier;
@@ -218,7 +219,7 @@ void CLight::Load() const
 CLight* CLight::BuildLocalAmbient(const CVector3f& rkPosition, const CColor& rkColor)
 {
     CLight *pLight = new CLight;
-    pLight->mType = eLocalAmbient;
+    pLight->mType = ELightType::LocalAmbient;
     pLight->mPosition = rkPosition;
     pLight->mDirection = skDefaultLightDir;
     pLight->mColor = rkColor;
@@ -229,7 +230,7 @@ CLight* CLight::BuildLocalAmbient(const CVector3f& rkPosition, const CColor& rkC
 CLight* CLight::BuildDirectional(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor)
 {
     CLight *pLight = new CLight;
-    pLight->mType = eDirectional;
+    pLight->mType = ELightType::Directional;
     pLight->mPosition = rkPosition;
     pLight->mDirection = rkDirection;
     pLight->mColor = rkColor;
@@ -240,7 +241,7 @@ CLight* CLight::BuildDirectional(const CVector3f& rkPosition, const CVector3f& r
 CLight* CLight::BuildSpot(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor, float Cutoff)
 {
     CLight *pLight = new CLight;
-    pLight->mType = eSpot;
+    pLight->mType = ELightType::Spot;
     pLight->mPosition = rkPosition;
     pLight->mDirection = -rkDirection.Normalized();
     pLight->mColor = rkColor;
@@ -254,7 +255,7 @@ CLight* CLight::BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDire
                                   float AngleAttenA, float AngleAttenB, float AngleAttenC)
 {
     CLight *pLight = new CLight;
-    pLight->mType = eCustom;
+    pLight->mType = ELightType::Custom;
     pLight->mPosition = rkPosition;
     pLight->mDirection = rkDirection;
     pLight->mColor = rkColor;

@@ -40,40 +40,40 @@ CDamageableTriggerExtra::~CDamageableTriggerExtra()
 void CDamageableTriggerExtra::CreateMaterial()
 {
     ASSERT(!mpMat);
-    mpMat = new CMaterial(mGame, ePosition | eNormal | eTex0);
+    mpMat = new CMaterial(mGame, EVertexAttribute::Position | EVertexAttribute::Normal | EVertexAttribute::Tex0);
 
     // Most values/TEV setup were found from the executable + from graphics debuggers
     // Animation parameters are estimates from eyeballing the values ingame
     mpMat->SetBlendMode(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     mpMat->SetLightingEnabled(true);
-    mpMat->SetOptions(CMaterial::eTransparent);
+    mpMat->SetOptions(EMaterialOption::Transparent);
     mpMat->SetKonst(CColor((float) 1.f, 1.f, 1.f, 0.2f), 0);
     mpMat->SetNumPasses(3);
 
     CMaterialPass *pPassA = mpMat->Pass(0);
-    pPassA->SetKColorSel(eKonst0_RGB);
+    pPassA->SetKColorSel(kKonst0_RGB);
     pPassA->SetTexCoordSource(4);
     pPassA->SetTexture(mpTextures[0]);
-    pPassA->SetColorInputs(eZeroRGB, eTextureRGB, eKonstRGB, eZeroRGB);
-    pPassA->SetAnimMode(eUVScroll);
+    pPassA->SetColorInputs(kZeroRGB, kTextureRGB, kKonstRGB, kZeroRGB);
+    pPassA->SetAnimMode(EUVAnimMode::UVScroll);
     pPassA->SetAnimParam(3, -0.48f);
 
     CMaterialPass *pPassB = mpMat->Pass(1);
     pPassB->SetTexCoordSource(4);
     pPassB->SetTexture(mpTextures[1]);
-    pPassB->SetColorInputs(eZeroRGB, eTextureRGB, ePrevRGB, eZeroRGB);
-    pPassB->SetAnimMode(eUVScroll);
+    pPassB->SetColorInputs(kZeroRGB, kTextureRGB, kPrevRGB, kZeroRGB);
+    pPassB->SetAnimMode(EUVAnimMode::UVScroll);
     pPassB->SetAnimParam(2, 0.25f);
     pPassB->SetAnimParam(3, -0.3f);
 
     CMaterialPass *pPassC = mpMat->Pass(2);
     pPassC->SetTexCoordSource(4);
     pPassC->SetTexture(mpTextures[2]);
-    pPassC->SetRasSel(eRasColor0A0);
-    pPassC->SetKAlphaSel(eKonst0_A);
-    pPassC->SetColorInputs(eZeroRGB, eTextureRGB, eOneRGB, ePrevRGB);
-    pPassC->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eKonstAlpha);
-    pPassC->SetAnimMode(eUVScroll);
+    pPassC->SetRasSel(kRasColor0A0);
+    pPassC->SetKAlphaSel(kKonst0_A);
+    pPassC->SetColorInputs(kZeroRGB, kTextureRGB, kOneRGB, kPrevRGB);
+    pPassC->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kKonstAlpha);
+    pPassC->SetAnimMode(EUVAnimMode::UVScroll);
     pPassC->SetAnimParam(3, -0.16f);
 }
 
@@ -83,10 +83,10 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
 
     switch (mRenderSide)
     {
-    case eNorth:
-    case eSouth:
+    case ERenderSide::North:
+    case ERenderSide::South:
     {
-        float Scalar = (mRenderSide == eNorth ? 1.f : -1.f);
+        float Scalar = (mRenderSide == ERenderSide::North ? 1.f : -1.f);
 
         mPosition = CVector3f(0.f, Extent.Y * Scalar, 0.f);
         mRotation = CQuaternion::FromEuler(CVector3f(90.f * Scalar, 0.f, 0.f));
@@ -95,10 +95,10 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
         break;
     }
 
-    case eWest:
-    case eEast:
+    case ERenderSide::West:
+    case ERenderSide::East:
     {
-        float Scalar = (mRenderSide == eWest ? 1.f : -1.f);
+        float Scalar = (mRenderSide == ERenderSide::West ? 1.f : -1.f);
 
         mPosition = CVector3f(-Extent.X * Scalar, 0.f, 0.f);
         mRotation = CQuaternion::FromEuler(CVector3f(0.f, 90.f * Scalar, 0.f));
@@ -107,11 +107,11 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
         break;
     }
 
-    case eUp:
-    case eDown:
+    case ERenderSide::Up:
+    case ERenderSide::Down:
     {
-        float Scalar = (mRenderSide == eUp ? 1.f : -1.f);
-        float RotAngle = (mRenderSide == eUp ? 180.f : 0.f);
+        float Scalar = (mRenderSide == ERenderSide::Up ? 1.f : -1.f);
+        float RotAngle = (mRenderSide == ERenderSide::Up ? 180.f : 0.f);
 
         mPosition = CVector3f(0.f, 0.f, Extent.Z * Scalar);
         mRotation = CQuaternion::FromEuler(CVector3f(0.f, RotAngle, 0.f));
@@ -122,7 +122,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
 
     }
 
-    if (mRenderSide == eNoRender)
+    if (mRenderSide == ERenderSide::NoRender)
         mLocalAABox = CAABox::skZero;
     else
         mLocalAABox = CAABox(CVector3f(-1.f, -1.f, 0.f), CVector3f(1.f, 1.f, 0.f));
@@ -141,11 +141,11 @@ CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::RenderSideForDirec
     bool Positive = (rkDir[Max] == AbsDir[Max]);
 
     // Return corresponding side for direction
-    if (Max == 0)       return (Positive ? eEast : eWest);
-    else if (Max == 1)  return (Positive ? eNorth : eSouth);
-    else if (Max == 2)  return (Positive ? eUp : eDown);
+    if (Max == 0)       return (Positive ? ERenderSide::East : ERenderSide::West);
+    else if (Max == 1)  return (Positive ? ERenderSide::North : ERenderSide::South);
+    else if (Max == 2)  return (Positive ? ERenderSide::Up : ERenderSide::Down);
 
-    return eNoRender;
+    return ERenderSide::NoRender;
 }
 
 CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::TransformRenderSide(ERenderSide Side)
@@ -156,20 +156,20 @@ CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::TransformRenderSid
 
     switch (Side)
     {
-    case eNorth:
+    case ERenderSide::North:
         return RenderSideForDirection(AreaRotation.YAxis());
-    case eSouth:
+    case ERenderSide::South:
         return RenderSideForDirection(-AreaRotation.YAxis());
-    case eWest:
+    case ERenderSide::West:
         return RenderSideForDirection(-AreaRotation.XAxis());
-    case eEast:
+    case ERenderSide::East:
         return RenderSideForDirection(AreaRotation.XAxis());
-    case eUp:
+    case ERenderSide::Up:
         return RenderSideForDirection(AreaRotation.ZAxis());
-    case eDown:
+    case ERenderSide::Down:
         return RenderSideForDirection(-AreaRotation.ZAxis());
     default:
-        return eNoRender;
+        return ERenderSide::NoRender;
     }
 }
 
@@ -193,7 +193,7 @@ void CDamageableTriggerExtra::PropertyModified(IProperty* pProperty)
             {
                 mpTextures[TextureIdx] = gpResourceStore->LoadResource<CTexture>( mTextureAssets[TextureIdx].Get() );
 
-                if (mpTextures[TextureIdx] && mpTextures[TextureIdx]->Type() != eTexture)
+                if (mpTextures[TextureIdx] && mpTextures[TextureIdx]->Type() != EResourceType::Texture)
                     mpTextures[TextureIdx] = nullptr;
 
                 mpMat->Pass(TextureIdx)->SetTexture(mpTextures[TextureIdx]);
@@ -205,7 +205,7 @@ void CDamageableTriggerExtra::PropertyModified(IProperty* pProperty)
 
 bool CDamageableTriggerExtra::ShouldDrawNormalAssets()
 {
-    return (mRenderSide == eNoRender);
+    return (mRenderSide == ERenderSide::NoRender);
 }
 
 void CDamageableTriggerExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
@@ -213,15 +213,15 @@ void CDamageableTriggerExtra::AddToRenderer(CRenderer *pRenderer, const SViewInf
     if (rkViewInfo.GameMode && !mpInstance->IsActive())
         return;
 
-    if (!rkViewInfo.GameMode && ((rkViewInfo.ShowFlags & eShowObjectGeometry) == 0))
+    if (!rkViewInfo.GameMode && ((rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry) == 0))
         return;
 
-    if (mRenderSide != eNoRender)
+    if (mRenderSide != ERenderSide::NoRender)
     {
         if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
-            pRenderer->AddMesh(this, -1, AABox(), true, eDrawMesh);
+            pRenderer->AddMesh(this, -1, AABox(), true, ERenderCommand::DrawMesh);
         if (mpParent->IsSelected() && !rkViewInfo.GameMode)
-            pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
+            pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
     }
 }
 
@@ -251,23 +251,23 @@ void CDamageableTriggerExtra::DrawSelection()
 
 void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo)
 {
-    if (mRenderSide == eNoRender) return;
+    if (mRenderSide == ERenderSide::NoRender) return;
     if (rkViewInfo.GameMode && !mpInstance->IsActive()) return;
 
     const CRay& rkRay = rTester.Ray();
 
-    if (rkViewInfo.pRenderer->RenderOptions() & eEnableBackfaceCull)
+    if (rkViewInfo.pRenderer->RenderOptions() & ERenderOption::EnableBackfaceCull)
     {
         // We're guaranteed to be axis-aligned, so we can take advantage of that
         // to perform a very simple backface check.
         switch (mRenderSide)
         {
-        case eNorth: if (rkRay.Origin().Y > AbsolutePosition().Y) return; break;
-        case eSouth: if (rkRay.Origin().Y < AbsolutePosition().Y) return; break;
-        case eWest:  if (rkRay.Origin().X < AbsolutePosition().X) return; break;
-        case eEast:  if (rkRay.Origin().X > AbsolutePosition().X) return; break;
-        case eUp:    if (rkRay.Origin().Z > AbsolutePosition().Z) return; break;
-        case eDown:  if (rkRay.Origin().Z < AbsolutePosition().Z) return; break;
+        case ERenderSide::North: if (rkRay.Origin().Y > AbsolutePosition().Y) return; break;
+        case ERenderSide::South: if (rkRay.Origin().Y < AbsolutePosition().Y) return; break;
+        case ERenderSide::West:  if (rkRay.Origin().X < AbsolutePosition().X) return; break;
+        case ERenderSide::East:  if (rkRay.Origin().X > AbsolutePosition().X) return; break;
+        case ERenderSide::Up:    if (rkRay.Origin().Z > AbsolutePosition().Z) return; break;
+        case ERenderSide::Down:  if (rkRay.Origin().Z < AbsolutePosition().Z) return; break;
         }
     }
 

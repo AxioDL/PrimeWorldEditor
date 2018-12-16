@@ -9,15 +9,15 @@ CScanLoader::CScanLoader()
 CScan* CScanLoader::LoadScanMP1(IInputStream& rSCAN)
 {
     // Basic support at the moment - don't read animation/scan image data
-    mpScan->mFrameID = CAssetID(rSCAN, e32Bit);
-    mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), eStringTable);
+    mpScan->mFrameID = CAssetID(rSCAN, k32Bit);
+    mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), EResourceType::StringTable);
     mpScan->mIsSlow = (rSCAN.ReadLong() != 0);
     mpScan->mCategory = (CScan::ELogbookCategory) rSCAN.ReadLong();
     mpScan->mIsImportant = (rSCAN.ReadByte() == 1);
 
     for (uint32 iImg = 0; iImg < 4; iImg++)
     {
-        mpScan->mScanImageTextures[iImg] = CAssetID(rSCAN, e32Bit);
+        mpScan->mScanImageTextures[iImg] = CAssetID(rSCAN, k32Bit);
         rSCAN.Seek(0x18, SEEK_CUR);
     }
 
@@ -116,7 +116,7 @@ void CScanLoader::LoadParamsMP2(IInputStream& rSCAN, uint16 NumProperties)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), eStringTable);
+            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLong(), EResourceType::StringTable);
             break;
 
         case 0xC308A322:
@@ -199,7 +199,7 @@ void CScanLoader::LoadParamsMP2(IInputStream& rSCAN, uint16 NumProperties)
         rSCAN.GoTo(Next);
     }
 
-    mpScan->mCategory = CScan::eNone;
+    mpScan->mCategory = CScan::ELogbookCategory::None;
 }
 
 void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, uint16 NumProperties)
@@ -214,7 +214,7 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, uint16 NumProperties)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLongLong(), eStringTable);
+            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLongLong(), EResourceType::Scan);
             break;
 
         case 0xC308A322:
@@ -229,7 +229,7 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, uint16 NumProperties)
         rSCAN.GoTo(Next);
     }
 
-    mpScan->mCategory = CScan::eNone;
+    mpScan->mCategory = CScan::ELogbookCategory::None;
 }
 
 void CScanLoader::LoadScanInfoSecondaryModel(IInputStream& rSCAN, CScan::SScanInfoSecondaryModel& rSecondaryModel)

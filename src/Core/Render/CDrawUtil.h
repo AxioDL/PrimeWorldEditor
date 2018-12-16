@@ -7,9 +7,13 @@
 #include "Core/Resource/model/CModel.h"
 #include "Core/Resource/CLight.h"
 
-/* todo: CDrawUtil should work with CRenderer to queue primitives for rendering
- * rather than trying to draw them straight away, so that CDrawUtil functions can
- * be called from anywhere in the codebase and still function correctly     */
+/**
+ * @todo there are a LOT of problems with how this is implemented; trying to
+ * use CDrawUtil in a lot of places in the codebase just plain doesn't work
+ * because it goes outside CRenderer to draw stuff, and also it's slow as heck
+ * because it issues tons of draw calls instead of batching items together
+ * which is a cause of significant performance problems
+ */
 class CDrawUtil
 {
     // 7x7 Grid

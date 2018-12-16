@@ -9,26 +9,26 @@ CMaterialCooker::CMaterialCooker()
 uint32 CMaterialCooker::ConvertFromVertexDescription(FVertexDescription VtxDesc)
 {
     uint32 Flags = 0;
-    if (VtxDesc & ePosition)    Flags |= 0x00000003;
-    if (VtxDesc & eNormal)      Flags |= 0x0000000C;
-    if (VtxDesc & eColor0)      Flags |= 0x00000030;
-    if (VtxDesc & eColor1)      Flags |= 0x000000C0;
-    if (VtxDesc & eTex0)        Flags |= 0x00000300;
-    if (VtxDesc & eTex1)        Flags |= 0x00000C00;
-    if (VtxDesc & eTex2)        Flags |= 0x00003000;
-    if (VtxDesc & eTex3)        Flags |= 0x0000C000;
-    if (VtxDesc & eTex4)        Flags |= 0x00030000;
-    if (VtxDesc & eTex5)        Flags |= 0x000C0000;
-    if (VtxDesc & eTex6)        Flags |= 0x00300000;
-    if (VtxDesc & eTex7)        Flags |= 0x00C00000;
-    if (VtxDesc & ePosMtx)      Flags |= 0x01000000;
-    if (VtxDesc & eTex0Mtx)     Flags |= 0x02000000;
-    if (VtxDesc & eTex1Mtx)     Flags |= 0x04000000;
-    if (VtxDesc & eTex2Mtx)     Flags |= 0x08000000;
-    if (VtxDesc & eTex3Mtx)     Flags |= 0x10000000;
-    if (VtxDesc & eTex4Mtx)     Flags |= 0x20000000;
-    if (VtxDesc & eTex5Mtx)     Flags |= 0x40000000;
-    if (VtxDesc & eTex6Mtx)     Flags |= 0x80000000;
+    if (VtxDesc & EVertexAttribute::Position)    Flags |= 0x00000003;
+    if (VtxDesc & EVertexAttribute::Normal)      Flags |= 0x0000000C;
+    if (VtxDesc & EVertexAttribute::Color0)      Flags |= 0x00000030;
+    if (VtxDesc & EVertexAttribute::Color1)      Flags |= 0x000000C0;
+    if (VtxDesc & EVertexAttribute::Tex0)        Flags |= 0x00000300;
+    if (VtxDesc & EVertexAttribute::Tex1)        Flags |= 0x00000C00;
+    if (VtxDesc & EVertexAttribute::Tex2)        Flags |= 0x00003000;
+    if (VtxDesc & EVertexAttribute::Tex3)        Flags |= 0x0000C000;
+    if (VtxDesc & EVertexAttribute::Tex4)        Flags |= 0x00030000;
+    if (VtxDesc & EVertexAttribute::Tex5)        Flags |= 0x000C0000;
+    if (VtxDesc & EVertexAttribute::Tex6)        Flags |= 0x00300000;
+    if (VtxDesc & EVertexAttribute::Tex7)        Flags |= 0x00C00000;
+    if (VtxDesc & EVertexAttribute::PosMtx)      Flags |= 0x01000000;
+    if (VtxDesc & EVertexAttribute::Tex0Mtx)     Flags |= 0x02000000;
+    if (VtxDesc & EVertexAttribute::Tex1Mtx)     Flags |= 0x04000000;
+    if (VtxDesc & EVertexAttribute::Tex2Mtx)     Flags |= 0x08000000;
+    if (VtxDesc & EVertexAttribute::Tex3Mtx)     Flags |= 0x10000000;
+    if (VtxDesc & EVertexAttribute::Tex4Mtx)     Flags |= 0x20000000;
+    if (VtxDesc & EVertexAttribute::Tex5Mtx)     Flags |= 0x40000000;
+    if (VtxDesc & EVertexAttribute::Tex6Mtx)     Flags |= 0x80000000;
     return Flags;
 }
 
@@ -98,19 +98,20 @@ void CMaterialCooker::WriteMatSetCorruption(IOutputStream& /*rOut*/)
 void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
 {
     // Gather data from the passes before we start writing
-    uint32 TexFlags = 0;
-    uint32 NumKonst = 0;
-    std::vector<uint32> TexIndices;
+    uint TexFlags = 0;
+    uint NumKonst = 0;
+    std::vector<uint> TexIndices;
 
-    for (uint32 iPass = 0; iPass < mpMat->mPasses.size(); iPass++)
+    for (uint iPass = 0; iPass < mpMat->mPasses.size(); iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
 
-        if ((pPass->KColorSel() >= 0xC) || (pPass->KAlphaSel() >= 0x10))
+        if ((pPass->KColorSel() >= kKonst0_RGB) ||
+            (pPass->KAlphaSel() >= kKonst0_R))
         {
             // Determine the highest Konst index being used
-            uint32 KColorIndex = pPass->KColorSel() % 4;
-            uint32 KAlphaIndex = pPass->KAlphaSel() % 4;
+            uint KColorIndex = ((uint) pPass->KColorSel()) % 4;
+            uint KAlphaIndex = ((uint) pPass->KAlphaSel()) % 4;
 
             if (KColorIndex >= NumKonst)
                 NumKonst = KColorIndex + 1;
@@ -272,14 +273,14 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
         CMaterialPass *pPass = mpMat->Pass(iPass);
         if (pPass->Texture() == nullptr) continue;
 
-        uint32 AnimType = pPass->AnimMode();
+        EUVAnimMode AnimType = pPass->AnimMode();
         uint32 CoordSource = pPass->TexCoordSource();
 
         uint32 TexMtxIdx, PostMtxIdx;
         bool Normalize;
 
         // No animation - set TexMtx and PostMtx to identity, disable normalization
-        if (AnimType == eNoUVAnim)
+        if (AnimType == EUVAnimMode::NoUVAnim)
         {
             TexMtxIdx = 30;
             PostMtxIdx = 61;
@@ -291,7 +292,7 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
         {
             TexMtxIdx = CurTexMtx;
 
-            if ((AnimType < 2) || (AnimType > 5))
+            if ((AnimType <= EUVAnimMode::InverseMVTranslated) || (AnimType >= EUVAnimMode::ModelMatrix))
             {
                 PostMtxIdx = CurTexMtx;
                 Normalize = true;
@@ -318,17 +319,17 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     for (uint32 iPass = 0; iPass < NumPasses; iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
-        uint32 AnimMode = pPass->AnimMode();
-        if (AnimMode == eNoUVAnim) continue;
+        EUVAnimMode AnimMode = pPass->AnimMode();
+        if (AnimMode == EUVAnimMode::NoUVAnim) continue;
 
-        rOut.WriteLong(AnimMode);
+        rOut.WriteLong((int) AnimMode);
 
-        if ((AnimMode > 1) && (AnimMode != 6))
+        if ((AnimMode >= EUVAnimMode::UVScroll) && (AnimMode != EUVAnimMode::ModelMatrix))
         {
             rOut.WriteFloat(pPass->AnimParam(0));
             rOut.WriteFloat(pPass->AnimParam(1));
 
-            if ((AnimMode == 2) || (AnimMode == 4) || (AnimMode == 5))
+            if ((AnimMode == EUVAnimMode::UVScroll) || (AnimMode == EUVAnimMode::HFilmstrip) || (AnimMode == EUVAnimMode::VFilmstrip))
             {
                 rOut.WriteFloat(pPass->AnimParam(2));
                 rOut.WriteFloat(pPass->AnimParam(3));

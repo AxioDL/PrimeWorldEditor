@@ -68,7 +68,7 @@ void CRenderBucket::CSubBucket::Draw(const SViewInfo& rkViewInfo)
         const SRenderablePtr& rkPtr = mRenderables[iPtr];
 
         // todo: DrawSelection probably shouldn't be a separate function anymore.
-        if (rkPtr.Command == eDrawSelection)
+        if (rkPtr.Command == ERenderCommand::DrawSelection)
             rkPtr.pRenderable->DrawSelection();
         else
             rkPtr.pRenderable->Draw(Options, rkPtr.ComponentIndex, rkPtr.Command, rkViewInfo);

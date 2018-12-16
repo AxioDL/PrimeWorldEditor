@@ -3,21 +3,21 @@
 
 #include <Common/Flags.h>
 
-enum EShowFlag
+enum class EShowFlag : uint32
 {
-    eShowNone               = 0x00,
-    eShowSplitWorld         = 0x01,
-    eShowMergedWorld        = 0x02,
-    eShowWorldCollision     = 0x04,
-    eShowObjectGeometry     = 0x08,
-    eShowObjectCollision    = 0x10,
-    eShowObjects            = 0x18,
-    eShowLights             = 0x20,
-    eShowSky                = 0x40,
-    eShowSkeletons          = 0x80,
-    eShowAll                = 0xFFFFFFFF
+    None                = 0x00,
+    SplitWorld          = 0x01,
+    MergedWorld         = 0x02,
+    WorldCollision      = 0x04,
+    ObjectGeometry      = 0x08,
+    ObjectCollision     = 0x10,
+    Objects             = 0x18,
+    Lights              = 0x20,
+    Sky                 = 0x40,
+    Skeletons           = 0x80,
+    All                 = 0xFFFFFFFF
 };
-DECLARE_FLAGS(EShowFlag, FShowFlags)
+DECLARE_FLAGS_ENUMCLASS(EShowFlag, FShowFlags)
 
 extern const FShowFlags gkGameModeShowFlags;
 

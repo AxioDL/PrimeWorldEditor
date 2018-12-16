@@ -87,7 +87,7 @@ void CDrawUtil::DrawSquare(const float *pTexCoords)
     // Set tex coords
     for (uint32 iTex = 0; iTex < 8; iTex++)
     {
-        EVertexAttribute TexAttrib = (EVertexAttribute) (eTex0 << (iTex *2));
+        EVertexAttribute TexAttrib = (EVertexAttribute) ((uint) (EVertexAttribute::Tex0) << iTex);
         mSquareVertices.BufferAttrib(TexAttrib, pTexCoords);
     }
 
@@ -114,7 +114,7 @@ void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const
 
     // Copy vec3s into an array to ensure they are adjacent in memory
     CVector3f Points[2] = { PointA, PointB };
-    mLineVertices.BufferAttrib(ePosition, Points);
+    mLineVertices.BufferAttrib(EVertexAttribute::Position, Points);
 
     // Draw
     UseColorShader(LineColor);
@@ -132,7 +132,7 @@ void CDrawUtil::DrawLine(const CVector2f& PointA, const CVector2f& PointB, const
 void CDrawUtil::DrawCube()
 {
     Init();
-    mpCubeModel->Draw(eNoMaterialSetup, 0);
+    mpCubeModel->Draw(ERenderOption::NoMaterialSetup, 0);
 }
 
 void CDrawUtil::DrawCube(const CColor& Color)
@@ -186,9 +186,9 @@ void CDrawUtil::DrawSphere(bool DoubleSided)
     Init();
 
     if (!DoubleSided)
-        mpSphereModel->Draw(eNoMaterialSetup, 0);
+        mpSphereModel->Draw(ERenderOption::NoMaterialSetup, 0);
     else
-        mpDoubleSidedSphereModel->Draw(eNoMaterialSetup, 0);
+        mpDoubleSidedSphereModel->Draw(ERenderOption::NoMaterialSetup, 0);
 }
 
 void CDrawUtil::DrawSphere(const CColor &kColor)
@@ -217,7 +217,7 @@ void CDrawUtil::DrawWireSphere(const CVector3f& Position, float Radius, const CC
     glDepthMask(GL_TRUE);
 
     // Draw
-    mpWireSphereModel->Draw(eNoMaterialSetup, 0);
+    mpWireSphereModel->Draw(ERenderOption::NoMaterialSetup, 0);
 }
 
 void CDrawUtil::DrawBillboard(CTexture* pTexture, const CVector3f& Position, const CVector2f& Scale /*= CVector2f::skOne*/, const CColor& Tint /*= CColor::skWhite*/)
@@ -366,13 +366,13 @@ void CDrawUtil::LoadCheckerboardTexture(uint32 GLTextureUnit)
 CTexture* CDrawUtil::GetLightTexture(ELightType Type)
 {
     Init();
-    return mpLightTextures[Type];
+    return mpLightTextures[(int) Type];
 }
 
 CTexture* CDrawUtil::GetLightMask(ELightType Type)
 {
     Init();
-    return mpLightMasks[Type];
+    return mpLightMasks[(int) Type];
 }
 
 CModel* CDrawUtil::GetCubeModel()
@@ -413,7 +413,7 @@ void CDrawUtil::InitGrid()
     int MinIdx = (kGridSize - 1) / -2;
     int MaxIdx = (kGridSize - 1) / 2;
 
-    mGridVertices.SetVertexDesc(ePosition);
+    mGridVertices.SetVertexDesc(EVertexAttribute::Position);
     mGridVertices.Reserve(kGridSize * 4);
 
      for (int32 i = MinIdx; i <= MaxIdx; i++)
@@ -439,9 +439,16 @@ void CDrawUtil::InitGrid()
 void CDrawUtil::InitSquare()
 {
     debugf("Creating square");
-    mSquareVertices.SetActiveAttribs(ePosition |  eNormal |
-                                     eTex0 | eTex1 | eTex2 | eTex3 |
-                                     eTex4 | eTex5 | eTex6 | eTex7);
+    mSquareVertices.SetActiveAttribs(EVertexAttribute::Position |
+                                     EVertexAttribute::Normal |
+                                     EVertexAttribute::Tex0 |
+                                     EVertexAttribute::Tex1 |
+                                     EVertexAttribute::Tex2 |
+                                     EVertexAttribute::Tex3 |
+                                     EVertexAttribute::Tex4 |
+                                     EVertexAttribute::Tex5 |
+                                     EVertexAttribute::Tex6 |
+                                     EVertexAttribute::Tex7 );
     mSquareVertices.SetVertexCount(4);
 
     CVector3f SquareVertices[] = {
@@ -465,12 +472,12 @@ void CDrawUtil::InitSquare()
         CVector2f(0.f, 0.f)
     };
 
-    mSquareVertices.BufferAttrib(ePosition, SquareVertices);
-    mSquareVertices.BufferAttrib(eNormal, SquareNormals);
+    mSquareVertices.BufferAttrib(EVertexAttribute::Position, SquareVertices);
+    mSquareVertices.BufferAttrib(EVertexAttribute::Normal, SquareNormals);
 
     for (uint32 iTex = 0; iTex < 8; iTex++)
     {
-        EVertexAttribute Attrib = (EVertexAttribute) (eTex0 << (iTex *2));
+        EVertexAttribute Attrib = (EVertexAttribute) (EVertexAttribute::Tex0 << iTex);
         mSquareVertices.BufferAttrib(Attrib, SquareTexCoords);
     }
 
@@ -485,7 +492,7 @@ void CDrawUtil::InitSquare()
 void CDrawUtil::InitLine()
 {
     debugf("Creating line");
-    mLineVertices.SetActiveAttribs(ePosition);
+    mLineVertices.SetActiveAttribs(EVertexAttribute::Position);
     mLineVertices.SetVertexCount(2);
 
     mLineIndices.Reserve(2);
@@ -503,7 +510,7 @@ void CDrawUtil::InitCube()
 void CDrawUtil::InitWireCube()
 {
     debugf("Creating wire cube");
-    mWireCubeVertices.SetVertexDesc(ePosition);
+    mWireCubeVertices.SetVertexDesc(EVertexAttribute::Position);
     mWireCubeVertices.Reserve(8);
     mWireCubeVertices.AddVertex(CVector3f(-0.5f, -0.5f, -0.5f));
     mWireCubeVertices.AddVertex(CVector3f(-0.5f,  0.5f, -0.5f));

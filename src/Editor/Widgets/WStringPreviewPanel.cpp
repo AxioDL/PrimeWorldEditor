@@ -23,9 +23,9 @@ QSize WStringPreviewPanel::sizeHint() const
     return QSize(400, 0);
 }
 
-EResType WStringPreviewPanel::ResType()
+EResourceType WStringPreviewPanel::ResType()
 {
-    return eStringTable;
+    return EResourceType::StringTable;
 }
 
 void WStringPreviewPanel::SetResource(CResource *pRes)
@@ -34,7 +34,7 @@ void WStringPreviewPanel::SetResource(CResource *pRes)
         delete pLabel;
     mLabels.clear();
 
-    if (pRes && (pRes->Type() == eStringTable))
+    if (pRes && (pRes->Type() == EResourceType::StringTable))
     {
         CStringTable *pString = static_cast<CStringTable*>(pRes);
         mLabels.reserve(pString->NumStrings());

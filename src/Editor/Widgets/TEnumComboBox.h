@@ -5,8 +5,8 @@
 #include <codegen/EnumReflection.h>
 
 /**
- *  Combo box subclass that auto-fills with an enum
- *  No custom signals because Q_OBJECT macro doesn't support templates
+ * Combo box subclass that auto-fills with an enum
+ * No custom signals because Q_OBJECT macro doesn't support templates
  */
 template<typename EnumT>
 class TEnumComboBox : public QComboBox

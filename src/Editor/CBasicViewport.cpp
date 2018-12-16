@@ -17,7 +17,7 @@ CBasicViewport::CBasicViewport(QWidget *pParent)
 {
     setMouseTracking(true);
     mCamera.SetAspectRatio((float) width() / height());
-    mViewInfo.ShowFlags = eShowAll;
+    mViewInfo.ShowFlags = EShowFlag::All;
     mViewInfo.pCamera = &mCamera;
     mViewInfo.GameMode = false;
 }
@@ -77,8 +77,8 @@ void CBasicViewport::mousePressEvent(QMouseEvent *pEvent)
 {
     setFocus();
 
-    if (pEvent->button() == Qt::MidButton)   mButtonsPressed |= eMiddleButton;
-    if (pEvent->button() == Qt::RightButton) mButtonsPressed |= eRightButton;
+    if (pEvent->button() == Qt::MidButton)   mButtonsPressed |= EMouseInput::MiddleButton;
+    if (pEvent->button() == Qt::RightButton) mButtonsPressed |= EMouseInput::RightButton;
 
     if (IsMouseInputActive())
     {
@@ -92,7 +92,7 @@ void CBasicViewport::mousePressEvent(QMouseEvent *pEvent)
     else
     {
         if (pEvent->button() == Qt::LeftButton)
-            mButtonsPressed |= eLeftButton;
+            mButtonsPressed |= EMouseInput::LeftButton;
 
         OnMouseClick(pEvent);
     }
@@ -103,9 +103,9 @@ void CBasicViewport::mousePressEvent(QMouseEvent *pEvent)
 void CBasicViewport::mouseReleaseEvent(QMouseEvent *pEvent)
 {
     bool fromMouseInput = IsMouseInputActive();
-    if (pEvent->button() == Qt::LeftButton)  mButtonsPressed &= ~eLeftButton;
-    if (pEvent->button() == Qt::MidButton)   mButtonsPressed &= ~eMiddleButton;
-    if (pEvent->button() == Qt::RightButton) mButtonsPressed &= ~eRightButton;
+    if (pEvent->button() == Qt::LeftButton)  mButtonsPressed &= ~EMouseInput::LeftButton;
+    if (pEvent->button() == Qt::MidButton)   mButtonsPressed &= ~EMouseInput::MiddleButton;
+    if (pEvent->button() == Qt::RightButton) mButtonsPressed &= ~EMouseInput::RightButton;
 
     // Make cursor visible if needed
     if (!IsMouseInputActive())
@@ -138,15 +138,15 @@ void CBasicViewport::keyPressEvent(QKeyEvent *pEvent)
 {
     switch (pEvent->key())
     {
-    case Qt::Key_Q: mKeysPressed |= eQKey; break;
-    case Qt::Key_W: mKeysPressed |= eWKey; break;
-    case Qt::Key_E: mKeysPressed |= eEKey; break;
-    case Qt::Key_A: mKeysPressed |= eAKey; break;
-    case Qt::Key_S: mKeysPressed |= eSKey; break;
-    case Qt::Key_D: mKeysPressed |= eDKey; break;
-    case Qt::Key_Control: mKeysPressed |= eCtrlKey; break;
-    case Qt::Key_Shift: mKeysPressed |= eShiftKey; break;
-    case Qt::Key_Alt: mKeysPressed |= eAltKey; break;
+    case Qt::Key_Q: mKeysPressed |= EKeyInput::Q; break;
+    case Qt::Key_W: mKeysPressed |= EKeyInput::W; break;
+    case Qt::Key_E: mKeysPressed |= EKeyInput::E; break;
+    case Qt::Key_A: mKeysPressed |= EKeyInput::A; break;
+    case Qt::Key_S: mKeysPressed |= EKeyInput::S; break;
+    case Qt::Key_D: mKeysPressed |= EKeyInput::D; break;
+    case Qt::Key_Control: mKeysPressed |= EKeyInput::Ctrl; break;
+    case Qt::Key_Shift: mKeysPressed |= EKeyInput::Shift; break;
+    case Qt::Key_Alt: mKeysPressed |= EKeyInput::Alt; break;
     }
 }
 
@@ -154,15 +154,15 @@ void CBasicViewport::keyReleaseEvent(QKeyEvent *pEvent)
 {
     switch (pEvent->key())
     {
-    case Qt::Key_Q: mKeysPressed &= ~eQKey; break;
-    case Qt::Key_W: mKeysPressed &= ~eWKey; break;
-    case Qt::Key_E: mKeysPressed &= ~eEKey; break;
-    case Qt::Key_A: mKeysPressed &= ~eAKey; break;
-    case Qt::Key_S: mKeysPressed &= ~eSKey; break;
-    case Qt::Key_D: mKeysPressed &= ~eDKey; break;
-    case Qt::Key_Control: mKeysPressed &= ~eCtrlKey; break;
-    case Qt::Key_Shift: mKeysPressed &= ~eShiftKey; break;
-    case Qt::Key_Alt: mKeysPressed &= ~eAltKey; break;
+    case Qt::Key_Q: mKeysPressed &= ~EKeyInput::Q; break;
+    case Qt::Key_W: mKeysPressed &= ~EKeyInput::W; break;
+    case Qt::Key_E: mKeysPressed &= ~EKeyInput::E; break;
+    case Qt::Key_A: mKeysPressed &= ~EKeyInput::A; break;
+    case Qt::Key_S: mKeysPressed &= ~EKeyInput::S; break;
+    case Qt::Key_D: mKeysPressed &= ~EKeyInput::D; break;
+    case Qt::Key_Control: mKeysPressed &= ~EKeyInput::Ctrl; break;
+    case Qt::Key_Shift: mKeysPressed &= ~EKeyInput::Shift; break;
+    case Qt::Key_Alt: mKeysPressed &= ~EKeyInput::Alt; break;
     }
 }
 
@@ -217,13 +217,14 @@ bool CBasicViewport::IsCursorVisible()
 
 bool CBasicViewport::IsMouseInputActive()
 {
-    static const FMouseInputs skMoveButtons = eMiddleButton | eRightButton;
+    static const FMouseInputs skMoveButtons = EMouseInput::MiddleButton | EMouseInput::RightButton;
     return ((mButtonsPressed & skMoveButtons) != 0);
 }
 
 bool CBasicViewport::IsKeyboardInputActive()
 {
-    static const FKeyInputs skMoveKeys = eQKey | eWKey | eEKey | eAKey | eSKey | eDKey;
+    static const FKeyInputs skMoveKeys = EKeyInput::Q | EKeyInput::W | EKeyInput::E |
+                                         EKeyInput::A | EKeyInput::S | EKeyInput::D;
     return ((mKeysPressed & skMoveKeys) != 0);
 }
 
@@ -275,7 +276,7 @@ void CBasicViewport::ProcessInput()
     }
 
     if (IsKeyboardInputActive())
-        if ((mKeysPressed & eCtrlKey) == 0)
+        if ((mKeysPressed & EKeyInput::Ctrl) == 0)
             mCamera.ProcessKeyInput((FKeyInputs) mKeysPressed, DeltaTime);
 
     // Update view info

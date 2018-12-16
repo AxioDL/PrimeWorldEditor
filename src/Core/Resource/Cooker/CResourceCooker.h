@@ -20,10 +20,10 @@ public:
 
         switch (pEntry->ResourceType())
         {
-        case eArea:                 return CAreaCooker::CookMREA((CGameArea*) pRes, rOutput);
-        case eModel:                return CModelCooker::CookCMDL((CModel*) pRes, rOutput);
-        case eStaticGeometryMap:    return CPoiToWorldCooker::CookEGMC((CPoiToWorld*) pRes, rOutput);
-        case eWorld:                return CWorldCooker::CookMLVL((CWorld*) pRes, rOutput);
+        case EResourceType::Area:                 return CAreaCooker::CookMREA((CGameArea*) pRes, rOutput);
+        case EResourceType::Model:                return CModelCooker::CookCMDL((CModel*) pRes, rOutput);
+        case EResourceType::StaticGeometryMap:    return CPoiToWorldCooker::CookEGMC((CPoiToWorld*) pRes, rOutput);
+        case EResourceType::World:                return CWorldCooker::CookMLVL((CWorld*) pRes, rOutput);
 
         default:
             warnf("Failed to cook %s asset; this resource type is not supported for cooking", *pEntry->CookedExtension().ToString());

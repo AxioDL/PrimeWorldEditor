@@ -3,7 +3,7 @@
 /** Save the current state of the object properties to the given data buffer */
 void IEditPropertyCommand::SaveObjectStateToArray(std::vector<char>& rVector)
 {
-    CVectorOutStream MemStream(&rVector, IOUtil::kSystemEndianness);
+    CVectorOutStream MemStream(&rVector, EEndian::SystemEndian);
     CBasicBinaryWriter Writer(&MemStream, CSerialVersion(IArchive::skCurrentArchiveVersion, 0, mpProperty->Game()));
 
     QVector<void*> DataPointers;
@@ -67,7 +67,7 @@ void IEditPropertyCommand::SetEditComplete(bool IsComplete)
 /** IUndoCommand/QUndoCommand interface */
 int IEditPropertyCommand::id() const
 {
-    return eEditPropertyCmd;
+    return (int) EUndoCommand::EditPropertyCmd;
 }
 
 bool IEditPropertyCommand::mergeWith(const QUndoCommand *pkOther)

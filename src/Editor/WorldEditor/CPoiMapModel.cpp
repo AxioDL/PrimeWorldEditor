@@ -173,7 +173,7 @@ void CPoiMapModel::OnMapChange(CWorld*, CGameArea *pArea)
         // Create an ID -> Model Node lookup map
         QMap<uint32,CModelNode*> NodeMap;
 
-        for (CSceneIterator It(mpEditor->Scene(), eModelNode, true); !It.DoneIterating(); ++It)
+        for (CSceneIterator It(mpEditor->Scene(), ENodeType::Model, true); !It.DoneIterating(); ++It)
         {
             CModelNode *pNode = static_cast<CModelNode*>(*It);
             NodeMap[pNode->FindMeshID()] = pNode;

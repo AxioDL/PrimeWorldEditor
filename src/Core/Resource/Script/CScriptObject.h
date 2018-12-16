@@ -10,10 +10,10 @@
 class CScriptLayer;
 class CLink;
 
-enum ELinkType
+enum class ELinkType
 {
-    eIncoming,
-    eOutgoing
+    Incoming,
+    Outgoing
 };
 
 class CScriptObject
@@ -76,8 +76,8 @@ public:
     uint32 Version() const                                          { return mVersion; }
     uint32 ObjectTypeID() const                                     { return mpTemplate->ObjectID(); }
     uint32 InstanceID() const                                       { return mInstanceID; }
-    uint32 NumLinks(ELinkType Type) const                           { return (Type == eIncoming ? mInLinks.size() : mOutLinks.size()); }
-    CLink* Link(ELinkType Type, uint32 Index) const                 { return (Type == eIncoming ? mInLinks[Index] : mOutLinks[Index]); }
+    uint32 NumLinks(ELinkType Type) const                           { return (Type == ELinkType::Incoming ? mInLinks.size() : mOutLinks.size()); }
+    CLink* Link(ELinkType Type, uint32 Index) const                 { return (Type == ELinkType::Incoming ? mInLinks[Index] : mOutLinks[Index]); }
     void* PropertyData() const                                      { return (void*) mPropertyData.data(); }
 
     CVector3f Position() const                  { return mPosition.IsValid() ? mPosition.Get() : CVector3f::skZero; }

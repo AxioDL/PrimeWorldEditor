@@ -117,14 +117,14 @@ CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkPath)
     else if (!Name.IsEmpty())
     {
         TString Ext = Name.GetFileExtension();
-        EResType Type = CResTypeInfo::TypeForCookedExtension(mpStore->Game(), Ext)->Type();
+        EResourceType Type = CResTypeInfo::TypeForCookedExtension(mpStore->Game(), Ext)->Type();
         return FindChildResource(Name.GetFileName(false), Type);
     }
 
     return nullptr;
 }
 
-CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkName, EResType Type)
+CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkName, EResourceType Type)
 {
     for (uint32 iRes = 0; iRes < mResources.size(); iRes++)
     {

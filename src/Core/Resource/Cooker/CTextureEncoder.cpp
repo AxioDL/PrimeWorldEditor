@@ -9,14 +9,14 @@ CTextureEncoder::CTextureEncoder()
 void CTextureEncoder::WriteTXTR(IOutputStream& rTXTR)
 {
     // Only DXT1->CMPR supported at the moment
-    rTXTR.WriteLong(mOutputFormat);
+    rTXTR.WriteLong((uint) mOutputFormat);
     rTXTR.WriteShort(mpTexture->mWidth);
     rTXTR.WriteShort(mpTexture->mHeight);
     rTXTR.WriteLong(mpTexture->mNumMipMaps);
 
     uint32 MipW = mpTexture->Width() / 4;
     uint32 MipH = mpTexture->Height() / 4;
-    CMemoryInStream Image(mpTexture->mpImgDataBuffer, mpTexture->mImgDataSize, IOUtil::eLittleEndian);
+    CMemoryInStream Image(mpTexture->mpImgDataBuffer, mpTexture->mImgDataSize, EEndian::LittleEndian);
     uint32 MipOffset = Image.Tell();
 
     for (uint32 iMip = 0; iMip < mpTexture->mNumMipMaps; iMip++)
@@ -61,7 +61,7 @@ void CTextureEncoder::ReadSubBlockCMPR(IInputStream& rSource, IOutputStream& rDe
 // ************ STATIC ************
 void CTextureEncoder::EncodeTXTR(IOutputStream& rTXTR, CTexture *pTex)
 {
-    if (pTex->mTexelFormat != eDXT1)
+    if (pTex->mTexelFormat != ETexelFormat::DXT1)
     {
         errorf("Unsupported texel format for decoding");
         return;
@@ -69,8 +69,8 @@ void CTextureEncoder::EncodeTXTR(IOutputStream& rTXTR, CTexture *pTex)
 
     CTextureEncoder Encoder;
     Encoder.mpTexture = pTex;
-    Encoder.mSourceFormat = eDXT1;
-    Encoder.mOutputFormat = eGX_CMPR;
+    Encoder.mSourceFormat = ETexelFormat::DXT1;
+    Encoder.mOutputFormat = ETexelFormat::GX_CMPR;
     Encoder.WriteTXTR(rTXTR);
 }
 
@@ -84,13 +84,13 @@ ETexelFormat CTextureEncoder::GetGXFormat(ETexelFormat Format)
 {
     switch (Format)
     {
-    case eLuminance: return eGX_I8;
-    case eLuminanceAlpha: return eGX_IA8;
-    case eRGBA4: return eGX_RGB5A3;
-    case eRGB565: return eGX_RGB565;
-    case eRGBA8: return eGX_RGBA8;
-    case eDXT1: return eGX_CMPR;
-    default: return eInvalidTexelFormat;
+    case ETexelFormat::Luminance:       return ETexelFormat::GX_I8;
+    case ETexelFormat::LuminanceAlpha:  return ETexelFormat::GX_IA8;
+    case ETexelFormat::RGBA4:           return ETexelFormat::GX_RGB5A3;
+    case ETexelFormat::RGB565:          return ETexelFormat::GX_RGB565;
+    case ETexelFormat::RGBA8:           return ETexelFormat::GX_RGBA8;
+    case ETexelFormat::DXT1:            return ETexelFormat::GX_CMPR;
+    default:                            return ETexelFormat::Invalid;
     }
 }
 
@@ -98,12 +98,12 @@ ETexelFormat CTextureEncoder::GetFormat(ETexelFormat Format)
 {
     switch (Format)
     {
-    case eGX_I4: return eLuminance;
-    case eGX_I8: return eLuminance;
-    case eGX_IA4: return eLuminanceAlpha;
-    case eGX_IA8: return eLuminanceAlpha;
+    case ETexelFormat::GX_I4:   return ETexelFormat::Luminance;
+    case ETexelFormat::GX_I8:   return ETexelFormat::Luminance;
+    case ETexelFormat::GX_IA4:  return ETexelFormat::LuminanceAlpha;
+    case ETexelFormat::GX_IA8:  return ETexelFormat::LuminanceAlpha;
         // todo rest of these
-    case eGX_CMPR: return eDXT1;
-    default: return eInvalidTexelFormat;
+    case ETexelFormat::GX_CMPR: return ETexelFormat::DXT1;
+    default:                    return ETexelFormat::Invalid;
     }
 }

@@ -46,7 +46,7 @@ public:
     inline bool IsSkinned() const       { return (mpSkin != nullptr); }
 
 private:
-    CIndexBuffer* InternalGetIBO(uint32 Surface, EGXPrimitiveType Primitive);
+    CIndexBuffer* InternalGetIBO(uint32 Surface, EPrimitiveType Primitive);
 };
 
 #endif // MODEL_H

@@ -10,7 +10,7 @@ CCharacterEditorViewport::CCharacterEditorViewport(QWidget *pParent /*= 0*/)
     mpRenderer->SetClearColor(CColor(0.3f, 0.3f, 0.3f));
     mpRenderer->ToggleGrid(true);
 
-    mViewInfo.ShowFlags = eShowObjectGeometry; // This enables the mesh and not the skeleton by default
+    mViewInfo.ShowFlags = EShowFlag::ObjectGeometry; // This enables the mesh and not the skeleton by default
     mViewInfo.pRenderer = mpRenderer;
     mViewInfo.pScene = nullptr;
     mViewInfo.GameMode = false;

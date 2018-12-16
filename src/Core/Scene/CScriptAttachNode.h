@@ -26,7 +26,7 @@ public:
     void ParentDisplayAssetChanged(CResource *pNewDisplayAsset);
     CModel* Model() const;
 
-    ENodeType NodeType() { return eScriptAttachNode; }
+    ENodeType NodeType() { return ENodeType::ScriptAttach; }
     void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
     void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
     void DrawSelection();

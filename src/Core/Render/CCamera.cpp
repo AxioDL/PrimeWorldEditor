@@ -4,7 +4,7 @@
 #include <Common/Math/MathUtil.h>
 
 CCamera::CCamera()
-    : mMode(eFreeCamera)
+    : mMode(ECameraMoveMode::Free)
     , mPosition(0)
     , mAspectRatio(1.7777777f)
     , mYaw(-Math::skHalfPi)
@@ -22,7 +22,7 @@ CCamera::CCamera()
 // todo: make it actually look at the target!
 // don't actually use this constructor, it's unfinished and won't work properly
 CCamera::CCamera(CVector3f Position, CVector3f /*Target*/)
-    : mMode(eFreeCamera)
+    : mMode(ECameraMoveMode::Free)
     , mMoveSpeed(1.f)
     , mLookSpeed(1.f)
     , mPosition(Position)
@@ -33,7 +33,7 @@ CCamera::CCamera(CVector3f Position, CVector3f /*Target*/)
 
 void CCamera::Pan(float XAmount, float YAmount)
 {
-    if (mMode == eFreeCamera)
+    if (mMode == ECameraMoveMode::Free)
     {
         mPosition += mRightVector * (XAmount * mMoveSpeed);
         mPosition += mUpVector * (YAmount * mMoveSpeed);
@@ -59,7 +59,7 @@ void CCamera::Rotate(float XAmount, float YAmount)
 
 void CCamera::Zoom(float Amount)
 {
-    if (mMode == eFreeCamera)
+    if (mMode == ECameraMoveMode::Free)
         mPosition += mDirection * (Amount * mMoveSpeed);
 
     else
@@ -86,32 +86,32 @@ void CCamera::ProcessKeyInput(FKeyInputs KeyFlags, double DeltaTime)
 {
     float FDeltaTime = (float) DeltaTime;
 
-    if (KeyFlags & eWKey) Zoom(FDeltaTime * 25.f);
-    if (KeyFlags & eSKey) Zoom(-FDeltaTime * 25.f);
-    if (KeyFlags & eQKey) Pan(0, -FDeltaTime * 25.f);
-    if (KeyFlags & eEKey) Pan(0, FDeltaTime * 25.f);
-    if (KeyFlags & eAKey) Pan(-FDeltaTime * 25.f, 0);
-    if (KeyFlags & eDKey) Pan(FDeltaTime * 25.f, 0);
+    if (KeyFlags & EKeyInput::W) Zoom(FDeltaTime * 25.f);
+    if (KeyFlags & EKeyInput::S) Zoom(-FDeltaTime * 25.f);
+    if (KeyFlags & EKeyInput::Q) Pan(0, -FDeltaTime * 25.f);
+    if (KeyFlags & EKeyInput::E) Pan(0, FDeltaTime * 25.f);
+    if (KeyFlags & EKeyInput::A) Pan(-FDeltaTime * 25.f, 0);
+    if (KeyFlags & EKeyInput::D) Pan(FDeltaTime * 25.f, 0);
 }
 
 void CCamera::ProcessMouseInput(FKeyInputs KeyFlags, FMouseInputs MouseFlags, float XMovement, float YMovement)
 {
     // Free Camera
-    if (mMode == eFreeCamera)
+    if (mMode == ECameraMoveMode::Free)
     {
-        if (MouseFlags & eMiddleButton)
+        if (MouseFlags & EMouseInput::MiddleButton)
         {
-            if (KeyFlags & eCtrlKey) Zoom(-YMovement * 0.2f);
-            else                     Pan(-XMovement, YMovement);
+            if (KeyFlags & EKeyInput::Ctrl) Zoom(-YMovement * 0.2f);
+            else                            Pan(-XMovement, YMovement);
         }
 
-        else if (MouseFlags & eRightButton) Rotate(XMovement, YMovement);
+        else if (MouseFlags & EMouseInput::RightButton) Rotate(XMovement, YMovement);
     }
 
     // Orbit Camera
-    else if (mMode == eOrbitCamera)
+    else if (mMode == ECameraMoveMode::Orbit)
     {
-        if ((MouseFlags & eMiddleButton) || (MouseFlags & eRightButton))
+        if ((MouseFlags & EMouseInput::MiddleButton) || (MouseFlags & EMouseInput::RightButton))
             Pan(-XMovement, YMovement);
     }
 }
@@ -136,7 +136,7 @@ void CCamera::SetMoveMode(ECameraMoveMode Mode)
     mViewDirty = true;
     mFrustumPlanesDirty = true;
 
-    if (mMode == eOrbitCamera)
+    if (mMode == ECameraMoveMode::Orbit)
         mTransformDirty = true;
 }
 
@@ -145,7 +145,7 @@ void CCamera::SetOrbit(const CVector3f& OrbitTarget, float Distance)
     mOrbitTarget = OrbitTarget;
     mOrbitDistance = Distance;
 
-    if (mMode == eOrbitCamera)
+    if (mMode == ECameraMoveMode::Orbit)
     {
         mTransformDirty = true;
         mViewDirty = true;
@@ -161,7 +161,7 @@ void CCamera::SetOrbit(const CAABox& OrbitTarget, float DistScale /*= 1.75f*/)
     float Dist = OrbitTarget.Center().Distance(OrbitTarget.Max());
     mOrbitDistance = Dist * DistScale;
 
-    if (mMode == eOrbitCamera)
+    if (mMode == ECameraMoveMode::Orbit)
     {
         mTransformDirty = true;
         mViewDirty = true;
@@ -173,7 +173,7 @@ void CCamera::SetOrbitTarget(const CVector3f& rkOrbitTarget)
 {
     mOrbitTarget = rkOrbitTarget;
 
-    if (mMode == eOrbitCamera)
+    if (mMode == ECameraMoveMode::Orbit)
     {
         mTransformDirty = true;
         mViewDirty = true;
@@ -185,7 +185,7 @@ void CCamera::SetOrbitDistance(float Distance)
 {
     mOrbitDistance = Distance;
 
-    if (mMode == eOrbitCamera)
+    if (mMode == ECameraMoveMode::Orbit)
     {
         mTransformDirty = true;
         mViewDirty = true;
@@ -228,7 +228,7 @@ void CCamera::UpdateTransform() const
         mUpVector = mRightVector.Cross(mDirection);
 
         // Update position
-        if (mMode == eOrbitCamera)
+        if (mMode == ECameraMoveMode::Orbit)
         {
             if (mOrbitDistance < 1.f) mOrbitDistance = 1.f;
             mPosition = mOrbitTarget + (mDirection * -mOrbitDistance);

@@ -100,7 +100,7 @@ void CGameExporter::LoadResource(const CAssetID& rkID, std::vector<uint8>& rBuff
 
 bool CGameExporter::ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot)
 {
-    if (IsInRoot && mDiscType != eDT_Normal)
+    if (IsInRoot && mDiscType != EDiscType::Normal)
     {
         // Directories - exclude the filesystem for other games
         if (pkNode->getKind() == nod::Node::Kind::Directory)
@@ -115,15 +115,15 @@ bool CGameExporter::ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot)
             switch (mGame)
             {
             case EGame::Prime:
-                return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "MP1JPN") ||
-                         (mDiscType == eDT_Trilogy && pkNode->getName() == "MP1") );
+                return ( (mDiscType == EDiscType::WiiDeAsobu && pkNode->getName() == "MP1JPN") ||
+                         (mDiscType == EDiscType::Trilogy && pkNode->getName() == "MP1") );
 
             case EGame::Echoes:
-                return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "MP2JPN") ||
-                         (mDiscType == eDT_Trilogy && pkNode->getName() == "MP2") );
+                return ( (mDiscType == EDiscType::WiiDeAsobu && pkNode->getName() == "MP2JPN") ||
+                         (mDiscType == EDiscType::Trilogy && pkNode->getName() == "MP2") );
 
             case EGame::Corruption:
-                return (mDiscType == eDT_Trilogy && pkNode->getName() == "MP3");
+                return (mDiscType == EDiscType::Trilogy && pkNode->getName() == "MP3");
 
             default:
                 return false;
@@ -143,15 +143,15 @@ bool CGameExporter::ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot)
             switch (mGame)
             {
             case EGame::Prime:
-                return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "rs5mp1jpn_p.dol") ||
-                         (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp1_p.dol") );
+                return ( (mDiscType == EDiscType::WiiDeAsobu && pkNode->getName() == "rs5mp1jpn_p.dol") ||
+                         (mDiscType == EDiscType::Trilogy && pkNode->getName() == "rs5mp1_p.dol") );
 
             case EGame::Echoes:
-                return ( (mDiscType == eDT_WiiDeAsobu && pkNode->getName() == "rs5mp2jpn_p.dol") ||
-                         (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp2_p.dol") );
+                return ( (mDiscType == EDiscType::WiiDeAsobu && pkNode->getName() == "rs5mp2jpn_p.dol") ||
+                         (mDiscType == EDiscType::Trilogy && pkNode->getName() == "rs5mp2_p.dol") );
 
             case EGame::Corruption:
-                return (mDiscType == eDT_Trilogy && pkNode->getName() == "rs5mp3_p.dol");
+                return (mDiscType == EDiscType::Trilogy && pkNode->getName() == "rs5mp3_p.dol");
 
             default:
                 return false;
@@ -232,7 +232,7 @@ bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TStr
             if (FilePath.GetFileExtension().CaseInsensitiveCompare("pak"))
             {
                 // For multi-game Wii discs, don't track packages for frontend unless we're exporting frontend
-                if (mDiscType == eDT_Normal || mFrontEnd || pkNode->getName() != "fe")
+                if (mDiscType == EDiscType::Normal || mFrontEnd || pkNode->getName() != "fe")
                     mPaks.push_back(FilePath);
             }
         }
@@ -264,7 +264,7 @@ void CGameExporter::LoadPaks()
     for (auto It = mPaks.begin(); It != mPaks.end(); It++)
     {
         TString PakPath = *It;
-        CFileInStream Pak(PakPath, IOUtil::eBigEndian);
+        CFileInStream Pak(PakPath, EEndian::BigEndian);
 
         if (!Pak.IsValid())
         {
@@ -427,7 +427,7 @@ void CGameExporter::LoadPaks()
 
 void CGameExporter::LoadResource(const SResourceInstance& rkResource, std::vector<uint8>& rBuffer)
 {
-    CFileInStream Pak(rkResource.PakFile, IOUtil::eBigEndian);
+    CFileInStream Pak(rkResource.PakFile, EEndian::BigEndian);
 
     if (Pak.IsValid())
     {
@@ -559,13 +559,13 @@ void CGameExporter::ExportResourceEditorData()
         for (CResourceIterator It(mpStore); It && !mpProgress->ShouldCancel(); ++It, ++ResIndex)
         {
             // Update progress
-            if ((ResIndex & 0x3) == 0 || It->ResourceType() == eArea)
+            if ((ResIndex & 0x3) == 0 || It->ResourceType() == EResourceType::Area)
                 mpProgress->Report(ResIndex, mpStore->NumTotalResources(), TString::Format("Processing asset %d/%d: %s",
                     ResIndex, mpStore->NumTotalResources(), *It->CookedAssetPath(true).GetFileName()) );
 
             // Worlds need some info we can only get from the pak at export time; namely, which areas can
             // have duplicates, as well as the world's internal name.
-            if (It->ResourceType() == eWorld)
+            if (It->ResourceType() == EResourceType::World)
             {
                 CWorld *pWorld = (CWorld*) It->Load();
 
@@ -629,15 +629,15 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
         CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResTypeInfo::TypeForCookedExtension(mGame, rRes.ResourceType)->Type(), Directory, Name);
 
         // Set flags
-        pEntry->SetFlag(eREF_IsBaseGameResource);
-        pEntry->SetFlagEnabled(eREF_AutoResDir, AutoDir);
-        pEntry->SetFlagEnabled(eREF_AutoResName, AutoName);
+        pEntry->SetFlag(EResEntryFlag::IsBaseGameResource);
+        pEntry->SetFlagEnabled(EResEntryFlag::AutoResDir, AutoDir);
+        pEntry->SetFlagEnabled(EResEntryFlag::AutoResName, AutoName);
 
 #if EXPORT_COOKED
         // Save cooked asset
         TString OutCookedPath = pEntry->CookedAssetPath();
         FileUtil::MakeDirectory(OutCookedPath.GetFileDirectory());
-        CFileOutStream Out(OutCookedPath, IOUtil::eBigEndian);
+        CFileOutStream Out(OutCookedPath, EEndian::BigEndian);
 
         if (Out.IsValid())
             Out.WriteBytes(ResourceData.data(), ResourceData.size());
@@ -652,7 +652,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
 TString CGameExporter::MakeWorldName(CAssetID WorldID)
 {
     CResourceEntry *pWorldEntry = mpStore->FindEntry(WorldID);
-    ASSERT(pWorldEntry && pWorldEntry->ResourceType() == eWorld);
+    ASSERT(pWorldEntry && pWorldEntry->ResourceType() == EResourceType::World);
 
     // Find the original world name in the package resource names
     TString WorldName;

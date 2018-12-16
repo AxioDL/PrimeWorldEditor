@@ -24,7 +24,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore)
 // Static constructors
 CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
                                                     const TString& rkDir, const TString& rkName,
-                                                    EResType Type)
+                                                    EResourceType Type)
 {
     // Initialize all entry info with the input data.
     CResourceEntry *pEntry = new CResourceEntry(pStore);
@@ -257,7 +257,7 @@ bool CResourceEntry::NeedsRecook() const
     // toggled to arbitrarily flag any asset for recook.
     if (!HasRawVersion()) return false;
     if (!HasCookedVersion()) return true;
-    if (HasFlag(eREF_NeedsRecook)) return true;
+    if (HasFlag(EResEntryFlag::NeedsRecook)) return true;
     return (FileUtil::LastModifiedTime(CookedAssetPath()) < FileUtil::LastModifiedTime(RawAssetPath()));
 }
 
@@ -298,7 +298,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
             return false;
         }
 
-        SetFlag(eREF_NeedsRecook);
+        SetFlag(EResEntryFlag::NeedsRecook);
     }
 
     // This resource type doesn't have a raw format; save cooked instead
@@ -314,7 +314,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
     }
 
     // Resource has been saved; now make sure metadata, dependencies, and packages are all up to date
-    SetFlag(eREF_HasBeenModified);
+    SetFlag(EResEntryFlag::HasBeenModified);
     SaveMetadata();
     UpdateDependencies();
 
@@ -348,7 +348,7 @@ bool CResourceEntry::Cook()
     FileUtil::MakeDirectory(Dir);
 
     // Attempt to open output cooked file
-    CFileOutStream File(Path, IOUtil::eBigEndian);
+    CFileOutStream File(Path, EEndian::BigEndian);
     if (!File.IsValid())
     {
         errorf("Failed to open cooked file for writing: %s", *Path);
@@ -359,8 +359,8 @@ bool CResourceEntry::Cook()
 
     if (Success)
     {
-        ClearFlag(eREF_NeedsRecook);
-        SetFlag(eREF_HasBeenModified);
+        ClearFlag(EResEntryFlag::NeedsRecook);
+        SetFlag(EResEntryFlag::HasBeenModified);
         SaveMetadata();
     }
 
@@ -409,7 +409,7 @@ CResource* CResourceEntry::Load()
     ASSERT(!mpResource);
     if (HasCookedVersion())
     {
-        CFileInStream File(CookedAssetPath(), IOUtil::eBigEndian);
+        CFileInStream File(CookedAssetPath(), EEndian::BigEndian);
 
         if (!File.IsValid())
         {
@@ -571,12 +571,12 @@ bool CResourceEntry::MoveAndRename(const TString& rkDir, const TString& rkName, 
             FSMoveSuccess = pOldDir->RemoveChildResource(this);
             ASSERT(FSMoveSuccess == true); // this shouldn't be able to fail
             mpDirectory->AddChild("", this);
-            SetFlagEnabled(eREF_AutoResDir, IsAutoGenDir);
+            SetFlagEnabled(EResEntryFlag::AutoResDir, IsAutoGenDir);
         }
 
         if (mName != OldName)
         {
-            SetFlagEnabled(eREF_AutoResName, IsAutoGenName);
+            SetFlagEnabled(EResEntryFlag::AutoResName, IsAutoGenName);
         }
 
         mpStore->SetCacheDirty();

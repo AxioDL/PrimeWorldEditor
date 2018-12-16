@@ -8,8 +8,8 @@
 class CModelEditorViewport : public CBasicViewport
 {
 public:
-    enum EDrawMode {
-        eDrawMesh, eDrawSphere, eDrawSquare
+    enum class EDrawMode {
+        DrawMesh, DrawSphere, DrawSquare
     };
 
 private:

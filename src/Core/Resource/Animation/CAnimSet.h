@@ -45,12 +45,12 @@ struct SHalfTransition
 };
 
 // Character structures
-enum EOverlayType
+enum class EOverlayType
 {
-    eOT_Frozen = FOURCC('FRZN'),
-    eOT_Hypermode = FOURCC('HYPR'),
-    eOT_Acid = FOURCC('ACID'),
-    eOT_XRay = FOURCC('XRAY')
+    Frozen      = FOURCC('FRZN'),
+    Hypermode   = FOURCC('HYPR'),
+    Acid        = FOURCC('ACID'),
+    XRay        = FOURCC('XRAY')
 };
 
 struct SOverlayModel
@@ -84,7 +84,7 @@ struct SSetCharacter
 
 class CAnimSet : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eAnimSet)
+    DECLARE_RESOURCE_TYPE(AnimSet)
     friend class CAnimSetLoader;
 
     // Character Set

@@ -1,12 +1,12 @@
 #ifndef ERENDERCOMMAND
 #define ERENDERCOMMAND
 
-enum ERenderCommand
+enum class ERenderCommand
 {
-    eDrawMesh,
-    eDrawOpaqueParts,
-    eDrawTransparentParts,
-    eDrawSelection
+    DrawMesh,
+    DrawOpaqueParts,
+    DrawTransparentParts,
+    DrawSelection
 };
 
 #endif // ERENDERCOMMAND

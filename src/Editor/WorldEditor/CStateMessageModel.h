@@ -12,10 +12,10 @@ class CStateMessageModel : public QAbstractListModel
     Q_OBJECT
 
 public:
-    enum EType
+    enum class EType
     {
-        eStates,
-        eMessages
+        States,
+        Messages
     };
 
 private:
@@ -69,7 +69,7 @@ public:
         mpGame = pGame;
         mEntries.clear();
 
-        if (mType == eStates)
+        if (mType == EType::States)
         {
             for (uint32 iState = 0; iState < pGame->NumStates(); iState++)
             {
@@ -93,7 +93,7 @@ public:
 
     uint32 StateIndex(uint32 StateID) const
     {
-        if (mType == eMessages) return -1;
+        if (mType == EType::Messages) return -1;
 
         for (int iState = 0; iState < mEntries.size(); iState++)
         {
@@ -106,7 +106,7 @@ public:
 
     uint32 MessageIndex(uint32 MessageID) const
     {
-        if (mType == eStates) return -1;
+        if (mType == EType::States) return -1;
 
         for (int iMsg = 0; iMsg < mEntries.size(); iMsg++)
         {
@@ -124,12 +124,12 @@ public:
 
     inline uint32 State(uint32 Index) const
     {
-        return (mType == eStates ? mEntries[Index].ID : 0);
+        return (mType == EType::States ? mEntries[Index].ID : 0);
     }
 
     inline uint32 Message(uint32 Index) const
     {
-        return (mType == eMessages ? mEntries[Index].ID : 0);
+        return (mType == EType::Messages ? mEntries[Index].ID : 0);
     }
 };
 

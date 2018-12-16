@@ -19,7 +19,7 @@ class CNodeSelection : public QObject
 
 public:
     CNodeSelection()
-        : mAllowedNodes(eAllNodeTypes)
+        : mAllowedNodes(ENodeType::All)
         , mBoundsDirty(true) {}
 
     ~CNodeSelection()
@@ -92,7 +92,7 @@ public:
             {
                 mCachedBounds.ExpandBounds(pNode->AABox());
 
-                if (pNode->NodeType() == eScriptNode)
+                if (pNode->NodeType() == ENodeType::Script)
                 {
                     CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
 

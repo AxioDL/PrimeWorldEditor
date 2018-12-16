@@ -5,7 +5,7 @@
 
 class CAnimEventData : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eAnimEventData)
+    DECLARE_RESOURCE_TYPE(AnimEventData)
 
     struct SEvent
     {

@@ -17,9 +17,9 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     mpScene = mpEditor->Scene();
 
     mpLayersModel = new CInstancesModel(pEditor, this);
-    mpLayersModel->SetModelType(CInstancesModel::eLayers);
+    mpLayersModel->SetModelType(CInstancesModel::EInstanceModelType::Layers);
     mpTypesModel = new CInstancesModel(pEditor, this);
-    mpTypesModel->SetModelType(CInstancesModel::eTypes);
+    mpTypesModel->SetModelType(CInstancesModel::EInstanceModelType::Types);
     mLayersProxyModel.setSourceModel(mpLayersModel);
     mTypesProxyModel.setSourceModel(mpTypesModel);
 
@@ -88,7 +88,7 @@ void WInstancesTab::OnTreeClick(QModelIndex Index)
     if (SourceIndex.column() == 2)
     {
         // Show/Hide Instance
-        if (mpTypesModel->IndexType(SourceIndex) == CInstancesModel::eInstanceIndex)
+        if (mpTypesModel->IndexType(SourceIndex) == CInstancesModel::EIndexType::Instance)
         {
             CScriptObject *pObj = mpTypesModel->IndexObject(SourceIndex);
 
@@ -103,7 +103,7 @@ void WInstancesTab::OnTreeClick(QModelIndex Index)
         }
 
         // Show/Hide Object Type
-        else if (mpTypesModel->IndexType(SourceIndex) == CInstancesModel::eObjectTypeIndex)
+        else if (mpTypesModel->IndexType(SourceIndex) == CInstancesModel::EIndexType::ObjectType)
         {
             if (sender() == ui->LayersTreeView)
             {
@@ -127,11 +127,11 @@ void WInstancesTab::OnTreeDoubleClick(QModelIndex Index)
     QModelIndex SourceIndex = (ui->TabWidget->currentIndex() == 0 ? mLayersProxyModel.mapToSource(Index) : mTypesProxyModel.mapToSource(Index));;
     CInstancesModel::EIndexType IndexType = mpTypesModel->IndexType(SourceIndex);
 
-    if ((mpEditor) && (IndexType == CInstancesModel::eInstanceIndex))
+    if ((mpEditor) && (IndexType == CInstancesModel::EIndexType::Instance))
     {
-        CInstancesModel::ENodeType NodeType = mpTypesModel->IndexNodeType(SourceIndex);
+        ENodeType NodeType = mpTypesModel->IndexNodeType(SourceIndex);
 
-        if (NodeType == CInstancesModel::eScriptType)
+        if (NodeType == ENodeType::Script)
         {
             CSceneNode *pSelectedNode = mpScene->NodeForInstance( static_cast<CScriptObject*>(SourceIndex.internalPointer()) );
             mpEditor->ClearAndSelectNode(pSelectedNode);
@@ -154,7 +154,7 @@ void WInstancesTab::OnTreeContextMenu(QPoint Pos)
     mpMenuLayer = nullptr;
     mpMenuTemplate = nullptr;
 
-    if (mMenuIndexType == CInstancesModel::eObjectTypeIndex)
+    if (mMenuIndexType == CInstancesModel::EIndexType::ObjectType)
     {
         pObject = nullptr;
         mpMenuObject = nullptr;
@@ -165,7 +165,7 @@ void WInstancesTab::OnTreeContextMenu(QPoint Pos)
             mpMenuTemplate = mpTypesModel->IndexTemplate(mMenuIndex);
     }
 
-    else if (mMenuIndexType == CInstancesModel::eInstanceIndex)
+    else if (mMenuIndexType == CInstancesModel::EIndexType::Instance)
     {
         pObject = ( IsLayers ? mpLayersModel->IndexObject(mMenuIndex) : mpTypesModel->IndexObject(mMenuIndex) );
         mpMenuObject = mpScene->NodeForInstance(pObject);
@@ -236,7 +236,7 @@ void WInstancesTab::OnHideInstanceAction()
 void WInstancesTab::OnHideTypeAction()
 {
     bool IsLayers = (ui->TabWidget->currentIndex() == 0);
-    QModelIndex TypeIndex = (mMenuIndexType == CInstancesModel::eInstanceIndex ? mMenuIndex.parent() : mMenuIndex);
+    QModelIndex TypeIndex = (mMenuIndexType == CInstancesModel::EIndexType::Instance ? mMenuIndex.parent() : mMenuIndex);
 
     if (IsLayers)
     {
@@ -281,7 +281,7 @@ void WInstancesTab::OnHideAllTypesAction()
 void WInstancesTab::OnHideAllExceptTypeAction()
 {
     bool IsLayers = (ui->TabWidget->currentIndex() == 0);
-    QModelIndex TypeIndex = (mMenuIndexType == CInstancesModel::eInstanceIndex ? mMenuIndex.parent() : mMenuIndex);
+    QModelIndex TypeIndex = (mMenuIndexType == CInstancesModel::EIndexType::Instance ? mMenuIndex.parent() : mMenuIndex);
     QModelIndex TypeParent = TypeIndex.parent();
 
     if (IsLayers)
@@ -315,7 +315,7 @@ void WInstancesTab::OnHideAllExceptTypeAction()
 void WInstancesTab::OnUnhideAllTypes()
 {
     bool IsLayers = (ui->TabWidget->currentIndex() == 0);
-    QModelIndex TypeIndex = (mMenuIndexType == CInstancesModel::eInstanceIndex ? mMenuIndex.parent() : mMenuIndex);
+    QModelIndex TypeIndex = (mMenuIndexType == CInstancesModel::EIndexType::Instance ? mMenuIndex.parent() : mMenuIndex);
     QModelIndex TypeParent = TypeIndex.parent();
 
     if (IsLayers)
@@ -343,7 +343,7 @@ void WInstancesTab::OnUnhideAllTypes()
 void WInstancesTab::OnUnhideAll()
 {
     // Unhide instances
-    for (CSceneIterator It(mpScene, eScriptNode, true); !It.DoneIterating(); ++It)
+    for (CSceneIterator It(mpScene, ENodeType::Script, true); !It.DoneIterating(); ++It)
         It->SetVisible(true);
 
     // Unhide layers
