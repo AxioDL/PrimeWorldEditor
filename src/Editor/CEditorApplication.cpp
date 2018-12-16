@@ -127,9 +127,9 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
 
         switch (pEntry->ResourceType())
         {
-        case eArea:
+        case EResourceType::Area:
             // We can't open an area on its own. Find a world that contains this area.
-            for (TResourceIterator<eWorld> It; It; ++It)
+            for (TResourceIterator<EResourceType::World> It; It; ++It)
             {
                 if (It->Dependencies()->HasDependency(pEntry->ID()))
                 {
@@ -145,11 +145,11 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
             }
             break;
 
-        case eModel:
+        case EResourceType::Model:
             pEd = new CModelEditorWindow((CModel*) pRes, mpWorldEditor);
             break;
 
-        case eAnimSet:
+        case EResourceType::AnimSet:
             pEd = new CCharacterEditor((CAnimSet*) pRes, mpWorldEditor);
             break;
         }
@@ -159,7 +159,7 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
             pEd->show();
             mEditingMap[pEntry] = pEd;
         }
-        else if (pEntry->ResourceType() != eArea)
+        else if (pEntry->ResourceType() != EResourceType::Area)
             UICommon::InfoMsg(mpWorldEditor, "Unsupported Resource", "This resource type is currently unsupported for editing.");
     }
 }

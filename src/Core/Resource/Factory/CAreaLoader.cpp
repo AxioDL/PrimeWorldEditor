@@ -198,7 +198,7 @@ void CAreaLoader::ReadLightsPrime()
                 Multiplier = FLT_EPSILON;
 
             // Local Ambient
-            if (Type == eLocalAmbient)
+            if (Type == ELightType::LocalAmbient)
             {
                 Color *= Multiplier;
 
@@ -212,13 +212,13 @@ void CAreaLoader::ReadLightsPrime()
             }
 
             // Directional
-            else if (Type == eDirectional)
+            else if (Type == ELightType::Directional)
             {
                 pLight = CLight::BuildDirectional(Position, Direction, LightColor);
             }
 
             // Spot
-            else if (Type == eSpot)
+            else if (Type == ELightType::Spot)
             {
                 pLight = CLight::BuildSpot(Position, Direction.Normalized(), LightColor, SpotCutoff);
 
@@ -499,19 +499,19 @@ void CAreaLoader::ReadLightsCorruption()
                 Multiplier = FLT_EPSILON;
 
             // Local Ambient
-            if (Type == eLocalAmbient)
+            if (Type == ELightType::LocalAmbient)
             {
                 pLight = CLight::BuildLocalAmbient(Position, LightColor * Multiplier);
             }
 
             // Directional
-            else if (Type == eDirectional)
+            else if (Type == ELightType::Directional)
             {
                 pLight = CLight::BuildDirectional(Position, Direction, LightColor);
             }
 
             // Spot
-            else if (Type == eSpot)
+            else if (Type == ELightType::Spot)
             {
                 pLight = CLight::BuildSpot(Position, Direction.Normalized(), LightColor, SpotCutoff);
 
@@ -597,7 +597,7 @@ void CAreaLoader::Decompress()
     }
 
     TString Source = mpMREA->GetSourceString();
-    mpMREA = new CMemoryInStream(mpDecmpBuffer, mTotalDecmpSize, IOUtil::eBigEndian);
+    mpMREA = new CMemoryInStream(mpDecmpBuffer, mTotalDecmpSize, EEndian::BigEndian);
     mpMREA->SetSourceString(Source);
     mpSectionMgr->SetInputStream(mpMREA);
     mHasDecompressedBuffer = true;
@@ -639,7 +639,7 @@ void CAreaLoader::ReadEGMC()
 {
     mpSectionMgr->ToSection(mEGMCBlockNum);
     CAssetID EGMC(*mpMREA, mVersion);
-    mpArea->mpPoiToWorldMap = gpResourceStore->LoadResource(EGMC, eStaticGeometryMap);
+    mpArea->mpPoiToWorldMap = gpResourceStore->LoadResource(EGMC, EResourceType::StaticGeometryMap);
 }
 
 void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
@@ -692,9 +692,9 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
         CScriptObject *pInst = Iter->second;
 
         // Store outgoing connections
-        for (uint32 iCon = 0; iCon < pInst->NumLinks(eOutgoing); iCon++)
+        for (uint32 iCon = 0; iCon < pInst->NumLinks(ELinkType::Outgoing); iCon++)
         {
-            CLink *pLink = pInst->Link(eOutgoing, iCon);
+            CLink *pLink = pInst->Link(ELinkType::Outgoing, iCon);
             mConnectionMap[pLink->ReceiverID()].push_back(pLink);
         }
 

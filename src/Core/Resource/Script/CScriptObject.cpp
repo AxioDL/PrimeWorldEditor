@@ -140,14 +140,14 @@ bool CScriptObject::HasNearVisibleActivation() const
         CLink *pLink = mInLinks[iLink];
 
         // Check for trigger activation
-        if (pLink->State() == 0x49533034 || pLink->State() == 0x49533035 || pLink->State() == 0x49533036) // "IS04", "IS05", or "IS06"
+        if (pLink->State() == FOURCC('IS04') || pLink->State() == FOURCC('IS05') || pLink->State() == FOURCC('IS06'))
         {
-            if ( (!IsRelay && pLink->Message() == 0x41435456) || // "ACTV"
-                 (IsRelay  && pLink->Message() == 0x4143544E) )  // "ACTN"
+            if ( (!IsRelay && pLink->Message() == FOURCC('ACTV')) ||
+                 (IsRelay  && pLink->Message() == FOURCC('ACTN')) )
             {
                 CScriptObject *pObj = pLink->Sender();
 
-                if (pObj->ObjectTypeID() == 0x54524752) // "TRGR"
+                if (pObj->ObjectTypeID() == FOURCC('TRGR'))
                 {
                     mIsCheckingNearVisibleActivation = false;
                     return true;
@@ -156,14 +156,14 @@ bool CScriptObject::HasNearVisibleActivation() const
         }
 
         // Check for relay activation
-        else if (pLink->State() == 0x524C4159) // "RLAY"
+        else if (pLink->State() == FOURCC('RLAY'))
         {
-            if ( (!IsRelay && pLink->Message() == 0x41435456) || // "ACTV"
-                 (IsRelay  && pLink->Message() == 0x4143544E) )  // "ACTN"
+            if ( (!IsRelay && pLink->Message() == FOURCC('ACTV')) ||
+                 (IsRelay  && pLink->Message() == FOURCC('ACTN')) )
             {
                 CScriptObject *pObj = pLink->Sender();
 
-                if (pObj->ObjectTypeID() == 0x53524C59) // "SRLY"
+                if (pObj->ObjectTypeID() == FOURCC('SRLY'))
                     Relays.push_back(pObj);
             }
         }
@@ -185,7 +185,7 @@ bool CScriptObject::HasNearVisibleActivation() const
 
 void CScriptObject::AddLink(ELinkType Type, CLink *pLink, uint32 Index /*= -1*/)
 {
-    std::vector<CLink*> *pLinkVec = (Type == eIncoming ? &mInLinks : &mOutLinks);
+    std::vector<CLink*> *pLinkVec = (Type == ELinkType::Incoming ? &mInLinks : &mOutLinks);
 
     if (Index == -1 || Index == pLinkVec->size())
         pLinkVec->push_back(pLink);
@@ -199,7 +199,7 @@ void CScriptObject::AddLink(ELinkType Type, CLink *pLink, uint32 Index /*= -1*/)
 
 void CScriptObject::RemoveLink(ELinkType Type, CLink *pLink)
 {
-    std::vector<CLink*> *pLinkVec = (Type == eIncoming ? &mInLinks : &mOutLinks);
+    std::vector<CLink*> *pLinkVec = (Type == ELinkType::Incoming ? &mInLinks : &mOutLinks);
 
     for (auto it = pLinkVec->begin(); it != pLinkVec->end(); it++)
     {
@@ -217,7 +217,7 @@ void CScriptObject::BreakAllLinks()
     {
         CLink *pLink = *it;
         CScriptObject *pSender = pLink->Sender();
-        if (pSender) pSender->RemoveLink(eOutgoing, pLink);
+        if (pSender) pSender->RemoveLink(ELinkType::Outgoing, pLink);
         delete pLink;
     }
 
@@ -225,7 +225,7 @@ void CScriptObject::BreakAllLinks()
     {
         CLink *pLink = *it;
         CScriptObject *pReceiver = pLink->Receiver();
-        if (pReceiver) pReceiver->RemoveLink(eIncoming, pLink);
+        if (pReceiver) pReceiver->RemoveLink(ELinkType::Incoming, pLink);
         delete pLink;
     }
 

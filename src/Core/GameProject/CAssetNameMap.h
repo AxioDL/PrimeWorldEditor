@@ -56,8 +56,8 @@ class CAssetNameMap
     void PostLoadValidate();
 
 public:
-    CAssetNameMap(EIDLength IDLength) : mIsValid(true), mIDLength(IDLength)                       { ASSERT(mIDLength != eInvalidIDLength); }
-    CAssetNameMap(EGame Game)         : mIsValid(true), mIDLength( CAssetID::GameIDLength(Game) ) { ASSERT(mIDLength != eInvalidIDLength); }
+    CAssetNameMap(EIDLength IDLength) : mIsValid(true), mIDLength(IDLength)                       { ASSERT(mIDLength != kInvalidIDLength); }
+    CAssetNameMap(EGame Game)         : mIsValid(true), mIDLength( CAssetID::GameIDLength(Game) ) { ASSERT(mIDLength != kInvalidIDLength); }
     bool LoadAssetNames(TString Path = "");
     bool SaveAssetNames(TString Path = "");
     bool GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rOutName, bool& rOutAutoGenDir, bool& rOutAutoGenName);

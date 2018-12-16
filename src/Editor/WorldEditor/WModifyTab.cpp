@@ -26,9 +26,9 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     ui->PropertyView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
 
     mpInLinkModel = new CLinkModel(this);
-    mpInLinkModel->SetConnectionType(eIncoming);
+    mpInLinkModel->SetConnectionType(ELinkType::Incoming);
     mpOutLinkModel = new CLinkModel(this);
-    mpOutLinkModel->SetConnectionType(eOutgoing);
+    mpOutLinkModel->SetConnectionType(ELinkType::Outgoing);
 
     mpAddFromViewportAction = new QAction("Choose from viewport", this);
     mpAddFromListAction = new QAction("Choose from list", this);
@@ -82,7 +82,7 @@ void WModifyTab::GenerateUI()
         {
             mpSelectedNode = mpWorldEditor->Selection()->Front();
 
-            if (mpSelectedNode->NodeType() == eScriptNode)
+            if (mpSelectedNode->NodeType() == ENodeType::Script)
             {
                 CScriptNode *pScriptNode = static_cast<CScriptNode*>(mpSelectedNode);
                 CScriptObject *pObj = pScriptNode->Instance();
@@ -119,7 +119,7 @@ void WModifyTab::GenerateUI()
 
 void WModifyTab::OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances)
 {
-    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
     {
         CScriptObject *pInstance = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
 
@@ -161,13 +161,13 @@ void WModifyTab::OnLinksSelectionModified()
 
 void WModifyTab::OnAddLinkActionClicked(QAction *pAction)
 {
-    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
     {
-        mAddLinkType = (sender() == ui->AddOutgoingConnectionToolButton ? eOutgoing : eIncoming);
+        mAddLinkType = (sender() == ui->AddOutgoingConnectionToolButton ? ELinkType::Outgoing : ELinkType::Incoming);
 
         if (pAction == mpAddFromViewportAction)
         {
-            mpWorldEditor->EnterPickMode(eScriptNode, true, false, false);
+            mpWorldEditor->EnterPickMode(ENodeType::Script, true, false, false);
             connect(mpWorldEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnPickModeClick(SRayIntersection)));
             connect(mpWorldEditor, SIGNAL(PickModeExited()), this, SLOT(OnPickModeExit()));
             mIsPicking = true;
@@ -187,8 +187,8 @@ void WModifyTab::OnAddLinkActionClicked(QAction *pAction)
                 CLinkDialog *pLinkDialog = mpWorldEditor->LinkDialog();
                 CScriptObject *pSelected = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
 
-                CScriptObject *pSender      = (mAddLinkType == eOutgoing ? pSelected : pTarget);
-                CScriptObject *pReceiver    = (mAddLinkType == eOutgoing ? pTarget : pSelected);
+                CScriptObject *pSender      = (mAddLinkType == ELinkType::Outgoing ? pSelected : pTarget);
+                CScriptObject *pReceiver    = (mAddLinkType == ELinkType::Outgoing ? pTarget : pSelected);
                 pLinkDialog->NewLink(pSender, pReceiver);
                 pLinkDialog->show();
             }
@@ -206,8 +206,8 @@ void WModifyTab::OnPickModeClick(const SRayIntersection& rkIntersect)
         CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
         CScriptObject *pSelected = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
 
-        CScriptObject *pSender      = (mAddLinkType == eOutgoing ? pSelected : pTarget);
-        CScriptObject *pReceiver    = (mAddLinkType == eOutgoing ? pTarget : pSelected);
+        CScriptObject *pSender      = (mAddLinkType == ELinkType::Outgoing ? pSelected : pTarget);
+        CScriptObject *pReceiver    = (mAddLinkType == ELinkType::Outgoing ? pTarget : pSelected);
         pDialog->NewLink(pSender, pReceiver);
         pDialog->show();
     }
@@ -222,10 +222,10 @@ void WModifyTab::OnPickModeExit()
 
 void WModifyTab::OnDeleteLinksClicked()
 {
-    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
     {
-        ELinkType Type = (sender() == ui->DeleteOutgoingConnectionButton ? eOutgoing : eIncoming);
-        QModelIndexList SelectedIndices = (Type == eOutgoing ? ui->OutLinksTableView->selectionModel()->selectedRows() : ui->InLinksTableView->selectionModel()->selectedRows());
+        ELinkType Type = (sender() == ui->DeleteOutgoingConnectionButton ? ELinkType::Outgoing : ELinkType::Incoming);
+        QModelIndexList SelectedIndices = (Type == ELinkType::Outgoing ? ui->OutLinksTableView->selectionModel()->selectedRows() : ui->InLinksTableView->selectionModel()->selectedRows());
 
         if (!SelectedIndices.isEmpty())
         {
@@ -243,10 +243,10 @@ void WModifyTab::OnDeleteLinksClicked()
 
 void WModifyTab::OnEditLinkClicked()
 {
-    if (mpSelectedNode && mpSelectedNode->NodeType() == eScriptNode)
+    if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
     {
-        ELinkType Type = (sender() == ui->EditOutgoingConnectionButton ? eOutgoing : eIncoming);
-        QModelIndexList SelectedIndices = (Type == eOutgoing ? ui->OutLinksTableView->selectionModel()->selectedRows() : ui->InLinksTableView->selectionModel()->selectedRows());
+        ELinkType Type = (sender() == ui->EditOutgoingConnectionButton ? ELinkType::Outgoing : ELinkType::Incoming);
+        QModelIndexList SelectedIndices = (Type == ELinkType::Outgoing ? ui->OutLinksTableView->selectionModel()->selectedRows() : ui->InLinksTableView->selectionModel()->selectedRows());
 
         if (SelectedIndices.size() == 1)
         {
@@ -268,9 +268,9 @@ void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
         uint32 InstanceID;
 
         if (sender() == ui->InLinksTableView)
-            InstanceID = pNode->Instance()->Link(eIncoming, Index.row())->SenderID();
+            InstanceID = pNode->Instance()->Link(ELinkType::Incoming, Index.row())->SenderID();
         else if (sender() == ui->OutLinksTableView)
-            InstanceID = pNode->Instance()->Link(eOutgoing, Index.row())->ReceiverID();
+            InstanceID = pNode->Instance()->Link(ELinkType::Outgoing, Index.row())->ReceiverID();
 
         CScriptNode *pLinkedNode = pNode->Scene()->NodeForInstanceID(InstanceID);
 

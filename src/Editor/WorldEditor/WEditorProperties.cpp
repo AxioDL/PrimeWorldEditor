@@ -74,7 +74,7 @@ void WEditorProperties::SetLayerComboBox()
 {
     mpLayersComboBox->blockSignals(true);
 
-    if (mpDisplayNode && mpDisplayNode->NodeType() == eScriptNode)
+    if (mpDisplayNode && mpDisplayNode->NodeType() == ENodeType::Script)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
         CScriptLayer *pLayer = pScript->Instance()->Layer();
@@ -103,7 +103,7 @@ void WEditorProperties::OnSelectionModified()
     CNodeSelection *pSelection = mpEditor->Selection();
     mpDisplayNode = (pSelection->Size() == 1 ? pSelection->Front() : nullptr);
 
-    if (pSelection->IsEmpty() || pSelection->Size() != 1 || mpDisplayNode->NodeType() != eScriptNode)
+    if (pSelection->IsEmpty() || pSelection->Size() != 1 || mpDisplayNode->NodeType() != ENodeType::Script)
     {
         mpActiveCheckBox->setChecked(false);
         mpActiveCheckBox->setEnabled(false);
@@ -143,7 +143,7 @@ void WEditorProperties::OnPropertyModified(CScriptObject *pInstance, IProperty *
 {
     if (!mpInstanceNameLineEdit->hasFocus())
     {
-        if (mpDisplayNode->NodeType() == eScriptNode && pInstance->IsEditorProperty(pProp))
+        if (mpDisplayNode->NodeType() == ENodeType::Script && pInstance->IsEditorProperty(pProp))
             UpdatePropertyValues();
     }
 }

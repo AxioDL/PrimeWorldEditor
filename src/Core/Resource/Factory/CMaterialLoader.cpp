@@ -18,26 +18,26 @@ CMaterialLoader::~CMaterialLoader()
 FVertexDescription CMaterialLoader::ConvertToVertexDescription(uint32 VertexFlags)
 {
     FVertexDescription Desc;
-    if (VertexFlags & 0x00000003) Desc |= ePosition;
-    if (VertexFlags & 0x0000000C) Desc |= eNormal;
-    if (VertexFlags & 0x00000030) Desc |= eColor0;
-    if (VertexFlags & 0x000000C0) Desc |= eColor1;
-    if (VertexFlags & 0x00000300) Desc |= eTex0;
-    if (VertexFlags & 0x00000C00) Desc |= eTex1;
-    if (VertexFlags & 0x00003000) Desc |= eTex2;
-    if (VertexFlags & 0x0000C000) Desc |= eTex3;
-    if (VertexFlags & 0x00030000) Desc |= eTex4;
-    if (VertexFlags & 0x000C0000) Desc |= eTex5;
-    if (VertexFlags & 0x00300000) Desc |= eTex6;
-    if (VertexFlags & 0x00C00000) Desc |= eTex7;
-    if (VertexFlags & 0x01000000) Desc |= ePosMtx;
-    if (VertexFlags & 0x02000000) Desc |= eTex0Mtx;
-    if (VertexFlags & 0x04000000) Desc |= eTex1Mtx;
-    if (VertexFlags & 0x08000000) Desc |= eTex2Mtx;
-    if (VertexFlags & 0x10000000) Desc |= eTex3Mtx;
-    if (VertexFlags & 0x20000000) Desc |= eTex4Mtx;
-    if (VertexFlags & 0x40000000) Desc |= eTex5Mtx;
-    if (VertexFlags & 0x80000000) Desc |= eTex6Mtx;
+    if (VertexFlags & 0x00000003) Desc |= EVertexAttribute::Position;
+    if (VertexFlags & 0x0000000C) Desc |= EVertexAttribute::Normal;
+    if (VertexFlags & 0x00000030) Desc |= EVertexAttribute::Color0;
+    if (VertexFlags & 0x000000C0) Desc |= EVertexAttribute::Color1;
+    if (VertexFlags & 0x00000300) Desc |= EVertexAttribute::Tex0;
+    if (VertexFlags & 0x00000C00) Desc |= EVertexAttribute::Tex1;
+    if (VertexFlags & 0x00003000) Desc |= EVertexAttribute::Tex2;
+    if (VertexFlags & 0x0000C000) Desc |= EVertexAttribute::Tex3;
+    if (VertexFlags & 0x00030000) Desc |= EVertexAttribute::Tex4;
+    if (VertexFlags & 0x000C0000) Desc |= EVertexAttribute::Tex5;
+    if (VertexFlags & 0x00300000) Desc |= EVertexAttribute::Tex6;
+    if (VertexFlags & 0x00C00000) Desc |= EVertexAttribute::Tex7;
+    if (VertexFlags & 0x01000000) Desc |= EVertexAttribute::PosMtx;
+    if (VertexFlags & 0x02000000) Desc |= EVertexAttribute::Tex0Mtx;
+    if (VertexFlags & 0x04000000) Desc |= EVertexAttribute::Tex1Mtx;
+    if (VertexFlags & 0x08000000) Desc |= EVertexAttribute::Tex2Mtx;
+    if (VertexFlags & 0x10000000) Desc |= EVertexAttribute::Tex3Mtx;
+    if (VertexFlags & 0x20000000) Desc |= EVertexAttribute::Tex4Mtx;
+    if (VertexFlags & 0x40000000) Desc |= EVertexAttribute::Tex5Mtx;
+    if (VertexFlags & 0x80000000) Desc |= EVertexAttribute::Tex6Mtx;
     return Desc;
 }
 
@@ -76,7 +76,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     pMat->mEnableBloom = false;
 
     // Flags
-    pMat->mOptions = (mpFile->ReadLong() & CMaterial::eAllMP1Settings);
+    pMat->mOptions = (mpFile->ReadLong() & (uint) EMaterialOption::AllMP1Settings);
 
     // Textures
     uint32 NumTextures = mpFile->ReadLong();
@@ -100,7 +100,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     mpFile->Seek(0x4, SEEK_CUR); // Skipping group index
 
     // Konst
-    if (pMat->mOptions & CMaterial::eKonst)
+    if (pMat->mOptions & EMaterialOption::Konst)
     {
         uint32 KonstCount = mpFile->ReadLong();
 
@@ -117,7 +117,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     pMat->mBlendSrcFac = gBlendFactor[mpFile->ReadShort()];
 
     // Indirect texture
-    if (pMat->mOptions & CMaterial::eIndStage)
+    if (pMat->mOptions & EMaterialOption::IndStage)
     {
         uint32 IndTexIndex = mpFile->ReadLong();
         pMat->mpIndirectTexture = mTextures[TextureIndices[IndTexIndex]];
@@ -224,7 +224,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
         if ((TexGens.size() == 0) || (TexCoordIdx == 0xFF))
         {
             pPass->mTexCoordSource = 0xFF;
-            pPass->mAnimMode = eNoUVAnim;
+            pPass->mAnimMode = EUVAnimMode::NoUVAnim;
         }
 
         else
@@ -235,7 +235,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
             // Texture matrix is a reliable way to tell, because every UV anim mode generates a texture matrix
             uint32 TexMtxIdx = ((TexGens[TexCoordIdx] & 0x3E00) >> 9) / 3;
 
-            if (TexMtxIdx == 10) pPass->mAnimMode = eNoUVAnim; // 10 is identity matrix; indicates no UV anim for this pass
+            if (TexMtxIdx == 10) pPass->mAnimMode = EUVAnimMode::NoUVAnim; // 10 is identity matrix; indicates no UV anim for this pass
 
             else
             {
@@ -269,7 +269,7 @@ void CMaterialLoader::ReadCorruptionMatSet()
 CMaterial* CMaterialLoader::ReadCorruptionMaterial()
 {
     CMaterial *pMat = new CMaterial();
-    pMat->mOptions = CMaterial::eDepthWrite;
+    pMat->mOptions = EMaterialOption::DepthWrite;
     pMat->mEnableBloom = true;
 
     // Flags
@@ -278,18 +278,18 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
     {
         pMat->mBlendSrcFac = GL_SRC_ALPHA;
         pMat->mBlendDstFac = GL_ONE_MINUS_SRC_ALPHA;
-        pMat->mOptions |= CMaterial::eTransparent;
+        pMat->mOptions |= EMaterialOption::Transparent;
     }
     else if (Flags & 0x20)
     {
         pMat->mBlendSrcFac = GL_ONE;
         pMat->mBlendDstFac = GL_ONE;
-        pMat->mOptions |= CMaterial::eTransparent;
+        pMat->mOptions |= EMaterialOption::Transparent;
     }
 
-    if (Flags & 0x10)       pMat->mOptions |= CMaterial::ePunchthrough;
-    if (Flags & 0x100)      pMat->mOptions |= CMaterial::eOccluder;
-    if (Flags & 0x80000)    pMat->mOptions |= CMaterial::eDrawWhiteAmbientDKCR;
+    if (Flags & 0x10)       pMat->mOptions |= EMaterialOption::Masked;
+    if (Flags & 0x100)      pMat->mOptions |= EMaterialOption::Occluder;
+    if (Flags & 0x80000)    pMat->mOptions |= EMaterialOption::DrawWhiteAmbientDKCR;
     mHas0x400 = ((Flags & 0x400) != 0);
 
     mpFile->Seek(0x8, SEEK_CUR); // Don't know what any of this is
@@ -356,7 +356,7 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
             uint32 Next = Size + mpFile->Tell();
 
             pPass->mPassType = mpFile->ReadLong();
-            pPass->mSettings = (CMaterialPass::EPassSettings) mpFile->ReadLong();
+            pPass->mSettings = (EPassSettings) mpFile->ReadLong();
 
             // Skip passes that don't have a texture. Honestly don't really know what to do with these right now
             uint64 TextureID = mpFile->ReadLongLong();
@@ -408,11 +408,16 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
                 }
 
                 // Hack until the correct way to determine tex coord source is figured out
-                if ((pPass->mAnimMode < 2) || (pPass->mAnimMode == 6) || (pPass->mAnimMode == 7) || (pPass->mAnimMode == 10))
+                if ((pPass->mAnimMode < EUVAnimMode::UVScroll) ||
+                    (pPass->mAnimMode == EUVAnimMode::ModelMatrix) ||
+                    (pPass->mAnimMode == EUVAnimMode::ConvolutedModeA) ||
+                    (pPass->mAnimMode == EUVAnimMode::SimpleMode))
+                {
                     pPass->mTexCoordSource = 1;
+                }
             }
 
-            else pPass->mAnimMode = eNoUVAnim;
+            else pPass->mAnimMode = EUVAnimMode::NoUVAnim;
 
             pMat->mPasses.push_back(pPass);
             mpFile->Seek(Next, SEEK_SET);
@@ -438,48 +443,48 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
         // Color Map (Diffuse)
         if (Type == "CLR ")
         {
-            pPass->SetRasSel(eRasColor0A0);
+            pPass->SetRasSel(kRasColor0A0);
 
             if (Lightmap)
             {
-                pPass->SetColorInputs(eZeroRGB, eColor0RGB, eTextureRGB, eZeroRGB);
+                pPass->SetColorInputs(kZeroRGB, kColor0RGB, kTextureRGB, kZeroRGB);
             }
 
             else
             {
-                pPass->SetColorInputs(eZeroRGB, eRasRGB, eTextureRGB, eZeroRGB);
+                pPass->SetColorInputs(kZeroRGB, kRasRGB, kTextureRGB, kZeroRGB);
             }
 
 
-            if (pMat->mOptions & CMaterial::ePunchthrough)
+            if (pMat->mOptions & EMaterialOption::Masked)
             {
-                pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eTextureAlpha);
+                pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kTextureAlpha);
             }
             else if (mHasOPAC)
             {
-                pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eKonstAlpha);
-                pPass->SetKColorSel(eKonst0_RGB);
-                pPass->SetKAlphaSel(eKonst0_A);
+                pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kKonstAlpha);
+                pPass->SetKColorSel(kKonst0_RGB);
+                pPass->SetKAlphaSel(kKonst0_A);
             }
             else
             {
-                pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
+                pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
             }
 
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         // Lightmap
         else if (Type == "DIFF")
         {
-            pPass->SetColorInputs(eZeroRGB, eKonstRGB, eTextureRGB, eRasRGB);
-            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eKonstAlpha);
-            pPass->SetColorOutput(eColor0Reg);
-            pPass->SetAlphaOutput(eColor0Reg);
-            pPass->SetKColorSel(eKonst1_RGB);
-            pPass->SetKAlphaSel(eKonst1_A);
-            pPass->SetRasSel(eRasColor0A0);
+            pPass->SetColorInputs(kZeroRGB, kKonstRGB, kTextureRGB, kRasRGB);
+            pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kKonstAlpha);
+            pPass->SetColorOutput(kColor0Reg);
+            pPass->SetAlphaOutput(kColor0Reg);
+            pPass->SetKColorSel(kKonst1_RGB);
+            pPass->SetKAlphaSel(kKonst1_A);
+            pPass->SetRasSel(kRasColor0A0);
             Lightmap = true;
         }
 
@@ -487,91 +492,91 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
         else if (Type == "BLOL")
         {
             // Bloom maps work by writing to framebuffer alpha. Can't do this on alpha-blended mats.
-            pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, ePrevRGB);
+            pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
 
-            if ((AlphaBlended) || (pMat->mOptions & CMaterial::ePunchthrough))
-                pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
+            if ((AlphaBlended) || (pMat->mOptions & EMaterialOption::Masked))
+                pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
             else
-                pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eTextureAlpha);
+                pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kTextureAlpha);
 
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         // Rim Light Map
         else if (Type == "RIML")
         {
-            pPass->SetColorInputs(eZeroRGB, eOneRGB, ePrevRGB, eTextureRGB);
-            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorInputs(kZeroRGB, kOneRGB, kPrevRGB, kTextureRGB);
+            pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         // Emissive Map
         else if (Type == "INCA")
         {
-            pPass->SetColorInputs(eZeroRGB, eTextureRGB, eOneRGB, ePrevRGB);
+            pPass->SetColorInputs(kZeroRGB, kTextureRGB, kOneRGB, kPrevRGB);
 
-            if ((pPass->mSettings & CMaterialPass::eEmissiveBloom) && (!AlphaBlended))
+            if ((pPass->mSettings & EPassSettings::EmissiveBloom) && (!AlphaBlended))
             {
-                pPass->SetAlphaInputs(eZeroAlpha, eTextureAlpha, eKonstAlpha, ePrevAlpha);
-                pPass->SetKAlphaSel(eKonstOneFourth);
+                pPass->SetAlphaInputs(kZeroAlpha, kTextureAlpha, kKonstAlpha, kPrevAlpha);
+                pPass->SetKAlphaSel(kKonstOneFourth);
             }
             else
             {
-                pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
+                pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
             }
 
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         // Opacity Map
         else if (Type == "TRAN")
         {
-            pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, ePrevRGB);
+            pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
 
-            if (pPass->mSettings & CMaterialPass::eInvertOpacityMap)
-                pPass->SetAlphaInputs(eKonstAlpha, eZeroAlpha, eTextureAlpha, eZeroAlpha);
+            if (pPass->mSettings & EPassSettings::InvertOpacityMap)
+                pPass->SetAlphaInputs(kKonstAlpha, kZeroAlpha, kTextureAlpha, kZeroAlpha);
             else
-                pPass->SetAlphaInputs(eZeroAlpha, eKonstAlpha, eTextureAlpha, eZeroAlpha);
+                pPass->SetAlphaInputs(kZeroAlpha, kKonstAlpha, kTextureAlpha, kZeroAlpha);
 
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         // Specular Map
         else if (Type == "RFLV")
         {
-            pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, eTextureRGB);
-            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
-            pPass->SetColorOutput(eColor2Reg);
-            pPass->SetAlphaOutput(eColor2Reg);
+            pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kTextureRGB);
+            pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
+            pPass->SetColorOutput(kColor2Reg);
+            pPass->SetAlphaOutput(kColor2Reg);
         }
 
         // Reflection Map
         else if (Type == "RFLD")
         {
-            pPass->SetColorInputs(eZeroRGB, eColor2RGB, eTextureRGB, ePrevRGB);
-            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorInputs(kZeroRGB, kColor2RGB, kTextureRGB, kPrevRGB);
+            pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
             if (mHas0x400) pPass->SetEnabled(false);
         }
 
         // Bloom Incandescence
         else if (Type == "BLOI")
         {
-            pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, ePrevRGB);
+            pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
 
             // Comes out wrong every time even though this is exactly how the Dolphin shaders say this is done.
             if (AlphaBlended)
-                pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
+                pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
             else
-                pPass->SetAlphaInputs(eTextureAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
+                pPass->SetAlphaInputs(kTextureAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
 
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         // Bloom Diffuse
@@ -583,28 +588,28 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
         // X-Ray - since we don't support X-Ray previews, no effect
         else if (Type == "XRAY")
         {
-            pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, ePrevRGB);
-            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
+            pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         // Toon? Don't know what it's for but got TEV setup from shader dumps
         else if (Type == "TOON")
         {
-            pPass->SetColorInputs(eZeroRGB, ePrevRGB, eTextureRGB, eZeroRGB);
-            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eTextureAlpha);
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorInputs(kZeroRGB, kPrevRGB, kTextureRGB, kZeroRGB);
+            pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kTextureAlpha);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         // LURD and LRLD are unknown and don't seem to do anything
         else if ((Type == "LURD") || (Type == "LRLD"))
         {
-            pPass->SetColorInputs(eZeroRGB, eZeroRGB, eZeroRGB, ePrevRGB);
-            pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, ePrevAlpha);
-            pPass->SetColorOutput(ePrevReg);
-            pPass->SetAlphaOutput(ePrevReg);
+            pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
+            pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
+            pPass->SetColorOutput(kPrevReg);
+            pPass->SetAlphaOutput(kPrevReg);
         }
 
         else if (Type == "CUST") {}
@@ -620,7 +625,7 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial *pMat)
 CMaterial* CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
 {
     // todo: generate new material using import values.
-    CMaterial *pMat = new CMaterial(mVersion, eNoAttributes);
+    CMaterial *pMat = new CMaterial(mVersion, EVertexAttribute::None);
 
     aiString Name;
     pAiMat->Get(AI_MATKEY_NAME, Name);
@@ -628,11 +633,11 @@ CMaterial* CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
 
     // Create generic custom pass that uses Konst color
     CMaterialPass *pPass = new CMaterialPass(pMat);
-    pPass->SetColorInputs(eZeroRGB, eRasRGB, eKonstRGB, eZeroRGB);
-    pPass->SetAlphaInputs(eZeroAlpha, eZeroAlpha, eZeroAlpha, eKonstAlpha);
-    pPass->SetKColorSel(eKonst0_RGB);
-    pPass->SetKAlphaSel(eKonstOne);
-    pPass->SetRasSel(eRasColor0A0);
+    pPass->SetColorInputs(kZeroRGB, kRasRGB, kKonstRGB, kZeroRGB);
+    pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kKonstAlpha);
+    pPass->SetKColorSel(kKonst0_RGB);
+    pPass->SetKAlphaSel(kKonstOne);
+    pPass->SetRasSel(kRasColor0A0);
     pMat->mKonstColors[0] = CColor::RandomLightColor(false);
     pMat->mPasses.push_back(pPass);
 

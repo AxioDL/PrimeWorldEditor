@@ -27,7 +27,7 @@ void CPasteNodesCommand::undo()
 
     foreach (CSceneNode *pNode, PastedNodes)
     {
-        CScriptObject *pInst = (pNode->NodeType() == eScriptNode ? static_cast<CScriptNode*>(pNode)->Instance() : nullptr);
+        CScriptObject *pInst = (pNode->NodeType() == ENodeType::Script ? static_cast<CScriptNode*>(pNode)->Instance() : nullptr);
         mpEditor->NotifyNodeAboutToBeDeleted(pNode);
         mpEditor->Scene()->DeleteNode(pNode);
         if (pInst) mpEditor->ActiveArea()->DeleteInstance(pInst);
@@ -52,9 +52,9 @@ void CPasteNodesCommand::redo()
     {
         CSceneNode *pNewNode = nullptr;
 
-        if (rkNode.Type == eScriptNode)
+        if (rkNode.Type == ENodeType::Script)
         {
-            CMemoryInStream In(rkNode.InstanceData.data(), rkNode.InstanceData.size(), IOUtil::eBigEndian);
+            CMemoryInStream In(rkNode.InstanceData.data(), rkNode.InstanceData.size(), EEndian::BigEndian);
             CScriptObject *pInstance = CScriptLoader::LoadInstance(In, pArea, mpLayer, pArea->Game(), false);
             pArea->AddInstanceToArea(pInstance);
             mpLayer->AddInstance(pInstance);
@@ -89,13 +89,13 @@ void CPasteNodesCommand::redo()
     // 3. If neither of those things is true, then delete the link.
     foreach (CSceneNode *pNode, PastedNodes)
     {
-        if (pNode && pNode->NodeType() == eScriptNode)
+        if (pNode && pNode->NodeType() == ENodeType::Script)
         {
             CScriptObject *pInstance = static_cast<CScriptNode*>(pNode)->Instance();
 
-            for (uint32 iLink = 0; iLink < pInstance->NumLinks(eOutgoing); iLink++)
+            for (uint32 iLink = 0; iLink < pInstance->NumLinks(ELinkType::Outgoing); iLink++)
             {
-                CLink *pLink = pInstance->Link(eOutgoing, iLink);
+                CLink *pLink = pInstance->Link(ELinkType::Outgoing, iLink);
                 int Index = mpMimeData->IndexOfInstanceID(pLink->ReceiverID());
 
                 if (Index != -1)
@@ -108,8 +108,8 @@ void CPasteNodesCommand::redo()
                 {
                     CScriptObject *pSender = pLink->Sender();
                     CScriptObject *pReceiver = pLink->Receiver();
-                    if (pSender) pSender->RemoveLink(eOutgoing, pLink);
-                    if (pReceiver) pReceiver->RemoveLink(eIncoming, pLink);
+                    if (pSender) pSender->RemoveLink(ELinkType::Outgoing, pLink);
+                    if (pReceiver) pReceiver->RemoveLink(ELinkType::Incoming, pLink);
 
                     delete pLink;
                     iLink--;
@@ -118,7 +118,7 @@ void CPasteNodesCommand::redo()
                 else
                 {
                     CScriptObject *pReceiver = pLink->Receiver();
-                    pReceiver->AddLink(eIncoming, pLink);
+                    pReceiver->AddLink(ELinkType::Incoming, pLink);
                     mLinkedInstances << pReceiver;
                 }
             }

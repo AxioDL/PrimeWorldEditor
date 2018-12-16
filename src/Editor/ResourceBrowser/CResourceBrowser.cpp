@@ -494,7 +494,7 @@ void CResourceBrowser::OnClearButtonPressed()
 
 void CResourceBrowser::OnSortModeChanged(int Index)
 {
-    CResourceProxyModel::ESortMode Mode = (Index == 0 ? CResourceProxyModel::eSortByName : CResourceProxyModel::eSortBySize);
+    CResourceProxyModel::ESortMode Mode = (Index == 0 ? CResourceProxyModel::ESortMode::ByName : CResourceProxyModel::ESortMode::BySize);
     mpProxyModel->SetSortMode(Mode);
 }
 
@@ -639,10 +639,10 @@ void CResourceBrowser::FindAssetByID()
                 StringAssetID = StringAssetID.ChopFront(2);
 
             // Find the resource entry
-            if ( (IDLength == e32Bit && StringAssetID.Length() == 8) ||
-                 (IDLength == e64Bit && StringAssetID.Length() == 16) )
+            if ( (IDLength == k32Bit && StringAssetID.Length() == 8) ||
+                 (IDLength == k64Bit && StringAssetID.Length() == 16) )
             {
-                CAssetID ID = (IDLength == e32Bit ? StringAssetID.ToInt32(16) : StringAssetID.ToInt64(16));
+                CAssetID ID = (IDLength == k32Bit ? StringAssetID.ToInt32(16) : StringAssetID.ToInt64(16));
                 CResourceEntry *pEntry = mpStore->FindEntry(ID);
                 WasValid = true;
 

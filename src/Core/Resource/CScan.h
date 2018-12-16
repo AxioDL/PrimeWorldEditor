@@ -9,18 +9,18 @@
 
 class CScan : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eScan)
+    DECLARE_RESOURCE_TYPE(Scan)
     friend class CScanLoader;
 
 public:
     // This likely needs revising when MP2/MP3 support is added
-    enum ELogbookCategory
+    enum class ELogbookCategory
     {
-        eNone,
-        ePirateData,
-        eChozoLore,
-        eCreatures,
-        eResearch
+        None,
+        PirateData,
+        ChozoLore,
+        Creatures,
+        Research
     };
 
     struct SScanInfoSecondaryModel
@@ -61,7 +61,7 @@ public:
         , mpStringTable(nullptr)
         , mIsSlow(false)
         , mIsImportant(false)
-        , mCategory(eNone)
+        , mCategory(ELogbookCategory::None)
     {}
 
     CDependencyTree* BuildDependencyTree() const

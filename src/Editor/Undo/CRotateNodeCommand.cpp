@@ -50,14 +50,14 @@ CRotateNodeCommand::~CRotateNodeCommand()
 
 int CRotateNodeCommand::id() const
 {
-    return eRotateNodeCmd;
+    return (int) EUndoCommand::RotateNodeCmd;
 }
 
 bool CRotateNodeCommand::mergeWith(const QUndoCommand *pkOther)
 {
     if (mCommandEnded) return false;
 
-    if (pkOther->id() == eRotateNodeCmd)
+    if (pkOther->id() == (int) EUndoCommand::RotateNodeCmd)
     {
         const CRotateNodeCommand *pkCmd = static_cast<const CRotateNodeCommand*>(pkOther);
 

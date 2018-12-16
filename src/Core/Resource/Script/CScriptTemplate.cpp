@@ -21,17 +21,17 @@ CScriptTemplate::CScriptTemplate(CGameTemplate *pGame)
     , mpActiveProperty(nullptr)
     , mpLightParametersProperty(nullptr)
     , mPreviewScale(1.f)
-    , mVolumeShape(eNoShape)
+    , mVolumeShape(EVolumeShape::NoShape)
     , mVolumeScale(1.f)
 {
 }
 
 // New constructor
 CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, uint32 InObjectID, const TString& kInFilePath)
-    : mRotationType(eRotationEnabled)
-    , mScaleType(eScaleEnabled)
+    : mRotationType(ERotationType::RotationEnabled)
+    , mScaleType(EScaleType::ScaleEnabled)
     , mPreviewScale(1.f)
-    , mVolumeShape(eNoShape)
+    , mVolumeShape(EVolumeShape::NoShape)
     , mVolumeScale(1.f)
     , mSourceFile(kInFilePath)
     , mObjectID(InObjectID)
@@ -85,10 +85,10 @@ void CScriptTemplate::Serialize(IArchive& Arc)
 
     Arc << SerialParameter("Assets", mAssets, SH_Optional)
         << SerialParameter("Attachments", mAttachments, SH_Optional)
-        << SerialParameter("RotationType", mRotationType, SH_Optional, eRotationEnabled)
-        << SerialParameter("ScaleType", mScaleType, SH_Optional, eScaleEnabled)
+        << SerialParameter("RotationType", mRotationType, SH_Optional, ERotationType::RotationEnabled)
+        << SerialParameter("ScaleType", mScaleType, SH_Optional, EScaleType::ScaleEnabled)
         << SerialParameter("PreviewScale", mPreviewScale, SH_Optional, 1.0f)
-        << SerialParameter("VolumeShape", mVolumeShape, SH_Optional, eNoShape)
+        << SerialParameter("VolumeShape", mVolumeShape, SH_Optional, EVolumeShape::NoShape)
         << SerialParameter("VolumeScale", mVolumeScale, SH_Optional, 1.0f)
         << SerialParameter("VolumeConditionProperty", mVolumeConditionIDString, SH_Optional)
         << SerialParameter("VolumeConditions", mVolumeConditions, SH_Optional);
@@ -129,13 +129,13 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
     if (pObj->Template() != this)
     {
         errorf("%s instance somehow called VolumeShape() on %s template", *pObj->Template()->Name(), *Name());
-        return eInvalidShape;
+        return EVolumeShape::InvalidShape;
     }
 
-    if (mVolumeShape == eConditionalShape)
+    if (mVolumeShape == EVolumeShape::ConditionalShape)
     {
         int32 Index = CheckVolumeConditions(pObj, true);
-        if (Index == -1) return eInvalidShape;
+        if (Index == -1) return EVolumeShape::InvalidShape;
         else return mVolumeConditions[Index].Shape;
     }
     else return mVolumeShape;
@@ -149,7 +149,7 @@ float CScriptTemplate::VolumeScale(CScriptObject *pObj)
         return -1;
     }
 
-    if (mVolumeShape == eConditionalShape)
+    if (mVolumeShape == EVolumeShape::ConditionalShape)
     {
         int32 Index = CheckVolumeConditions(pObj, false);
         if (Index == -1) return mVolumeScale;
@@ -161,7 +161,7 @@ float CScriptTemplate::VolumeScale(CScriptObject *pObj)
 int32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
 {
     // Private function
-    if (mVolumeShape == eConditionalShape)
+    if (mVolumeShape == EVolumeShape::ConditionalShape)
     {
         TIDString PropID = mVolumeConditionIDString;
         IProperty* pProp = pObj->Template()->Properties()->ChildByIDString( PropID );
@@ -216,11 +216,11 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, uint32& rOutCh
 
     for (auto it = mAssets.begin(); it != mAssets.end(); it++)
     {
-        if (it->AssetType == SEditorAsset::eCollision) continue;
+        if (it->AssetType == SEditorAsset::EAssetType::Collision) continue;
         CResource *pRes = nullptr;
 
         // File
-        if (it->AssetSource == SEditorAsset::eFile)
+        if (it->AssetSource == SEditorAsset::EAssetSource::File)
             pRes = gpEditorStore->LoadResource(it->AssetLocation);
 
         // Property
@@ -228,7 +228,7 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, uint32& rOutCh
         {
             IProperty* pProp = mpProperties->ChildByIDString(it->AssetLocation);
 
-            if (it->AssetType == SEditorAsset::eAnimParams && pProp->Type() == EPropertyType::AnimationSet)
+            if (it->AssetType == SEditorAsset::EAssetType::AnimParams && pProp->Type() == EPropertyType::AnimationSet)
             {
                 CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
                 CAnimationParameters Params = pAnimSet->Value(pPropertyData);
@@ -255,7 +255,7 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, uint32& rOutCh
         // If we have a valid resource, return
         if (pRes)
         {
-            rOutIsInGame = (pRes->Type() != eTexture && it->AssetSource == SEditorAsset::eProperty);
+            rOutIsInGame = (pRes->Type() != EResourceType::Texture && it->AssetSource == SEditorAsset::EAssetSource::Property);
             return pRes;
         }
     }
@@ -268,11 +268,11 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(void* pPropertyData)
 {
     for (auto it = mAssets.begin(); it != mAssets.end(); it++)
     {
-        if (it->AssetType != SEditorAsset::eCollision) continue;
+        if (it->AssetType != SEditorAsset::EAssetType::Collision) continue;
         CResource *pRes = nullptr;
 
         // File
-        if (it->AssetSource == SEditorAsset::eFile)
+        if (it->AssetSource == SEditorAsset::EAssetSource::File)
             pRes = gpResourceStore->LoadResource(it->AssetLocation);
 
         // Property
@@ -283,12 +283,12 @@ CCollisionMeshGroup* CScriptTemplate::FindCollision(void* pPropertyData)
             if (pProp->Type() == EPropertyType::Asset)
             {
                 CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProp);
-                pRes = gpResourceStore->LoadResource( pAsset->Value(pPropertyData), eDynamicCollision );
+                pRes = gpResourceStore->LoadResource( pAsset->Value(pPropertyData), EResourceType::DynamicCollision );
             }
         }
 
         // Verify resource exists + is correct type
-        if (pRes && (pRes->Type() == eDynamicCollision))
+        if (pRes && (pRes->Type() == EResourceType::DynamicCollision))
             return static_cast<CCollisionMeshGroup*>(pRes);
     }
 

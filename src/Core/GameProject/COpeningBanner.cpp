@@ -7,7 +7,7 @@ COpeningBanner::COpeningBanner(CGameProject *pProj)
     mWii = mpProj->IsWiiBuild();
 
     TString BannerPath = mpProj->DiscFilesystemRoot(false) + "opening.bnr";
-    CFileInStream Banner(BannerPath, IOUtil::eBigEndian);
+    CFileInStream Banner(BannerPath, EEndian::BigEndian);
 
     if (Banner.IsValid())
     {
@@ -20,7 +20,7 @@ TString COpeningBanner::EnglishGameName() const
 {
     // opening.bnr stores the game name in a fixed-length buffer. Need to account for
     // this and prevent the string-reading function from overrunning the buffer
-    CMemoryInStream Banner(mBannerData.data(), mBannerData.size(), IOUtil::eBigEndian);
+    CMemoryInStream Banner(mBannerData.data(), mBannerData.size(), EEndian::BigEndian);
 
     uint32 CharSize = mWii ? 2 : 1;
     uint32 MaxLen = MaxGameNameLength();
@@ -29,13 +29,13 @@ TString COpeningBanner::EnglishGameName() const
     Banner.GoTo( mWii ? 0xB0 : 0x1860 );
     Banner.ReadBytes(NameBuffer.data(), MaxLen * CharSize);
 
-    Banner.SetData(NameBuffer.data(), NameBuffer.size(), IOUtil::eBigEndian);
+    Banner.SetData(NameBuffer.data(), NameBuffer.size(), EEndian::BigEndian);
     return mWii ? Banner.ReadWString().ToUTF8() : Banner.ReadString();
 }
 
 void COpeningBanner::SetEnglishGameName(const TString& rkName)
 {
-        CMemoryOutStream Banner(mBannerData.data(), mBannerData.size(), IOUtil::eBigEndian);
+        CMemoryOutStream Banner(mBannerData.data(), mBannerData.size(), EEndian::BigEndian);
     uint32 PadCount = 0;
 
     uint32 MaxLen = MaxGameNameLength();
@@ -61,7 +61,7 @@ void COpeningBanner::SetEnglishGameName(const TString& rkName)
 void COpeningBanner::Save()
 {
     TString BannerPath = mpProj->DiscFilesystemRoot(false) + "opening.bnr";
-    CFileOutStream Banner(BannerPath, IOUtil::eBigEndian);
+    CFileOutStream Banner(BannerPath, EEndian::BigEndian);
     Banner.WriteBytes(mBannerData.data(), mBannerData.size());
 }
 

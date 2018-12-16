@@ -10,9 +10,9 @@ class CResourceProxyModel : public QSortFilterProxyModel
     Q_OBJECT
 
 public:
-    enum ESortMode
+    enum class ESortMode
     {
-        eSortByName, eSortBySize
+        ByName, BySize
     };
 
 private:
@@ -30,7 +30,7 @@ public:
         : QSortFilterProxyModel(pParent)
         , mpModel(nullptr)
     {
-        SetSortMode(eSortByName);
+        SetSortMode(ESortMode::ByName);
     }
 
     void setSourceModel(QAbstractItemModel *pSourceModel)
@@ -68,7 +68,7 @@ public:
         else if (pLeftDir && pRightDir)
             return pLeftDir->Name().ToUpper() < pRightDir->Name().ToUpper();
 
-        else if (mSortMode == eSortByName)
+        else if (mSortMode == ESortMode::ByName)
             return pLeftRes->UppercaseName() < pRightRes->UppercaseName();
 
         else
@@ -154,7 +154,7 @@ public:
         if (mSortMode != Mode)
         {
             mSortMode = Mode;
-            sort(0, (mSortMode == eSortByName ? Qt::AscendingOrder : Qt::DescendingOrder));
+            sort(0, (mSortMode == ESortMode::ByName ? Qt::AscendingOrder : Qt::DescendingOrder));
         }
     }
 

@@ -26,8 +26,8 @@ void ApplyGeneratedName(CResourceEntry *pEntry, const TString& rkDir, const TStr
     ASSERT(pEntry != nullptr);
 
     // Don't overwrite hand-picked names and directories with auto-generated ones
-    bool HasCustomDir = !pEntry->HasFlag(eREF_AutoResDir);
-    bool HasCustomName = !pEntry->HasFlag(eREF_AutoResName);
+    bool HasCustomDir = !pEntry->HasFlag(EResEntryFlag::AutoResDir);
+    bool HasCustomName = !pEntry->HasFlag(EResEntryFlag::AutoResName);
     if (HasCustomDir && HasCustomName) return;
 
     // Determine final directory to use
@@ -94,8 +94,8 @@ void GenerateAssetNames(CGameProject *pProj)
 
     for (CResourceIterator It(pStore); It; ++It)
     {
-        bool HasCustomDir = !It->HasFlag(eREF_AutoResDir);
-        bool HasCustomName = !It->HasFlag(eREF_AutoResName);
+        bool HasCustomDir = !It->HasFlag(EResEntryFlag::AutoResDir);
+        bool HasCustomName = !It->HasFlag(EResEntryFlag::AutoResName);
         if (HasCustomDir && HasCustomName) continue;
 
         TString NewDir = (HasCustomDir ? It->DirectoryPath() : pStore->DefaultResourceDirPath());
@@ -131,7 +131,7 @@ void GenerateAssetNames(CGameProject *pProj)
     debugf("Processing worlds");
     const TString kWorldsRoot = "Worlds/";
 
-    for (TResourceIterator<eWorld> It(pStore); It; ++It)
+    for (TResourceIterator<EResourceType::World> It(pStore); It; ++It)
     {
         // Set world name
         TResPtr<CWorld> pWorld = It->Load();
@@ -245,7 +245,7 @@ void GenerateAssetNames(CGameProject *pProj)
                 {
                     CMaterialPass *pPass = pMat->Pass(iPass);
 
-                    bool IsLightmap = ( (pArea->Game() <= EGame::Echoes && pMat->Options().HasFlag(CMaterial::eLightmap) && iPass == 0) ||
+                    bool IsLightmap = ( (pArea->Game() <= EGame::Echoes && pMat->Options().HasFlag(EMaterialOption::Lightmap) && iPass == 0) ||
                                         (pArea->Game() >= EGame::CorruptionProto && pPass->Type() == "DIFF") );
                     bool IsBloomLightmap = (pArea->Game() >= EGame::CorruptionProto && pPass->Type() == "BLOL");
 
@@ -398,7 +398,7 @@ void GenerateAssetNames(CGameProject *pProj)
     // Generate Model Lightmap names
     debugf("Processing model lightmaps");
 
-    for (TResourceIterator<eModel> It(pStore); It; ++It)
+    for (TResourceIterator<EResourceType::Model> It(pStore); It; ++It)
     {
         CModel *pModel = (CModel*) It->Load();
         uint32 LightmapNum = 0;
@@ -415,7 +415,7 @@ void GenerateAssetNames(CGameProject *pProj)
                 {
                     CMaterialPass *pPass = pMat->Pass(iPass);
 
-                    bool IsLightmap = ( (pMat->Version() <= EGame::Echoes && pMat->Options().HasFlag(CMaterial::eLightmap) && iPass == 0) ||
+                    bool IsLightmap = ( (pMat->Version() <= EGame::Echoes && pMat->Options().HasFlag(EMaterialOption::Lightmap) && iPass == 0) ||
                                         (pMat->Version() >= EGame::CorruptionProto && pPass->Type() == "DIFF") );
 
                     if (IsLightmap)
@@ -442,7 +442,7 @@ void GenerateAssetNames(CGameProject *pProj)
     debugf("Processing audio groups");
     const TString kAudioGrpDir = "Audio/";
 
-    for (TResourceIterator<eAudioGroup> It(pStore); It; ++It)
+    for (TResourceIterator<EResourceType::AudioGroup> It(pStore); It; ++It)
     {
         CAudioGroup *pGroup = (CAudioGroup*) It->Load();
         TString GroupName = pGroup->GroupName();
@@ -455,7 +455,7 @@ void GenerateAssetNames(CGameProject *pProj)
     debugf("Processing audio macros");
     const TString kSfxDir = "Audio/Uncategorized/";
 
-    for (TResourceIterator<eAudioMacro> It(pStore); It; ++It)
+    for (TResourceIterator<EResourceType::AudioMacro> It(pStore); It; ++It)
     {
         CAudioMacro *pMacro = (CAudioMacro*) It->Load();
         TString MacroName = pMacro->MacroName();
@@ -485,7 +485,9 @@ void GenerateAssetNames(CGameProject *pProj)
     // Generate animation format names
     // Hacky syntax because animsets are under eAnimSet in MP1/2 and eCharacter in MP3/DKCR
     debugf("Processing animation data");
-    CResourceIterator *pIter = (pProj->Game() <= EGame::Echoes ? (CResourceIterator*) new TResourceIterator<eAnimSet> : (CResourceIterator*) new TResourceIterator<eCharacter>);
+    CResourceIterator *pIter = (pProj->Game() <= EGame::Echoes ?
+                                    (CResourceIterator*) new TResourceIterator<EResourceType::AnimSet> :
+                                    (CResourceIterator*) new TResourceIterator<EResourceType::Character>);
     CResourceIterator& It = *pIter;
 
     for (; It; ++It)
@@ -523,10 +525,10 @@ void GenerateAssetNames(CGameProject *pProj)
                 if (rkOverlay.ModelID.IsValid() || rkOverlay.SkinID.IsValid())
                 {
                     TString TypeName = (
-                                rkOverlay.Type == eOT_Frozen ? "frozen" :
-                                rkOverlay.Type == eOT_Acid ? "acid" :
-                                rkOverlay.Type == eOT_Hypermode ? "hypermode" :
-                                rkOverlay.Type == eOT_XRay ? "xray" :
+                                rkOverlay.Type == EOverlayType::Frozen ? "frozen" :
+                                rkOverlay.Type == EOverlayType::Acid ? "acid" :
+                                rkOverlay.Type == EOverlayType::Hypermode ? "hypermode" :
+                                rkOverlay.Type == EOverlayType::XRay ? "xray" :
                                 ""
                     );
                     ASSERT(TypeName != "");
@@ -576,7 +578,7 @@ void GenerateAssetNames(CGameProject *pProj)
     debugf("Processing strings");
     const TString kStringsDir = "Strings/Uncategorized/";
 
-    for (TResourceIterator<eStringTable> It(pStore); It; ++It)
+    for (TResourceIterator<EResourceType::StringTable> It(pStore); It; ++It)
     {
         if (It->IsNamed()) continue;
         CStringTable *pString = (CStringTable*) It->Load();
@@ -601,7 +603,7 @@ void GenerateAssetNames(CGameProject *pProj)
 #if PROCESS_SCANS
     // Generate scan names
     debugf("Processing scans");
-    for (TResourceIterator<eScan> It(pStore); It; ++It)
+    for (TResourceIterator<EResourceType::Scan> It(pStore); It; ++It)
     {
         if (It->IsNamed()) continue;
         CScan *pScan = (CScan*) It->Load();
@@ -641,7 +643,7 @@ void GenerateAssetNames(CGameProject *pProj)
 #if PROCESS_FONTS
     // Generate font names
     debugf("Processing fonts");
-    for (TResourceIterator<eFont> It(pStore); It; ++It)
+    for (TResourceIterator<EResourceType::Font> It(pStore); It; ++It)
     {
         CFont *pFont = (CFont*) It->Load();
 

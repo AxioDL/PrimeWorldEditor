@@ -14,21 +14,14 @@ class CInstancesModel : public QAbstractItemModel
     Q_OBJECT
 
 public:
-    enum EIndexType
+    enum class EIndexType
     {
-        eRootIndex, eNodeTypeIndex, eObjectTypeIndex, eInstanceIndex
+        Root, NodeType, ObjectType, Instance
     };
 
-    enum ENodeType
+    enum class EInstanceModelType
     {
-        eScriptType = 0x0,
-        eLightType = 0x1,
-        eInvalidType = 0xFF
-    };
-
-    enum EInstanceModelType
-    {
-        eLayers, eTypes
+        Layers, Types
     };
 
 private:

@@ -58,7 +58,7 @@ CModelNode* CScene::CreateModelNode(CModel *pModel, uint32 NodeID /*= -1*/)
 
     uint32 ID = CreateNodeID(NodeID);
     CModelNode *pNode = new CModelNode(this, ID, mpAreaRootNode, pModel);
-    mNodes[eModelNode].push_back(pNode);
+    mNodes[ENodeType::Model].push_back(pNode);
     mNodeMap[ID] = pNode;
     mNumNodes++;
     return pNode;
@@ -70,7 +70,7 @@ CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, uint32 NodeID /*= -1
 
     uint32 ID = CreateNodeID(NodeID);
     CStaticNode *pNode = new CStaticNode(this, ID, mpAreaRootNode, pModel);
-    mNodes[eStaticNode].push_back(pNode);
+    mNodes[ENodeType::Static].push_back(pNode);
     mNodeMap[ID] = pNode;
     mNumNodes++;
     return pNode;
@@ -82,7 +82,7 @@ CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 N
 
     uint32 ID = CreateNodeID(NodeID);
     CCollisionNode *pNode = new CCollisionNode(this, ID, mpAreaRootNode, pMesh);
-    mNodes[eCollisionNode].push_back(pNode);
+    mNodes[ENodeType::Collision].push_back(pNode);
     mNodeMap[ID] = pNode;
     mNumNodes++;
     return pNode;
@@ -96,7 +96,7 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID /*= -1*
     uint32 InstanceID = pObj->InstanceID();
 
     CScriptNode *pNode = new CScriptNode(this, ID, mpAreaRootNode, pObj);
-    mNodes[eScriptNode].push_back(pNode);
+    mNodes[ENodeType::Script].push_back(pNode);
     mNodeMap[ID] = pNode;
     mScriptMap[InstanceID] = pNode;
     pNode->BuildLightList(mpArea);
@@ -104,8 +104,8 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID /*= -1*
     // AreaAttributes check
     switch (pObj->ObjectTypeID())
     {
-    case 0x4E:       // MP1 AreaAttributes ID
-    case 0x52454141: // MP2/MP3/DKCR AreaAttributes ID ("REAA")
+    case 0x4E:           // MP1 AreaAttributes ID
+    case FOURCC('REAA'): // MP2/MP3/DKCR AreaAttributes ID
         mAreaAttributesObjects.emplace_back( CAreaAttributes(pObj) );
         break;
     }
@@ -120,7 +120,7 @@ CLightNode* CScene::CreateLightNode(CLight *pLight, uint32 NodeID /*= -1*/)
 
     uint32 ID = CreateNodeID(NodeID);
     CLightNode *pNode = new CLightNode(this, ID, mpAreaRootNode, pLight);
-    mNodes[eLightNode].push_back(pNode);
+    mNodes[ENodeType::Light].push_back(pNode);
     mNodeMap[ID] = pNode;
     mNumNodes++;
     return pNode;
@@ -143,7 +143,7 @@ void CScene::DeleteNode(CSceneNode *pNode)
     if (MapIt != mNodeMap.end())
         mNodeMap.erase(MapIt);
 
-    if (Type == eScriptNode)
+    if (Type == ENodeType::Script)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
 
@@ -154,7 +154,7 @@ void CScene::DeleteNode(CSceneNode *pNode)
         switch (pScript->Instance()->ObjectTypeID())
         {
         case 0x4E:
-        case 0x52454141:
+        case FOURCC('REAA'):
             for (auto it = mAreaAttributesObjects.begin(); it != mAreaAttributesObjects.end(); it++)
             {
                 if ((*it).Instance() == pScript->Instance())
@@ -210,7 +210,7 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     {
         CScriptLayer *pLayer = mpArea->ScriptLayer(iLyr);
         uint32 NumObjects = pLayer->NumInstances();
-        mNodes[eScriptNode].reserve(mNodes[eScriptNode].size() + NumObjects);
+        mNodes[ENodeType::Script].reserve(mNodes[ENodeType::Script].size() + NumObjects);
 
         for (uint32 iObj = 0; iObj < NumObjects; iObj++)
         {
@@ -220,7 +220,7 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     }
 
     // Ensure script nodes have valid positions + build light lists
-    for (CSceneIterator It(this, eScriptNode, true); It; ++It)
+    for (CSceneIterator It(this, ENodeType::Script, true); It; ++It)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(*It);
         pScript->GeneratePosition();
@@ -238,7 +238,7 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
         {
             CLight *pLight = mpArea->Light(iLyr, iLit);
 
-            if (pLight->Type() == eLocalAmbient)
+            if (pLight->Type() == ELightType::LocalAmbient)
                 CGraphics::sAreaAmbientColor += pLight->Color();
 
             CreateLightNode(pLight);
@@ -330,7 +330,7 @@ CScriptNode* CScene::NodeForInstance(CScriptObject *pObj)
 CLightNode* CScene::NodeForLight(CLight *pLight)
 {
     // Slow. Is there a better way to do this?
-    std::vector<CSceneNode*>& rLights = mNodes[eLightNode];
+    std::vector<CSceneNode*>& rLights = mNodes[ENodeType::Light];
 
     for (auto it = rLights.begin(); it != rLights.end(); it++)
     {
@@ -374,21 +374,21 @@ CGameArea* CScene::ActiveArea()
 FShowFlags CScene::ShowFlagsForNodeFlags(FNodeFlags NodeFlags)
 {
     FShowFlags Out;
-    if (NodeFlags & eModelNode) Out |= eShowSplitWorld;
-    if (NodeFlags & eStaticNode) Out |= eShowMergedWorld;
-    if (NodeFlags & eScriptNode) Out |= eShowObjects;
-    if (NodeFlags & eCollisionNode) Out |= eShowWorldCollision;
-    if (NodeFlags & eLightNode) Out |= eShowLights;
+    if (NodeFlags & ENodeType::Model)       Out |= EShowFlag::SplitWorld;
+    if (NodeFlags & ENodeType::Static)      Out |= EShowFlag::MergedWorld;
+    if (NodeFlags & ENodeType::Script)      Out |= EShowFlag::Objects;
+    if (NodeFlags & ENodeType::Collision)   Out |= EShowFlag::WorldCollision;
+    if (NodeFlags & ENodeType::Light)       Out |= EShowFlag::Lights;
     return Out;
 }
 
 FNodeFlags CScene::NodeFlagsForShowFlags(FShowFlags ShowFlags)
 {
-    FNodeFlags Out = eRootNode;
-    if (ShowFlags & eShowSplitWorld) Out |= eModelNode;
-    if (ShowFlags & eShowMergedWorld) Out |= eStaticNode;
-    if (ShowFlags & eShowWorldCollision) Out |= eCollisionNode;
-    if (ShowFlags & eShowObjects) Out |= eScriptNode | eScriptExtraNode;
-    if (ShowFlags & eShowLights) Out |= eLightNode;
+    FNodeFlags Out = ENodeType::Root;
+    if (ShowFlags & EShowFlag::SplitWorld)      Out |= ENodeType::Model;
+    if (ShowFlags & EShowFlag::MergedWorld)     Out |= ENodeType::Static;
+    if (ShowFlags & EShowFlag::WorldCollision)  Out |= ENodeType::Collision;
+    if (ShowFlags & EShowFlag::Objects)         Out |= ENodeType::Script | ENodeType::ScriptExtra;
+    if (ShowFlags & EShowFlag::Lights)          Out |= ENodeType::Light;
     return Out;
 }

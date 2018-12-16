@@ -5,22 +5,22 @@
 
 CMaterialPass::CMaterialPass(CMaterial *pParent)
     : mPassType("CUST")
-    , mSettings(eNoPassSettings)
+    , mSettings(EPassSettings::None)
     , mpTexture(nullptr)
     , mEnabled(true)
     , mpParentMat(pParent)
-    , mColorOutput(ePrevReg)
-    , mAlphaOutput(ePrevReg)
-    , mKColorSel(eKonstOne)
-    , mKAlphaSel(eKonstOne)
-    , mRasSel(eRasColorNull)
+    , mColorOutput(kPrevReg)
+    , mAlphaOutput(kPrevReg)
+    , mKColorSel(kKonstOne)
+    , mKAlphaSel(kKonstOne)
+    , mRasSel(kRasColorNull)
     , mTexCoordSource(0xFF)
-    , mAnimMode(eNoUVAnim)
+    , mAnimMode(EUVAnimMode::NoUVAnim)
 {
     for (uint32 iParam = 0; iParam < 4; iParam++)
     {
-        mColorInputs[iParam] = eZeroRGB;
-        mAlphaInputs[iParam] = eZeroAlpha;
+        mColorInputs[iParam] = kZeroRGB;
+        mAlphaInputs[iParam] = kZeroAlpha;
         mAnimParams[iParam] = 0.f;
     }
 }
@@ -72,7 +72,7 @@ void CMaterialPass::HashParameters(CFNV1A& rHash)
         rHash.HashLong(mKAlphaSel);
         rHash.HashLong(mRasSel);
         rHash.HashLong(mTexCoordSource);
-        rHash.HashLong(mAnimMode);
+        rHash.HashLong((uint) mAnimMode);
         rHash.HashData(mAnimParams, sizeof(float) * 4);
         rHash.HashByte(mEnabled);
     }
@@ -86,7 +86,7 @@ void CMaterialPass::LoadTexture(uint32 PassIndex)
 
 void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
 {
-    if (mAnimMode == eNoUVAnim) return;
+    if (mAnimMode == EUVAnimMode::NoUVAnim) return;
 
     float Seconds = CTimer::SecondsMod900();
     const CMatrix4f& ModelMtx = CGraphics::sMVPBlock.ModelMatrix;
@@ -98,8 +98,8 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
     switch (mAnimMode)
     {
 
-    case eInverseMV: // Mode 0
-    case eSimpleMode: // Mode 10 - maybe not correct?
+    case EUVAnimMode::InverseMV: // Mode 0
+    case EUVAnimMode::SimpleMode: // Mode 10 - maybe not correct?
     {
         TexMtx = (ViewMtx.Inverse().Transpose() * ModelMtx);
         TexMtx[0][3] = TexMtx[1][3] = TexMtx[2][3] = 0.f;
@@ -110,7 +110,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
         break;
     }
 
-    case eInverseMVTranslated: // Mode 1
+    case EUVAnimMode::InverseMVTranslated: // Mode 1
     {
         TexMtx = (ViewMtx.Inverse().Transpose() * ModelMtx);
         PostMtx = CMatrix4f(0.5f, 0.0f, 0.0f, 0.5f,
@@ -119,9 +119,9 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
                             0.0f, 0.0f, 0.0f, 1.0f);
     }
 
-    case eUVScroll: // Mode 2
+    case EUVAnimMode::UVScroll: // Mode 2
     {
-        if (Options & eEnableUVScroll)
+        if (Options & ERenderOption::EnableUVScroll)
         {
             TexMtx[0][3] = (Seconds * mAnimParams[2]) + mAnimParams[0];
             TexMtx[1][3] = (Seconds * mAnimParams[3]) + mAnimParams[1];
@@ -129,9 +129,9 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
         break;
     }
 
-    case eUVRotation: // Mode 3
+    case EUVAnimMode::UVRotation: // Mode 3
     {
-        if (Options & eEnableUVScroll)
+        if (Options & ERenderOption::EnableUVScroll)
         {
             float Angle = (Seconds * mAnimParams[1]) + mAnimParams[0];
 
@@ -148,20 +148,20 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
         break;
     }
 
-    case eHFilmstrip: // Mode 4
-    case eVFilmstrip: // Mode 5
+    case EUVAnimMode::HFilmstrip: // Mode 4
+    case EUVAnimMode::VFilmstrip: // Mode 5
     {
-        if (Options & eEnableUVScroll)
+        if (Options & ERenderOption::EnableUVScroll)
         {
             float Offset = mAnimParams[2] * mAnimParams[0] * (mAnimParams[3] + Seconds);
             Offset = (float)(short)(float)(mAnimParams[1] * fmod(Offset, 1.0f)) * mAnimParams[2];
-            if (mAnimMode == eHFilmstrip) TexMtx[0][3] = Offset;
-            if (mAnimMode == eVFilmstrip) TexMtx[1][3] = Offset;
+            if (mAnimMode == EUVAnimMode::HFilmstrip) TexMtx[0][3] = Offset;
+            if (mAnimMode == EUVAnimMode::VFilmstrip) TexMtx[1][3] = Offset;
         }
         break;
     }
 
-    case eModelMatrix: // Mode 6
+    case EUVAnimMode::ModelMatrix: // Mode 6
     {
         // It looks ok, but I can't tell whether it's correct...
         TexMtx  = ModelMtx;
@@ -174,7 +174,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
         TexMtx[2][3] = 0.f;
     }
 
-    case eConvolutedModeA: // Mode 7
+    case EUVAnimMode::ConvolutedModeA: // Mode 7
     {
         CMatrix4f View = CGraphics::sMVPBlock.ViewMatrix;
 
@@ -196,7 +196,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
         break;
     }
 
-    case eConvolutedModeB: // Mode 8 (MP3/DKCR only)
+    case EUVAnimMode::ConvolutedModeB: // Mode 8 (MP3/DKCR only)
     {
         // todo
         break;
@@ -256,8 +256,8 @@ void CMaterialPass::SetKColorSel(ETevKSel Sel)
 void CMaterialPass::SetKAlphaSel(ETevKSel Sel)
 {
     // Konst RGB is invalid for alpha, so reset to One if that's the selection
-    if ((Sel >= eKonst0_RGB) && (Sel <= eKonst3_RGB))
-        Sel = eKonstOne;
+    if ((Sel >= kKonst0_RGB) && (Sel <= kKonst3_RGB))
+        Sel = kKonstOne;
 
     mKAlphaSel = Sel;
     mpParentMat->Update();

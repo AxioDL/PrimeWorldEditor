@@ -326,7 +326,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
             pInfo = &mWorldList.front();
             pInfo->WorldName = "FrontEnd";
 
-            for (TResourceIterator<eWorld> It; It; ++It)
+            for (TResourceIterator<EResourceType::World> It; It; ++It)
             {
                 if (UsedWorlds.find(It->ID()) == UsedWorlds.end())
                     pInfo->Areas << *It;

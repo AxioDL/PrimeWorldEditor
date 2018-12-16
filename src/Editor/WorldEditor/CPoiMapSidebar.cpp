@@ -20,8 +20,8 @@ CPoiMapSidebar::CPoiMapSidebar(CWorldEditor *pEditor)
     : CWorldEditorSidebar(pEditor)
     , ui(new Ui::CPoiMapSidebar)
     , mSourceModel(pEditor, this)
-    , mHighlightMode(eHighlightSelected)
-    , mPickType(eNotPicking)
+    , mHighlightMode(EHighlightMode::HighlightSelected)
+    , mPickType(EPickType::NotPicking)
     , mpHoverModel(nullptr)
 {
     mModel.setSourceModel(&mSourceModel);
@@ -60,7 +60,7 @@ void CPoiMapSidebar::SidebarOpen()
 void CPoiMapSidebar::SidebarClose()
 {
     // Clear model highlights
-    if (mHighlightMode != eHighlightNone)
+    if (mHighlightMode != EHighlightMode::HighlightNone)
     {
         EHighlightMode OldHighlightMode = mHighlightMode;
         SetHighlightNone();
@@ -68,7 +68,7 @@ void CPoiMapSidebar::SidebarClose()
     }
 
     // Stop picking
-    if (mPickType != eNotPicking)
+    if (mPickType != EPickType::NotPicking)
         StopPicking();
 
     // Disable unmerged world rendering
@@ -115,7 +115,7 @@ void CPoiMapSidebar::RevertModelOverlay(CModelNode *pModel)
 {
     if (pModel)
     {
-        if (mHighlightMode == eHighlightAll)
+        if (mHighlightMode == EHighlightMode::HighlightAll)
         {
             // Prioritize the selected POI over others.
             QModelIndex Selected = GetSelectedRow();
@@ -141,7 +141,7 @@ void CPoiMapSidebar::RevertModelOverlay(CModelNode *pModel)
             }
         }
 
-        else if (mHighlightMode == eHighlightSelected)
+        else if (mHighlightMode == EHighlightMode::HighlightSelected)
         {
             QModelIndex Index = GetSelectedRow();
 
@@ -159,8 +159,8 @@ void CPoiMapSidebar::RevertModelOverlay(CModelNode *pModel)
 CPoiMapSidebar::EPickType CPoiMapSidebar::GetRealPickType(bool AltPressed) const
 {
     if (!AltPressed) return mPickType;
-    if (mPickType == eAddMeshes) return eRemoveMeshes;
-    return eAddMeshes;
+    if (mPickType == EPickType::AddMeshes) return EPickType::RemoveMeshes;
+    return EPickType::AddMeshes;
 }
 
 bool CPoiMapSidebar::IsImportant(const QModelIndex& rkIndex)
@@ -194,18 +194,18 @@ void CPoiMapSidebar::UpdateModelHighlights()
 
         switch (mHighlightMode)
         {
-        case eHighlightSelected:
+        case EHighlightMode::HighlightSelected:
             if (kSelection.contains(Index))
                 SelectedIndices << Index;
             else
                 UnselectedIndices << Index;
             break;
 
-        case eHighlightAll:
+        case EHighlightMode::HighlightAll:
             SelectedIndices << Index;
             break;
 
-        case eHighlightNone:
+        case EHighlightMode::HighlightNone:
             UnselectedIndices << Index;
             break;
         }
@@ -220,13 +220,13 @@ void CPoiMapSidebar::UpdateModelHighlights()
 
 void CPoiMapSidebar::SetHighlightSelected()
 {
-    mHighlightMode = eHighlightSelected;
+    mHighlightMode = EHighlightMode::HighlightSelected;
     UpdateModelHighlights();
 }
 
 void CPoiMapSidebar::SetHighlightAll()
 {
-    mHighlightMode = eHighlightAll;
+    mHighlightMode = EHighlightMode::HighlightAll;
     UpdateModelHighlights();
 
     // Call HighlightPoiModels again on the selected index to prioritize it over the non-selected POIs.
@@ -236,13 +236,13 @@ void CPoiMapSidebar::SetHighlightAll()
 
 void CPoiMapSidebar::SetHighlightNone()
 {
-    mHighlightMode = eHighlightNone;
+    mHighlightMode = EHighlightMode::HighlightNone;
     UpdateModelHighlights();
 }
 
 void CPoiMapSidebar::OnSelectionChanged(const QItemSelection& rkSelected, const QItemSelection& rkDeselected)
 {
-    if (mHighlightMode == eHighlightSelected)
+    if (mHighlightMode == EHighlightMode::HighlightSelected)
     {
         // Clear highlight on deselected models
         QModelIndexList DeselectedIndices = rkDeselected.indexes();
@@ -283,7 +283,7 @@ void CPoiMapSidebar::OnPickButtonClicked()
 
     if (pButton == ui->AddPoiFromViewportButton)
     {
-        Editor()->EnterPickMode(eScriptNode, true, false, false);
+        Editor()->EnterPickMode(ENodeType::Script, true, false, false);
         connect(Editor(), SIGNAL(PickModeExited()), this, SLOT(StopPicking()));
         connect(Editor(), SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnPoiPicked(SRayIntersection,QMouseEvent*)));
 
@@ -291,7 +291,7 @@ void CPoiMapSidebar::OnPickButtonClicked()
         ui->MapMeshesButton->setChecked(false);
         ui->UnmapMeshesButton->setChecked(false);
 
-        mPickType = eAddPOIs;
+        mPickType = EPickType::AddPOIs;
     }
 
     else
@@ -301,20 +301,20 @@ void CPoiMapSidebar::OnPickButtonClicked()
 
         else
         {
-            Editor()->EnterPickMode(eModelNode, false, false, true);
+            Editor()->EnterPickMode(ENodeType::Model, false, false, true);
             connect(Editor(), SIGNAL(PickModeExited()), this, SLOT(StopPicking()));
             connect(Editor(), SIGNAL(PickModeHoverChanged(SRayIntersection,QMouseEvent*)), this, SLOT(OnModelHover(SRayIntersection,QMouseEvent*)));
             pButton->setChecked(true);
 
             if (pButton == ui->MapMeshesButton)
             {
-                mPickType = eAddMeshes;
+                mPickType = EPickType::AddMeshes;
                 ui->UnmapMeshesButton->setChecked(false);
             }
 
             else if (pButton == ui->UnmapMeshesButton)
             {
-                mPickType = eRemoveMeshes;
+                mPickType = EPickType::RemoveMeshes;
                 ui->MapMeshesButton->setChecked(false);
             }
         }
@@ -326,7 +326,7 @@ void CPoiMapSidebar::StopPicking()
     ui->MapMeshesButton->setChecked(false);
     ui->UnmapMeshesButton->setChecked(false);
     ui->AddPoiFromViewportButton->setChecked(false);
-    mPickType = eNotPicking;
+    mPickType = EPickType::NotPicking;
 
     RevertModelOverlay(mpHoverModel);
     mpHoverModel = nullptr;
@@ -400,22 +400,22 @@ void CPoiMapSidebar::OnModelPicked(const SRayIntersection& rkRayIntersect, QMous
     EPickType PickType = GetRealPickType(AltPressed);
 
     // Add meshes
-    if (PickType == eAddMeshes)
+    if (PickType == EPickType::AddMeshes)
     {
         for (auto it = SourceIndices.begin(); it != SourceIndices.end(); it++)
             mSourceModel.AddMapping(*it, pModel);
 
-        if (mHighlightMode != eHighlightNone)
+        if (mHighlightMode != EHighlightMode::HighlightNone)
             HighlightModel(SourceIndices.front(), pModel);
     }
 
     // Remove meshes
-    else if (PickType == eRemoveMeshes)
+    else if (PickType == EPickType::RemoveMeshes)
     {
         for (auto it = SourceIndices.begin(); it != SourceIndices.end(); it++)
             mSourceModel.RemoveMapping(*it, pModel);
 
-        if (mHighlightMode != eHighlightNone)
+        if (mHighlightMode != EHighlightMode::HighlightNone)
             RevertModelOverlay(mpHoverModel);
         else
             UnhighlightModel(pModel);
@@ -445,8 +445,8 @@ void CPoiMapSidebar::OnModelHover(const SRayIntersection& rkIntersect, QMouseEve
             bool AltPressed = (pEvent->modifiers() & Qt::AltModifier) != 0;
             EPickType PickType = GetRealPickType(AltPressed);
 
-            if ( ((PickType == eAddMeshes) && !mSourceModel.IsModelMapped(Index, mpHoverModel)) ||
-                 ((PickType == eRemoveMeshes) && mSourceModel.IsModelMapped(Index, mpHoverModel)) )
+            if ( ((PickType == EPickType::AddMeshes) && !mSourceModel.IsModelMapped(Index, mpHoverModel)) ||
+                 ((PickType == EPickType::RemoveMeshes) && mSourceModel.IsModelMapped(Index, mpHoverModel)) )
             {
                 mpHoverModel->SetScanOverlayEnabled(true);
                 mpHoverModel->SetScanOverlayColor(skHoverColor);

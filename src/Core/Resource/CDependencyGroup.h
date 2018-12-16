@@ -5,7 +5,7 @@
 
 class CDependencyGroup : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eDependencyGroup)
+    DECLARE_RESOURCE_TYPE(DependencyGroup)
     std::vector<CAssetID> mDependencies;
 
 public:

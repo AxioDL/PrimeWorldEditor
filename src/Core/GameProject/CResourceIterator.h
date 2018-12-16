@@ -66,7 +66,7 @@ public:
     }
 };
 
-template<EResType ResType>
+template<EResourceType ResType>
 class TResourceIterator : public CResourceIterator
 {
 public:

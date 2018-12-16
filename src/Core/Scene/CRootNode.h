@@ -14,7 +14,7 @@ public:
 
     ENodeType NodeType()
     {
-        return eRootNode;
+        return ENodeType::Root;
     }
 
     inline void RayAABoxIntersectTest(CRayCollisionTester&, const SViewInfo&) {}

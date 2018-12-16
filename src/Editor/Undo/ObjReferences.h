@@ -128,9 +128,9 @@ public:
         mValid = pLink ? true : false;
     }
 
-    inline uint32 LinkIndex() const        { return mLinkIndex; }
-    inline CLink* operator* () const    { return mValid ? mpInstance->Link(eOutgoing, mLinkIndex) : nullptr; }
-    inline CLink* operator->() const    { return mValid ? mpInstance->Link(eOutgoing, mLinkIndex) : nullptr; }
+    inline uint32 LinkIndex() const     { return mLinkIndex; }
+    inline CLink* operator* () const    { return mValid ? mpInstance->Link(ELinkType::Outgoing, mLinkIndex) : nullptr; }
+    inline CLink* operator->() const    { return mValid ? mpInstance->Link(ELinkType::Outgoing, mLinkIndex) : nullptr; }
     inline CLinkPtr& operator=(CLink *pLink) { SetLink(pLink); return *this; }
 
     inline bool operator==(const CLinkPtr& rkOther) const

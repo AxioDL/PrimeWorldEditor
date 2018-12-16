@@ -24,7 +24,7 @@ struct SBoneTransformInfo
 
 class CSkeleton : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eSkeleton)
+    DECLARE_RESOURCE_TYPE(Skeleton)
     friend class CSkeletonLoader;
 
     CBone *mpRootBone;

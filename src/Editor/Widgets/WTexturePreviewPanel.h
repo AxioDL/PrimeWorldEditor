@@ -15,7 +15,7 @@ class WTexturePreviewPanel : public IPreviewPanel
 public:
     explicit WTexturePreviewPanel(QWidget *pParent = 0, CTexture *pTexture = 0);
     ~WTexturePreviewPanel();
-    EResType ResType();
+    EResourceType ResType();
     void SetResource(CResource *pRes);
 
 private:

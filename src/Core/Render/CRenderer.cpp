@@ -17,8 +17,8 @@ uint32 CRenderer::sNumRenderers = 0;
 
 // ************ INITIALIZATION ************
 CRenderer::CRenderer()
-    : mOptions(eEnableUVScroll | eEnableBackfaceCull)
-    , mBloomMode(eNoBloom)
+    : mOptions(ERenderOption::EnableUVScroll | ERenderOption::EnableBackfaceCull)
+    , mBloomMode(EBloomMode::NoBloom)
     , mDrawGrid(true)
     , mInitialized(false)
     , mContextIndex(-1)
@@ -55,14 +55,14 @@ FRenderOptions CRenderer::RenderOptions() const
 
 void CRenderer::ToggleBackfaceCull(bool Enable)
 {
-    if (Enable) mOptions |= eEnableBackfaceCull;
-    else        mOptions &= ~eEnableBackfaceCull;
+    if (Enable) mOptions |= ERenderOption::EnableBackfaceCull;
+    else        mOptions &= ~ERenderOption::EnableBackfaceCull;
 }
 
 void CRenderer::ToggleUVAnimation(bool Enable)
 {
-    if (Enable) mOptions |= eEnableUVScroll;
-    else        mOptions &= ~eEnableUVScroll;
+    if (Enable) mOptions |= ERenderOption::EnableUVScroll;
+    else        mOptions &= ~ERenderOption::EnableUVScroll;
 }
 
 void CRenderer::ToggleGrid(bool Enable)
@@ -72,24 +72,24 @@ void CRenderer::ToggleGrid(bool Enable)
 
 void CRenderer::ToggleOccluders(bool Enable)
 {
-    if (Enable) mOptions |= eEnableOccluders;
-    else        mOptions &= ~eEnableOccluders;
+    if (Enable) mOptions |= ERenderOption::EnableOccluders;
+    else        mOptions &= ~ERenderOption::EnableOccluders;
 }
 
 void CRenderer::ToggleAlphaDisabled(bool Enable)
 {
-    if (Enable) mOptions |= eNoAlpha;
-    else        mOptions &= ~eNoAlpha;
+    if (Enable) mOptions |= ERenderOption::NoAlpha;
+    else        mOptions &= ~ERenderOption::NoAlpha;
 }
 
 void CRenderer::SetBloom(EBloomMode BloomMode)
 {
     mBloomMode = BloomMode;
 
-    if (BloomMode != eNoBloom)
-        mOptions |= eEnableBloom;
+    if (BloomMode != EBloomMode::NoBloom)
+        mOptions |= ERenderOption::EnableBloom;
     else
-        mOptions &= ~eEnableBloom;
+        mOptions &= ~ERenderOption::EnableBloom;
 }
 
 void CRenderer::SetClearColor(const CColor& rkClear)
@@ -118,7 +118,7 @@ void CRenderer::RenderBuckets(const SViewInfo& rkViewInfo)
     mSceneFramebuffer.Bind();
 
     // Set backface culling
-    if (mOptions & eEnableBackfaceCull) glEnable(GL_CULL_FACE);
+    if (mOptions & ERenderOption::EnableBackfaceCull) glEnable(GL_CULL_FACE);
     else glDisable(GL_CULL_FACE);
 
     // Render scene to texture
@@ -145,7 +145,7 @@ void CRenderer::RenderBuckets(const SViewInfo& rkViewInfo)
 void CRenderer::RenderBloom()
 {
     // Check to ensure bloom is enabled. Also don't render bloom in unlit mode.
-    if (mBloomMode == eNoBloom || CGraphics::sLightMode != CGraphics::eWorldLighting) return;
+    if (mBloomMode == EBloomMode::NoBloom || CGraphics::sLightMode != CGraphics::ELightingMode::World) return;
 
     // Setup
     static const float skHOffset[6] = { -0.008595f, -0.005470f, -0.002345f,
@@ -161,10 +161,10 @@ void CRenderer::RenderBloom()
                                             CColor::Integral(53, 53, 53),
                                             CColor::Integral(17, 17, 17) };
 
-    uint32 BloomWidth  = (mBloomMode == eBloom ? mBloomWidth  : mViewportWidth);
-    uint32 BloomHeight = (mBloomMode == eBloom ? mBloomHeight : mViewportHeight);
-    float BloomHScale = (mBloomMode == eBloom ? mBloomHScale : 0);
-    float BloomVScale = (mBloomMode == eBloom ? mBloomVScale : 0);
+    uint32 BloomWidth  = (mBloomMode == EBloomMode::Bloom ? mBloomWidth  : mViewportWidth);
+    uint32 BloomHeight = (mBloomMode == EBloomMode::Bloom ? mBloomHeight : mViewportHeight);
+    float BloomHScale = (mBloomMode == EBloomMode::Bloom ? mBloomHScale : 0);
+    float BloomVScale = (mBloomMode == EBloomMode::Bloom ? mBloomVScale : 0);
 
     glDisable(GL_DEPTH_TEST);
     glViewport(0, 0, BloomWidth, BloomHeight);
@@ -242,7 +242,7 @@ void CRenderer::RenderBloom()
     mBloomFramebuffers[2].Texture()->Bind(0);
     CDrawUtil::DrawSquare();
 
-    if (mBloomMode == eBloomMaps)
+    if (mBloomMode == EBloomMode::BloomMaps)
     {
         // Bloom maps are in the framebuffer alpha channel.
         // White * dst alpha = bloom map colors
@@ -294,19 +294,19 @@ void CRenderer::AddMesh(IRenderable *pRenderable, int ComponentIndex, const CAAB
 
     switch (DepthGroup)
     {
-    case eBackground:
+    case EDepthGroup::Background:
         mBackgroundBucket.Add(Ptr, Transparent);
         break;
 
-    case eMidground:
+    case EDepthGroup::Midground:
         mMidgroundBucket.Add(Ptr, Transparent);
         break;
 
-    case eForeground:
+    case EDepthGroup::Foreground:
         mForegroundBucket.Add(Ptr, Transparent);
         break;
 
-    case eUI:
+    case EDepthGroup::UI:
         mUIBucket.Add(Ptr, Transparent);
         break;
     }

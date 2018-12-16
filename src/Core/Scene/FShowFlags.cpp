@@ -1,3 +1,3 @@
 #include "FShowFlags.h"
 
-const FShowFlags gkGameModeShowFlags = eShowMergedWorld | eShowObjectGeometry | eShowSky;
+const FShowFlags gkGameModeShowFlags = EShowFlag::MergedWorld | EShowFlag::ObjectGeometry | EShowFlag::Sky;

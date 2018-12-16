@@ -12,11 +12,11 @@
 #include <GL/glew.h>
 
 /**
- * todo: should probably be replaced with a CGraphicsState class which
- * can be instantiated and is probably more safe/functional than global access.
- * also, should probably have inline set/get functions rather than having all
- * members public so that we can track when a value is modified and maybe
- * execute extra functionality when certain values are changed
+ * todo: this entire thing needs to be further abstracted, other classes shouldn't
+ * need to get this close to the metal - makes it harder to extend and harder to
+ * theoretically add support for other kinds of graphics backends. additionally,
+ * all this stuff really shouldn't be global, and shouldn't all use public members
+ * either... basically, there's a lot wrong with this system
  */
 class CGraphics
 {
@@ -79,7 +79,7 @@ public:
     static SLightBlock sLightBlock;
 
     // Lighting-related
-    enum ELightingMode { eNoLighting, eBasicLighting, eWorldLighting };
+    enum class ELightingMode { None, Basic, World };
     static ELightingMode sLightMode;
     static uint32 sNumLights;
     static const CColor skDefaultAmbientColor;

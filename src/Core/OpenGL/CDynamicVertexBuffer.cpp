@@ -6,8 +6,8 @@ static const uint32 gskAttribSize[] = {
 };
 
 CDynamicVertexBuffer::CDynamicVertexBuffer()
-    : mAttribFlags(eNoAttributes)
-    , mBufferedFlags(eNoAttributes)
+    : mAttribFlags(EVertexAttribute::None)
+    , mBufferedFlags(EVertexAttribute::None)
     , mNumVertices(0)
 {
 }
@@ -48,19 +48,19 @@ void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pkD
 
     switch (Attrib)
     {
-    case ePosition: Index = 0;  break;
-    case eNormal:   Index = 1;  break;
-    case eColor0:   Index = 2;  break;
-    case eColor1:   Index = 3;  break;
-    case eTex0:     Index = 4;  break;
-    case eTex1:     Index = 5;  break;
-    case eTex2:     Index = 6;  break;
-    case eTex3:     Index = 7;  break;
-    case eTex4:     Index = 8;  break;
-    case eTex5:     Index = 9;  break;
-    case eTex6:     Index = 10; break;
-    case eTex7:     Index = 11; break;
-    default: return;
+    case EVertexAttribute::Position:    Index = 0;  break;
+    case EVertexAttribute::Normal:      Index = 1;  break;
+    case EVertexAttribute::Color0:      Index = 2;  break;
+    case EVertexAttribute::Color1:      Index = 3;  break;
+    case EVertexAttribute::Tex0:        Index = 4;  break;
+    case EVertexAttribute::Tex1:        Index = 5;  break;
+    case EVertexAttribute::Tex2:        Index = 6;  break;
+    case EVertexAttribute::Tex3:        Index = 7;  break;
+    case EVertexAttribute::Tex4:        Index = 8;  break;
+    case EVertexAttribute::Tex5:        Index = 9;  break;
+    case EVertexAttribute::Tex6:        Index = 10; break;
+    case EVertexAttribute::Tex7:        Index = 11; break;
+    default:                            return;
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[Index]);
@@ -77,7 +77,7 @@ void CDynamicVertexBuffer::ClearBuffers()
             glDeleteBuffers(1, &mAttribBuffers[iAttrib]);
     }
 
-    mBufferedFlags = eNoAttributes;
+    mBufferedFlags = EVertexAttribute::None;
 }
 
 GLuint CDynamicVertexBuffer::CreateVAO()

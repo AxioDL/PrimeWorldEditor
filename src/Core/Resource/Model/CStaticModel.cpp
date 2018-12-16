@@ -13,7 +13,7 @@ CStaticModel::CStaticModel()
 CStaticModel::CStaticModel(CMaterial *pMat)
     : CBasicModel()
     , mpMaterial(pMat)
-    , mTransparent((pMat->Options() & CMaterial::eTransparent) != 0)
+    , mTransparent((pMat->Options() & EMaterialOption::Transparent) != 0)
 {
 }
 
@@ -58,13 +58,13 @@ void CStaticModel::BufferGL()
                 // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
                 switch (pPrim->Type)
                 {
-                    case eGX_Triangles:
+                    case EPrimitiveType::Triangles:
                         pIBO->TrianglesToStrips(Indices.data(), Indices.size());
                         break;
-                    case eGX_TriangleFan:
+                    case EPrimitiveType::TriangleFan:
                         pIBO->FansToStrips(Indices.data(), Indices.size());
                         break;
-                    case eGX_Quads:
+                    case EPrimitiveType::Quads:
                         pIBO->QuadsToStrips(Indices.data(), Indices.size());
                         break;
                     default:
@@ -109,7 +109,7 @@ void CStaticModel::Draw(FRenderOptions Options)
 {
     if (!mBuffered) BufferGL();
 
-    if ((Options & eNoMaterialSetup) == 0) mpMaterial->SetCurrent(Options);
+    if ((Options & ERenderOption::NoMaterialSetup) == 0) mpMaterial->SetCurrent(Options);
 
     // Draw IBOs
     mVBO.Bind();
@@ -133,7 +133,7 @@ void CStaticModel::DrawSurface(FRenderOptions Options, uint32 Surface)
 
     mVBO.Bind();
     glLineWidth(1.f);
-    if ((Options & eNoMaterialSetup) == 0) mpMaterial->SetCurrent(Options);
+    if ((Options & ERenderOption::NoMaterialSetup) == 0) mpMaterial->SetCurrent(Options);
 
     for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
     {
@@ -159,7 +159,7 @@ void CStaticModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CC
     // Set up wireframe
     WireColor.A = 0;
     CDrawUtil::UseColorShader(WireColor);
-    Options |= eNoMaterialSetup;
+    Options |= ERenderOption::NoMaterialSetup;
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     glBlendFunc(GL_ONE, GL_ZERO);
 
@@ -179,7 +179,7 @@ CMaterial* CStaticModel::GetMaterial()
 void CStaticModel::SetMaterial(CMaterial *pMat)
 {
     mpMaterial = pMat;
-    mTransparent = pMat->Options().HasFlag(CMaterial::eTransparent);
+    mTransparent = pMat->Options().HasFlag(EMaterialOption::Transparent);
 }
 
 bool CStaticModel::IsTransparent()
@@ -189,10 +189,10 @@ bool CStaticModel::IsTransparent()
 
 bool CStaticModel::IsOccluder()
 {
-    return mpMaterial->Options().HasFlag(CMaterial::eOccluder);
+    return mpMaterial->Options().HasFlag(EMaterialOption::Occluder);
 }
 
-CIndexBuffer* CStaticModel::InternalGetIBO(EGXPrimitiveType Primitive)
+CIndexBuffer* CStaticModel::InternalGetIBO(EPrimitiveType Primitive)
 {
     GLenum type = GXPrimToGLPrim(Primitive);
 

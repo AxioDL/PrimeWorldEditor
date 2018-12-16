@@ -10,7 +10,7 @@
 
 class CAnimation : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eAnimation)
+    DECLARE_RESOURCE_TYPE(Animation)
     friend class CAnimationLoader;
 
     typedef std::vector<CVector3f> TScaleChannel;

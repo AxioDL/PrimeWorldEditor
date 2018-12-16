@@ -15,12 +15,12 @@ std::map<uint64, CMaterial::SMaterialShader> CMaterial::smShaderMap;
 
 CMaterial::CMaterial()
     : mpShader(nullptr)
-    , mShaderStatus(eNoShader)
+    , mShaderStatus(EShaderStatus::NoShader)
     , mRecalcHash(true)
     , mEnableBloom(false)
     , mVersion(EGame::Invalid)
-    , mOptions(eNoSettings)
-    , mVtxDesc(eNoAttributes)
+    , mOptions(EMaterialOption::None)
+    , mVtxDesc(EVertexAttribute::None)
     , mBlendSrcFac(GL_ONE)
     , mBlendDstFac(GL_ZERO)
     , mLightingEnabled(true)
@@ -32,11 +32,11 @@ CMaterial::CMaterial()
 
 CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
     : mpShader(nullptr)
-    , mShaderStatus(eNoShader)
+    , mShaderStatus(EShaderStatus::NoShader)
     , mRecalcHash(true)
     , mEnableBloom(Version == EGame::Corruption)
     , mVersion(Version)
-    , mOptions(eDepthWrite)
+    , mOptions(EMaterialOption::DepthWrite)
     , mVtxDesc(VtxDesc)
     , mBlendSrcFac(GL_ONE)
     , mBlendDstFac(GL_ZERO)
@@ -46,11 +46,11 @@ CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
     , mpIndirectTexture(nullptr)
 {
     mpShader = nullptr;
-    mShaderStatus = eNoShader;
+    mShaderStatus = EShaderStatus::NoShader;
     mRecalcHash = true;
     mEnableBloom = (Version == EGame::Corruption);
     mVersion = Version;
-    mOptions = eDepthWrite;
+    mOptions = EMaterialOption::DepthWrite;
     mVtxDesc = VtxDesc;
     mBlendSrcFac = GL_ONE;
     mBlendDstFac = GL_ZERO;
@@ -96,7 +96,7 @@ void CMaterial::GenerateShader(bool AllowRegen /*= true*/)
 {
     HashParameters(); // Calling HashParameters() may change mShaderStatus so call it before checking
 
-    if (mShaderStatus != eShaderExists || AllowRegen)
+    if (mShaderStatus != EShaderStatus::ShaderExists || AllowRegen)
     {
         auto Find = smShaderMap.find(mParametersHash);
 
@@ -119,14 +119,14 @@ void CMaterial::GenerateShader(bool AllowRegen /*= true*/)
 
             if (!mpShader->IsValidProgram())
             {
-                mShaderStatus = eShaderFailed;
+                mShaderStatus = EShaderStatus::ShaderFailed;
                 delete mpShader;
                 mpShader = nullptr;
             }
 
             else
             {
-                mShaderStatus = eShaderExists;
+                mShaderStatus = EShaderStatus::ShaderExists;
                 smShaderMap[mParametersHash] = SMaterialShader { 1, mpShader };
             }
         }
@@ -152,7 +152,7 @@ void CMaterial::ClearShader()
         }
 
         mpShader = nullptr;
-        mShaderStatus = eNoShader;
+        mShaderStatus = EShaderStatus::NoShader;
     }
 }
 
@@ -162,16 +162,16 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
     if (sCurrentMaterial != HashParameters())
     {
         // Shader setup
-        if (mShaderStatus == eNoShader) GenerateShader();
+        if (mShaderStatus == EShaderStatus::NoShader) GenerateShader();
         mpShader->SetCurrent();
 
-        if (mShaderStatus == eShaderFailed)
+        if (mShaderStatus == EShaderStatus::ShaderFailed)
             return false;
 
         // Set RGB blend equation - force to ZERO/ONE if alpha is disabled
         GLenum srcRGB, dstRGB, srcAlpha, dstAlpha;
 
-        if (Options & eNoAlpha) {
+        if (Options & ERenderOption::NoAlpha) {
             srcRGB = GL_ONE;
             dstRGB = GL_ZERO;
         } else {
@@ -182,7 +182,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         // Set alpha blend equation
         bool AlphaBlended = ((mBlendSrcFac == GL_SRC_ALPHA) && (mBlendDstFac == GL_ONE_MINUS_SRC_ALPHA));
 
-        if ((mEnableBloom) && (Options & eEnableBloom) && (!AlphaBlended)) {
+        if ((mEnableBloom) && (Options & ERenderOption::EnableBloom) && (!AlphaBlended)) {
             srcAlpha = mBlendSrcFac;
             dstAlpha = mBlendDstFac;
         } else {
@@ -201,7 +201,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         CGraphics::sVertexBlock.COLOR0_Mat = CColor::skWhite;
 
         // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
-        if ((mOptions & eDepthWrite) || (Options & eNoAlpha)) glDepthMask(GL_TRUE);
+        if ((mOptions & EMaterialOption::DepthWrite) || (Options & ERenderOption::NoAlpha)) glDepthMask(GL_TRUE);
         else glDepthMask(GL_FALSE);
 
         // Load uniforms
@@ -218,8 +218,8 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         {
             EUVAnimMode mode = mPasses[iPass]->AnimMode();
 
-            if ((mode == eInverseMV) || (mode == eInverseMVTranslated) ||
-                (mode == eModelMatrix) || (mode == eSimpleMode))
+            if ((mode == EUVAnimMode::InverseMV) || (mode == EUVAnimMode::InverseMVTranslated) ||
+                (mode == EUVAnimMode::ModelMatrix) || (mode == EUVAnimMode::SimpleMode))
                 mPasses[iPass]->SetAnimCurrent(Options, iPass);
         }
     }
@@ -243,7 +243,7 @@ uint64 CMaterial::HashParameters()
 {
     if (mRecalcHash)
     {
-        CFNV1A Hash(CFNV1A::e64Bit);
+        CFNV1A Hash(CFNV1A::k64Bit);
 
         Hash.HashLong((int) mVersion);
         Hash.HashLong(mOptions);
@@ -273,7 +273,7 @@ uint64 CMaterial::HashParameters()
 void CMaterial::Update()
 {
     mRecalcHash = true;
-    mShaderStatus = eNoShader;
+    mShaderStatus = EShaderStatus::NoShader;
 }
 
 void CMaterial::SetNumPasses(uint32 NumPasses)

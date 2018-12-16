@@ -49,37 +49,37 @@ CTexture* CTextureDecoder::CreateTexture()
     pTex->mWidth = mWidth;
     pTex->mHeight = mHeight;
     pTex->mNumMipMaps = mNumMipMaps;
-    pTex->mLinearSize = (uint32) (mWidth * mHeight * gskPixelsToBytes[mTexelFormat]);
+    pTex->mLinearSize = (uint32) (mWidth * mHeight * gskPixelsToBytes[(int) mTexelFormat]);
     pTex->mpImgDataBuffer = mpDataBuffer;
     pTex->mImgDataSize = mDataBufferSize;
     pTex->mBufferExists = true;
 
     switch (mTexelFormat)
     {
-        case eGX_I4:
-        case eGX_I8:
-        case eGX_IA4:
-        case eGX_IA8:
-            pTex->mTexelFormat = eLuminanceAlpha;
+        case ETexelFormat::GX_I4:
+        case ETexelFormat::GX_I8:
+        case ETexelFormat::GX_IA4:
+        case ETexelFormat::GX_IA8:
+            pTex->mTexelFormat = ETexelFormat::LuminanceAlpha;
             break;
-        case eGX_RGB565:
-            pTex->mTexelFormat = eRGB565;
+        case ETexelFormat::GX_RGB565:
+            pTex->mTexelFormat = ETexelFormat::RGB565;
             break;
-        case eGX_C4:
-        case eGX_C8:
-            if (mPaletteFormat == ePalette_IA8)    pTex->mTexelFormat = eLuminanceAlpha;
-            if (mPaletteFormat == ePalette_RGB565) pTex->mTexelFormat = eRGB565;
-            if (mPaletteFormat == ePalette_RGB5A3) pTex->mTexelFormat = eRGBA8;
+        case ETexelFormat::GX_C4:
+        case ETexelFormat::GX_C8:
+            if (mPaletteFormat == EGXPaletteFormat::IA8)    pTex->mTexelFormat = ETexelFormat::LuminanceAlpha;
+            if (mPaletteFormat == EGXPaletteFormat::RGB565) pTex->mTexelFormat = ETexelFormat::RGB565;
+            if (mPaletteFormat == EGXPaletteFormat::RGB5A3) pTex->mTexelFormat = ETexelFormat::RGBA8;
             break;
-        case eGX_RGB5A3:
-        case eGX_RGBA8:
-            pTex->mTexelFormat = eRGBA8;
+        case ETexelFormat::GX_RGB5A3:
+        case ETexelFormat::GX_RGBA8:
+            pTex->mTexelFormat = ETexelFormat::RGBA8;
             break;
-        case eGX_CMPR:
-            pTex->mTexelFormat = eDXT1;
+        case ETexelFormat::GX_CMPR:
+            pTex->mTexelFormat = ETexelFormat::DXT1;
             break;
-        case eDXT1:
-            pTex->mTexelFormat = eDXT1;
+        case ETexelFormat::DXT1:
+            pTex->mTexelFormat = ETexelFormat::DXT1;
             pTex->mLinearSize = mWidth * mHeight / 2;
             break;
         default:
@@ -108,7 +108,7 @@ CTexture* CTextureDecoder::DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEn
     Decoder.FullDecodeGXTexture(rTXTR);
 
     CTexture *pTexture = Decoder.CreateTexture();
-    pTexture->mTexelFormat = eRGBA8;
+    pTexture->mTexelFormat = ETexelFormat::RGBA8;
     return pTexture;
 }
 
@@ -136,17 +136,17 @@ void CTextureDecoder::ReadTXTR(IInputStream& rTXTR)
     mNumMipMaps = rTXTR.ReadLong();
 
     // For C4 and C8 images, read palette
-    if ((mTexelFormat == eGX_C4) || (mTexelFormat == eGX_C8))
+    if ((mTexelFormat == ETexelFormat::GX_C4) || (mTexelFormat == ETexelFormat::GX_C8))
     {
         mHasPalettes = true;
         mPaletteFormat = EGXPaletteFormat(rTXTR.ReadLong());
         rTXTR.Seek(0x4, SEEK_CUR);
 
-        uint32 PaletteEntryCount = (mTexelFormat == eGX_C4) ? 16 : 256;
+        uint32 PaletteEntryCount = (mTexelFormat == ETexelFormat::GX_C4) ? 16 : 256;
         mPalettes.resize(PaletteEntryCount * 2);
         rTXTR.ReadBytes(mPalettes.data(), mPalettes.size());
 
-        mPaletteInput.SetData(mPalettes.data(), mPalettes.size(), IOUtil::eBigEndian);
+        mPaletteInput.SetData(mPalettes.data(), mPalettes.size(), EEndian::BigEndian);
     }
     else mHasPalettes = false;
 }
@@ -214,28 +214,28 @@ void CTextureDecoder::PartialDecodeGXTexture(IInputStream& TXTR)
     uint32 ImageSize = TXTR.Tell() - ImageStart;
     TXTR.Seek(ImageStart, SEEK_SET);
 
-    mDataBufferSize = ImageSize * (gskOutputBpp[mTexelFormat] / gskSourceBpp[mTexelFormat]);
-    if ((mHasPalettes) && (mPaletteFormat == ePalette_RGB5A3)) mDataBufferSize *= 2;
+    mDataBufferSize = ImageSize * (gskOutputBpp[(int) mTexelFormat] / gskSourceBpp[(int) mTexelFormat]);
+    if ((mHasPalettes) && (mPaletteFormat == EGXPaletteFormat::RGB5A3)) mDataBufferSize *= 2;
     mpDataBuffer = new uint8[mDataBufferSize];
 
-    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::kSystemEndianness);
+    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, EEndian::SystemEndian);
 
     // Initializing more stuff before we start the mipmap loop
     uint32 MipW = mWidth, MipH = mHeight;
     uint32 MipOffset = 0;
 
-    uint32 BWidth = gskBlockWidth[mTexelFormat];
-    uint32 BHeight = gskBlockHeight[mTexelFormat];
+    uint32 BWidth = gskBlockWidth[(int) mTexelFormat];
+    uint32 BHeight = gskBlockHeight[(int) mTexelFormat];
 
-    uint32 PixelStride = gskOutputPixelStride[mTexelFormat];
-    if (mHasPalettes && (mPaletteFormat == ePalette_RGB5A3))
+    uint32 PixelStride = gskOutputPixelStride[(int) mTexelFormat];
+    if (mHasPalettes && (mPaletteFormat == EGXPaletteFormat::RGB5A3))
         PixelStride = 4;
 
     // With CMPR, we're using a little trick.
     // CMPR stores pixels in 8x8 blocks, with four 4x4 subblocks.
     // An easy way to convert it is to pretend each block is 2x2 and each subblock is one pixel.
     // So to do that we need to calculate the "new" dimensions of the image, 1/4 the size of the original.
-    if (mTexelFormat == eGX_CMPR) {
+    if (mTexelFormat == ETexelFormat::GX_CMPR) {
         MipW /= 4;
         MipH /= 4;
     }
@@ -261,33 +261,33 @@ void CTextureDecoder::PartialDecodeGXTexture(IInputStream& TXTR)
                         uint32 DstPos = ((iImgY * MipW) + iImgX) * PixelStride;
                         Out.Seek(MipOffset + DstPos, SEEK_SET);
 
-                        if (mTexelFormat == eGX_I4)          ReadPixelsI4(TXTR, Out);
-                        else if (mTexelFormat == eGX_I8)     ReadPixelI8(TXTR, Out);
-                        else if (mTexelFormat == eGX_IA4)    ReadPixelIA4(TXTR, Out);
-                        else if (mTexelFormat == eGX_IA8)    ReadPixelIA8(TXTR, Out);
-                        else if (mTexelFormat == eGX_C4)     ReadPixelsC4(TXTR, Out);
-                        else if (mTexelFormat == eGX_C8)     ReadPixelC8(TXTR, Out);
-                        else if (mTexelFormat == eGX_RGB565) ReadPixelRGB565(TXTR, Out);
-                        else if (mTexelFormat == eGX_RGB5A3) ReadPixelRGB5A3(TXTR, Out);
-                        else if (mTexelFormat == eGX_RGBA8)  ReadPixelRGBA8(TXTR, Out);
-                        else if (mTexelFormat == eGX_CMPR)   ReadSubBlockCMPR(TXTR, Out);
+                        if (mTexelFormat == ETexelFormat::GX_I4)          ReadPixelsI4(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_I8)     ReadPixelI8(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_IA4)    ReadPixelIA4(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_IA8)    ReadPixelIA8(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_C4)     ReadPixelsC4(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_C8)     ReadPixelC8(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_RGB565) ReadPixelRGB565(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_RGB5A3) ReadPixelRGB5A3(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_RGBA8)  ReadPixelRGBA8(TXTR, Out);
+                        else if (mTexelFormat == ETexelFormat::GX_CMPR)   ReadSubBlockCMPR(TXTR, Out);
 
                         // I4 and C4 have 4bpp images, so I'm forced to read two pixels at a time.
-                        if ((mTexelFormat == eGX_I4) || (mTexelFormat == eGX_C4)) iImgX++;
+                        if ((mTexelFormat == ETexelFormat::GX_I4) || (mTexelFormat == ETexelFormat::GX_C4)) iImgX++;
 
                         // Check if we're at the end of the file.
                         if (TXTR.EoF()) BreakEarly = true;
                     }
                     if (BreakEarly) break;
                 }
-                if (mTexelFormat == eGX_RGBA8) TXTR.Seek(0x20, SEEK_CUR);
+                if (mTexelFormat == ETexelFormat::GX_RGBA8) TXTR.Seek(0x20, SEEK_CUR);
                 if (BreakEarly) break;
             }
             if (BreakEarly) break;
         }
 
-        uint32 MipSize = (uint32) (MipW * MipH * gskPixelsToBytes[mTexelFormat]);
-        if (mTexelFormat == eGX_CMPR) MipSize *= 16; // Since we're pretending the image is 1/4 its actual size, we have to multiply the size by 16 to get the correct offset
+        uint32 MipSize = (uint32) (MipW * MipH * gskPixelsToBytes[(int) mTexelFormat]);
+        if (mTexelFormat == ETexelFormat::GX_CMPR) MipSize *= 16; // Since we're pretending the image is 1/4 its actual size, we have to multiply the size by 16 to get the correct offset
 
         MipOffset += MipSize;
         MipW /= 2;
@@ -305,23 +305,23 @@ void CTextureDecoder::FullDecodeGXTexture(IInputStream& rTXTR)
     uint32 ImageSize = rTXTR.Tell() - ImageStart;
     rTXTR.Seek(ImageStart, SEEK_SET);
 
-    mDataBufferSize = ImageSize * (32 / gskSourceBpp[mTexelFormat]);
+    mDataBufferSize = ImageSize * (32 / gskSourceBpp[(int) mTexelFormat]);
     mpDataBuffer = new uint8[mDataBufferSize];
 
-    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::kSystemEndianness);
+    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, EEndian::SystemEndian);
 
     // Initializing more stuff before we start the mipmap loop
     uint32 MipW = mWidth, MipH = mHeight;
     uint32 MipOffset = 0;
 
-    uint32 BWidth = gskBlockWidth[mTexelFormat];
-    uint32 BHeight = gskBlockHeight[mTexelFormat];
+    uint32 BWidth = gskBlockWidth[(int) mTexelFormat];
+    uint32 BHeight = gskBlockHeight[(int) mTexelFormat];
 
     // With CMPR, we're using a little trick.
     // CMPR stores pixels in 8x8 blocks, with four 4x4 subblocks.
     // An easy way to convert it is to pretend each block is 2x2 and each subblock is one pixel.
     // So to do that we need to calculate the "new" dimensions of the image, 1/4 the size of the original.
-    if (mTexelFormat == eGX_CMPR)
+    if (mTexelFormat == ETexelFormat::GX_CMPR)
     {
         MipW /= 4;
         MipH /= 4;
@@ -334,45 +334,45 @@ void CTextureDecoder::FullDecodeGXTexture(IInputStream& rTXTR)
                 for (uint32 iImgY = iBlockY; iImgY < iBlockY + BHeight; iImgY++) {
                     for (uint32 iImgX = iBlockX; iImgX < iBlockX + BWidth; iImgX++)
                     {
-                        uint32 DstPos = (mTexelFormat == eGX_CMPR) ? ((iImgY * (MipW * 4)) + iImgX) * 16 : ((iImgY * MipW) + iImgX) * 4;
+                        uint32 DstPos = (mTexelFormat == ETexelFormat::GX_CMPR) ? ((iImgY * (MipW * 4)) + iImgX) * 16 : ((iImgY * MipW) + iImgX) * 4;
                         Out.Seek(MipOffset + DstPos, SEEK_SET);
 
                         // I4/C4/CMPR require reading more than one pixel at a time
-                        if (mTexelFormat == eGX_I4)
+                        if (mTexelFormat == ETexelFormat::GX_I4)
                         {
                             uint8 Byte = rTXTR.ReadByte();
                             Out.WriteLong( DecodePixelI4(Byte, 0).ToLongARGB() );
                             Out.WriteLong( DecodePixelI4(Byte, 1).ToLongARGB() );
                         }
-                        else if (mTexelFormat == eGX_C4)
+                        else if (mTexelFormat == ETexelFormat::GX_C4)
                         {
                             uint8 Byte = rTXTR.ReadByte();
                             Out.WriteLong( DecodePixelC4(Byte, 0, mPaletteInput).ToLongARGB() );
                             Out.WriteLong( DecodePixelC4(Byte, 1, mPaletteInput).ToLongARGB() );
                         }
-                        else if (mTexelFormat == eGX_CMPR) DecodeSubBlockCMPR(rTXTR, Out, (uint16) (MipW * 4));
+                        else if (mTexelFormat == ETexelFormat::GX_CMPR) DecodeSubBlockCMPR(rTXTR, Out, (uint16) (MipW * 4));
 
                         else
                         {
                             CColor Pixel;
 
-                            if (mTexelFormat == eGX_I8)          Pixel = DecodePixelI8(rTXTR.ReadByte());
-                            else if (mTexelFormat == eGX_IA4)    Pixel = DecodePixelIA4(rTXTR.ReadByte());
-                            else if (mTexelFormat == eGX_IA8)    Pixel = DecodePixelIA8(rTXTR.ReadShort());
-                            else if (mTexelFormat == eGX_C8)     Pixel = DecodePixelC8(rTXTR.ReadByte(), mPaletteInput);
-                            else if (mTexelFormat == eGX_RGB565) Pixel = DecodePixelRGB565(rTXTR.ReadShort());
-                            else if (mTexelFormat == eGX_RGB5A3) Pixel = DecodePixelRGB5A3(rTXTR.ReadShort());
-                            else if (mTexelFormat == eGX_RGBA8)  Pixel = CColor(rTXTR, true);
+                            if (mTexelFormat == ETexelFormat::GX_I8)          Pixel = DecodePixelI8(rTXTR.ReadByte());
+                            else if (mTexelFormat == ETexelFormat::GX_IA4)    Pixel = DecodePixelIA4(rTXTR.ReadByte());
+                            else if (mTexelFormat == ETexelFormat::GX_IA8)    Pixel = DecodePixelIA8(rTXTR.ReadShort());
+                            else if (mTexelFormat == ETexelFormat::GX_C8)     Pixel = DecodePixelC8(rTXTR.ReadByte(), mPaletteInput);
+                            else if (mTexelFormat == ETexelFormat::GX_RGB565) Pixel = DecodePixelRGB565(rTXTR.ReadShort());
+                            else if (mTexelFormat == ETexelFormat::GX_RGB5A3) Pixel = DecodePixelRGB5A3(rTXTR.ReadShort());
+                            else if (mTexelFormat == ETexelFormat::GX_RGBA8)  Pixel = CColor(rTXTR, true);
 
                             Out.WriteLong(Pixel.ToLongARGB());
                         }
                     }
                 }
-                if (mTexelFormat == eGX_RGBA8) rTXTR.Seek(0x20, SEEK_CUR);
+                if (mTexelFormat == ETexelFormat::GX_RGBA8) rTXTR.Seek(0x20, SEEK_CUR);
             }
 
         uint32 MipSize = MipW * MipH * 4;
-        if (mTexelFormat == eGX_CMPR) MipSize *= 16;
+        if (mTexelFormat == ETexelFormat::GX_CMPR) MipSize *= 16;
 
         MipOffset += MipSize;
         MipW /= 2;
@@ -396,7 +396,7 @@ void CTextureDecoder::DecodeDDS(IInputStream& rDDS)
     else mDataBufferSize *= 4;
     mpDataBuffer = new uint8[mDataBufferSize];
 
-    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, IOUtil::kSystemEndianness);
+    CMemoryOutStream Out(mpDataBuffer, mDataBufferSize, EEndian::SystemEndian);
 
     // Initializing more stuff before we start the mipmap loop
     uint32 MipW = mWidth, MipH = mHeight;
@@ -487,9 +487,9 @@ void CTextureDecoder::DecodeDDS(IInputStream& rDDS)
     }
 
     if (mDDSInfo.Format == SDDSInfo::DXT1)
-        mTexelFormat = eDXT1;
+        mTexelFormat = ETexelFormat::DXT1;
     else
-        mTexelFormat = eGX_RGBA8;
+        mTexelFormat = ETexelFormat::GX_RGBA8;
 }
 
 // ************ READ PIXELS (PARTIAL DECODE) ************
@@ -567,9 +567,9 @@ void CTextureDecoder::ReadPixelC8(IInputStream& rSrc, IOutputStream& rDst)
 
     mPaletteInput.Seek(Index * 2, SEEK_SET);
 
-         if (mPaletteFormat == ePalette_IA8)    ReadPixelIA8(mPaletteInput, rDst);
-    else if (mPaletteFormat == ePalette_RGB565) ReadPixelRGB565(mPaletteInput, rDst);
-    else if (mPaletteFormat == ePalette_RGB5A3) ReadPixelRGB5A3(mPaletteInput, rDst);
+         if (mPaletteFormat == EGXPaletteFormat::IA8)    ReadPixelIA8(mPaletteInput, rDst);
+    else if (mPaletteFormat == EGXPaletteFormat::RGB565) ReadPixelRGB565(mPaletteInput, rDst);
+    else if (mPaletteFormat == EGXPaletteFormat::RGB5A3) ReadPixelRGB5A3(mPaletteInput, rDst);
 }
 
 void CTextureDecoder::ReadPixelRGB565(IInputStream& rSrc, IOutputStream& rDst)
@@ -659,18 +659,18 @@ CColor CTextureDecoder::DecodePixelC4(uint8 Byte, uint8 WhichPixel, IInputStream
     Byte &= 0xF;
 
     rPaletteStream.Seek(Byte * 2, SEEK_SET);
-    if (mPaletteFormat == ePalette_IA8)         return DecodePixelIA8(rPaletteStream.ReadShort());
-    else if (mPaletteFormat == ePalette_RGB565) return DecodePixelIA8(rPaletteStream.ReadShort());
-    else if (mPaletteFormat == ePalette_RGB5A3) return DecodePixelIA8(rPaletteStream.ReadShort());
+    if (mPaletteFormat == EGXPaletteFormat::IA8)         return DecodePixelIA8(rPaletteStream.ReadShort());
+    else if (mPaletteFormat == EGXPaletteFormat::RGB565) return DecodePixelIA8(rPaletteStream.ReadShort());
+    else if (mPaletteFormat == EGXPaletteFormat::RGB5A3) return DecodePixelIA8(rPaletteStream.ReadShort());
     else return CColor::skTransparentBlack;
 }
 
 CColor CTextureDecoder::DecodePixelC8(uint8 Byte, IInputStream& rPaletteStream)
 {
     rPaletteStream.Seek(Byte * 2, SEEK_SET);
-    if (mPaletteFormat == ePalette_IA8)         return DecodePixelIA8(rPaletteStream.ReadShort());
-    else if (mPaletteFormat == ePalette_RGB565) return DecodePixelIA8(rPaletteStream.ReadShort());
-    else if (mPaletteFormat == ePalette_RGB5A3) return DecodePixelIA8(rPaletteStream.ReadShort());
+    if (mPaletteFormat == EGXPaletteFormat::IA8)         return DecodePixelIA8(rPaletteStream.ReadShort());
+    else if (mPaletteFormat == EGXPaletteFormat::RGB565) return DecodePixelIA8(rPaletteStream.ReadShort());
+    else if (mPaletteFormat == EGXPaletteFormat::RGB5A3) return DecodePixelIA8(rPaletteStream.ReadShort());
     else return CColor::skTransparentBlack;
 }
 

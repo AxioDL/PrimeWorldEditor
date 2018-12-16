@@ -23,9 +23,9 @@ QSize WScanPreviewPanel::sizeHint() const
     return QSize(400, 0);
 }
 
-EResType WScanPreviewPanel::ResType()
+EResourceType WScanPreviewPanel::ResType()
 {
-    return eScan;
+    return EResourceType::Scan;
 }
 
 void WScanPreviewPanel::SetResource(CResource *pRes)
@@ -36,7 +36,7 @@ void WScanPreviewPanel::SetResource(CResource *pRes)
     ui->ScanCategoryLabel->clear();
 
     // Set up new UI
-    if (pRes && (pRes->Type() == eScan))
+    if (pRes && (pRes->Type() == EResourceType::Scan))
     {
         CScan *pScan = static_cast<CScan*>(pRes);
 
@@ -60,19 +60,19 @@ void WScanPreviewPanel::SetResource(CResource *pRes)
         // Scan category
         switch (pScan->LogbookCategory())
         {
-        case CScan::eNone:
+        case CScan::ELogbookCategory::None:
             ui->ScanCategoryLabel->setText("<b>None</b>");
             break;
-        case CScan::eChozoLore:
+        case CScan::ELogbookCategory::ChozoLore:
             ui->ScanCategoryLabel->setText("<b>Chozo Lore</b>");
             break;
-        case CScan::ePirateData:
+        case CScan::ELogbookCategory::PirateData:
             ui->ScanCategoryLabel->setText("<b>Pirate Data</b>");
             break;
-        case CScan::eCreatures:
+        case CScan::ELogbookCategory::Creatures:
             ui->ScanCategoryLabel->setText("<b>Creatures</b>");
             break;
-        case CScan::eResearch:
+        case CScan::ELogbookCategory::Research:
             ui->ScanCategoryLabel->setText("<b>Research</b>");
             break;
         }

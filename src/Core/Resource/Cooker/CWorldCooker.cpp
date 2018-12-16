@@ -73,7 +73,7 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
         // Area Header
         CWorld::SArea& rArea = pWorld->mAreas[iArea];
         CResourceEntry *pAreaEntry = gpResourceStore->FindEntry(rArea.AreaResID);
-        ASSERT(pAreaEntry && pAreaEntry->ResourceType() == eArea);
+        ASSERT(pAreaEntry && pAreaEntry->ResourceType() == EResourceType::Area);
 
         CAssetID AreaNameID = rArea.pAreaName ? rArea.pAreaName->ID() : CAssetID::InvalidID(Game);
         AreaNameID.Write(rMLVL);

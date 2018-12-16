@@ -5,7 +5,7 @@
 
 CCollisionMesh::CCollisionMesh()
 {
-    mVBO.SetVertexDesc(ePosition | eNormal);
+    mVBO.SetVertexDesc(EVertexAttribute::Position | EVertexAttribute::Normal);
     mVertexCount = 0;
     mLineCount = 0;
     mFaceCount = 0;

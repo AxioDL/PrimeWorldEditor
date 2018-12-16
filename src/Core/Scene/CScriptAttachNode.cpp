@@ -31,7 +31,7 @@ void CScriptAttachNode::AttachPropertyModified()
 
         CModel* pModel = Model();
 
-        if (pModel && pModel->Type() == eModel)
+        if (pModel && pModel->Type() == EResourceType::Model)
             mLocalAABox = pModel->AABox();
         else
             mLocalAABox = CAABox::skInfinite;
@@ -42,7 +42,7 @@ void CScriptAttachNode::AttachPropertyModified()
 
 void CScriptAttachNode::ParentDisplayAssetChanged(CResource* pNewDisplayAsset)
 {
-    if (pNewDisplayAsset->Type() == eAnimSet)
+    if (pNewDisplayAsset->Type() == EResourceType::AnimSet)
     {
         CSkeleton* pSkel = mpScriptNode->ActiveSkeleton();
         mpLocator = pSkel->BoneByName(mLocatorName);
@@ -60,10 +60,10 @@ CModel* CScriptAttachNode::Model() const
 {
     if (mpAttachAsset)
     {
-        if (mpAttachAsset->Type() == eModel)
+        if (mpAttachAsset->Type() == EResourceType::Model)
             return static_cast<CModel*>(mpAttachAsset.RawPointer());
 
-        else if (mpAttachAsset->Type() == eAnimSet)
+        else if (mpAttachAsset->Type() == EResourceType::AnimSet)
             return mAttachAnimSetRef.Get().GetCurrentModel();
     }
 
@@ -80,7 +80,7 @@ void CScriptAttachNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkV
         AddModelToRenderer(pRenderer, pModel, 0);
 
         if (mpParent->IsSelected() && !rkViewInfo.GameMode)
-            pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
+            pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
     }
 }
 
@@ -102,7 +102,7 @@ void CScriptAttachNode::DrawSelection()
 {
     LoadModelMatrix();
     glBlendFunc(GL_ONE, GL_ZERO);
-    Model()->DrawWireframe(eNoRenderOptions, mpParent->WireframeColor());
+    Model()->DrawWireframe(ERenderOption::None, mpParent->WireframeColor());
 }
 
 void CScriptAttachNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
@@ -126,7 +126,7 @@ SRayIntersection CScriptAttachNode::RayNodeIntersectTest(const CRay& rkRay, uint
     Out.ComponentIndex = AssetID;
 
     CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
-    std::pair<bool,float> Result = Model()->GetSurface(AssetID)->IntersectsRay(TransformedRay, Options.HasFlag(eEnableBackfaceCull));
+    std::pair<bool,float> Result = Model()->GetSurface(AssetID)->IntersectsRay(TransformedRay, Options.HasFlag(ERenderOption::EnableBackfaceCull));
 
     if (Result.first)
     {

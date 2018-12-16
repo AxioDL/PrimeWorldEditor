@@ -11,19 +11,20 @@
 
 #include <assimp/scene.h>
 
+enum class EModelLoaderFlag
+{
+    None                    = 0x0,
+    HalfPrecisionPositions  = 0x1,
+    HalfPrecisionNormals    = 0x2,
+    LightmapUVs             = 0x4,
+    VisibilityGroups        = 0x8,
+    Skinned                 = 0x10
+};
+DECLARE_FLAGS_ENUMCLASS(EModelLoaderFlag, FModelLoaderFlags)
+
 class CModelLoader
 {
 public:
-    enum EModelFlag
-    {
-        eNoFlags        = 0x0,
-        eShortPositions = 0x1,
-        eShortNormals   = 0x2,
-        eHasTex1        = 0x4,
-        eHasVisGroups   = 0x8,
-        eSkinnedModel   = 0x10
-    };
-    DECLARE_FLAGS(EModelFlag, FModelFlags)
 
 private:
     TResPtr<CModel> mpModel;
@@ -43,7 +44,7 @@ private:
     uint32 mSurfaceCount;
     std::vector<uint32> mSurfaceOffsets;
 
-    FModelFlags mFlags;
+    FModelLoaderFlags mFlags;
 
     CModelLoader();
     ~CModelLoader();

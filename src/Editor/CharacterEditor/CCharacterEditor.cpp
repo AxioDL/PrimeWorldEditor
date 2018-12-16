@@ -30,7 +30,7 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     CCamera& rCamera = ui->Viewport->Camera();
     rCamera.SetMoveSpeed(0.5f);
     rCamera.SetPitch(-0.3f);
-    rCamera.SetMoveMode(eOrbitCamera);
+    rCamera.SetMoveMode(ECameraMoveMode::Orbit);
 
     // Init UI
     ui->ToolBar->addSeparator();
@@ -239,12 +239,12 @@ void CCharacterEditor::ToggleGrid(bool Enable)
 void CCharacterEditor::ToggleMeshVisible(bool Visible)
 {
     // eShowObjectGeometry isn't the best fit, but close enough...?
-    ui->Viewport->SetShowFlag(eShowObjectGeometry, Visible);
+    ui->Viewport->SetShowFlag(EShowFlag::ObjectGeometry, Visible);
 }
 
 void CCharacterEditor::ToggleSkeletonVisible(bool Visible)
 {
-    ui->Viewport->SetShowFlag(eShowSkeletons, Visible);
+    ui->Viewport->SetShowFlag(EShowFlag::Skeletons, Visible);
 }
 
 void CCharacterEditor::ToggleBindPose(bool Enable)
@@ -267,7 +267,7 @@ void CCharacterEditor::ToggleBindPose(bool Enable)
 
 void CCharacterEditor::ToggleOrbit(bool Enable)
 {
-    ui->Viewport->Camera().SetMoveMode(Enable ? eOrbitCamera : eFreeCamera);
+    ui->Viewport->Camera().SetMoveMode(Enable ? ECameraMoveMode::Orbit : ECameraMoveMode::Free);
 }
 
 void CCharacterEditor::RefreshViewport()

@@ -15,6 +15,15 @@
 
 namespace nod { class DiscWii; }
 
+enum class EProjectVersion
+{
+    Initial,
+    // Add new versions before this line
+
+    Max,
+    Current = EProjectVersion::Max - 1
+};
+
 class CGameProject
 {
     TString mProjectName;
@@ -32,14 +41,6 @@ class CGameProject
     // Keep file handle open for the .prj file to prevent users from opening the same project
     // in multiple instances of PWE
     CFileLock mProjFileLock;
-
-    enum EProjectVersion
-    {
-        eVer_Initial,
-
-        eVer_Max,
-        eVer_Current = eVer_Max - 1
-    };
 
     // Private Constructor
     CGameProject()

@@ -23,7 +23,7 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
     , mpUI(new Ui::CExportGameDialog)
     , mpDisc(nullptr)
     , mpExporter(nullptr)
-    , mDiscType(eDT_Normal)
+    , mDiscType(EDiscType::Normal)
     , mGame(EGame::Invalid)
     , mRegion(ERegion::Unknown)
     , mBuildVer(0.f)
@@ -176,7 +176,7 @@ bool CExportGameDialog::ValidateGame()
 
     case FOURCC('R3MX'):
         // Trilogy
-        mDiscType = eDT_Trilogy;
+        mDiscType = EDiscType::Trilogy;
         if (!RequestWiiPortGame()) return false;
 
         // Force change game name so it isn't "Metroid Prime Trilogy"
@@ -188,13 +188,13 @@ bool CExportGameDialog::ValidateGame()
     case FOURCC('R3IX'):
         // MP1 Wii de Asobu
         mGame = EGame::Prime;
-        mDiscType = eDT_WiiDeAsobu;
+        mDiscType = EDiscType::WiiDeAsobu;
         if (!RequestWiiPortGame()) return false;
         break;
 
     case FOURCC('R32X'):
         mGame = EGame::Echoes;
-        mDiscType = eDT_WiiDeAsobu;
+        mDiscType = EDiscType::WiiDeAsobu;
         if (!RequestWiiPortGame()) return false;
         break;
 

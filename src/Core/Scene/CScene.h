@@ -20,6 +20,7 @@
 #include <unordered_map>
 #include <vector>
 
+/** Needs lots of changes, see CSceneNode for most of my thoughts on this */
 class CScene
 {
     friend class CSceneIterator;

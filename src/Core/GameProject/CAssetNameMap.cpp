@@ -19,8 +19,8 @@ bool CAssetNameMap::LoadAssetNames(TString Path /*= ""*/)
         else
         {
             debugf("Failed to load asset names; expected %s IDs, got %s",
-                   mIDLength    == e32Bit ? "32-bit" : "64-bit",
-                   FileIDLength == e32Bit ? "32-bit" : "64-bit"  );
+                   mIDLength    == k32Bit ? "32-bit" : "64-bit",
+                   FileIDLength == k32Bit ? "32-bit" : "64-bit"  );
             return false;
         }
     }
@@ -36,7 +36,7 @@ bool CAssetNameMap::SaveAssetNames(TString Path /*= ""*/)
     if (Path.IsEmpty())
         Path = DefaultNameMapPath(mIDLength);
 
-    EGame Game = (mIDLength == e32Bit ? EGame::Prime : EGame::Corruption);
+    EGame Game = (mIDLength == k32Bit ? EGame::Prime : EGame::Corruption);
     CXMLWriter Writer(Path, "AssetNameMap", 0, Game);
     Serialize(Writer);
     return Writer.Save();
@@ -58,7 +58,7 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
 
     else
     {
-        EGame Game = (ID.Length() == e32Bit ? EGame::Prime : EGame::Corruption);
+        EGame Game = (ID.Length() == k32Bit ? EGame::Prime : EGame::Corruption);
         rOutDirectory = CResourceStore::StaticDefaultResourceDirPath(Game);
         rOutName = ID.ToString();
         rOutAutoGenDir = true;
@@ -99,8 +99,8 @@ void CAssetNameMap::CopyFromStore(CResourceStore *pStore /*= gpResourceStore*/)
             TString Name = It->Name();
             TString Directory = It->Directory()->FullPath();
             CFourCC Type = It->CookedExtension();
-            bool AutoName = It->HasFlag(eREF_AutoResName);
-            bool AutoDir = It->HasFlag(eREF_AutoResDir);
+            bool AutoName = It->HasFlag(EResEntryFlag::AutoResName);
+            bool AutoDir = It->HasFlag(EResEntryFlag::AutoResDir);
             SAssetNameInfo NameInfo { Name, Directory, Type, AutoName, AutoDir };
 
             // Check for conflicts with new name
@@ -193,8 +193,8 @@ void CAssetNameMap::PostLoadValidate()
 
 TString CAssetNameMap::DefaultNameMapPath(EIDLength IDLength)
 {
-    ASSERT(IDLength != eInvalidIDLength);
-    TString Suffix = (IDLength == e32Bit ? "32" : "64");
+    ASSERT(IDLength != kInvalidIDLength);
+    TString Suffix = (IDLength == k32Bit ? "32" : "64");
     return gkAssetMapPath + Suffix + "." + gkAssetMapExt;
 }
 

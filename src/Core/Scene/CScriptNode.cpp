@@ -13,7 +13,7 @@
 
 CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CScriptObject *pInstance)
     : CSceneNode(pScene, NodeID, pParent)
-    , mGameModeVisibility(eUntested)
+    , mGameModeVisibility(EGameModeVisibility::Untested)
     , mpVolumePreviewNode(nullptr)
     , mHasVolumePreview(false)
     , mpInstance(pInstance)
@@ -46,13 +46,13 @@ CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CSc
         // Create preview volume node
         mpVolumePreviewNode = new CModelNode(pScene, -1, this, nullptr);
 
-        if (pTemp->ScaleType() == CScriptTemplate::eScaleVolume)
+        if (pTemp->ScaleType() == CScriptTemplate::EScaleType::ScaleVolume)
         {
             UpdatePreviewVolume();
 
             if (mHasVolumePreview)
             {
-                mpVolumePreviewNode->SetInheritance(true, (mpInstance->VolumeShape() != eAxisAlignedBoxShape), true);
+                mpVolumePreviewNode->SetInheritance(true, (mpInstance->VolumeShape() != EVolumeShape::AxisAlignedBoxShape), true);
                 mpVolumePreviewNode->ForceAlphaEnabled(true);
             }
         }
@@ -81,7 +81,7 @@ CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CSc
 
 ENodeType CScriptNode::NodeType()
 {
-    return eScriptNode;
+    return ENodeType::Script;
 }
 
 void CScriptNode::PostLoad()
@@ -123,10 +123,10 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
     // If we're in game mode, then override other visibility settings.
     if (rkViewInfo.GameMode)
     {
-        if (mGameModeVisibility == eUntested)
+        if (mGameModeVisibility == EGameModeVisibility::Untested)
             TestGameModeVisibility();
 
-        if (mGameModeVisibility != eVisible)
+        if (mGameModeVisibility != EGameModeVisibility::Visible)
             return;
     }
 
@@ -136,10 +136,10 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
     if (ShouldDraw)
     {
         // Otherwise, we proceed as normal
-        if ((rkViewInfo.ShowFlags & eShowObjectCollision) && (!rkViewInfo.GameMode))
+        if ((rkViewInfo.ShowFlags & EShowFlag::ObjectCollision) && (!rkViewInfo.GameMode))
             mpCollisionNode->AddToRenderer(pRenderer, rkViewInfo);
 
-        if (rkViewInfo.ShowFlags & eShowObjectGeometry || rkViewInfo.GameMode)
+        if (rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry || rkViewInfo.GameMode)
         {
             for (uint32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
                 mAttachments[iAttach]->AddToRenderer(pRenderer, rkViewInfo);
@@ -149,7 +149,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
                 CModel *pModel = ActiveModel();
 
                 if (!pModel)
-                    pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+                    pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
                 else
                     AddModelToRenderer(pRenderer, pModel, 0);
             }
@@ -161,7 +161,7 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
         // Script nodes always draw their selections regardless of frustum planes
         // in order to ensure that script connection lines don't get improperly culled.
        if (ShouldDraw)
-           pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
+           pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
 
         if (mHasVolumePreview && (!mpExtra || mpExtra->ShouldDrawVolume()))
             mpVolumePreviewNode->AddToRenderer(pRenderer, rkViewInfo);
@@ -177,7 +177,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
     {
         EWorldLightingOptions LightingOptions = (mpLightParameters ? mpLightParameters->WorldLightingOptions() : eNormalLighting);
 
-        if (CGraphics::sLightMode == CGraphics::eWorldLighting && LightingOptions == eDisableWorldLighting)
+        if (CGraphics::sLightMode == CGraphics::ELightingMode::World && LightingOptions == eDisableWorldLighting)
         {
             CGraphics::sNumLights = 0;
             CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
@@ -188,7 +188,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
         else
         {
             // DKCR doesn't support world lighting yet, so light nodes that don't have ingame models with default lighting
-            if (Template()->Game() == EGame::DKCReturns && !mpInstance->HasInGameModel() && CGraphics::sLightMode == CGraphics::eWorldLighting)
+            if (Template()->Game() == EGame::DKCReturns && !mpInstance->HasInGameModel() && CGraphics::sLightMode == CGraphics::ELightingMode::World)
             {
                 CGraphics::SetDefaultLighting();
                 CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
@@ -227,7 +227,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
     }
 
     // Draw billboard
-    else if (mpDisplayAsset->Type() == eTexture)
+    else if (mpDisplayAsset->Type() == EResourceType::Texture)
     {
         CDrawUtil::DrawBillboard(ActiveBillboard(), mPosition, BillboardScale(), TintColor(rkViewInfo));
     }
@@ -243,7 +243,7 @@ void CScriptNode::DrawSelection()
     {
         CModel *pModel = ActiveModel();
         if (!pModel) pModel = CDrawUtil::GetCubeModel();
-        pModel->DrawWireframe(eNoRenderOptions, WireframeColor());
+        pModel->DrawWireframe(ERenderOption::None, WireframeColor());
     }
 
     // Draw rotation arrow for billboards
@@ -267,17 +267,17 @@ void CScriptNode::DrawSelection()
         CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();
 
-        for (uint32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
+        for (uint32 iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
         {
             // Don't draw in links if the other object is selected.
-            CLink *pLink = mpInstance->Link(eIncoming, iIn);
+            CLink *pLink = mpInstance->Link(ELinkType::Incoming, iIn);
             CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->SenderID());
             if (pLinkNode && !pLinkNode->IsSelected()) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentRed);
         }
 
-        for (uint32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
+        for (uint32 iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
         {
-            CLink *pLink = mpInstance->Link(eOutgoing, iOut);
+            CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iOut);
             CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
             if (pLinkNode) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentGreen);
         }
@@ -302,10 +302,10 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SVie
     // If we're in game mode, then check whether we're visible before proceeding with the ray test.
     if (rkViewInfo.GameMode)
     {
-        if (mGameModeVisibility == eUntested)
+        if (mGameModeVisibility == EGameModeVisibility::Untested)
             TestGameModeVisibility();
 
-        if (mGameModeVisibility != eVisible)
+        if (mGameModeVisibility != EGameModeVisibility::Visible)
             return;
     }
 
@@ -359,7 +359,7 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
         if (!pModel) pModel = CDrawUtil::GetCubeModel();
 
         CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
-        std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & eEnableBackfaceCull) == 0));
+        std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
 
         if (Result.first)
         {
@@ -428,12 +428,12 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
 
 bool CScriptNode::AllowsRotate() const
 {
-    return (Template()->RotationType() == CScriptTemplate::eRotationEnabled);
+    return (Template()->RotationType() == CScriptTemplate::ERotationType::RotationEnabled);
 }
 
 bool CScriptNode::AllowsScale() const
 {
-    return (Template()->ScaleType() != CScriptTemplate::eScaleDisabled);
+    return (Template()->ScaleType() != CScriptTemplate::EScaleType::ScaleDisabled);
 }
 
 bool CScriptNode::IsVisible() const
@@ -483,12 +483,13 @@ void CScriptNode::PropertyModified(IProperty* pProp)
         CAssetProperty* pAssetProperty = TPropCast<CAssetProperty>(pProp);
         const CResTypeFilter& rkFilter = pAssetProperty->GetTypeFilter();
 
-        if (rkFilter.Accepts(eModel) || rkFilter.Accepts(eTexture) || rkFilter.Accepts(eAnimSet) || rkFilter.Accepts(eCharacter))
+        if (rkFilter.Accepts(EResourceType::Model) || rkFilter.Accepts(EResourceType::Texture) ||
+            rkFilter.Accepts(EResourceType::AnimSet) || rkFilter.Accepts(EResourceType::Character))
         {
             mpInstance->EvaluateDisplayAsset();
             SetDisplayAsset(mpInstance->DisplayAsset());
         }
-        else if (rkFilter.Accepts(eDynamicCollision))
+        else if (rkFilter.Accepts(EResourceType::DynamicCollision))
         {
             mpInstance->EvaluateCollisionModel();
             mpCollisionNode->SetCollision(mpInstance->Collision());
@@ -537,16 +538,16 @@ void CScriptNode::UpdatePreviewVolume()
 
     switch (Shape)
     {
-    case eAxisAlignedBoxShape:
-    case eBoxShape:
+    case EVolumeShape::AxisAlignedBoxShape:
+    case EVolumeShape::BoxShape:
         pVolumeModel = gpEditorStore->LoadResource("VolumeBox.CMDL");
         break;
 
-    case eEllipsoidShape:
+    case EVolumeShape::EllipsoidShape:
         pVolumeModel = gpEditorStore->LoadResource("VolumeSphere.CMDL");
         break;
 
-    case eCylinderShape:
+    case EVolumeShape::CylinderShape:
         pVolumeModel = gpEditorStore->LoadResource("VolumeCylinder.CMDL");
         break;
     }
@@ -572,12 +573,12 @@ void CScriptNode::GeneratePosition()
 
         // Ideal way to generate the position is to find a spot close to where it's being used.
         // To do this I check the location of the objects that this one is linked to.
-        uint32 NumLinks = mpInstance->NumLinks(eIncoming) + mpInstance->NumLinks(eOutgoing);
+        uint32 NumLinks = mpInstance->NumLinks(ELinkType::Incoming) + mpInstance->NumLinks(ELinkType::Outgoing);
 
         // In the case of one link, apply an offset so the new position isn't the same place as the object it's linked to
         if (NumLinks == 1)
         {
-            uint32 LinkedID = (mpInstance->NumLinks(eIncoming) > 0 ? mpInstance->Link(eIncoming, 0)->SenderID() : mpInstance->Link(eOutgoing, 0)->ReceiverID());
+            uint32 LinkedID = (mpInstance->NumLinks(ELinkType::Incoming) > 0 ? mpInstance->Link(ELinkType::Incoming, 0)->SenderID() : mpInstance->Link(ELinkType::Outgoing, 0)->ReceiverID());
             CScriptNode *pNode = mpScene->NodeForInstanceID(LinkedID);
             pNode->GeneratePosition();
             mPosition = pNode->AbsolutePosition();
@@ -591,9 +592,9 @@ void CScriptNode::GeneratePosition()
         {
             CVector3f NewPos = CVector3f::skZero;
 
-            for (uint32 iIn = 0; iIn < mpInstance->NumLinks(eIncoming); iIn++)
+            for (uint32 iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
             {
-                CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(eIncoming, iIn)->SenderID());
+                CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(ELinkType::Incoming, iIn)->SenderID());
 
                 if (pNode)
                 {
@@ -602,9 +603,9 @@ void CScriptNode::GeneratePosition()
                 }
             }
 
-            for (uint32 iOut = 0; iOut < mpInstance->NumLinks(eOutgoing); iOut++)
+            for (uint32 iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
             {
-                CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(eOutgoing, iOut)->ReceiverID());
+                CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(ELinkType::Outgoing, iOut)->ReceiverID());
 
                 if (pNode)
                 {
@@ -625,11 +626,11 @@ void CScriptNode::TestGameModeVisibility()
 {
     // Don't render if we don't have an ingame model, or if this is the Prime series and the instance is not active.
     if ((Template()->Game() < EGame::DKCReturns && !mpInstance->IsActive()) || !mpInstance->HasInGameModel())
-        mGameModeVisibility = eNotVisible;
+        mGameModeVisibility = EGameModeVisibility::NotVisible;
 
     // If this is Returns, only render if the instance is active OR if it has a near visible activation.
     else
-        mGameModeVisibility = (mpInstance->IsActive() || mpInstance->HasNearVisibleActivation()) ? eVisible : eNotVisible;
+        mGameModeVisibility = (mpInstance->IsActive() || mpInstance->HasNearVisibleActivation()) ? EGameModeVisibility::Visible : EGameModeVisibility::NotVisible;
 }
 
 CColor CScriptNode::WireframeColor() const
@@ -656,9 +657,9 @@ CModel* CScriptNode::ActiveModel() const
 {
     if (mpDisplayAsset)
     {
-        if (mpDisplayAsset->Type() == eModel)
+        if (mpDisplayAsset->Type() == EResourceType::Model)
             return static_cast<CModel*>(mpDisplayAsset.RawPointer());
-        else if (mpDisplayAsset->Type() == eAnimSet || mpDisplayAsset->Type() == eCharacter)
+        else if (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character)
             return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer())->Character(mCharIndex)->pModel;
     }
 
@@ -667,7 +668,7 @@ CModel* CScriptNode::ActiveModel() const
 
 CAnimSet* CScriptNode::ActiveAnimSet() const
 {
-    if (mpDisplayAsset && (mpDisplayAsset->Type() == eAnimSet || mpDisplayAsset->Type() == eCharacter))
+    if (mpDisplayAsset && (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character))
         return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer());
     else
         return nullptr;
@@ -688,7 +689,7 @@ CAnimation* CScriptNode::ActiveAnimation() const
 
 CTexture* CScriptNode::ActiveBillboard() const
 {
-    if (mpDisplayAsset && mpDisplayAsset->Type() == eTexture)
+    if (mpDisplayAsset && mpDisplayAsset->Type() == EResourceType::Texture)
         return static_cast<CTexture*>(mpDisplayAsset.RawPointer());
     else
         return nullptr;
@@ -714,7 +715,7 @@ CAABox CScriptNode::PreviewVolumeAABox() const
 
 CVector2f CScriptNode::BillboardScale() const
 {
-    CVector2f Out = (Template()->ScaleType() == CScriptTemplate::eScaleEnabled ? AbsoluteScale().XZ() : CVector2f(1.f));
+    CVector2f Out = (Template()->ScaleType() == CScriptTemplate::EScaleType::ScaleEnabled ? AbsoluteScale().XZ() : CVector2f(1.f));
     return Out * 0.5f * Template()->PreviewScale();
 }
 
@@ -742,7 +743,7 @@ void CScriptNode::SetDisplayAsset(CResource *pRes)
 {
     mpDisplayAsset = pRes;
 
-    bool IsAnimSet = (pRes && (pRes->Type() == eAnimSet || pRes->Type() == eCharacter));
+    bool IsAnimSet = (pRes && (pRes->Type() == EResourceType::AnimSet || pRes->Type() == EResourceType::Character));
     mCharIndex = (IsAnimSet ? mpInstance->ActiveCharIndex() : -1);
     mAnimIndex = (IsAnimSet ? mpInstance->ActiveAnimIndex() : -1);
 
@@ -761,13 +762,13 @@ void CScriptNode::CalculateTransform(CTransform4f& rOut) const
 {
     CScriptTemplate *pTemp = Template();
 
-    if (pTemp->ScaleType() != CScriptTemplate::eScaleDisabled)
+    if (pTemp->ScaleType() != CScriptTemplate::EScaleType::ScaleDisabled)
     {
         CVector3f Scale = (HasPreviewVolume() ? CVector3f::skOne : AbsoluteScale());
         rOut.Scale(Scale * pTemp->PreviewScale());
     }
 
-    if (pTemp->RotationType() == CScriptTemplate::eRotationEnabled)
+    if (pTemp->RotationType() == CScriptTemplate::ERotationType::RotationEnabled)
         rOut.Rotate(AbsoluteRotation());
 
     rOut.Translate(AbsolutePosition());

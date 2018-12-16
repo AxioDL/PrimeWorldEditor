@@ -17,10 +17,7 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
     rFONT.Seek(0x2, SEEK_CUR);
     mpFont->mDefaultSize = rFONT.ReadLong();
     mpFont->mFontName = rFONT.ReadString();
-
-    if (mVersion <= EGame::Echoes) mpFont->mpFontTexture = gpResourceStore->LoadResource(rFONT.ReadLong(), eTexture);
-    else                     mpFont->mpFontTexture = gpResourceStore->LoadResource(rFONT.ReadLongLong(), eTexture);
-
+    mpFont->mpFontTexture = gpResourceStore->LoadResource(CAssetID(rFONT, mVersion), EResourceType::Texture);
     mpFont->mTextureFormat = rFONT.ReadLong();
     uint32 NumGlyphs = rFONT.ReadLong();
     mpFont->mGlyphs.reserve(NumGlyphs);

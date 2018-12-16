@@ -18,7 +18,7 @@ void CModelCooker::GenerateSurfaceData()
     mVertices.resize(mNumVertices);
 
     // Get vertex attributes
-    mVtxAttribs = eNoAttributes;
+    mVtxAttribs = EVertexAttribute::None;
 
     for (uint32 iMat = 0; iMat < mpModel->GetMatCount(); iMat++)
     {
@@ -115,7 +115,8 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
     // Float UV coordinates
     for (uint32 iTexSlot = 0; iTexSlot < 8; iTexSlot++)
     {
-        bool HasTexSlot = (mVtxAttribs & (eTex0 << iTexSlot)) != 0;
+        uint TexSlotBit = ((uint) (EVertexAttribute::Tex0)) << iTexSlot;
+        bool HasTexSlot = (mVtxAttribs & TexSlotBit) != 0;
         if (HasTexSlot)
         {
             for (uint32 iTex = 0; iTex < mNumVertices; iTex++)
@@ -171,28 +172,35 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
                 if (mVersion == EGame::Echoes)
                 {
                     for (uint32 iMtxAttribs = 0; iMtxAttribs < 8; iMtxAttribs++)
-                        if (VtxAttribs & (ePosMtx << iMtxAttribs))
+                    {
+                        uint MatrixBit = ((uint) (EVertexAttribute::PosMtx) << iMtxAttribs);
+                        if (VtxAttribs & MatrixBit)
+                        {
                             rOut.WriteByte(pVert->MatrixIndices[iMtxAttribs]);
+                        }
+                    }
                 }
 
                 uint16 VertexIndex = (uint16) pVert->ArrayPosition;
 
-                if (VtxAttribs & ePosition)
+                if (VtxAttribs & EVertexAttribute::Position)
                     rOut.WriteShort(VertexIndex);
 
-                if (VtxAttribs & eNormal)
+                if (VtxAttribs & EVertexAttribute::Normal)
                     rOut.WriteShort(VertexIndex);
 
-                if (VtxAttribs & eColor0)
+                if (VtxAttribs & EVertexAttribute::Color0)
                     rOut.WriteShort(VertexIndex);
 
-                if (VtxAttribs & eColor1)
+                if (VtxAttribs & EVertexAttribute::Color1)
                     rOut.WriteShort(VertexIndex);
 
                 uint16 TexOffset = 0;
                 for (uint32 iTex = 0; iTex < 8; iTex++)
                 {
-                    if (VtxAttribs & (eTex0 << iTex))
+                    uint TexBit = ((uint) EVertexAttribute::Tex0) << iTex;
+
+                    if (VtxAttribs & TexBit)
                     {
                         rOut.WriteShort(VertexIndex + TexOffset);
                         TexOffset += (uint16) mNumVertices;

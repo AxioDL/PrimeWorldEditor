@@ -39,12 +39,12 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
 
     CCamera& rCamera = ui->Viewport->Camera();
     rCamera.Snap(CVector3f(0, 3, 1));
-    rCamera.SetMoveMode(eOrbitCamera);
+    rCamera.SetMoveMode(ECameraMoveMode::Orbit);
     rCamera.SetOrbit(CVector3f(0, 0, 1), 3.f);
     rCamera.SetMoveSpeed(0.5f);
 
     // UI initialization
-    UpdateAnimParamUI(-1);
+    UpdateAnimParamUI(EUVAnimMode::NoUVAnim);
     ui->IndTextureResSelector->SetTypeFilter(pModel->Game(), "TXTR");
     ui->PassTextureResSelector->SetTypeFilter(pModel->Game(), "TXTR");
     ui->PassTable->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -52,44 +52,44 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     ui->ClearColorPicker->SetColor(QColor(76, 76, 76, 255));
 
     // Editor UI Signal/Slot setup
-    ui->SetSelectionComboBox->setProperty          ("ModelEditorWidgetType", eSetSelectComboBox);
-    ui->MatSelectionComboBox->setProperty          ("ModelEditorWidgetType", eMatSelectComboBox);
-    ui->EnableTransparencyCheck->setProperty       ("ModelEditorWidgetType", eEnableTransparencyCheckBox);
-    ui->EnablePunchthroughCheck->setProperty       ("ModelEditorWidgetType", eEnablePunchthroughCheckBox);
-    ui->EnableReflectionCheck->setProperty         ("ModelEditorWidgetType", eEnableReflectionCheckBox);
-    ui->EnableSurfaceReflectionCheck->setProperty  ("ModelEditorWidgetType", eEnableSurfaceReflectionCheckBox);
-    ui->EnableDepthWriteCheck->setProperty         ("ModelEditorWidgetType", eEnableDepthWriteCheckBox);
-    ui->EnableOccluderCheck->setProperty           ("ModelEditorWidgetType", eEnableOccluderCheckBox);
-    ui->EnableLightmapCheck->setProperty           ("ModelEditorWidgetType", eEnableLightmapCheckBox);
-    ui->EnableDynamicLightingCheck->setProperty    ("ModelEditorWidgetType", eEnableLightingCheckBox);
-    ui->SourceBlendComboBox->setProperty           ("ModelEditorWidgetType", eSourceBlendComboBox);
-    ui->DestBlendComboBox->setProperty             ("ModelEditorWidgetType", eDestBlendComboBox);
-    ui->KonstColorPickerA->setProperty             ("ModelEditorWidgetType", eKonstColorPickerA);
-    ui->KonstColorPickerB->setProperty             ("ModelEditorWidgetType", eKonstColorPickerB);
-    ui->KonstColorPickerC->setProperty             ("ModelEditorWidgetType", eKonstColorPickerC);
-    ui->KonstColorPickerD->setProperty             ("ModelEditorWidgetType", eKonstColorPickerD);
-    ui->IndTextureResSelector->setProperty         ("ModelEditorWidgetType", eIndTextureResSelector);
-    ui->PassTable->setProperty                     ("ModelEditorWidgetType", ePassTableWidget);
-    ui->TevKColorSelComboBox->setProperty          ("ModelEditorWidgetType", eTevKColorSelComboBox);
-    ui->TevKAlphaSelComboBox->setProperty          ("ModelEditorWidgetType", eTevKAlphaSelComboBox);
-    ui->TevRasSelComboBox->setProperty             ("ModelEditorWidgetType", eTevRasSelComboBox);
-    ui->TexCoordSrcComboBox->setProperty           ("ModelEditorWidgetType", eTevTexSourceComboBox);
-    ui->PassTextureResSelector->setProperty        ("ModelEditorWidgetType", ePassTextureResSelector);
-    ui->TevColor1ComboBox->setProperty             ("ModelEditorWidgetType", eTevColorComboBoxA);
-    ui->TevColor2ComboBox->setProperty             ("ModelEditorWidgetType", eTevColorComboBoxB);
-    ui->TevColor3ComboBox->setProperty             ("ModelEditorWidgetType", eTevColorComboBoxC);
-    ui->TevColor4ComboBox->setProperty             ("ModelEditorWidgetType", eTevColorComboBoxD);
-    ui->TevColorOutputComboBox->setProperty        ("ModelEditorWidgetType", eTevColorOutputComboBox);
-    ui->TevAlpha1ComboBox->setProperty             ("ModelEditorWidgetType", eTevAlphaComboBoxA);
-    ui->TevAlpha2ComboBox->setProperty             ("ModelEditorWidgetType", eTevAlphaComboBoxB);
-    ui->TevAlpha3ComboBox->setProperty             ("ModelEditorWidgetType", eTevAlphaComboBoxC);
-    ui->TevAlpha4ComboBox->setProperty             ("ModelEditorWidgetType", eTevAlphaComboBoxD);
-    ui->TevAlphaOutputComboBox->setProperty        ("ModelEditorWidgetType", eTevAlphaOutputComboBox);
-    ui->AnimTypeComboBox->setProperty              ("ModelEditorWidgetType", eAnimModeComboBox);
-    ui->AnimParamASpinBox->setProperty             ("ModelEditorWidgetType", eAnimParamASpinBox);
-    ui->AnimParamBSpinBox->setProperty             ("ModelEditorWidgetType", eAnimParamBSpinBox);
-    ui->AnimParamCSpinBox->setProperty             ("ModelEditorWidgetType", eAnimParamCSpinBox);
-    ui->AnimParamDSpinBox->setProperty             ("ModelEditorWidgetType", eAnimParamDSpinBox);
+    ui->SetSelectionComboBox->setProperty          ("ModelEditorWidgetType", (int) EModelEditorWidget::SetSelectComboBox);
+    ui->MatSelectionComboBox->setProperty          ("ModelEditorWidgetType", (int) EModelEditorWidget::MatSelectComboBox);
+    ui->EnableTransparencyCheck->setProperty       ("ModelEditorWidgetType", (int) EModelEditorWidget::EnableTransparencyCheckBox);
+    ui->EnablePunchthroughCheck->setProperty       ("ModelEditorWidgetType", (int) EModelEditorWidget::EnablePunchthroughCheckBox);
+    ui->EnableReflectionCheck->setProperty         ("ModelEditorWidgetType", (int) EModelEditorWidget::EnableReflectionCheckBox);
+    ui->EnableSurfaceReflectionCheck->setProperty  ("ModelEditorWidgetType", (int) EModelEditorWidget::EnableSurfaceReflectionCheckBox);
+    ui->EnableDepthWriteCheck->setProperty         ("ModelEditorWidgetType", (int) EModelEditorWidget::EnableDepthWriteCheckBox);
+    ui->EnableOccluderCheck->setProperty           ("ModelEditorWidgetType", (int) EModelEditorWidget::EnableOccluderCheckBox);
+    ui->EnableLightmapCheck->setProperty           ("ModelEditorWidgetType", (int) EModelEditorWidget::EnableLightmapCheckBox);
+    ui->EnableDynamicLightingCheck->setProperty    ("ModelEditorWidgetType", (int) EModelEditorWidget::EnableLightingCheckBox);
+    ui->SourceBlendComboBox->setProperty           ("ModelEditorWidgetType", (int) EModelEditorWidget::SourceBlendComboBox);
+    ui->DestBlendComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::DestBlendComboBox);
+    ui->KonstColorPickerA->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::KonstColorPickerA);
+    ui->KonstColorPickerB->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::KonstColorPickerB);
+    ui->KonstColorPickerC->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::KonstColorPickerC);
+    ui->KonstColorPickerD->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::KonstColorPickerD);
+    ui->IndTextureResSelector->setProperty         ("ModelEditorWidgetType", (int) EModelEditorWidget::IndTextureResSelector);
+    ui->PassTable->setProperty                     ("ModelEditorWidgetType", (int) EModelEditorWidget::PassTableWidget);
+    ui->TevKColorSelComboBox->setProperty          ("ModelEditorWidgetType", (int) EModelEditorWidget::TevKColorSelComboBox);
+    ui->TevKAlphaSelComboBox->setProperty          ("ModelEditorWidgetType", (int) EModelEditorWidget::TevKAlphaSelComboBox);
+    ui->TevRasSelComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevRasSelComboBox);
+    ui->TexCoordSrcComboBox->setProperty           ("ModelEditorWidgetType", (int) EModelEditorWidget::TevTexSourceComboBox);
+    ui->PassTextureResSelector->setProperty        ("ModelEditorWidgetType", (int) EModelEditorWidget::PassTextureResSelector);
+    ui->TevColor1ComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevColorComboBoxA);
+    ui->TevColor2ComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevColorComboBoxB);
+    ui->TevColor3ComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevColorComboBoxC);
+    ui->TevColor4ComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevColorComboBoxD);
+    ui->TevColorOutputComboBox->setProperty        ("ModelEditorWidgetType", (int) EModelEditorWidget::TevColorOutputComboBox);
+    ui->TevAlpha1ComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevAlphaComboBoxA);
+    ui->TevAlpha2ComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevAlphaComboBoxB);
+    ui->TevAlpha3ComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevAlphaComboBoxC);
+    ui->TevAlpha4ComboBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::TevAlphaComboBoxD);
+    ui->TevAlphaOutputComboBox->setProperty        ("ModelEditorWidgetType", (int) EModelEditorWidget::TevAlphaOutputComboBox);
+    ui->AnimTypeComboBox->setProperty              ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimModeComboBox);
+    ui->AnimParamASpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamASpinBox);
+    ui->AnimParamBSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamBSpinBox);
+    ui->AnimParamCSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamCSpinBox);
+    ui->AnimParamDSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamDSpinBox);
 
     connect(ui->ActionImport, SIGNAL(triggered()), this, SLOT(Import()));
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
@@ -212,16 +212,16 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     if (!mpCurrentMat) return;
 
     // Set up UI
-    CMaterial::FMaterialOptions Settings = mpCurrentMat->Options();
+    FMaterialOptions Settings = mpCurrentMat->Options();
 
     mIgnoreSignals = true;
-    ui->EnableTransparencyCheck->setChecked( Settings & CMaterial::eTransparent );
-    ui->EnablePunchthroughCheck->setChecked( Settings & CMaterial::ePunchthrough );
-    ui->EnableReflectionCheck->setChecked( Settings & CMaterial::eReflection );
-    ui->EnableSurfaceReflectionCheck->setChecked( Settings & CMaterial::eSurfaceReflection );
-    ui->EnableDepthWriteCheck->setChecked( Settings & CMaterial::eDepthWrite );
-    ui->EnableOccluderCheck->setChecked( Settings & CMaterial::eOccluder );
-    ui->EnableLightmapCheck->setChecked( Settings & CMaterial::eLightmap );
+    ui->EnableTransparencyCheck->setChecked( Settings & EMaterialOption::Transparent );
+    ui->EnablePunchthroughCheck->setChecked( Settings & EMaterialOption::Masked );
+    ui->EnableReflectionCheck->setChecked( Settings & EMaterialOption::Reflection );
+    ui->EnableSurfaceReflectionCheck->setChecked( Settings & EMaterialOption::SurfaceReflection );
+    ui->EnableDepthWriteCheck->setChecked( Settings & EMaterialOption::DepthWrite );
+    ui->EnableOccluderCheck->setChecked( Settings & EMaterialOption::Occluder );
+    ui->EnableLightmapCheck->setChecked( Settings & EMaterialOption::Lightmap );
     ui->EnableDynamicLightingCheck->setChecked( mpCurrentMat->IsLightingEnabled() );
 
     uint32 SrcFac = (uint32) mpCurrentMat->BlendSrcFac();
@@ -231,7 +231,7 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     ui->SourceBlendComboBox->setCurrentIndex(SrcFac);
     ui->DestBlendComboBox->setCurrentIndex(DstFac);
 
-    if (Settings & CMaterial::eIndStage)
+    if (Settings & EMaterialOption::IndStage)
         ui->IndTextureResSelector->SetResource(mpCurrentMat->IndTexture());
     else
         ui->IndTextureResSelector->Clear();
@@ -276,16 +276,16 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     FVertexDescription Desc = mpCurrentMat->VtxDesc();
 
     ui->TexCoordSrcComboBox->addItem("None");
-    if (Desc & ePosition) ui->TexCoordSrcComboBox->addItem("Position");
-    if (Desc & eNormal)   ui->TexCoordSrcComboBox->addItem("Normal");
-    if (Desc & eTex0)     ui->TexCoordSrcComboBox->addItem("Tex Coord 1");
-    if (Desc & eTex1)     ui->TexCoordSrcComboBox->addItem("Tex Coord 2");
-    if (Desc & eTex2)     ui->TexCoordSrcComboBox->addItem("Tex Coord 3");
-    if (Desc & eTex3)     ui->TexCoordSrcComboBox->addItem("Tex Coord 4");
-    if (Desc & eTex4)     ui->TexCoordSrcComboBox->addItem("Tex Coord 5");
-    if (Desc & eTex5)     ui->TexCoordSrcComboBox->addItem("Tex Coord 6");
-    if (Desc & eTex6)     ui->TexCoordSrcComboBox->addItem("Tex Coord 7");
-    if (Desc & eTex7)     ui->TexCoordSrcComboBox->addItem("Tex Coord 8");
+    if (Desc & EVertexAttribute::Position) ui->TexCoordSrcComboBox->addItem("Position");
+    if (Desc & EVertexAttribute::Normal)   ui->TexCoordSrcComboBox->addItem("Normal");
+    if (Desc & EVertexAttribute::Tex0)     ui->TexCoordSrcComboBox->addItem("Tex Coord 1");
+    if (Desc & EVertexAttribute::Tex1)     ui->TexCoordSrcComboBox->addItem("Tex Coord 2");
+    if (Desc & EVertexAttribute::Tex2)     ui->TexCoordSrcComboBox->addItem("Tex Coord 3");
+    if (Desc & EVertexAttribute::Tex3)     ui->TexCoordSrcComboBox->addItem("Tex Coord 4");
+    if (Desc & EVertexAttribute::Tex4)     ui->TexCoordSrcComboBox->addItem("Tex Coord 5");
+    if (Desc & EVertexAttribute::Tex5)     ui->TexCoordSrcComboBox->addItem("Tex Coord 6");
+    if (Desc & EVertexAttribute::Tex6)     ui->TexCoordSrcComboBox->addItem("Tex Coord 7");
+    if (Desc & EVertexAttribute::Tex7)     ui->TexCoordSrcComboBox->addItem("Tex Coord 8");
 
     // Emit signal from Pass Table to set up the Pass UI
     mIgnoreSignals = false;
@@ -330,8 +330,8 @@ void CModelEditorWindow::SetActivePass(int PassIndex)
     ui->TevAlpha4ComboBox->setCurrentIndex(mpCurrentPass->AlphaInput(3));
     ui->TevAlphaOutputComboBox->setCurrentIndex(mpCurrentPass->AlphaOutput());
 
-    int32 AnimMode = mpCurrentPass->AnimMode();
-    ui->AnimTypeComboBox->setCurrentIndex(AnimMode + 1);
+    EUVAnimMode AnimMode = mpCurrentPass->AnimMode();
+    ui->AnimTypeComboBox->setCurrentIndex((int) AnimMode + 1);
     UpdateAnimParamUI(AnimMode);
 
     mIgnoreSignals = false;
@@ -347,10 +347,10 @@ void CModelEditorWindow::UpdateMaterial()
 
     switch (Widget)
     {
-    case eAddPassButton:
+    case EModelEditorWidget::AddPassButton:
         break;
 
-    case eDeletePassButton:
+    case EModelEditorWidget::DeletePassButton:
         break;
     }*/
 }
@@ -366,8 +366,8 @@ void CModelEditorWindow::UpdateMaterial(int Value)
     switch (Widget)
     {
 
-    case eSourceBlendComboBox:
-    case eDestBlendComboBox:
+    case EModelEditorWidget::SourceBlendComboBox:
+    case EModelEditorWidget::DestBlendComboBox:
     {
         GLenum SourceFac = ui->SourceBlendComboBox->currentIndex();
         GLenum DstFac = ui->DestBlendComboBox->currentIndex();
@@ -377,35 +377,35 @@ void CModelEditorWindow::UpdateMaterial(int Value)
         break;
     }
 
-    case eTevKColorSelComboBox:
+    case EModelEditorWidget::TevKColorSelComboBox:
         if (Value >= 8) Value += 4;
         mpCurrentPass->SetKColorSel((ETevKSel) Value);
         break;
 
-    case eTevKAlphaSelComboBox:
+    case EModelEditorWidget::TevKAlphaSelComboBox:
         if (Value >= 8) Value += 8;
         mpCurrentPass->SetKAlphaSel((ETevKSel) Value);
         break;
 
-    case eTevRasSelComboBox:
-        if (Value == 7) Value = eRasColorNull;
+    case EModelEditorWidget::TevRasSelComboBox:
+        if (Value == 7) Value = kRasColorNull;
         mpCurrentPass->SetRasSel((ETevRasSel) Value);
         break;
 
-    case eTevTexSelComboBox:
+    case EModelEditorWidget::TevTexSelComboBox:
         // todo
         break;
 
-    case eTevTexSourceComboBox:
+    case EModelEditorWidget::TevTexSourceComboBox:
         if (Value >= 3) Value ++;
         else Value--;
         mpCurrentPass->SetTexCoordSource(Value);
         break;
 
-    case eTevColorComboBoxA:
-    case eTevColorComboBoxB:
-    case eTevColorComboBoxC:
-    case eTevColorComboBoxD:
+    case EModelEditorWidget::TevColorComboBoxA:
+    case EModelEditorWidget::TevColorComboBoxB:
+    case EModelEditorWidget::TevColorComboBoxC:
+    case EModelEditorWidget::TevColorComboBoxD:
     {
         ETevColorInput A = (ETevColorInput) ui->TevColor1ComboBox->currentIndex();
         ETevColorInput B = (ETevColorInput) ui->TevColor2ComboBox->currentIndex();
@@ -415,14 +415,14 @@ void CModelEditorWindow::UpdateMaterial(int Value)
         break;
     }
 
-    case eTevColorOutputComboBox:
+    case EModelEditorWidget::TevColorOutputComboBox:
         mpCurrentPass->SetColorOutput((ETevOutput) Value);
         break;
 
-    case eTevAlphaComboBoxA:
-    case eTevAlphaComboBoxB:
-    case eTevAlphaComboBoxC:
-    case eTevAlphaComboBoxD:
+    case EModelEditorWidget::TevAlphaComboBoxA:
+    case EModelEditorWidget::TevAlphaComboBoxB:
+    case EModelEditorWidget::TevAlphaComboBoxC:
+    case EModelEditorWidget::TevAlphaComboBoxD:
     {
         ETevAlphaInput A = (ETevAlphaInput) ui->TevAlpha1ComboBox->currentIndex();
         ETevAlphaInput B = (ETevAlphaInput) ui->TevAlpha2ComboBox->currentIndex();
@@ -432,13 +432,13 @@ void CModelEditorWindow::UpdateMaterial(int Value)
         break;
     }
 
-    case eTevAlphaOutputComboBox:
+    case EModelEditorWidget::TevAlphaOutputComboBox:
         mpCurrentPass->SetAlphaOutput((ETevOutput) Value);
         break;
 
-    case eAnimModeComboBox:
+    case EModelEditorWidget::AnimModeComboBox:
         mpCurrentPass->SetAnimMode((EUVAnimMode) (Value - 1));
-        UpdateAnimParamUI(Value - 1);
+        UpdateAnimParamUI((EUVAnimMode) (Value - 1));
         break;
     }
 
@@ -483,16 +483,16 @@ void CModelEditorWindow::UpdateMaterial(double Value)
 
     switch (Widget)
     {
-    case eAnimParamASpinBox:
+    case EModelEditorWidget::AnimParamASpinBox:
         mpCurrentPass->SetAnimParam(0, (float) Value);
         break;
-    case eAnimParamBSpinBox:
+    case EModelEditorWidget::AnimParamBSpinBox:
         mpCurrentPass->SetAnimParam(1, (float) Value);
         break;
-    case eAnimParamCSpinBox:
+    case EModelEditorWidget::AnimParamCSpinBox:
         mpCurrentPass->SetAnimParam(2, (float) Value);
         break;
-    case eAnimParamDSpinBox:
+    case EModelEditorWidget::AnimParamDSpinBox:
         mpCurrentPass->SetAnimParam(3, (float) Value);
         break;
     }
@@ -509,15 +509,15 @@ void CModelEditorWindow::UpdateMaterial(bool Value)
     switch (Widget)
     {
 
-    case eEnableTransparencyCheckBox:
-    case eEnablePunchthroughCheckBox:
-    case eEnableReflectionCheckBox:
-    case eEnableSurfaceReflectionCheckBox:
-    case eEnableDepthWriteCheckBox:
-    case eEnableOccluderCheckBox:
-    case eEnableLightmapCheckBox:
+    case EModelEditorWidget::EnableTransparencyCheckBox:
+    case EModelEditorWidget::EnablePunchthroughCheckBox:
+    case EModelEditorWidget::EnableReflectionCheckBox:
+    case EModelEditorWidget::EnableSurfaceReflectionCheckBox:
+    case EModelEditorWidget::EnableDepthWriteCheckBox:
+    case EModelEditorWidget::EnableOccluderCheckBox:
+    case EModelEditorWidget::EnableLightmapCheckBox:
     {
-        CMaterial::FMaterialOptions Options = (mpCurrentMat->Options() & 0x2408);
+        FMaterialOptions Options = (mpCurrentMat->Options() & 0x2408);
         Options |= (ui->EnableTransparencyCheck->isChecked()      <<  4);
         Options |= (ui->EnablePunchthroughCheck->isChecked()      <<  5);
         Options |= (ui->EnableReflectionCheck->isChecked()        <<  6);
@@ -529,7 +529,7 @@ void CModelEditorWindow::UpdateMaterial(bool Value)
         break;
     }
 
-    case eEnableLightingCheckBox:
+    case EModelEditorWidget::EnableLightingCheckBox:
         mpCurrentMat->SetLightingEnabled(Value);
         break;
 
@@ -547,16 +547,16 @@ void CModelEditorWindow::UpdateMaterial(QColor Color)
 
     switch (Widget)
     {
-    case eKonstColorPickerA:
+    case EModelEditorWidget::KonstColorPickerA:
         mpCurrentMat->SetKonst(KColor, 0);
         break;
-    case eKonstColorPickerB:
+    case EModelEditorWidget::KonstColorPickerB:
         mpCurrentMat->SetKonst(KColor, 1);
         break;
-    case eKonstColorPickerC:
+    case EModelEditorWidget::KonstColorPickerC:
         mpCurrentMat->SetKonst(KColor, 2);
         break;
-    case eKonstColorPickerD:
+    case EModelEditorWidget::KonstColorPickerD:
         mpCurrentMat->SetKonst(KColor, 3);
         break;
     }
@@ -570,15 +570,15 @@ void CModelEditorWindow::UpdateMaterial(QString Value)
 
     EModelEditorWidget Widget = (EModelEditorWidget) sender()->property("ModelEditorWidgetType").toInt();
     TResPtr<CTexture> pTex = gpResourceStore->LoadResource(TO_TSTRING(Value));
-    if (pTex->Type() != eTexture) pTex = nullptr;
+    if (pTex->Type() != EResourceType::Texture) pTex = nullptr;
 
     switch (Widget)
     {
-    case ePassTextureResSelector:
+    case EModelEditorWidget::PassTextureResSelector:
         mpCurrentPass->SetTexture(pTex);
         break;
 
-    case eIndTextureResSelector:
+    case EModelEditorWidget::IndTextureResSelector:
         mpCurrentMat->SetIndTexture(pTex);
         break;
     }
@@ -590,12 +590,12 @@ void CModelEditorWindow::UpdateUI(int Value)
     switch (Widget)
     {
 
-    case eSetSelectComboBox:
+    case EModelEditorWidget::SetSelectComboBox:
         mpCurrentModelNode->SetMatSet(Value);
         SetActiveMaterial(ui->MatSelectionComboBox->currentIndex());
         break;
 
-    case eMatSelectComboBox:
+    case EModelEditorWidget::MatSelectComboBox:
         SetActiveMaterial(Value);
         ActivateMatEditUI(true);
         break;
@@ -615,11 +615,11 @@ void CModelEditorWindow::RefreshMaterial()
     if (mpCurrentMat) mpCurrentMat->GenerateShader();
 }
 
-void CModelEditorWindow::UpdateAnimParamUI(int Mode)
+void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
 {
     // Update the param labels with actual names + hide unused params for each mode.
 
-    switch (Mode)
+    switch ((int) Mode)
     {
     case -1: // N/A
     case 0: // ModelView No Translate
@@ -764,11 +764,11 @@ void CModelEditorWindow::ConvertToDDS()
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
-    CFileInStream InTextureFile(TexFilename, IOUtil::eLittleEndian);
+    CFileInStream InTextureFile(TexFilename, EEndian::LittleEndian);
     CTexture *pTex = CTextureDecoder::LoadTXTR( InTextureFile, nullptr );
 
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
-    CFileOutStream Out(OutName, IOUtil::eLittleEndian);
+    CFileOutStream Out(OutName, EEndian::LittleEndian);
     if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
 
     else
@@ -787,21 +787,21 @@ void CModelEditorWindow::ConvertToTXTR()
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
-    CFileInStream InTextureFile = CFileInStream(TexFilename, IOUtil::eLittleEndian);
+    CFileInStream InTextureFile = CFileInStream(TexFilename, EEndian::LittleEndian);
     CTexture *pTex = CTextureDecoder::LoadDDS(InTextureFile, nullptr);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
 
-    if ((pTex->TexelFormat() != eDXT1) || (pTex->NumMipMaps() > 1))
+    if ((pTex->TexelFormat() != ETexelFormat::DXT1) || (pTex->NumMipMaps() > 1))
         QMessageBox::warning(this, "Error", "Can't convert DDS to TXTR! Save your texture as a DXT1 DDS with no mipmaps, then try again.");
 
     else
     {
-        CFileOutStream Out(OutName, IOUtil::eBigEndian);
+        CFileOutStream Out(OutName, EEndian::BigEndian);
         if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output TXTR!");
 
         else
         {
-            CTextureEncoder::EncodeTXTR(Out, pTex, eGX_CMPR);
+            CTextureEncoder::EncodeTXTR(Out, pTex, ETexelFormat::GX_CMPR);
             QMessageBox::information(this, "Success", "Successfully converted to TXTR!");
         }
     }
@@ -809,17 +809,17 @@ void CModelEditorWindow::ConvertToTXTR()
 
 void CModelEditorWindow::SetMeshPreview()
 {
-    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawMesh);
+    ui->Viewport->SetDrawMode(CModelEditorViewport::EDrawMode::DrawMesh);
 }
 
 void CModelEditorWindow::SetSpherePreview()
 {
-    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawSphere);
+    ui->Viewport->SetDrawMode(CModelEditorViewport::EDrawMode::DrawSphere);
 }
 
 void CModelEditorWindow::SetFlatPreview()
 {
-    ui->Viewport->SetDrawMode(CModelEditorViewport::eDrawSquare);
+    ui->Viewport->SetDrawMode(CModelEditorViewport::EDrawMode::DrawSquare);
 }
 
 void CModelEditorWindow::ClearColorChanged(const QColor& rkNewColor)
@@ -832,12 +832,12 @@ void CModelEditorWindow::ToggleCameraMode()
 {
     CCamera *pCam = &ui->Viewport->Camera();
 
-    if (pCam->MoveMode() == eOrbitCamera)
-        pCam->SetMoveMode(eFreeCamera);
+    if (pCam->MoveMode() == ECameraMoveMode::Orbit)
+        pCam->SetMoveMode(ECameraMoveMode::Free);
 
-    else if (pCam->MoveMode() == eFreeCamera)
+    else if (pCam->MoveMode() == ECameraMoveMode::Free)
     {
-        pCam->SetMoveMode(eOrbitCamera);
+        pCam->SetMoveMode(ECameraMoveMode::Orbit);
 
         CVector3f Pos = pCam->Position();
         CVector3f Target = mpCurrentModelNode->AABox().Center();

@@ -6,7 +6,7 @@
 
 class CSourceAnimData : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eSourceAnimData)
+    DECLARE_RESOURCE_TYPE(SourceAnimData)
     friend class CAnimSetLoader;
 
     struct STransition

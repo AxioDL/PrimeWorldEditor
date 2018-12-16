@@ -14,17 +14,17 @@ class CAnimationParameters;
 struct SSetCharacter;
 
 // Group of node classes forming a tree of cached resource dependencies.
-enum EDependencyNodeType
+enum class EDependencyNodeType
 {
-    eDNT_DependencyTree     = FOURCC('TREE'),
-    eDNT_ResourceDependency = FOURCC('RSDP'),
-    eDNT_ScriptInstance     = FOURCC('SCIN'),
-    eDNT_ScriptProperty     = FOURCC('SCPR'),
-    eDNT_CharacterProperty  = FOURCC('CRPR'),
-    eDNT_SetCharacter       = FOURCC('SCHR'),
-    eDNT_SetAnimation       = FOURCC('SANM'),
-    eDNT_AnimEvent          = FOURCC('EVNT'),
-    eDNT_Area               = FOURCC('AREA'),
+    DependencyTree      = FOURCC('TREE'),
+    Resource            = FOURCC('RSDP'),
+    ScriptInstance      = FOURCC('SCIN'),
+    ScriptProperty      = FOURCC('SCPR'),
+    CharacterProperty   = FOURCC('CRPR'),
+    SetCharacter        = FOURCC('SCHR'),
+    SetAnimation        = FOURCC('SANM'),
+    AnimEvent           = FOURCC('EVNT'),
+    Area                = FOURCC('AREA'),
 };
 
 // Base class providing an interface for a basic dependency node.

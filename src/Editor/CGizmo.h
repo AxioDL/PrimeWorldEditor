@@ -5,6 +5,7 @@
 #include <Common/Math/CPlane.h>
 #include <Common/Math/CQuaternion.h>
 #include <Common/Math/CVector3f.h>
+#include <Common/Math/EAxis.h>
 #include <Common/Math/ETransformSpace.h>
 #include <Core/Render/CCamera.h>
 #include <Core/Render/IRenderable.h>
@@ -42,27 +43,14 @@
 class CGizmo : public IRenderable
 {
 public:
-    enum EGizmoMode
+    enum class EGizmoMode
     {
-        eTranslate, eRotate, eScale, eOff
+        Translate, Rotate, Scale, Off
     };
-
-    enum EGizmoAxis
-    {
-        eNone = 0x0,
-        eX    = 0x1,
-        eY    = 0x2,
-        eZ    = 0x4,
-        eXY   = eX | eY,
-        eXZ   = eX | eZ,
-        eYZ   = eY | eZ,
-        eXYZ  = eX | eY | eZ
-    };
-    DECLARE_FLAGS(EGizmoAxis, FGizmoAxes)
 
 private:
     EGizmoMode mMode;
-    FGizmoAxes mSelectedAxes;
+    FAxes mSelectedAxes;
     ETransformSpace mTransformSpace;
     CQuaternion mBillboardRotation;
     float mGizmoSize;
@@ -105,13 +93,13 @@ private:
     // Model parts
     struct SModelPart
     {
-        FGizmoAxes ModelAxes;
+        FAxes ModelAxes;
         bool EnableRayCast;
         bool IsBillboard;
         TResPtr<CModel> pModel;
 
         SModelPart() {}
-        SModelPart(FGizmoAxes Axes, bool RayCastOn, bool Billboard, TResPtr<CModel> _pModel) :
+        SModelPart(FAxes Axes, bool RayCastOn, bool Billboard, TResPtr<CModel> _pModel) :
             ModelAxes(Axes), EnableRayCast(RayCastOn), IsBillboard(Billboard), pModel(_pModel) {}
     };
     SModelPart *mpCurrentParts;

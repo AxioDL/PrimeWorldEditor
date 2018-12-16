@@ -11,7 +11,7 @@
 
 class CTexture : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eTexture)
+    DECLARE_RESOURCE_TYPE(Texture)
     friend class CTextureDecoder;
     friend class CTextureEncoder;
 

@@ -1,5 +1,5 @@
 #include "GLCommon.h"
-#include <stdexcept>
+#include <Common/Macros.h>
 
 GLenum gBlendFactor[] =
 {
@@ -25,16 +25,16 @@ GLenum gZMode[] =
     GL_ALWAYS    // GX_ALWAYS
 };
 
-GLenum GXPrimToGLPrim(EGXPrimitiveType Type)
+GLenum GXPrimToGLPrim(EPrimitiveType Type)
 {
     switch (Type) {
-        case eGX_Quads:             return GL_TRIANGLE_STRIP; // Quads are converted to strips
-        case eGX_Triangles:         return GL_TRIANGLE_STRIP; // Triangles are converted to strips
-        case eGX_TriangleStrip:     return GL_TRIANGLE_STRIP;
-        case eGX_TriangleFan:       return GL_TRIANGLE_STRIP; // Fans are converted to strips
-        case eGX_Lines:             return GL_LINES;
-        case eGX_LineStrip:         return GL_LINE_STRIP;
-        case eGX_Points:            return GL_POINTS;
-        default:                    throw std::invalid_argument("Invalid GX primitive type");
+        case EPrimitiveType::Quads:         return GL_TRIANGLE_STRIP; // Quads are converted to strips
+        case EPrimitiveType::Triangles:     return GL_TRIANGLE_STRIP; // Triangles are converted to strips
+        case EPrimitiveType::TriangleStrip: return GL_TRIANGLE_STRIP;
+        case EPrimitiveType::TriangleFan:   return GL_TRIANGLE_STRIP; // Fans are converted to strips
+        case EPrimitiveType::Lines:         return GL_LINES;
+        case EPrimitiveType::LineStrip:     return GL_LINE_STRIP;
+        case EPrimitiveType::Points:        return GL_POINTS;
+        default:                            ASSERT(false); return GL_INVALID_ENUM;
     }
 }

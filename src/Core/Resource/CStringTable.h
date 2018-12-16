@@ -9,7 +9,7 @@
 
 class CStringTable : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eStringTable)
+    DECLARE_RESOURCE_TYPE(StringTable)
     friend class CStringLoader;
 
     std::vector<TString> mStringNames;
@@ -46,7 +46,7 @@ public:
     {
         // STRGs can reference FONTs with the &font=; formatting tag and TXTRs with the &image=; tag
         CDependencyTree *pTree = new CDependencyTree();
-        EIDLength IDLength = (Game() <= EGame::Echoes ? e32Bit : e64Bit);
+        EIDLength IDLength = (Game() <= EGame::Echoes ? k32Bit : k64Bit);
 
         for (uint32 iLang = 0; iLang < mLangTables.size(); iLang++)
         {

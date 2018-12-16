@@ -29,7 +29,7 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
 
     mViewInfo.pScene = mpScene;
     mViewInfo.pRenderer = mpRenderer;
-    mViewInfo.ShowFlags = eShowMergedWorld | eShowObjectGeometry | eShowLights | eShowSky;
+    mViewInfo.ShowFlags = EShowFlag::MergedWorld | EShowFlag::ObjectGeometry | EShowFlag::Lights | EShowFlag::Sky;
 
     CreateContextMenu();
 }
@@ -48,19 +48,19 @@ void CSceneViewport::SetScene(INodeEditor *pEditor, CScene *pScene)
 void CSceneViewport::SetShowWorld(bool Visible)
 {
     if (mRenderingMergedWorld)
-        SetShowFlag(eShowMergedWorld, Visible);
+        SetShowFlag(EShowFlag::MergedWorld, Visible);
     else
-        SetShowFlag(eShowSplitWorld, Visible);
+        SetShowFlag(EShowFlag::SplitWorld, Visible);
 }
 
 void CSceneViewport::SetRenderMergedWorld(bool RenderMerged)
 {
     mRenderingMergedWorld = RenderMerged;
 
-    if (mViewInfo.ShowFlags & (eShowSplitWorld | eShowMergedWorld))
+    if (mViewInfo.ShowFlags & (EShowFlag::SplitWorld | EShowFlag::MergedWorld))
     {
-        SetShowFlag(eShowSplitWorld, !RenderMerged);
-        SetShowFlag(eShowMergedWorld, RenderMerged);
+        SetShowFlag(EShowFlag::SplitWorld, !RenderMerged);
+        SetShowFlag(EShowFlag::MergedWorld, RenderMerged);
     }
 }
 
@@ -153,7 +153,7 @@ void CSceneViewport::keyPressEvent(QKeyEvent *pEvent)
 
     if (!pEvent->modifiers() && pEvent->key() == Qt::Key_Z  && !pEvent->isAutoRepeat())
     {
-        mCamera.SetMoveMode(eOrbitCamera);
+        mCamera.SetMoveMode(ECameraMoveMode::Orbit);
         emit CameraOrbit();
     }
 }
@@ -164,7 +164,7 @@ void CSceneViewport::keyReleaseEvent(QKeyEvent* pEvent)
 
     if (pEvent->key() == Qt::Key_Z && !pEvent->isAutoRepeat())
     {
-        mCamera.SetMoveMode(eFreeCamera);
+        mCamera.SetMoveMode(ECameraMoveMode::Free);
     }
 }
 
@@ -246,9 +246,9 @@ void CSceneViewport::FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing
 
     if (SearchOutgoing)
     {
-        for (uint32 iLink = 0; iLink < pInst->NumLinks(eOutgoing); iLink++)
+        for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
         {
-            CLink *pLink = pInst->Link(eOutgoing, iLink);
+            CLink *pLink = pInst->Link(ELinkType::Outgoing, iLink);
 
             if (!rIDList.contains(pLink->ReceiverID()))
                 FindConnectedObjects(pLink->ReceiverID(), SearchOutgoing, SearchIncoming, rIDList);
@@ -257,9 +257,9 @@ void CSceneViewport::FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing
 
     if (SearchIncoming)
     {
-        for (uint32 iLink = 0; iLink < pInst->NumLinks(eIncoming); iLink++)
+        for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Incoming); iLink++)
         {
-            CLink *pLink = pInst->Link(eIncoming, iLink);
+            CLink *pLink = pInst->Link(ELinkType::Incoming, iLink);
 
             if (!rIDList.contains(pLink->SenderID()))
                 FindConnectedObjects(pLink->SenderID(), SearchOutgoing, SearchIncoming, rIDList);
@@ -304,7 +304,7 @@ void CSceneViewport::Paint()
     mpRenderer->BeginFrame();
 
     // todo: The sky should really just be a regular node in the background depth group instead of having special rendering code here
-    if ((mViewInfo.ShowFlags & eShowSky) || mViewInfo.GameMode)
+    if ((mViewInfo.ShowFlags & EShowFlag::Sky) || mViewInfo.GameMode)
     {
         CModel *pSky = mpScene->ActiveSkybox();
         if (pSky) mpRenderer->RenderSky(pSky, mViewInfo);
@@ -339,9 +339,9 @@ void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
 
     // Set up actions
     TString NodeName;
-    bool HasHoverNode = (mpHoverNode && (mpHoverNode->NodeType() != eStaticNode) && (mpHoverNode->NodeType() != eModelNode));
+    bool HasHoverNode = (mpHoverNode && (mpHoverNode->NodeType() != ENodeType::Static) && (mpHoverNode->NodeType() != ENodeType::Model));
     bool HasSelection = mpEditor->HasSelection();
-    bool IsScriptNode = (mpHoverNode && mpHoverNode->NodeType() == eScriptNode);
+    bool IsScriptNode = (mpHoverNode && mpHoverNode->NodeType() == ENodeType::Script);
 
     mpToggleSelectAction->setVisible(HasHoverNode);
     mpSelectConnectedMenu->menuAction()->setVisible(IsScriptNode);
@@ -451,7 +451,7 @@ void CSceneViewport::OnHideSelection()
 
 void CSceneViewport::OnHideUnselected()
 {
-    for (CSceneIterator It(mpScene, eScriptNode | eLightNode); !It.DoneIterating(); ++It)
+    for (CSceneIterator It(mpScene, ENodeType::Script | ENodeType::Light); !It.DoneIterating(); ++It)
         if (!It->IsSelected())
             It->SetVisible(false);
 }
@@ -473,13 +473,13 @@ void CSceneViewport::OnHideLayer()
 
 void CSceneViewport::OnUnhideAll()
 {
-    CSceneIterator it(mpScene, eScriptNode | eLightNode, true);
+    CSceneIterator it(mpScene, ENodeType::Script | ENodeType::Light, true);
 
     while (!it.DoneIterating())
     {
         if (!it->IsVisible())
         {
-            if (it->NodeType() == eLightNode)
+            if (it->NodeType() == ENodeType::Light)
                 it->SetVisible(true);
 
             else

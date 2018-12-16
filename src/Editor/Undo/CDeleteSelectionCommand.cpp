@@ -15,7 +15,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
     {
         mOldSelection << *It;
 
-        if (It->NodeType() == eScriptNode)
+        if (It->NodeType() == ENodeType::Script)
         {
             CScriptNode *pScript = static_cast<CScriptNode*>(*It);
             CScriptObject *pInst = pScript->Instance();
@@ -35,7 +35,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
 
             for (uint32 iType = 0; iType < 2; iType++)
             {
-                ELinkType Type = (iType == 0 ? eOutgoing : eIncoming);
+                ELinkType Type = (iType == 0 ? ELinkType::Outgoing : ELinkType::Incoming);
 
                 for (uint32 iLink = 0; iLink < pInst->NumLinks(Type); iLink++)
                 {
@@ -63,7 +63,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
                 }
             }
 
-            CVectorOutStream PropertyDataOut(&rNode.InstanceData, IOUtil::eBigEndian);
+            CVectorOutStream PropertyDataOut(&rNode.InstanceData, EEndian::BigEndian);
             CScriptCooker Cooker(pEditor->CurrentGame());
             Cooker.WriteInstance(PropertyDataOut, pInst);
         }
@@ -95,7 +95,7 @@ void CDeleteSelectionCommand::undo()
         SDeletedNode& rNode = mDeletedNodes[iNode];
         mpEditor->NotifyNodeAboutToBeSpawned();
 
-        CMemoryInStream Mem(rNode.InstanceData.data(), rNode.InstanceData.size(), IOUtil::eBigEndian);
+        CMemoryInStream Mem(rNode.InstanceData.data(), rNode.InstanceData.size(), EEndian::BigEndian);
         CScriptObject *pInstance = CScriptLoader::LoadInstance(Mem, rNode.pArea, rNode.pLayer, rNode.pArea->Game(), true);
         CScriptNode *pNode = mpEditor->Scene()->CreateScriptNode(pInstance, rNode.NodeID);
         rNode.pArea->AddInstanceToArea(pInstance);
@@ -123,7 +123,7 @@ void CDeleteSelectionCommand::undo()
         if (!NewInstanceIDs.contains(rLink.SenderID) && *rLink.pSender)
         {
             CLink *pLink = new CLink(rLink.pSender->Area(), rLink.State, rLink.Message, rLink.SenderID, rLink.ReceiverID);
-            rLink.pSender->AddLink(eOutgoing, pLink, rLink.SenderIndex);
+            rLink.pSender->AddLink(ELinkType::Outgoing, pLink, rLink.SenderIndex);
         }
     }
 
@@ -138,8 +138,8 @@ void CDeleteSelectionCommand::undo()
 
         if (*rLink.pReceiver)
         {
-            CLink *pLink = (*rLink.pSender ? rLink.pSender->Link(eOutgoing, rLink.SenderIndex) : new CLink(rLink.pReceiver->Area(), rLink.State, rLink.Message, rLink.SenderID, rLink.ReceiverID));
-            rLink.pReceiver->AddLink(eIncoming, pLink, rLink.ReceiverIndex);
+            CLink *pLink = (*rLink.pSender ? rLink.pSender->Link(ELinkType::Outgoing, rLink.SenderIndex) : new CLink(rLink.pReceiver->Area(), rLink.State, rLink.Message, rLink.SenderID, rLink.ReceiverID));
+            rLink.pReceiver->AddLink(ELinkType::Incoming, pLink, rLink.ReceiverIndex);
         }
     }
 

@@ -8326,6 +8326,10 @@
             <Value Name="TXTR"/>
         </Element>
         <Element>
+            <Key ID="0x386431AC" Type="sound"/>
+            <Value Name="Sound_Alert"/>
+        </Element>
+        <Element>
             <Key ID="0x386431AC" Type="int"/>
             <Value Name="Sound_Alert"/>
         </Element>
@@ -29231,7 +29235,7 @@
         </Element>
         <Element>
             <Key ID="0xC3A27CF8" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="FallBackCheck"/>
         </Element>
         <Element>
             <Key ID="0xC3A34B9F" Type="float"/>
@@ -32643,7 +32647,7 @@
         </Element>
         <Element>
             <Key ID="0xDA1122EB" Type="asset"/>
-            <Value Name="WPSC"/>
+            <Value Name="KneelAttackShot"/>
         </Element>
         <Element>
             <Key ID="0xDA13807D" Type="float"/>

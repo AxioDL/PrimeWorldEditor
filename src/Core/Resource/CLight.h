@@ -9,12 +9,12 @@
 /* CLight is currently heavily based on the lights system from Metroid Prime,
  * including code reverse engineered from the game's executable. Not yet sure
  * how much needs to be modified to properly support DKCR. */
-enum ELightType
+enum class ELightType
 {
-    eLocalAmbient = 0,
-    eDirectional = 1,
-    eSpot = 3,
-    eCustom = 2
+    LocalAmbient = 0,
+    Directional = 1,
+    Spot = 3,
+    Custom = 2
 };
 
 class CLight

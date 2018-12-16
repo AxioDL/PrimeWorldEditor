@@ -3,103 +3,103 @@
 
 enum ETevColorInput
 {
-    ePrevRGB    = 0x0,
-    ePrevAAA    = 0x1,
-    eColor0RGB  = 0x2,
-    eColor0AAA  = 0x3,
-    eColor1RGB  = 0x4,
-    eColor1AAA  = 0x5,
-    eColor2RGB  = 0x6,
-    eColor2AAA  = 0x7,
-    eTextureRGB = 0x8,
-    eTextureAAA = 0x9,
-    eRasRGB     = 0xA,
-    eRasAAA     = 0xB,
-    eOneRGB     = 0xC,
-    eHalfRGB    = 0xD,
-    eKonstRGB   = 0xE,
-    eZeroRGB    = 0xF
+    kPrevRGB    = 0x0,
+    kPrevAAA    = 0x1,
+    kColor0RGB  = 0x2,
+    kColor0AAA  = 0x3,
+    kColor1RGB  = 0x4,
+    kColor1AAA  = 0x5,
+    kColor2RGB  = 0x6,
+    kColor2AAA  = 0x7,
+    kTextureRGB = 0x8,
+    kTextureAAA = 0x9,
+    kRasRGB     = 0xA,
+    kRasAAA     = 0xB,
+    kOneRGB     = 0xC,
+    kHalfRGB    = 0xD,
+    kKonstRGB   = 0xE,
+    kZeroRGB    = 0xF
 };
 
 enum ETevAlphaInput
 {
-    ePrevAlpha    = 0x0,
-    eColor0Alpha  = 0x1,
-    eColor1Alpha  = 0x2,
-    eColor2Alpha  = 0x3,
-    eTextureAlpha = 0x4,
-    eRasAlpha     = 0x5,
-    eKonstAlpha   = 0x6,
-    eZeroAlpha    = 0x7
+    kPrevAlpha    = 0x0,
+    kColor0Alpha  = 0x1,
+    kColor1Alpha  = 0x2,
+    kColor2Alpha  = 0x3,
+    kTextureAlpha = 0x4,
+    kRasAlpha     = 0x5,
+    kKonstAlpha   = 0x6,
+    kZeroAlpha    = 0x7
 };
 
 enum ETevOutput
 {
-    ePrevReg   = 0x0,
-    eColor0Reg = 0x1,
-    eColor1Reg = 0x2,
-    eColor2Reg = 0x3
+    kPrevReg   = 0x0,
+    kColor0Reg = 0x1,
+    kColor1Reg = 0x2,
+    kColor2Reg = 0x3
 };
 
 enum ETevKSel
 {
-    eKonstOne          = 0x0,
-    eKonstSevenEighths = 0x1,
-    eKonstThreeFourths = 0x2,
-    eKonstFiveEighths  = 0x3,
-    eKonstOneHalf      = 0x4,
-    eKonstThreeEighths = 0x5,
-    eKonstOneFourth    = 0x6,
-    eKonstOneEighth    = 0x7,
-    eKonst0_RGB        = 0xC,
-    eKonst1_RGB        = 0xD,
-    eKonst2_RGB        = 0xE,
-    eKonst3_RGB        = 0xF,
-    eKonst0_R          = 0x10,
-    eKonst1_R          = 0x11,
-    eKonst2_R          = 0x12,
-    eKonst3_R          = 0x13,
-    eKonst0_G          = 0x14,
-    eKonst1_G          = 0x15,
-    eKonst2_G          = 0x16,
-    eKonst3_G          = 0x17,
-    eKonst0_B          = 0x18,
-    eKonst1_B          = 0x19,
-    eKonst2_B          = 0x1A,
-    eKonst3_B          = 0x1B,
-    eKonst0_A          = 0x1C,
-    eKonst1_A          = 0x1D,
-    eKonst2_A          = 0x1E,
-    eKonst3_A          = 0x1F
+    kKonstOne          = 0x0,
+    kKonstSevenEighths = 0x1,
+    kKonstThreeFourths = 0x2,
+    kKonstFiveEighths  = 0x3,
+    kKonstOneHalf      = 0x4,
+    kKonstThreeEighths = 0x5,
+    kKonstOneFourth    = 0x6,
+    kKonstOneEighth    = 0x7,
+    kKonst0_RGB        = 0xC,
+    kKonst1_RGB        = 0xD,
+    kKonst2_RGB        = 0xE,
+    kKonst3_RGB        = 0xF,
+    kKonst0_R          = 0x10,
+    kKonst1_R          = 0x11,
+    kKonst2_R          = 0x12,
+    kKonst3_R          = 0x13,
+    kKonst0_G          = 0x14,
+    kKonst1_G          = 0x15,
+    kKonst2_G          = 0x16,
+    kKonst3_G          = 0x17,
+    kKonst0_B          = 0x18,
+    kKonst1_B          = 0x19,
+    kKonst2_B          = 0x1A,
+    kKonst3_B          = 0x1B,
+    kKonst0_A          = 0x1C,
+    kKonst1_A          = 0x1D,
+    kKonst2_A          = 0x1E,
+    kKonst3_A          = 0x1F
 };
 
 enum ETevRasSel
 {
-    eRasColor0     = 0x0,
-    eRasColor1     = 0x1,
-    eRasAlpha0     = 0x2,
-    eRasAlpha1     = 0x3,
-    eRasColor0A0   = 0x4,
-    eRasColor1A1   = 0x5,
-    eRasColorZero  = 0x6,
-    eRasAlphaBump  = 0x7,
-    eRasAlphaBumpN = 0x8,
-    eRasColorNull  = 0xFF
+    kRasColor0     = 0x0,
+    kRasColor1     = 0x1,
+    kRasAlpha0     = 0x2,
+    kRasAlpha1     = 0x3,
+    kRasColor0A0   = 0x4,
+    kRasColor1A1   = 0x5,
+    kRasColorZero  = 0x6,
+    kRasAlphaBump  = 0x7,
+    kRasAlphaBumpN = 0x8,
+    kRasColorNull  = 0xFF
 };
 
-enum EUVAnimMode
+enum class EUVAnimMode
 {
-    eInverseMV           = 0x0,
-    eInverseMVTranslated = 0x1,
-    eUVScroll            = 0x2,
-    eUVRotation          = 0x3,
-    eHFilmstrip          = 0x4,
-    eVFilmstrip          = 0x5,
-    eModelMatrix         = 0x6,
-    eConvolutedModeA     = 0x7,
-    eConvolutedModeB     = 0x8,
-    eSimpleMode          = 0xA,
-    eNoUVAnim            = 0xFFFFFFFF
+    InverseMV           = 0x0,
+    InverseMVTranslated = 0x1,
+    UVScroll            = 0x2,
+    UVRotation          = 0x3,
+    HFilmstrip          = 0x4,
+    VFilmstrip          = 0x5,
+    ModelMatrix         = 0x6,
+    ConvolutedModeA     = 0x7,
+    ConvolutedModeB     = 0x8,
+    SimpleMode          = 0xA,
+    NoUVAnim            = -1
 };
 
 #endif // ETEVENUMS

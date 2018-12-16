@@ -13,11 +13,11 @@
 
 // This macro creates functions that allow us to easily identify this resource type.
 // Must be included on every CResource subclass.
-#define DECLARE_RESOURCE_TYPE(ResTypeEnum) \
+#define DECLARE_RESOURCE_TYPE(ResourceTypeEnum) \
 public: \
-    static EResType StaticType() \
+    static EResourceType StaticType() \
     { \
-        return ResTypeEnum; \
+        return EResourceType::ResourceTypeEnum; \
     } \
     \
     static CResTypeInfo* StaticTypeInfo() \
@@ -29,7 +29,7 @@ private: \
 
 class CResource
 {
-    DECLARE_RESOURCE_TYPE(eResource)
+    DECLARE_RESOURCE_TYPE(Resource)
 
     CResourceEntry *mpEntry;
     int mRefCount;
@@ -46,7 +46,7 @@ public:
     
     inline CResourceEntry* Entry() const    { return mpEntry; }
     inline CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }
-    inline EResType Type() const            { return mpEntry->TypeInfo()->Type(); }
+    inline EResourceType Type() const       { return mpEntry->TypeInfo()->Type(); }
     inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
     inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
     inline CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }

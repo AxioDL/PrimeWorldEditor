@@ -4,7 +4,11 @@
 CVertexBuffer::CVertexBuffer()
 {
     mBuffered = false;
-    SetVertexDesc(ePosition | eNormal | eTex0 | eTex1 | eTex2 | eTex3 | eTex4 | eTex5 | eTex6 | eTex7);
+    SetVertexDesc(EVertexAttribute::Position | EVertexAttribute::Normal |
+                  EVertexAttribute::Tex0 | EVertexAttribute::Tex1 |
+                  EVertexAttribute::Tex2 | EVertexAttribute::Tex3 |
+                  EVertexAttribute::Tex4 | EVertexAttribute::Tex5 |
+                  EVertexAttribute::Tex6 | EVertexAttribute::Tex7);
 }
 
 CVertexBuffer::CVertexBuffer(FVertexDescription Desc)
@@ -25,22 +29,22 @@ uint16 CVertexBuffer::AddVertex(const CVertex& rkVtx)
 {
     if (mPositions.size() == 0xFFFF) throw std::overflow_error("VBO contains too many vertices");
 
-    if (mVtxDesc & ePosition) mPositions.push_back(rkVtx.Position);
-    if (mVtxDesc & eNormal)   mNormals.push_back(rkVtx.Normal);
-    if (mVtxDesc & eColor0)   mColors[0].push_back(rkVtx.Color[0]);
-    if (mVtxDesc & eColor1)   mColors[1].push_back(rkVtx.Color[1]);
+    if (mVtxDesc & EVertexAttribute::Position) mPositions.push_back(rkVtx.Position);
+    if (mVtxDesc & EVertexAttribute::Normal)   mNormals.push_back(rkVtx.Normal);
+    if (mVtxDesc & EVertexAttribute::Color0)   mColors[0].push_back(rkVtx.Color[0]);
+    if (mVtxDesc & EVertexAttribute::Color1)   mColors[1].push_back(rkVtx.Color[1]);
 
     for (uint32 iTex = 0; iTex < 8; iTex++)
-        if (mVtxDesc & (eTex0 << iTex)) mTexCoords[iTex].push_back(rkVtx.Tex[iTex]);
+        if (mVtxDesc & (EVertexAttribute::Tex0 << iTex)) mTexCoords[iTex].push_back(rkVtx.Tex[iTex]);
 
     for (uint32 iMtx = 0; iMtx < 8; iMtx++)
-        if (mVtxDesc & (ePosMtx << iMtx)) mTexCoords[iMtx].push_back(rkVtx.MatrixIndices[iMtx]);
+        if (mVtxDesc & (EVertexAttribute::PosMtx << iMtx)) mTexCoords[iMtx].push_back(rkVtx.MatrixIndices[iMtx]);
 
-    if (mVtxDesc.HasAnyFlags(eBoneIndices | eBoneWeights) && mpSkin)
+    if (mVtxDesc.HasAnyFlags(EVertexAttribute::BoneIndices | EVertexAttribute::BoneWeights) && mpSkin)
     {
         const SVertexWeights& rkWeights = mpSkin->WeightsForVertex(rkVtx.ArrayPosition);
-        if (mVtxDesc & eBoneIndices) mBoneIndices.push_back(rkWeights.Indices);
-        if (mVtxDesc & eBoneWeights) mBoneWeights.push_back(rkWeights.Weights);
+        if (mVtxDesc & EVertexAttribute::BoneIndices) mBoneIndices.push_back(rkWeights.Indices);
+        if (mVtxDesc & EVertexAttribute::BoneWeights) mBoneWeights.push_back(rkWeights.Weights);
     }
 
     return (mPositions.size() - 1);
@@ -55,35 +59,35 @@ uint16 CVertexBuffer::AddIfUnique(const CVertex& rkVtx, uint16 Start)
             // I use a bool because "continue" doesn't work properly within the iTex loop
             bool Unique = false;
 
-            if (mVtxDesc & ePosition)
+            if (mVtxDesc & EVertexAttribute::Position)
                 if (rkVtx.Position != mPositions[iVert]) Unique = true;
 
-            if (!Unique && (mVtxDesc & eNormal))
+            if (!Unique && (mVtxDesc & EVertexAttribute::Normal))
                 if (rkVtx.Normal != mNormals[iVert]) Unique = true;
 
-            if (!Unique && (mVtxDesc & eColor0))
+            if (!Unique && (mVtxDesc & EVertexAttribute::Color0))
                 if (rkVtx.Color[0] != mColors[0][iVert]) Unique = true;
 
-            if (!Unique && (mVtxDesc & eColor1))
+            if (!Unique && (mVtxDesc & EVertexAttribute::Color1))
                 if (rkVtx.Color[1] != mColors[1][iVert]) Unique = true;
 
             if (!Unique)
                 for (uint32 iTex = 0; iTex < 8; iTex++)
-                    if ((mVtxDesc & (eTex0 << iTex)))
+                    if ((mVtxDesc & (EVertexAttribute::Tex0 << iTex)))
                         if (rkVtx.Tex[iTex] != mTexCoords[iTex][iVert])
                         {
                             Unique = true;
                             break;
                         }
 
-            if (!Unique && mpSkin && (mVtxDesc.HasAnyFlags(eBoneIndices | eBoneWeights)))
+            if (!Unique && mpSkin && (mVtxDesc.HasAnyFlags(EVertexAttribute::BoneIndices | EVertexAttribute::BoneWeights)))
             {
                 const SVertexWeights& rkWeights = mpSkin->WeightsForVertex(rkVtx.ArrayPosition);
 
                 for (uint32 iWgt = 0; iWgt < 4; iWgt++)
                 {
-                    if ( ((mVtxDesc & eBoneIndices) && (rkWeights.Indices[iWgt] != mBoneIndices[iVert][iWgt])) ||
-                         ((mVtxDesc & eBoneWeights) && (rkWeights.Weights[iWgt] != mBoneWeights[iVert][iWgt])) )
+                    if ( ((mVtxDesc & EVertexAttribute::BoneIndices) && (rkWeights.Indices[iWgt] != mBoneIndices[iVert][iWgt])) ||
+                         ((mVtxDesc & EVertexAttribute::BoneWeights) && (rkWeights.Weights[iWgt] != mBoneWeights[iVert][iWgt])) )
                     {
                         Unique = true;
                         break;
@@ -102,26 +106,26 @@ void CVertexBuffer::Reserve(uint16 Size)
 {
     uint32 ReserveSize = mPositions.size() + Size;
 
-    if (mVtxDesc & ePosition)
+    if (mVtxDesc & EVertexAttribute::Position)
         mPositions.reserve(ReserveSize);
 
-    if (mVtxDesc & eNormal)
+    if (mVtxDesc & EVertexAttribute::Normal)
         mNormals.reserve(ReserveSize);
 
-    if (mVtxDesc & eColor0)
+    if (mVtxDesc & EVertexAttribute::Color0)
         mColors[0].reserve(ReserveSize);
 
-    if (mVtxDesc & eColor1)
+    if (mVtxDesc & EVertexAttribute::Color1)
         mColors[1].reserve(ReserveSize);
 
     for (uint32 iTex = 0; iTex < 8; iTex++)
-        if (mVtxDesc & (eTex0 << iTex))
+        if (mVtxDesc & (EVertexAttribute::Tex0 << iTex))
             mTexCoords[iTex].reserve(ReserveSize);
 
-    if (mVtxDesc & eBoneIndices)
+    if (mVtxDesc & EVertexAttribute::BoneIndices)
         mBoneIndices.reserve(ReserveSize);
 
-    if (mVtxDesc & eBoneWeights)
+    if (mVtxDesc & EVertexAttribute::BoneWeights)
         mBoneWeights.reserve(ReserveSize);
 }
 
@@ -157,7 +161,7 @@ void CVertexBuffer::Buffer()
 
     for (uint32 iAttrib = 0; iAttrib < 14; iAttrib++)
     {
-        int Attrib = (ePosition << iAttrib);
+        int Attrib = (EVertexAttribute::Position << iAttrib);
         bool HasAttrib = ((mVtxDesc & Attrib) != 0);
         if (!HasAttrib) continue;
 
@@ -247,7 +251,7 @@ GLuint CVertexBuffer::CreateVAO()
 
     for (uint32 iAttrib = 0; iAttrib < 14; iAttrib++)
     {
-        int Attrib = (ePosition << iAttrib);
+        int Attrib = (EVertexAttribute::Position << iAttrib);
         bool HasAttrib = ((mVtxDesc & Attrib) != 0);
         if (!HasAttrib) continue;
 

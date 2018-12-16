@@ -13,14 +13,14 @@ class CResource;
 class CGameProject;
 class CDependencyTree;
 
-enum EResEntryFlag
+enum class EResEntryFlag
 {
-    eREF_NeedsRecook        = 0x00000001, // Resource has been updated but not recooked
-    eREF_IsBaseGameResource = 0x00000002, // Resource is from the original game, not user-created
-    eREF_Hidden             = 0x00000004, // Resource is hidden, doesn't show up in resource browser
-    eREF_HasBeenModified    = 0x00000008, // Resource has been modified and resaved by the user
-    eREF_AutoResName        = 0x00000010, // Resource name is auto-generated
-    eREF_AutoResDir         = 0x00000020, // Resource directory name is auto-generated
+    NeedsRecook         = 0x00000001, // Resource has been updated but not recooked
+    IsBaseGameResource  = 0x00000002, // Resource is from the original game, not user-created
+    Hidden              = 0x00000004, // Resource is hidden, doesn't show up in resource browser
+    HasBeenModified     = 0x00000008, // Resource has been modified and resaved by the user
+    AutoResName         = 0x00000010, // Resource name is auto-generated
+    AutoResDir          = 0x00000020, // Resource directory name is auto-generated
 };
 DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 
@@ -45,7 +45,7 @@ class CResourceEntry
 public:
     static CResourceEntry* CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
                                              const TString& rkDir, const TString& rkName,
-                                             EResType Type);
+                                             EResourceType Type);
     static CResourceEntry* BuildFromArchive(CResourceStore *pStore, IArchive& rArc);
     static CResourceEntry* BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
                                               const TString& rkDirPath, const TString& rkName);
@@ -86,10 +86,10 @@ public:
     // Accessors
     inline void SetFlagEnabled(EResEntryFlag Flag, bool Enabled)    { Enabled ? SetFlag(Flag) : ClearFlag(Flag); }
 
-    inline void SetDirty()                          { SetFlag(eREF_NeedsRecook); }
-    inline void SetHidden(bool Hidden)              { Hidden ? SetFlag(eREF_Hidden) : ClearFlag(eREF_Hidden); }
+    inline void SetDirty()                          { SetFlag(EResEntryFlag::NeedsRecook); }
+    inline void SetHidden(bool Hidden)              { Hidden ? SetFlag(EResEntryFlag::Hidden) : ClearFlag(EResEntryFlag::Hidden); }
     inline bool HasFlag(EResEntryFlag Flag) const   { return mFlags.HasFlag(Flag); }
-    inline bool IsHidden() const                    { return HasFlag(eREF_Hidden); }
+    inline bool IsHidden() const                    { return HasFlag(EResEntryFlag::Hidden); }
 
     inline bool IsLoaded() const                    { return mpResource != nullptr; }
     inline bool IsCategorized() const               { return mpDirectory && !mpDirectory->FullPath().CaseInsensitiveCompare( mpStore->DefaultResourceDirPath() ); }
@@ -103,7 +103,7 @@ public:
     inline TString DirectoryPath() const            { return mpDirectory->FullPath(); }
     inline TString Name() const                     { return mName; }
     inline const TString& UppercaseName() const     { return mCachedUppercaseName; }
-    inline EResType ResourceType() const            { return mpTypeInfo->Type(); }
+    inline EResourceType ResourceType() const            { return mpTypeInfo->Type(); }
 
 protected:
     CResource* InternalLoad(IInputStream& rInput);

@@ -13,8 +13,8 @@ CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     , mpGame(nullptr)
     , mpSender(nullptr)
     , mpReceiver(nullptr)
-    , mSenderStateModel(CStateMessageModel::eStates, this)
-    , mReceiverMessageModel(CStateMessageModel::eMessages, this)
+    , mSenderStateModel(CStateMessageModel::EType::States, this)
+    , mReceiverMessageModel(CStateMessageModel::EType::Messages, this)
     , mIsPicking(false)
     , mpEditLink(nullptr)
 {
@@ -200,7 +200,7 @@ void CLinkDialog::OnPickFromViewportClicked()
 
     if (pButton && pButton->isChecked())
     {
-        mpEditor->EnterPickMode(eScriptNode, true, false, false);
+        mpEditor->EnterPickMode(ENodeType::Script, true, false, false);
         connect(mpEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnPickModeClick(SRayIntersection,QMouseEvent*)));
         connect(mpEditor, SIGNAL(PickModeExited()), this, SLOT(OnPickModeExit()));
 

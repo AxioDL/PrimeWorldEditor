@@ -26,7 +26,7 @@ bool CGameProject::Save()
 {
     mProjFileLock.Release();
     TString ProjPath = ProjectPath();
-    CXMLWriter Writer(ProjPath, "GameProject", eVer_Current, mGame);
+    CXMLWriter Writer(ProjPath, "GameProject", (int) EProjectVersion::Current, mGame);
     Serialize(Writer);
     bool SaveSuccess = Writer.Save();
     mProjFileLock.Lock(*ProjPath);

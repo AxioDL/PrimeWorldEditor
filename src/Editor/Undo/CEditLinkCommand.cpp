@@ -22,13 +22,13 @@ void CEditLinkCommand::undo()
 
     if (mOldLink.Sender() != mNewLink.Sender())
     {
-        mNewLink.Sender()->RemoveLink(eOutgoing, pLink);
-        mOldLink.Sender()->AddLink(eOutgoing, pLink, mOldSenderIndex);
+        mNewLink.Sender()->RemoveLink(ELinkType::Outgoing, pLink);
+        mOldLink.Sender()->AddLink(ELinkType::Outgoing, pLink, mOldSenderIndex);
     }
     if (mOldLink.Receiver() != mNewLink.Receiver())
     {
-        mNewLink.Receiver()->RemoveLink(eIncoming, pLink);
-        mOldLink.Receiver()->AddLink(eIncoming, pLink, mOldReceiverIndex);
+        mNewLink.Receiver()->RemoveLink(ELinkType::Incoming, pLink);
+        mOldLink.Receiver()->AddLink(ELinkType::Incoming, pLink, mOldReceiverIndex);
     }
 
     *pLink = mOldLink;
@@ -42,13 +42,13 @@ void CEditLinkCommand::redo()
 
     if (mOldLink.Sender() != mNewLink.Sender())
     {
-        mOldLink.Sender()->RemoveLink(eOutgoing, pLink);
-        mNewLink.Sender()->AddLink(eOutgoing, pLink);
+        mOldLink.Sender()->RemoveLink(ELinkType::Outgoing, pLink);
+        mNewLink.Sender()->AddLink(ELinkType::Outgoing, pLink);
     }
     if (mOldLink.Receiver() != mNewLink.Receiver())
     {
-        mOldLink.Receiver()->RemoveLink(eIncoming, pLink);
-        mNewLink.Receiver()->AddLink(eIncoming, pLink);
+        mOldLink.Receiver()->RemoveLink(ELinkType::Incoming, pLink);
+        mNewLink.Receiver()->AddLink(ELinkType::Incoming, pLink);
     }
 
     *pLink = mNewLink;

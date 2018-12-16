@@ -11,11 +11,11 @@
 #include <map>
 #include <nod/nod.hpp>
 
-enum EDiscType
+enum class EDiscType
 {
-    eDT_Normal,
-    eDT_WiiDeAsobu,
-    eDT_Trilogy
+    Normal,
+    WiiDeAsobu,
+    Trilogy
 };
 
 class CGameExporter

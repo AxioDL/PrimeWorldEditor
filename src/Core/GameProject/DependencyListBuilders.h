@@ -88,7 +88,7 @@ public:
         , mGame(pAreaEntry->Game())
         , mCharacterUsageMap(pAreaEntry->ResourceStore())
     {
-        ASSERT(mpAreaEntry->ResourceType() == eArea);
+        ASSERT(mpAreaEntry->ResourceType() == EResourceType::Area);
     }
 
     void BuildDependencyList(std::list<CAssetID>& rAssetsOut, std::list<uint32>& rLayerOffsetsOut, std::set<CAssetID> *pAudioGroupsOut = nullptr);

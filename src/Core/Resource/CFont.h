@@ -18,7 +18,7 @@ class CRenderer;
 
 class CFont : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eFont)
+    DECLARE_RESOURCE_TYPE(Font)
     friend class CFontLoader;
     static CDynamicVertexBuffer smGlyphVertices; // This is the vertex buffer used to draw glyphs. It has two attributes - Pos and Tex0. Tex0 should be updated for each glyph.
     static CIndexBuffer smGlyphIndices;          // This is the index buffer used to draw glyphs. It uses a triangle strip.

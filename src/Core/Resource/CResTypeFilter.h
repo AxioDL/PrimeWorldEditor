@@ -8,7 +8,7 @@
 class CResTypeFilter
 {
     EGame mGame;
-    std::set<EResType> mAcceptedTypes;
+    std::set<EResourceType> mAcceptedTypes;
 
 public:
     CResTypeFilter() : mGame(EGame::Invalid) { }
@@ -53,7 +53,7 @@ public:
         rArc << SerialParameter("AcceptedTypes", mAcceptedTypes, SH_Proxy);
     }
 
-    inline bool Accepts(EResType Type) const
+    inline bool Accepts(EResourceType Type) const
     {
         return mAcceptedTypes.find(Type) != mAcceptedTypes.end();
     }

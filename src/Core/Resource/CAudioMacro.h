@@ -5,7 +5,7 @@
 
 class CAudioMacro : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eAudioMacro)
+    DECLARE_RESOURCE_TYPE(AudioMacro)
     friend class CUnsupportedFormatLoader;
 
     TString mMacroName;

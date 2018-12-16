@@ -46,9 +46,9 @@ void CSplinePathExtra::AddWaypoints()
 
     std::set<CWaypointExtra*> CheckedWaypoints;
 
-    for (uint32 LinkIdx = 0; LinkIdx < mpInstance->NumLinks(eOutgoing); LinkIdx++)
+    for (uint32 LinkIdx = 0; LinkIdx < mpInstance->NumLinks(ELinkType::Outgoing); LinkIdx++)
     {
-        CLink* pLink = mpInstance->Link(eOutgoing, LinkIdx);
+        CLink* pLink = mpInstance->Link(ELinkType::Outgoing, LinkIdx);
 
         if ( (pLink->State() == FOURCC('IS00') && pLink->Message() == FOURCC('ATCH')) || // InternalState00/Attach
              (pLink->State() == FOURCC('MOTP') && pLink->Message() == FOURCC('ATCH')) )  // MotionPath/Attach

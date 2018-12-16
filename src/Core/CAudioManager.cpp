@@ -17,7 +17,7 @@ void CAudioManager::LoadAssets()
     mSfxIdMap.clear();
 
     // Load/sort all audio groups
-    for (TResourceIterator<eAudioGroup> It(mpProject->ResourceStore()); It; ++It)
+    for (TResourceIterator<EResourceType::AudioGroup> It(mpProject->ResourceStore()); It; ++It)
     {
         CAudioGroup *pGroup = (CAudioGroup*) It->Load();
         if (pGroup) mAudioGroups.push_back(pGroup);

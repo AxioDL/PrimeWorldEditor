@@ -14,6 +14,15 @@ class CGameExporter;
 class CGameProject;
 class CResource;
 
+enum class EDatabaseVersion
+{
+    Initial,
+    // Add new versions before this line
+
+    Max,
+    Current = EDatabaseVersion::Max - 1
+};
+
 class CResourceStore
 {
     friend class CResourceIterator;
@@ -27,14 +36,6 @@ class CResourceStore
 
     // Directory paths
     TString mDatabasePath;
-
-    enum EDatabaseVersion
-    {
-        eVer_Initial,
-
-        eVer_Max,
-        eVer_Current = eVer_Max - 1
-    };
 
 public:
     CResourceStore(const TString& rkDatabasePath);
@@ -53,7 +54,7 @@ public:
     TString DefaultResourceDirPath() const;
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
-    CResourceEntry* RegisterResource(const CAssetID& rkID, EResType Type, const TString& rkDir, const TString& rkName);
+    CResourceEntry* RegisterResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName);
     CResourceEntry* FindEntry(const CAssetID& rkID) const;
     CResourceEntry* FindEntry(const TString& rkPath) const;
     bool AreAllEntriesValid() const;
@@ -63,7 +64,7 @@ public:
 
     template<typename ResType> ResType* LoadResource(const CAssetID& rkID)  { return static_cast<ResType*>(LoadResource(rkID, ResType::StaticType())); }
     CResource* LoadResource(const CAssetID& rkID);
-    CResource* LoadResource(const CAssetID& rkID, EResType Type);
+    CResource* LoadResource(const CAssetID& rkID, EResourceType Type);
     CResource* LoadResource(const TString& rkPath);
     void TrackLoadedResource(CResourceEntry *pEntry);
     void DestroyUnreferencedResources();

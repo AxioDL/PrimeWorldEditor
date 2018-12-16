@@ -155,29 +155,29 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
     // Input
     ShaderCode << "// Input\n";
     FVertexDescription VtxDesc = rkMat.VtxDesc();
-    ASSERT(VtxDesc & ePosition);
+    ASSERT(VtxDesc & EVertexAttribute::Position);
 
-    ShaderCode                              << "layout(location = 0) in vec3 RawPosition;\n";
-    if (VtxDesc & eNormal)      ShaderCode  << "layout(location = 1) in vec3 RawNormal;\n";
-    if (VtxDesc & eColor0)      ShaderCode  << "layout(location = 2) in vec4 RawColor0;\n";
-    if (VtxDesc & eColor1)      ShaderCode  << "layout(location = 3) in vec4 RawColor1;\n";
-    if (VtxDesc & eTex0)        ShaderCode  << "layout(location = 4) in vec2 RawTex0;\n";
-    if (VtxDesc & eTex1)        ShaderCode  << "layout(location = 5) in vec2 RawTex1;\n";
-    if (VtxDesc & eTex2)        ShaderCode  << "layout(location = 6) in vec2 RawTex2;\n";
-    if (VtxDesc & eTex3)        ShaderCode  << "layout(location = 7) in vec2 RawTex3;\n";
-    if (VtxDesc & eTex4)        ShaderCode  << "layout(location = 8) in vec2 RawTex4;\n";
-    if (VtxDesc & eTex5)        ShaderCode  << "layout(location = 9) in vec2 RawTex5;\n";
-    if (VtxDesc & eTex6)        ShaderCode  << "layout(location = 10) in vec2 RawTex6;\n";
-    if (VtxDesc & eTex7)        ShaderCode  << "layout(location = 11) in vec2 RawTex7;\n";
-    if (VtxDesc & eBoneIndices) ShaderCode  << "layout(location = 12) in int BoneIndices;\n";
-    if (VtxDesc & eBoneWeights) ShaderCode  << "layout(location = 13) in vec4 BoneWeights;\n";
+    ShaderCode                                               << "layout(location = 0) in vec3 RawPosition;\n";
+    if (VtxDesc & EVertexAttribute::Normal)      ShaderCode  << "layout(location = 1) in vec3 RawNormal;\n";
+    if (VtxDesc & EVertexAttribute::Color0)      ShaderCode  << "layout(location = 2) in vec4 RawColor0;\n";
+    if (VtxDesc & EVertexAttribute::Color1)      ShaderCode  << "layout(location = 3) in vec4 RawColor1;\n";
+    if (VtxDesc & EVertexAttribute::Tex0)        ShaderCode  << "layout(location = 4) in vec2 RawTex0;\n";
+    if (VtxDesc & EVertexAttribute::Tex1)        ShaderCode  << "layout(location = 5) in vec2 RawTex1;\n";
+    if (VtxDesc & EVertexAttribute::Tex2)        ShaderCode  << "layout(location = 6) in vec2 RawTex2;\n";
+    if (VtxDesc & EVertexAttribute::Tex3)        ShaderCode  << "layout(location = 7) in vec2 RawTex3;\n";
+    if (VtxDesc & EVertexAttribute::Tex4)        ShaderCode  << "layout(location = 8) in vec2 RawTex4;\n";
+    if (VtxDesc & EVertexAttribute::Tex5)        ShaderCode  << "layout(location = 9) in vec2 RawTex5;\n";
+    if (VtxDesc & EVertexAttribute::Tex6)        ShaderCode  << "layout(location = 10) in vec2 RawTex6;\n";
+    if (VtxDesc & EVertexAttribute::Tex7)        ShaderCode  << "layout(location = 11) in vec2 RawTex7;\n";
+    if (VtxDesc & EVertexAttribute::BoneIndices) ShaderCode  << "layout(location = 12) in int BoneIndices;\n";
+    if (VtxDesc & EVertexAttribute::BoneWeights) ShaderCode  << "layout(location = 13) in vec4 BoneWeights;\n";
     ShaderCode << "\n";
 
     // Output
     ShaderCode << "// Output\n";
-    if (VtxDesc & eNormal)  ShaderCode  << "out vec3 Normal;\n";
-    if (VtxDesc & eColor0)  ShaderCode  << "out vec4 Color0;\n";
-    if (VtxDesc & eColor1)  ShaderCode  << "out vec4 Color1;\n";
+    if (VtxDesc & EVertexAttribute::Normal)  ShaderCode  << "out vec3 Normal;\n";
+    if (VtxDesc & EVertexAttribute::Color0)  ShaderCode  << "out vec4 Color0;\n";
+    if (VtxDesc & EVertexAttribute::Color1)  ShaderCode  << "out vec4 Color1;\n";
 
     for (uint32 iPass = 0; iPass < rkMat.PassCount(); iPass++)
         if (rkMat.Pass(iPass)->TexCoordSource() != 0xFF)
@@ -222,7 +222,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
                 << "uniform int NumLights;\n"
                 << "\n";
 
-    bool HasSkinning = (rkMat.VtxDesc().HasAnyFlags(eBoneIndices | eBoneWeights));
+    bool HasSkinning = (rkMat.VtxDesc().HasAnyFlags(EVertexAttribute::BoneIndices | EVertexAttribute::BoneWeights));
 
     if (HasSkinning)
     {
@@ -240,8 +240,8 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
                 << "    mat4 MV = ModelMtx * ViewMtx;\n"
                 << "    mat4 MVP = MV * ProjMtx;\n";
 
-    if (VtxDesc & eColor0)   ShaderCode << "    Color0 = RawColor0;\n";
-    if (VtxDesc & eColor1)   ShaderCode << "    Color1 = RawColor1;\n";
+    if (VtxDesc & EVertexAttribute::Color0)   ShaderCode << "    Color0 = RawColor0;\n";
+    if (VtxDesc & EVertexAttribute::Color1)   ShaderCode << "    Color1 = RawColor1;\n";
     ShaderCode << "\n";
 
     // Skinning
@@ -250,7 +250,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
         ShaderCode  << "    // Skinning\n"
                     << "    vec3 ModelSpacePos = vec3(0,0,0);\n";
 
-        if (VtxDesc & eNormal)
+        if (VtxDesc & EVertexAttribute::Normal)
             ShaderCode  << "    vec3 ModelSpaceNormal = vec3(0,0,0);\n";
 
         ShaderCode  << "    \n"
@@ -264,14 +264,14 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
                     << "        {\n"
                     << "            ModelSpacePos += vec3(vec4(RawPosition, 1) * BoneTransforms[BoneIdx] * Weight);\n";
 
-        if (VtxDesc & eNormal)
+        if (VtxDesc & EVertexAttribute::Normal)
             ShaderCode  << "            ModelSpaceNormal += RawNormal.xyz * inverse(transpose(mat3(BoneTransforms[BoneIdx]))) * Weight;\n";
 
         ShaderCode  << "        }\n"
                     << "    }\n"
                     << "    \n";
 
-        if (VtxDesc & eNormal)
+        if (VtxDesc & EVertexAttribute::Normal)
             ShaderCode  << "    ModelSpaceNormal = normalize(ModelSpaceNormal);\n"
                         << "    \n";
     }
@@ -279,7 +279,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
     {
         ShaderCode  << "    vec3 ModelSpacePos = RawPosition;\n";
 
-        if (VtxDesc & eNormal)
+        if (VtxDesc & EVertexAttribute::Normal)
             ShaderCode  << "    vec3 ModelSpaceNormal = RawNormal.xyz;\n";
 
         ShaderCode << "\n";
@@ -287,7 +287,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
 
     ShaderCode  << "    gl_Position = vec4(ModelSpacePos, 1) * MVP;\n";
 
-    if (VtxDesc & eNormal)
+    if (VtxDesc & EVertexAttribute::Normal)
         ShaderCode  << "    Normal = normalize(ModelSpaceNormal * inverse(transpose(mat3(MV))));\n";
 
     // Per-vertex lighting
@@ -341,7 +341,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
 
         EUVAnimMode AnimMode = pPass->AnimMode();
 
-        if (AnimMode == eNoUVAnim) // No animation
+        if (AnimMode == EUVAnimMode::NoUVAnim) // No animation
             ShaderCode << "    Tex" << iPass << " = vec3(" << gkCoordSrc[pPass->TexCoordSource()] << ");\n";
 
         else // Animation used - texture matrix at least, possibly normalize/post-transform
@@ -349,7 +349,7 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
             // Texture Matrix
             ShaderCode << "    Tex" << iPass << " = vec3(vec4(" << gkCoordSrc[pPass->TexCoordSource()] << ", 1.0) * TexMtx[" << iPass << "]).xyz;\n";
 
-            if ((AnimMode < 2) || (AnimMode > 5))
+            if ((AnimMode < EUVAnimMode::UVScroll) || (AnimMode > EUVAnimMode::VFilmstrip))
             {
                 // Normalization + Post-Transform
                 ShaderCode  << "    Tex" << iPass << " = normalize(Tex" << iPass << ");\n"
@@ -373,10 +373,10 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
                << "\n";
 
     FVertexDescription VtxDesc = rkMat.VtxDesc();
-    if (VtxDesc & ePosition) ShaderCode << "in vec3 Position;\n";
-    if (VtxDesc & eNormal)   ShaderCode << "in vec3 Normal;\n";
-    if (VtxDesc & eColor0)   ShaderCode << "in vec4 Color0;\n";
-    if (VtxDesc & eColor1)   ShaderCode << "in vec4 Color1;\n";
+    if (VtxDesc & EVertexAttribute::Position) ShaderCode << "in vec3 Position;\n";
+    if (VtxDesc & EVertexAttribute::Normal)   ShaderCode << "in vec3 Normal;\n";
+    if (VtxDesc & EVertexAttribute::Color0)   ShaderCode << "in vec4 Color0;\n";
+    if (VtxDesc & EVertexAttribute::Color1)   ShaderCode << "in vec4 Color1;\n";
 
     uint32 PassCount = rkMat.PassCount();
 
@@ -441,14 +441,14 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
 
         // Apply lightmap multiplier
         if ( (PassType == "DIFF") ||
-             (PassType == "CUST" && (rkMat.Options() & CMaterial::eLightmap) && iPass == 0) )
+             (PassType == "CUST" && (rkMat.Options() & EMaterialOption::Lightmap) && iPass == 0) )
             ShaderCode << " * LightmapMultiplier";
 
         ShaderCode << ";\n";
 
         ShaderCode << "    Konst = vec4(" << gkKonstColor[pPass->KColorSel()] << ", " << gkKonstAlpha[pPass->KAlphaSel()] << ");\n";
 
-        if (pPass->RasSel() != eRasColorNull)
+        if (pPass->RasSel() != kRasColorNull)
             ShaderCode << "    Ras = " << gkRasSel[pPass->RasSel()] << ";\n";
 
         for (uint8 iInput = 0; iInput < 4; iInput++)
@@ -479,7 +479,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
         ShaderCode << "clamp(TevInD.a + ((1.0 - TevInC.a) * TevInA.a + TevInC.a * TevInB.a), 0.0, 1.0);\n\n";
     }
 
-    if (rkMat.Options() & CMaterial::ePunchthrough)
+    if (rkMat.Options() & EMaterialOption::Masked)
     {
         if (rkMat.Version() < EGame::CorruptionProto)
         {

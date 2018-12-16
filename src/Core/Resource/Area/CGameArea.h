@@ -20,7 +20,7 @@ class CScriptTemplate;
 
 class CGameArea : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eArea)
+    DECLARE_RESOURCE_TYPE(Area)
     friend class CAreaLoader;
     friend class CAreaCooker;
 

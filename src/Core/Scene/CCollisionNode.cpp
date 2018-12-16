@@ -13,7 +13,7 @@ CCollisionNode::CCollisionNode(CScene *pScene, uint32 NodeID, CSceneNode *pParen
 
 ENodeType CCollisionNode::NodeType()
 {
-    return eCollisionNode;
+    return ENodeType::Collision;
 }
 
 void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
@@ -22,10 +22,10 @@ void CCollisionNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
     if (rkViewInfo.GameMode) return;
 
-    pRenderer->AddMesh(this, -1, AABox(), false, eDrawMesh);
+    pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
 
     if (mSelected)
-        pRenderer->AddMesh(this, -1, AABox(), false, eDrawSelection);
+        pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
 }
 
 void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ERenderCommand /*Command*/, const SViewInfo& rkViewInfo)
@@ -86,7 +86,7 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     // Draw collision bounds for area collision
     // note: right now checking parent is the best way to check whether this node is area collision instead of actor collision
     // actor collision will have a script node parent whereas area collision will have a root node parent
-    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds && Parent()->NodeType() == eRootNode && Game != EGame::DKCReturns)
+    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds && Parent()->NodeType() == ENodeType::Root && Game != EGame::DKCReturns)
         CDrawUtil::DrawWireCube( mpCollision->MeshByIndex(0)->BoundingBox(), CColor::skRed );
 }
 

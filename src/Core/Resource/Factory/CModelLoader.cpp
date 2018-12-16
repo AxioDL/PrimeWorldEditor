@@ -4,7 +4,7 @@
 #include <map>
 
 CModelLoader::CModelLoader()
-    : mFlags(eNoFlags)
+    : mFlags(EModelLoaderFlag::None)
     , mNumVertices(0)
 {
 }
@@ -24,7 +24,7 @@ void CModelLoader::LoadWorldMeshHeader(IInputStream& rModel)
 void CModelLoader::LoadAttribArrays(IInputStream& rModel)
 {
     // Positions
-    if (mFlags & eShortPositions) // Shorts (DKCR only)
+    if (mFlags & EModelLoaderFlag::HalfPrecisionPositions) // 16-bit (DKCR only)
     {
         mPositions.resize(mpSectionMgr->CurrentSectionSize() / 0x6);
         float Divisor = 8192.f; // Might be incorrect! Needs verification via size comparison.
@@ -38,7 +38,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
         }
     }
 
-    else // Floats
+    else // 32-bit
     {
         mPositions.resize(mpSectionMgr->CurrentSectionSize() / 0xC);
 
@@ -49,7 +49,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
     mpSectionMgr->ToNextSection();
 
     // Normals
-    if (mFlags & eShortNormals) // Shorts
+    if (mFlags & EModelLoaderFlag::HalfPrecisionNormals) // 16-bit
     {
         mNormals.resize(mpSectionMgr->CurrentSectionSize() / 0x6);
         float Divisor = (mVersion < EGame::DKCReturns) ? 32768.f : 16384.f;
@@ -62,7 +62,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
             mNormals[iVtx] = CVector3f(X, Y, Z);
         }
     }
-    else // Floats
+    else // 32-bit
     {
         mNormals.resize(mpSectionMgr->CurrentSectionSize() / 0xC);
 
@@ -81,7 +81,7 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
     mpSectionMgr->ToNextSection();
 
 
-    // Float UVs
+    // UVs
     mTex0.resize(mpSectionMgr->CurrentSectionSize() / 0x8);
 
     for (uint32 iVtx = 0; iVtx < mTex0.size(); iVtx++)
@@ -89,8 +89,8 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
 
     mpSectionMgr->ToNextSection();
 
-    // Short UVs
-    if (mFlags & eHasTex1)
+    // Lightmap UVs
+    if (mFlags & EModelLoaderFlag::LightmapUVs)
     {
         mTex1.resize(mpSectionMgr->CurrentSectionSize() / 0x4);
         float Divisor = (mVersion < EGame::DKCReturns) ? 32768.f : 8192.f;
@@ -137,7 +137,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
     while ((Flag != 0) && ((uint32) rModel.Tell() < NextSurface))
     {
         SSurface::SPrimitive Prim;
-        Prim.Type = EGXPrimitiveType(Flag & 0xF8);
+        Prim.Type = EPrimitiveType(Flag & 0xF8);
         uint16 VertexCount = rModel.ReadShort();
 
         for (uint16 iVtx = 0; iVtx < VertexCount; iVtx++)
@@ -146,14 +146,14 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
             FVertexDescription VtxDesc = pMat->VtxDesc();
 
             for (uint32 iMtxAttr = 0; iMtxAttr < 8; iMtxAttr++)
-                if (VtxDesc & (ePosMtx << iMtxAttr)) rModel.Seek(0x1, SEEK_CUR);
+                if (VtxDesc & ((uint) EVertexAttribute::PosMtx << iMtxAttr)) rModel.Seek(0x1, SEEK_CUR);
 
             // Only thing to do here is check whether each attribute is present, and if so, read it.
             // A couple attributes have special considerations; normals can be floats or shorts, as can tex0, depending on vtxfmt.
             // tex0 can also be read from either UV buffer; depends what the material says.
 
             // Position
-            if (VtxDesc & ePosition)
+            if (VtxDesc & EVertexAttribute::Position)
             {
                 uint16 PosIndex = rModel.ReadShort() & 0xFFFF;
                 Vtx.Position = mPositions[PosIndex];
@@ -163,21 +163,21 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
             }
 
             // Normal
-            if (VtxDesc & eNormal)
+            if (VtxDesc & EVertexAttribute::Normal)
                 Vtx.Normal = mNormals[rModel.ReadShort() & 0xFFFF];
 
             // Color
             for (uint32 iClr = 0; iClr < 2; iClr++)
-                if (VtxDesc & (eColor0 << iClr))
+                if (VtxDesc & ((uint) EVertexAttribute::Color0 << iClr))
                     Vtx.Color[iClr] = mColors[rModel.ReadShort() & 0xFFFF];
 
             // Tex Coords - these are done a bit differently in DKCR than in the Prime series
             if (mVersion < EGame::DKCReturns)
             {
                 // Tex0
-                if (VtxDesc & eTex0)
+                if (VtxDesc & EVertexAttribute::Tex0)
                 {
-                    if ((mFlags & eHasTex1) && (pMat->Options() & CMaterial::eShortTexCoord))
+                    if ((mFlags & EModelLoaderFlag::LightmapUVs) && (pMat->Options() & EMaterialOption::ShortTexCoord))
                         Vtx.Tex[0] = mTex1[rModel.ReadShort() & 0xFFFF];
                     else
                         Vtx.Tex[0] = mTex0[rModel.ReadShort() & 0xFFFF];
@@ -185,7 +185,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
 
                 // Tex1-7
                 for (uint32 iTex = 1; iTex < 7; iTex++)
-                    if (VtxDesc & (eTex0 << iTex))
+                    if (VtxDesc & ((uint) EVertexAttribute::Tex0 << iTex))
                         Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
             }
 
@@ -194,7 +194,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
                 // Tex0-7
                 for (uint32 iTex = 0; iTex < 7; iTex++)
                 {
-                    if (VtxDesc & (eTex0 << iTex))
+                    if (VtxDesc & ((uint) EVertexAttribute::Tex0 << iTex))
                     {
                         if (!mSurfaceUsingTex1)
                             Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
@@ -212,11 +212,11 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
 
         switch (Prim.Type)
         {
-            case eGX_Triangles:
+            case EPrimitiveType::Triangles:
                 pSurf->TriangleCount += VertexCount / 3;
                 break;
-            case eGX_TriangleFan:
-            case eGX_TriangleStrip:
+            case EPrimitiveType::TriangleFan:
+            case EPrimitiveType::TriangleStrip:
                 pSurf->TriangleCount += VertexCount - 2;
                 break;
         }
@@ -283,13 +283,13 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
     CMaterial *pMat = pSet->MaterialByIndex(pkMesh->mMaterialIndex);
     FVertexDescription Desc = pMat->VtxDesc();
 
-    if (Desc == eNoAttributes)
+    if (Desc == (FVertexDescription) EVertexAttribute::None)
     {
-        if (pkMesh->HasPositions()) Desc |= ePosition;
-        if (pkMesh->HasNormals())   Desc |= eNormal;
+        if (pkMesh->HasPositions()) Desc |= EVertexAttribute::Position;
+        if (pkMesh->HasNormals())   Desc |= EVertexAttribute::Normal;
 
         for (uint32 iUV = 0; iUV < pkMesh->GetNumUVChannels(); iUV++)
-            Desc |= (eTex0 << iUV);
+            Desc |= ((uint) EVertexAttribute::Tex0 << iUV);
 
         pMat->SetVertexDescription(Desc);
 
@@ -297,8 +297,8 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
         if (!pkMesh->HasNormals())
         {
             pMat->SetLightingEnabled(false);
-            pMat->Pass(0)->SetColorInputs(eZeroRGB, eOneRGB, eKonstRGB, eZeroRGB);
-            pMat->Pass(0)->SetRasSel(eRasColorNull);
+            pMat->Pass(0)->SetColorInputs(kZeroRGB, kOneRGB, kKonstRGB, kZeroRGB);
+            pMat->Pass(0)->SetRasSel(kRasColorNull);
         }
     }
 
@@ -313,9 +313,9 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
 
         // Check primitive type on first face
         uint32 NumIndices = pkMesh->mFaces[0].mNumIndices;
-        if (NumIndices == 1) rPrim.Type = eGX_Points;
-        else if (NumIndices == 2) rPrim.Type = eGX_Lines;
-        else if (NumIndices == 3) rPrim.Type = eGX_Triangles;
+        if (NumIndices == 1) rPrim.Type = EPrimitiveType::Points;
+        else if (NumIndices == 2) rPrim.Type = EPrimitiveType::Lines;
+        else if (NumIndices == 3) rPrim.Type = EPrimitiveType::Triangles;
 
         // Generate bounding box, center point, and reflection projection
         pSurf->CenterPoint = CVector3f::skZero;
@@ -340,7 +340,7 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
 
         // Set vertex/triangle count
         pSurf->VertexCount = pkMesh->mNumVertices;
-        pSurf->TriangleCount = (rPrim.Type == eGX_Triangles ? pkMesh->mNumFaces : 0);
+        pSurf->TriangleCount = (rPrim.Type == EPrimitiveType::Triangles ? pkMesh->mNumFaces : 0);
 
         // Create primitive
         for (uint32 iFace = 0; iFace < pkMesh->mNumFaces; iFace++)
@@ -401,9 +401,9 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
         BlockCount = rCMDL.ReadLong();
         MatSetCount = rCMDL.ReadLong();
 
-        if (Flags & 0x1) Loader.mFlags |= eSkinnedModel;
-        if (Flags & 0x2) Loader.mFlags |= eShortNormals;
-        if (Flags & 0x4) Loader.mFlags |= eHasTex1;
+        if (Flags & 0x1) Loader.mFlags |= EModelLoaderFlag::Skinned;
+        if (Flags & 0x2) Loader.mFlags |= EModelLoaderFlag::HalfPrecisionNormals;
+        if (Flags & 0x4) Loader.mFlags |= EModelLoaderFlag::LightmapUVs;
     }
 
     // 0x9381000A - Donkey Kong Country Returns
@@ -416,9 +416,9 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
         MatSetCount = rCMDL.ReadLong();
 
         // todo: unknown flags
-        Loader.mFlags = eShortNormals | eHasTex1;
-        if (Flags & 0x10) Loader.mFlags |= eHasVisGroups;
-        if (Flags & 0x20) Loader.mFlags |= eShortPositions;
+        Loader.mFlags = EModelLoaderFlag::HalfPrecisionNormals | EModelLoaderFlag::LightmapUVs;
+        if (Flags & 0x10) Loader.mFlags |= EModelLoaderFlag::VisibilityGroups;
+        if (Flags & 0x20) Loader.mFlags |= EModelLoaderFlag::HalfPrecisionPositions;
 
         // Visibility group data
         // Skipping for now - should read in eventually
@@ -498,8 +498,8 @@ CModel* CModelLoader::LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockM
     CModelLoader Loader;
     Loader.mpSectionMgr = &rBlockMgr;
     Loader.mVersion = Version;
-    Loader.mFlags = eShortNormals;
-    if (Version != EGame::CorruptionProto) Loader.mFlags |= eHasTex1;
+    Loader.mFlags = EModelLoaderFlag::HalfPrecisionNormals;
+    if (Version != EGame::CorruptionProto) Loader.mFlags |= EModelLoaderFlag::LightmapUVs;
     Loader.mMaterials.resize(1);
     Loader.mMaterials[0] = &rMatSet;
 
@@ -531,10 +531,10 @@ CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrI
     CModelLoader Loader;
     Loader.mpSectionMgr = &rBlockMgr;
     Loader.mVersion = Version;
-    Loader.mFlags = eShortNormals;
+    Loader.mFlags = EModelLoaderFlag::HalfPrecisionNormals;
     Loader.mMaterials.resize(1);
     Loader.mMaterials[0] = &rMatSet;
-    if (Version == EGame::DKCReturns) Loader.mFlags |= eHasTex1;
+    if (Version == EGame::DKCReturns) Loader.mFlags |= EModelLoaderFlag::LightmapUVs;
 
     // Corruption/DKCR MREAs split the mesh header and surface offsets away from the actual geometry data so I need two section numbers to read it
     rBlockMgr.ToSection(HeaderSecNum);

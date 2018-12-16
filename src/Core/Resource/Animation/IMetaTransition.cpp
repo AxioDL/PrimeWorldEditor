@@ -6,21 +6,21 @@ CMetaTransFactory gMetaTransFactory;
 
 IMetaTransition* CMetaTransFactory::LoadFromStream(IInputStream& rInput, EGame Game)
 {
-    EMetaTransitionType Type = (EMetaTransitionType) rInput.ReadLong();
+    EMetaTransType Type = (EMetaTransType) rInput.ReadLong();
 
     switch (Type)
     {
-    case eMTT_MetaAnim:
+    case EMetaTransType::MetaAnim:
         return new CMetaTransMetaAnim(rInput, Game);
 
-    case eMTT_Trans:
-    case eMTT_PhaseTrans:
+    case EMetaTransType::Trans:
+    case EMetaTransType::PhaseTrans:
         return new CMetaTransTrans(Type, rInput, Game);
 
-    case eMTT_Snap:
+    case EMetaTransType::Snap:
         return new CMetaTransSnap(rInput, Game);
 
-    case eMTT_Type4:
+    case EMetaTransType::Type4:
         return new CMetaTransType4(rInput, Game);
 
     default:
@@ -40,9 +40,9 @@ CMetaTransMetaAnim::~CMetaTransMetaAnim()
     delete mpAnim;
 }
 
-EMetaTransitionType CMetaTransMetaAnim::Type() const
+EMetaTransType CMetaTransMetaAnim::Type() const
 {
-    return eMTT_MetaAnim;
+    return EMetaTransType::MetaAnim;
 }
 
 void CMetaTransMetaAnim::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
@@ -51,9 +51,9 @@ void CMetaTransMetaAnim::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet)
 }
 
 // ************ CMetaTransTrans ************
-CMetaTransTrans::CMetaTransTrans(EMetaTransitionType Type, IInputStream& rInput, EGame Game)
+CMetaTransTrans::CMetaTransTrans(EMetaTransType Type, IInputStream& rInput, EGame Game)
 {
-    ASSERT(Type == eMTT_Trans || Type == eMTT_PhaseTrans);
+    ASSERT(Type == EMetaTransType::Trans || Type == EMetaTransType::PhaseTrans);
     mType = Type;
 
     if (Game <= EGame::Echoes)
@@ -70,7 +70,7 @@ CMetaTransTrans::CMetaTransTrans(EMetaTransitionType Type, IInputStream& rInput,
     }
 }
 
-EMetaTransitionType CMetaTransTrans::Type() const
+EMetaTransType CMetaTransTrans::Type() const
 {
     return mType;
 }
@@ -84,9 +84,9 @@ CMetaTransSnap::CMetaTransSnap(IInputStream&, EGame)
 {
 }
 
-EMetaTransitionType CMetaTransSnap::Type() const
+EMetaTransType CMetaTransSnap::Type() const
 {
-    return eMTT_Snap;
+    return EMetaTransType::Snap;
 }
 
 void CMetaTransSnap::GetUniquePrimitives(std::set<CAnimPrimitive>&) const
@@ -99,9 +99,9 @@ CMetaTransType4::CMetaTransType4(IInputStream& rInput, EGame)
     rInput.Skip(0x14);
 }
 
-EMetaTransitionType CMetaTransType4::Type() const
+EMetaTransType CMetaTransType4::Type() const
 {
-    return eMTT_Type4;
+    return EMetaTransType::Type4;
 }
 
 void CMetaTransType4::GetUniquePrimitives(std::set<CAnimPrimitive>&) const

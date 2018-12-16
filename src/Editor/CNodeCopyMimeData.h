@@ -64,12 +64,12 @@ public:
             rNode.Rotation = It->LocalRotation();
             rNode.Scale = It->LocalScale();
 
-            if (rNode.Type == eScriptNode)
+            if (rNode.Type == ENodeType::Script)
             {
                 CScriptObject *pInst = static_cast<CScriptNode*>(*It)->Instance();
                 rNode.OriginalInstanceID = pInst->InstanceID();
 
-                CVectorOutStream Out(&rNode.InstanceData, IOUtil::eBigEndian);
+                CVectorOutStream Out(&rNode.InstanceData, EEndian::BigEndian);
 
                 CScriptCooker Cooker(mGame);
                 Cooker.WriteInstance(Out, static_cast<CScriptNode*>(*It)->Instance());

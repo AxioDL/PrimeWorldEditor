@@ -34,7 +34,7 @@ public:
     bool IsOccluder();
 
 private:
-    CIndexBuffer* InternalGetIBO(EGXPrimitiveType Primitive);
+    CIndexBuffer* InternalGetIBO(EPrimitiveType Primitive);
 };
 
 #endif // CSTATICMODEL_H

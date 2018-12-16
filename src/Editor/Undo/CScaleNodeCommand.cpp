@@ -43,14 +43,14 @@ CScaleNodeCommand::~CScaleNodeCommand()
 
 int CScaleNodeCommand::id() const
 {
-    return eScaleNodeCmd;
+    return (int) EUndoCommand::ScaleNodeCmd;
 }
 
 bool CScaleNodeCommand::mergeWith(const QUndoCommand *pkOther)
 {
     if (mCommandEnded) return false;
 
-    if (pkOther->id() == eScaleNodeCmd)
+    if (pkOther->id() == (int) EUndoCommand::ScaleNodeCmd)
     {
         const CScaleNodeCommand *pkCmd = static_cast<const CScaleNodeCommand*>(pkOther);
 

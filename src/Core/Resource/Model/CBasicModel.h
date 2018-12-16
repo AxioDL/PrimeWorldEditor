@@ -8,7 +8,7 @@
 
 class CBasicModel : public CResource
 {
-    DECLARE_RESOURCE_TYPE(eModel)
+    DECLARE_RESOURCE_TYPE(Model)
 protected:
     CAABox mAABox;
     uint32 mVertexCount;

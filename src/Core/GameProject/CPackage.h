@@ -9,6 +9,15 @@
 
 class CGameProject;
 
+enum class EPackageDefinitionVersion
+{
+    Initial,
+    // Add new versions before this line
+
+    Max,
+    Current = EPackageDefinitionVersion::Max - 1
+};
+
 struct SNamedResource
 {
     TString Name;
@@ -34,14 +43,6 @@ class CPackage
     // Cached dependency list; used to figure out if a given resource is in this package
     mutable bool mCacheDirty;
     mutable std::set<CAssetID> mCachedDependencies;
-
-    enum EPackageDefinitionVersion
-    {
-        eVer_Initial,
-
-        eVer_Max,
-        eVer_Current = eVer_Max - 1
-    };
 
 public:
     CPackage() {}

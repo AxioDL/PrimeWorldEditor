@@ -4,31 +4,33 @@
 #include <Common/BasicTypes.h>
 #include <GL/glew.h>
 
-enum EBlendFactor
+enum class EBlendFactor
 {
-    eBlendZero        = GL_ZERO,
-    eBlendOne         = GL_ONE,
-    eBlendSrcColor    = GL_SRC_COLOR,
-    eBlendInvSrcColor = GL_ONE_MINUS_SRC_COLOR,
-    eBlendSrcAlpha    = GL_SRC_ALPHA,
-    eBlendInvSrcAlpha = GL_ONE_MINUS_SRC_ALPHA,
-    eBlendDstAlpha    = GL_DST_ALPHA,
-    eBlendInvDstAlpha = GL_ONE_MINUS_DST_ALPHA
+    Zero        = GL_ZERO,
+    One         = GL_ONE,
+    SrcColor    = GL_SRC_COLOR,
+    InvSrcColor = GL_ONE_MINUS_SRC_COLOR,
+    SrcAlpha    = GL_SRC_ALPHA,
+    InvSrcAlpha = GL_ONE_MINUS_SRC_ALPHA,
+    DstAlpha    = GL_DST_ALPHA,
+    InvDstAlpha = GL_ONE_MINUS_DST_ALPHA
 };
 
-enum EGXPrimitiveType
+enum class EPrimitiveType
 {
-    eGX_Quads = 0x80,
-    eGX_Triangles = 0x90,
-    eGX_TriangleStrip = 0x98,
-    eGX_TriangleFan = 0xA0,
-    eGX_Lines = 0xA8,
-    eGX_LineStrip = 0xB0,
-    eGX_Points = 0xB8
+    // The values assigned here match the defines for primitive types in GX
+    // and appear in geometry data in game file formats
+    Quads           = 0x80,
+    Triangles       = 0x90,
+    TriangleStrip   = 0x98,
+    TriangleFan     = 0xA0,
+    Lines           = 0xA8,
+    LineStrip       = 0xB0,
+    Points          = 0xB8
 };
 
 extern GLenum gBlendFactor[];
 extern GLenum gZMode[];
-GLenum GXPrimToGLPrim(EGXPrimitiveType Type);
+GLenum GXPrimToGLPrim(EPrimitiveType Type);
 
 #endif // GLCOMMON_H

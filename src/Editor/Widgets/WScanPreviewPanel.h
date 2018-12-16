@@ -15,7 +15,7 @@ public:
     explicit WScanPreviewPanel(QWidget *pParent = 0);
     ~WScanPreviewPanel();
     QSize sizeHint() const;
-    EResType ResType();
+    EResourceType ResType();
     void SetResource(CResource *pRes);
 
 private:

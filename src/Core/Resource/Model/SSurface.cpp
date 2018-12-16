@@ -14,11 +14,11 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackf
         uint32 NumVerts = pPrim->Vertices.size();
 
         // Triangles
-        if ((pPrim->Type == eGX_Triangles) || (pPrim->Type == eGX_TriangleFan) || (pPrim->Type == eGX_TriangleStrip))
+        if ((pPrim->Type == EPrimitiveType::Triangles) || (pPrim->Type == EPrimitiveType::TriangleFan) || (pPrim->Type == EPrimitiveType::TriangleStrip))
         {
             uint32 NumTris;
 
-            if (pPrim->Type == eGX_Triangles)
+            if (pPrim->Type == EPrimitiveType::Triangles)
                 NumTris = NumVerts / 3;
             else
                 NumTris = NumVerts - 2;
@@ -28,7 +28,7 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackf
                 CVector3f VtxA, VtxB, VtxC;
 
                 // Get the three vertices that make up the current tri
-                if (pPrim->Type == eGX_Triangles)
+                if (pPrim->Type == EPrimitiveType::Triangles)
                 {
                     uint32 VertIndex = iTri * 3;
                     VtxA = pPrim->Vertices[VertIndex].Position;
@@ -36,14 +36,14 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackf
                     VtxC = pPrim->Vertices[VertIndex+2].Position;
                 }
 
-                else if (pPrim->Type == eGX_TriangleFan)
+                else if (pPrim->Type == EPrimitiveType::TriangleFan)
                 {
                     VtxA = pPrim->Vertices[0].Position;
                     VtxB = pPrim->Vertices[iTri+1].Position;
                     VtxC = pPrim->Vertices[iTri+2].Position;
                 }
 
-                else if (pPrim->Type = eGX_TriangleStrip)
+                else if (pPrim->Type == EPrimitiveType::TriangleStrip)
                 {
                     if (iTri & 0x1)
                     {
@@ -75,11 +75,11 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackf
         }
 
         // Lines
-        if ((pPrim->Type == eGX_Lines) || (pPrim->Type == eGX_LineStrip))
+        if ((pPrim->Type == EPrimitiveType::Lines) || (pPrim->Type == EPrimitiveType::LineStrip))
         {
             uint32 NumLines;
 
-            if (pPrim->Type == eGX_Lines)
+            if (pPrim->Type == EPrimitiveType::Lines)
                 NumLines = NumVerts / 2;
             else
                 NumLines = NumVerts - 1;
@@ -89,7 +89,7 @@ std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackf
                 CVector3f VtxA, VtxB;
 
                 // Get the two vertices that make up the current line
-                uint32 Index = (pPrim->Type == eGX_Lines ? iLine * 2 : iLine);
+                uint32 Index = (pPrim->Type == EPrimitiveType::Lines ? iLine * 2 : iLine);
                 VtxA = pPrim->Vertices[Index].Position;
                 VtxB = pPrim->Vertices[Index+1].Position;
 
