@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>Platform</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Vector" ID="0xF344C0B0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA3D63F44"/>
+            <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0xFC966DC">
+                <TypeFilter>
+                    <Element>DCLN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
+            <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
+            <Element Type="Bool" ID="0xF203BC81">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA9DBF91" Archetype="PlatformMotionProperties"/>
+            <Element Type="Vector" ID="0x24FDEEA1">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.15000001</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBF69C03E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBE513E2B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6B5E87A7">
+                <DefaultValue>1800.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3DC75733">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAA719632">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x981C2921">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB5B16553">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x58EE3422">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBE04E10B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1FA92AC4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x47E9CC80">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA1172744" Archetype="UnknownStruct245"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA3D63F44"/>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+        <Element Type="Collision" Source="Property" Location="0x0FC966DC"/>
+    </Assets>
+</ScriptObject>

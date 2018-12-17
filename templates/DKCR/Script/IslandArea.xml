@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>IslandArea</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Vector" ID="0xF344C0B0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xFC966DC">
+                <TypeFilter>
+                    <Element>DCLN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0x3B83DD31">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0x6A02F05F"/>
+            <Element Type="Enum" ID="0x28E29F9B">
+                <DefaultValue>0x9DCDF5E0</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x9DCDF5E0"/>
+                    <Element Name="Unknown 2" ID="0x4CD7A1F7"/>
+                    <Element Name="Unknown 3" ID="0x49791B20"/>
+                    <Element Name="Unknown 4" ID="0x7AE6F698"/>
+                    <Element Name="Unknown 5" ID="0xC9C98F46"/>
+                    <Element Name="Unknown 6" ID="0x2AFAD23B"/>
+                    <Element Name="Unknown 7" ID="0x9CECD3E4"/>
+                    <Element Name="Unknown 8" ID="0x709136D7"/>
+                    <Element Name="Unknown 9" ID="0x3D363417"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0xDF692967" Archetype="UnknownStruct184"/>
+            <Element Type="Struct" ID="0xF722357" Archetype="UnknownStruct185"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA244C9D8"/>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+    </Assets>
+</ScriptObject>

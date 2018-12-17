@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>RumbleEffect</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Int" ID="0x5D298A43">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Int" ID="0x4F7FEC39">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>240</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x295D238B">
+                <DefaultValue>0x186ECB5</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x186ECB5"/>
+                    <Element Name="Unknown 2" ID="0x34467A03"/>
+                    <Element Name="Unknown 3" ID="0xBC450D39"/>
+                    <Element Name="Unknown 4" ID="0xA33DC408"/>
+                    <Element Name="Unknown 5" ID="0xAD1366EB"/>
+                    <Element Name="Unknown 6" ID="0xCB452228"/>
+                    <Element Name="Unknown 7" ID="0xA87EC998"/>
+                    <Element Name="Unknown 8" ID="0x5DAEA7B9"/>
+                    <Element Name="Unknown 9" ID="0x78B08D32"/>
+                    <Element Name="Unknown 10" ID="0xD4796F99"/>
+                    <Element Name="Unknown 11" ID="0xD77F748B"/>
+                    <Element Name="Unknown 12" ID="0x282F7C0"/>
+                    <Element Name="Unknown 13" ID="0x956FE681"/>
+                    <Element Name="Unknown 14" ID="0x5DAE32D4"/>
+                    <Element Name="Unknown 15" ID="0x4570D977"/>
+                    <Element Name="Unknown 16" ID="0x18A94DF6"/>
+                    <Element Name="Unknown 17" ID="0x4C33216B"/>
+                    <Element Name="Unknown 18" ID="0xA9BF7098"/>
+                    <Element Name="Unknown 19" ID="0x40852C39"/>
+                    <Element Name="Unknown 20" ID="0x95238F0C"/>
+                    <Element Name="Unknown 21" ID="0x752B6589"/>
+                    <Element Name="Unknown 22" ID="0xD1D767DD"/>
+                    <Element Name="Unknown 23" ID="0x2E5525FE"/>
+                    <Element Name="Unknown 24" ID="0x3DD52B8B"/>
+                    <Element Name="Unknown 25" ID="0x2A1D82EA"/>
+                    <Element Name="Unknown 26" ID="0xA0E5443D"/>
+                </Values>
+            </Element>
+            <Element Type="Spline" ID="0x5A451ED"/>
+            <Element Type="Float" ID="0x78C507EB">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

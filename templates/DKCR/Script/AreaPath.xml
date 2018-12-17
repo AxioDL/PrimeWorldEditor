@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>AreaPath</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Asset" ID="0xC27FFA8F">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="Asset" ID="0xDE5709D9">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Enum" ID="0x474BCCE3">
+                <DefaultValue>0x1F46814C</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x1F46814C"/>
+                    <Element Name="Unknown 2" ID="0xDBE9ABC6"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0x7561F8F7">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD626B1D8">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x45BB081B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9DC43B9C">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1989E2E5">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xFA0EED84"/>
+            <Element Type="Struct" ID="0x91FA7B19" Archetype="AreaPathStructA"/>
+            <Element Type="Asset" ID="0x1B32DC50">
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x7C642C9C">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Model" Source="Property" Location="0xC27FFA8F"/>
+    </Assets>
+</ScriptObject>

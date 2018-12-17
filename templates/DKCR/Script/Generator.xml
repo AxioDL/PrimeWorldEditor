@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>Generator</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0x6BDD56D6">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x845F48AC">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6078A1F0">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE4D247E4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x88978E49">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1EB8E254">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x35A5E10">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFADA163B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE45C7776">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x46477064">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x72BBE7A6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC3861B64">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x25E6B485">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/Generator.TXTR"/>
+    </Assets>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

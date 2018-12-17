@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>GuiCharacter</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="String" ID="0x7C2457BC"/>
+            <Element Type="String" ID="0x8B891F5A"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="AnimationSet" ID="0x181E33CC"/>
+            <Element Type="Int" ID="0xA2A5B38F">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC23BD607">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4A6A84C1">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x601FCE68">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x63E53FD8">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x247DB024">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFDCCB479">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x10706107">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x98E160F8">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3BB7E651">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xEC556609">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA66BED42">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x71896D1A">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD2DFEBB3">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x53D6BEB">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x46A2FD25">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x91407D7D">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x579ED88F">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x807C58D7">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x232ADE7E">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF4C85E26">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBEF6D56D">
+                <CookPreference>Always</CookPreference>
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+</ScriptObject>

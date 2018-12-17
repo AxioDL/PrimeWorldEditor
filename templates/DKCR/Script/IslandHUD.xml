@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>IslandHUD</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Asset" ID="0xF94806A">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xD02FB1A1">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xA74065CE">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1743B770" Archetype="UnknownStruct182"/>
+            <Element Type="Struct" ID="0x3F88E900" Archetype="UnknownStruct36"/>
+            <Element Type="Struct" ID="0xEB7C1BF2" Archetype="UnknownStruct183"/>
+            <Element Type="Struct" ID="0xC68BC9EC" Archetype="UnknownStruct28"/>
+            <Element Type="Struct" ID="0x6BDD8B7A" Archetype="UnknownStruct28"/>
+            <Element Type="Struct" ID="0xCC53C738" Archetype="UnknownStruct28"/>
+            <Element Type="Struct" ID="0xBCF93A2A" Archetype="UnknownStruct28"/>
+            <Element Type="Struct" ID="0x6549E3F9" Archetype="UnknownStruct28"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Model" Source="Property" Location="0x0F94806A"/>
+        <Element Type="Model" Source="Property" Location="0xD02FB1A1"/>
+        <Element Type="Model" Source="Property" Location="0xA74065CE"/>
+    </Assets>
+</ScriptObject>

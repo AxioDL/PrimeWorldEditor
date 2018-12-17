@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>ShadowProjector</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Float" ID="0x1D011A39">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xF371ED59">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24EC0FB0">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3E2CD38D">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8CCF36C0">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBCA8B742">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA6AA06D5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x606E341C">
+                <DefaultValue>128</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA21B515A" Archetype="UnknownStruct510"/>
+            <Element Type="Float" ID="0x8CE1176E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+</ScriptObject>

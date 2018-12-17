@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Modules>
+        <Element>RSO_MoleTrain.rso</Element>
+    </Modules>
+    <Properties Type="Struct">
+        <Name>TrainTrackManager</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x2">
+                                <DefaultValue>
+                                    <X>4.0</X>
+                                    <Y>4.0</Y>
+                                    <Z>4.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x3EDF57B4" Archetype="UnknownStruct273"/>
+            <Element Type="Struct" ID="0x19C9392" Archetype="UnknownStruct274"/>
+            <Element Type="Struct" ID="0x1871BA9B" Archetype="UnknownStruct275"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

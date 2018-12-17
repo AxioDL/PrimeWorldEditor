@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>TextPane</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x2">
+                                <DefaultValue>
+                                    <X>8.0</X>
+                                    <Y>1.0</Y>
+                                    <Z>1.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="String" ID="0x73939407"/>
+            <Element Type="Struct" ID="0xE0543E66" Archetype="TextProperties">
+                <SubProperties>
+                    <Element Type="Int" ID="0xEE521DC6">
+                        <DefaultValue>80</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xF2D36ABB">
+                        <DefaultValue>10</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xC8E441FA" Archetype="TextProperties">
+                <SubProperties>
+                    <Element Type="Int" ID="0xEE521DC6">
+                        <DefaultValue>80</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0xF2D36ABB">
+                        <DefaultValue>10</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Vector" ID="0xDEF21BF5">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xE7AC3927">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="String" ID="0xD501C87E"/>
+            <Element Type="Int" ID="0x94F0365C">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C269EBC">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x94C01B0C">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xAED25A51">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x35DC43D0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC6AABE9A">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF5937B1F">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x95DADE93">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA6AA06D5">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>
