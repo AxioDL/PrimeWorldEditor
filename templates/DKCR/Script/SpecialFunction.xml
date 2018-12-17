@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>SpecialFunction</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Enum" ID="0xB8AFCF21">
+                <DefaultValue>0x98C5AED7</DefaultValue>
+                <Values>
+                    <Element Name="What" ID="0x98C5AED7"/>
+                    <Element Name="Function 1" ID="0x3D1A78AC"/>
+                    <Element Name="Function 2" ID="0x136F5286"/>
+                    <Element Name="Boss Energy Bar" ID="0x370F508E"/>
+                    <Element Name="Cinematic Skip" ID="0x29837C6C"/>
+                    <Element Name="Function 5" ID="0x49069735"/>
+                    <Element Name="Function 6" ID="0x14B45D36"/>
+                    <Element Name="Function 7" ID="0x766ED410"/>
+                    <Element Name="End Game" ID="0x7E025D14"/>
+                    <Element Name="Game End Choice" ID="0x8838D84A"/>
+                    <Element Name="ExtraRenderClipPlane" ID="0x2CB1471C"/>
+                    <Element Name="Function 12" ID="0xCFC89663"/>
+                    <Element Name="Function 13" ID="0xD871451E"/>
+                    <Element Name="GameStateEnvVar" ID="0x661EC9E0"/>
+                    <Element Name="HUD Target" ID="0x1C7FDCAB"/>
+                    <Element Name="Function 16" ID="0xE13871E3"/>
+                    <Element Name="Launch Player" ID="0x90031E91"/>
+                    <Element Name="Inventory Thing 1" ID="0x96AB6130"/>
+                    <Element Name="Modify Inventory" ID="0x698AAB1A"/>
+                    <Element Name="Permanent Hypermode" ID="0x83888007"/>
+                    <Element Name="Function 21" ID="0x171CB7CB"/>
+                    <Element Name="Function 22" ID="0xC15AB262"/>
+                    <Element Name="Object Follow Something" ID="0x5FE350B"/>
+                    <Element Name="Object Follow Locator" ID="0x982A42A3"/>
+                    <Element Name="Object Follow Object" ID="0x73810303"/>
+                    <Element Name="Function 26" ID="0xE03046EA"/>
+                    <Element Name="Occlusion Relay" ID="0x9EAEB97A"/>
+                    <Element Name="Player Follow Locator" ID="0xFF6D9BE6"/>
+                    <Element Name="Player In Area" ID="0xFE41E1E9"/>
+                    <Element Name="Function 30" ID="0xD8AD2D4A"/>
+                    <Element Name="Set SuitType" ID="0x8F226F1D"/>
+                    <Element Name="Inventory Thing 2" ID="0x9349C56D"/>
+                    <Element Name="Function 33" ID="0x441AEE66"/>
+                    <Element Name="Function 34" ID="0xE5518864"/>
+                    <Element Name="Tin Can Score" ID="0x502B7B92"/>
+                    <Element Name="Function 36" ID="0x83B00647"/>
+                    <Element Name="Function 37" ID="0x7F0CE328"/>
+                    <Element Name="Rotate Skybox" ID="0x6FC986EA"/>
+                    <Element Name="Static World Render Controller" ID="0x7E8C0D33"/>
+                    <Element Name="Sun Generator" ID="0xD7E2F62F"/>
+                    <Element Name="Function 41" ID="0xDFE51E86"/>
+                    <Element Name="Disable In Time Attack" ID="0x4E081CFA"/>
+                    <Element Name="Function 43" ID="0xE6642737"/>
+                    <Element Name="View Frustum Tester" ID="0x129C99C0"/>
+                    <Element Name="Function 45" ID="0xFDF2D16C"/>
+                    <Element Name="Disable In Mirror Mode" ID="0xFF38718"/>
+                    <Element Name="Function 47" ID="0x48D158B9"/>
+                    <Element Name="Function 48" ID="0xCD71412F"/>
+                    <Element Name="Function 49" ID="0xDA5AF6F3"/>
+                </Values>
+            </Element>
+            <Element Type="String" ID="0x9D7A576D"/>
+            <Element Type="Float" ID="0x19028099">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2C93AAF5">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE7CF7950">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFACA49E8">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA734F8A5">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB581574B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x3FA164BC" Archetype="PlayerItem">
+                <DefaultValue>0xB22FD89B</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/SpecialFunction.TXTR"/>
+    </Assets>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>Acoustics</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Bool" ID="0x765CAE8C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC78B91FA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA6BCDF8E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x11AA184B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2714DC3B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5A38A08D">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xE9AD286A">
+                <DefaultValue>0x15C2A4E5</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x15C2A4E5"/>
+                    <Element Name="Unknown 2" ID="0x3451AABF"/>
+                    <Element Name="Unknown 3" ID="0x1526F437"/>
+                    <Element Name="Unknown 4" ID="0xA565970E"/>
+                    <Element Name="Unknown 5" ID="0x3C6CC6B4"/>
+                    <Element Name="Unknown 6" ID="0x305FD4D6"/>
+                    <Element Name="Unknown 7" ID="0x82D700E1"/>
+                    <Element Name="Unknown 8" ID="0x63C5C4A2"/>
+                    <Element Name="Unknown 9" ID="0xA400169F"/>
+                    <Element Name="Unknown 10" ID="0x76F248AC"/>
+                    <Element Name="Unknown 11" ID="0xA5635267"/>
+                    <Element Name="Unknown 12" ID="0xAD53D06"/>
+                    <Element Name="Unknown 13" ID="0x1FE2B108"/>
+                    <Element Name="Unknown 14" ID="0x32D3C956"/>
+                    <Element Name="Unknown 15" ID="0x13F78AD4"/>
+                    <Element Name="Unknown 16" ID="0x112FF1FC"/>
+                    <Element Name="Unknown 17" ID="0x8826A046"/>
+                    <Element Name="Unknown 18" ID="0x7A0D9732"/>
+                    <Element Name="Unknown 19" ID="0xE304C688"/>
+                    <Element Name="Unknown 20" ID="0x91A41B53"/>
+                    <Element Name="Unknown 21" ID="0x8AD4AE9"/>
+                    <Element Name="Unknown 22" ID="0x7FAA7A7F"/>
+                    <Element Name="Unknown 23" ID="0x4EF81BF8"/>
+                    <Element Name="Unknown 24" ID="0xD7F14A42"/>
+                    <Element Name="Unknown 25" ID="0x1B5A08D8"/>
+                    <Element Name="Unknown 26" ID="0x82535962"/>
+                    <Element Name="Unknown 27" ID="0x555373A4"/>
+                    <Element Name="Unknown 28" ID="0xCC5A221E"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0xA383E10B" Archetype="UnknownStruct11"/>
+            <Element Type="Struct" ID="0x6530E9CF" Archetype="UnknownStruct12"/>
+            <Element Type="Struct" ID="0x3BC9DA35" Archetype="UnknownStruct16"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <ScaleType>ScaleVolume</ScaleType>
+    <PreviewScale>0.5</PreviewScale>
+    <VolumeShape>BoxShape</VolumeShape>
+</ScriptObject>
