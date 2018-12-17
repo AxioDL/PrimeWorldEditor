@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>AreaNode</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Bool" ID="0x4DEF7B9B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xF1AE2F13">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA6F8611C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x8D3AB314">
+                <DefaultValue>0x24E6FE6B</DefaultValue>
+                <Values>
+                    <Element Name="Start" ID="0xBB40E5E"/>
+                    <Element Name="Stage" ID="0x24E6FE6B"/>
+                    <Element Name="Boss" ID="0xFB8DD144"/>
+                    <Element Name="Shop" ID="0x60BCB31"/>
+                    <Element Name="Trophy" ID="0xC8068C4F"/>
+                    <Element Name="Unknown" ID="0xA5355C31"/>
+                    <Element Name="Rocket" ID="0xCA17800"/>
+                    <Element Name="Temple" ID="0x9DFC67D1"/>
+                </Values>
+            </Element>
+            <Element Type="String" ID="0x6A02F05F"/>
+            <Element Type="Asset" ID="0x737631AD">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x3B83DD31">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0x30CBDB68">
+                <Description>Seems to affect the number displayed on the file select screen for "last completed stage"</Description>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xF344C0B0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2E686C2A">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xFC966DC">
+                <TypeFilter>
+                    <Element>DCLN</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x33CF5665"/>
+            <Element Type="AnimationSet" ID="0xA244C9D8"/>
+            <Element Type="AnimationSet" ID="0xB7CD213C"/>
+            <Element Type="AnimationSet" ID="0x9F93BC3F"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Asset" ID="0x6A789BE3">
+                <TypeFilter>
+                    <Element>MLVL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0xA9D29E32" Archetype="UnknownStruct19"/>
+            <Element Type="Struct" ID="0x86963E8A" Archetype="UnknownStruct20"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0xB7CD213C"/>
+        <Element Type="AnimParams" Source="Property" Location="0x9F93BC3F"/>
+        <Element Type="AnimParams" Source="Property" Location="0x86963E8A:0x29463E36"/>
+        <Element Type="AnimParams" Source="Property" Location="0x86963E8A:0x103E9376"/>
+    </Assets>
+</ScriptObject>

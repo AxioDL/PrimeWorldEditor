@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>CinematicCamera</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x16D9A75D" Archetype="SavedStateID"/>
+            <Element Type="Enum" ID="0xCC08EF1B">
+                <DefaultValue>0x85F15E1D</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x85F15E1D"/>
+                    <Element Name="Unknown 2" ID="0x8E9B2817"/>
+                </Values>
+            </Element>
+            <Element Type="Bool" ID="0x6387E44B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="AnimationSet" ID="0xA3D63F44"/>
+            <Element Type="Enum" ID="0x974A961F">
+                <DefaultValue>0x639D1F97</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0x639D1F97"/>
+                    <Element Name="Unknown 2" ID="0xB55F9164"/>
+                    <Element Name="Unknown 3" ID="0x4164C49B"/>
+                    <Element Name="Unknown 4" ID="0xF2F54A8F"/>
+                </Values>
+            </Element>
+            <Element Type="Float" ID="0xAB8151EA">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5C5FC6E">
+                <DefaultValue>133236</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x27E5F874"/>
+            <Element Type="Spline" ID="0xC4DFBFA7"/>
+            <Element Type="Struct" ID="0x65FC11FF" Archetype="CameraOrientation">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x5C72A964">
+                        <DefaultValue>0x26AD4A6B</DefaultValue>
+                    </Element>
+                    <Element Type="Int" ID="0x6219022E">
+                        <DefaultValue>12</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xDA54B3E9">
+                        <SubProperties>
+                            <Element Type="Enum" ID="0x2EF22401">
+                                <DefaultValue>0x6DF9B393</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x91F2936">
+                        <SubProperties>
+                            <Element Type="Bool" ID="0x8FF3B44">
+                                <DefaultValue>true</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Spline" ID="0x6868D4B3"/>
+            <Element Type="Spline" ID="0x6E6D8EFD"/>
+            <Element Type="Spline" ID="0xF4F4798E"/>
+            <Element Type="Struct" ID="0x764827D4" Archetype="CameraInterpolation">
+                <SubProperties>
+                    <Element Type="Int" ID="0x1D49D35C">
+                        <DefaultValue>0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0xA738790A">
+                        <SubProperties>
+                            <Element Type="Enum" ID="0x948AF571">
+                                <DefaultValue>0x777171A8</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xA768A18E">
+                        <SubProperties>
+                            <Element Type="Enum" ID="0x5C72A964">
+                                <DefaultValue>0x355476D5</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x3B8C7CB4">
+                        <SubProperties>
+                            <Element Type="Enum" ID="0x19EA151B">
+                                <DefaultValue>0x2A1B6DFE</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Int" ID="0x58C1B1D">
+                        <DefaultValue>0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x7FAC732A">
+                        <SubProperties>
+                            <Element Type="Enum" ID="0x948AF571">
+                                <DefaultValue>0x777171A8</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xDFAB73B6">
+                        <SubProperties>
+                            <Element Type="Enum" ID="0x5C72A964">
+                                <DefaultValue>0x355476D5</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0xF391EDBC">
+                        <SubProperties>
+                            <Element Type="Enum" ID="0x19EA151B">
+                                <DefaultValue>0x2A1B6DFE</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Spline" ID="0x29515802"/>
+            <Element Type="Spline" ID="0xDF1865A6"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Model" Source="File" Location="script/common/Camera.CMDL"/>
+    </Assets>
+</ScriptObject>

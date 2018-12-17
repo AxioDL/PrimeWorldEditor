@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>LightVolume</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Color" ID="0x37C7D09D">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7E4359D1">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+</ScriptObject>

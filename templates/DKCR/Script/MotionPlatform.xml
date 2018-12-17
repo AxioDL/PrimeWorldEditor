@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>MotionPlatform</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xA9DBF91" Archetype="PlatformMotionProperties"/>
+            <Element Type="Float" ID="0xE4F89C8F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3B3B92A6">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x78C507EB">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5384200">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCC6806A1">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9E3D253">
+                <DefaultValue>-1.0</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xA441E0C">
+                <DefaultValue>0xDCCF49F4</DefaultValue>
+                <Values>
+                    <Element Name="Unknown 1" ID="0xDCCF49F4"/>
+                    <Element Name="Unknown 2" ID="0x3EB622AA"/>
+                </Values>
+            </Element>
+            <Element Type="Struct" ID="0x56F4BC93" Archetype="Convergence"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

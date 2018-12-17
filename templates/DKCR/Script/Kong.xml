@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>Kong</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xBF81C83E" Archetype="ShadowData"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x63F638" Archetype="UnknownStruct"/>
+            <Element Type="Struct" ID="0x43BBB1DD" Archetype="PatternedAITypedef">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xCF90D15E">
+                        <SubProperties>
+                            <Element Type="Float" ID="0xF0668919">
+                                <DefaultValue>1000.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Float" ID="0xD9355674">
+                        <DefaultValue>0.25</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x2E9827AD" Archetype="PlayerAlternateSkin"/>
+            <Element Type="Struct" ID="0x6F7438CF" Archetype="KongData"/>
+            <Element Type="Struct" ID="0x9C7E9051" Archetype="UnknownStruct227"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x43BBB1DD:0xA244C9D8"/>
+        <Element Type="AnimParams" Source="Property" Location="0x6F7438CF:0x9F1EF2F3:0x4D2FF46B:0x520EBB68"/>
+        <Element Type="AnimParams" Source="Property" Location="0x6F7438CF:0x9F1EF2F3:0x1EB5AFEF:0x520EBB68"/>
+        <Element Type="AnimParams" Source="Property" Location="0x6F7438CF:0x9F1EF2F3:0x991364AC:0x520EBB68"/>
+        <Element Type="Model" Source="Property" Location="0x6F7438CF:0x98EFC863:0x005E3BE9:0x87B52F4C"/>
+        <Element Type="Model" Source="Property" Location="0x6F7438CF:0x98EFC863:0x44FF1EF1:0x87B52F4C"/>
+    </Assets>
+</ScriptObject>

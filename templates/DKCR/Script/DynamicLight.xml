@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>DynamicLight</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Int" ID="0x7FC4E336">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x9AC8106A" Archetype="UnknownStruct91"/>
+            <Element Type="Struct" ID="0x74E96428" Archetype="UnknownStruct92"/>
+            <Element Type="Color" ID="0x37C7D09D">
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x72531EDE" Archetype="DynamicLightIntensity"/>
+            <Element Type="Struct" ID="0x219B52DA" Archetype="DynamicLightFalloff"/>
+            <Element Type="Struct" ID="0x9546F449" Archetype="DynamicLightSpotlight"/>
+            <Element Type="Struct" ID="0x14322138" Archetype="DynamicLightMotionSpline"/>
+            <Element Type="Struct" ID="0xF734DF8C" Archetype="DynamicLightParent"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

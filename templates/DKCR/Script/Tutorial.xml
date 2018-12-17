@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>Tutorial</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0xD29C031D" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x56ABB3B8" Archetype="PlayerType"/>
+            <Element Type="Struct" ID="0x76AA6D55" Archetype="UnknownStruct277"/>
+            <Element Type="Vector" ID="0x46477064">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF90A4FE9">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE585F166">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x446307A9">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x11F84560">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Bool" ID="0x14CEFF80">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+</ScriptObject>

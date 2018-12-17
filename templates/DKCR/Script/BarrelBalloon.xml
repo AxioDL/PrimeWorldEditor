@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>BarrelBalloon</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
+            <Element Type="Struct" ID="0x94F9C48D" Archetype="BalloonBarrelData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+        <LightParametersProperty>0x7E397FED:0xB028DB0E</LightParametersProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="AnimParams" Source="Property" Location="0x94F9C48D:0xF8B3ABE0"/>
+    </Assets>
+</ScriptObject>

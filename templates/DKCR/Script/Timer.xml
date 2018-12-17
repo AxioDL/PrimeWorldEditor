@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>Timer</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
+            <Element Type="Float" ID="0x44335AFF">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3AD39B31">
+                <Description>A random value between this number and 0 will be added to the timer's start time.</Description>
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3217DFF8">
+                <Description>If enabled, the timer will start ticking automatically on load. Otherwise, it will need to be started with a script message.</Description>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xEDA47FF6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <Assets>
+        <Element Type="Billboard" Source="File" Location="script/common/Timer.TXTR"/>
+    </Assets>
+    <PreviewScale>0.5</PreviewScale>
+</ScriptObject>

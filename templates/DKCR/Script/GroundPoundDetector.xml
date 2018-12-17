@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="DKCReturns">
+    <Properties Type="Struct">
+        <Name>GroundPoundDetector</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties">
+                <SubProperties>
+                    <Element Type="Struct" ID="0x5846524D">
+                        <SubProperties>
+                            <Element Type="Vector" ID="0x2">
+                                <DefaultValue>
+                                    <X>2.0</X>
+                                    <Y>2.0</Y>
+                                    <Z>2.0</Z>
+                                </DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xE809B3A0" Archetype="GroundPoundDetectorData"/>
+        </SubProperties>
+    </Properties>
+    <EditorProperties>
+        <NameProperty>0x255A4580:0x494E414D</NameProperty>
+        <PositionProperty>0x255A4580:0x5846524D:0x00</PositionProperty>
+        <RotationProperty>0x255A4580:0x5846524D:0x01</RotationProperty>
+        <ScaleProperty>0x255A4580:0x5846524D:0x02</ScaleProperty>
+        <ActiveProperty>0x255A4580:0x41435456</ActiveProperty>
+    </EditorProperties>
+    <ScaleType>ScaleVolume</ScaleType>
+    <VolumeShape>ConditionalShape</VolumeShape>
+    <VolumeConditionProperty>0xE809B3A0:0xBB2C54E1:0x09ECEE0C</VolumeConditionProperty>
+    <VolumeConditions>
+        <Element>
+            <Value>1210786545</Value>
+            <Shape>BoxShape</Shape>
+        </Element>
+        <Element>
+            <Value>2006824261</Value>
+            <Shape>BoxShape</Shape>
+        </Element>
+        <Element>
+            <Value>-2087520796</Value>
+            <Shape>EllipsoidShape</Shape>
+        </Element>
+        <Element>
+            <Value>971864974</Value>
+            <Shape>CylinderShape</Shape>
+        </Element>
+    </VolumeConditions>
+</ScriptObject>
