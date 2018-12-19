@@ -2,8 +2,10 @@
 Prime World Editor is a custom editor suite for Retro Studios' GameCube and Wii games, including the Metroid Prime series and Donkey Kong Country Returns.
 
 # Build Requirements
-* Qt Creator
+On Windows:
+* Visual Studio 2017 64-bit
 * Qt 5.10 installation
+* Qt Creator
 * LLVM 6.0.1 installation; currently must be installed to `C:\Program Files\LLVM\`
 * Python 3+
 * Python packages `clang` and `mako`
