@@ -67,7 +67,7 @@ INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/CodeGen/include \
                $$EXTERNALS_DIR/glew-2.1.0/include \
                $$EXTERNALS_DIR/LibCommon/Source \
-               $$EXTERNALS_DIR/lzo-2.10/include \
+               $$EXTERNALS_DIR/lzo/include \
                $$EXTERNALS_DIR/nod/include \
                $$EXTERNALS_DIR/nod/logvisor/include \
                $$EXTERNALS_DIR/tinyxml2 \
@@ -367,6 +367,6 @@ CODEGEN_SRC_PATH = $$PWD
 include($$EXTERNALS_DIR/CodeGen/codegen.pri)
 
 # Library Sources
-SOURCES += $$EXTERNALS_DIR/lzo-2.10/src/lzo_init.c \
-           $$EXTERNALS_DIR/lzo-2.10/src/lzo1x_9x.c \
-           $$EXTERNALS_DIR/lzo-2.10/src/lzo1x_d1.c
+SOURCES += $$EXTERNALS_DIR/lzo/src/lzo_init.c \
+           $$EXTERNALS_DIR/lzo/src/lzo1x_9x.c \
+           $$EXTERNALS_DIR/lzo/src/lzo1x_d1.c

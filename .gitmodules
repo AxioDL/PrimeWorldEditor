@@ -9,10 +9,13 @@
 	url = https://github.com/assimp/assimp
 [submodule "externals/nod"]
 	path = externals/nod
-	url = https://github.com/arukibree/nod
+	url=https://gitlab.axiodl.com/AxioDL/nod
 [submodule "externals/CodeGen"]
 	path = externals/CodeGen
 	url = https://github.com/arukibree/CodeGen
 [submodule "externals/LibCommon"]
 	path = externals/LibCommon
 	url = https://github.com/arukibree/LibCommon
+[submodule "externals/lzo"]
+	path = externals/lzo
+	url = https://github.com/nemequ/lzo
