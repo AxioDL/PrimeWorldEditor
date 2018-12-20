@@ -110,6 +110,7 @@ HEADERS += \
     Resource/Script/CScriptObject.h \
     Resource/Script/CScriptTemplate.h \
     Resource/Script/EVolumeShape.h \
+    Resource/StringTable/CStringTable.h \
     Resource/CCollisionMesh.h \
     Resource/CCollisionMeshGroup.h \
     Resource/CFont.h \
@@ -119,7 +120,6 @@ HEADERS += \
     Resource/CMaterialSet.h \
     Resource/CResource.h \
     Resource/CScan.h \
-    Resource/CStringTable.h \
     Resource/CTexture.h \
     Resource/CWorld.h \
     Resource/EResType.h \
@@ -247,7 +247,8 @@ HEADERS += \
     Resource/Script/Property/CGuidProperty.h \
     Resource/Script/CGameTemplate.h \
     Resource/Script/NPropertyMap.h \
-    Resource/Script/NGameList.h
+    Resource/Script/NGameList.h \
+    Resource/StringTable/ELanguage.h
 
 # Source Files
 SOURCES += \
@@ -358,7 +359,8 @@ SOURCES += \
     Resource/Script/Property/CFlagsProperty.cpp \
     Resource/Script/CGameTemplate.cpp \
     Resource/Script/NPropertyMap.cpp \
-    Resource/Script/NGameList.cpp
+    Resource/Script/NGameList.cpp \
+    Resource/StringTable/CStringTable.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

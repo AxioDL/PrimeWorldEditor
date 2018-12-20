@@ -2,8 +2,8 @@
 #define CSTRINGLOADER_H
 
 #include "Core/GameProject/CResourceStore.h"
-#include "Core/Resource/CStringTable.h"
 #include "Core/Resource/TResPtr.h"
+#include "Core/Resource/StringTable/CStringTable.h"
 #include <Common/EGame.h>
 
 class CStringLoader

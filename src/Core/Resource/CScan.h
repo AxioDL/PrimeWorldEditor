@@ -2,9 +2,9 @@
 #define CSCAN_H
 
 #include "CResource.h"
-#include "CStringTable.h"
 #include "TResPtr.h"
 #include "Core/Resource/Animation/CAnimationParameters.h"
+#include "Core/Resource/StringTable/CStringTable.h"
 #include <Common/EGame.h>
 
 class CScan : public CResource
