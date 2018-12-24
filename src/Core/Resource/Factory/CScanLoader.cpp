@@ -214,7 +214,7 @@ void CScanLoader::LoadParamsMP3(IInputStream& rSCAN, uint16 NumProperties)
         switch (PropertyID)
         {
         case 0x2F5B6423:
-            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLongLong(), EResourceType::Scan);
+            mpScan->mpStringTable = gpResourceStore->LoadResource(rSCAN.ReadLongLong(), EResourceType::StringTable);
             break;
 
         case 0xC308A322:

@@ -63,7 +63,7 @@ void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 TString CWorld::InGameName() const
 {
     if (mpWorldName)
-        return mpWorldName->String("ENGL", 0);
+        return mpWorldName->GetString(ELanguage::English, 0);
     else
         return Entry()->Name();
 }
@@ -73,7 +73,7 @@ TString CWorld::AreaInGameName(uint32 AreaIndex) const
     const SArea& rkArea = mAreas[AreaIndex];
 
     if (rkArea.pAreaName)
-        return rkArea.pAreaName->String("ENGL", 0);
+        return rkArea.pAreaName->GetString(ELanguage::English, 0);
     else
         return "!!" + rkArea.InternalName;
 }

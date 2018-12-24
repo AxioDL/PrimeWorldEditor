@@ -83,21 +83,21 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
 
     auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString.data()).ToUTF8());
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
-    TWideString DiscRoot = DiscDir(false).ToUTF16();
+    TString DiscRoot = DiscDir(false);
 
     if (!IsWiiBuild())
     {
-        nod::DiscBuilderGCN Builder(*rkIsoPath.ToUTF16(), ProgressCallback);
-        return Builder.buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
+        nod::DiscBuilderGCN Builder(ToWChar(rkIsoPath), ProgressCallback);
+        return Builder.buildFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
     }
     else
     {
-        nod::DiscBuilderWii Builder(*rkIsoPath.ToUTF16(), IsTrilogy(), ProgressCallback);
-        return Builder.buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
+        nod::DiscBuilderWii Builder(ToWChar(rkIsoPath), IsTrilogy(), ProgressCallback);
+        return Builder.buildFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
     }
 }
 
@@ -109,15 +109,15 @@ bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso
 
     auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString.data()).ToUTF8());
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
 
-    TWideString DiscRoot = DiscFilesystemRoot(false).ToUTF16();
+    TString DiscRoot = DiscFilesystemRoot(false);
 
-    nod::DiscMergerWii Merger(*rkIsoPath.ToUTF16(), *pOriginalIso, IsTrilogy(), ProgressCallback);
-    return Merger.mergeFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
+    nod::DiscMergerWii Merger(ToWChar(rkIsoPath), *pOriginalIso, IsTrilogy(), ProgressCallback);
+    return Merger.mergeFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
 }
 
 void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const

@@ -15,7 +15,7 @@ enum class ELanguage
     Italian                 = FOURCC('ITAL'),
     Dutch                   = FOURCC('DUTC'), // Unused
     Japanese                = FOURCC('JAPN'),
-    // The rest of these languages were added in Metroid Prime 3
+    // The rest of these languages were added in Donkey Kong Country Returns
     SimplifiedChinese       = FOURCC('SCHN'), // Unused
     TraditionalChinese      = FOURCC('TCHN'), // Unused
     UKEnglish               = FOURCC('UKEN'),

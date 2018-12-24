@@ -8,7 +8,9 @@
 #include <Common/TString.h>
 #include <vector>
 
-/** A table of localized strings from STRG assets */
+/** A table of localized strings from STRG assets.
+ *  Strings are always internally stored as UTF-8.
+ */
 class CStringTable : public CResource
 {
     DECLARE_RESOURCE_TYPE(StringTable)

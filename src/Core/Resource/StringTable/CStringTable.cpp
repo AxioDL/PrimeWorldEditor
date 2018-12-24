@@ -36,11 +36,11 @@ const ELanguage gkSupportedLanguagesDKCR[] =
 };
 
 // Utility function - retrieve the index of a given language
-static int FindLanguageIndex(CStringTable* pInTable, ELanguage InLanguage)
+static int FindLanguageIndex(const CStringTable* pkInTable, ELanguage InLanguage)
 {
-    for (uint LanguageIdx = 0; LanguageIdx < pInTable->NumLanguages(); LanguageIdx++)
+    for (uint LanguageIdx = 0; LanguageIdx < pkInTable->NumLanguages(); LanguageIdx++)
     {
-        if (pInTable->LanguageByIndex(LanguageIdx) == InLanguage)
+        if (pkInTable->LanguageByIndex(LanguageIdx) == InLanguage)
         {
             return LanguageIdx;
         }
@@ -155,7 +155,7 @@ CDependencyTree* CStringTable::BuildDependencyTree() const
                     // Determine which params are textures based on image type
                     TStringList Params = ParamString.Split(",");
                     TString ImageType = Params.front();
-                    int TexturesStart = -1;
+                    uint TexturesStart = 0;
 
                     if (ImageType == "A")
                         TexturesStart = 2;
@@ -265,7 +265,7 @@ bool CStringTable::IsLanguageSupported(ELanguage Language, EGame Game, ERegion R
         pkSupportedLanguages = &gkSupportedLanguagesDKCR[0];
         NumLanguages = ARRAY_SIZE( gkSupportedLanguagesDKCR );
     }
-    ASSERT(pkSupportedLangages);
+    ASSERT(pkSupportedLanguages);
     ASSERT(NumLanguages > 0);
 
     // Check if the requested language is in the array.

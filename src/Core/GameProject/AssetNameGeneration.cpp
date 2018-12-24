@@ -585,7 +585,7 @@ void GenerateAssetNames(CGameProject *pProj)
         TString String;
 
         for (uint32 iStr = 0; iStr < pString->NumStrings() && String.IsEmpty(); iStr++)
-            String = CStringTable::StripFormatting( pString->String("ENGL", iStr) ).Trimmed();
+            String = CStringTable::StripFormatting( pString->GetString(ELanguage::English, iStr) ).Trimmed();
 
         if (!String.IsEmpty())
         {

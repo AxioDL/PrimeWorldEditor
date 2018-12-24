@@ -33,8 +33,7 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
     mpUI->setupUi(this);
 
     // Set up disc
-    TWideString StrPath = TO_TWIDESTRING(rkIsoPath);
-    mpDisc = nod::OpenDiscFromImage(*StrPath).release();
+    mpDisc = nod::OpenDiscFromImage(TO_WCHAR(rkIsoPath)).release();
 
     if (ValidateGame())
     {
