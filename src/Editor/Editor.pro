@@ -79,7 +79,6 @@ INCLUDEPATH += $$PWE_MAIN_INCLUDE \
                $$EXTERNALS_DIR/CodeGen/include \
                $$EXTERNALS_DIR/glew-2.1.0/include \
                $$EXTERNALS_DIR/LibCommon/Source \
-               $$EXTERNALS_DIR/lzo/include \
                $$EXTERNALS_DIR/nod/include \
                $$EXTERNALS_DIR/nod/logvisor/include \
                $$EXTERNALS_DIR/tinyxml2 \
@@ -308,3 +307,10 @@ CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
 CODEGEN_OUT_PATH = $$BUILD_DIR/Editor/codegen_build/auto_codegen.cpp
 CODEGEN_SRC_PATH = $$PWD
 include($$EXTERNALS_DIR/CodeGen/codegen.pri)
+
+# LZO
+contains(DEFINES, USE_LZOKAY) {
+    INCLUDEPATH += $$EXTERNALS_DIR/lzokay
+} else {
+    INCLUDEPATH += $$EXTERNALS_DIR/lzo/include
+}

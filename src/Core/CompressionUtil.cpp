@@ -1,7 +1,12 @@
 #include "CompressionUtil.h"
 #include <Common/Common.h>
 
+#if USE_LZOKAY
+#include <lzokay.hpp>
+#else
 #include <lzo/lzo1x.h>
+#endif
+
 #include <zlib.h>
 
 namespace CompressionUtil
@@ -23,6 +28,21 @@ namespace CompressionUtil
         }
     }
 
+#if USE_LZOKAY
+    const char* ErrorText_LZO(lzokay::EResult Result)
+    {
+        switch (Result)
+        {
+        case lzokay::EResult::LookbehindOverrun:    return "LookbehindOverrun";
+        case lzokay::EResult::OutputOverrun:        return "OutputOverrun";
+        case lzokay::EResult::InputOverrun:         return "InputOverrun";
+        case lzokay::EResult::Error:                return "Error";
+        case lzokay::EResult::Success:              return "Success";
+        case lzokay::EResult::InputNotConsumed:     return "InputNotConsumed";
+        default:                                    return "UNKNOWN LZO ERROR";
+        }
+    }
+#else
     const char* ErrorText_LZO(int32 Error)
     {
         switch (Error)
@@ -44,6 +64,7 @@ namespace CompressionUtil
         default:                        return "UNKNOWN LZO ERROR";
         }
     }
+#endif
 
     // ************ DECOMPRESS ************
     bool DecompressZlib(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32 DstLen, uint32& rTotalOut)
@@ -83,6 +104,17 @@ namespace CompressionUtil
 
     bool DecompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut)
     {
+#if USE_LZOKAY
+        lzokay::EResult Result = lzokay::decompress(pSrc, (size_t) SrcLen, pDst, (size_t&) rTotalOut);
+
+        if (Result < lzokay::EResult::Success)
+        {
+            errorf("LZO error: %s", ErrorText_LZO(Result));
+            return false;
+        }
+
+        return true;
+#else
         lzo_init();
         lzo_uint TotalOut;
         int32 Error = lzo1x_decompress(pSrc, SrcLen, pDst, &TotalOut, LZO1X_MEM_DECOMPRESS);
@@ -95,6 +127,7 @@ namespace CompressionUtil
         }
 
         return true;
+#endif
     }
 
     bool DecompressSegmentedData(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32 DstLen)
@@ -182,8 +215,20 @@ namespace CompressionUtil
         else return true;
     }
 
-    bool CompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut)
+    bool CompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32 DstLen, uint32& rTotalOut)
     {
+#if USE_LZOKAY
+        rTotalOut = DstLen;
+        lzokay::EResult Result = lzokay::compress(pSrc, (size_t) SrcLen, pDst, (size_t&) rTotalOut);
+
+        if (Result < lzokay::EResult::Success)
+        {
+            errorf("LZO error: %s", ErrorText_LZO(Result));
+            return false;
+        }
+
+        return true;
+#else
         lzo_init();
 
         uint8 *pWorkMem = new uint8[LZO1X_999_MEM_COMPRESS];
@@ -197,6 +242,7 @@ namespace CompressionUtil
         }
 
         return true;
+#endif
     }
 
     bool CompressSegmentedData(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut, bool IsZlib, bool AllowUncompressedSegments)
@@ -219,7 +265,7 @@ namespace CompressionUtil
             if (IsZlib)
                 CompressZlib(pSrc, Size, Compressed.data(), Compressed.size(), TotalOut);
             else
-                CompressLZO(pSrc, Size, Compressed.data(), TotalOut);
+                CompressLZO(pSrc, Size, Compressed.data(), Compressed.size(), TotalOut);
 
             // Verify that the compressed data is actually smaller.
             if (AllowUncompressedSegments && TotalOut >= Size)

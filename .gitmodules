@@ -19,3 +19,6 @@
 [submodule "externals/lzo"]
 	path = externals/lzo
 	url = https://github.com/nemequ/lzo
+[submodule "externals/lzokay"]
+	path = externals/lzokay
+	url = https://github.com/jackoalan/lzokay
