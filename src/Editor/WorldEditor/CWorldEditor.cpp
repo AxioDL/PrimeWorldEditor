@@ -75,7 +75,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     mpTransformCombo->setMinimumWidth(75);
     ui->MainToolBar->addActions(mGizmoActions);
     ui->MainToolBar->addWidget(mpTransformCombo);
-    ui->menuEdit->insertActions(ui->ActionCut, mUndoActions);
+    AddUndoActions(ui->menuEdit, ui->ActionCut);
     ui->menuEdit->insertSeparator(ui->ActionCut);
 
     // Initialize sidebar
@@ -103,13 +103,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     addAction(ui->ActionIncrementGizmo);
     addAction(ui->ActionDecrementGizmo);
 
-    QAction *pToolBarUndo = mUndoStack.createUndoAction(this);
-    pToolBarUndo->setIcon(QIcon(":/icons/Undo.png"));
-    ui->MainToolBar->insertAction(ui->ActionLink, pToolBarUndo);
-
-    QAction *pToolBarRedo = mUndoStack.createRedoAction(this);
-    pToolBarRedo->setIcon(QIcon(":/icons/Redo.png"));
-    ui->MainToolBar->insertAction(ui->ActionLink, pToolBarRedo);
+    AddUndoActions(ui->MainToolBar, ui->ActionLink);
     ui->MainToolBar->insertSeparator(ui->ActionLink);
 
     ui->ActionCut->setAutoRepeat(false);
@@ -157,7 +151,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->TransformSpinBox, SIGNAL(ValueChanged(CVector3f)), this, SLOT(OnTransformSpinBoxModified(CVector3f)));
     connect(ui->TransformSpinBox, SIGNAL(EditingDone(CVector3f)), this, SLOT(OnTransformSpinBoxEdited(CVector3f)));
     connect(ui->CamSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(OnCameraSpeedChange(double)));
-    connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
+    connect(&UndoStack(), SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 
     connect(ui->ActionOpenProject, SIGNAL(triggered()), this, SLOT(OpenProject()));
     connect(ui->ActionSave, SIGNAL(triggered()) , this, SLOT(Save()));
@@ -207,22 +201,11 @@ CWorldEditor::~CWorldEditor()
     delete ui;
 }
 
-void CWorldEditor::closeEvent(QCloseEvent *pEvent)
+/*void CWorldEditor::closeEvent(QCloseEvent *pEvent)
 {
-    bool ShouldClose = CheckUnsavedChanges();
-
-    if (ShouldClose)
-    {
-        mUndoStack.clear();
-        mpCollisionDialog->close();
-        mpLinkDialog->close();
-        IEditor::closeEvent(pEvent);
-    }
-    else
-    {
-        pEvent->ignore();
-    }
-}
+    mpCollisionDialog->close();
+    mpLinkDialog->close();
+}*/
 
 bool CWorldEditor::CloseWorld()
 {
@@ -233,7 +216,7 @@ bool CWorldEditor::CloseWorld()
         ui->MainViewport->ResetHover();
         mScene.ClearScene();
 
-        mUndoStack.clear();
+        UndoStack().clear();
         mpCollisionDialog->close();
         mpLinkDialog->close();
 
@@ -258,7 +241,7 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     ExitPickMode();
     ui->MainViewport->ResetHover();
     ClearSelection();
-    mUndoStack.clear();
+    UndoStack().clear();
 
     // Load new area
     mpWorld = pWorld;
@@ -310,28 +293,6 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     return true;
 }
 
-bool CWorldEditor::CheckUnsavedChanges()
-{
-    // Check whether the user has unsaved changes, return whether it's okay to clear the scene
-    bool OkToClear = !isWindowModified();
-
-    if (!OkToClear)
-    {
-        int Result = QMessageBox::warning(this, "Save", "You have unsaved changes. Save?", QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
-
-        if (Result == QMessageBox::Yes)
-            OkToClear = Save();
-
-        else if (Result == QMessageBox::No)
-            OkToClear = true;
-
-        else if (Result == QMessageBox::Cancel)
-            OkToClear = false;
-    }
-
-    return OkToClear;
-}
-
 void CWorldEditor::ResetCamera()
 {
     ui->MainViewport->Camera().Snap(CVector3f(0.f, 5.f, 1.f));
@@ -368,12 +329,40 @@ void CWorldEditor::NotifyNodeAboutToBeDeleted(CSceneNode *pNode)
         ui->MainViewport->ResetHover();
 }
 
+bool CWorldEditor::Save()
+{
+    if (!mpArea)
+        return true;
+
+    bool SaveAreaSuccess = mpArea->Entry()->Save();
+    bool SaveEGMCSuccess = mpArea->PoiToWorldMap() ? mpArea->PoiToWorldMap()->Entry()->Save() : true;
+    bool SaveWorldSuccess = mpWorld->Entry()->Save();
+
+    if (SaveAreaSuccess)
+        mpArea->ClearExtraDependencies();
+
+    if (SaveAreaSuccess || SaveEGMCSuccess || SaveWorldSuccess)
+        gpEdApp->NotifyAssetsModified();
+
+    if (SaveAreaSuccess && SaveEGMCSuccess && SaveWorldSuccess)
+    {
+        UndoStack().setClean();
+        setWindowModified(false);
+        return true;
+    }
+    else
+    {
+        UICommon::ErrorMsg(this, "Area failed to save!");
+        return false;
+    }
+}
+
 void CWorldEditor::Cut()
 {
     if (!mpSelection->IsEmpty())
     {
         Copy();
-        mUndoStack.push(new CDeleteSelectionCommand(this, "Cut"));
+        UndoStack().push(new CDeleteSelectionCommand(this, "Cut"));
     }
 }
 
@@ -410,7 +399,7 @@ void CWorldEditor::Paste()
             }
 
             CPasteNodesCommand *pCmd = new CPasteNodesCommand(this, mpScriptSidebar->CreateTab()->SpawnLayer(), PastePoint);
-            mUndoStack.push(pCmd);
+            UndoStack().push(pCmd);
         }
     }
 }
@@ -434,41 +423,6 @@ void CWorldEditor::OpenRecentProject()
         QString ProjPath = RecentProjectsList[ProjIndex];
         gpEdApp->OpenProject(ProjPath);
     }
-}
-
-bool CWorldEditor::Save()
-{
-    if (!mpArea)
-        return true;
-
-    bool SaveAreaSuccess = mpArea->Entry()->Save();
-    bool SaveEGMCSuccess = mpArea->PoiToWorldMap() ? mpArea->PoiToWorldMap()->Entry()->Save() : true;
-    bool SaveWorldSuccess = mpWorld->Entry()->Save();
-
-    if (SaveAreaSuccess)
-        mpArea->ClearExtraDependencies();
-
-    if (SaveAreaSuccess || SaveEGMCSuccess || SaveWorldSuccess)
-        gpEdApp->NotifyAssetsModified();
-
-    if (SaveAreaSuccess && SaveEGMCSuccess && SaveWorldSuccess)
-    {
-        mUndoStack.setClean();
-        setWindowModified(false);
-        return true;
-    }
-    else
-    {
-        UICommon::ErrorMsg(this, "Area failed to save!");
-        return false;
-    }
-}
-
-bool CWorldEditor::SaveAndRepack()
-{
-    if (!Save()) return false;
-    gpEdApp->CookAllDirtyPackages();
-    return true;
 }
 
 void CWorldEditor::ExportGame()
@@ -634,7 +588,7 @@ void CWorldEditor::SetSelectionActive(bool Active)
 
     if (!Objects.isEmpty())
     {
-        mUndoStack.beginMacro("Toggle Active");
+        UndoStack().beginMacro("Toggle Active");
 
         while (!Objects.isEmpty())
         {
@@ -667,11 +621,11 @@ void CWorldEditor::SetSelectionActive(bool Active)
 
                 pCommand->SaveNewData();
 
-                mUndoStack.push(pCommand);
+                UndoStack().push(pCommand);
             }
         }
 
-        mUndoStack.endMacro();
+        UndoStack().endMacro();
     }
 }
 
@@ -689,7 +643,7 @@ void CWorldEditor::SetSelectionInstanceNames(const QString& rkNewName, bool IsDo
             TString NewName = TO_TSTRING(rkNewName);
             IPropertyValue *pOld = pName->RawValue()->Clone();
             pInst->SetName(NewName);
-            mUndoStack.push(new CEditScriptPropertyCommand(pName, this, pOld, IsDone, "Edit Instance Name"));
+            UndoStack().push(new CEditScriptPropertyCommand(pName, this, pOld, IsDone, "Edit Instance Name"));
         }
     }*/
 }
@@ -705,7 +659,7 @@ void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)
     }
 
     if (!ScriptNodes.isEmpty())
-        mUndoStack.push(new CChangeLayerCommand(this, ScriptNodes, pLayer));
+        UndoStack().push(new CChangeLayerCommand(this, ScriptNodes, pLayer));
 }
 
 void CWorldEditor::DeleteSelection()
@@ -713,7 +667,7 @@ void CWorldEditor::DeleteSelection()
     if (HasAnyScriptNodesSelected())
     {
         CDeleteSelectionCommand *pCmd = new CDeleteSelectionCommand(this);
-        mUndoStack.push(pCmd);
+        UndoStack().push(pCmd);
     }
 }
 
@@ -1077,7 +1031,7 @@ void CWorldEditor::OnUnlinkClicked()
 
         if (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::Cancel)
         {
-            mUndoStack.beginMacro("Unlink");
+            UndoStack().beginMacro("Unlink");
             bool UnlinkIncoming = (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::OutgoingOnly);
             bool UnlinkOutgoing = (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::IncomingOnly);
 
@@ -1092,7 +1046,7 @@ void CWorldEditor::OnUnlinkClicked()
                         LinkIndices << iLink;
 
                     CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, ELinkType::Incoming, LinkIndices);
-                    mUndoStack.push(pCmd);
+                    UndoStack().push(pCmd);
                 }
 
                 if (UnlinkOutgoing)
@@ -1102,11 +1056,11 @@ void CWorldEditor::OnUnlinkClicked()
                         LinkIndices << iLink;
 
                     CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, ELinkType::Outgoing, LinkIndices);
-                    mUndoStack.push(pCmd);
+                    UndoStack().push(pCmd);
                 }
             }
 
-            mUndoStack.endMacro();
+            UndoStack().endMacro();
         }
     }
 }
@@ -1115,13 +1069,13 @@ void CWorldEditor::OnUndoStackIndexChanged()
 {
     // Check the commands that have been executed on the undo stack and find out whether any of them affect the clean state.
     // This is to prevent commands like select/deselect from altering the clean state.
-    int CurrentIndex = mUndoStack.index();
-    int CleanIndex = mUndoStack.cleanIndex();
+    int CurrentIndex = UndoStack().index();
+    int CleanIndex = UndoStack().cleanIndex();
 
     if (CleanIndex == -1)
     {
         if (!isWindowModified())
-            mUndoStack.setClean();
+            UndoStack().setClean();
 
         return;
     }
@@ -1137,7 +1091,7 @@ void CWorldEditor::OnUndoStackIndexChanged()
 
         for (int iIdx = LowIndex; iIdx <= HighIndex; iIdx++)
         {
-            const QUndoCommand *pkQCmd = mUndoStack.command(iIdx);
+            const QUndoCommand *pkQCmd = UndoStack().command(iIdx);
 
             if (const IUndoCommand *pkCmd = dynamic_cast<const IUndoCommand*>(pkQCmd))
             {
@@ -1208,21 +1162,21 @@ void CWorldEditor::OnTransformSpinBoxModified(CVector3f Value)
         case CGizmo::EGizmoMode::Translate:
         {
             CVector3f Delta = Value - mpSelection->Front()->AbsolutePosition();
-            mUndoStack.push(new CTranslateNodeCommand(this, mpSelection->SelectedNodeList(), Delta, mTranslateSpace));
+            UndoStack().push(new CTranslateNodeCommand(this, mpSelection->SelectedNodeList(), Delta, mTranslateSpace));
             break;
         }
 
         case CGizmo::EGizmoMode::Rotate:
         {
             CQuaternion Delta = CQuaternion::FromEuler(Value) * mpSelection->Front()->AbsoluteRotation().Inverse();
-            mUndoStack.push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), mGizmo.Rotation(), Delta, mRotateSpace));
+            UndoStack().push(new CRotateNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), mGizmo.Rotation(), Delta, mRotateSpace));
             break;
         }
 
         case CGizmo::EGizmoMode::Scale:
         {
             CVector3f Delta = Value / mpSelection->Front()->AbsoluteScale();
-            mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), Delta));
+            UndoStack().push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), Delta));
             break;
         }
     }
@@ -1234,9 +1188,9 @@ void CWorldEditor::OnTransformSpinBoxEdited(CVector3f)
 {
     if (mpSelection->IsEmpty()) return;
 
-    if (mGizmo.Mode() == CGizmo::EGizmoMode::Translate)   mUndoStack.push(CTranslateNodeCommand::End());
-    else if (mGizmo.Mode() == CGizmo::EGizmoMode::Rotate) mUndoStack.push(CRotateNodeCommand::End());
-    else if (mGizmo.Mode() == CGizmo::EGizmoMode::Scale)  mUndoStack.push(CScaleNodeCommand::End());
+    if (mGizmo.Mode() == CGizmo::EGizmoMode::Translate)   UndoStack().push(CTranslateNodeCommand::End());
+    else if (mGizmo.Mode() == CGizmo::EGizmoMode::Rotate) UndoStack().push(CRotateNodeCommand::End());
+    else if (mGizmo.Mode() == CGizmo::EGizmoMode::Scale)  UndoStack().push(CScaleNodeCommand::End());
 
     UpdateGizmoUI();
 }

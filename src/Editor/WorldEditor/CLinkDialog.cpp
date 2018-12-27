@@ -174,13 +174,13 @@ void CLinkDialog::accept()
     if (!mpEditLink)
     {
         CAddLinkCommand *pCmd = new CAddLinkCommand(mpEditor, Link);
-        mpEditor->UndoStack()->push(pCmd);
+        mpEditor->UndoStack().push(pCmd);
     }
 
     else if (Link != *mpEditLink)
     {
         CEditLinkCommand *pCmd = new CEditLinkCommand(mpEditor, mpEditLink, Link);
-        mpEditor->UndoStack()->push(pCmd);
+        mpEditor->UndoStack().push(pCmd);
     }
 
     QDialog::accept();

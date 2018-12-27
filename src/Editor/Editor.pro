@@ -199,7 +199,11 @@ HEADERS += \
     Widgets/CCheckableTreeWidgetItem.h \
     Widgets/CCheckableTreeWidget.h \
     Undo/IEditPropertyCommand.h \
-    Widgets/TEnumComboBox.h
+    Widgets/TEnumComboBox.h \
+    StringEditor/CStringEditor.h \
+    StringEditor/CStringListModel.h \
+    StringEditor/CStringDelegate.h \
+    CCustomDelegate.h
 
 # Source Files
 SOURCES += \
@@ -274,7 +278,11 @@ SOURCES += \
     ResourceBrowser/CVirtualDirectoryTreeView.cpp \
     CPropertyNameValidator.cpp \
     CGeneratePropertyNamesDialog.cpp \
-    Undo/IEditPropertyCommand.cpp
+    Undo/IEditPropertyCommand.cpp \
+    StringEditor/CStringEditor.cpp \
+    StringEditor/CStringListModel.cpp \
+    IEditor.cpp \
+    StringEditor/CStringDelegate.cpp
 
 # UI Files
 FORMS += \
@@ -301,7 +309,8 @@ FORMS += \
     WorldEditor/CPoiMapSidebar.ui \
     CProgressDialog.ui \
     Widgets/CSelectResourcePanel.ui \
-    CGeneratePropertyNamesDialog.ui
+    CGeneratePropertyNamesDialog.ui \
+    StringEditor/CStringEditor.ui
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

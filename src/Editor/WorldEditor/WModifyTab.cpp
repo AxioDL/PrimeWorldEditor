@@ -236,7 +236,7 @@ void WModifyTab::OnDeleteLinksClicked()
 
             CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
             CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(mpWorldEditor, pInst, Type, Indices);
-            mpWorldEditor->UndoStack()->push(pCmd);
+            mpWorldEditor->UndoStack().push(pCmd);
         }
     }
 }

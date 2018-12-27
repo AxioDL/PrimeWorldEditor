@@ -62,10 +62,6 @@ class CWorldEditor : public INodeEditor
     CScriptObject *mpNewLinkSender;
     CScriptObject *mpNewLinkReceiver;
 
-    QString mWorldDir;
-    QString mPakFileList;
-    QString mPakTarget;
-
     // Sidebars
     QVBoxLayout *mpRightSidebarLayout;
     CWorldEditorSidebar *mpCurSidebar;
@@ -80,10 +76,8 @@ class CWorldEditor : public INodeEditor
 public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
-    void closeEvent(QCloseEvent *pEvent);
     bool CloseWorld();
     bool SetArea(CWorld *pWorld, int AreaIndex);
-    bool CheckUnsavedChanges();
     void ResetCamera();
     bool HasAnyScriptNodesSelected() const;
 
@@ -95,15 +89,10 @@ public:
     CResourceBrowser* ResourceBrowser() const;
     CSceneViewport* Viewport() const;
 
-    inline void SetWorldDir(QString WorldDir)       { mWorldDir = (QDir(WorldDir).exists() ? WorldDir : ""); }
-    inline void SetPakFileList(QString FileList)    { mPakFileList = (QFile::exists(FileList) ? FileList : ""); }
-    inline void SetPakTarget(QString PakTarget)     { mPakTarget = (QFile::exists(PakTarget) ? PakTarget : ""); }
-
-    inline bool CanRepack() const { return !mWorldDir.isEmpty() && !mPakFileList.isEmpty() && !mPakTarget.isEmpty(); }
-
 public slots:
     virtual void EditorTick(float);
     virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode);
+    virtual bool Save() override;
 
     void Cut();
     void Copy();
@@ -111,8 +100,6 @@ public slots:
 
     void OpenProject();
     void OpenRecentProject();
-    bool Save();
-    bool SaveAndRepack();
     void ExportGame();
     void CloseProject();
 

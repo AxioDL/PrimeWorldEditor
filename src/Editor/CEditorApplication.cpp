@@ -5,6 +5,7 @@
 #include "CProjectSettingsDialog.h"
 #include "Editor/CharacterEditor/CCharacterEditor.h"
 #include "Editor/ModelEditor/CModelEditorWindow.h"
+#include "Editor/StringEditor/CStringEditor.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
 #include <Common/Macros.h>
@@ -151,6 +152,10 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
 
         case EResourceType::AnimSet:
             pEd = new CCharacterEditor((CAnimSet*) pRes, mpWorldEditor);
+            break;
+
+        case EResourceType::StringTable:
+            pEd = new CStringEditor((CStringTable*) pRes, mpWorldEditor);
             break;
         }
 

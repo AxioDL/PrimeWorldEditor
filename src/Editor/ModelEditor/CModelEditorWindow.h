@@ -34,6 +34,7 @@ class CModelEditorWindow : public IEditor
 public:
     explicit CModelEditorWindow(CModel *pModel, QWidget *pParent = 0);
     ~CModelEditorWindow();
+    bool Save();
     void SetActiveModel(CModel *pModel);
     CModelEditorViewport* Viewport() const;
 
@@ -100,7 +101,6 @@ private:
 
 private slots:
     void Import();
-    void Save();
     void ConvertToDDS();
     void ConvertToTXTR();
     void SetMeshPreview();

@@ -9,44 +9,6 @@
 #include <QLineEdit>
 #include <QPainter>
 
-// Font Info
-struct SResDelegateFontInfo
-{
-    QFont NameFont;
-    QFont InfoFont;
-    QFontMetrics NameFontMetrics;
-    QFontMetrics InfoFontMetrics;
-    QPen NamePen;
-    QPen InfoPen;
-    int Margin;
-    int Spacing;
-
-    SResDelegateFontInfo()
-        : NameFontMetrics(NameFont), InfoFontMetrics(InfoFont) {}
-};
-SResDelegateFontInfo GetFontInfo(const QStyleOptionViewItem& rkOption)
-{
-    SResDelegateFontInfo Info;
-
-    Info.NameFont = rkOption.font;
-    Info.NameFont.setPointSize( rkOption.font.pointSize() + 1 );
-    Info.NameFontMetrics = QFontMetrics(Info.NameFont);
-
-    Info.InfoFont = rkOption.font;
-    Info.InfoFont.setPointSize( rkOption.font.pointSize() - 1 );
-    Info.InfoFontMetrics = QFontMetrics(Info.InfoFont);
-
-    Info.NamePen = QPen(rkOption.palette.text(), 1.f);
-
-    Info.InfoPen = QPen(rkOption.palette.text(), 1.f);
-    Info.InfoPen.setColor( Info.InfoPen.color().darker(140) );
-
-    Info.Margin = 3;
-    Info.Spacing = 3;
-
-    return Info;
-}
-
 // Geometry Info
 struct SResDelegateGeometryInfo
 {
@@ -55,7 +17,7 @@ struct SResDelegateGeometryInfo
     QRect NameStringRect;
     QRect InfoStringRect;
 };
-SResDelegateGeometryInfo GetGeometryInfo(const SResDelegateFontInfo& rkFontInfo, const QStyleOptionViewItem& rkOption, bool IsDirectory)
+SResDelegateGeometryInfo GetGeometryInfo(const SDelegateFontInfo& rkFontInfo, const QStyleOptionViewItem& rkOption, bool IsDirectory)
 {
     SResDelegateGeometryInfo Info;
 
@@ -101,7 +63,7 @@ SResDelegateGeometryInfo GetGeometryInfo(const SResDelegateFontInfo& rkFontInfo,
 QSize CResourceBrowserDelegate::sizeHint(const QStyleOptionViewItem& rkOption, const QModelIndex&) const
 {
     // Get string info
-    SResDelegateFontInfo Info = GetFontInfo(rkOption);
+    SDelegateFontInfo Info = GetFontInfo(rkOption);
 
     // Calculate height
     int Height = (Info.Margin * 2) + Info.NameFontMetrics.height() + Info.Spacing + Info.InfoFontMetrics.height();
@@ -114,7 +76,7 @@ void CResourceBrowserDelegate::paint(QPainter *pPainter, const QStyleOptionViewI
     CResourceEntry *pEntry = GetIndexEntry(rkIndex);
 
     // Initialize
-    SResDelegateFontInfo FontInfo = GetFontInfo(rkOption);
+    SDelegateFontInfo FontInfo = GetFontInfo(rkOption);
     SResDelegateGeometryInfo GeomInfo = GetGeometryInfo(FontInfo, rkOption, pEntry == nullptr);
 
     // Draw icon
@@ -200,7 +162,7 @@ void CResourceBrowserDelegate::updateEditorGeometry(QWidget *pEditor, const QSty
     bool IsDir = GetIndexEntry(rkIndex) == nullptr;
 
     // Get rect
-    SResDelegateFontInfo FontInfo = GetFontInfo(rkOption);
+    SDelegateFontInfo FontInfo = GetFontInfo(rkOption);
     SResDelegateGeometryInfo GeomInfo = GetGeometryInfo(FontInfo, rkOption, IsDir);
 
     // Set geometry; make it a little bit better than the name string rect to give the user more space

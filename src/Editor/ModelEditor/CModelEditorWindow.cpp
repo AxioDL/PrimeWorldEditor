@@ -151,6 +151,17 @@ CModelEditorWindow::~CModelEditorWindow()
     delete ui;
 }
 
+bool CModelEditorWindow::Save()
+{
+    if (!mpCurrentModel) return true;
+    bool SaveSuccess = mpCurrentModel->Entry()->Save();
+
+    if (SaveSuccess)
+        gpEdApp->NotifyAssetsModified();
+
+    return SaveSuccess;
+}
+
 void CModelEditorWindow::RefreshViewport()
 {
     ui->Viewport->ProcessInput();
@@ -747,15 +758,6 @@ void CModelEditorWindow::Import()
     SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: Untitled");
     mOutputFilename = "";
     gpResourceStore->DestroyUnreferencedResources();
-}
-
-void CModelEditorWindow::Save()
-{
-    if (!mpCurrentModel) return;
-    bool SaveSuccess = mpCurrentModel->Entry()->Save();
-
-    if (SaveSuccess)
-        gpEdApp->NotifyAssetsModified();
 }
 
 void CModelEditorWindow::ConvertToDDS()

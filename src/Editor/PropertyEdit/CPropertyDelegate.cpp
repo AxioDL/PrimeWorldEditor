@@ -525,7 +525,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         {
             // Always consider the edit done for bool properties
             pCommand->SetEditComplete(!mEditInProgress || pProp->Type() == EPropertyType::Bool);
-            mpEditor->UndoStack()->push(pCommand);
+            mpEditor->UndoStack().push(pCommand);
         }
 
         else
