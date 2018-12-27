@@ -36,14 +36,36 @@ void CStringDelegate::paint(QPainter* pPainter, const QStyleOptionViewItem& kOpt
     SDelegateFontInfo FontInfo = GetFontInfo(kOption);
     QString StringName = kIndex.model()->data(kIndex, Qt::DisplayRole).toString();
     QString StringText = kIndex.model()->data(kIndex, Qt::UserRole).toString();
+    QRect InnerRect = kOption.rect.adjusted(gkMargin, gkMargin, -gkMargin, -gkMargin);
+
+    // Create font for the string number
+    QFont NumberFont = FontInfo.NameFont;
+    NumberFont.setPixelSize(InnerRect.height() * 0.6);
+
+    // Dumb algorithm to calculate the number of digits
+    int TotalNumStrings = kIndex.model()->rowCount();
+    int NumDigits = 1;
+
+    while (TotalNumStrings >= 10)
+    {
+        TotalNumStrings /= 10;
+        NumDigits++;
+    }
+
+    // Add a buffer of one extra digit
+    NumDigits++;
+
+    int NumberWidth = QFontMetrics(NumberFont).averageCharWidth() * NumDigits;
+    QRect NumRect(InnerRect.left(), InnerRect.top(), NumberWidth, InnerRect.height());
 
     // Calculate rects
-    int X = kOption.rect.left() + gkMargin;
-    int Width = kOption.rect.width() - (gkMargin * 2);
+    int X = InnerRect.left() + NumberWidth + gkMargin;
+    int Width = InnerRect.width() - (X + gkMargin);
     int NameHeight = FontInfo.NameFontMetrics.height();
     int TextHeight = FontInfo.InfoFontMetrics.height();
     int NameY = kOption.rect.top() + gkMargin;
     int TextY = NameY + NameHeight + gkSpacing;
+
     QRect NameRect(X, NameY, Width, NameHeight);
     QRect TextRect(X, TextY, Width, TextHeight);
 
@@ -56,6 +78,11 @@ void CStringDelegate::paint(QPainter* pPainter, const QStyleOptionViewItem& kOpt
     {
         pPainter->fillRect( kOption.rect, kOption.palette.highlight() );
     }
+
+    // Draw number
+    pPainter->setFont(NumberFont);
+    pPainter->setPen(FontInfo.NamePen);
+    pPainter->drawText(NumRect, Qt::AlignCenter, QString::number(kIndex.row() + 1));
 
     // Draw string info
     pPainter->setFont(FontInfo.NameFont);

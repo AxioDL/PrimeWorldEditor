@@ -3,7 +3,6 @@
 
 #include "CStringDelegate.h"
 #include "Editor/UICommon.h"
-#include "Editor/Widgets/CSizeableTabBar.h"
 
 #include <QSettings>
 
@@ -23,7 +22,6 @@ CStringEditor::CStringEditor(CStringTable* pStringTable, QWidget* pParent)
 
     InitUI();
     LoadSettings();
-    UpdateUI();
 }
 
 CStringEditor::~CStringEditor()
@@ -36,54 +34,51 @@ void CStringEditor::InitUI()
     mpUI->StringNameListView->setModel(mpListModel);
     mpUI->StringNameListView->setItemDelegate( new CStringDelegate(this) );
 
-#if 0
-    // Set up language combo box
+    // Set up language tabs
+    mpUI->EditLanguageTabBar->setExpanding(false);
+
     for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
         ELanguage Language = mpStringTable->LanguageByIndex(LanguageIdx);
         const char* pkLanguageName = TEnumReflection<ELanguage>::ConvertValueToString(Language);
-        mpUI->LanguageComboBox->addItem(pkLanguageName);
+        mpUI->EditLanguageTabBar->addTab(pkLanguageName);
     }
-#else
-    QTabBar* pTabBar = new QTabBar(this);
-    pTabBar->setExpanding(false);
-
-    // Set up language combo box
-    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
-    {
-        ELanguage Language = mpStringTable->LanguageByIndex(LanguageIdx);
-        const char* pkLanguageName = TEnumReflection<ELanguage>::ConvertValueToString(Language);
-        pTabBar->addTab(pkLanguageName);
-    }
-
-    QVBoxLayout* pTabLayout = new QVBoxLayout(mpUI->TabsContainerWidget);
-    pTabLayout->setContentsMargins(0,0,0,0);
-    pTabLayout->addWidget(pTabBar);
-
-#endif
 
     // Connect signals & slots
     connect( mpUI->StringNameListView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(OnStringSelected(QModelIndex)) );
 
-//    connect( mpUI->LanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnLanguageChanged(int)) );
-    connect( pTabBar, SIGNAL(currentChanged(int)), this, SLOT(OnLanguageChanged(int)) );
+    connect( mpUI->EditLanguageTabBar, SIGNAL(currentChanged(int)), this, SLOT(OnLanguageChanged(int)) );
 
     // Update window title
     QString WindowTitle = "%APP_FULL_NAME% - String Editor - %1[*]";
     WindowTitle = WindowTitle.arg( TO_QSTRING(mpStringTable->Entry()->CookedAssetPath(true).GetFileName()) );
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 
+    // Initialize the splitter so top split takes as much space as possible
+    QList<int> SplitterSizes;
+    SplitterSizes << (height() * 0.95) << (height() * 0.05);
+    mpUI->splitter->setSizes(SplitterSizes);
+
+    // Initialize status bar
+    UpdateStatusBar();
+}
+
+void CStringEditor::UpdateStatusBar()
+{
     // Update status bar
     QString StatusText = QString("%1 languages, %2 strings")
             .arg(mpStringTable->NumLanguages())
             .arg(mpStringTable->NumStrings());
 
-    mpUI->StatusBar->setStatusTip(StatusText);
-}
+    if (mCurrentStringIndex >= 0)
+    {
+        StatusText += QString("; editing string #%1 in %2")
+                .arg(mCurrentStringIndex + 1)
+                .arg(TEnumReflection<ELanguage>::ConvertValueToString(mCurrentLanguage));
+    }
 
-void CStringEditor::UpdateUI()
-{
+    mpUI->StatusBar->showMessage(StatusText);
 }
 
 void CStringEditor::SetActiveLanguage(ELanguage Language)
@@ -94,6 +89,7 @@ void CStringEditor::SetActiveLanguage(ELanguage Language)
 
         // Force UI to update with the correct string for the new language
         SetActiveString( mCurrentStringIndex );
+        SaveSettings();
     }
 }
 
@@ -104,12 +100,24 @@ void CStringEditor::SetActiveString(int StringIndex)
     TString StringData = mpStringTable->GetString(mCurrentLanguage, mCurrentStringIndex);
     mpUI->StringNameLineEdit->setText( TO_QSTRING(StringName) );
     mpUI->StringTextEdit->setPlainText( TO_QSTRING(StringData) );
+    UpdateStatusBar();
 }
 
 void CStringEditor::LoadSettings()
 {
     QSettings Settings;
+
+    // Set language
     mCurrentLanguage = (ELanguage) Settings.value(gkpLanguageSetting, (int) ELanguage::English).toInt();
+
+    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+    {
+        if (mpStringTable->LanguageByIndex(LanguageIdx) == mCurrentLanguage)
+        {
+            mpUI->EditLanguageTabBar->setCurrentIndex(LanguageIdx);
+            break;
+        }
+    }
 }
 
 void CStringEditor::SaveSettings()

@@ -36,7 +36,7 @@ public:
     explicit CStringEditor(CStringTable* pStringTable, QWidget* pParent = 0);
     ~CStringEditor();
     void InitUI();
-    void UpdateUI();
+    void UpdateStatusBar();
     void SetActiveLanguage(ELanguage Language);
     void SetActiveString(int StringIndex);
 
