@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakPlayer</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>MaxTranslationalAcceleration0</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>MaxTranslationalAcceleration1</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>MaxTranslationalAcceleration2</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>MaxTranslationalAcceleration3</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>MaxTranslationalAcceleration4</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>MaxTranslationalAcceleration5</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>MaxTranslationalAcceleration6</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>MaxTranslationalAcceleration7</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>MaxRotationalAcceleration0</Name>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>MaxRotationalAcceleration1</Name>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>MaxRotationalAcceleration2</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>MaxRotationalAcceleration3</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>MaxRotationalAcceleration4</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>MaxRotationalAcceleration5</Name>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>MaxRotationalAcceleration6</Name>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>MaxRotationalAcceleration7</Name>
+            </Element>
+            <Element Type="Float" ID="0x10">
+                <Name>TranslationFriction0</Name>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>TranslationFriction1</Name>
+            </Element>
+            <Element Type="Float" ID="0x12">
+                <Name>TranslationFriction2</Name>
+            </Element>
+            <Element Type="Float" ID="0x13">
+                <Name>TranslationFriction3</Name>
+            </Element>
+            <Element Type="Float" ID="0x14">
+                <Name>TranslationFriction4</Name>
+            </Element>
+            <Element Type="Float" ID="0x15">
+                <Name>TranslationFriction5</Name>
+            </Element>
+            <Element Type="Float" ID="0x16">
+                <Name>TranslationFriction6</Name>
+            </Element>
+            <Element Type="Float" ID="0x17">
+                <Name>TranslationFriction7</Name>
+            </Element>
+            <Element Type="Float" ID="0x18">
+                <Name>RotationFriction0</Name>
+            </Element>
+            <Element Type="Float" ID="0x19">
+                <Name>RotationFriction1</Name>
+            </Element>
+            <Element Type="Float" ID="0x1A">
+                <Name>RotationFriction2</Name>
+            </Element>
+            <Element Type="Float" ID="0x1B">
+                <Name>RotationFriction3</Name>
+            </Element>
+            <Element Type="Float" ID="0x1C">
+                <Name>RotationFriction4</Name>
+            </Element>
+            <Element Type="Float" ID="0x1D">
+                <Name>RotationFriction5</Name>
+            </Element>
+            <Element Type="Float" ID="0x1E">
+                <Name>RotationFriction6</Name>
+            </Element>
+            <Element Type="Float" ID="0x1F">
+                <Name>RotationFriction7</Name>
+            </Element>
+            <Element Type="Float" ID="0x20">
+                <Name>RotationMaxSpeed0</Name>
+            </Element>
+            <Element Type="Float" ID="0x21">
+                <Name>RotationMaxSpeed1</Name>
+            </Element>
+            <Element Type="Float" ID="0x22">
+                <Name>RotationMaxSpeed2</Name>
+            </Element>
+            <Element Type="Float" ID="0x23">
+                <Name>RotationMaxSpeed3</Name>
+            </Element>
+            <Element Type="Float" ID="0x24">
+                <Name>RotationMaxSpeed4</Name>
+            </Element>
+            <Element Type="Float" ID="0x25">
+                <Name>RotationMaxSpeed5</Name>
+            </Element>
+            <Element Type="Float" ID="0x26">
+                <Name>RotationMaxSpeed6</Name>
+            </Element>
+            <Element Type="Float" ID="0x27">
+                <Name>RotationMaxSpeed7</Name>
+            </Element>
+            <Element Type="Float" ID="0x28">
+                <Name>TranslationMaxSpeed0</Name>
+            </Element>
+            <Element Type="Float" ID="0x29">
+                <Name>TranslationMaxSpeed1</Name>
+            </Element>
+            <Element Type="Float" ID="0x2A">
+                <Name>TranslationMaxSpeed2</Name>
+            </Element>
+            <Element Type="Float" ID="0x2B">
+                <Name>TranslationMaxSpeed3</Name>
+            </Element>
+            <Element Type="Float" ID="0x2C">
+                <Name>TranslationMaxSpeed4</Name>
+            </Element>
+            <Element Type="Float" ID="0x2D">
+                <Name>TranslationMaxSpeed5</Name>
+            </Element>
+            <Element Type="Float" ID="0x2E">
+                <Name>TranslationMaxSpeed6</Name>
+            </Element>
+            <Element Type="Float" ID="0x2F">
+                <Name>TranslationMaxSpeed7</Name>
+            </Element>
+            <Element Type="Float" ID="0x30">
+                <Name>NormalGravityAccel</Name>
+            </Element>
+            <Element Type="Float" ID="0x31">
+                <Name>FluidGravityAccel</Name>
+            </Element>
+            <Element Type="Float" ID="0x32">
+                <Name>VerticalJumpAccel</Name>
+            </Element>
+            <Element Type="Float" ID="0x33">
+                <Name>HorizontalJumpAccel</Name>
+            </Element>
+            <Element Type="Float" ID="0x34">
+                <Name>VerticalDoubleJumpAccel</Name>
+            </Element>
+            <Element Type="Float" ID="0x35">
+                <Name>HorizontalDoubleJumpAccel</Name>
+            </Element>
+            <Element Type="Float" ID="0x36">
+                <Name>WaterJumpFactor</Name>
+            </Element>
+            <Element Type="Float" ID="0x37">
+                <Name>WaterBallJumpFactor</Name>
+            </Element>
+            <Element Type="Float" ID="0x38">
+                <Name>LavaJumpFactor</Name>
+            </Element>
+            <Element Type="Float" ID="0x39">
+                <Name>LavaBallJumpFactor</Name>
+            </Element>
+            <Element Type="Float" ID="0x3A">
+                <Name>PhazonJumpFactor</Name>
+            </Element>
+            <Element Type="Float" ID="0x3B">
+                <Name>PhazonBallJumpFactor</Name>
+            </Element>
+            <Element Type="Float" ID="0x3C">
+                <Name>AllowedJumpTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x3D">
+                <Name>AllowedDoubleJumpTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x3E">
+                <Name>MinDoubleJumpWindow</Name>
+            </Element>
+            <Element Type="Float" ID="0x3F">
+                <Name>MaxDoubleJumpWindow</Name>
+            </Element>
+            <Element Type="Float" ID="0x40">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x41">
+                <Name>MinJumpTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x42">
+                <Name>MinDoubleJumpTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x43">
+                <Name>AllowedLedgeTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x44">
+                <Name>DoubleJumpImpulse</Name>
+            </Element>
+            <Element Type="Float" ID="0x45">
+                <Name>BackwardsForceMultiplier</Name>
+            </Element>
+            <Element Type="Float" ID="0x46">
+                <Name>BombJumpRadius</Name>
+            </Element>
+            <Element Type="Float" ID="0x47">
+                <Name>BombJumpHeight</Name>
+            </Element>
+            <Element Type="Float" ID="0x48">
+                <Name>EyeOffset</Name>
+            </Element>
+            <Element Type="Float" ID="0x49">
+                <Name>TurnSpeedMultiplier</Name>
+            </Element>
+            <Element Type="Float" ID="0x4A">
+                <Name>FreeLookTurnSpeedMultiplier</Name>
+            </Element>
+            <Element Type="Float" ID="0x4B">
+                <Name>HorizontalFreeLookAngleVel</Name>
+            </Element>
+            <Element Type="Float" ID="0x4C">
+                <Name>VerticalFreeLookAngleVel</Name>
+            </Element>
+            <Element Type="Float" ID="0x4D">
+                <Name>FreeLookSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0x4E">
+                <Name>FreeLookSnapSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0x4F">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x50">
+                <Name>FreeLookCenteredThresholdAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x51">
+                <Name>FreeLookCenteredTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x52">
+                <Name>FreeLookDampenFactor</Name>
+            </Element>
+            <Element Type="Float" ID="0x53">
+                <Name>LeftDiv</Name>
+            </Element>
+            <Element Type="Float" ID="0x54">
+                <Name>RightDiv</Name>
+            </Element>
+            <Element Type="Bool" ID="0x55">
+                <Name>FreeLookTurnsPlayer</Name>
+            </Element>
+            <Element Type="Bool" ID="0x56">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x57">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x58">
+                <Name>MoveDuringFreeLook</Name>
+            </Element>
+            <Element Type="Bool" ID="0x59">
+                <Name>HoldButtonsForFreeLook</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5A">
+                <Name>TwoButtonsForFreeLook</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5B">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5C">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5D">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5E">
+                <Name>AimWhenOrbitingPoint</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5F">
+                <Name>StayInFreeLookWhileFiring</Name>
+            </Element>
+            <Element Type="Bool" ID="0x60">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x61">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x62">
+                <Name>OrbitFixedOffset</Name>
+            </Element>
+            <Element Type="Bool" ID="0x63">
+                <Name>GunButtonTogglesHolster</Name>
+            </Element>
+            <Element Type="Bool" ID="0x64">
+                <Name>GunNotFiringTogglesHolster</Name>
+            </Element>
+            <Element Type="Bool" ID="0x65">
+                <Name>FallingDoubleJump</Name>
+            </Element>
+            <Element Type="Bool" ID="0x66">
+                <Name>ImpulseDoubleJump</Name>
+            </Element>
+            <Element Type="Bool" ID="0x67">
+                <Name>FiringCancelsCameraPitch</Name>
+            </Element>
+            <Element Type="Bool" ID="0x68">
+                <Name>AssistedAimingIgnoreHorizontal</Name>
+            </Element>
+            <Element Type="Bool" ID="0x69">
+                <Name>AssistedAimingIgnoreVertical</Name>
+            </Element>
+            <Element Type="Float" ID="0x6A">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x6B">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x6C">
+                <Name>AimMaxDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x6D">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x6E">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x6F">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x70">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x71">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x72">
+                <Name>AimThresholdDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x73">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x74">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x75">
+                <Name>AimBoxWidth</Name>
+            </Element>
+            <Element Type="Float" ID="0x76">
+                <Name>AimBoxHeight</Name>
+            </Element>
+            <Element Type="Float" ID="0x77">
+                <Name>AimTargetTimer</Name>
+            </Element>
+            <Element Type="Float" ID="0x78">
+                <Name>AimAssistHorizontalAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x79">
+                <Name>AimAssistVerticalAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x7A">
+                <Name>OrbitMinDistance0</Name>
+            </Element>
+            <Element Type="Float" ID="0x7B">
+                <Name>OrbitNormalDistance0</Name>
+            </Element>
+            <Element Type="Float" ID="0x7C">
+                <Name>OrbitMaxDistance0</Name>
+            </Element>
+            <Element Type="Float" ID="0x7D">
+                <Name>OrbitMinDistance1</Name>
+            </Element>
+            <Element Type="Float" ID="0x7E">
+                <Name>OrbitNormalDistance1</Name>
+            </Element>
+            <Element Type="Float" ID="0x7F">
+                <Name>OrbitMaxDistance1</Name>
+            </Element>
+            <Element Type="Float" ID="0x80">
+                <Name>OrbitMinDistance2</Name>
+            </Element>
+            <Element Type="Float" ID="0x81">
+                <Name>OrbitNormalDistance2</Name>
+            </Element>
+            <Element Type="Float" ID="0x82">
+                <Name>OrbitMaxDistance2</Name>
+            </Element>
+            <Element Type="Float" ID="0x83">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x84">
+                <Name>OrbitModeTimer</Name>
+            </Element>
+            <Element Type="Float" ID="0x85">
+                <Name>OrbitCameraSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0x86">
+                <Name>OrbitUpperAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x87">
+                <Name>OrbitLowerAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x88">
+                <Name>OrbitHorizAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x89">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x8A">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x8B">
+                <Name>OrbitMaxTargetDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x8C">
+                <Name>OrbitMaxLockDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x8D">
+                <Name>OrbitDistanceThreshold</Name>
+            </Element>
+            <Element Type="Int" ID="0x8E">
+                <Name>OrbitScreenBoxHalfExtentX0</Name>
+            </Element>
+            <Element Type="Int" ID="0x8F">
+                <Name>OrbitScreenBoxHalfExtentY0</Name>
+            </Element>
+            <Element Type="Int" ID="0x90">
+                <Name>OrbitScreenBoxCenterX0</Name>
+            </Element>
+            <Element Type="Int" ID="0x91">
+                <Name>OrbitScreenBoxCenterY0</Name>
+            </Element>
+            <Element Type="Int" ID="0x92">
+                <Name>OrbitZoneIdealX0</Name>
+            </Element>
+            <Element Type="Int" ID="0x93">
+                <Name>OrbitZoneIdealY0</Name>
+            </Element>
+            <Element Type="Int" ID="0x94">
+                <Name>OrbitScreenBoxHalfExtentX1</Name>
+            </Element>
+            <Element Type="Int" ID="0x95">
+                <Name>OrbitScreenBoxHalfExtentY1</Name>
+            </Element>
+            <Element Type="Int" ID="0x96">
+                <Name>OrbitScreenBoxCenterX1</Name>
+            </Element>
+            <Element Type="Int" ID="0x97">
+                <Name>OrbitScreenBoxCenterY1</Name>
+            </Element>
+            <Element Type="Int" ID="0x98">
+                <Name>OrbitZoneIdealX1</Name>
+            </Element>
+            <Element Type="Int" ID="0x99">
+                <Name>OrbitZoneIdealY1</Name>
+            </Element>
+            <Element Type="Float" ID="0x9A">
+                <Name>OrbitNearX</Name>
+            </Element>
+            <Element Type="Float" ID="0x9B">
+                <Name>OrbitNearZ</Name>
+            </Element>
+            <Element Type="Float" ID="0x9C">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x9D">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x9E">
+                <Name>OrbitFixedOffsetZDiff</Name>
+            </Element>
+            <Element Type="Float" ID="0x9F">
+                <Name>OrbitZRange</Name>
+            </Element>
+            <Element Type="Float" ID="0xA0">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xA1">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xA2">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xA3">
+                <Name>OrbitPreventionTime</Name>
+            </Element>
+            <Element Type="Bool" ID="0xA4">
+                <Name>DashEnabled</Name>
+            </Element>
+            <Element Type="Bool" ID="0xA5">
+                <Name>DashOnButtonRelease</Name>
+            </Element>
+            <Element Type="Float" ID="0xA6">
+                <Name>DashButtonHoldCancelTime</Name>
+            </Element>
+            <Element Type="Float" ID="0xA7">
+                <Name>DashStrafeInputThreshold</Name>
+            </Element>
+            <Element Type="Float" ID="0xA8">
+                <Name>SidewaysDoubleJumpImpulse</Name>
+            </Element>
+            <Element Type="Float" ID="0xA9">
+                <Name>SidewaysVerticalDoubleJumpAccel</Name>
+            </Element>
+            <Element Type="Float" ID="0xAA">
+                <Name>SidewaysHorizontalDoubleJumpAccel</Name>
+            </Element>
+            <Element Type="Float" ID="0xAB">
+                <Name>ScanningRange</Name>
+            </Element>
+            <Element Type="Bool" ID="0xAC">
+                <Name>ScanRetention</Name>
+            </Element>
+            <Element Type="Bool" ID="0xAD">
+                <Name>ScanFreezesGame</Name>
+            </Element>
+            <Element Type="Bool" ID="0xAE">
+                <Name>OrbitWhileScanning</Name>
+            </Element>
+            <Element Type="Float" ID="0xAF">
+                <Name>ScanMaxTargetDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0xB0">
+                <Name>ScanMaxLockDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0xB1">
+                <Name>OrbitDistanceMax</Name>
+            </Element>
+            <Element Type="Float" ID="0xB2">
+                <Name>GrappleSwingLength</Name>
+            </Element>
+            <Element Type="Float" ID="0xB3">
+                <Name>GrappleSwingPeriod</Name>
+            </Element>
+            <Element Type="Float" ID="0xB4">
+                <Name>GrapplePullSpeedMin</Name>
+            </Element>
+            <Element Type="Float" ID="0xB5">
+                <Name>GrappleCameraSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0xB6">
+                <Name>MaxGrappleLockedTurnAlignDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0xB7">
+                <Name>GrapplePullSpeedProportion</Name>
+            </Element>
+            <Element Type="Float" ID="0xB8">
+                <Name>GrapplePullSpeedMax</Name>
+            </Element>
+            <Element Type="Float" ID="0xB9">
+                <Name>GrappleLookCenterSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0xBA">
+                <Name>MaxGrappleTurnSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0xBB">
+                <Name>GrappleJumpForce</Name>
+            </Element>
+            <Element Type="Float" ID="0xBC">
+                <Name>GrappleReleaseTime</Name>
+            </Element>
+            <Element Type="Int" ID="0xBD">
+                <Name>GrappleJumpMode</Name>
+            </Element>
+            <Element Type="Bool" ID="0xBE">
+                <Name>OrbitReleaseBreaksGrapple</Name>
+            </Element>
+            <Element Type="Bool" ID="0xBF">
+                <Name>InvertGrappleTurn</Name>
+            </Element>
+            <Element Type="Float" ID="0xC0">
+                <Name>GrappleBeamSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0xC1">
+                <Name>GrappleBeamXWaveAmplitude</Name>
+            </Element>
+            <Element Type="Float" ID="0xC2">
+                <Name>GrappleBeamZWaveAmplitude</Name>
+            </Element>
+            <Element Type="Float" ID="0xC3">
+                <Name>GrappleBeamAnglePhaseDelta</Name>
+            </Element>
+            <Element Type="Float" ID="0xC4">
+                <Name>PlayerHeight</Name>
+            </Element>
+            <Element Type="Float" ID="0xC5">
+                <Name>PlayerXYHalfExtent</Name>
+            </Element>
+            <Element Type="Float" ID="0xC6">
+                <Name>StepUpHeight</Name>
+            </Element>
+            <Element Type="Float" ID="0xC7">
+                <Name>StepDownHeight</Name>
+            </Element>
+            <Element Type="Float" ID="0xC8">
+                <Name>PlayerBallHalfExtent</Name>
+            </Element>
+            <Element Type="Float" ID="0xC9">
+                <Name>FirstPersonCameraSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0xCA">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xCB">
+                <Name>JumpCameraPitchDownStart</Name>
+            </Element>
+            <Element Type="Float" ID="0xCC">
+                <Name>JumpCameraPitchDownFull</Name>
+            </Element>
+            <Element Type="Float" ID="0xCD">
+                <Name>JumpCameraPitchDownAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0xCE">
+                <Name>FallCameraPitchDownStart</Name>
+            </Element>
+            <Element Type="Float" ID="0xCF">
+                <Name>FallCameraPitchDownFull</Name>
+            </Element>
+            <Element Type="Float" ID="0xD0">
+                <Name>FallCameraPitchDownAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0xD1">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xD2">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xD3">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0xD4">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xD5">
+                <Name>FrozenTimeout</Name>
+            </Element>
+            <Element Type="Int" ID="0xD6">
+                <Name>IceBreakJumpCount</Name>
+            </Element>
+            <Element Type="Float" ID="0xD7">
+                <Name>VariaDamageReduction</Name>
+            </Element>
+            <Element Type="Float" ID="0xD8">
+                <Name>GravityDamageReduction</Name>
+            </Element>
+            <Element Type="Float" ID="0xD9">
+                <Name>PhazonDamageReduction</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

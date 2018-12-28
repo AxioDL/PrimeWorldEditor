@@ -248,7 +248,10 @@ HEADERS += \
     Resource/Script/CGameTemplate.h \
     Resource/Script/NPropertyMap.h \
     Resource/Script/NGameList.h \
-    Resource/StringTable/ELanguage.h
+    Resource/StringTable/ELanguage.h \
+    Tweaks/CTweakManager.h \
+    Tweaks/CTweakData.h \
+    Tweaks/CTweakLoader.h
 
 # Source Files
 SOURCES += \
@@ -360,7 +363,9 @@ SOURCES += \
     Resource/Script/CGameTemplate.cpp \
     Resource/Script/NPropertyMap.cpp \
     Resource/Script/NGameList.cpp \
-    Resource/StringTable/CStringTable.cpp
+    Resource/StringTable/CStringTable.cpp \
+    Tweaks/CTweakManager.cpp \
+    Tweaks/CTweakLoader.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

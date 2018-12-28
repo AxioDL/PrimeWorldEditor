@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>EnergyBarColors</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Color" ID="0x0">
+                <Name>EnergyBarFilled</Name>
+            </Element>
+            <Element Type="Color" ID="0x0">
+                <Name>EnergyBarEmpty</Name>
+            </Element>
+            <Element Type="Color" ID="0x0">
+                <Name>EnergyBarShadow</Name>
+            </Element>
+            <Element Type="Color" ID="0x0">
+                <Name>EnergyTankFilled</Name>
+            </Element>
+            <Element Type="Color" ID="0x0">
+                <Name>EnergyTankEmpty</Name>
+            </Element>
+            <Element Type="Color" ID="0x0">
+                <Name>EnergyDigitsFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x0">
+                <Name>EnergyDigitsOutline</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

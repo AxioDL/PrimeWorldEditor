@@ -91,6 +91,7 @@ void IProperty::Serialize(IArchive& rArc)
 
             // The archetype must exist, or else the template file is malformed.
             ASSERT(pArchetype != nullptr);
+            ASSERT(pArchetype->Type() == Type());
 
             InitFromArchetype(pArchetype);
         }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakSlideShow</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>PackageName</Name>
+            </Element>
+            <Element Type="String" ID="0x1">
+                <Name>FontAssetName</Name>
+            </Element>
+            <Element Type="Color" ID="0x2">
+                <Name>FontColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x3">
+                <Name>OutlineColor</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>ScanPercentInterval</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x9">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>Unknown</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

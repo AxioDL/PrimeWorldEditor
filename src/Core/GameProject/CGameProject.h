@@ -7,6 +7,7 @@
 #include "Core/CAudioManager.h"
 #include "Core/IProgressNotifier.h"
 #include "Core/Resource/Script/CGameTemplate.h"
+#include "Core/Tweaks/CTweakManager.h"
 #include <Common/CAssetID.h>
 #include <Common/EGame.h>
 #include <Common/FileUtil.h>
@@ -34,9 +35,10 @@ class CGameProject
 
     TString mProjectRoot;
     std::vector<CPackage*> mPackages;
-    CResourceStore *mpResourceStore;
-    CGameInfo *mpGameInfo;
-    CAudioManager *mpAudioManager;
+    std::unique_ptr<CResourceStore> mpResourceStore;
+    std::unique_ptr<CGameInfo> mpGameInfo;
+    std::unique_ptr<CAudioManager> mpAudioManager;
+    std::unique_ptr<CTweakManager> mpTweakManager;
 
     // Keep file handle open for the .prj file to prevent users from opening the same project
     // in multiple instances of PWE
@@ -51,13 +53,13 @@ class CGameProject
         , mBuildVersion(0.f)
         , mpResourceStore(nullptr)
     {
-        mpGameInfo = new CGameInfo();
-        mpAudioManager = new CAudioManager(this);
+        mpGameInfo = std::make_unique<CGameInfo>();
+        mpAudioManager = std::make_unique<CAudioManager>(this);
+        mpTweakManager = std::make_unique<CTweakManager>(this);
     }
 
 public:
     ~CGameProject();
-
 
     bool Save();
     bool Serialize(IArchive& rArc);
@@ -95,9 +97,10 @@ public:
     inline uint32 NumPackages() const                   { return mPackages.size(); }
     inline CPackage* PackageByIndex(uint32 Index) const { return mPackages[Index]; }
     inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
-    inline CResourceStore* ResourceStore() const        { return mpResourceStore; }
-    inline CGameInfo* GameInfo() const                  { return mpGameInfo; }
-    inline CAudioManager* AudioManager() const          { return mpAudioManager; }
+    inline CResourceStore* ResourceStore() const        { return mpResourceStore.get(); }
+    inline CGameInfo* GameInfo() const                  { return mpGameInfo.get(); }
+    inline CAudioManager* AudioManager() const          { return mpAudioManager.get(); }
+    inline CTweakManager* TweakManager() const          { return mpTweakManager.get(); }
     inline EGame Game() const                           { return mGame; }
     inline ERegion Region() const                       { return mRegion; }
     inline TString GameID() const                       { return mGameID; }

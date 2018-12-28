@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakAutoMapper</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Bool" ID="0x0">
+                <Name>ShowOneMiniMapArea</Name>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x2">
+                <Name>ScaleMoveSpeedWithCameraDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>CameraDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>MinCameraDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>MaxCameraDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>MinCameraRotationX</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>MaxCameraRotationX</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>CameraAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0xA">
+                <Name>AutoMapperWidgetColor</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>MiniMapCameraDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>MiniMapCameraAngleX</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>MiniMapCameraAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0xF">
+                <Name>AutoMapperWidgetColorMiniMap</Name>
+            </Element>
+            <Element Type="Color" ID="0x10">
+                <Name>VisitedSurfaceColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x11">
+                <Name>VisitedOutlineColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x12">
+                <Name>UnvisitedSurfaceColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x13">
+                <Name>UnvisitedOutlineColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x14">
+                <Name>VisitedAndSelectedSurfaceColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x15">
+                <Name>VisitedAndSelectedOutlineColor</Name>
+            </Element>
+            <Element Type="Float" ID="0x16">
+                <Name>MapSurfaceNormColorLinear</Name>
+            </Element>
+            <Element Type="Float" ID="0x17">
+                <Name>MapSurfaceNormColorConstant</Name>
+            </Element>
+            <Element Type="Float" ID="0x18">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x19">
+                <Name>OpenMapScreenTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x1A">
+                <Name>CloseMapScreenTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x1B">
+                <Name>HintPanTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x1C">
+                <Name>ZoomUnitsPerFrame</Name>
+            </Element>
+            <Element Type="Float" ID="0x1D">
+                <Name>RotateDegreesPerFrame</Name>
+            </Element>
+            <Element Type="Float" ID="0x1E">
+                <Name>CameraMoveSpeed</Name>
+            </Element>
+            <Element Type="Color" ID="0x1F">
+                <Name>UnvisitedAndSelectedSurfaceColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x20">
+                <Name>UnvisitedAndSelectedOutlineColor</Name>
+            </Element>
+            <Element Type="Float" ID="0x21">
+                <Name>MiniMapOpacityVisited</Name>
+            </Element>
+            <Element Type="Float" ID="0x22">
+                <Name>MapOpacityVisited</Name>
+            </Element>
+            <Element Type="Float" ID="0x23">
+                <Name>MiniMapOutlineOpacityVisited</Name>
+            </Element>
+            <Element Type="Float" ID="0x24">
+                <Name>MapOutlineOpacityVisited</Name>
+            </Element>
+            <Element Type="Float" ID="0x25">
+                <Name>MiniMapOpacityUnvisited</Name>
+            </Element>
+            <Element Type="Float" ID="0x26">
+                <Name>MapOpacityUnvisited</Name>
+            </Element>
+            <Element Type="Float" ID="0x27">
+                <Name>MiniMapOutlineOpacityUnvisited</Name>
+            </Element>
+            <Element Type="Float" ID="0x28">
+                <Name>MapOutlineOpacityUnvisited</Name>
+            </Element>
+            <Element Type="Float" ID="0x29">
+                <Name>DoorOriginX</Name>
+            </Element>
+            <Element Type="Float" ID="0x2A">
+                <Name>DoorOriginY</Name>
+            </Element>
+            <Element Type="Float" ID="0x2B">
+                <Name>DoorOriginZ</Name>
+            </Element>
+            <Element Type="Float" ID="0x2C">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x2D">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x2E">
+                <Name>MiniMapViewportWidth</Name>
+            </Element>
+            <Element Type="Float" ID="0x2F">
+                <Name>MiniMapViewportHeight</Name>
+            </Element>
+            <Element Type="Float" ID="0x30">
+                <Name>MiniMapCameraDistanceScale</Name>
+            </Element>
+            <Element Type="Float" ID="0x31">
+                <Name>MapPlaneScaleX</Name>
+            </Element>
+            <Element Type="Float" ID="0x32">
+                <Name>MapPlaneScaleZ</Name>
+            </Element>
+            <Element Type="Bool" ID="0x33">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x34">
+                <Name>UniverseCameraDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x35">
+                <Name>MinUniverseCameraDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x36">
+                <Name>MaxUniverseCameraDistance</Name>
+            </Element>
+            <Element Type="Float" ID="0x37">
+                <Name>UniverseTransitionTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x38">
+                <Name>CameraPanUnitsPerFrame</Name>
+            </Element>
+            <Element Type="Float" ID="0x39">
+                <Name>AutoMapperScaleX</Name>
+            </Element>
+            <Element Type="Float" ID="0x3A">
+                <Name>AutoMapperScaleZ</Name>
+            </Element>
+            <Element Type="Float" ID="0x3B">
+                <Name>CameraVerticalOffset</Name>
+            </Element>
+            <Element Type="Color" ID="0x3C">
+                <Name>MiniMapSamusModColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x3D">
+                <Name>AreaFlashPulseColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x3E">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x3F">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Array" ID="0x40">
+                <Name>DoorColors</Name>
+                <ItemArchetype Type="Color" ID="0x0">
+                    <Name>Color</Name>
+                </ItemArchetype>
+            </Element>
+            <Element Type="Color" ID="0x41">
+                <Name>DoorBorderColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x42">
+                <Name>OpenedDoorColor</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

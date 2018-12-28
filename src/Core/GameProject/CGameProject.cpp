@@ -10,16 +10,12 @@ CGameProject::~CGameProject()
     {
         ASSERT(!mpResourceStore->IsCacheDirty());
 
-        if (gpResourceStore == mpResourceStore)
+        if (gpResourceStore == mpResourceStore.get())
             gpResourceStore = nullptr;
     }
 
     for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
         delete mPackages[iPkg];
-
-    delete mpAudioManager;
-    delete mpGameInfo;
-    delete mpResourceStore;
 }
 
 bool CGameProject::Save()
@@ -200,7 +196,7 @@ CGameProject* CGameProject::CreateProjectForExport(
 
     pProj->mProjectRoot = rkProjRootDir;
     pProj->mProjectRoot.Replace("\\", "/");
-    pProj->mpResourceStore = new CResourceStore(pProj);
+    pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
     pProj->mpGameInfo->LoadGameInfo(Game);
     return pProj;
 }
@@ -234,7 +230,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
     {
         // Load resource database
         pProgress->Report("Loading resource database");
-        pProj->mpResourceStore = new CResourceStore(pProj);
+        pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
         LoadSuccess = pProj->mpResourceStore->LoadDatabaseCache();
 
         // Validate resource database
@@ -268,5 +264,6 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
     pProj->mProjFileLock.Lock(ProjPath);
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
     pProj->mpAudioManager->LoadAssets();
+    pProj->mpTweakManager->LoadTweaks();
     return pProj;
 }

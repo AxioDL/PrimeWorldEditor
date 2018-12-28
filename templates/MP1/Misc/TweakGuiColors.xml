@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakGuiColors</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Color" ID="0x0">
+                <Name>PauseBlurFilterColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x1">
+                <Name>RadarStuffColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x2">
+                <Name>RadarPlayerPaintColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x3">
+                <Name>RadarEnemyPaintColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x4">
+                <Name>HudMessageFillColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x5">
+                <Name>HudMessageOutlineColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x6">
+                <Name>HudFrameColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x7">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x8">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x9">
+                <Name>MissileIconActiveColor</Name>
+            </Element>
+            <Element Type="Color" ID="0xA">
+                <Name>VisorBeamMenuItemActive</Name>
+            </Element>
+            <Element Type="Color" ID="0xB">
+                <Name>VisorBeamMenuColorInactive</Name>
+            </Element>
+            <Element Type="Color" ID="0xC">
+                <Name>EnergyBarFilledLowEnergy</Name>
+            </Element>
+            <Element Type="Color" ID="0xD">
+                <Name>EnergyBarShadowLowEnergy</Name>
+            </Element>
+            <Element Type="Color" ID="0xE">
+                <Name>EnergyBarEmptyLowEnergy</Name>
+            </Element>
+            <Element Type="Color" ID="0xF">
+                <Name>HudDamageLightColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x10">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x11">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x12">
+                <Name>VisorMenuTextFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x13">
+                <Name>VisorMenuTextOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x14">
+                <Name>BeamMenuTextFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x15">
+                <Name>BeamMenuTextOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x16">
+                <Name>EnergyWarningFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x17">
+                <Name>ThreatWarningFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x18">
+                <Name>MissileWarningFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x19">
+                <Name>ThreatBarFilled</Name>
+            </Element>
+            <Element Type="Color" ID="0x1A">
+                <Name>ThreatBarShadow</Name>
+            </Element>
+            <Element Type="Color" ID="0x1B">
+                <Name>ThreatBarEmpty</Name>
+            </Element>
+            <Element Type="Color" ID="0x1C">
+                <Name>MissileBarFilled</Name>
+            </Element>
+            <Element Type="Color" ID="0x1D">
+                <Name>MissileBarShadow</Name>
+            </Element>
+            <Element Type="Color" ID="0x1E">
+                <Name>MissileBarEmpty</Name>
+            </Element>
+            <Element Type="Color" ID="0x1F">
+                <Name>ThreatIconColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x20">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x21">
+                <Name>TickDecoColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x22">
+                <Name>HelmetLightColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x23">
+                <Name>ThreatIconSafeColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x24">
+                <Name>MissileIconColorInactive</Name>
+            </Element>
+            <Element Type="Color" ID="0x25">
+                <Name>MissileIconColorChargedCanAlt</Name>
+            </Element>
+            <Element Type="Color" ID="0x26">
+                <Name>MissileIconChargedNoAlt</Name>
+            </Element>
+            <Element Type="Color" ID="0x27">
+                <Name>MissileIconColorDepleteAlt</Name>
+            </Element>
+            <Element Type="Color" ID="0x28">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x29">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x2A">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x2B">
+                <Name>VisorBeamMenuLozColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x2C">
+                <Name>EnergyWarningOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x2D">
+                <Name>ThreatWarningOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x2E">
+                <Name>MissileWarningOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x2F">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x30">
+                <Name>DamageAmbientColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x31">
+                <Name>ScanFrameInactiveColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x32">
+                <Name>ScanFrameActiveColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x33">
+                <Name>ScanFrameImpulseColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x34">
+                <Name>ScanVisorHudLightMultiply</Name>
+            </Element>
+            <Element Type="Color" ID="0x35">
+                <Name>ScanVisorScreenDimColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x36">
+                <Name>ThermalVisorHudLightMultiply</Name>
+            </Element>
+            <Element Type="Color" ID="0x37">
+                <Name>EnergyDrainFilterColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x38">
+                <Name>DamageAmbientPulseColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x39">
+                <Name>EnergyBarFlashColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x3A">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x3B">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x3C">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x3D">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x3E">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x3F">
+                <Name>XRayEnergyDecoColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x40">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x41">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x42">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x43">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x44">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x45">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x46">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x47">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x48">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x49">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x4A">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x4B">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x4C">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x4D">
+                <Name>ScanDataDotColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x4E">
+                <Name>PowerBombDigitAvailableFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x4F">
+                <Name>PowerBombDigitAvailableOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x50">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x51">
+                <Name>BallBombFilled</Name>
+            </Element>
+            <Element Type="Color" ID="0x52">
+                <Name>BallBombEmpty</Name>
+            </Element>
+            <Element Type="Color" ID="0x53">
+                <Name>PowerBombIconAvailable</Name>
+            </Element>
+            <Element Type="Color" ID="0x54">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x55">
+                <Name>BallEnergyDeco</Name>
+            </Element>
+            <Element Type="Color" ID="0x56">
+                <Name>BallBombDeco</Name>
+            </Element>
+            <Element Type="Color" ID="0x57">
+                <Name>PowerBombDigitDepletedFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x58">
+                <Name>PowerBombDigitDepletedOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x59">
+                <Name>PowerBombIconUnavailable</Name>
+            </Element>
+            <Element Type="Color" ID="0x5A">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x5B">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x5C">
+                <Name>ScanDisplayImagePaneColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x5D">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x5E">
+                <Name>ThreatIconWarningColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x5F">
+                <Name>HudCounterFill</Name>
+            </Element>
+            <Element Type="Color" ID="0x60">
+                <Name>HudCounterOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x61">
+                <Name>ScanIconCriticalColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x62">
+                <Name>ScanIconCriticalDimColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x63">
+                <Name>ScanIconNoncriticalColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x64">
+                <Name>ScanIconNoncriticalDimColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x65">
+                <Name>ScanReticuleColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x66">
+                <Name>ThreatDigitsFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x67">
+                <Name>ThreatDigitsOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x68">
+                <Name>MissileDigitsFont</Name>
+            </Element>
+            <Element Type="Color" ID="0x69">
+                <Name>MissileDigitsOutline</Name>
+            </Element>
+            <Element Type="Color" ID="0x6A">
+                <Name>ThermalDecoColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x6B">
+                <Name>ThermalDecoOutlinesColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x6C">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x6D">
+                <Name>ThermalLockColor</Name>
+            </Element>
+            <Element Type="Color" ID="0x6E">
+                <Name>PauseItemAmber</Name>
+            </Element>
+            <Element Type="Color" ID="0x6F">
+                <Name>PauseItemBlue</Name>
+            </Element>
+            <Element Type="Array" ID="0x70">
+                <Name>EnergyBarColorsPerVisor</Name>
+                <ItemArchetype Type="Struct" Archetype="EnergyBarColors"/>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

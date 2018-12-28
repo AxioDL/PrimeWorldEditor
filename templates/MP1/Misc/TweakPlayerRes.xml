@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakPlayerRes</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>SaveStationIcon</Name>
+            </Element>
+            <Element Type="String" ID="0x1">
+                <Name>MissileStationIcon</Name>
+            </Element>
+            <Element Type="String" ID="0x2">
+                <Name>ElevatorIcon</Name>
+            </Element>
+            <Element Type="String" ID="0x3">
+                <Name>MinesBreakFirstTopIcon</Name>
+            </Element>
+            <Element Type="String" ID="0x4">
+                <Name>MinesBreakFirstBottomIcon</Name>
+            </Element>
+            <Element Type="String" ID="0x5">
+                <Name>MinesBreakSecondTopIcon</Name>
+            </Element>
+            <Element Type="String" ID="0x6">
+                <Name>MinesBreakSecondBottomIcon</Name>
+            </Element>
+            <Element Type="String" ID="0x7">
+                <Name>LeftStickNeutral</Name>
+            </Element>
+            <Element Type="String" ID="0x8">
+                <Name>LeftStickUp</Name>
+            </Element>
+            <Element Type="String" ID="0x9">
+                <Name>LeftStickUpLeft</Name>
+            </Element>
+            <Element Type="String" ID="0xA">
+                <Name>LeftStickLeft</Name>
+            </Element>
+            <Element Type="String" ID="0xB">
+                <Name>LeftStickDownLeft</Name>
+            </Element>
+            <Element Type="String" ID="0xC">
+                <Name>LeftStickDown</Name>
+            </Element>
+            <Element Type="String" ID="0xD">
+                <Name>LeftStickDownRight</Name>
+            </Element>
+            <Element Type="String" ID="0xE">
+                <Name>LeftStickRight</Name>
+            </Element>
+            <Element Type="String" ID="0xF">
+                <Name>LeftStickUpRight</Name>
+            </Element>
+            <Element Type="String" ID="0x10">
+                <Name>CStickNeutral</Name>
+            </Element>
+            <Element Type="String" ID="0x11">
+                <Name>CStickUp</Name>
+            </Element>
+            <Element Type="String" ID="0x12">
+                <Name>CStickUpLeft</Name>
+            </Element>
+            <Element Type="String" ID="0x13">
+                <Name>CStickLeft</Name>
+            </Element>
+            <Element Type="String" ID="0x14">
+                <Name>CStickDownLeft</Name>
+            </Element>
+            <Element Type="String" ID="0x15">
+                <Name>CStickDown</Name>
+            </Element>
+            <Element Type="String" ID="0x16">
+                <Name>CStickDownRight</Name>
+            </Element>
+            <Element Type="String" ID="0x17">
+                <Name>CStickRight</Name>
+            </Element>
+            <Element Type="String" ID="0x18">
+                <Name>CStickUpRight</Name>
+            </Element>
+            <Element Type="String" ID="0x19">
+                <Name>LeftTriggerOut</Name>
+            </Element>
+            <Element Type="String" ID="0x1A">
+                <Name>LeftTriggerIn</Name>
+            </Element>
+            <Element Type="String" ID="0x1B">
+                <Name>RightTriggerOut</Name>
+            </Element>
+            <Element Type="String" ID="0x1C">
+                <Name>RightTriggerIn</Name>
+            </Element>
+            <Element Type="String" ID="0x1D">
+                <Name>StartButtonOut</Name>
+            </Element>
+            <Element Type="String" ID="0x1E">
+                <Name>StartButtonIn</Name>
+            </Element>
+            <Element Type="String" ID="0x1F">
+                <Name>AButtonOut</Name>
+            </Element>
+            <Element Type="String" ID="0x20">
+                <Name>AButtonIn</Name>
+            </Element>
+            <Element Type="String" ID="0x21">
+                <Name>BButtonOut</Name>
+            </Element>
+            <Element Type="String" ID="0x22">
+                <Name>BButtonIn</Name>
+            </Element>
+            <Element Type="String" ID="0x23">
+                <Name>XButtonOut</Name>
+            </Element>
+            <Element Type="String" ID="0x24">
+                <Name>XButtonIn</Name>
+            </Element>
+            <Element Type="String" ID="0x25">
+                <Name>YButtonOut</Name>
+            </Element>
+            <Element Type="String" ID="0x26">
+                <Name>YButtonIn</Name>
+            </Element>
+            <Element Type="String" ID="0x27">
+                <Name>BallTransitionsANCS</Name>
+            </Element>
+            <Element Type="String" ID="0x28">
+                <Name>BallTransitionsPower</Name>
+            </Element>
+            <Element Type="String" ID="0x29">
+                <Name>BallTransitionsIce</Name>
+            </Element>
+            <Element Type="String" ID="0x2A">
+                <Name>BallTransitionsWave</Name>
+            </Element>
+            <Element Type="String" ID="0x2B">
+                <Name>BallTransitionsPlasma</Name>
+            </Element>
+            <Element Type="String" ID="0x2C">
+                <Name>BallTransitionsPhazon</Name>
+            </Element>
+            <Element Type="String" ID="0x2D">
+                <Name>CinePower</Name>
+            </Element>
+            <Element Type="String" ID="0x2E">
+                <Name>CineIce</Name>
+            </Element>
+            <Element Type="String" ID="0x2F">
+                <Name>CineWave</Name>
+            </Element>
+            <Element Type="String" ID="0x30">
+                <Name>CinePlasma</Name>
+            </Element>
+            <Element Type="String" ID="0x31">
+                <Name>CinePhazon</Name>
+            </Element>
+            <Element Type="Float" ID="0x32">
+                <Name>CinematicMoveOutOfIntoPlayerDistance</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

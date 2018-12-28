@@ -388,7 +388,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(EResourceType::Tweak, "Tweak Data", "ctwk");
+        CResTypeInfo *pType = new CResTypeInfo(EResourceType::Tweaks, "Tweak Data", "ctwk");
         AddExtension(pType, "CTWK", EGame::PrimeDemo, EGame::Prime);
         pType->mCanHaveDependencies = false;
     }

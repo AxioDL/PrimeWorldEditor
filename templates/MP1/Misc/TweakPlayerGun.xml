@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakPlayerGun</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>UpLookAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>DownLookAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>VerticalSpread</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>HorizontalSpread</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>HighVerticalSpread</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>HighHorizontalSpread</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>LowVerticalSpread</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>LowHorizontalSpread</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>AimVerticalSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>AimHorizontalSpeed</Name>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>BombFuseTime</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>BombDropDelayTime</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>HoloHoldTime</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>GunTransformTime</Name>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>GunHolsterTime</Name>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>GunNotFiringTime</Name>
+            </Element>
+            <Element Type="Float" ID="0x10">
+                <Name>FixedVerticalAim</Name>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>GunExtendDistance</Name>
+            </Element>
+            <Element Type="Vector" ID="0x12">
+                <Name>GunPosition</Name>
+            </Element>
+            <Element Type="Vector" ID="0x13">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Vector" ID="0x14">
+                <Name>GrapplingArmPosition</Name>
+            </Element>
+            <Element Type="Struct" ID="0x15" Archetype="ShotParam">
+                <Name>Bomb</Name>
+            </Element>
+            <Element Type="Struct" ID="0x16" Archetype="ShotParam">
+                <Name>PowerBomb</Name>
+            </Element>
+            <Element Type="Struct" ID="0x17" Archetype="ShotParam">
+                <Name>Missile</Name>
+            </Element>
+            <Element Type="Struct" ID="0x18" Archetype="BeamInfo">
+                <Name>PowerBeam</Name>
+            </Element>
+            <Element Type="Struct" ID="0x19" Archetype="BeamInfo">
+                <Name>IceBeam</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1A" Archetype="BeamInfo">
+                <Name>WaveBeam</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1B" Archetype="BeamInfo">
+                <Name>PlasmaBeam</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1C" Archetype="BeamInfo">
+                <Name>PhazonBeam</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1D" Archetype="ShotParam">
+                <Name>PowerCombo</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1E" Archetype="ShotParam">
+                <Name>IceCombo</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1F" Archetype="ShotParam">
+                <Name>WaveCombo</Name>
+            </Element>
+            <Element Type="Struct" ID="0x20" Archetype="ShotParam">
+                <Name>PlasmaCombo</Name>
+            </Element>
+            <Element Type="Struct" ID="0x21" Archetype="ShotParam">
+                <Name>PhazonCombo</Name>
+            </Element>
+            <Element Type="Float" ID="0x22">
+                <Name>PowerBeamRicochet</Name>
+            </Element>
+            <Element Type="Float" ID="0x23">
+                <Name>IceBeamRicochet</Name>
+            </Element>
+            <Element Type="Float" ID="0x24">
+                <Name>WaveBeamRicochet</Name>
+            </Element>
+            <Element Type="Float" ID="0x25">
+                <Name>PlasmaBeamRicochet</Name>
+            </Element>
+            <Element Type="Float" ID="0x26">
+                <Name>MissileRicochet</Name>
+            </Element>
+            <Element Type="Float" ID="0x26">
+                <Name>PhazonBeamRicochet</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

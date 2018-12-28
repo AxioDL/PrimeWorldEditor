@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakGame</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>WorldPackagePrefix</Name>
+            </Element>
+            <Element Type="String" ID="0x1">
+                <Name>RuinsArea</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>FieldOfView</Name>
+            </Element>
+            <Element Type="Bool" ID="0x3">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x4">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x6">
+                <Name>DisableSplashScreens</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>PressStartDelay</Name>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>WavecapIntensityNormal</Name>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>WavecapIntensityPoison</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>WavecapIntensityLava</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>RippleIntensityNormal</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>RippleIntensityPoison</Name>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>RippleIntensityLava</Name>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>FluidEnvBumpScale</Name>
+            </Element>
+            <Element Type="Float" ID="0x10">
+                <Name>UnderwaterFogDistanceBase</Name>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>UnderwaterFogDistanceRange</Name>
+            </Element>
+            <Element Type="Float" ID="0x12">
+                <Name>GravitySuitUnderwaterFogDistanceBase</Name>
+            </Element>
+            <Element Type="Float" ID="0x13">
+                <Name>GravitySuitUnderwaterFogDistanceRange</Name>
+            </Element>
+            <Element Type="Float" ID="0x14">
+                <Name>HardModeDamageMultiplier</Name>
+            </Element>
+            <Element Type="Float" ID="0x15">
+                <Name>HardModeWeaponMultiplier</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

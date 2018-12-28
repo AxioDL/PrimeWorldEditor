@@ -520,6 +520,10 @@
             <Value Path="Structs/BeamCombos.xml"/>
         </Element>
         <Element>
+            <Key>BeamInfo</Key>
+            <Value Path="Structs/BeamInfo.xml"/>
+        </Element>
+        <Element>
             <Key>BehaveChance</Key>
             <Value Path="Structs/BehaveChance.xml"/>
         </Element>
@@ -540,12 +544,20 @@
             <Value Path="Structs/ChargedBeams.xml"/>
         </Element>
         <Element>
+            <Key>ControllerMapping</Key>
+            <Value Path="Enums/ControllerMapping.xml"/>
+        </Element>
+        <Element>
             <Key>DamageInfo</Key>
             <Value Path="Structs/DamageInfo.xml"/>
         </Element>
         <Element>
             <Key>DamageVulnerability</Key>
             <Value Path="Structs/DamageVulnerability.xml"/>
+        </Element>
+        <Element>
+            <Key>EnergyBarColors</Key>
+            <Value Path="Structs/EnergyBarColors.xml"/>
         </Element>
         <Element>
             <Key>FlareDef</Key>
@@ -570,6 +582,14 @@
         <Element>
             <Key>HealthInfo</Key>
             <Value Path="Structs/HealthInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>HelmetVisMode</Key>
+            <Value Path="Enums/HelmetVisMode.xml"/>
+        </Element>
+        <Element>
+            <Key>HudVisMode</Key>
+            <Value Path="Enums/HudVisMode.xml"/>
         </Element>
         <Element>
             <Key>IntBool</Key>
@@ -664,6 +684,10 @@
             <Value Path="Structs/ScriptBeamStruct.xml"/>
         </Element>
         <Element>
+            <Key>ShotParam</Key>
+            <Value Path="Structs/ShotParam.xml"/>
+        </Element>
+        <Element>
             <Key>SpindleCameraStruct</Key>
             <Value Path="Structs/SpindleCameraStruct.xml"/>
         </Element>
@@ -684,6 +708,64 @@
             <Value Path="Enums/WeaponType.xml"/>
         </Element>
     </PropertyArchetypes>
+    <MiscTemplates>
+        <Element>
+            <Key>TweakAutoMapper</Key>
+            <Value Path="Misc/TweakAutoMapper.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall</Key>
+            <Value Path="Misc/TweakBall.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakCameraBob</Key>
+            <Value Path="Misc/TweakCameraBob.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGame</Key>
+            <Value Path="Misc/TweakGame.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui</Key>
+            <Value Path="Misc/TweakGui.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGuiColors</Key>
+            <Value Path="Misc/TweakGuiColors.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGunRes</Key>
+            <Value Path="Misc/TweakGunRes.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakParticle</Key>
+            <Value Path="Misc/TweakParticle.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer</Key>
+            <Value Path="Misc/TweakPlayer.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerControls</Key>
+            <Value Path="Misc/TweakPlayerControls.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun</Key>
+            <Value Path="Misc/TweakPlayerGun.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerRes</Key>
+            <Value Path="Misc/TweakPlayerRes.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakSlideShow</Key>
+            <Value Path="Misc/TweakSlideShow.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakTargeting</Key>
+            <Value Path="Misc/TweakTargeting.xml"/>
+        </Element>
+    </MiscTemplates>
     <States>
         <Element>
             <Key>0x0</Key>

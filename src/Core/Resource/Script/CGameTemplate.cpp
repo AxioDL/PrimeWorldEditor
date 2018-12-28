@@ -13,6 +13,7 @@ void CGameTemplate::Serialize(IArchive& Arc)
 {
     Arc << SerialParameter("ScriptObjects", mScriptTemplates)
         << SerialParameter("PropertyArchetypes", mPropertyTemplates)
+        << SerialParameter("MiscTemplates", mMiscTemplates)
         << SerialParameter("States", mStates)
         << SerialParameter("Messages", mMessages);
 }
@@ -50,6 +51,13 @@ void CGameTemplate::Load(const TString& kFilePath)
         {
             Internal_LoadPropertyTemplate(Iter->second);
         }
+    }
+
+    for (auto Iter = mMiscTemplates.begin(); Iter != mMiscTemplates.end(); Iter++)
+    {
+        SScriptTemplatePath& MiscPath = Iter->second;
+        TString AbsPath = gkGameRoot + MiscPath.Path;
+        MiscPath.pTemplate = std::make_shared<CScriptTemplate>(this, -1, AbsPath);
     }
 }
 
@@ -116,6 +124,16 @@ void CGameTemplate::SaveGameTemplates(bool ForceAll /*= false*/)
                 Writer << SerialParameter("PropertyArchetype", Path.pTemplate);
                 Path.pTemplate->ClearDirtyFlag();
             }
+        }
+    }
+
+    for (auto Iter = mMiscTemplates.begin(); Iter != mMiscTemplates.end(); Iter++)
+    {
+        SScriptTemplatePath& Path = Iter->second;
+
+        if( Path.pTemplate )
+        {
+            Path.pTemplate->Save(ForceAll);
         }
     }
 }
@@ -284,6 +302,21 @@ bool CGameTemplate::RenamePropertyArchetype(const TString& kTypeName, const TStr
     }
 
     return false;
+}
+
+CScriptTemplate* CGameTemplate::FindMiscTemplate(const TString& kTemplateName)
+{
+    auto Iter = mMiscTemplates.find(kTemplateName);
+
+    if (Iter == mMiscTemplates.end())
+    {
+        return nullptr;
+    }
+    else
+    {
+        SScriptTemplatePath& Path = Iter->second;
+        return Path.pTemplate.get();
+    }
 }
 
 TString CGameTemplate::GetGameDirectory() const

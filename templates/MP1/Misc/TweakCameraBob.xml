@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakCameraBob</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>CameraBobExtentX</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>CameraBobExtentY</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>CameraBobPeriod</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>OrbitScale</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>MaxOrbitScale</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>SlowSpeedPeriodScale</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>TargetMagnitudeTrackingRate</Name>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>LandingBobSpringConstant</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>ViewWanderRadius</Name>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>ViewWanderSpeedMin</Name>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>ViewWanderSpeedMax</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>ViewWanderRollVariation</Name>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>GunBobMagnitude</Name>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>HelmetBobMagnitude</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>
