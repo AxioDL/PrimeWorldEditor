@@ -26,7 +26,8 @@ public:
     CPropertyView(QWidget *pParent = 0);
     void setModel(QAbstractItemModel *pModel);
     bool event(QEvent *pEvent);
-    void SetEditor(CWorldEditor *pEditor);
+    void InitColumnWidths(float NameColumnPercentage, float ValueColumnPercentage);
+    void ClearProperties();
     void SetIntrinsicProperties(CStructRef InProperties);
     void SetInstance(CScriptObject *pObj);
     void UpdateEditorProperties(const QModelIndex& rkParent);

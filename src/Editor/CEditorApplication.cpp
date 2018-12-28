@@ -157,12 +157,23 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
         case EResourceType::StringTable:
             pEd = new CStringEditor((CStringTable*) pRes, mpWorldEditor);
             break;
+
+        case EResourceType::Tweaks:
+        {
+            CTweakEditor* pTweakEditor = mpWorldEditor->TweakEditor();
+            pTweakEditor->SetActiveTweakData( (CTweakData*) pRes );
+            pEd = pTweakEditor;
+            break;
+        }
+
         }
 
         if (pEd)
         {
             pEd->show();
-            mEditingMap[pEntry] = pEd;
+
+            if (pEntry->ResourceType() != EResourceType::Tweaks)
+                mEditingMap[pEntry] = pEd;
         }
         else if (pEntry->ResourceType() != EResourceType::Area)
             UICommon::InfoMsg(mpWorldEditor, "Unsupported Resource", "This resource type is currently unsupported for editing.");
@@ -308,7 +319,11 @@ void CEditorApplication::OnEditorClose()
         }
 
         mEditorWindows.removeOne(pEditor);
-        delete pEditor;
+
+        if (pEditor != mpWorldEditor->TweakEditor())
+        {
+            delete pEditor;
+        }
 
         if (mpActiveProject)
         {

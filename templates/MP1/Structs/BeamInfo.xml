@@ -5,7 +5,7 @@
         <Atomic>true</Atomic>
         <SubProperties>
             <Element Type="Float" ID="0x0">
-                <Name>CoolDown</Name>
+                <Name>Cooldown</Name>
             </Element>
             <Element Type="Struct" ID="0x1" Archetype="ShotParam">
                 <Name>NormalDamage</Name>

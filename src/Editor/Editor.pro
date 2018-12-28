@@ -203,7 +203,8 @@ HEADERS += \
     StringEditor/CStringEditor.h \
     StringEditor/CStringListModel.h \
     StringEditor/CStringDelegate.h \
-    CCustomDelegate.h
+    CCustomDelegate.h \
+    CTweakEditor.h
 
 # Source Files
 SOURCES += \
@@ -282,7 +283,8 @@ SOURCES += \
     StringEditor/CStringEditor.cpp \
     StringEditor/CStringListModel.cpp \
     IEditor.cpp \
-    StringEditor/CStringDelegate.cpp
+    StringEditor/CStringDelegate.cpp \
+    CTweakEditor.cpp
 
 # UI Files
 FORMS += \
@@ -310,7 +312,8 @@ FORMS += \
     CProgressDialog.ui \
     Widgets/CSelectResourcePanel.ui \
     CGeneratePropertyNamesDialog.ui \
-    StringEditor/CStringEditor.ui
+    StringEditor/CStringEditor.ui \
+    CTweakEditor.ui
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

@@ -16,14 +16,9 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     , mIsPicking(false)
 {
     ui->setupUi(this);
+    ui->PropertyView->InitColumnWidths(0.3f, 0.3f);
 
     mpWorldEditor = pEditor;
-    ui->PropertyView->SetEditor(mpWorldEditor);
-
-    int PropViewWidth = ui->PropertyView->width();
-    ui->PropertyView->header()->resizeSection(0, PropViewWidth * 0.3);
-    ui->PropertyView->header()->resizeSection(1, PropViewWidth * 0.3);
-    ui->PropertyView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
 
     mpInLinkModel = new CLinkModel(this);
     mpInLinkModel->SetConnectionType(ELinkType::Incoming);

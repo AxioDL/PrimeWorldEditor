@@ -461,7 +461,7 @@
             </Element>
             <Element Type="Array" ID="0x99">
                 <Name>ScanSpeeds</Name>
-                <ItemArchetype Type="Int" ID="0x0">
+                <ItemArchetype Type="Float" ID="0x0">
                     <Name>ScanSpeed</Name>
                 </ItemArchetype>
             </Element>

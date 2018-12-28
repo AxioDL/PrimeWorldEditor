@@ -9,7 +9,6 @@
 
 CPropertyView::CPropertyView(QWidget *pParent)
     : QTreeView(pParent)
-    , mpEditor(nullptr)
     , mpMenuProperty(nullptr)
 {
     mpModel = new CPropertyModel(this);
@@ -40,6 +39,9 @@ CPropertyView::CPropertyView(QWidget *pParent)
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
     connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
     connect(mpModel, SIGNAL(PropertyModified(const QModelIndex&)), this, SLOT(OnPropertyModified(const QModelIndex&)));
+
+    mpEditor = gpEdApp->WorldEditor();
+    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), mpModel, SLOT(NotifyPropertyModified(CScriptObject*,IProperty*)));
 }
 
 void CPropertyView::setModel(QAbstractItemModel *pModel)
@@ -84,11 +86,17 @@ bool CPropertyView::event(QEvent *pEvent)
     else return QTreeView::event(pEvent);
 }
 
-void CPropertyView::SetEditor(CWorldEditor *pEditor)
+void CPropertyView::InitColumnWidths(float NameColumnPercentage, float ValueColumnPercentage)
 {
-    mpEditor = pEditor;
-    mpDelegate->SetEditor(pEditor);
-    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), mpModel, SLOT(NotifyPropertyModified(CScriptObject*,IProperty*)));
+    header()->resizeSection(0, width() * NameColumnPercentage);
+    header()->resizeSection(1, width() * ValueColumnPercentage);
+    header()->setSectionResizeMode(1, QHeaderView::Fixed);
+}
+
+void CPropertyView::ClearProperties()
+{
+    mpObject = nullptr;
+    mpModel->ConfigureScript(nullptr, nullptr, nullptr);
 }
 
 void CPropertyView::SetIntrinsicProperties(CStructRef InProperties)

@@ -27,22 +27,17 @@
 
 CPropertyDelegate::CPropertyDelegate(QObject *pParent /*= 0*/)
     : QStyledItemDelegate(pParent)
-    , mpEditor(nullptr)
     , mpModel(nullptr)
     , mInRelayWidgetEdit(false)
     , mEditInProgress(false)
     , mRelaysBlocked(false)
 {
+    mpEditor = gpEdApp->WorldEditor();
 }
 
 void CPropertyDelegate::SetPropertyModel(CPropertyModel *pModel)
 {
     mpModel = pModel;
-}
-
-void CPropertyDelegate::SetEditor(CWorldEditor *pEditor)
-{
-    mpEditor = pEditor;
 }
 
 QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionViewItem& /*rkOption*/, const QModelIndex& rkIndex) const

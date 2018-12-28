@@ -18,7 +18,6 @@ class CPropertyDelegate : public QStyledItemDelegate
 public:
     CPropertyDelegate(QObject *pParent = 0);
     void SetPropertyModel(CPropertyModel *pModel);
-    void SetEditor(CWorldEditor *pEditor);
 
     virtual QWidget* createEditor(QWidget *pParent, const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const;
     virtual void setEditorData(QWidget *pEditor, const QModelIndex &rkIndex) const;

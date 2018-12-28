@@ -6,6 +6,7 @@
 #include "CLinkDialog.h"
 #include "CPoiMapSidebar.h"
 #include "CScriptEditSidebar.h"
+#include "CTweakEditor.h"
 #include "CWorldInfoSidebar.h"
 #include "Editor/INodeEditor.h"
 #include "Editor/CGeneratePropertyNamesDialog.h"
@@ -47,31 +48,32 @@ class CWorldEditor : public INodeEditor
     Q_OBJECT
     static const int mskMaxRecentProjects = 10;
 
-    Ui::CWorldEditor *ui;
-    QMenu *mpOpenRecentMenu;
-    QAction *mRecentProjectsActions[ mskMaxRecentProjects ];
+    Ui::CWorldEditor* ui;
+    QMenu* mpOpenRecentMenu;
+    QAction* mRecentProjectsActions[ mskMaxRecentProjects ];
 
     TResPtr<CWorld> mpWorld;
     TResPtr<CGameArea> mpArea;
 
-    CCollisionRenderSettingsDialog *mpCollisionDialog;
-    CLinkDialog *mpLinkDialog;
+    CCollisionRenderSettingsDialog* mpCollisionDialog;
+    CLinkDialog* mpLinkDialog;
     CGeneratePropertyNamesDialog* mpGeneratePropertyNamesDialog;
+    CTweakEditor* mpTweakEditor;
 
     bool mIsMakingLink;
-    CScriptObject *mpNewLinkSender;
-    CScriptObject *mpNewLinkReceiver;
+    CScriptObject* mpNewLinkSender;
+    CScriptObject* mpNewLinkReceiver;
 
     // Sidebars
-    QVBoxLayout *mpRightSidebarLayout;
-    CWorldEditorSidebar *mpCurSidebar;
+    QVBoxLayout* mpRightSidebarLayout;
+    CWorldEditorSidebar* mpCurSidebar;
 
-    QButtonGroup *mpEditModeButtonGroup;
-    CWorldInfoSidebar *mpWorldInfoSidebar;
-    CScriptEditSidebar *mpScriptSidebar;
-    CPoiMapSidebar *mpPoiMapSidebar;
+    QButtonGroup* mpEditModeButtonGroup;
+    CWorldInfoSidebar* mpWorldInfoSidebar;
+    CScriptEditSidebar* mpScriptSidebar;
+    CPoiMapSidebar* mpPoiMapSidebar;
 
-    QAction *mpPoiMapAction;
+    QAction* mpPoiMapAction;
 
 public:
     explicit CWorldEditor(QWidget *parent = 0);
@@ -86,6 +88,7 @@ public:
     inline EGame CurrentGame() const        { return gpEdApp->CurrentGame(); }
     inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
     inline CGeneratePropertyNamesDialog* NameGeneratorDialog() const    { return mpGeneratePropertyNamesDialog; }
+    inline CTweakEditor* TweakEditor()      { return mpTweakEditor; }
     CResourceBrowser* ResourceBrowser() const;
     CSceneViewport* Viewport() const;
 
@@ -167,9 +170,7 @@ private slots:
     void SetBloom();
     void IncrementGizmo();
     void DecrementGizmo();
-    void EditCollisionRenderSettings();
     void EditLayers();
-    void GeneratePropertyNames();
 
 signals:
     void MapChanged(CWorld *pNewWorld, CGameArea *pNewArea);

@@ -39,6 +39,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     , mpWorld(nullptr)
     , mpLinkDialog(new CLinkDialog(this, this))
     , mpGeneratePropertyNamesDialog(new CGeneratePropertyNamesDialog(this))
+    , mpTweakEditor(new CTweakEditor(this))
     , mIsMakingLink(false)
     , mpNewLinkSender(nullptr)
     , mpNewLinkReceiver(nullptr)
@@ -170,8 +171,9 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionLink, SIGNAL(toggled(bool)), this, SLOT(OnLinkButtonToggled(bool)));
     connect(ui->ActionUnlink, SIGNAL(triggered()), this, SLOT(OnUnlinkClicked()));
 
+    connect(ui->ActionEditTweaks, SIGNAL(triggered()), mpTweakEditor, SLOT(show()));
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
-    connect(ui->ActionGeneratePropertyNames, SIGNAL(triggered()), this, SLOT(GeneratePropertyNames()));
+    connect(ui->ActionGeneratePropertyNames, SIGNAL(triggered()), mpGeneratePropertyNamesDialog, SLOT(show()));
 
     connect(ui->ActionDrawWorld, SIGNAL(triggered()), this, SLOT(ToggleDrawWorld()));
     connect(ui->ActionDrawObjects, SIGNAL(triggered()), this, SLOT(ToggleDrawObjects()));
@@ -190,7 +192,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionBloom, SIGNAL(triggered()), this, SLOT(SetBloom()));
     connect(ui->ActionIncrementGizmo, SIGNAL(triggered()), this, SLOT(IncrementGizmo()));
     connect(ui->ActionDecrementGizmo, SIGNAL(triggered()), this, SLOT(DecrementGizmo()));
-    connect(ui->ActionCollisionRenderSettings, SIGNAL(triggered()), this, SLOT(EditCollisionRenderSettings()));
+    connect(ui->ActionCollisionRenderSettings, SIGNAL(triggered()), mpCollisionDialog, SLOT(show()));
 
     connect(ui->ActionAbout, SIGNAL(triggered(bool)), this, SLOT(About()));
 }
@@ -508,6 +510,12 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
     mpPoiMapAction->setVisible( pProj != nullptr && pProj->Game() >= EGame::EchoesDemo && pProj->Game() <= EGame::Corruption );
     ResetCamera();
     UpdateWindowTitle();
+
+    // Update tweak editor
+    // We update this here to ensure we can update the menu item correctly without risking
+    // that this function runs before the tweak editor has a chance to update its tweak list.
+    mpTweakEditor->OnProjectChanged(pProj);
+    ui->ActionEditTweaks->setEnabled( mpTweakEditor->HasTweaks() );
 
     // Default bloom to Fake Bloom for Metroid Prime 3; disable for other games
     bool AllowBloom = (CurrentGame() == EGame::CorruptionProto || CurrentGame() == EGame::Corruption);
@@ -1319,21 +1327,10 @@ void CWorldEditor::DecrementGizmo()
     mGizmo.DecrementSize();
 }
 
-void CWorldEditor::EditCollisionRenderSettings()
-{
-    mpCollisionDialog->show();
-}
-
 void CWorldEditor::EditLayers()
 {
     // Launch layer editor
     CLayerEditor Editor(this);
     Editor.SetArea(mpArea);
     Editor.exec();
-}
-
-void CWorldEditor::GeneratePropertyNames()
-{
-    // Launch property name generation dialog
-    mpGeneratePropertyNamesDialog->show();
 }
