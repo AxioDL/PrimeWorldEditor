@@ -321,15 +321,15 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
     if (!SkipCacheSave)
     {
         mpStore->ConditionalSaveStore();
+    }
 
-        // Flag dirty any packages that contain this resource.
-        for (uint32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
-        {
-            CPackage *pPkg = mpStore->Project()->PackageByIndex(iPkg);
+    // Flag dirty any packages that contain this resource.
+    for (uint32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
+    {
+        CPackage *pPkg = mpStore->Project()->PackageByIndex(iPkg);
 
-            if (pPkg->ContainsAsset(ID()))
-                pPkg->MarkDirty();
-        }
+        if (pPkg->ContainsAsset(ID()))
+            pPkg->MarkDirty();
     }
 
     if (ShouldCollectGarbage)

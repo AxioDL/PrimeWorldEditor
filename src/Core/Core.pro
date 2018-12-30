@@ -251,7 +251,8 @@ HEADERS += \
     Resource/StringTable/ELanguage.h \
     Tweaks/CTweakManager.h \
     Tweaks/CTweakData.h \
-    Tweaks/CTweakLoader.h
+    Tweaks/CTweakLoader.h \
+    Tweaks/CTweakCooker.h
 
 # Source Files
 SOURCES += \
@@ -365,7 +366,8 @@ SOURCES += \
     Resource/Script/NGameList.cpp \
     Resource/StringTable/CStringTable.cpp \
     Tweaks/CTweakManager.cpp \
-    Tweaks/CTweakLoader.cpp
+    Tweaks/CTweakLoader.cpp \
+    Tweaks/CTweakCooker.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

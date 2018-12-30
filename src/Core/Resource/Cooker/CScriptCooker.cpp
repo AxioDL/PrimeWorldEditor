@@ -5,10 +5,9 @@
 #include <Core/Resource/Script/Property/CEnumProperty.h>
 #include <Core/Resource/Script/Property/CFlagsProperty.h>
 
-void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, bool InAtomicStruct)
+void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, void* pData, bool InAtomicStruct)
 {
     uint32 SizeOffset = 0, PropStart = 0;
-    void* pData = (mpArrayItemData ? mpArrayItemData : mpObject->PropertyData());
 
     if (mGame >= EGame::EchoesDemo && !InAtomicStruct)
     {
@@ -197,7 +196,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
         }
 
         for (uint32 PropertyIdx = 0; PropertyIdx < PropertiesToWrite.size(); PropertyIdx++)
-            WriteProperty(rOut, PropertiesToWrite[PropertyIdx], pStruct->IsAtomic());
+            WriteProperty(rOut, PropertiesToWrite[PropertyIdx], pData, pStruct->IsAtomic());
 
         break;
     }
@@ -208,15 +207,11 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
         uint32 Count = pArray->ArrayCount(pData);
         rOut.WriteLong(Count);
 
-        void* pOldItemData = mpArrayItemData;
-
         for (uint32 ElementIdx = 0; ElementIdx < pArray->ArrayCount(pData); ElementIdx++)
         {
-            mpArrayItemData = pArray->ItemPointer(pData, ElementIdx);
-            WriteProperty(rOut, pArray->ItemArchetype(), true);
+            WriteProperty(rOut, pArray->ItemArchetype(), pArray->ItemPointer(pData, ElementIdx), true);
         }
 
-        mpArrayItemData = pOldItemData;
         break;
     }
 
@@ -231,7 +226,6 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, boo
     }
 }
 
-// ************ PUBLIC ************
 void CScriptCooker::WriteInstance(IOutputStream& rOut, CScriptObject *pInstance)
 {
     ASSERT(pInstance->Area()->Game() == mGame);
@@ -261,8 +255,7 @@ void CScriptCooker::WriteInstance(IOutputStream& rOut, CScriptObject *pInstance)
         rOut.WriteLong(pLink->ReceiverID());
     }
 
-    mpObject = pInstance;
-    WriteProperty(rOut, pInstance->Template()->Properties(), false);
+    WriteProperty(rOut, pInstance->Template()->Properties(), pInstance->PropertyData(), false);
     uint32 InstanceEnd = rOut.Tell();
 
     rOut.Seek(SizeOffset, SEEK_SET);

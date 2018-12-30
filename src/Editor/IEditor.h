@@ -38,7 +38,7 @@ public slots:
     {
         // Default implementation for editor windows that do not support resaving assets.
         // This should not be called.
-        warnf("Base IEditor::Save() implementation called. Changes will not be saved.");
+        errorf("Base IEditor::Save() implementation called. Changes will not be saved.");
         return true;
     }
 

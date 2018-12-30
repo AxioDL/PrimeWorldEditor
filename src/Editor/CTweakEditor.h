@@ -28,6 +28,7 @@ public:
     ~CTweakEditor();
     bool HasTweaks();
 
+    virtual bool Save() override;
     virtual void showEvent(QShowEvent* pEvent) override;
 
 public slots:

@@ -15,6 +15,8 @@ CTweakEditor::CTweakEditor(QWidget* pParent)
     SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Tweak Editor[*]");
 
     connect(mpUI->TweakTabs, SIGNAL(currentChanged(int)), this, SLOT(OnTweakTabClicked(int)));
+    connect(mpUI->ActionSave, SIGNAL(triggered(bool)), this, SLOT(Save()));
+    connect(mpUI->ActionSaveAndRepack, SIGNAL(triggered(bool)), this, SLOT(SaveAndRepack()));
 }
 
 CTweakEditor::~CTweakEditor()
@@ -25,6 +27,31 @@ CTweakEditor::~CTweakEditor()
 bool CTweakEditor::HasTweaks()
 {
     return !mTweakAssets.isEmpty();
+}
+
+bool CTweakEditor::Save()
+{
+    bool SavedAll = true;
+
+    foreach (CTweakData* pData, mTweakAssets)
+    {
+        if (!pData->Entry()->Save())
+        {
+            SavedAll = false;
+        }
+    }
+
+    if (!SavedAll)
+    {
+        UICommon::ErrorMsg(this, "Tweaks failed to save!");
+        return false;
+    }
+    else
+    {
+        UndoStack().setClean();
+        setWindowModified(false);
+        return true;
+    }
 }
 
 void CTweakEditor::showEvent(QShowEvent* pEvent)
