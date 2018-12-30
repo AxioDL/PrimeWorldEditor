@@ -99,7 +99,6 @@ void CPropertyView::ClearProperties()
 void CPropertyView::SetIntrinsicProperties(CStructRef InProperties)
 {
     mpObject = nullptr;
-    mpModel->SetBoldModifiedProperties(false); // todo, we prob want this, but can't set default properties on non script yet
     mpModel->ConfigureIntrinsic(nullptr, InProperties.Property(), InProperties.DataPointer());
     SetPersistentEditors(QModelIndex());
 }

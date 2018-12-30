@@ -43,6 +43,8 @@ CTweakData* CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
     if (!CTWK.EoF() && CTWK.PeekShort() != -1)
     {
         errorf("%s: unread property data, tweak template may be malformed (%d bytes left)", *CTWK.GetSourceString(), CTWK.Size() - CTWK.Tell());
+        delete pTweakData;
+        return nullptr;
     }
 
     return pTweakData;
