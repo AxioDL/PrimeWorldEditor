@@ -5,31 +5,21 @@
 
 class CResizeScriptArrayCommand : public CEditScriptPropertyCommand
 {
-    /** Property model the edit was performed on */
-    CPropertyModel* mpModel;
-
     /** Old/new model row counts; we store this here to support editing arrays on multiple instances at once */
     int mOldRowCount;
     int mNewRowCount;
 
 public:
     CResizeScriptArrayCommand(IProperty* pProperty,
-                              CWorldEditor* pEditor,
                               const QVector<CScriptObject*>& rkInstances,
-                              CPropertyModel* pModel = nullptr,
+                              CPropertyModel* pModel,
                               QModelIndex Index = QModelIndex(),
                               const QString& rkCommandName = "Resize Array"
                 )
-        :   CEditScriptPropertyCommand(pProperty, pEditor, rkInstances, Index, rkCommandName)
-        ,   mpModel(nullptr)
+        :   CEditScriptPropertyCommand(pProperty, rkInstances, pModel, Index, rkCommandName)
         ,   mOldRowCount(-1)
         ,   mNewRowCount(-1)
     {
-        if (Index.isValid())
-        {
-            ASSERT(pModel != nullptr);
-            mpModel = pModel;
-        }
     }
 
     bool mergeWith(const QUndoCommand *pkOther)
@@ -61,6 +51,7 @@ public:
     // This is why we need to check the array's actual current size instead of assuming it will match one of the arrays
     void undo()
     {
+        //@todo verify, do we need to fully override undo()?
         if (mpModel)
         {
             mpModel->ArrayAboutToBeResized(mIndex, mOldRowCount);

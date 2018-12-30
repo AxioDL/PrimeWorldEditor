@@ -204,7 +204,8 @@ HEADERS += \
     StringEditor/CStringListModel.h \
     StringEditor/CStringDelegate.h \
     CCustomDelegate.h \
-    CTweakEditor.h
+    CTweakEditor.h \
+    Undo/CEditIntrinsicPropertyCommand.h
 
 # Source Files
 SOURCES += \

@@ -33,6 +33,7 @@ public:
 public slots:
     void SetActiveTweakData(CTweakData* pTweakData);
     void SetActiveTweakIndex(int Index);
+    void OnTweakTabClicked(int Index);
     void OnProjectChanged(CGameProject* pNewProject);
 };
 

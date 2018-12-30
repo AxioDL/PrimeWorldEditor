@@ -42,9 +42,26 @@ namespace UICommon
 {
 
 // Utility
-QWindow* FindWidgetWindowHandle(QWidget *pWidget);
+QWindow* FindWidgetWindowHandle(QWidget* pWidget);
 void OpenContainingFolder(const QString& rkPath);
 bool OpenInExternalApplication(const QString& rkPath);
+
+// Searches the widget's ancestry tree to find an ancestor of type ObjectT.
+// ObjectT must be a QObject subclass.
+template<typename ObjectT>
+ObjectT* FindAncestor(QObject* pObject)
+{
+    for (QObject* pParent = pObject->parent(); pParent; pParent = pParent->parent())
+    {
+        ObjectT* pCasted = qobject_cast<ObjectT*>(pParent);
+
+        if (pCasted)
+        {
+            return pCasted;
+        }
+    }
+    return nullptr;
+}
 
 // TString/TWideString <-> QString
 inline QString ToQString(const TString& rkStr)

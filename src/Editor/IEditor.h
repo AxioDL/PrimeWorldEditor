@@ -21,8 +21,8 @@ protected:
 public:
     IEditor(QWidget* pParent);
     QUndoStack& UndoStack();
-    void AddUndoActions(QToolBar* pToolBar, QAction* pBefore);
-    void AddUndoActions(QMenu* pMenu, QAction* pBefore);
+    void AddUndoActions(QToolBar* pToolBar, QAction* pBefore = 0);
+    void AddUndoActions(QMenu* pMenu, QAction* pBefore = 0);
     bool CheckUnsavedChanges();
 
     /** QMainWindow overrides */
@@ -39,12 +39,12 @@ public slots:
         // Default implementation for editor windows that do not support resaving assets.
         // This should not be called.
         warnf("Base IEditor::Save() implementation called. Changes will not be saved.");
-        ASSERT(false);
         return true;
     }
 
     /** Non-virtual slots */
     bool SaveAndRepack();
+    void OnUndoStackIndexChanged();
 
 signals:
     void Closed();

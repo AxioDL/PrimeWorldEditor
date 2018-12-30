@@ -65,7 +65,7 @@ void WEditorProperties::SyncToEditor(CWorldEditor *pEditor)
     connect(mpEditor, SIGNAL(SelectionModified()), this, SLOT(OnSelectionModified()));
     connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersModified()));
     connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(OnInstancesLayerChanged(QList<CScriptNode*>)));
-    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), this, SLOT(OnPropertyModified(CScriptObject*,IProperty*)));
+    connect(mpEditor, SIGNAL(PropertyModified(IProperty*,CScriptObject*)), this, SLOT(OnPropertyModified(IProperty*,CScriptObject*)));
 
     OnLayersModified();
 }
@@ -139,7 +139,7 @@ void WEditorProperties::OnSelectionModified()
     SetLayerComboBox();
 }
 
-void WEditorProperties::OnPropertyModified(CScriptObject *pInstance, IProperty *pProp)
+void WEditorProperties::OnPropertyModified(IProperty* pProp, CScriptObject* pInstance)
 {
     if (!mpInstanceNameLineEdit->hasFocus())
     {

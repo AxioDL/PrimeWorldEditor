@@ -30,7 +30,6 @@
 #include <QList>
 #include <QMainWindow>
 #include <QTimer>
-#include <QUndoStack>
 
 namespace Ui {
 class CWorldEditor;
@@ -115,7 +114,7 @@ public slots:
 
     void OnActiveProjectChanged(CGameProject *pProj);
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);
-    void OnPropertyModified(CScriptObject* pObject, IProperty *pProp);
+    void OnPropertyModified(IProperty *pProp);
     void SetSelectionActive(bool Active);
     void SetSelectionInstanceNames(const QString& rkNewName, bool IsDone);
     void SetSelectionLayer(CScriptLayer *pLayer);
@@ -143,7 +142,6 @@ private slots:
     void OnLinkEnd();
     void OnUnlinkClicked();
 
-    void OnUndoStackIndexChanged();
     void OnPickModeEnter(QCursor Cursor);
     void OnPickModeExit();
     void UpdateCameraOrbit();
@@ -178,7 +176,7 @@ signals:
     void InstancesLayerAboutToChange();
     void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);
     void InstanceLinksModified(const QList<CScriptObject*>& rkInstances);
-    void PropertyModified(CScriptObject *pInst, IProperty *pProp);
+    void PropertyModified(IProperty *pProp, CScriptObject* pObject);
 };
 
 #endif // CWORLDEDITOR_H

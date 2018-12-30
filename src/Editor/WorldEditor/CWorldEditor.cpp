@@ -541,42 +541,53 @@ void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
         emit InstanceLinksModified(rkInstances);
 }
 
-void CWorldEditor::OnPropertyModified(CScriptObject* pObject, IProperty *pProp)
+void CWorldEditor::OnPropertyModified(IProperty *pProp)
 {
-    CScriptNode *pScript = mScene.NodeForInstance(pObject);
+    bool ShouldUpdateSelection = false;
 
-    if (pScript)
+    for (CSelectionIterator It(mpSelection); It; ++It)
     {
-        pScript->PropertyModified(pProp);
+        CSceneNode* pNode = *It;
 
-        // If this is the name, update other parts of the UI to reflect the new value.
-        if ( pProp->Name() == "Name" )
+        if (pNode && pNode->NodeType() == ENodeType::Script)
         {
-            UpdateStatusBar();
-            UpdateSelectionUI();
+            CScriptNode* pScript = static_cast<CScriptNode*>(pNode);
+            pScript->PropertyModified(pProp);
+
+            // If this is the name, update other parts of the UI to reflect the new value.
+            if ( pProp->Name() == "Name" )
+            {
+                UpdateStatusBar();
+                UpdateSelectionUI();
+            }
+            else if (pProp->Name() == "Position" ||
+                     pProp->Name() == "Rotation" ||
+                     pProp->Name() == "Scale")
+            {
+                mpSelection->UpdateBounds();
+            }
+
+            // Emit signal so other widgets can react to the property change
+            emit PropertyModified(pProp, pScript->Instance());
         }
-        else if (pProp->Name() == "Position" ||
-                 pProp->Name() == "Rotation" ||
-                 pProp->Name() == "Scale")
+
+        // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
+        if (pProp->Type() == EPropertyType::Asset)
         {
-            mpSelection->UpdateBounds();
+            CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
+            const CResTypeFilter& rkFilter = pAsset->GetTypeFilter();
+
+            if (rkFilter.Accepts(EResourceType::Model) || rkFilter.Accepts(EResourceType::AnimSet) || rkFilter.Accepts(EResourceType::Character))
+                ShouldUpdateSelection = true;
         }
+        else if (pProp->Type() == EPropertyType::AnimationSet)
+            ShouldUpdateSelection = true;
     }
 
-    // If this is a model/character, then we'll treat this as a modified selection. This is to make sure the selection bounds updates.
-    if (pProp->Type() == EPropertyType::Asset)
+    if (ShouldUpdateSelection)
     {
-        CAssetProperty *pAsset = TPropCast<CAssetProperty>(pProp);
-        const CResTypeFilter& rkFilter = pAsset->GetTypeFilter();
-
-        if (rkFilter.Accepts(EResourceType::Model) || rkFilter.Accepts(EResourceType::AnimSet) || rkFilter.Accepts(EResourceType::Character))
-            SelectionModified();
-    }
-    else if (pProp->Type() == EPropertyType::AnimationSet)
         SelectionModified();
-
-    // Emit signal so other widgets can react to the property change
-    emit PropertyModified(pObject, pProp);
+    }
 }
 
 void CWorldEditor::SetSelectionActive(bool Active)
@@ -616,10 +627,14 @@ void CWorldEditor::SetSelectionActive(bool Active)
 
             if (pActiveProperty)
             {
+                CPropertyModel* pModel = qobject_cast<CPropertyModel*>(
+                            mpScriptSidebar->ModifyTab()->PropertyView()->model()
+                        );
+
                 CEditScriptPropertyCommand* pCommand = new CEditScriptPropertyCommand(
                             pActiveProperty,
-                            this,
-                            CommandObjects
+                            CommandObjects,
+                            pModel
                         );
 
                 pCommand->SaveOldData();
@@ -1070,61 +1085,6 @@ void CWorldEditor::OnUnlinkClicked()
 
             UndoStack().endMacro();
         }
-    }
-}
-
-void CWorldEditor::OnUndoStackIndexChanged()
-{
-    // Check the commands that have been executed on the undo stack and find out whether any of them affect the clean state.
-    // This is to prevent commands like select/deselect from altering the clean state.
-    int CurrentIndex = UndoStack().index();
-    int CleanIndex = UndoStack().cleanIndex();
-
-    if (CleanIndex == -1)
-    {
-        if (!isWindowModified())
-            UndoStack().setClean();
-
-        return;
-    }
-
-    if (CurrentIndex == CleanIndex)
-        setWindowModified(false);
-
-    else
-    {
-        bool IsClean = true;
-        int LowIndex = (CurrentIndex > CleanIndex ? CleanIndex : CurrentIndex);
-        int HighIndex = (CurrentIndex > CleanIndex ? CurrentIndex - 1 : CleanIndex - 1);
-
-        for (int iIdx = LowIndex; iIdx <= HighIndex; iIdx++)
-        {
-            const QUndoCommand *pkQCmd = UndoStack().command(iIdx);
-
-            if (const IUndoCommand *pkCmd = dynamic_cast<const IUndoCommand*>(pkQCmd))
-            {
-                if (pkCmd->AffectsCleanState())
-                    IsClean = false;
-            }
-
-            else if (pkQCmd->childCount() > 0)
-            {
-                for (int iChild = 0; iChild < pkQCmd->childCount(); iChild++)
-                {
-                    const IUndoCommand *pkCmd = static_cast<const IUndoCommand*>(pkQCmd->child(iChild));
-
-                    if (pkCmd->AffectsCleanState())
-                    {
-                        IsClean = false;
-                        break;
-                    }
-                }
-            }
-
-            if (!IsClean) break;
-        }
-
-        setWindowModified(!IsClean);
     }
 }
 

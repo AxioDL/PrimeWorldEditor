@@ -60,7 +60,7 @@ public slots:
     void NodeAboutToBeDeleted(CSceneNode *pNode);
     void NodeDeleted();
 
-    void PropertyModified(CScriptObject *pInst, IProperty *pProp);
+    void PropertyModified(IProperty *pProp, CScriptObject *pInst);
     void InstancesLayerPreChange();
     void InstancesLayerPostChange(const QList<CScriptNode*>& rkInstanceList);
 

@@ -1,5 +1,7 @@
 #include "IEditor.h"
 
+#include "Editor/Undo/IUndoCommand.h"
+
 #include <QMenu>
 #include <QMessageBox>
 #include <QToolBar>
@@ -19,6 +21,8 @@ IEditor::IEditor(QWidget* pParent)
     pRedoAction->setIcon(QIcon(":/icons/Redo.png"));
     mUndoActions.push_back(pUndoAction);
     mUndoActions.push_back(pRedoAction);
+
+    connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
 }
 
 QUndoStack& IEditor::UndoStack()
@@ -26,12 +30,12 @@ QUndoStack& IEditor::UndoStack()
     return mUndoStack;
 }
 
-void IEditor::AddUndoActions(QToolBar* pToolBar, QAction* pBefore)
+void IEditor::AddUndoActions(QToolBar* pToolBar, QAction* pBefore /*= 0*/)
 {
     pToolBar->insertActions(pBefore, mUndoActions);
 }
 
-void IEditor::AddUndoActions(QMenu* pMenu, QAction* pBefore)
+void IEditor::AddUndoActions(QMenu* pMenu, QAction* pBefore /*= 0*/)
 {
     pMenu->insertActions(pBefore, mUndoActions);
 }
@@ -49,7 +53,10 @@ bool IEditor::CheckUnsavedChanges()
             OkToClear = Save();
 
         else if (Result == QMessageBox::No)
+        {
+            mUndoStack.setIndex(0); // Revert all changes
             OkToClear = true;
+        }
 
         else if (Result == QMessageBox::Cancel)
             OkToClear = false;
@@ -82,4 +89,60 @@ bool IEditor::SaveAndRepack()
         return true;
     }
     else return false;
+}
+
+
+void IEditor::OnUndoStackIndexChanged()
+{
+    // Check the commands that have been executed on the undo stack and find out whether any of them affect the clean state.
+    // This is to prevent commands like select/deselect from altering the clean state.
+    int CurrentIndex = mUndoStack.index();
+    int CleanIndex = mUndoStack.cleanIndex();
+
+    if (CleanIndex == -1)
+    {
+        if (!isWindowModified())
+            mUndoStack.setClean();
+
+        return;
+    }
+
+    if (CurrentIndex == CleanIndex)
+        setWindowModified(false);
+
+    else
+    {
+        bool IsClean = true;
+        int LowIndex = (CurrentIndex > CleanIndex ? CleanIndex : CurrentIndex);
+        int HighIndex = (CurrentIndex > CleanIndex ? CurrentIndex - 1 : CleanIndex - 1);
+
+        for (int i = LowIndex; i <= HighIndex; i++)
+        {
+            const QUndoCommand *pkQCmd = mUndoStack.command(i);
+
+            if (const IUndoCommand* pkCmd = dynamic_cast<const IUndoCommand*>(pkQCmd))
+            {
+                if (pkCmd->AffectsCleanState())
+                    IsClean = false;
+            }
+
+            else if (pkQCmd->childCount() > 0)
+            {
+                for (int ChildIdx = 0; ChildIdx < pkQCmd->childCount(); ChildIdx++)
+                {
+                    const IUndoCommand *pkCmd = static_cast<const IUndoCommand*>(pkQCmd->child(ChildIdx));
+
+                    if (pkCmd->AffectsCleanState())
+                    {
+                        IsClean = false;
+                        break;
+                    }
+                }
+            }
+
+            if (!IsClean) break;
+        }
+
+        setWindowModified(!IsClean);
+    }
 }

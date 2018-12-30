@@ -3,6 +3,7 @@
 
 #include "Editor/UICommon.h"
 #include "Editor/Undo/CEditScriptPropertyCommand.h"
+#include "Editor/Undo/CEditIntrinsicPropertyCommand.h"
 #include "Editor/Undo/CResizeScriptArrayCommand.h"
 #include "Editor/Widgets/CResourceSelector.h"
 #include "Editor/Widgets/WColorPicker.h"
@@ -25,22 +26,23 @@
     connect(pRelay, SIGNAL(WidgetEdited(QWidget*, const QModelIndex&)), this, SLOT(WidgetEdited(QWidget*, const QModelIndex&))); \
     }
 
-CPropertyDelegate::CPropertyDelegate(QObject *pParent /*= 0*/)
+CPropertyDelegate::CPropertyDelegate(QObject* pParent /*= 0*/)
     : QStyledItemDelegate(pParent)
+    , mpEditor(nullptr)
     , mpModel(nullptr)
     , mInRelayWidgetEdit(false)
     , mEditInProgress(false)
     , mRelaysBlocked(false)
 {
-    mpEditor = gpEdApp->WorldEditor();
+    mpEditor = UICommon::FindAncestor<IEditor>(this);
 }
 
-void CPropertyDelegate::SetPropertyModel(CPropertyModel *pModel)
+void CPropertyDelegate::SetPropertyModel(CPropertyModel* pModel)
 {
     mpModel = pModel;
 }
 
-QWidget* CPropertyDelegate::createEditor(QWidget *pParent, const QStyleOptionViewItem& /*rkOption*/, const QModelIndex& rkIndex) const
+QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionViewItem& /*rkOption*/, const QModelIndex& rkIndex) const
 {
     if (!mpModel) return nullptr;
     IProperty *pProp = mpModel->PropertyForIndex(rkIndex, false);
@@ -361,16 +363,28 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
     if (pProp)
     {
         EPropertyType Type = mpModel->GetEffectiveFieldType(pProp);
+        CScriptObject* pObject = mpModel->GetScriptObject();
 
-        QVector<CScriptObject*> Objects;
-        Objects << mpModel->GetScriptObject();
+        if (!pObject)
+        {
+            QVector<void*> DataPointers;
+            DataPointers << pData;
+            pCommand = new CEditIntrinsicPropertyCommand(pProp, DataPointers, mpModel, rkIndex);
+        }
+        else
+        {
+            QVector<CScriptObject*> Objects;
+            Objects << pObject;
+
+            pCommand = (Type != EPropertyType::Array) ?
+                        new CEditScriptPropertyCommand(pProp, Objects, mpModel, rkIndex) :
+                        new CResizeScriptArrayCommand (pProp, Objects, mpModel, rkIndex);
+        }
+
+        pCommand->SaveOldData();
 
         if (Type != EPropertyType::Array)
         {
-            // TODO: support this for non script object properties
-            pCommand = new CEditScriptPropertyCommand(pProp, mpEditor, Objects, rkIndex);
-            pCommand->SaveOldData();
-
             // Handle sub-properties of flags and animation sets
             if (rkIndex.internalId() & 0x80000000)
             {
@@ -482,9 +496,6 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
         // Array
         else
         {
-            pCommand = new CResizeScriptArrayCommand(pProp, mpEditor, Objects, mpModel, rkIndex);
-            pCommand->SaveOldData();
-
             WIntegralSpinBox* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
             CArrayProperty* pArray = static_cast<CArrayProperty*>(pProp);
             int OldCount = pArray->ArrayCount(pData);
@@ -560,9 +571,9 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
         pSelector->SetFrameVisible(false);
 
         if (Params.Version() <= EGame::Echoes)
-            pSelector->SetTypeFilter(mpEditor->CurrentGame(), "ANCS");
+            pSelector->SetTypeFilter(gpEdApp->CurrentGame(), "ANCS");
         else
-            pSelector->SetTypeFilter(mpEditor->CurrentGame(), "CHAR");
+            pSelector->SetTypeFilter(gpEdApp->CurrentGame(), "CHAR");
 
         CONNECT_RELAY(pSelector, rkIndex, ResourceChanged(CResourceEntry*));
         return pSelector;
@@ -626,7 +637,7 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
     if (Type == EPropertyType::Asset)
     {
         CResourceEntry *pEntry = static_cast<CResourceSelector*>(pEditor)->Entry();
-        Params.SetResource( pEntry ? pEntry->ID() : CAssetID::InvalidID(mpEditor->CurrentGame()) );
+        Params.SetResource( pEntry ? pEntry->ID() : CAssetID::InvalidID(gpEdApp->CurrentGame()) );
     }
 
     else if (Type == EPropertyType::Enum || Type == EPropertyType::Choice)

@@ -1,5 +1,6 @@
 #include "CTweakEditor.h"
 #include "ui_CTweakEditor.h"
+#include "Editor/Undo/IUndoCommand.h"
 
 CTweakEditor::CTweakEditor(QWidget* pParent)
     : IEditor(pParent)
@@ -9,9 +10,11 @@ CTweakEditor::CTweakEditor(QWidget* pParent)
 {
     mpUI->setupUi(this);
     mpUI->TweakTabs->setExpanding(false);
-    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Tweak Editor");
+    mpUI->ToolBar->addSeparator();
+    AddUndoActions(mpUI->ToolBar);
+    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Tweak Editor[*]");
 
-    connect(mpUI->TweakTabs, SIGNAL(currentChanged(int)), this, SLOT(SetActiveTweakIndex(int)));
+    connect(mpUI->TweakTabs, SIGNAL(currentChanged(int)), this, SLOT(OnTweakTabClicked(int)));
 }
 
 CTweakEditor::~CTweakEditor()
@@ -64,6 +67,34 @@ void CTweakEditor::SetActiveTweakIndex(int Index)
     }
 }
 
+void CTweakEditor::OnTweakTabClicked(int Index)
+{
+    /** Internal undo command for changing tabs */
+    class CSetTweakIndexCommand : public IUndoCommand
+    {
+        CTweakEditor* mpEditor;
+        int mOldIndex, mNewIndex;
+
+    public:
+        CSetTweakIndexCommand(CTweakEditor* pEditor, int OldIndex, int NewIndex)
+            : IUndoCommand("Change Tab")
+            , mpEditor(pEditor)
+            , mOldIndex(OldIndex)
+            , mNewIndex(NewIndex)
+        {}
+
+        virtual void undo() override { mpEditor->SetActiveTweakIndex(mOldIndex); }
+        virtual void redo() override { mpEditor->SetActiveTweakIndex(mNewIndex); }
+        virtual bool AffectsCleanState() const { return false; }
+    };
+
+    if (Index != mCurrentTweakIndex)
+    {
+        CSetTweakIndexCommand* pCommand = new CSetTweakIndexCommand(this, mCurrentTweakIndex, Index);
+        UndoStack().push(pCommand);
+    }
+}
+
 void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
 {
     // Close and clear tabs
@@ -78,8 +109,8 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
         mpUI->TweakTabs->removeTab(0);
     }
 
-    mpUI->TweakTabs->blockSignals(false);
     mTweakAssets.clear();
+    UndoStack().clear();
 
     // Create tweak list
     if (pNewProject != nullptr)
@@ -105,4 +136,6 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
 
         SetActiveTweakIndex(0);
     }
+
+    mpUI->TweakTabs->blockSignals(false);
 }

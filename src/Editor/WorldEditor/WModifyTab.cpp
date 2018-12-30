@@ -45,6 +45,7 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     connect(ui->DeleteIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteLinksClicked()));
     connect(ui->EditOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditLinkClicked()));
     connect(ui->EditIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditLinkClicked()));
+    connect(ui->PropertyView, SIGNAL(PropertyModified(IProperty*)), mpWorldEditor, SLOT(OnPropertyModified(IProperty*)));
     connect(mpWorldEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChanged()));
     connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
     connect(mpWorldEditor, SIGNAL(InstanceLinksModified(const QList<CScriptObject*>&)), this, SLOT(OnInstanceLinksModified(const QList<CScriptObject*>&)));
@@ -63,6 +64,11 @@ void WModifyTab::ClearUI()
     ui->ObjectsTabWidget->hide();
     ui->PropertyView->SetInstance(nullptr);
     mpSelectedNode = nullptr;
+}
+
+CPropertyView* WModifyTab::PropertyView() const
+{
+    return ui->PropertyView;
 }
 
 // ************ PUBLIC SLOTS ************
