@@ -58,6 +58,15 @@ public:
     /** Updates a string name */
     void SetStringName(uint StringIndex, const TString& kNewName);
 
+    /** Move string to another position in the table */
+    void MoveString(uint StringIndex, uint NewIndex);
+
+    /** Add a new string to the table */
+    void AddString(uint AtIndex);
+
+    /** Remove a string from the table */
+    void RemoveString(uint StringIndex);
+
     /** Configures the string table with default languages for the game/region pairing of the resource */
     void ConfigureDefaultLanguages();
 

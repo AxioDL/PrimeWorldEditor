@@ -2,6 +2,26 @@
 #include "ui_CTweakEditor.h"
 #include "Editor/Undo/IUndoCommand.h"
 
+/** Internal undo command for changing tabs */
+class CSetTweakIndexCommand : public IUndoCommand
+{
+    CTweakEditor* mpEditor;
+    int mOldIndex, mNewIndex;
+
+public:
+    CSetTweakIndexCommand(CTweakEditor* pEditor, int OldIndex, int NewIndex)
+        : IUndoCommand("Change Tab")
+        , mpEditor(pEditor)
+        , mOldIndex(OldIndex)
+        , mNewIndex(NewIndex)
+    {}
+
+    virtual void undo() override { mpEditor->SetActiveTweakIndex(mOldIndex); }
+    virtual void redo() override { mpEditor->SetActiveTweakIndex(mNewIndex); }
+    virtual bool AffectsCleanState() const { return false; }
+};
+
+/** CTweakEditor functions */
 CTweakEditor::CTweakEditor(QWidget* pParent)
     : IEditor(pParent)
     , mpUI(new Ui::CTweakEditor)
@@ -73,7 +93,8 @@ void CTweakEditor::SetActiveTweakData(CTweakData* pTweakData)
     {
         if (mTweakAssets[TweakIdx] == pTweakData)
         {
-            SetActiveTweakIndex(TweakIdx);
+            CSetTweakIndexCommand* pCommand = new CSetTweakIndexCommand(this, mCurrentTweakIndex, TweakIdx);
+            UndoStack().push(pCommand);
             break;
         }
     }
@@ -96,25 +117,6 @@ void CTweakEditor::SetActiveTweakIndex(int Index)
 
 void CTweakEditor::OnTweakTabClicked(int Index)
 {
-    /** Internal undo command for changing tabs */
-    class CSetTweakIndexCommand : public IUndoCommand
-    {
-        CTweakEditor* mpEditor;
-        int mOldIndex, mNewIndex;
-
-    public:
-        CSetTweakIndexCommand(CTweakEditor* pEditor, int OldIndex, int NewIndex)
-            : IUndoCommand("Change Tab")
-            , mpEditor(pEditor)
-            , mOldIndex(OldIndex)
-            , mNewIndex(NewIndex)
-        {}
-
-        virtual void undo() override { mpEditor->SetActiveTweakIndex(mOldIndex); }
-        virtual void redo() override { mpEditor->SetActiveTweakIndex(mNewIndex); }
-        virtual bool AffectsCleanState() const { return false; }
-    };
-
     if (Index != mCurrentTweakIndex)
     {
         CSetTweakIndexCommand* pCommand = new CSetTweakIndexCommand(this, mCurrentTweakIndex, Index);

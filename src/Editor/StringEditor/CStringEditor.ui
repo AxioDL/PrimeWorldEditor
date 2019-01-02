@@ -44,6 +44,15 @@
             <pointsize>9</pointsize>
            </font>
           </property>
+          <property name="dragEnabled">
+           <bool>true</bool>
+          </property>
+          <property name="dragDropMode">
+           <enum>QAbstractItemView::InternalMove</enum>
+          </property>
+          <property name="defaultDropAction">
+           <enum>Qt::MoveAction</enum>
+          </property>
           <property name="alternatingRowColors">
            <bool>true</bool>
           </property>
@@ -108,7 +117,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="AddStringButton_2">
+           <widget class="QPushButton" name="RemoveStringButton">
             <property name="text">
              <string/>
             </property>

@@ -3,11 +3,42 @@
 
 #include "CStringDelegate.h"
 #include "Editor/UICommon.h"
+#include "Editor/Undo/TSerializeUndoCommand.h"
 
 #include <QSettings>
+#include <QShortcut>
 
 /** Settings strings */
 const char* gkpLanguageSetting = "StringEditor/EditLanguage";
+
+/** Command classes */
+class CSetStringIndexCommand : public IUndoCommand
+{
+    CStringEditor* mpEditor;
+    int mOldIndex, mNewIndex;
+public:
+    CSetStringIndexCommand(CStringEditor* pEditor, int OldIndex, int NewIndex)
+        : mpEditor(pEditor), mOldIndex(OldIndex), mNewIndex(NewIndex)
+    {}
+
+    virtual void undo() override { mpEditor->SetActiveString(mOldIndex); }
+    virtual void redo() override { mpEditor->SetActiveString(mNewIndex); }
+    virtual bool AffectsCleanState() const override { return false; }
+};
+
+class CSetLanguageCommand : public IUndoCommand
+{
+    CStringEditor* mpEditor;
+    ELanguage mOldLanguage, mNewLanguage;
+public:
+    CSetLanguageCommand(CStringEditor* pEditor, ELanguage OldLanguage, ELanguage NewLanguage)
+        : mpEditor(pEditor), mOldLanguage(OldLanguage), mNewLanguage(NewLanguage)
+    {}
+
+    virtual void undo() override { mpEditor->SetActiveLanguage(mOldLanguage); }
+    virtual void redo() override { mpEditor->SetActiveLanguage(mNewLanguage); }
+    virtual bool AffectsCleanState() const override { return false; }
+};
 
 /** Constructor */
 CStringEditor::CStringEditor(CStringTable* pStringTable, QWidget* pParent)
@@ -16,12 +47,12 @@ CStringEditor::CStringEditor(CStringTable* pStringTable, QWidget* pParent)
     , mpStringTable(pStringTable)
     , mCurrentLanguage(ELanguage::English)
     , mCurrentStringIndex(0)
+    , mCurrentStringCount(0)
+    , mIsEditingStringName(false)
+    , mIsEditingStringData(false)
 {
-    mpListModel = new CStringListModel(pStringTable, this);
-    mpUI->setupUi(this);
-
     InitUI();
-    LoadSettings();
+//  LoadSettings(); // Disabled for now
 }
 
 CStringEditor::~CStringEditor()
@@ -29,10 +60,42 @@ CStringEditor::~CStringEditor()
     delete mpUI;
 }
 
+bool CStringEditor::eventFilter(QObject* pWatched, QEvent* pEvent)
+{
+    if (pEvent->type() == QEvent::FocusOut)
+    {
+        if (pWatched == mpUI->StringNameLineEdit && mIsEditingStringName)
+        {
+            IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Edit String Name", mpStringTable, true);
+            UndoStack().push(pCommand);
+            mIsEditingStringName = false;
+            return true;
+        }
+        else if (pWatched == mpUI->StringTextEdit && mIsEditingStringData)
+        {
+            IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Edit String", mpStringTable, true);
+            UndoStack().push(pCommand);
+            mIsEditingStringData = false;
+            return true;
+        }
+    }
+    return false;
+}
+
 void CStringEditor::InitUI()
 {
+    mpUI->setupUi(this);
+    mpListModel = new CStringListModel(mpStringTable, this);
     mpUI->StringNameListView->setModel(mpListModel);
     mpUI->StringNameListView->setItemDelegate( new CStringDelegate(this) );
+    mpUI->AddStringButton->setShortcut( QKeySequence("Alt+=") );
+    mpUI->RemoveStringButton->setShortcut( QKeySequence("Alt+-") );
+
+    // Register shortcuts
+    new QShortcut( QKeySequence("Alt+Down"),  this, SLOT(IncrementStringIndex()) );
+    new QShortcut( QKeySequence("Alt+Up"),    this, SLOT(DecrementStringIndex()) );
+    new QShortcut( QKeySequence("Alt+Right"), this, SLOT(IncrementLanguageIndex()) );
+    new QShortcut( QKeySequence("Alt+Left"),  this, SLOT(DecrementLanguageIndex()) );
 
     // Set up language tabs
     mpUI->EditLanguageTabBar->setExpanding(false);
@@ -48,7 +111,20 @@ void CStringEditor::InitUI()
     connect( mpUI->StringNameListView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
              this, SLOT(OnStringSelected(QModelIndex)) );
 
+    connect( mpUI->StringNameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(OnStringNameEdited()) );
+    connect( mpUI->StringTextEdit, SIGNAL(textChanged()), this, SLOT(OnStringTextEdited()) );
     connect( mpUI->EditLanguageTabBar, SIGNAL(currentChanged(int)), this, SLOT(OnLanguageChanged(int)) );
+    connect( mpUI->AddStringButton, SIGNAL(pressed()), this, SLOT(OnAddString()) );
+    connect( mpUI->RemoveStringButton, SIGNAL(pressed()), this, SLOT(OnRemoveString()) );
+
+    connect( &UndoStack(), SIGNAL(indexChanged(int)), this, SLOT(UpdateUI()) );
+
+    mpUI->ToolBar->addSeparator();
+    AddUndoActions(mpUI->ToolBar);
+
+    // Install event filters
+    mpUI->StringNameLineEdit->installEventFilter(this);
+    mpUI->StringTextEdit->installEventFilter(this);
 
     // Update window title
     QString WindowTitle = "%APP_FULL_NAME% - String Editor - %1[*]";
@@ -60,8 +136,8 @@ void CStringEditor::InitUI()
     SplitterSizes << (height() * 0.95) << (height() * 0.05);
     mpUI->splitter->setSizes(SplitterSizes);
 
-    // Initialize status bar
-    UpdateStatusBar();
+    // Initialize UI
+    UpdateUI();
 }
 
 void CStringEditor::UpdateStatusBar()
@@ -86,9 +162,8 @@ void CStringEditor::SetActiveLanguage(ELanguage Language)
     if (mCurrentLanguage != Language)
     {
         mCurrentLanguage = Language;
-
-        // Force UI to update with the correct string for the new language
-        SetActiveString( mCurrentStringIndex );
+        mpListModel->SetPreviewLanguage(Language);
+        UpdateUI();
         SaveSettings();
     }
 }
@@ -96,11 +171,7 @@ void CStringEditor::SetActiveLanguage(ELanguage Language)
 void CStringEditor::SetActiveString(int StringIndex)
 {
     mCurrentStringIndex = StringIndex;
-    TString StringName = mpStringTable->StringNameByIndex(mCurrentStringIndex);
-    TString StringData = mpStringTable->GetString(mCurrentLanguage, mCurrentStringIndex);
-    mpUI->StringNameLineEdit->setText( TO_QSTRING(StringName) );
-    mpUI->StringTextEdit->setPlainText( TO_QSTRING(StringData) );
-    UpdateStatusBar();
+    UpdateUI();
 }
 
 void CStringEditor::LoadSettings()
@@ -108,12 +179,13 @@ void CStringEditor::LoadSettings()
     QSettings Settings;
 
     // Set language
-    mCurrentLanguage = (ELanguage) Settings.value(gkpLanguageSetting, (int) ELanguage::English).toInt();
+    ELanguage Language = (ELanguage) Settings.value(gkpLanguageSetting, (int) ELanguage::English).toInt();
 
     for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
-        if (mpStringTable->LanguageByIndex(LanguageIdx) == mCurrentLanguage)
+        if (mpStringTable->LanguageByIndex(LanguageIdx) == Language)
         {
+            SetActiveLanguage(Language);
             mpUI->EditLanguageTabBar->setCurrentIndex(LanguageIdx);
             break;
         }
@@ -127,14 +199,205 @@ void CStringEditor::SaveSettings()
 }
 
 /** Slots */
+void CStringEditor::UpdateUI()
+{
+    // Update string list
+    if (mCurrentStringCount != mpStringTable->NumStrings())
+    {
+        mpUI->StringNameListView->model()->layoutChanged();
+        mCurrentStringCount = mpStringTable->NumStrings();
+    }
+
+    // Update selection in string list
+    QModelIndex OldStringIndex = mpUI->StringNameListView->selectionModel()->hasSelection() ?
+                mpUI->StringNameListView->currentIndex() : QModelIndex();
+
+    QModelIndex NewStringIndex = mpUI->StringNameListView->model()->index(mCurrentStringIndex,0);
+
+    if (OldStringIndex != NewStringIndex)
+    {
+        QItemSelectionModel* pSelectionModel = mpUI->StringNameListView->selectionModel();
+        pSelectionModel->blockSignals(true);
+        pSelectionModel->setCurrentIndex(NewStringIndex, QItemSelectionModel::ClearAndSelect);
+        pSelectionModel->blockSignals(false);
+        mpUI->StringNameListView->update(OldStringIndex);
+    }
+    mpUI->StringNameListView->update(NewStringIndex);
+
+    // Update language tabs
+    uint LanguageIndex = mpUI->EditLanguageTabBar->currentIndex();
+    ELanguage TabLanguage = mpStringTable->LanguageByIndex(LanguageIndex);
+
+    if (TabLanguage != mCurrentLanguage)
+    {
+        for (uint LangIdx = 0; LangIdx < mpStringTable->NumLanguages(); LangIdx++)
+        {
+            if (mpStringTable->LanguageByIndex(LangIdx) == mCurrentLanguage)
+            {
+                mpUI->EditLanguageTabBar->blockSignals(true);
+                mpUI->EditLanguageTabBar->setCurrentIndex(LangIdx);
+                mpUI->EditLanguageTabBar->blockSignals(false);
+                break;
+            }
+        }
+    }
+
+    // Update string name/data fields
+    QString StringName = TO_QSTRING( mpStringTable->StringNameByIndex(mCurrentStringIndex) );
+    QString StringData = TO_QSTRING( mpStringTable->GetString(mCurrentLanguage, mCurrentStringIndex) );
+
+    if (StringName != mpUI->StringNameLineEdit->text())
+    {
+        mpUI->StringNameLineEdit->blockSignals(true);
+        mpUI->StringNameLineEdit->setText( StringName );
+        mpUI->StringNameLineEdit->blockSignals(false);
+    }
+
+    if (StringData != mpUI->StringTextEdit->toPlainText())
+    {
+        mpUI->StringTextEdit->blockSignals(true);
+        mpUI->StringTextEdit->setPlainText( StringData );
+        mpUI->StringTextEdit->blockSignals(false);
+    }
+
+    UpdateStatusBar();
+}
+
 void CStringEditor::OnStringSelected(const QModelIndex& kIndex)
 {
-    SetActiveString( kIndex.row() );
+    if (mCurrentStringIndex != kIndex.row())
+    {
+        IUndoCommand* pCommand = new CSetStringIndexCommand(this, mCurrentStringIndex, kIndex.row());
+        UndoStack().push(pCommand);
+    }
 }
 
 void CStringEditor::OnLanguageChanged(int LanguageIndex)
 {
     ASSERT( LanguageIndex >= 0 && LanguageIndex < (int) mpStringTable->NumLanguages() );
     ELanguage Language = mpStringTable->LanguageByIndex(LanguageIndex);
-    SetActiveLanguage(Language);
+
+    if (Language != mCurrentLanguage)
+    {
+        IUndoCommand* pCommand = new CSetLanguageCommand(this, mCurrentLanguage, Language);
+        UndoStack().push(pCommand);
+    }
+}
+
+void CStringEditor::OnStringNameEdited()
+{
+    TString NewName = TO_TSTRING( mpUI->StringNameLineEdit->text() );
+    
+    if (mpStringTable->StringNameByIndex(mCurrentStringIndex) != NewName)
+    {
+        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Edit String Name", mpStringTable, false);
+        mpStringTable->SetStringName( mCurrentStringIndex, NewName );
+        mIsEditingStringName = true;
+        UndoStack().push(pCommand);
+    }
+}
+
+void CStringEditor::OnStringTextEdited()
+{
+    TString NewText = TO_TSTRING( mpUI->StringTextEdit->toPlainText() );
+    
+    if (mpStringTable->GetString(mCurrentLanguage, mCurrentStringIndex) != NewText)
+    {
+        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Edit String", mpStringTable, false);
+        mpStringTable->SetString(mCurrentLanguage, mCurrentStringIndex, NewText);
+        mIsEditingStringData = true;
+        UndoStack().push(pCommand);
+    }
+}
+
+void CStringEditor::OnAddString()
+{
+    UndoStack().beginMacro("Add String");
+
+    // Add string
+    IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Add String", mpStringTable, true);
+    uint Index = mCurrentStringIndex + 1;
+    mpStringTable->AddString(Index);
+    UndoStack().push(pCommand);
+
+    // Select new string
+    pCommand = new CSetStringIndexCommand(this, mCurrentStringIndex, Index);
+    UndoStack().push(pCommand);
+    UndoStack().endMacro();
+
+    // Give focus to the text edit so the user can edit the string
+    mpUI->StringTextEdit->setFocus();
+}
+
+void CStringEditor::OnRemoveString()
+{
+    if (mpUI->StringNameListView->selectionModel()->hasSelection())
+    {
+        UndoStack().beginMacro("Remove String");
+        uint Index = mCurrentStringIndex;
+
+        // Change selection to a new string.
+        // Do this before actually removing the string so that if the action is undone, the
+        // editor will not attempt to re-select the string before it gets readded to the table.
+        uint NewStringCount = mpStringTable->NumStrings() - 1;
+        uint NewIndex = (Index >= NewStringCount ? NewStringCount - 1 : Index);
+        IUndoCommand* pCommand = new CSetStringIndexCommand(this, Index, NewIndex);
+        UndoStack().push(pCommand);
+
+        // Remove the string
+        pCommand = new TSerializeUndoCommand<CStringTable>("Remove String", mpStringTable, true);
+        mpStringTable->RemoveString(Index);
+        UndoStack().push(pCommand);
+        UndoStack().endMacro();
+    }
+}
+
+void CStringEditor::IncrementStringIndex()
+{
+    uint NewIndex = mCurrentStringIndex + 1;
+
+    if (NewIndex < mpStringTable->NumStrings())
+    {
+        IUndoCommand* pCommand = new CSetStringIndexCommand(this, mCurrentStringIndex, NewIndex);
+        UndoStack().push(pCommand);
+    }
+}
+
+void CStringEditor::DecrementStringIndex()
+{
+    uint NewIndex = mCurrentStringIndex - 1;
+
+    if (NewIndex != -1)
+    {
+        IUndoCommand* pCommand = new CSetStringIndexCommand(this, mCurrentStringIndex, NewIndex);
+        UndoStack().push(pCommand);
+    }
+}
+
+void CStringEditor::IncrementLanguageIndex()
+{
+    for (uint i=0; i<mpStringTable->NumLanguages() - 1; i++)
+    {
+        if (mpStringTable->LanguageByIndex(i) == mCurrentLanguage)
+        {
+            ELanguage NewLanguage = mpStringTable->LanguageByIndex(i+1);
+            IUndoCommand* pCommand = new CSetLanguageCommand(this, mCurrentLanguage, NewLanguage);
+            UndoStack().push(pCommand);
+            break;
+        }
+    }
+}
+
+void CStringEditor::DecrementLanguageIndex()
+{
+    for (uint i=mpStringTable->NumLanguages() - 1; i>0; i--)
+    {
+        if (mpStringTable->LanguageByIndex(i) == mCurrentLanguage)
+        {
+            ELanguage NewLanguage = mpStringTable->LanguageByIndex(i-1);
+            IUndoCommand* pCommand = new CSetLanguageCommand(this, mCurrentLanguage, NewLanguage);
+            UndoStack().push(pCommand);
+            break;
+        }
+    }
 }

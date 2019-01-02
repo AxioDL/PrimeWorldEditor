@@ -90,6 +90,86 @@ void CStringTable::SetStringName(uint StringIndex, const TString& kNewName)
     mStringNames[StringIndex] = kNewName;
 }
 
+/** Move string to another position in the table */
+void CStringTable::MoveString(uint StringIndex, uint NewIndex)
+{
+    ASSERT( NumStrings() > StringIndex );
+    ASSERT( NumStrings() > NewIndex );
+
+    if (NewIndex == StringIndex)
+        return;
+
+    // Update string data
+    for (uint LanguageIdx = 0; LanguageIdx < StringIndex; LanguageIdx++)
+    {
+        SLanguageData& Language = mLanguages[LanguageIdx];
+        TString String = Language.Strings[StringIndex];
+
+        if (NewIndex > StringIndex)
+        {
+            for (uint i=StringIndex; i<NewIndex; i++)
+                Language.Strings[i] = Language.Strings[i+1];
+        }
+        else
+        {
+            for (uint i=StringIndex; i>NewIndex; i--)
+                Language.Strings[i] = Language.Strings[i-1];
+        }
+
+        Language.Strings[NewIndex] = String;
+    }
+
+    // Update string name
+    TString Name = mStringNames[StringIndex];
+
+    if (NewIndex > StringIndex)
+    {
+        for (uint i=StringIndex; i<NewIndex; i++)
+            mStringNames[i] = mStringNames[i+1];
+    }
+    else
+    {
+        for (uint i=StringIndex; i>NewIndex; i--)
+            mStringNames[i] = mStringNames[i-1];
+    }
+    mStringNames[NewIndex] = Name;
+}
+
+/** Add a new string to the table */
+void CStringTable::AddString(uint AtIndex)
+{
+    if (AtIndex < NumStrings())
+    {
+        if (mStringNames.size() > AtIndex)
+        {
+            mStringNames.insert( mStringNames.begin() + AtIndex, 1,  "" );
+        }
+    }
+    else
+        AtIndex = NumStrings();
+
+    for (uint LanguageIdx = 0; LanguageIdx < mLanguages.size(); LanguageIdx++)
+    {
+        SLanguageData& Language = mLanguages[LanguageIdx];
+        Language.Strings.insert( Language.Strings.begin() + AtIndex, 1, "" );
+    }
+}
+
+/** Remove a string from the table */
+void CStringTable::RemoveString(uint StringIndex)
+{
+    ASSERT( StringIndex < NumStrings() );
+
+    if (mStringNames.size() > StringIndex)
+        mStringNames.erase( mStringNames.begin() + StringIndex );
+
+    for (uint LanguageIdx = 0; LanguageIdx < mLanguages.size(); LanguageIdx++)
+    {
+        SLanguageData& Language = mLanguages[LanguageIdx];
+        Language.Strings.erase( Language.Strings.begin() + StringIndex );
+    }
+}
+
 /** Configures the string table with default languages for the game/region pairing of the resource */
 void CStringTable::ConfigureDefaultLanguages()
 {
