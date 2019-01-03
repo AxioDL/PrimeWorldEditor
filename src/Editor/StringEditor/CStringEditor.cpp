@@ -18,7 +18,7 @@ class CSetStringIndexCommand : public IUndoCommand
     int mOldIndex, mNewIndex;
 public:
     CSetStringIndexCommand(CStringEditor* pEditor, int OldIndex, int NewIndex)
-        : mpEditor(pEditor), mOldIndex(OldIndex), mNewIndex(NewIndex)
+        : IUndoCommand("Select String"), mpEditor(pEditor), mOldIndex(OldIndex), mNewIndex(NewIndex)
     {}
 
     virtual void undo() override { mpEditor->SetActiveString(mOldIndex); }
@@ -32,7 +32,7 @@ class CSetLanguageCommand : public IUndoCommand
     ELanguage mOldLanguage, mNewLanguage;
 public:
     CSetLanguageCommand(CStringEditor* pEditor, ELanguage OldLanguage, ELanguage NewLanguage)
-        : mpEditor(pEditor), mOldLanguage(OldLanguage), mNewLanguage(NewLanguage)
+        : IUndoCommand("Select Language"), mpEditor(pEditor), mOldLanguage(OldLanguage), mNewLanguage(NewLanguage)
     {}
 
     virtual void undo() override { mpEditor->SetActiveLanguage(mOldLanguage); }
@@ -85,7 +85,7 @@ bool CStringEditor::eventFilter(QObject* pWatched, QEvent* pEvent)
 void CStringEditor::InitUI()
 {
     mpUI->setupUi(this);
-    mpListModel = new CStringListModel(mpStringTable, this);
+    mpListModel = new CStringListModel(this);
     mpUI->StringNameListView->setModel(mpListModel);
     mpUI->StringNameListView->setItemDelegate( new CStringDelegate(this) );
     mpUI->AddStringButton->setShortcut( QKeySequence("Alt+=") );
@@ -116,6 +116,9 @@ void CStringEditor::InitUI()
     connect( mpUI->EditLanguageTabBar, SIGNAL(currentChanged(int)), this, SLOT(OnLanguageChanged(int)) );
     connect( mpUI->AddStringButton, SIGNAL(pressed()), this, SLOT(OnAddString()) );
     connect( mpUI->RemoveStringButton, SIGNAL(pressed()), this, SLOT(OnRemoveString()) );
+
+    connect( mpListModel, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+             this, SLOT(OnRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
 
     connect( &UndoStack(), SIGNAL(indexChanged(int)), this, SLOT(UpdateUI()) );
 
@@ -209,20 +212,22 @@ void CStringEditor::UpdateUI()
     }
 
     // Update selection in string list
-    QModelIndex OldStringIndex = mpUI->StringNameListView->selectionModel()->hasSelection() ?
-                mpUI->StringNameListView->currentIndex() : QModelIndex();
+    QItemSelectionModel* pSelectionModel = mpUI->StringNameListView->selectionModel();
+
+    QModelIndex OldStringIndex = pSelectionModel->hasSelection() ?
+                pSelectionModel->currentIndex() : QModelIndex();
 
     QModelIndex NewStringIndex = mpUI->StringNameListView->model()->index(mCurrentStringIndex,0);
 
     if (OldStringIndex != NewStringIndex)
     {
-        QItemSelectionModel* pSelectionModel = mpUI->StringNameListView->selectionModel();
         pSelectionModel->blockSignals(true);
         pSelectionModel->setCurrentIndex(NewStringIndex, QItemSelectionModel::ClearAndSelect);
         pSelectionModel->blockSignals(false);
         mpUI->StringNameListView->update(OldStringIndex);
     }
     mpUI->StringNameListView->update(NewStringIndex);
+    mpUI->RemoveStringButton->setEnabled( pSelectionModel->hasSelection() );
 
     // Update language tabs
     uint LanguageIndex = mpUI->EditLanguageTabBar->currentIndex();
@@ -347,6 +352,26 @@ void CStringEditor::OnRemoveString()
         // Remove the string
         pCommand = new TSerializeUndoCommand<CStringTable>("Remove String", mpStringTable, true);
         mpStringTable->RemoveString(Index);
+        UndoStack().push(pCommand);
+        UndoStack().endMacro();
+    }
+}
+
+void CStringEditor::OnMoveString(int StringIndex, int NewIndex)
+{
+    if (StringIndex != NewIndex)
+    {
+        ASSERT( StringIndex >= 0 && StringIndex < (int) mpStringTable->NumStrings() );
+        ASSERT( NewIndex >= 0 && NewIndex < (int) mpStringTable->NumStrings() );
+        UndoStack().beginMacro("Move String");
+
+        // Move string
+        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Move String", mpStringTable, true);
+        mpStringTable->MoveString(StringIndex, NewIndex);
+        UndoStack().push(pCommand);
+
+        // Select new string index
+        pCommand = new CSetStringIndexCommand(this, StringIndex, NewIndex);
         UndoStack().push(pCommand);
         UndoStack().endMacro();
     }

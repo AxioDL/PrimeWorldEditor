@@ -206,7 +206,8 @@ HEADERS += \
     CCustomDelegate.h \
     CTweakEditor.h \
     Undo/CEditIntrinsicPropertyCommand.h \
-    Undo/TSerializeUndoCommand.h
+    Undo/TSerializeUndoCommand.h \
+    StringEditor/CStringMimeData.h
 
 # Source Files
 SOURCES += \

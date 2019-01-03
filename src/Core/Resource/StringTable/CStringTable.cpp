@@ -1,4 +1,5 @@
 #include "CStringTable.h"
+#include <Common/Math/MathUtil.h>
 #include <algorithm>
 #include <iterator>
 
@@ -88,6 +89,10 @@ void CStringTable::SetStringName(uint StringIndex, const TString& kNewName)
     }
 
     mStringNames[StringIndex] = kNewName;
+
+    // Strip empty string names
+    while (mStringNames.back().IsEmpty())
+        mStringNames.pop_back();
 }
 
 /** Move string to another position in the table */
@@ -100,7 +105,7 @@ void CStringTable::MoveString(uint StringIndex, uint NewIndex)
         return;
 
     // Update string data
-    for (uint LanguageIdx = 0; LanguageIdx < StringIndex; LanguageIdx++)
+    for (uint LanguageIdx = 0; LanguageIdx < mLanguages.size(); LanguageIdx++)
     {
         SLanguageData& Language = mLanguages[LanguageIdx];
         TString String = Language.Strings[StringIndex];
@@ -120,19 +125,34 @@ void CStringTable::MoveString(uint StringIndex, uint NewIndex)
     }
 
     // Update string name
-    TString Name = mStringNames[StringIndex];
+    uint MinIndex = Math::Min(StringIndex, NewIndex);
+    uint MaxIndex = Math::Max(StringIndex, NewIndex);
 
-    if (NewIndex > StringIndex)
+    if (MinIndex < mStringNames.size())
     {
-        for (uint i=StringIndex; i<NewIndex; i++)
-            mStringNames[i] = mStringNames[i+1];
+        if (MaxIndex >= mStringNames.size())
+        {
+            mStringNames.resize(MaxIndex + 1);
+        }
+
+        TString Name = mStringNames[StringIndex];
+
+        if (NewIndex > StringIndex)
+        {
+            for (uint i=StringIndex; i<NewIndex; i++)
+                mStringNames[i] = mStringNames[i+1];
+        }
+        else
+        {
+            for (uint i=StringIndex; i>NewIndex; i--)
+                mStringNames[i] = mStringNames[i-1];
+        }
+        mStringNames[NewIndex] = Name;
+
+        // Strip empty string names
+        while (mStringNames.back().IsEmpty())
+            mStringNames.pop_back();
     }
-    else
-    {
-        for (uint i=StringIndex; i>NewIndex; i--)
-            mStringNames[i] = mStringNames[i-1];
-    }
-    mStringNames[NewIndex] = Name;
 }
 
 /** Add a new string to the table */

@@ -64,6 +64,7 @@ public slots:
     void OnStringTextEdited();
     void OnAddString();
     void OnRemoveString();
+    void OnMoveString(int StringIndex, int NewIndex);
     
     void IncrementStringIndex();
     void DecrementStringIndex();
