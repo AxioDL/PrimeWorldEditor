@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>ScannableObjectInfo</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Asset" ID="0x0">
+                <Name>HUD Frame</Name>
+                <TypeFilter>
+                    <Element>FRME</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x0">
+                <Name>String</Name>
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Choice" ID="0x2" Archetype="ScanSpeed"/>
+            <Element Type="Choice" ID="0x3" Archetype="LogbookCategory"/>
+            <Element Type="Bool" ID="0x4">
+                <Name>Critical</Name>
+            </Element>
+            <Element Type="Struct" ID="0x5" Archetype="ScanImage">
+                <Name>ScanImage1</Name>
+            </Element>
+            <Element Type="Struct" ID="0x6" Archetype="ScanImage">
+                <Name>ScanImage2</Name>
+            </Element>
+            <Element Type="Struct" ID="0x7" Archetype="ScanImage">
+                <Name>ScanImage3</Name>
+            </Element>
+            <Element Type="Struct" ID="0x8" Archetype="ScanImage">
+                <Name>ScanImage4</Name>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

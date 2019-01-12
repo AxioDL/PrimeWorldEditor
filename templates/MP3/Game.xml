@@ -1412,6 +1412,14 @@
             <Value Path="Structs/ScanBeamInfo.xml"/>
         </Element>
         <Element>
+            <Key>ScanInfoSecondaryModel</Key>
+            <Value Path="Structs/ScanInfoSecondaryModel.xml"/>
+        </Element>
+        <Element>
+            <Key>ScanSpeed</Key>
+            <Value Path="Enums/ScanSpeed.xml"/>
+        </Element>
+        <Element>
             <Key>ScannableParameters</Key>
             <Value Path="Structs/ScannableParameters.xml"/>
         </Element>
@@ -1812,6 +1820,10 @@
             <Value Path="Structs/UnknownStruct66.xml"/>
         </Element>
         <Element>
+            <Key>UnknownStruct67</Key>
+            <Value Path="Structs/UnknownStruct67.xml"/>
+        </Element>
+        <Element>
             <Key>UnknownStruct7</Key>
             <Value Path="Structs/UnknownStruct7.xml"/>
         </Element>
@@ -1856,6 +1868,12 @@
             <Value Path="Structs/Weapons.xml"/>
         </Element>
     </PropertyArchetypes>
+    <MiscTemplates>
+        <Element>
+            <Key>ScannableObjectInfo</Key>
+            <Value Path="Misc/ScannableObjectInfo.xml"/>
+        </Element>
+    </MiscTemplates>
     <States>
         <Element>
             <Key>!ZER</Key>

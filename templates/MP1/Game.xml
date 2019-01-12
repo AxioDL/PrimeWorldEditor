@@ -604,6 +604,10 @@
             <Value Path="Structs/LightParameters.xml"/>
         </Element>
         <Element>
+            <Key>LogbookCategory</Key>
+            <Value Path="Enums/LogbookCategory.xml"/>
+        </Element>
+        <Element>
             <Key>MagdoliteStruct</Key>
             <Value Path="Structs/MagdoliteStruct.xml"/>
         </Element>
@@ -676,6 +680,18 @@
             <Value Path="Structs/RumbleEffectStruct.xml"/>
         </Element>
         <Element>
+            <Key>ScanImage</Key>
+            <Value Path="Structs/ScanImage.xml"/>
+        </Element>
+        <Element>
+            <Key>ScanImagePane</Key>
+            <Value Path="Enums/ScanImagePane.xml"/>
+        </Element>
+        <Element>
+            <Key>ScanSpeed</Key>
+            <Value Path="Enums/ScanSpeed.xml"/>
+        </Element>
+        <Element>
             <Key>ScannableParameters</Key>
             <Value Path="Structs/ScannableParameters.xml"/>
         </Element>
@@ -709,6 +725,10 @@
         </Element>
     </PropertyArchetypes>
     <MiscTemplates>
+        <Element>
+            <Key>ScannableObjectInfo</Key>
+            <Value Path="Misc/ScannableObjectInfo.xml"/>
+        </Element>
         <Element>
             <Key>TweakAutoMapper</Key>
             <Value Path="Misc/TweakAutoMapper.xml"/>

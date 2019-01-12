@@ -956,6 +956,14 @@
             <Value Path="Structs/ScaleSplines.xml"/>
         </Element>
         <Element>
+            <Key>ScanInfoSecondaryModel</Key>
+            <Value Path="Structs/ScanInfoSecondaryModel.xml"/>
+        </Element>
+        <Element>
+            <Key>ScanSpeed</Key>
+            <Value Path="Enums/ScanSpeed.xml"/>
+        </Element>
+        <Element>
             <Key>ScannableParameters</Key>
             <Value Path="Structs/ScannableParameters.xml"/>
         </Element>
@@ -1192,6 +1200,12 @@
             <Value Path="Structs/WeaponVulnerability.xml"/>
         </Element>
     </PropertyArchetypes>
+    <MiscTemplates>
+        <Element>
+            <Key>ScannableObjectInfo</Key>
+            <Value Path="Misc/ScannableObjectInfo.xml"/>
+        </Element>
+    </MiscTemplates>
     <States>
         <Element>
             <Key>!ZER</Key>

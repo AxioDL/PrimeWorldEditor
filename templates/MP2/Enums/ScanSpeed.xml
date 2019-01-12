@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Choice">
+        <Name>ScanSpeed</Name>
+        <Values>
+            <Element Name="Normal" ID="0x0"/>
+            <Element Name="Slow" ID="0x1"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>
