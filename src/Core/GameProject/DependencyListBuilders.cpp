@@ -113,6 +113,7 @@ void CCharacterUsageMap::DebugPrintContents()
 // ************ PROTECTED ************
 void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
 {
+    if (!pNode) return;
     EDependencyNodeType Type = pNode->Type();
 
     if (Type == EDependencyNodeType::CharacterProperty)
@@ -271,6 +272,7 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
 
 void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut)
 {
+    if (!pNode) return;
     EDependencyNodeType Type = pNode->Type();
     bool ParseChildren = false;
 
@@ -513,6 +515,7 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
 
 void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut)
 {
+    if (!pNode) return;
     EDependencyNodeType Type = pNode->Type();
     bool ParseChildren = false;
 

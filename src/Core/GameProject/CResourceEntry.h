@@ -103,7 +103,7 @@ public:
     inline TString DirectoryPath() const            { return mpDirectory->FullPath(); }
     inline TString Name() const                     { return mName; }
     inline const TString& UppercaseName() const     { return mCachedUppercaseName; }
-    inline EResourceType ResourceType() const            { return mpTypeInfo->Type(); }
+    inline EResourceType ResourceType() const       { return mpTypeInfo->Type(); }
 
 protected:
     CResource* InternalLoad(IInputStream& rInput);

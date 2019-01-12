@@ -195,7 +195,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::AudioGroup, "Audio Group", "agsc");
-        AddExtension(pType, "AGSC", EGame::PrimeDemo, EGame::Echoes);
+        AddExtension(pType, "AGSC", EGame::PrimeDemo, EGame::CorruptionProto);
         pType->mCanHaveDependencies = false;
     }
     {
@@ -386,6 +386,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Texture, "Texture", "txtr");
         AddExtension(pType, "TXTR", EGame::PrimeDemo, EGame::DKCReturns);
         pType->mCanHaveDependencies = false;
+        pType->mCanBeSerialized = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Tweaks, "Tweak Data", "ctwk");
