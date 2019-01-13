@@ -2,6 +2,7 @@
 #define CANIMATIONSETPROPERTY_H
 
 #include "IProperty.h"
+#include "Core/Resource/Animation/CAnimationParameters.h"
 
 class CAnimationSetProperty : public TSerializeableTypedProperty< CAnimationParameters, EPropertyType::AnimationSet >
 {

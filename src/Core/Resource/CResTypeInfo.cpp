@@ -381,12 +381,12 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::StringTable, "String Table", "strg");
         AddExtension(pType, "STRG", EGame::PrimeDemo, EGame::DKCReturns);
+        pType->mCanBeSerialized = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Texture, "Texture", "txtr");
         AddExtension(pType, "TXTR", EGame::PrimeDemo, EGame::DKCReturns);
         pType->mCanHaveDependencies = false;
-        pType->mCanBeSerialized = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Tweaks, "Tweak Data", "ctwk");

@@ -97,14 +97,9 @@ HEADERS += \
     Undo/CTranslateNodeCommand.h \
     Undo/EUndoCommand.h \
     Undo/UndoCommands.h \
-    Widgets/IPreviewPanel.h \
     Widgets/WColorPicker.h \
     Widgets/WDraggableSpinBox.h \
     Widgets/WIntegralSpinBox.h \
-    Widgets/WScanPreviewPanel.h \
-    Widgets/WStringPreviewPanel.h \
-    Widgets/WTextureGLWidget.h \
-    Widgets/WTexturePreviewPanel.h \
     Widgets/WVectorEditor.h \
     WorldEditor/CLayerEditor.h \
     WorldEditor/CLayerModel.h \
@@ -216,14 +211,9 @@ SOURCES += \
     Undo/CRotateNodeCommand.cpp \
     Undo/CScaleNodeCommand.cpp \
     Undo/CTranslateNodeCommand.cpp \
-    Widgets/IPreviewPanel.cpp \
     Widgets/WColorPicker.cpp \
     Widgets/WDraggableSpinBox.cpp \
     Widgets/WIntegralSpinBox.cpp \
-    Widgets/WScanPreviewPanel.cpp \
-    Widgets/WStringPreviewPanel.cpp \
-    Widgets/WTextureGLWidget.cpp \
-    Widgets/WTexturePreviewPanel.cpp \
     Widgets/WVectorEditor.cpp \
     WorldEditor/CLayerEditor.cpp \
     WorldEditor/CLayerModel.cpp \
@@ -293,8 +283,6 @@ SOURCES += \
 FORMS += \
     TestDialog.ui \
     ModelEditor/CModelEditorWindow.ui \
-    Widgets/WScanPreviewPanel.ui \
-    Widgets/WTexturePreviewPanel.ui \
     WorldEditor/CLayerEditor.ui \
     WorldEditor/CWorldEditor.ui \
     WorldEditor/WCreateTab.ui \

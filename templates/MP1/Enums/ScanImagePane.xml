@@ -23,6 +23,7 @@
             <Element Name="Pane456" ID="0x11"/>
             <Element Name="Pane567" ID="0x12"/>
             <Element Name="Pane4567" ID="0x13"/>
+			<Element Name="None" ID="0xFFFFFFFF"/>
         </Values>
     </PropertyArchetype>
 </PropertyTemplate>

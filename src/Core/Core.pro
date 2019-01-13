@@ -119,7 +119,6 @@ HEADERS += \
     Resource/CMaterialPass.h \
     Resource/CMaterialSet.h \
     Resource/CResource.h \
-    Resource/CScan.h \
     Resource/CTexture.h \
     Resource/CWorld.h \
     Resource/EResType.h \
@@ -252,7 +251,10 @@ HEADERS += \
     Tweaks/CTweakManager.h \
     Tweaks/CTweakData.h \
     Tweaks/CTweakLoader.h \
-    Tweaks/CTweakCooker.h
+    Tweaks/CTweakCooker.h \
+    Resource/Scan/CScan.h \
+    Resource/Scan/SScanParametersMP1.h \
+    Resource/Scan/ELogbookCategory.h
 
 # Source Files
 SOURCES += \
@@ -367,7 +369,8 @@ SOURCES += \
     Resource/StringTable/CStringTable.cpp \
     Tweaks/CTweakManager.cpp \
     Tweaks/CTweakLoader.cpp \
-    Tweaks/CTweakCooker.cpp
+    Tweaks/CTweakCooker.cpp \
+    Resource/Scan/CScan.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

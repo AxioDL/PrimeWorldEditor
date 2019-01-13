@@ -10,7 +10,7 @@
                     <Element>FRME</Element>
                 </TypeFilter>
             </Element>
-            <Element Type="Asset" ID="0x0">
+            <Element Type="Asset" ID="0x1">
                 <Name>String</Name>
                 <TypeFilter>
                     <Element>STRG</Element>

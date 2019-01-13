@@ -4,7 +4,7 @@
 #include "CPoiMapModel.h"
 #include "Editor/UICommon.h"
 
-#include <Core/Resource/CScan.h>
+#include <Core/Resource/Scan/CScan.h>
 #include <Core/Resource/Script/CScriptTemplate.h>
 #include <Core/Scene/CScene.h>
 #include <Core/ScriptExtra/CPointOfInterestExtra.h>
@@ -57,7 +57,7 @@ public:
         {
             CScriptNode *pNode = mObjList[rkIndex.row()];
             CScan *pScan = static_cast<CPointOfInterestExtra*>(pNode->Extra())->GetScan();
-            bool IsImportant = (pScan ? pScan->IsImportant() : false);
+            bool IsImportant = (pScan ? pScan->IsCriticalPropertyRef() : false);
 
             if (IsImportant)
                 return QIcon(":/icons/POI Important.png");

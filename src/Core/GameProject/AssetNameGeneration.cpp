@@ -3,9 +3,10 @@
 #include "CResourceIterator.h"
 #include "Core/Resource/CAudioMacro.h"
 #include "Core/Resource/CFont.h"
-#include "Core/Resource/CScan.h"
 #include "Core/Resource/CWorld.h"
 #include "Core/Resource/Animation/CAnimSet.h"
+#include "Core/Resource/Scan/CScan.h"
+#include "Core/Resource/Scan/SScanParametersMP1.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include <Common/Math/MathUtil.h>
 
@@ -311,10 +312,15 @@ void GenerateAssetNames(CGameProject *pProj)
                                     ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), ScanName);
 
                                     CScan *pScan = (CScan*) pEntry->Load();
-                                    if (pScan && pScan->ScanText())
+                                    if (pScan)
                                     {
-                                        CResourceEntry *pStringEntry = pScan->ScanText()->Entry();
-                                        ApplyGeneratedName(pStringEntry, pStringEntry->DirectoryPath(), ScanName);
+                                        CAssetID StringID = pScan->ScanStringPropertyRef();
+                                        CResourceEntry* pStringEntry = gpResourceStore->FindEntry(StringID);
+
+                                        if (pStringEntry)
+                                        {
+                                            ApplyGeneratedName(pStringEntry, pStringEntry->DirectoryPath(), ScanName);
+                                        }
                                     }
                                 }
                             }
@@ -609,16 +615,10 @@ void GenerateAssetNames(CGameProject *pProj)
         CScan *pScan = (CScan*) It->Load();
         TString ScanName;
 
-        if (pProj->Game() >= EGame::EchoesDemo)
-        {
-            CAssetID DisplayAsset = pScan->LogbookDisplayAssetID();
-            CResourceEntry *pEntry = pStore->FindEntry(DisplayAsset);
-            if (pEntry && pEntry->IsNamed()) ScanName = pEntry->Name();
-        }
-
         if (ScanName.IsEmpty())
         {
-            CStringTable *pString = pScan->ScanText();
+            CAssetID StringID = pScan->ScanStringPropertyRef().Get();
+            CStringTable *pString = (CStringTable*) gpResourceStore->LoadResource(StringID, EResourceType::StringTable);
             if (pString) ScanName = pString->Entry()->Name();
         }
 
@@ -626,13 +626,14 @@ void GenerateAssetNames(CGameProject *pProj)
 
         if (!ScanName.IsEmpty() && pProj->Game() <= EGame::Prime)
         {
-            CAssetID FrameID = pScan->GuiFrame();
-            CResourceEntry *pEntry = pStore->FindEntry(FrameID);
+            const SScanParametersMP1& kParms = *static_cast<SScanParametersMP1*>(pScan->ScanData().DataPointer());
+
+            CResourceEntry *pEntry = pStore->FindEntry(kParms.GuiFrame);
             if (pEntry) ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), "ScanFrame");
 
             for (uint32 iImg = 0; iImg < 4; iImg++)
             {
-                CAssetID ImageID = pScan->ScanImage(iImg);
+                CAssetID ImageID = kParms.ScanImages[iImg].Texture;
                 CResourceEntry *pImgEntry = pStore->FindEntry(ImageID);
                 if (pImgEntry) ApplyGeneratedName(pImgEntry, pImgEntry->DirectoryPath(), TString::Format("%s_Image%d", *ScanName, iImg));
             }

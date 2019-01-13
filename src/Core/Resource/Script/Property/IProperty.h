@@ -1,7 +1,6 @@
 #ifndef IPROPERTY_H
 #define IPROPERTY_H
 
-#include "Core/Resource/Animation/CAnimationParameters.h"
 #include <Common/Common.h>
 #include <Common/CFourCC.h>
 #include <Common/Math/CVector3f.h>

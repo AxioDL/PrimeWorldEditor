@@ -1,5 +1,6 @@
 #include "CPointOfInterestExtra.h"
 
+//@todo pull these values from tweaks instead of hardcoding them
 const CColor CPointOfInterestExtra::skRegularColor   = CColor::Integral(0xFF,0x70,0x00);
 const CColor CPointOfInterestExtra::skImportantColor = CColor::Integral(0xFF,0x00,0x00);
 
@@ -19,14 +20,17 @@ CPointOfInterestExtra::CPointOfInterestExtra(CScriptObject *pInstance, CScene *p
 void CPointOfInterestExtra::PropertyModified(IProperty* pProperty)
 {
     if (mScanProperty.Property() == pProperty)
+    {
         mpScanData = gpResourceStore->LoadResource<CScan>( mScanProperty.Get() );
+        mScanIsCritical = (mpScanData ? mpScanData->IsCriticalPropertyRef() : CBoolRef());
+    }
 }
 
 void CPointOfInterestExtra::ModifyTintColor(CColor& Color)
 {
     if (mpScanData)
     {
-        if (mpScanData->IsImportant()) Color *= skImportantColor;
+        if (mScanIsCritical) Color *= skImportantColor;
         else Color *= skRegularColor;
     }
 }

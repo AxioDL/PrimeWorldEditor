@@ -24,6 +24,8 @@
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
+            <Element Type="AnimationSet" ID="0x15694EE1"/>
+            <Element Type="AnimationSet" ID="0x58F9FE99"/>
             <Element Type="Struct" ID="0x1C5B4A3A" Archetype="ScanInfoSecondaryModel"/>
             <Element Type="Struct" ID="0x8728A0EE" Archetype="ScanInfoSecondaryModel"/>
             <Element Type="Struct" ID="0xF1CD99D3" Archetype="ScanInfoSecondaryModel"/>

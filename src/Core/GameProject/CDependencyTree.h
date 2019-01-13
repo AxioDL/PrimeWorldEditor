@@ -39,6 +39,7 @@ public:
     virtual void Serialize(IArchive& rArc) = 0;
     virtual void GetAllResourceReferences(std::set<CAssetID>& rOutSet) const;
     virtual bool HasDependency(const CAssetID& rkID) const;
+    void ParseProperties(CResourceEntry* pParentEntry, CStructProperty* pProperties, void* pData);
 
     // Serialization constructor
     static IDependencyNode* ArchiveConstructor(EDependencyNodeType Type);
@@ -144,8 +145,6 @@ public:
 
     // Static
     static CScriptInstanceDependency* BuildTree(CScriptObject *pInstance);
-protected:
-    static void ParseStructDependencies(CScriptInstanceDependency *pTree, CScriptObject* pInstance, CStructProperty *pStruct);
 };
 
 // Node representing an animset character. Indicates what index the character is within the animset.
