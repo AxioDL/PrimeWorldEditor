@@ -1,7 +1,7 @@
 #ifndef CSCANLOADER_H
 #define CSCANLOADER_H
 
-#include "Core/Resource/CScan.h"
+#include "Core/Resource/Scan/CScan.h"
 #include <Common/EGame.h>
 
 class CScanLoader

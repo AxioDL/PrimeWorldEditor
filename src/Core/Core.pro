@@ -252,6 +252,7 @@ HEADERS += \
     Tweaks/CTweakData.h \
     Tweaks/CTweakLoader.h \
     Tweaks/CTweakCooker.h \
+    Resource/Cooker/CStringCooker.h \
     Resource/Scan/CScan.h \
     Resource/Scan/SScanParametersMP1.h \
     Resource/Scan/ELogbookCategory.h
@@ -370,6 +371,7 @@ SOURCES += \
     Tweaks/CTweakManager.cpp \
     Tweaks/CTweakLoader.cpp \
     Tweaks/CTweakCooker.cpp \
+    Resource/Cooker/CStringCooker.cpp \
     Resource/Scan/CScan.cpp
 
 # Codegen

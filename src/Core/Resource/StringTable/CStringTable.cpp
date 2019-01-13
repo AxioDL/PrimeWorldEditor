@@ -23,8 +23,8 @@ const ELanguage gkSupportedLanguagesMP1PAL[] =
 // Supported languages in Metroid Prime 3
 const ELanguage gkSupportedLanguagesMP3[] =
 {
-    ELanguage::English, ELanguage::German, ELanguage::French,
-    ELanguage::Spanish, ELanguage::Italian, ELanguage::Japanese
+    ELanguage::English, ELanguage::Japanese, ELanguage::German,
+    ELanguage::French, ELanguage::Spanish, ELanguage::Italian
 };
 
 // Supported languages in DKCR
@@ -57,7 +57,7 @@ TString CStringTable::GetString(ELanguage Language, uint StringIndex) const
 
     if (LanguageIdx >= 0 && mLanguages[LanguageIdx].Strings.size() > StringIndex)
     {
-        return mLanguages[LanguageIdx].Strings[StringIndex];
+        return mLanguages[LanguageIdx].Strings[StringIndex].String;
     }
     else
     {
@@ -72,7 +72,9 @@ void CStringTable::SetString(ELanguage Language, uint StringIndex, const TString
 
     if (LanguageIdx >= 0 && mLanguages[LanguageIdx].Strings.size() > StringIndex)
     {
-        mLanguages[LanguageIdx].Strings[StringIndex] = kNewString;
+        mLanguages[LanguageIdx].Strings[StringIndex].String = kNewString;
+        mLanguages[LanguageIdx].Strings[StringIndex].IsLocalized =
+            (LanguageIdx == 0 || kNewString != mLanguages[0].Strings[StringIndex].String);
     }
 }
 
@@ -108,7 +110,7 @@ void CStringTable::MoveString(uint StringIndex, uint NewIndex)
     for (uint LanguageIdx = 0; LanguageIdx < mLanguages.size(); LanguageIdx++)
     {
         SLanguageData& Language = mLanguages[LanguageIdx];
-        TString String = Language.Strings[StringIndex];
+        SStringData String = Language.Strings[StringIndex];
 
         if (NewIndex > StringIndex)
         {
@@ -171,7 +173,7 @@ void CStringTable::AddString(uint AtIndex)
     for (uint LanguageIdx = 0; LanguageIdx < mLanguages.size(); LanguageIdx++)
     {
         SLanguageData& Language = mLanguages[LanguageIdx];
-        Language.Strings.insert( Language.Strings.begin() + AtIndex, 1, "" );
+        Language.Strings.insert( Language.Strings.begin() + AtIndex, 1, SStringData() );
     }
 }
 
@@ -216,7 +218,7 @@ CDependencyTree* CStringTable::BuildDependencyTree() const
 
         for (uint StringIdx = 0; StringIdx < kLanguage.Strings.size(); StringIdx++)
         {
-            const TString& kString = kLanguage.Strings[StringIdx];
+            const TString& kString = kLanguage.Strings[StringIdx].String;
 
             for (int TagIdx = kString.IndexOf('&'); TagIdx != -1; TagIdx = kString.IndexOf('&', TagIdx + 1))
             {

@@ -15,15 +15,32 @@ class CStringTable : public CResource
 {
     DECLARE_RESOURCE_TYPE(StringTable)
     friend class CStringLoader;
+    friend class CStringCooker;
 
     /** List of string names. Optional data, can be empty. */
     std::vector<TString> mStringNames;
 
     /** String data for a language */
+    struct SStringData
+    {
+        TString String;
+        bool IsLocalized;
+
+        SStringData()
+            : IsLocalized(false)
+        {}
+
+        void Serialize(IArchive& Arc)
+        {
+            Arc << SerialParameter("String", String)
+                << SerialParameter("IsLocalized", IsLocalized, SH_Optional, true);
+        }
+    };
+
     struct SLanguageData
     {
         ELanguage Language;
-        std::vector<TString> Strings;
+        std::vector<SStringData> Strings;
 
         void Serialize(IArchive& Arc)
         {

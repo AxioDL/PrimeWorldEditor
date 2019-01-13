@@ -69,7 +69,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     }
 
     // If TestIntsAsChoices is enabled, and int is in the type list, then choice must be in the type list too.
-    if (rkParams.TestIntsAsChoices && NBasics::VectorContains(mTypeNames, TString("int")))
+    if (rkParams.TestIntsAsChoices && NBasics::VectorFind(mTypeNames, TString("int")) >= 0)
     {
         NBasics::VectorAddUnique(mTypeNames, TString("choice"));
     }

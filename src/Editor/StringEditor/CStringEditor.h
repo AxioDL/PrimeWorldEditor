@@ -43,7 +43,8 @@ public:
     explicit CStringEditor(CStringTable* pStringTable, QWidget* pParent = 0);
     ~CStringEditor();
 
-    bool eventFilter(QObject* pWatched, QEvent* pEvent);
+    virtual bool Save() override;
+    virtual bool eventFilter(QObject* pWatched, QEvent* pEvent) override;
 
     void InitUI();
     void UpdateStatusBar();

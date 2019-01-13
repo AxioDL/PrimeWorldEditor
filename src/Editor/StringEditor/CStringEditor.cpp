@@ -60,6 +60,21 @@ CStringEditor::~CStringEditor()
     delete mpUI;
 }
 
+bool CStringEditor::Save()
+{
+    if (!mpStringTable->Entry()->Save())
+    {
+        UICommon::ErrorMsg(this, "Failed to save!");
+        return false;
+    }
+    else
+    {
+        UndoStack().setClean();
+        setWindowModified(false);
+        return true;
+    }
+}
+
 bool CStringEditor::eventFilter(QObject* pWatched, QEvent* pEvent)
 {
     if (pEvent->type() == QEvent::FocusOut)
@@ -119,6 +134,9 @@ void CStringEditor::InitUI()
 
     connect( mpListModel, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
              this, SLOT(OnRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
+
+    connect( mpUI->ActionSave, SIGNAL(triggered(bool)), this, SLOT(Save()) );
+    connect( mpUI->ActionSaveAndCook, SIGNAL(triggered(bool)), this, SLOT(SaveAndRepack()) );
 
     connect( &UndoStack(), SIGNAL(indexChanged(int)), this, SLOT(UpdateUI()) );
 
@@ -224,6 +242,7 @@ void CStringEditor::UpdateUI()
         pSelectionModel->blockSignals(true);
         pSelectionModel->setCurrentIndex(NewStringIndex, QItemSelectionModel::ClearAndSelect);
         pSelectionModel->blockSignals(false);
+        mpUI->StringNameListView->scrollTo(NewStringIndex);
         mpUI->StringNameListView->update(OldStringIndex);
     }
     mpUI->StringNameListView->update(NewStringIndex);

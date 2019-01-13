@@ -24,7 +24,7 @@ void CStringLoader::LoadPrimeDemoSTRG(IInputStream& STRG)
     for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
     {
         STRG.GoTo( TableStart + StringOffsets[StringIdx] );
-        Language.Strings[StringIdx] = STRG.Read16String().ToUTF8();
+        Language.Strings[StringIdx].String = STRG.Read16String().ToUTF8();
     }
 }
 
@@ -50,6 +50,9 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
             STRG.Skip(4);
         }
     }
+
+    // Some of the following code assumes that language 0 is English
+    ASSERT( mpStringTable->mLanguages[0].Language == ELanguage::English );
 
     // String names
     if (mVersion >= EGame::EchoesDemo)
@@ -85,7 +88,17 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
         for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
         {
             STRG.GoTo( StringOffsets[StringIdx] );
-            Language.Strings[StringIdx] = STRG.Read16String().ToUTF8();
+            TString String = STRG.Read16String().ToUTF8();
+
+            // Flag the string as localized if it is different than the English
+            // version of the same string.
+            const TString& kEnglishString = (StringIdx == 0 ? String :
+                mpStringTable->mLanguages[0].Strings[StringIdx].String);
+
+            bool IsLocalized = (LanguageIdx == 0 || String != kEnglishString);
+
+            Language.Strings[StringIdx].String = String;
+            Language.Strings[StringIdx].IsLocalized = IsLocalized;
         }
     }
 }
@@ -120,6 +133,9 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
         }
     }
 
+    // Some of the following code assumes that language 0 is English
+    ASSERT( mpStringTable->mLanguages[0].Language == ELanguage::English );
+
     // Strings
     uint StringsStart = STRG.Tell();
 
@@ -132,7 +148,11 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
         {
             STRG.GoTo( StringsStart + LanguageOffsets[LanguageIdx][StringIdx] );
             STRG.Skip(4); // Skipping string size
-            Language.Strings[StringIdx] = STRG.ReadString();
+            Language.Strings[StringIdx].String = STRG.ReadString();
+
+            // Flag the string as localized if it has a different offset than the English string
+            Language.Strings[StringIdx].IsLocalized = (LanguageIdx == 0 ||
+                LanguageOffsets[LanguageIdx][StringIdx] != LanguageOffsets[0][StringIdx]);
         }
     }
 }

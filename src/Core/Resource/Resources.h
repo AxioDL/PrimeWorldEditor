@@ -6,7 +6,6 @@
 #include "CFont.h"
 #include "CPoiToWorld.h"
 #include "CResource.h"
-#include "CScan.h"
 #include "CTexture.h"
 #include "CWorld.h"
 #include "Core/Resource/Animation/CAnimation.h"
@@ -15,6 +14,7 @@
 #include "Core/Resource/Animation/CSkin.h"
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Model/CModel.h"
+#include "Core/Resource/Scan/CScan.h"
 #include "Core/Resource/StringTable/CStringTable.h"
 
 #endif // RESOURCES_H
