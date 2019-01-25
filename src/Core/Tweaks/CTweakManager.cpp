@@ -1,6 +1,7 @@
 #include "CTweakManager.h"
 #include "Core/GameProject/CGameProject.h"
 #include "Core/GameProject/CResourceIterator.h"
+#include "Core/Tweaks/CTweakLoader.h"
 
 CTweakManager::CTweakManager(CGameProject* pInProject)
     : mpProject(pInProject)
@@ -9,19 +10,40 @@ CTweakManager::CTweakManager(CGameProject* pInProject)
 
 void CTweakManager::LoadTweaks()
 {
+    ASSERT( mTweakObjects.empty() );
+
     // MP1 - Load all tweak assets into memory
     if (mpProject->Game() <= EGame::Prime)
     {
         for (TResourceIterator<EResourceType::Tweaks> It(mpProject->ResourceStore()); It; ++It)
         {
             CTweakData* pTweaks = (CTweakData*) It->Load();
+            pTweaks->Lock();
             mTweakObjects.push_back(pTweaks);
         }
     }
 
-    // MP2+ - Not supported, but tweaks are stored in Standard.ntwk
+    // MP2+ - Load tweaks from Standard.ntwk
     else
     {
+        TString FilePath = mpProject->DiscFilesystemRoot(false) + "Standard.ntwk";
+        CFileInStream StandardNTWK(FilePath, EEndian::BigEndian);
+        CTweakLoader::LoadNTWK(StandardNTWK, mpProject->Game(), mTweakObjects);
+    }
+}
+
+CTweakManager::~CTweakManager()
+{
+    for (CTweakData* pTweakData : mTweakObjects)
+    {
+        if (pTweakData->Entry() != nullptr)
+        {
+            pTweakData->Release();
+        }
+        else
+        {
+            delete pTweakData;
+        }
     }
 }
 

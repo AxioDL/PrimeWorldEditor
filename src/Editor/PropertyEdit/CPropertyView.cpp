@@ -183,8 +183,7 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
 
             if (pProp->Type() == EPropertyType::AnimationSet)
             {
-                EGame Game = mpObject->Area()->Game();
-                Type = mpDelegate->DetermineCharacterPropType(Game, ChildIndex);
+                Type = mpDelegate->DetermineCharacterPropType(pProp->Game(), ChildIndex);
                 IsAnimSet = true;
             }
 

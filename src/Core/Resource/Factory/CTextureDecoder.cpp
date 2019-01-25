@@ -562,7 +562,7 @@ void CTextureDecoder::ReadPixelC8(IInputStream& rSrc, IOutputStream& rDst)
     ((Index >> 2) & 0x1) ? G = 0xFF : G = 0x0;
     ((Index >> 1) & 0x1) ? B = 0xFF : B = 0x0;
     ((Index >> 0) & 0x1) ? A = 0xFF : A = 0x0;
-    u32 RGBA = (R << 24) | (G << 16) | (B << 8) | (A);
+    uint32 RGBA = (R << 24) | (G << 16) | (B << 8) | (A);
     dst.WriteLong(RGBA);*/
 
     mPaletteInput.Seek(Index * 2, SEEK_SET);

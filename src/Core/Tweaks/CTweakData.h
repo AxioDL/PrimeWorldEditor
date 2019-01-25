@@ -26,6 +26,19 @@ public:
         pProperties->Construct(mTweakData.data());
     }
 
+    TString TweakName()
+    {
+        if (Entry() != nullptr)
+        {
+            return Entry()->Name();
+        }
+        else
+        {
+            IProperty* pNameProperty = mpTemplate->Properties()->ChildByID(0x7FDA1466);
+            return CStringRef(mTweakData.data(), pNameProperty);
+        }
+    }
+
     inline CScriptTemplate* TweakTemplate() const
     {
         return mpTemplate;

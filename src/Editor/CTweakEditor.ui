@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Tweaks Editor</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -93,10 +93,10 @@
      <normaloff>:/icons/SaveAndRepack_32px.png</normaloff>:/icons/SaveAndRepack_32px.png</iconset>
    </property>
    <property name="text">
-    <string>Save and Repack</string>
+    <string>Save and Cook</string>
    </property>
    <property name="toolTip">
-    <string>Save and Repack</string>
+    <string>Save and Cook</string>
    </property>
   </action>
  </widget>

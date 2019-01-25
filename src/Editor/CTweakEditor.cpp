@@ -144,9 +144,9 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
     // Create tweak list
     if (pNewProject != nullptr)
     {
-        for (TResPtr<CTweakData> pTweakData : pNewProject->TweakManager()->TweakObjects())
+        for (CTweakData* pTweakData : pNewProject->TweakManager()->TweakObjects())
         {
-            mTweakAssets << pTweakData.RawPointer();
+            mTweakAssets << pTweakData;
         }
     }
 
@@ -154,12 +154,12 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
     if (!mTweakAssets.isEmpty())
     {
         qSort(mTweakAssets.begin(), mTweakAssets.end(), [](CTweakData* pLeft, CTweakData* pRight) -> bool {
-            return pLeft->Entry()->Name().ToUpper() < pRight->Entry()->Name().ToUpper();
+            return pLeft->TweakName().ToUpper() < pRight->TweakName().ToUpper();
         });
 
         foreach (CTweakData* pTweakData, mTweakAssets)
         {
-            QString TweakName = TO_QSTRING( pTweakData->Entry()->Name() );
+            QString TweakName = TO_QSTRING( pTweakData->TweakName() );
             mpUI->TweakTabs->addTab(TweakName);
         }
 

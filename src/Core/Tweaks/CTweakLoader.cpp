@@ -50,7 +50,81 @@ CTweakData* CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
     return pTweakData;
 }
 
-void CTweakLoader::LoadNTWK(IInputStream& NTWK, std::vector<CTweakData*>& OutTweaks)
+void CTweakLoader::LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakData*>& OutTweaks)
 {
-    // Unimplemented
+    // Validate file. NTWK basically embeds a bunch of tweak objects using the script layers
+    // format, so it has the same version byte that script layers have.
+    uint Magic = NTWK.ReadLong();
+    uint8 LayerVersion = NTWK.ReadByte();
+
+    if (Magic != FOURCC('NTWK'))
+    {
+        errorf("Unrecognized NTWK magic: 0x%08X", Magic);
+        return;
+    }
+    else if (LayerVersion != 1)
+    {
+        errorf("Unrecognized layer version in NTWK: %d", LayerVersion);
+        return;
+    }
+
+    CGameTemplate* pGameTemplate = NGameList::GetGameTemplate( Game );
+    ASSERT( pGameTemplate != nullptr );
+
+    // Start reading tweaks
+    uint NumTweaks = NTWK.ReadLong();
+
+    for (uint TweakIdx = 0; TweakIdx < NumTweaks; TweakIdx++)
+    {
+        // Find the correct template based on the tweak ID.
+        static const std::unordered_map<uint, const char*> skIdToTemplateName =
+        {
+            { FOURCC('TWAC'), "TweakAdvancedControls" },
+            { FOURCC('TWAM'), "TweakAutoMapper" },
+            { FOURCC('TWBL'), "TweakBall" },
+            { FOURCC('TWC2'), "TweakPlayerControls" },
+            { FOURCC('TWCB'), "TweakCameraBob" },
+            { FOURCC('TWCC'), "TweakGamecubeControls" },
+            { FOURCC('TWCT'), "TweakControls" },
+            { FOURCC('TWEC'), "TweakExpertControls" },
+            { FOURCC('TWGM'), "TweakGame" },
+            { FOURCC('TWGT'), "TweakGraphicalTransitions" },
+            { FOURCC('TWGU'), "TweakGui" },
+            { FOURCC('TWGC'), "TweakGuiColors" },
+            { FOURCC('TWP2'), "TweakPlayer" },
+            { FOURCC('TWPC'), "TweakPlayerControls" },
+            { FOURCC('TWPG'), "TweakPlayerGun" },
+            { FOURCC('TWPL'), "TweakPlayer" },
+            { FOURCC('TWPM'), "TweakPlayerGun" },
+            { FOURCC('TWPA'), "TweakParticle" },
+            { FOURCC('TWPR'), "TweakPlayerRes" },
+            { FOURCC('TWRC'), "TweakRevolutionControls" },
+            { FOURCC('TWSS'), "TweakSlideShow" },
+            { FOURCC('TWTG'), "TweakTargeting" },
+        };
+
+        uint TweakID = NTWK.ReadLong();
+        uint16 TweakSize = NTWK.ReadShort();
+        uint NextTweak = NTWK.Tell() + TweakSize;
+
+        auto Find = skIdToTemplateName.find(TweakID);
+
+        if (Find == skIdToTemplateName.end())
+        {
+            errorf("Unrecognized tweak ID: %s (0x%08X)", *CFourCC(TweakID).ToString(), TweakID);
+            NTWK.GoTo(NextTweak);
+            continue;
+        }
+
+        CScriptTemplate* pTweakTemplate = pGameTemplate->FindMiscTemplate( Find->second );
+        ASSERT( pTweakTemplate != nullptr );
+
+        // Load tweak data
+        NTWK.Skip(0xC);
+        CTweakData* pTweakData = new CTweakData(pTweakTemplate);
+        CScriptLoader::LoadStructData( NTWK, pTweakData->TweakData() );
+        OutTweaks.push_back(pTweakData);
+
+        NTWK.GoTo(NextTweak);
+    }
 }

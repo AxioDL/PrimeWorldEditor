@@ -10,15 +10,16 @@ class CTweakManager
     CGameProject* mpProject;
 
     /** All tweak resources in the current game */
-    std::vector< TResPtr<CTweakData> > mTweakObjects;
+    std::vector< CTweakData* > mTweakObjects;
 
 public:
     CTweakManager(CGameProject* pInProject);
+    ~CTweakManager();
     void LoadTweaks();
     void SaveTweaks();
 
     // Accessors
-    inline const std::vector< TResPtr<CTweakData> >& TweakObjects() const
+    inline const std::vector<CTweakData*>& TweakObjects() const
     {
         return mTweakObjects;
     }
