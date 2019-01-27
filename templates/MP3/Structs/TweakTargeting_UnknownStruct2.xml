@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakTargeting_UnknownStruct2</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x4B435047">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xECE183C">
+                <DefaultValue>-0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAB03DCB9">
+                <DefaultValue>0.60000002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC0120B9E">
+                <DefaultValue>0.44999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF5230E61">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x70CAF349">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x955A5177">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95ED96C2">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x138B3979"/>
+            <Element Type="Spline" ID="0xDFA46325"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

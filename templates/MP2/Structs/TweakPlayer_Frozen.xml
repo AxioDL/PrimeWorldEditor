@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_Frozen</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB3F20575">
+                <DefaultValue>18.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB851D54F">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x33B040BF">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

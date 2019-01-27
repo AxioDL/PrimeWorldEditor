@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_HyperMode</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x31FFBFE7">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7FDFAA62">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A75C2D0">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFB9972FC">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x699DFF41"/>
+            <Element Type="Float" ID="0x48CC79F2">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAB40BED3">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8ED2E3FB">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA2482028">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA3748FA1">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEDFF39F1">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9CEDEA06">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x56F3C854">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>TweakPlayerControls</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Struct" ID="0x71CFC8E2" Archetype="PlayerControls"/>
+            <Element Type="Struct" ID="0x79BE9348" Archetype="PlayerControls"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

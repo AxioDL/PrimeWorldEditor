@@ -1,0 +1,30 @@
+diff a/templates/MP1/Misc/TweakGui.xml b/templates/MP1/Misc/TweakGui.xml	(rejected hunks)
+@@ -315,23 +315,23 @@
+             </Element>
+             <Element Type="String" ID="0x4E">
+                 <Name>Unknown</Name>
+-                <DefaultValue>Warning</DefaultValue>
++                <DefaultValue>��&gt;</DefaultValue>
+             </Element>
+             <Element Type="String" ID="0x4F">
+                 <Name>Unknown</Name>
+-                <DefaultValue>Damage</DefaultValue>
++                <DefaultValue>��&gt;</DefaultValue>
+             </Element>
+             <Element Type="String" ID="0x50">
+                 <Name>Unknown</Name>
+-                <DefaultValue>Energy Low</DefaultValue>
++                <DefaultValue>��&gt;</DefaultValue>
+             </Element>
+             <Element Type="String" ID="0x51">
+                 <Name>Unknown</Name>
+-                <DefaultValue>Missiles Low</DefaultValue>
++                <DefaultValue>�"�&gt;</DefaultValue>
+             </Element>
+             <Element Type="String" ID="0x52">
+                 <Name>Unknown</Name>
+-                <DefaultValue>Depleted</DefaultValue>
++                <DefaultValue></DefaultValue>
+             </Element>
+             <Element Type="Float" ID="0x53">
+                 <Name>MissileWarningPulseTime</Name>

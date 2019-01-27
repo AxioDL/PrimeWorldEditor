@@ -8,6 +8,7 @@
             <Element Name="ChozoLore" ID="0x2"/>
             <Element Name="Creatures" ID="0x3"/>
             <Element Name="Research" ID="0x4"/>
+            <Element Name="Artifacts" ID="0x5"/>
         </Values>
     </PropertyArchetype>
 </PropertyTemplate>

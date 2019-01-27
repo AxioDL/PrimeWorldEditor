@@ -102,14 +102,14 @@
             <Element Type="Struct" ID="0xEEE2B188" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x14</DefaultValue>
+                        <DefaultValue>20</DefaultValue>
                     </Element>
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x78A13CA0" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x12</DefaultValue>
+                        <DefaultValue>18</DefaultValue>
                     </Element>
                 </SubProperties>
             </Element>

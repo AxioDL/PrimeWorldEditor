@@ -9,8 +9,12 @@
                 </TypeFilter>
             </Element>
             <Element Type="Choice" ID="0xC308A322" Archetype="ScanSpeed"/>
-            <Element Type="Bool" ID="0x7B714814"/>
-            <Element Type="Bool" ID="0xD39621A0"/>
+            <Element Type="Bool" ID="0x7B714814">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD39621A0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
             <Element Type="Asset" ID="0x53336141">
                 <TypeFilter>
                     <Element>TXTR</Element>
@@ -21,11 +25,19 @@
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
-            <Element Type="Struct" ID="0x1AA8D353" Archetype="UnknownStruct67"/>
-            <Element Type="Float" ID="0x3DE0BA64"/>
-            <Element Type="Float" ID="0x2ADD6628"/>
-            <Element Type="Float" ID="0xD0C15066"/>
-            <Element Type="Int" ID="0xC4C1E212"/>
+            <Element Type="Struct" ID="0x1AA8D353" Archetype="BonusCredit"/>
+            <Element Type="Float" ID="0x3DE0BA64">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2ADD6628">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD0C15066">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC4C1E212">
+                <DefaultValue>0</DefaultValue>
+            </Element>
             <Element Type="Asset" ID="0xB7ADC418">
                 <TypeFilter>
                     <Element>CMDL</Element>

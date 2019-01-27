@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>TweakBall</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Struct" ID="0xDEF1FFB" Archetype="TweakBall_Movement"/>
+            <Element Type="Struct" ID="0x7AAC09B9" Archetype="TweakBall_Camera"/>
+            <Element Type="Struct" ID="0xC67B730" Archetype="TweakBall_Misc"/>
+            <Element Type="Struct" ID="0xCB4EA3BF" Archetype="TweakBall_BoostBall"/>
+            <Element Type="Struct" ID="0x5FB9E808" Archetype="TweakBall_CannonBall"/>
+            <Element Type="Struct" ID="0x4B1C7B7D" Archetype="TweakBall_ScrewAttack"/>
+            <Element Type="Struct" ID="0xBB5FC8A4" Archetype="TweakBall_DeathBall"/>
+            <Element Type="Struct" ID="0xBA3710FE" Archetype="TweakBall_PhazonBall"/>
+            <Element Type="Struct" ID="0xA255BA3D" Archetype="TweakBall_IceBall"/>
+            <Element Type="Struct" ID="0x45B47567" Archetype="TweakBall_FireBall"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

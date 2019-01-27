@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakBall_CannonBall</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD51D8D71" Archetype="TDamageInfo"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

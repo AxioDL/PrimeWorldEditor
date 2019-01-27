@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Properties Type="Struct">
+        <Name>TweakPlayerControls</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Struct" ID="0x3C34DFED" Archetype="TweakPlayerControls_UnknownStruct1"/>
+            <Element Type="Struct" ID="0x168A79F1" Archetype="TweakPlayerControls_UnknownStruct2"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

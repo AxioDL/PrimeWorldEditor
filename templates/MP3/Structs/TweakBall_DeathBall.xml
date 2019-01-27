@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakBall_DeathBall</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xC915686F">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xCCCCEF24" Archetype="TDamageInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x4D577910">
+                        <DefaultValue>5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF3EC8748">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x37B6DF3D">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF598739">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

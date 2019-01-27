@@ -4,7 +4,7 @@
         <Name>ConditionalTest</Name>
         <SubProperties>
             <Element Type="Choice" ID="0xDE3E40A3">
-                <DefaultValue>0x1</DefaultValue>
+                <DefaultValue>1</DefaultValue>
             </Element>
             <Element Type="Enum" ID="0xD3AF8D72" Archetype="PlayerItem">
                 <DefaultValue>0xFB73F2B8</DefaultValue>

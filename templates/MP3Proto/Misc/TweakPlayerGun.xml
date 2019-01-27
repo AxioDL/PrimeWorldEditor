@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>TweakPlayerGun</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Struct" ID="0xB82ED424" Archetype="TweakPlayerGun_Misc"/>
+            <Element Type="Struct" ID="0x6B6BDC47" Archetype="TweakPlayerGun_Holstering"/>
+            <Element Type="Struct" ID="0x87882CB0" Archetype="TweakPlayerGun_Position"/>
+            <Element Type="Struct" ID="0x255007AD" Archetype="TweakPlayerGun_Arm_Position"/>
+            <Element Type="Struct" ID="0x83D758AB" Archetype="TweakPlayerGun_Weapons"/>
+            <Element Type="Struct" ID="0xAAEBB73E" Archetype="TweakPlayerGun_Beam_Misc"/>
+            <Element Type="Struct" ID="0x8DA058FE" Archetype="TweakPlayerGun_RicochetDamage_Factor"/>
+            <Element Type="Struct" ID="0xFFDB4BB7" Archetype="CameraShakerData">
+                <SubProperties>
+                    <Element Type="Int" ID="0xC3E75C5F">
+                        <DefaultValue>304</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x26196738" Archetype="CameraShakerData">
+                <SubProperties>
+                    <Element Type="Int" ID="0xC3E75C5F">
+                        <DefaultValue>304</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x12F14C5A" Archetype="CameraShakerData">
+                <SubProperties>
+                    <Element Type="Int" ID="0xC3E75C5F">
+                        <DefaultValue>307</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

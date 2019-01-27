@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_FirstPersonCamera</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xBA5EB7F5">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD41E3BA">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB400EBD6">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFD26B7B9">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x97B14DC6">
+                <DefaultValue>73.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEB59925A">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA1D73380">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC8E8344A">
+                <DefaultValue>73.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD40C480E">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x7960C3A0">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

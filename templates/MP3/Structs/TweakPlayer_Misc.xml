@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_Misc</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB49B008E">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB0291470">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x287892AB">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x79F8EF93">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x34304E98">
+                <DefaultValue>70.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBA27556F">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD7D7828E">
+                <DefaultValue>200.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE0C431E">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2C1DA0EC">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE11788E4">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC982754E">
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xFB5C81A9">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFB909BC3">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF1F038DE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B1F5094">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x88297760">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

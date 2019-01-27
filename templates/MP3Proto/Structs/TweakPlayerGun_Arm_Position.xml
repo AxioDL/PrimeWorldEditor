@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerGun_Arm_Position</Name>
+        <SubProperties>
+            <Element Type="Vector" ID="0x3C9366AC">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x66B1D066">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

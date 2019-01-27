@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGui_Credits</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x81FC78C2"/>
+            <Element Type="String" ID="0x2BCD300D"/>
+            <Element Type="String" ID="0xCEF90C00"/>
+            <Element Type="Color" ID="0x1A96EC67">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x844AB6B0">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x19686BF6">
+                <DefaultValue>191.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x52985AD1">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF0F977E6">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

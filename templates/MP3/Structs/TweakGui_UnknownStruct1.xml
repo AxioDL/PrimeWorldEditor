@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGui_UnknownStruct1</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0xDFD3CFF0">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x10F17007">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1DA9CDF3">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCAF8A9C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x203E7D1C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1DB1573C">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76597839">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x21B607C0">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x705663E8">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x33BABD84">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x37E62F14"/>
+            <Element Type="Spline" ID="0x3287FCAD"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

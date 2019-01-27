@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_SuitDamageReduction</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xDF131ECD">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x908A8E6C">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x95700A27">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

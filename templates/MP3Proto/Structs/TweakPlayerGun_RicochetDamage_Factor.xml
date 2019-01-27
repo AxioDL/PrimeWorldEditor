@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerGun_RicochetDamage_Factor</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x5D623269">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDB0A9583">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3BD757E2">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF668C245">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1234CD8">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

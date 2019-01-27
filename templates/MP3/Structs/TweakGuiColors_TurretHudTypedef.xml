@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGuiColors_TurretHudTypedef</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0xA485372C">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1A96EC67">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x844AB6B0">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xBDB697A9">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xB9A9FC6E">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x37E381C2">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

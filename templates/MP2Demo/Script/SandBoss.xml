@@ -89,7 +89,7 @@
             <Element Type="Struct" ID="0x1440D152" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x9</DefaultValue>
+                        <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>20.0</DefaultValue>
@@ -102,7 +102,7 @@
             <Element Type="Struct" ID="0x19C91AAA" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x9</DefaultValue>
+                        <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>20.0</DefaultValue>
@@ -115,7 +115,7 @@
             <Element Type="Struct" ID="0x58889364" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x9</DefaultValue>
+                        <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>20.0</DefaultValue>
@@ -134,7 +134,7 @@
             <Element Type="Struct" ID="0x94C2150F" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x9</DefaultValue>
+                        <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>20.0</DefaultValue>
@@ -147,7 +147,7 @@
             <Element Type="Struct" ID="0xEB3AF7" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x9</DefaultValue>
+                        <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>20.0</DefaultValue>
@@ -181,7 +181,7 @@
             <Element Type="Struct" ID="0x951107D5" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x9</DefaultValue>
+                        <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>20.0</DefaultValue>

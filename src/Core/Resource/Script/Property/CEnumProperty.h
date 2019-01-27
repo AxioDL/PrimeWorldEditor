@@ -69,9 +69,9 @@ public:
         // Skip TSerializeableTypedProperty, serialize default value ourselves so we can set SH_HexDisplay
         TTypedProperty::Serialize(rArc);
 
+        // Serialize default value
         TEnumPropertyBase* pArchetype = static_cast<TEnumPropertyBase*>(mpArchetype);
-        uint32 DefaultValueFlags = SH_HexDisplay | (pArchetype || Game() <= EGame::Prime ? SH_Optional : 0);
-
+        uint32 DefaultValueFlags = SH_Optional | (TypeEnum == EPropertyType::Enum ? SH_HexDisplay : 0);
         rArc << SerialParameter("DefaultValue", mDefaultValue, DefaultValueFlags, pArchetype ? pArchetype->mDefaultValue : 0);
 
         // Only serialize type name override for root archetypes.

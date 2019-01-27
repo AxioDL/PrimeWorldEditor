@@ -2,7 +2,6 @@
 <PropertyTemplate ArchiveVer="4" Game="Corruption">
     <PropertyArchetype Type="Enum">
         <Name>DamageableTriggerEnum</Name>
-        <DefaultValue>0x0</DefaultValue>
         <Values>
             <Element Name="Unknown 1" ID="0x1DB35D5F"/>
             <Element Name="Unknown 2" ID="0x61939D58"/>

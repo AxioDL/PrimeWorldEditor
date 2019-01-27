@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGui_Completion</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x81FC78C2"/>
+            <Element Type="String" ID="0x5E7F85C7"/>
+            <Element Type="String" ID="0xA0D69D0"/>
+            <Element Type="Color" ID="0x5A24A7E4">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA938BF39">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xC6CC9D0C">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xD3A4A180">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x7AB5642">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x595C63ED">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB6FE7398">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6AF2871B">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2955D055">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

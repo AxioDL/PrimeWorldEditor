@@ -19,7 +19,6 @@
                 <DefaultValue>false</DefaultValue>
             </Element>
             <Element Type="Choice" ID="0x9D0006AB">
-                <DefaultValue>0x0</DefaultValue>
                 <Values>
                     <Element Name="None" ID="0x0"/>
                     <Element Name="Snow" ID="0x1"/>
@@ -45,7 +44,6 @@
                 </TypeFilter>
             </Element>
             <Element Type="Choice" ID="0xFFEEBC46">
-                <DefaultValue>0x0</DefaultValue>
                 <Values>
                     <Element Name="None" ID="0x0"/>
                     <Element Name="Blue" ID="0x1"/>

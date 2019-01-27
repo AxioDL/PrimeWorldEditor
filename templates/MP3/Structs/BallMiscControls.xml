@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>BallMiscControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD239FB95" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x5E96F52F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x5880BA62" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xA14F91F1" Archetype="RevolutionControl"/>
+            <Element Type="Spline" ID="0x4E194F55"/>
+            <Element Type="Spline" ID="0x187124AF"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

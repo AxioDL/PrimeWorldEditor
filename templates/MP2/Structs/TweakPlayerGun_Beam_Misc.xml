@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerGun_Beam_Misc</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x8AACFC27" Archetype="TDamageInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x4D577910">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF3EC8748">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x37B6DF3D">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF598739">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x56F98C49">
+                        <DefaultValue>0.1</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xA054FF1C" Archetype="TDamageInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x4D577910">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF3EC8748">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x37B6DF3D">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF598739">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x56F98C49">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xABFA93E9" Archetype="TDamageInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x4D577910">
+                        <DefaultValue>3</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF3EC8748">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x37B6DF3D">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF598739">
+                        <DefaultValue>0.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x56F98C49">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0xF8F9BF33">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4848F444">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1E710222">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3AE5D1FA">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

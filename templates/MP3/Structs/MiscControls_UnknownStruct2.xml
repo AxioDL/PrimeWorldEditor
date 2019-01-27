@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>MiscControls_UnknownStruct2</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x67739B75" Archetype="MiscControls_UnknownEnum1">
+                <DefaultValue>0xBB12C51F</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xA5E20450" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xA74987FF" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x73EB9D04" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -13,7 +13,9 @@
             <Element Type="Float" ID="0x1">
                 <Name>AppearPercentage</Name>
             </Element>
-            <Element Type="Choice" ID="0x2" Archetype="ScanImagePane"/>
+            <Element Type="Choice" ID="0x2" Archetype="ScanImagePane">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
             <Element Type="Int" ID="0x3">
                 <Name>AnimationCellWidth</Name>
             </Element>

@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakAutoMapper_Base</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xCBE595D8">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8ECB53A6">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x30B13740">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6BEA9324">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x65DD754">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x57A46C09">
+                <DefaultValue>1000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC87F5379">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBCC758C2">
+                <DefaultValue>250.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8A4E16E4">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2AAE6322">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xC939A90"/>
+            <Element Type="Float" ID="0xB54255B5">
+                <DefaultValue>-89.900002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC64CEC4">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xD33EB347"/>
+            <Element Type="Float" ID="0x335EBC7E">
+                <DefaultValue>75.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6119D07F">
+                <DefaultValue>32.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xDBC799A4">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x45BE3F6B">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x533C5684">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEB383668">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x27151EDE">
+                <DefaultValue>-45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x434172C3">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68097036">
+                <DefaultValue>0.60000002</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3ADCF46">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xD3FAE283">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x65D2CF45">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xB5752C08">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x35D01CE">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x805D5FA3">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x36757265">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7BDB0EDF">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x12221909">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x38DBBC09">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x30610062">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB6ACEA88">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x73DE4110">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2920DB55">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x19069725">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5BA0DE1E">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x310B37A1">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD69F6B5C">
+                <DefaultValue>2.75</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xAB82E268">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1DAACFAE">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47967404">
+                <DefaultValue>0.60000002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xECE1950">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9AC1BDDE">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x97A19386">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCB9E3A54">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2511A49B">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x16C9F38E">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBC7E2E4D">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x15564D32">
+                <DefaultValue>3.5699999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF5479260">
+                <DefaultValue>3.5699999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x271B644E">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x52DC08C1">
+                <DefaultValue>24.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9980DB64">
+                <DefaultValue>348.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23F59057">
+                <DefaultValue>152.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAD3D5A3F">
+                <DefaultValue>114.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3315D22B">
+                <DefaultValue>0.85000002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9E4007B6">
+                <DefaultValue>1.85</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A8D3D46">
+                <DefaultValue>1.36</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2B97D64C">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBDC57CE0">
+                <DefaultValue>800.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D59C854">
+                <DefaultValue>400.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3C4EF7D2">
+                <DefaultValue>2000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B483E9F">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x706F52FE">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x62F9EBF6">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA9A53853">
+                <DefaultValue>0.63499999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x722B1BC0">
+                <DefaultValue>-0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF8252BCA">
+                <DefaultValue>1.6</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD1997970">
+                <DefaultValue>1.2</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4C3FC933">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5A87C156">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x9C0C5318">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2A247EDE">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x44303A9C">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF2E13506">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1A4B8068">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA485372C">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x536647D5">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA6B633FA">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1CEA7F9">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

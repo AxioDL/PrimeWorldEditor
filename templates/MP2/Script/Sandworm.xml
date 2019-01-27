@@ -92,7 +92,7 @@
             <Element Type="Struct" ID="0x553B1339" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0xB</DefaultValue>
+                        <DefaultValue>11</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>
@@ -120,7 +120,7 @@
             <Element Type="Struct" ID="0xF8FD6885" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0xB</DefaultValue>
+                        <DefaultValue>11</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>
@@ -130,7 +130,7 @@
             <Element Type="Struct" ID="0x449233BC" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0xB</DefaultValue>
+                        <DefaultValue>11</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>
@@ -183,7 +183,7 @@
             <Element Type="Struct" ID="0x4461A8AD" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0xB</DefaultValue>
+                        <DefaultValue>11</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>

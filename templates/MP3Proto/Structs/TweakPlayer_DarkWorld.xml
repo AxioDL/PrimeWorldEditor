@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_DarkWorld</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x4985BC73">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA4E33EF0">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF9BF59A2" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x445E00C8">
+                        <DefaultValue>0xFFFFFFFF</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x333B7549">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEE452490">
+                <DefaultValue>0.34999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x19275A97">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

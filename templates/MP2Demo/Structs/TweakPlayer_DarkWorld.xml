@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_DarkWorld</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x4985BC73">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA4E33EF0">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF9BF59A2" Archetype="DamageInfo">
+                <SubProperties>
+                    <Element Type="Choice" ID="0x119FBD31">
+                        <DefaultValue>17</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakControls_UnknownStruct1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x4BD8ECB9" Archetype="TweakControls_UnknownStruct2"/>
+            <Element Type="Struct" ID="0x9ACB4ACE" Archetype="MapControls"/>
+            <Element Type="Struct" ID="0xBE77DED2" Archetype="MiscControls"/>
+            <Element Type="Struct" ID="0x47069911" Archetype="TweakControls_UnknownStruct3"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

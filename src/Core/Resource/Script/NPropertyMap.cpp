@@ -106,7 +106,8 @@ struct SNameValue
     bool IsValid;
 
     /** List of all properties using this ID */
-    std::list<IProperty*> PropertyList;
+    /** @todo - make this an intrusively linked list */
+    std::set<IProperty*> PropertyList;
 
     void Serialize(IArchive& Arc)
     {
@@ -285,7 +286,7 @@ bool IsValidPropertyID(uint32 ID, const char* pkTypeName, bool* pOutIsValid /*= 
 }
 
 /** Retrieves a list of all properties that match the requested property ID. */
-void RetrievePropertiesWithID(uint32 ID, const char* pkTypeName, std::list<IProperty*>& OutList)
+void RetrievePropertiesWithID(uint32 ID, const char* pkTypeName, std::vector<IProperty*>& OutList)
 {
     SNameKey Key = CreateKey(ID, pkTypeName);
     auto MapFind = gNameMap.find(Key);
@@ -293,7 +294,12 @@ void RetrievePropertiesWithID(uint32 ID, const char* pkTypeName, std::list<IProp
     if (MapFind != gNameMap.end())
     {
         SNameValue& Value = MapFind->second;
-        OutList = Value.PropertyList;
+        OutList.reserve(Value.PropertyList.size());
+
+        for (auto Iter = Value.PropertyList.begin(); Iter != Value.PropertyList.end(); Iter++)
+        {
+            OutList.push_back(*Iter);
+        }
     }
 }
 
@@ -391,7 +397,7 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
             if (Find != gNameMap.end())
             {
                 SNameValue& Value = Find->second;
-                WasRegistered = NBasics::ListRemoveOne(Value.PropertyList, pProperty);
+                WasRegistered = (Value.PropertyList.find(pProperty) != Value.PropertyList.end());
             }
 
             // Create a key for the new property and add it to the list.
@@ -409,7 +415,7 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
 
             if (WasRegistered)
             {
-                Find->second.PropertyList.push_back(pProperty);
+                Find->second.PropertyList.insert(pProperty);
             }
 
             gMapIsDirty = true;
@@ -527,7 +533,7 @@ void RegisterProperty(IProperty* pProperty)
         pProperty->SetName( MapFind->second.Name );
     }
 
-    MapFind->second.PropertyList.push_back(pProperty);
+    MapFind->second.PropertyList.insert(pProperty);
 
     // Update the property's Name field to match the mapped name.
     pProperty->SetName( MapFind->second.Name );
@@ -543,7 +549,7 @@ void UnregisterProperty(IProperty* pProperty)
     {
         // Found the value, now remove the element from the list.
         SNameValue& Value = Iter->second;
-        NBasics::ListRemoveOne(Value.PropertyList, pProperty);
+        Value.PropertyList.erase(pProperty);
     }
 }
 

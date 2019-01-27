@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>TweakPlayerRes</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Struct" ID="0x357741E0" Archetype="TweakPlayerRes_AutoMapperIcons"/>
+            <Element Type="Struct" ID="0xD5E02A0" Archetype="TweakPlayerRes_MapScreenIcons"/>
+            <Element Type="Struct" ID="0x279852BA" Archetype="TBallTransitionResources"/>
+            <Element Type="Struct" ID="0x5E630608" Archetype="TGunResources"/>
+            <Element Type="Float" ID="0x36AD9D19">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

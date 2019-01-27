@@ -2,7 +2,6 @@
 <PropertyTemplate ArchiveVer="4" Game="Echoes">
     <PropertyArchetype Type="Choice">
         <Name>PlayerItem</Name>
-        <DefaultValue>0x0</DefaultValue>
         <OverrideTypeName>true</OverrideTypeName>
         <Values>
             <Element Name="Power Beam" ID="0x0"/>

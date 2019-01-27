@@ -231,7 +231,7 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
 
     if (!SourceFile.IsEmpty())
     {
-        std::list<IProperty*> Templates;
+        std::vector<IProperty*> Templates;
         NPropertyMap::RetrievePropertiesWithID(mpProperty->ID(), mpProperty->HashableTypeName(), Templates);
 
         for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)

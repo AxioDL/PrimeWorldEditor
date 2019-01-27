@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Enum">
+        <Name>RevolutionVirtualControl</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0xB2AA1FD4"/>
+            <Element Name="Unknown2" ID="0x1131A372"/>
+            <Element Name="Unknown3" ID="0xEEFFE702"/>
+            <Element Name="Unknown4" ID="0xD8B56283"/>
+            <Element Name="Unknown5" ID="0x351F4F80"/>
+            <Element Name="Unknown6" ID="0xA0505566"/>
+            <Element Name="Unknown7" ID="0x31EFF08C"/>
+            <Element Name="Unknown8" ID="0x141C222"/>
+            <Element Name="Unknown9" ID="0x179F1B62"/>
+            <Element Name="Unknown10" ID="0xDA71453F"/>
+            <Element Name="Unknown11" ID="0xCFAA26B2"/>
+            <Element Name="Unknown12" ID="0x2BB9E1A3"/>
+            <Element Name="Unknown13" ID="0xD42A4AB4"/>
+            <Element Name="Unknown14" ID="0x41655052"/>
+            <Element Name="Unknown15" ID="0x10BA313C"/>
+            <Element Name="Unknown16" ID="0xB4B3AA30"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

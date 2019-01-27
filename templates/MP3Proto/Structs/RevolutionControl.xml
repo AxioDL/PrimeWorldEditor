@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>RevolutionControl</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xB0D17D4D" Archetype="ControlCommands"/>
+            <Element Type="Enum" ID="0x81CC3D3E" Archetype="RevolutionControlType">
+                <DefaultValue>0xD032425F</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xE646D3B7" Archetype="RevolutionPhysicalControl">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x60D66244">
+                        <DefaultValue>0x96A037F0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Enum" ID="0x6E14BC06" Archetype="PhysicalControlBoolean">
+                <DefaultValue>0xCCE11D4C</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xF0BF68A4" Archetype="RevolutionPhysicalControl">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x60D66244">
+                        <DefaultValue>0x96A037F0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Enum" ID="0xFE819DDB" Archetype="RevolutionVirtualControl">
+                <DefaultValue>0xB2AA1FD4</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x8D12458E" Archetype="RevolutionVirtualMenu">
+                <DefaultValue>0x94043222</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

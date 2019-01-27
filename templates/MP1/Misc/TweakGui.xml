@@ -228,10 +228,10 @@
                 <DefaultValue>0.5</DefaultValue>
             </Element>
             <Element Type="Choice" ID="0x38" Archetype="HudVisMode">
-                <DefaultValue>0x3</DefaultValue>
+                <DefaultValue>3</DefaultValue>
             </Element>
             <Element Type="Choice" ID="0x39" Archetype="HelmetVisMode">
-                <DefaultValue>0x4</DefaultValue>
+                <DefaultValue>4</DefaultValue>
             </Element>
             <Element Type="Int" ID="0x3A">
                 <Name>EnableAutoMapper</Name>

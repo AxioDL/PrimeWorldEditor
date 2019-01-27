@@ -22,7 +22,7 @@
             <Element Type="Struct" ID="0x66DCAACB" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0x9</DefaultValue>
+                        <DefaultValue>9</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>

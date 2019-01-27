@@ -177,6 +177,7 @@ public:
     virtual void PostInitialize() {}
     virtual void PropertyValueChanged(void* pPropertyData)      {}
     virtual void CopyDefaultValueTo(IProperty* pOtherProperty)  {}
+    virtual void SetDefaultFromData(void* pData)                {}
     virtual bool IsNumericalType() const                    { return false; }
     virtual bool IsPointerType() const                      { return false; }
     virtual TString ValueAsString(void* pData) const        { return ""; }
@@ -366,6 +367,7 @@ public:
     virtual void Destruct(void* pData) const        { ValueRef(pData).~PropType(); }
     virtual bool MatchesDefault(void* pData) const  { return ValueRef(pData) == mDefaultValue; }
     virtual void RevertToDefault(void* pData) const { ValueRef(pData) = mDefaultValue; }
+    virtual void SetDefaultFromData(void* pData)    { mDefaultValue = ValueRef(pData); MarkDirty(); }
 
     virtual bool CanHaveDefault() const { return true; }
 

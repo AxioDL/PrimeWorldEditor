@@ -8,7 +8,8 @@ enum class ELogbookCategory
     SpacePirateData = 1,
     ChozoLore = 2,
     Creatures = 3,
-    Research = 4
+    Research = 4,
+    Artifacts = 5
 };
 
 #endif // ELOGBOOKCATEGORY_H

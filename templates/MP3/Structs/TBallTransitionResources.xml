@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TBallTransitionResources</Name>
+        <SubProperties>
+            <Element Type="String" ID="0xD48E4124"/>
+            <Element Type="Struct" ID="0x1E12C84" Archetype="TGunResources"/>
+            <Element Type="Struct" ID="0xF24B055D" Archetype="TGunResources"/>
+            <Element Type="Spline" ID="0xA342C3A6"/>
+            <Element Type="Spline" ID="0x15B6840D"/>
+            <Element Type="Spline" ID="0x23FB0E93"/>
+            <Element Type="Spline" ID="0x564262F0"/>
+            <Element Type="Spline" ID="0x9183A262"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

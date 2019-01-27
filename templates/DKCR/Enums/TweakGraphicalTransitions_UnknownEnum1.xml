@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>TweakGraphicalTransitions_UnknownEnum1</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0x10C04105"/>
+            <Element Name="Unknown2" ID="0x633CB215"/>
+            <Element Name="Unknown3" ID="0x94B15057"/>
+            <Element Name="Unknown4" ID="0x53D289D7"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

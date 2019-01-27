@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>TweakParticle</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="String" ID="0x2BD13AB3"/>
+            <Element Type="String" ID="0x5E15868A"/>
+            <Element Type="String" ID="0xBC401445"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

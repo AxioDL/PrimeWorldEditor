@@ -25,6 +25,7 @@ public:
     virtual void Destruct(void* pData) const;
     virtual bool MatchesDefault(void* pData) const;
     virtual void RevertToDefault(void* pData) const;
+    virtual void SetDefaultFromData(void* pData);
     virtual const char* HashableTypeName() const;
     virtual void Serialize(IArchive& rArc);
     virtual void SerializeValue(void* pData, IArchive& Arc) const;

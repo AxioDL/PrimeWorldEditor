@@ -23,15 +23,35 @@
             </Element>
             <Element Type="Struct" ID="0x5" Archetype="ScanImage">
                 <Name>ScanImage1</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>0.25</DefaultValue>
+                    </Element>
+                </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x6" Archetype="ScanImage">
                 <Name>ScanImage2</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x7" Archetype="ScanImage">
                 <Name>ScanImage3</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>0.75</DefaultValue>
+                    </Element>
+                </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x8" Archetype="ScanImage">
                 <Name>ScanImage4</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
             </Element>
         </SubProperties>
     </Properties>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>RevolutionControl_UnknownStruct3</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x8C938C3F">
+                <DefaultValue>320.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47CF5F9A">
+                <DefaultValue>224.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10DB4381">
+                <DefaultValue>32.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC2BE030D">
+                <DefaultValue>32.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

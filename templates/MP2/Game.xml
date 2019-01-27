@@ -1008,6 +1008,30 @@
             <Value Path="Structs/SwampBossStage2Struct.xml"/>
         </Element>
         <Element>
+            <Key>TBallTransitionResources</Key>
+            <Value Path="Structs/TBallTransitionResources.xml"/>
+        </Element>
+        <Element>
+            <Key>TBeamInfo</Key>
+            <Value Path="Structs/TBeamInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>TDamageInfo</Key>
+            <Value Path="Structs/TDamageInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>TGunResources</Key>
+            <Value Path="Structs/TGunResources.xml"/>
+        </Element>
+        <Element>
+            <Key>TIcon_Configurations</Key>
+            <Value Path="Structs/TIcon_Configurations.xml"/>
+        </Element>
+        <Element>
+            <Key>TWeaponDamage</Key>
+            <Value Path="Structs/TWeaponDamage.xml"/>
+        </Element>
+        <Element>
             <Key>TextProperties</Key>
             <Value Path="Structs/TextProperties.xml"/>
         </Element>
@@ -1018,6 +1042,238 @@
         <Element>
             <Key>TriggerInfo</Key>
             <Value Path="Structs/TriggerInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakAutoMapper_Base</Key>
+            <Value Path="Structs/TweakAutoMapper_Base.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakAutoMapper_DoorColors</Key>
+            <Value Path="Structs/TweakAutoMapper_DoorColors.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall_BoostBall</Key>
+            <Value Path="Structs/TweakBall_BoostBall.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall_Camera</Key>
+            <Value Path="Structs/TweakBall_Camera.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall_CannonBall</Key>
+            <Value Path="Structs/TweakBall_CannonBall.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall_DeathBall</Key>
+            <Value Path="Structs/TweakBall_DeathBall.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall_Misc</Key>
+            <Value Path="Structs/TweakBall_Misc.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall_Movement</Key>
+            <Value Path="Structs/TweakBall_Movement.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall_ScrewAttack</Key>
+            <Value Path="Structs/TweakBall_ScrewAttack.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGame_CoinLimitChoices</Key>
+            <Value Path="Structs/TweakGame_CoinLimitChoices.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGame_FragLimitChoices</Key>
+            <Value Path="Structs/TweakGame_FragLimitChoices.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGame_TimeLimitChoices</Key>
+            <Value Path="Structs/TweakGame_TimeLimitChoices.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGuiColors_HUDColorsTypedef</Key>
+            <Value Path="Structs/TweakGuiColors_HUDColorsTypedef.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGuiColors_Misc</Key>
+            <Value Path="Structs/TweakGuiColors_Misc.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGuiColors_Multiplayer</Key>
+            <Value Path="Structs/TweakGuiColors_Multiplayer.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGuiColors_TurretHudTypedef</Key>
+            <Value Path="Structs/TweakGuiColors_TurretHudTypedef.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_Completion</Key>
+            <Value Path="Structs/TweakGui_Completion.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_Credits</Key>
+            <Value Path="Structs/TweakGui_Credits.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_EchoVisor</Key>
+            <Value Path="Structs/TweakGui_EchoVisor.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_HudColorTypedef</Key>
+            <Value Path="Structs/TweakGui_HudColorTypedef.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_LogBook</Key>
+            <Value Path="Structs/TweakGui_LogBook.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_Misc</Key>
+            <Value Path="Structs/TweakGui_Misc.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_MovieVolumes</Key>
+            <Value Path="Structs/TweakGui_MovieVolumes.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_ScanVisor</Key>
+            <Value Path="Structs/TweakGui_ScanVisor.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_ScannableObjectDownloadTimes</Key>
+            <Value Path="Structs/TweakGui_ScannableObjectDownloadTimes.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_UnknownStruct1</Key>
+            <Value Path="Structs/TweakGui_UnknownStruct1.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui_VisorColorSchemeTypedef</Key>
+            <Value Path="Structs/TweakGui_VisorColorSchemeTypedef.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerControls_UnknownStruct1</Key>
+            <Value Path="Structs/TweakPlayerControls_UnknownStruct1.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerControls_UnknownStruct2</Key>
+            <Value Path="Structs/TweakPlayerControls_UnknownStruct2.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun_Arm_Position</Key>
+            <Value Path="Structs/TweakPlayerGun_Arm_Position.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun_Beam_Misc</Key>
+            <Value Path="Structs/TweakPlayerGun_Beam_Misc.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun_Holstering</Key>
+            <Value Path="Structs/TweakPlayerGun_Holstering.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun_Misc</Key>
+            <Value Path="Structs/TweakPlayerGun_Misc.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun_Position</Key>
+            <Value Path="Structs/TweakPlayerGun_Position.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun_RicochetDamage_Factor</Key>
+            <Value Path="Structs/TweakPlayerGun_RicochetDamage_Factor.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun_UnknownStruct1</Key>
+            <Value Path="Structs/TweakPlayerGun_UnknownStruct1.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun_Weapons</Key>
+            <Value Path="Structs/TweakPlayerGun_Weapons.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerRes_AutoMapperIcons</Key>
+            <Value Path="Structs/TweakPlayerRes_AutoMapperIcons.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerRes_MapScreenIcons</Key>
+            <Value Path="Structs/TweakPlayerRes_MapScreenIcons.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_AimStuff</Key>
+            <Value Path="Structs/TweakPlayer_AimStuff.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_Collision</Key>
+            <Value Path="Structs/TweakPlayer_Collision.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_DarkWorld</Key>
+            <Value Path="Structs/TweakPlayer_DarkWorld.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_FirstPersonCamera</Key>
+            <Value Path="Structs/TweakPlayer_FirstPersonCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_Frozen</Key>
+            <Value Path="Structs/TweakPlayer_Frozen.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_Grapple</Key>
+            <Value Path="Structs/TweakPlayer_Grapple.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_GrappleBeam</Key>
+            <Value Path="Structs/TweakPlayer_GrappleBeam.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_Misc</Key>
+            <Value Path="Structs/TweakPlayer_Misc.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_Motion</Key>
+            <Value Path="Structs/TweakPlayer_Motion.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_Orbit</Key>
+            <Value Path="Structs/TweakPlayer_Orbit.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_ScanVisor</Key>
+            <Value Path="Structs/TweakPlayer_ScanVisor.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_Shield</Key>
+            <Value Path="Structs/TweakPlayer_Shield.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer_SuitDamageReduction</Key>
+            <Value Path="Structs/TweakPlayer_SuitDamageReduction.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakTargeting_Charge_Gauge</Key>
+            <Value Path="Structs/TweakTargeting_Charge_Gauge.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakTargeting_LockDagger</Key>
+            <Value Path="Structs/TweakTargeting_LockDagger.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakTargeting_LockFire</Key>
+            <Value Path="Structs/TweakTargeting_LockFire.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakTargeting_OuterBeamIcon</Key>
+            <Value Path="Structs/TweakTargeting_OuterBeamIcon.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakTargeting_Scan</Key>
+            <Value Path="Structs/TweakTargeting_Scan.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakTargeting_VulnerabilityIndicator</Key>
+            <Value Path="Structs/TweakTargeting_VulnerabilityIndicator.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct10</Key>
@@ -1204,6 +1460,58 @@
         <Element>
             <Key>ScannableObjectInfo</Key>
             <Value Path="Misc/ScannableObjectInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakAutoMapper</Key>
+            <Value Path="Misc/TweakAutoMapper.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakBall</Key>
+            <Value Path="Misc/TweakBall.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakCameraBob</Key>
+            <Value Path="Misc/TweakCameraBob.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGame</Key>
+            <Value Path="Misc/TweakGame.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGui</Key>
+            <Value Path="Misc/TweakGui.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGuiColors</Key>
+            <Value Path="Misc/TweakGuiColors.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakParticle</Key>
+            <Value Path="Misc/TweakParticle.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayer</Key>
+            <Value Path="Misc/TweakPlayer.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerControls</Key>
+            <Value Path="Misc/TweakPlayerControls.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerGun</Key>
+            <Value Path="Misc/TweakPlayerGun.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakPlayerRes</Key>
+            <Value Path="Misc/TweakPlayerRes.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakSlideShow</Key>
+            <Value Path="Misc/TweakSlideShow.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakTargeting</Key>
+            <Value Path="Misc/TweakTargeting.xml"/>
         </Element>
     </MiscTemplates>
     <States>

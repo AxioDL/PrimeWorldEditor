@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>RevolutionControlType</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0x769A0D61"/>
+            <Element Name="Unknown2" ID="0xD032425F"/>
+            <Element Name="Unknown3" ID="0x9B56D41E"/>
+            <Element Name="Unknown4" ID="0x49640395"/>
+            <Element Name="Unknown5" ID="0xD3E9786D"/>
+            <Element Name="Unknown6" ID="0x4BD8568A"/>
+            <Element Name="Unknown7" ID="0xDA5C8412"/>
+            <Element Name="Unknown8" ID="0x1D706E84"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

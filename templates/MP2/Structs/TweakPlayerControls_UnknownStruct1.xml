@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerControls_UnknownStruct1</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xAF03E16C">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCFA71717">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x91532A8C">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7ACC58D">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xACC575A2">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDB475E1D">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA900887A">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x534AC106">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD723723">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5C46B025">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF836180A">
+                <DefaultValue>16</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFE16F98D">
+                <DefaultValue>16</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFD59AA9F">
+                <DefaultValue>15</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x7E76F1F4">
+                <DefaultValue>15</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x93DD818B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x258402EC">
+                <DefaultValue>15</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB7A20CDA">
+                <DefaultValue>15</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5B9A9219">
+                <DefaultValue>18</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x82A717CD">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA7D5C15A">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x33731936">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB72565FF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC592CA02">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5228272C">
+                <DefaultValue>11</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x901AC820">
+                <DefaultValue>12</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x4ECEA0C0">
+                <DefaultValue>14</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xA4F35804">
+                <DefaultValue>13</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x919D7DE0">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5200B48B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x49C493A3">
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xEB38A36B">
+                <DefaultValue>20</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC60F66D2">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1D97CC2B">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC449AE1D">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x80F17CDB">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xABC5A6AA">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x310F9642">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC4923775">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF57A2DE8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBA4FB516">
+                <DefaultValue>17</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9F45C8DB">
+                <DefaultValue>18</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5344D2F7">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x18C157D">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAD1E8DE5">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5858B5BA">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC8DF5B8B">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8D86D7B5">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAB429EBD">
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x31111D41">
+                <DefaultValue>7</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE2D939B7">
+                <DefaultValue>8</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB06D1B60">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x26293E7C">
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x649B0835">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5B1E0E7C">
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB35D2CCA">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5A7E4DFC">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x76FAF77E">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9BA498F6">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2B9A4A7F">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD6FB0BF9">
+                <DefaultValue>19</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x8FE3ABE">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC3F4F3EF">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x53E56DA8">
+                <DefaultValue>21</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x29293FB1">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2C06B91">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBAA185CF">
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6CDD19A4">
+                <DefaultValue>13</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE08F6C6F">
+                <DefaultValue>22</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1230759B">
+                <DefaultValue>12</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5B9B4285">
+                <DefaultValue>14</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xBF218F4F">
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x5EF2422">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xCED85A1B">
+                <DefaultValue>16</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x39CF6E72">
+                <DefaultValue>17</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x64003596">
+                <DefaultValue>17</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

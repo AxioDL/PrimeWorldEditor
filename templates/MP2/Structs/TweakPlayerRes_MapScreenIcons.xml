@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerRes_MapScreenIcons</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x2C770BB8"/>
+            <Element Type="String" ID="0x49AEC38C"/>
+            <Element Type="String" ID="0xA86AF8C2"/>
+            <Element Type="String" ID="0xBBE81A91"/>
+            <Element Type="String" ID="0x187BC977"/>
+            <Element Type="String" ID="0x880754F6"/>
+            <Element Type="String" ID="0x2F9A2EE4"/>
+            <Element Type="String" ID="0x8C09FD02"/>
+            <Element Type="String" ID="0x9F8B1F51"/>
+            <Element Type="String" ID="0xB07DE8D"/>
+            <Element Type="String" ID="0x6EDE16B9"/>
+            <Element Type="String" ID="0xFEFE4C34"/>
+            <Element Type="String" ID="0x9C98CFA4"/>
+            <Element Type="String" ID="0x4EEF7D81"/>
+            <Element Type="String" ID="0xAF7781C3"/>
+            <Element Type="String" ID="0x790E9A12"/>
+            <Element Type="String" ID="0xAB792837"/>
+            <Element Type="String" ID="0xC91FABA7"/>
+            <Element Type="String" ID="0x40C21E1E"/>
+            <Element Type="String" ID="0x120368B8"/>
+            <Element Type="String" ID="0x16B77FF5"/>
+            <Element Type="String" ID="0xD4A6A08D"/>
+            <Element Type="String" ID="0x272F08B4"/>
+            <Element Type="String" ID="0x225F0E23"/>
+            <Element Type="String" ID="0x1C208AB1"/>
+            <Element Type="String" ID="0x43FDC303"/>
+            <Element Type="String" ID="0x35E83E43"/>
+            <Element Type="String" ID="0x5280A97A"/>
+            <Element Type="String" ID="0x277CBAF1"/>
+            <Element Type="String" ID="0x71ED4B23"/>
+            <Element Type="String" ID="0x89142B60"/>
+            <Element Type="String" ID="0xC81690CB"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

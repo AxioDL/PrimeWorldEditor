@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGui_Misc_UnknownStruct1</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xE7C4BECD">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBAA1B7C1">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3B8D9A8E">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBD735F69">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5AD522C2">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4358B0F1">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

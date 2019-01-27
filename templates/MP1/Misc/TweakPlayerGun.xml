@@ -103,7 +103,7 @@
                 <Name>Bomb</Name>
                 <SubProperties>
                     <Element Type="Choice" ID="0x0">
-                        <DefaultValue>0x4</DefaultValue>
+                        <DefaultValue>4</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x1">
                         <DefaultValue>10.0</DefaultValue>
@@ -123,7 +123,7 @@
                 <Name>PowerBomb</Name>
                 <SubProperties>
                     <Element Type="Choice" ID="0x0">
-                        <DefaultValue>0x5</DefaultValue>
+                        <DefaultValue>5</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x1">
                         <DefaultValue>100.0</DefaultValue>
@@ -143,7 +143,7 @@
                 <Name>Missile</Name>
                 <SubProperties>
                     <Element Type="Choice" ID="0x0">
-                        <DefaultValue>0x6</DefaultValue>
+                        <DefaultValue>6</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x1">
                         <DefaultValue>30.0</DefaultValue>
@@ -208,7 +208,7 @@
                     <Element Type="Struct" ID="0x1">
                         <SubProperties>
                             <Element Type="Choice" ID="0x0">
-                                <DefaultValue>0x1</DefaultValue>
+                                <DefaultValue>1</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0x1">
                                 <DefaultValue>20.0</DefaultValue>
@@ -227,7 +227,7 @@
                     <Element Type="Struct" ID="0x2">
                         <SubProperties>
                             <Element Type="Choice" ID="0x0">
-                                <DefaultValue>0x1</DefaultValue>
+                                <DefaultValue>1</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0x1">
                                 <DefaultValue>60.0</DefaultValue>
@@ -254,7 +254,7 @@
                     <Element Type="Struct" ID="0x1">
                         <SubProperties>
                             <Element Type="Choice" ID="0x0">
-                                <DefaultValue>0x2</DefaultValue>
+                                <DefaultValue>2</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0x1">
                                 <DefaultValue>2.0</DefaultValue>
@@ -273,7 +273,7 @@
                     <Element Type="Struct" ID="0x2">
                         <SubProperties>
                             <Element Type="Choice" ID="0x0">
-                                <DefaultValue>0x2</DefaultValue>
+                                <DefaultValue>2</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0x1">
                                 <DefaultValue>40.0</DefaultValue>
@@ -300,7 +300,7 @@
                     <Element Type="Struct" ID="0x1">
                         <SubProperties>
                             <Element Type="Choice" ID="0x0">
-                                <DefaultValue>0x3</DefaultValue>
+                                <DefaultValue>3</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0x1">
                                 <DefaultValue>12.0</DefaultValue>
@@ -319,7 +319,7 @@
                     <Element Type="Struct" ID="0x2">
                         <SubProperties>
                             <Element Type="Choice" ID="0x0">
-                                <DefaultValue>0x3</DefaultValue>
+                                <DefaultValue>3</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0x1">
                                 <DefaultValue>100.0</DefaultValue>
@@ -346,7 +346,7 @@
                     <Element Type="Struct" ID="0x1">
                         <SubProperties>
                             <Element Type="Choice" ID="0x0">
-                                <DefaultValue>0x8</DefaultValue>
+                                <DefaultValue>8</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0x1">
                                 <DefaultValue>100.0</DefaultValue>
@@ -365,7 +365,7 @@
                     <Element Type="Struct" ID="0x2">
                         <SubProperties>
                             <Element Type="Choice" ID="0x0">
-                                <DefaultValue>0x8</DefaultValue>
+                                <DefaultValue>8</DefaultValue>
                             </Element>
                             <Element Type="Float" ID="0x1">
                                 <DefaultValue>500.0</DefaultValue>
@@ -404,7 +404,7 @@
                 <Name>IceCombo</Name>
                 <SubProperties>
                     <Element Type="Choice" ID="0x0">
-                        <DefaultValue>0x1</DefaultValue>
+                        <DefaultValue>1</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x1">
                         <DefaultValue>150.0</DefaultValue>
@@ -424,7 +424,7 @@
                 <Name>WaveCombo</Name>
                 <SubProperties>
                     <Element Type="Choice" ID="0x0">
-                        <DefaultValue>0x2</DefaultValue>
+                        <DefaultValue>2</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x1">
                         <DefaultValue>0.80000001</DefaultValue>
@@ -441,7 +441,7 @@
                 <Name>PlasmaCombo</Name>
                 <SubProperties>
                     <Element Type="Choice" ID="0x0">
-                        <DefaultValue>0x3</DefaultValue>
+                        <DefaultValue>3</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x1">
                         <DefaultValue>1.2</DefaultValue>
@@ -461,7 +461,7 @@
                 <Name>PhazonCombo</Name>
                 <SubProperties>
                     <Element Type="Choice" ID="0x0">
-                        <DefaultValue>0x8</DefaultValue>
+                        <DefaultValue>8</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x1">
                         <DefaultValue>10.0</DefaultValue>

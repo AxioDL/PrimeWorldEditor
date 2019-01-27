@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Enum">
+        <Name>MiscControls_UnknownEnum1</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0xBB12C51F"/>
+            <Element Name="Unknown2" ID="0xD6DF4D01"/>
+            <Element Name="Unknown3" ID="0x59B42EFC"/>
+            <Element Name="Unknown4" ID="0xE7EC0841"/>
+            <Element Name="Unknown5" ID="0xFA565001"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

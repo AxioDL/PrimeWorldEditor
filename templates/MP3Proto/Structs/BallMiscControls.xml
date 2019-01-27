@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>BallMiscControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xD239FB95" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x5880BA62" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xA14F91F1" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakTargeting_OuterBeamIcon</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x383E2B2D">
+                <DefaultValue>1.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEAAC42D0">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4967A63C">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x52F1D0D7">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE7D57D6A">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

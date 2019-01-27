@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>MapControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xFED78DA3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x74E647C1" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xDCCF07B6" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x56AE8C3B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBBD5FC52" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x827C4E63" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1F679" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xFB5628FA" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x571BF6D0" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x385CBD2F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x5F55CCCA" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

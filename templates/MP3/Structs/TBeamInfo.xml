@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TBeamInfo</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x102E085F">
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xFAA71E25" Archetype="TWeaponDamage"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

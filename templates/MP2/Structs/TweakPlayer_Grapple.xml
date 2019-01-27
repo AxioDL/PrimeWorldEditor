@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_Grapple</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xA726316B">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x33E79B51">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9DD3E88B">
+                <DefaultValue>3.3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFB605BA4">
+                <DefaultValue>23.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFE98B8E9">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9210A25E">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBE0C8B5E">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2603A0BE">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5B98A3BD">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x87D4B5D6">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB7F82A9F">
+                <DefaultValue>13.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x395478A8">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x93C013C9">
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x8EEED636">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE1EB12E2">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xAE1FC47C" Archetype="TweakPlayer_GrappleBeam"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

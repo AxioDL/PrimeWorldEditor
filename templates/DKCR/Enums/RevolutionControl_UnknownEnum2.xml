@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>RevolutionControl_UnknownEnum2</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0x44D3E4FB"/>
+            <Element Name="Unknown2" ID="0x39AEE0BE"/>
+            <Element Name="Unknown3" ID="0x67FBB27E"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

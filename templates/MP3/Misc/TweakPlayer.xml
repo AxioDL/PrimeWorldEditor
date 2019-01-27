@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>TweakPlayer</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Struct" ID="0x45171A96" Archetype="TweakPlayer_GrappleBeam"/>
+            <Element Type="Struct" ID="0x82CF4CF1" Archetype="TweakPlayer_Motion"/>
+            <Element Type="Struct" ID="0x56A720C8" Archetype="TweakPlayer_Misc"/>
+            <Element Type="Struct" ID="0x42A17438" Archetype="TweakPlayer_AimStuff"/>
+            <Element Type="Struct" ID="0x243AE038" Archetype="TweakPlayer_Orbit"/>
+            <Element Type="Struct" ID="0x20124C3D" Archetype="TweakPlayer_ScanVisor"/>
+            <Element Type="Struct" ID="0x30412440" Archetype="TweakPlayer_Grapple"/>
+            <Element Type="Struct" ID="0xC4D32AE5" Archetype="TweakPlayer_Collision"/>
+            <Element Type="Struct" ID="0xD6155D4B" Archetype="TweakPlayer_FirstPersonCamera"/>
+            <Element Type="Struct" ID="0xBCCA767E" Archetype="TweakPlayer_Shield"/>
+            <Element Type="Struct" ID="0x4D3B20B7" Archetype="TweakPlayer_Frozen"/>
+            <Element Type="Struct" ID="0xAEAFF210" Archetype="TweakPlayer_SuitDamageReduction"/>
+            <Element Type="Enum" ID="0x255F33BC" Archetype="HyperModeType">
+                <DefaultValue>0xA5D16FA8</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x6BEAB9FA" Archetype="TweakPlayer_HyperMode"/>
+            <Element Type="Struct" ID="0xDD3AD613" Archetype="TweakPlayer_HyperMode"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

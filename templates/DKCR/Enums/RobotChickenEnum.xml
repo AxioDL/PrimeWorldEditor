@@ -2,7 +2,6 @@
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Enum">
         <Name>RobotChickenEnum</Name>
-        <DefaultValue>0x0</DefaultValue>
         <Values>
             <Element Name="Unknown 1" ID="0x8C665F9A"/>
             <Element Name="Unknown 2" ID="0x5E7931A4"/>

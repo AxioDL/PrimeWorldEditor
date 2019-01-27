@@ -69,6 +69,14 @@ void CStructProperty::RevertToDefault(void* pData) const
     }
 }
 
+void CStructProperty::SetDefaultFromData(void* pData)
+{
+    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    {
+        mChildren[ChildIdx]->SetDefaultFromData(pData);
+    }
+}
+
 const char* CStructProperty::HashableTypeName() const
 {
     return mpArchetype ? mpArchetype->HashableTypeName() : *mName;

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>DebugControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x38ED0EC3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCE9D8F9B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCF8D32F4" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x6E2701E2" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x233DFCB8" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x6C8EDA79" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x52739B7B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x936C903D" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xF3E413F0" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x769412EB" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCE92BE94" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xFC31E19E" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBFCB7A2" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x769909C1" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x4DAB695E" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xC7CAE2D3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1595F276" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBF09B38B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBCBE70F0" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD38203D7" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xED1235D3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xC73501A3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xC578CA0D" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x8BB24630" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>
