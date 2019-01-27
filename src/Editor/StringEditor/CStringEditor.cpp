@@ -132,9 +132,6 @@ void CStringEditor::InitUI()
     connect( mpUI->AddStringButton, SIGNAL(pressed()), this, SLOT(OnAddString()) );
     connect( mpUI->RemoveStringButton, SIGNAL(pressed()), this, SLOT(OnRemoveString()) );
 
-    connect( mpListModel, SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-             this, SLOT(OnRowsMoved(QModelIndex,int,int,QModelIndex,int)) );
-
     connect( mpUI->ActionSave, SIGNAL(triggered(bool)), this, SLOT(Save()) );
     connect( mpUI->ActionSaveAndCook, SIGNAL(triggered(bool)), this, SLOT(SaveAndRepack()) );
 

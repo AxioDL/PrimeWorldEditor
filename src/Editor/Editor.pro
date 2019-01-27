@@ -202,7 +202,8 @@ HEADERS += \
     CTweakEditor.h \
     Undo/CEditIntrinsicPropertyCommand.h \
     Undo/TSerializeUndoCommand.h \
-    StringEditor/CStringMimeData.h
+    StringEditor/CStringMimeData.h \
+    ScanEditor/CScanEditor.h
 
 # Source Files
 SOURCES += \
@@ -277,7 +278,8 @@ SOURCES += \
     StringEditor/CStringListModel.cpp \
     IEditor.cpp \
     StringEditor/CStringDelegate.cpp \
-    CTweakEditor.cpp
+    CTweakEditor.cpp \
+    ScanEditor/CScanEditor.cpp
 
 # UI Files
 FORMS += \
@@ -304,7 +306,8 @@ FORMS += \
     Widgets/CSelectResourcePanel.ui \
     CGeneratePropertyNamesDialog.ui \
     StringEditor/CStringEditor.ui \
-    CTweakEditor.ui
+    CTweakEditor.ui \
+    ScanEditor/CScanEditor.ui
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
