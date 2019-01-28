@@ -16,7 +16,30 @@
             </Element>
             <Element Type="Struct" ID="0x40E350AD" Archetype="CameraControls"/>
             <Element Type="Struct" ID="0xBE77DED2" Archetype="MiscControls"/>
-            <Element Type="Struct" ID="0x47069911" Archetype="DebugControls"/>
+            <Element Type="Struct" ID="0x47069911" Archetype="DebugControls">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xC73501A3">
+                        <SubProperties>
+                            <Element Type="Struct" ID="0xF0BF68A4">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x4C3FA03B">
+                        <SubProperties>
+                            <Element Type="Enum" ID="0xEBAABF01">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                            <Element Type="Enum" ID="0xBF80D594">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                            <Element Type="Struct" ID="0x91B8C18A">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
         </SubProperties>
     </PropertyArchetype>
 </PropertyTemplate>

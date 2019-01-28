@@ -3,8 +3,12 @@
     <PropertyArchetype Type="Struct">
         <Name>TweakGraphicalTransitions_UnknownStruct2</Name>
         <SubProperties>
-            <Element Type="String" ID="0xD211BAED"/>
-            <Element Type="String" ID="0xE27C08D5"/>
+            <Element Type="String" ID="0xD211BAED">
+                <CookPreference>Always</CookPreference>
+            </Element>
+            <Element Type="String" ID="0xE27C08D5">
+                <CookPreference>Always</CookPreference>
+            </Element>
             <Element Type="Color" ID="0xE3A5171E">
                 <DefaultValue>
                     <R>0.0</R>

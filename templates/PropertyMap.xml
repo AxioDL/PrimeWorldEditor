@@ -70,6 +70,10 @@
             <Value Name="UnknownStruct"/>
         </Element>
         <Element>
+            <Key ID="0x693F4C" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x705F14" Type="RobotChickenFlyerStructB"/>
             <Value Name="RobotChickenFlyerStructB"/>
         </Element>
@@ -256,6 +260,10 @@
         <Element>
             <Key ID="0x1559F27" Type="float"/>
             <Value Name="SeparationDistance"/>
+        </Element>
+        <Element>
+            <Key ID="0x158EF31" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x16768BE" Type="UnknownStruct284"/>
@@ -767,6 +775,10 @@
         </Element>
         <Element>
             <Key ID="0x4510638" Type="float"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x452EA77" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -1418,6 +1430,10 @@
             <Value Name="SplashScale"/>
         </Element>
         <Element>
+            <Key ID="0x825C1F5" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x8349BD6" Type="bool"/>
             <Value Name="Unknown"/>
         </Element>
@@ -1554,6 +1570,10 @@
             <Value Name="CycleVisorDown"/>
         </Element>
         <Element>
+            <Key ID="0x8FE5B85" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x8FF3B44" Type="bool"/>
             <Value Name="LocalSpace"/>
         </Element>
@@ -1632,6 +1652,10 @@
         <Element>
             <Key ID="0x98ECAB6" Type="enum"/>
             <Value Name="BarrelCannonEnum"/>
+        </Element>
+        <Element>
+            <Key ID="0x999A54B" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x9A4F424" Type="int"/>
@@ -1787,6 +1811,10 @@
         </Element>
         <Element>
             <Key ID="0xA9186CB" Type="float"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0xA965E74" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -2031,7 +2059,7 @@
         </Element>
         <Element>
             <Key ID="0xC2C91F7" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="VerticalJumpAccel"/>
         </Element>
         <Element>
             <Key ID="0xC36EB18" Type="bool"/>
@@ -2754,6 +2782,10 @@
             <Value Name="OceanBridgeStructA"/>
         </Element>
         <Element>
+            <Key ID="0x10575A8F" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x1065769D" Type="ScanInfoSecondaryModel"/>
             <Value Name="Unknown"/>
         </Element>
@@ -3103,7 +3135,7 @@
         </Element>
         <Element>
             <Key ID="0x122CE118" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForwardAccelLava"/>
         </Element>
         <Element>
             <Key ID="0x122ECF22" Type="bool"/>
@@ -3355,7 +3387,7 @@
         </Element>
         <Element>
             <Key ID="0x13C95DFD" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="VerticalDoubleJumpAccel"/>
         </Element>
         <Element>
             <Key ID="0x13CE8500" Type="Color"/>
@@ -3547,7 +3579,7 @@
         </Element>
         <Element>
             <Key ID="0x14B78AAF" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GravitationalAccel"/>
         </Element>
         <Element>
             <Key ID="0x14BFDEA6" Type="float"/>
@@ -4046,6 +4078,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x175A4BC4" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x176BD1F4" Type="float"/>
             <Value Name="MinIdleDelay"/>
         </Element>
@@ -4295,7 +4331,7 @@
         </Element>
         <Element>
             <Key ID="0x18D0B2DA" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForwardAccelNormal"/>
         </Element>
         <Element>
             <Key ID="0x18DD95CD" Type="int"/>
@@ -4647,7 +4683,7 @@
         </Element>
         <Element>
             <Key ID="0x1A946073" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationalAccelShrubbery"/>
         </Element>
         <Element>
             <Key ID="0x1A96EC67" Type="Color"/>
@@ -5399,6 +5435,10 @@
         </Element>
         <Element>
             <Key ID="0x1E32523E" Type="bool"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x1E350FA2" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -6519,6 +6559,10 @@
         </Element>
         <Element>
             <Key ID="0x247DB024" Type="int"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x248B8851" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -7810,10 +7854,6 @@
             <Value Name="EchoVisor"/>
         </Element>
         <Element>
-            <Key ID="0x2B698E45" Type="TweakGui_UnknownStruct2"/>
-            <Value Name="Unknown"/>
-        </Element>
-        <Element>
             <Key ID="0x2B70CEF8" Type="TweakTargeting_VulnerabilityIndicator"/>
             <Value Name="LightVulnerabilityIndicator"/>
         </Element>
@@ -7999,7 +8039,7 @@
         </Element>
         <Element>
             <Key ID="0x2C7620D3" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="FluidGravitationalAccel"/>
         </Element>
         <Element>
             <Key ID="0x2C770BB8" Type="string"/>
@@ -8263,7 +8303,7 @@
         </Element>
         <Element>
             <Key ID="0x2DD68198" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationalAccelPhazon"/>
         </Element>
         <Element>
             <Key ID="0x2DD88764" Type="DigitalGuardianHeadStruct"/>
@@ -8347,7 +8387,7 @@
         </Element>
         <Element>
             <Key ID="0x2E41A61D" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationalAccelWater"/>
         </Element>
         <Element>
             <Key ID="0x2E42A623" Type="DashModifierData"/>
@@ -9806,6 +9846,10 @@
             <Value Name="MissleDeflectionRadius"/>
         </Element>
         <Element>
+            <Key ID="0x36899C91" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x368BF245" Type="bool"/>
             <Value Name="Unknown"/>
         </Element>
@@ -10358,6 +10402,10 @@
             <Value Name="DisableMovement"/>
         </Element>
         <Element>
+            <Key ID="0x39638E7C" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x39665BC8" Type="asset"/>
             <Value Name="Unlocked"/>
         </Element>
@@ -10879,7 +10927,7 @@
         </Element>
         <Element>
             <Key ID="0x3C461DB2" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationalAccelAir"/>
         </Element>
         <Element>
             <Key ID="0x3C4EF7D2" Type="float"/>
@@ -12882,6 +12930,10 @@
             <Value Name="TonguePiece"/>
         </Element>
         <Element>
+            <Key ID="0x47069911" Type="TweakControls_UnknownStruct3"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x47069911" Type="DebugControls"/>
             <Value Name="Unknown"/>
         </Element>
@@ -13151,6 +13203,10 @@
         </Element>
         <Element>
             <Key ID="0x4848F444" Type="float"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x48531082" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -13915,6 +13971,10 @@
         </Element>
         <Element>
             <Key ID="0x4BFEE56B" Type="float"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x4C1364E6" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -15082,6 +15142,10 @@
             <Value Name="UnknownStruct51"/>
         </Element>
         <Element>
+            <Key ID="0x52604FD4" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x52642B7E" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -15563,7 +15627,7 @@
         </Element>
         <Element>
             <Key ID="0x55006B6A" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationalAccelIce"/>
         </Element>
         <Element>
             <Key ID="0x550574F2" Type="float"/>
@@ -15955,7 +16019,7 @@
         </Element>
         <Element>
             <Key ID="0x56F9F2AF" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForwardAccelOrganic"/>
         </Element>
         <Element>
             <Key ID="0x57018CF1" Type="bool"/>
@@ -16990,15 +17054,15 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x5D2373BE" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x5D289613" Type="bool"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x5D28CCE5" Type="float"/>
-            <Value Name="Unknown"/>
-        </Element>
-        <Element>
-            <Key ID="0x5D298A43" Type="Flags"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -18190,6 +18254,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x64103626" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x64124219" Type="int"/>
             <Value Name="Unknown"/>
         </Element>
@@ -19051,7 +19119,7 @@
         </Element>
         <Element>
             <Key ID="0x68AC6028" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForwardAccelShrubbery"/>
         </Element>
         <Element>
             <Key ID="0x68ACBD86" Type="choice"/>
@@ -19623,6 +19691,10 @@
         </Element>
         <Element>
             <Key ID="0x6BBF9CDC" Type="float"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x6BC1A862" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -21802,6 +21874,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x783419BF" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x783635A6" Type="asset"/>
             <Value Name="PART"/>
         </Element>
@@ -21976,6 +22052,10 @@
         <Element>
             <Key ID="0x79169D11" Type="asset"/>
             <Value Name="CAUD"/>
+        </Element>
+        <Element>
+            <Key ID="0x791A3C7D" Type="TweakControls_UnknownStruct1"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x79220DD6" Type="float"/>
@@ -22386,6 +22466,10 @@
             <Value Name="LiftVelocity"/>
         </Element>
         <Element>
+            <Key ID="0x7B0B3EC0" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x7B0CC30D" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -22656,6 +22740,10 @@
         <Element>
             <Key ID="0x7C94AA3B" Type="bool"/>
             <Value Name="InhibitPlayerOnTarPitExit"/>
+        </Element>
+        <Element>
+            <Key ID="0x7C952179" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x7C9C3B51" Type="LaunchProjectileData"/>
@@ -22992,6 +23080,10 @@
         <Element>
             <Key ID="0x7EBDD66C" Type="bool"/>
             <Value Name="UseBoundsForNonPlayers"/>
+        </Element>
+        <Element>
+            <Key ID="0x7EC1A572" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x7EC9E6D9" Type="float"/>
@@ -24014,6 +24106,10 @@
             <Value Name="DetectionAngle"/>
         </Element>
         <Element>
+            <Key ID="0x83EAF3A3" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x83F19D56" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -24035,7 +24131,7 @@
         </Element>
         <Element>
             <Key ID="0x8421E909" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationalAccelOrganic"/>
         </Element>
         <Element>
             <Key ID="0x84284B1C" Type="spline"/>
@@ -24211,7 +24307,7 @@
         </Element>
         <Element>
             <Key ID="0x84F61AC5" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForwardAccelAir"/>
         </Element>
         <Element>
             <Key ID="0x84F708C8" Type="bool"/>
@@ -25887,7 +25983,7 @@
         </Element>
         <Element>
             <Key ID="0x8E41FED2" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HorizontalDoubleJumpAccel"/>
         </Element>
         <Element>
             <Key ID="0x8E46A93C" Type="MineCartMaterialSounds"/>
@@ -26811,7 +26907,7 @@
         </Element>
         <Element>
             <Key ID="0x938C77D4" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HorizontalJumpAccel"/>
         </Element>
         <Element>
             <Key ID="0x938F3AF5" Type="Color"/>
@@ -27387,6 +27483,10 @@
         </Element>
         <Element>
             <Key ID="0x9693B006" Type="asset"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x9696E718" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -27982,6 +28082,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x99F86D75" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x99FD196F" Type="UnknownStruct36"/>
             <Value Name="UnknownStruct36"/>
         </Element>
@@ -28548,6 +28652,10 @@
         <Element>
             <Key ID="0x9D331279" Type="int"/>
             <Value Name="BounceCount"/>
+        </Element>
+        <Element>
+            <Key ID="0x9D3BC049" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x9D3CFEB0" Type="float"/>
@@ -29178,6 +29286,10 @@
             <Value Name="Distance01"/>
         </Element>
         <Element>
+            <Key ID="0xA1075E4C" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xA111AD50" Type="bool"/>
             <Value Name="Unknown"/>
         </Element>
@@ -29627,6 +29739,10 @@
         </Element>
         <Element>
             <Key ID="0xA342C3A6" Type="spline"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0xA344CC33" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -30755,6 +30871,10 @@
         </Element>
         <Element>
             <Key ID="0xA95A025B" Type="int"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0xA95F7A26" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -32574,6 +32694,10 @@
             <Value Name="FlyingPirateProperties"/>
         </Element>
         <Element>
+            <Key ID="0xB32A840F" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xB32D1B19" Type="PuddleControlData"/>
             <Value Name="PuddleControlData"/>
         </Element>
@@ -33030,6 +33154,10 @@
             <Value Name="FlashSound"/>
         </Element>
         <Element>
+            <Key ID="0xB58F9814" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xB5A78A38" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -33164,6 +33292,10 @@
         <Element>
             <Key ID="0xB6439322" Type="MaterialSoundPair"/>
             <Value Name="MaterialSound7"/>
+        </Element>
+        <Element>
+            <Key ID="0xB643A723" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0xB646A87E" Type="bool"/>
@@ -34391,6 +34523,10 @@
         </Element>
         <Element>
             <Key ID="0xBCE16644" Type="bool"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0xBCE8171C" Type="RevolutionControl"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -36242,6 +36378,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0xC6EAA851" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xC6EC1630" Type="AudioPlaybackParms"/>
             <Value Name="Sound_ToeTargetExplosion"/>
         </Element>
@@ -36926,6 +37066,10 @@
             <Value Name="SteamBlast"/>
         </Element>
         <Element>
+            <Key ID="0xCA9AE184" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xCA9D401C" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -36964,6 +37108,10 @@
         <Element>
             <Key ID="0xCAC25316" Type="asset"/>
             <Value Name="ExtrasSound"/>
+        </Element>
+        <Element>
+            <Key ID="0xCAC79E5F" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0xCAD5AE7A" Type="Color"/>
@@ -37395,7 +37543,7 @@
         </Element>
         <Element>
             <Key ID="0xCD4EE9FC" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationalAccelNormal"/>
         </Element>
         <Element>
             <Key ID="0xCD4F7E71" Type="int"/>
@@ -37436,6 +37584,10 @@
         <Element>
             <Key ID="0xCD7D996E" Type="sound"/>
             <Value Name="Sound_Looped"/>
+        </Element>
+        <Element>
+            <Key ID="0xCD7DCFE1" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0xCD7E7E7C" Type="Vector"/>
@@ -37962,6 +38114,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0xD0352E31" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xD03984CD" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -37991,7 +38147,7 @@
         </Element>
         <Element>
             <Key ID="0xD05B643F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForwardAccelWater"/>
         </Element>
         <Element>
             <Key ID="0xD05EB27A" Type="float"/>
@@ -39278,6 +39434,10 @@
             <Value Name="SavePreloadData"/>
         </Element>
         <Element>
+            <Key ID="0xD742F833" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xD74FC76C" Type="DamageInfo"/>
             <Value Name="SuperLoopDamage"/>
         </Element>
@@ -40086,6 +40246,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0xDBF45A8B" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xDBFFFA66" Type="asset"/>
             <Value Name="CategoryNames"/>
         </Element>
@@ -40255,7 +40419,7 @@
         </Element>
         <Element>
             <Key ID="0xDCF5B580" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationalAccelLava"/>
         </Element>
         <Element>
             <Key ID="0xDCFA472A" Type="float"/>
@@ -41032,6 +41196,10 @@
         <Element>
             <Key ID="0xE19F4608" Type="sound"/>
             <Value Name="TentacleDamagedSound"/>
+        </Element>
+        <Element>
+            <Key ID="0xE1A023EF" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0xE1A2258F" Type="TrainTrackManagerStructA"/>
@@ -42338,6 +42506,10 @@
             <Value Name="RotationMaxSpeedLava"/>
         </Element>
         <Element>
+            <Key ID="0xE86E3271" Type="RevolutionControl"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0xE8706E6E" Type="asset"/>
             <Value Name="PART"/>
         </Element>
@@ -43383,7 +43555,7 @@
         </Element>
         <Element>
             <Key ID="0xEDB06C1D" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForwardAccelIce"/>
         </Element>
         <Element>
             <Key ID="0xEDB32680" Type="VolcanoBossBodyPartStructB"/>
@@ -45415,7 +45587,7 @@
         </Element>
         <Element>
             <Key ID="0xF848DABE" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForwardAccelPhazon"/>
         </Element>
         <Element>
             <Key ID="0xF848FA88" Type="float"/>

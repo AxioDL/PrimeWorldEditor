@@ -2,6 +2,7 @@
 #include "Core/GameProject/CGameProject.h"
 #include "Core/GameProject/CResourceIterator.h"
 #include "Core/Tweaks/CTweakLoader.h"
+#include "Core/Tweaks/CTweakCooker.h"
 
 CTweakManager::CTweakManager(CGameProject* pInProject)
     : mpProject(pInProject)
@@ -47,9 +48,37 @@ CTweakManager::~CTweakManager()
     }
 }
 
-void CTweakManager::SaveTweaks()
+bool CTweakManager::SaveTweaks()
 {
-    // In MP1, to save an individual tweak asset, just call Tweak->Entry()->Save()
-    // In MP2+, call this function.
-    //@todo
+    // MP1 - Save all tweak assets
+    if (mpProject->Game() <= EGame::Prime)
+    {
+        bool SavedAll = true, SavedAny = false;
+
+        for (CTweakData* pTweakData : mTweakObjects)
+        {
+            if (!pTweakData->Entry()->Save(true))
+            {
+                SavedAll = false;
+            }
+            else
+            {
+                SavedAny = true;
+            }
+        }
+
+        if (SavedAny)
+        {
+            mpProject->ResourceStore()->ConditionalSaveStore();
+        }
+
+        return SavedAll;
+    }
+    // MP2+ - Save tweaks to Standard.ntwk
+    else
+    {
+        TString FilePath = mpProject->DiscFilesystemRoot(false) + "Standard.ntwk";
+        CFileOutStream StandardNTWK(FilePath, EEndian::BigEndian);
+        return CTweakCooker::CookNTWK(mTweakObjects, StandardNTWK);
+    }
 }

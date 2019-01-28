@@ -36,7 +36,7 @@ CTweakData* CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
     ASSERT( pTweakTemplate != nullptr );
 
     // Load tweak data
-    CTweakData* pTweakData = new CTweakData(pTweakTemplate, pEntry);
+    CTweakData* pTweakData = new CTweakData(pTweakTemplate, pEntry->ID().ToLong(), pEntry);
     CScriptLoader::LoadStructData( CTWK, pTweakData->TweakData() );
 
     // Verify
@@ -121,7 +121,7 @@ void CTweakLoader::LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakDa
 
         // Load tweak data
         NTWK.Skip(0xC);
-        CTweakData* pTweakData = new CTweakData(pTweakTemplate);
+        CTweakData* pTweakData = new CTweakData(pTweakTemplate, TweakID);
         CScriptLoader::LoadStructData( NTWK, pTweakData->TweakData() );
         OutTweaks.push_back(pTweakData);
 

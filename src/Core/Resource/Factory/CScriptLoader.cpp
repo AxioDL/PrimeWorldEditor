@@ -151,7 +151,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rS
 #if VALIDATE_PROPERTY_VALUES
         CAssetID ID = pAsset->ValueRef(pData);
 
-        if (ID.IsValid())
+        if (ID.IsValid() && gpResourceStore)
         {
             CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
 

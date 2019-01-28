@@ -105,7 +105,8 @@ enum class ECookPreference
 {
     Default,
     Always,
-    Never
+    Never,
+    OnlyIfModified
 };
 
 /** New property class */

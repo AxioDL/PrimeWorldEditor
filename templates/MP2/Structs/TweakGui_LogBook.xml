@@ -3,10 +3,6 @@
     <PropertyArchetype Type="Struct">
         <Name>TweakGui_LogBook</Name>
         <SubProperties>
-            <Element Type="Spline" ID="0x925B9D4A"/>
-            <Element Type="Spline" ID="0x8719A9C"/>
-            <Element Type="Spline" ID="0x9AD04DD7"/>
-            <Element Type="Spline" ID="0x165943F6"/>
             <Element Type="Color" ID="0xBA5A65C8">
                 <DefaultValue>
                     <R>0.0</R>
@@ -96,6 +92,9 @@
             <Element Type="Float" ID="0x1832935E">
                 <DefaultValue>1.0</DefaultValue>
             </Element>
+            <Element Type="Spline" ID="0x165943F6"/>
+            <Element Type="Spline" ID="0x9AD04DD7"/>
+            <Element Type="Spline" ID="0x8719A9C"/>
             <Element Type="Float" ID="0x11CD076F">
                 <DefaultValue>2.0</DefaultValue>
             </Element>
@@ -111,6 +110,7 @@
             <Element Type="Float" ID="0xC0CB3936">
                 <DefaultValue>2.0</DefaultValue>
             </Element>
+            <Element Type="Spline" ID="0x925B9D4A"/>
             <Element Type="Color" ID="0x75A0734">
                 <DefaultValue>
                     <R>0.0</R>

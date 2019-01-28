@@ -326,7 +326,29 @@ TString IProperty::GetTemplateFileName()
 
 bool IProperty::ShouldCook(void* pPropertyData) const
 {
-    switch (mCookPreference)
+    ECookPreference Preference = mCookPreference;
+
+    // Determine the real cook preference to use.
+    if (Preference == ECookPreference::Default)
+    {
+        if (Game() == EGame::DKCReturns)
+        {
+            // DKCR properties usually don't write unless they have been modified.
+            Preference = ECookPreference::OnlyIfModified;
+        }
+        else
+        {
+            // MP2 and MP3 properties usually always write no matter what.
+            Preference = ECookPreference::Always;
+        }
+    }
+    else if (Preference == ECookPreference::OnlyIfModified && Game() <= EGame::Prime)
+    {
+        // OnlyIfModified not supported for MP1.
+        Preference = ECookPreference::Always;
+    }
+
+    switch (Preference)
     {
     case ECookPreference::Always:
         return true;
@@ -334,8 +356,13 @@ bool IProperty::ShouldCook(void* pPropertyData) const
     case ECookPreference::Never:
         return false;
 
+    case ECookPreference::OnlyIfModified:
+        return !MatchesDefault(pPropertyData);
+
     default:
-        return (Game() < EGame::DKCReturns ? true : !MatchesDefault(pPropertyData));
+        // Unhandled case
+        ASSERT(false);
+        return true;
     }
 }
 

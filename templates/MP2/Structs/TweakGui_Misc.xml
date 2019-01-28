@@ -3,9 +3,6 @@
     <PropertyArchetype Type="Struct">
         <Name>TweakGui_Misc</Name>
         <SubProperties>
-            <Element Type="Spline" ID="0x3BA84552"/>
-            <Element Type="Spline" ID="0xD81537B6"/>
-            <Element Type="Spline" ID="0xEAF17D45"/>
             <Element Type="Bool" ID="0x2F9D48B8">
                 <DefaultValue>false</DefaultValue>
             </Element>
@@ -364,6 +361,9 @@
             <Element Type="Float" ID="0xCE9F5770">
                 <DefaultValue>6.0</DefaultValue>
             </Element>
+            <Element Type="Spline" ID="0xEAF17D45"/>
+            <Element Type="Spline" ID="0xD81537B6"/>
+            <Element Type="Spline" ID="0x3BA84552"/>
             <Element Type="Float" ID="0xEEB7839B">
                 <DefaultValue>0.2</DefaultValue>
             </Element>

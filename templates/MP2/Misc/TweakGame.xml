@@ -3,7 +3,6 @@
     <Properties Type="Struct">
         <Name>TweakGame</Name>
         <SubProperties>
-            <Element Type="Spline" ID="0x40818220"/>
             <Element Type="String" ID="0x7FDA1466"/>
             <Element Type="String" ID="0x2BD13AB3"/>
             <Element Type="String" ID="0xF8BE005A"/>
@@ -59,6 +58,7 @@
             <Element Type="Struct" ID="0xB2E8828D" Archetype="TweakGame_TimeLimitChoices"/>
             <Element Type="Struct" ID="0x6AF87BD" Archetype="TweakGame_CoinLimitChoices"/>
             <Element Type="Struct" ID="0x1533EA4E" Archetype="TweakGame_TimeLimitChoices"/>
+            <Element Type="Spline" ID="0x40818220"/>
         </SubProperties>
     </Properties>
 </ScriptObject>

@@ -8,7 +8,13 @@
             <Element Type="Struct" ID="0xB9DAFDC8" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
             <Element Type="Struct" ID="0x64C6C03C" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
             <Element Type="Struct" ID="0x34797A20" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
-            <Element Type="Struct" ID="0xA681D655" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
+            <Element Type="Struct" ID="0xA681D655" Archetype="TweakGraphicalTransitions_UnknownStruct2">
+                <SubProperties>
+                    <Element Type="Color" ID="0xE3A5171E">
+                        <CookPreference>Always</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
             <Element Type="Struct" ID="0x930C911D" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
             <Element Type="Struct" ID="0x5B7662CE" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
             <Element Type="String" ID="0xC96BA94A"/>

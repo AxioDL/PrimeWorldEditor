@@ -51,17 +51,7 @@ bool CTweakEditor::HasTweaks()
 
 bool CTweakEditor::Save()
 {
-    bool SavedAll = true;
-
-    foreach (CTweakData* pData, mTweakAssets)
-    {
-        if (!pData->Entry()->Save())
-        {
-            SavedAll = false;
-        }
-    }
-
-    if (!SavedAll)
+    if (!gpEdApp->ActiveProject()->TweakManager()->SaveTweaks())
     {
         UICommon::ErrorMsg(this, "Tweaks failed to save!");
         return false;
@@ -167,4 +157,7 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
     }
 
     mpUI->TweakTabs->blockSignals(false);
+
+    // Hide "save and repack" button for MP2+ as it doesn't do anything different from the regular Save button
+    mpUI->ActionSaveAndRepack->setVisible( !pNewProject || pNewProject->Game() <= EGame::Prime );
 }

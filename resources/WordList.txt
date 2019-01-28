@@ -26,6 +26,7 @@ about
 above
 absolute
 absorb
+accel
 acceleration
 accumulate
 achievement

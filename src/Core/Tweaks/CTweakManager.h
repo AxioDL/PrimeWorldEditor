@@ -16,7 +16,7 @@ public:
     CTweakManager(CGameProject* pInProject);
     ~CTweakManager();
     void LoadTweaks();
-    void SaveTweaks();
+    bool SaveTweaks();
 
     // Accessors
     inline const std::vector<CTweakData*>& TweakObjects() const
