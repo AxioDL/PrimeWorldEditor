@@ -256,6 +256,7 @@ HEADERS += \
     Resource/Scan/CScan.h \
     Resource/Scan/SScanParametersMP1.h \
     Resource/Scan/ELogbookCategory.h \
+    Resource/Cooker/CScanCooker.h \
     NCoreTests.h
 
 # Source Files
@@ -374,6 +375,7 @@ SOURCES += \
     Tweaks/CTweakCooker.cpp \
     Resource/Cooker/CStringCooker.cpp \
     Resource/Scan/CScan.cpp \
+    Resource/Cooker/CScanCooker.cpp \
     NCoreTests.cpp
 
 # Codegen

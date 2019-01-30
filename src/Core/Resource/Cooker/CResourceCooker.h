@@ -4,6 +4,7 @@
 #include "CAreaCooker.h"
 #include "CModelCooker.h"
 #include "CPoiToWorldCooker.h"
+#include "CScanCooker.h"
 #include "CStringCooker.h"
 #include "CWorldCooker.h"
 
@@ -25,6 +26,7 @@ public:
         {
         case EResourceType::Area:                 return CAreaCooker::CookMREA((CGameArea*) pRes, rOutput);
         case EResourceType::Model:                return CModelCooker::CookCMDL((CModel*) pRes, rOutput);
+        case EResourceType::Scan:                 return CScanCooker::CookSCAN((CScan*) pRes, rOutput);
         case EResourceType::StaticGeometryMap:    return CPoiToWorldCooker::CookEGMC((CPoiToWorld*) pRes, rOutput);
         case EResourceType::StringTable:          return CStringCooker::CookSTRG((CStringTable*) pRes, rOutput);
         case EResourceType::Tweaks:               return CTweakCooker::CookCTWK((CTweakData*) pRes, rOutput);

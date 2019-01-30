@@ -2383,7 +2383,7 @@
         </Element>
         <Element>
             <Key ID="0xDFF9B92" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallForwardBrakingAccelWater"/>
         </Element>
         <Element>
             <Key ID="0xE07B299" Type="GhorStructB"/>
@@ -4383,7 +4383,7 @@
         </Element>
         <Element>
             <Key ID="0x191F4F62" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MarbleToTireThresholdSpeed"/>
         </Element>
         <Element>
             <Key ID="0x19275A97" Type="float"/>
@@ -10323,7 +10323,7 @@
         </Element>
         <Element>
             <Key ID="0x38F84011" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ScrewAttackWallJumpGravity"/>
         </Element>
         <Element>
             <Key ID="0x38FABDE9" Type="asset"/>
@@ -14491,7 +14491,7 @@
         </Element>
         <Element>
             <Key ID="0x4ED87EBD" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Tireness"/>
         </Element>
         <Element>
             <Key ID="0x4EDB1D0E" Type="bool"/>
@@ -14895,7 +14895,7 @@
         </Element>
         <Element>
             <Key ID="0x50F2A114" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallForwardBrakingAccelPhazon"/>
         </Element>
         <Element>
             <Key ID="0x50F77DF0" Type="float"/>
@@ -15579,7 +15579,7 @@
         </Element>
         <Element>
             <Key ID="0x54C20211" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ForceToLeanGain"/>
         </Element>
         <Element>
             <Key ID="0x54CD1874" Type="asset"/>
@@ -16367,7 +16367,7 @@
         </Element>
         <Element>
             <Key ID="0x591DA5B4" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ScrewAttackVerticalJumpVelocity"/>
         </Element>
         <Element>
             <Key ID="0x59276E14" Type="float"/>
@@ -16671,7 +16671,7 @@
         </Element>
         <Element>
             <Key ID="0x5B3C4299" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallForwardBrakingAccelShrubbery"/>
         </Element>
         <Element>
             <Key ID="0x5B3C92BC" Type="UnknownStruct55"/>
@@ -17611,7 +17611,7 @@
         </Element>
         <Element>
             <Key ID="0x60520222" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallForwardBrakingAccelOrganic"/>
         </Element>
         <Element>
             <Key ID="0x6057938A" Type="spline"/>
@@ -23063,7 +23063,7 @@
         </Element>
         <Element>
             <Key ID="0x7EAB4BAB" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ScrewAttackGravity"/>
         </Element>
         <Element>
             <Key ID="0x7EAF8D70" Type="float"/>
@@ -27411,7 +27411,7 @@
         </Element>
         <Element>
             <Key ID="0x96226D18" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="TireToMarbleThresholdSpeed"/>
         </Element>
         <Element>
             <Key ID="0x9623E44B" Type="float"/>
@@ -32239,7 +32239,7 @@
         </Element>
         <Element>
             <Key ID="0xB06AC970" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallForwardBrakingAccelNormal"/>
         </Element>
         <Element>
             <Key ID="0xB06D1B60" Type="choice"/>
@@ -33775,7 +33775,7 @@
         </Element>
         <Element>
             <Key ID="0xB90A721E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="LeanTrackingGain"/>
         </Element>
         <Element>
             <Key ID="0xB90DFF44" Type="float"/>
@@ -34171,7 +34171,7 @@
         </Element>
         <Element>
             <Key ID="0xBB3C2629" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallForwardBrakingAccelAir"/>
         </Element>
         <Element>
             <Key ID="0xBB3C732E" Type="bool"/>
@@ -34255,7 +34255,7 @@
         </Element>
         <Element>
             <Key ID="0xBBAF8577" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallForwardBrakingAccelLava"/>
         </Element>
         <Element>
             <Key ID="0xBBB2D1E6" Type="SurfacePosition"/>
@@ -38571,7 +38571,7 @@
         </Element>
         <Element>
             <Key ID="0xD27A50F1" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallForwardBrakingAccelIce"/>
         </Element>
         <Element>
             <Key ID="0xD27E8786" Type="asset"/>
@@ -41695,7 +41695,7 @@
         </Element>
         <Element>
             <Key ID="0xE428F231" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ScrewAttackHorizontalJumpVelocity"/>
         </Element>
         <Element>
             <Key ID="0xE42BAB04" Type="bool"/>

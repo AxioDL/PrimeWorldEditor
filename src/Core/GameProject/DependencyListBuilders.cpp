@@ -559,3 +559,82 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
             EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), rOut, pAudioGroupsOut);
     }
 }
+
+// ************ CAssetDependencyListBuilder ************
+void CAssetDependencyListBuilder::BuildDependencyList(std::vector<CAssetID>& OutAssets)
+{
+    mCharacterUsageMap.FindUsagesForAsset(mpResourceEntry);
+    EvaluateDependencyNode(mpResourceEntry, mpResourceEntry->Dependencies(), OutAssets);
+}
+
+void CAssetDependencyListBuilder::AddDependency(const CAssetID& kID, std::vector<CAssetID>& Out)
+{
+    CResourceEntry *pEntry = mpResourceEntry->ResourceStore()->FindEntry(kID);
+    if (!pEntry) return;
+
+    EResourceType ResType = pEntry->ResourceType();
+
+    if (mUsedAssets.find(kID) != mUsedAssets.end())
+        return;
+
+    // Dependency is valid! Evaluate the node tree
+    if (ResType == EResourceType::AnimSet)
+    {
+        ASSERT(!mCurrentAnimSetID.IsValid());
+        mCurrentAnimSetID = pEntry->ID();
+    }
+
+    EvaluateDependencyNode(pEntry, pEntry->Dependencies(), Out);
+
+    if (ResType == EResourceType::AnimSet)
+    {
+        ASSERT(mCurrentAnimSetID.IsValid());
+        mCurrentAnimSetID = CAssetID::InvalidID(mpResourceEntry->Game());
+    }
+
+    Out.push_back(kID);
+    mUsedAssets.insert(kID);
+}
+
+void CAssetDependencyListBuilder::EvaluateDependencyNode(CResourceEntry* pCurEntry, IDependencyNode* pNode, std::vector<CAssetID>& Out)
+{
+    if (!pNode) return;
+    EDependencyNodeType Type = pNode->Type();
+    bool ParseChildren = false;
+
+    if (Type == EDependencyNodeType::Resource || Type == EDependencyNodeType::ScriptProperty || Type == EDependencyNodeType::CharacterProperty)
+    {
+        CResourceDependency* pDep = static_cast<CResourceDependency*>(pNode);
+        AddDependency(pDep->ID(), Out);
+    }
+
+    else if (Type == EDependencyNodeType::AnimEvent)
+    {
+        CAnimEventDependency* pDep = static_cast<CAnimEventDependency*>(pNode);
+        uint32 CharIndex = pDep->CharIndex();
+
+        if (CharIndex == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
+            AddDependency(pDep->ID(), Out);
+    }
+
+    else if (Type == EDependencyNodeType::SetCharacter)
+    {
+        CSetCharacterDependency* pChar = static_cast<CSetCharacterDependency*>(pNode);
+        ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->CharSetIndex());
+    }
+
+    else if (Type == EDependencyNodeType::SetAnimation)
+    {
+        CSetAnimationDependency* pAnim = static_cast<CSetAnimationDependency*>(pNode);
+        ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim);
+    }
+
+    else
+        ParseChildren = true;
+
+    if (ParseChildren)
+    {
+        for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+            EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), Out);
+    }
+}

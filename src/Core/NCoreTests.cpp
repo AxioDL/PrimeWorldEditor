@@ -186,6 +186,13 @@ bool ValidateCooker(EResourceType ResourceType, bool DumpInvalidFileContents)
             DumpFile.WriteBytes( NewData.data(), NewData.size() );
             DumpFile.Close();
         }
+
+        if( NumInvalid >= 100 )
+        {
+            debugf( "Test aborted; at least 100 invalid resources. Checked %d resources, %d passed, %d failed",
+                    NumValid + NumInvalid, NumValid, NumInvalid );
+            return false;
+        }
     }
 
     // Test complete
