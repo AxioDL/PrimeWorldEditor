@@ -33,18 +33,23 @@
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0x53AE4A7">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>20.0</DefaultValue>
             </Element>
             <Element Type="Float" ID="0xCF201BFA">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>1.0</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x88137FA8">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>3.0</DefaultValue>
             </Element>
             <Element Type="Bool" ID="0xB2D02323">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>true</DefaultValue>
             </Element>
             <Element Type="Vector" ID="0xF344C0B0">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>
                     <X>1.0</X>
                     <Y>1.0</Y>
@@ -52,9 +57,11 @@
                 </DefaultValue>
             </Element>
             <Element Type="Float" ID="0x56B20B2">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>1.0</DefaultValue>
             </Element>
             <Element Type="Float" ID="0xF78469D6">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>0.0</DefaultValue>
             </Element>
         </SubProperties>

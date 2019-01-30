@@ -10,10 +10,10 @@
             <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x58434916">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xFF77C96F">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xB0CFE015">
                         <DefaultValue>3.5</DefaultValue>

@@ -7,29 +7,7 @@
                 <DefaultValue>false</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0x2C83C012" Archetype="LaunchProjectileData">
-                <SubProperties>
-                    <Element Type="Float" ID="0x53AE4A7">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xCF201BFA">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x88137FA8">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Bool" ID="0xB2D02323">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Vector" ID="0xF344C0B0">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x56B20B2">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xF78469D6">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Vector" ID="0x7AB4AB98">
                 <DefaultValue>
@@ -39,24 +17,24 @@
                 </DefaultValue>
             </Element>
             <Element Type="Float" ID="0x88FA2ACF">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>20.0</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x1D159832">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>120.0</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0x5015775" Archetype="ElectricBeamInfo">
-                <SubProperties>
-                    <Element Type="Float" ID="0xC26C291C">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Asset" ID="0x8F1DED1B">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xB339FAC">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <TypeFilter>
                     <Element>CAUD</Element>
                 </TypeFilter>
@@ -68,12 +46,13 @@
                 <DefaultValue>5.0</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0x24265839" Archetype="ElectricBeamInfo">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <SubProperties>
                     <Element Type="Asset" ID="0xC95479D4">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0x104284E6">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Struct" ID="0x98821996">
                         <SubProperties>
@@ -83,24 +62,25 @@
                         </SubProperties>
                     </Element>
                     <Element Type="Float" ID="0xC26C291C">
+                        <CookPreference>Default</CookPreference>
                         <DefaultValue>50.0</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x8F4FB79D">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0xCCDD3ACA" Archetype="FlyerMovementMode">
                 <SubProperties>
                     <Element Type="Float" ID="0x50A9BD0D">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0xC845D3C0" Archetype="FlyerMovementMode">
                 <SubProperties>
                     <Element Type="Float" ID="0x50A9BD0D">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                 </SubProperties>
             </Element>
@@ -130,12 +110,10 @@
                 <DefaultValue>5.0</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <SubProperties>
                     <Element Type="Int" ID="0x5DCF91E1">
                         <DefaultValue>1</DefaultValue>
-                    </Element>
-                    <Element Type="Bool" ID="0xB2BD2723">
-                        <CookPreference>Never</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0x1A8DBEA7">
                         <DefaultValue>10.0</DefaultValue>
@@ -167,76 +145,22 @@
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0x3F3A2EEB">
-                        <CookPreference>Never</CookPreference>
                         <SubProperties>
-                            <Element Type="Int" ID="0x8BD240">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Float" ID="0x54178CB8">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
                             <Element Type="Float" ID="0xDE38F04E">
-                                <CookPreference>Never</CookPreference>
                                 <DefaultValue>180.0</DefaultValue>
                             </Element>
-                            <Element Type="Float" ID="0x9D0C992F">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Float" ID="0x8382CD42">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Bool" ID="0x8A40FD1B">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Bool" ID="0xA62BF627">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Enum" ID="0xF8A14C37">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
                             <Element Type="Bool" ID="0x64FB595C">
-                                <CookPreference>Never</CookPreference>
                                 <DefaultValue>false</DefaultValue>
-                            </Element>
-                            <Element Type="Bool" ID="0x887FEFE">
-                                <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
                     <Element Type="Struct" ID="0x424928B3">
-                        <CookPreference>Never</CookPreference>
                         <SubProperties>
-                            <Element Type="Int" ID="0x8BD240">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Float" ID="0x54178CB8">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
                             <Element Type="Float" ID="0xDE38F04E">
-                                <CookPreference>Never</CookPreference>
                                 <DefaultValue>180.0</DefaultValue>
                             </Element>
-                            <Element Type="Float" ID="0x9D0C992F">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Float" ID="0x8382CD42">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Bool" ID="0x8A40FD1B">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Bool" ID="0xA62BF627">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Enum" ID="0xF8A14C37">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
                             <Element Type="Bool" ID="0x64FB595C">
-                                <CookPreference>Never</CookPreference>
                                 <DefaultValue>false</DefaultValue>
-                            </Element>
-                            <Element Type="Bool" ID="0x887FEFE">
-                                <CookPreference>Never</CookPreference>
                             </Element>
                         </SubProperties>
                     </Element>
@@ -249,30 +173,6 @@
                                 <DefaultValue>false</DefaultValue>
                             </Element>
                         </SubProperties>
-                    </Element>
-                    <Element Type="Float" ID="0x5BBBE79E">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x426F2F60">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Asset" ID="0x771A3176">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xEFD287D9">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x56F41CA8">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x4BDEE69A">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x598B045">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Int" ID="0x7648F63">
-                        <CookPreference>Never</CookPreference>
                     </Element>
                 </SubProperties>
             </Element>

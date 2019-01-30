@@ -15,7 +15,7 @@
             </Element>
             <Element Type="Struct" ID="0x91CEFA1E" Archetype="GuiWidgetProperties"/>
             <Element Type="Int" ID="0xDB7F4AA2">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>1</DefaultValue>
             </Element>
         </SubProperties>

@@ -5,59 +5,10 @@
         <SubProperties>
             <Element Type="Struct" ID="0x9ACB4ACE" Archetype="MapControls"/>
             <Element Type="Struct" ID="0xED3482B7" Archetype="InventoryControls"/>
-            <Element Type="Struct" ID="0x36E52F14" Archetype="RevolutionControl">
-                <SubProperties>
-                    <Element Type="Enum" ID="0x6E14BC06">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Struct" ID="0xF0BF68A4">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Enum" ID="0xFE819DDB">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Enum" ID="0xEBAABF01">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Enum" ID="0xEDA6D736">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Enum" ID="0xBF80D594">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Struct" ID="0x91B8C18A">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                </SubProperties>
-            </Element>
+            <Element Type="Struct" ID="0x36E52F14" Archetype="RevolutionControl"/>
             <Element Type="Struct" ID="0xC6232204" Archetype="MiscControls_UnknownStruct1"/>
             <Element Type="Struct" ID="0x5126FFE7" Archetype="MiscControls_UnknownStruct2"/>
-            <Element Type="Struct" ID="0x439F3678" Archetype="RevolutionControl">
-                <SubProperties>
-                    <Element Type="Struct" ID="0xE646D3B7">
-                        <SubProperties>
-                            <Element Type="Spline" ID="0x15567FE7">
-                                <CookPreference>OnlyIfModified</CookPreference>
-                            </Element>
-                        </SubProperties>
-                    </Element>
-                    <Element Type="Enum" ID="0xFE819DDB">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Enum" ID="0xEBAABF01">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Enum" ID="0xEDA6D736">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Enum" ID="0xBF80D594">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                    <Element Type="Struct" ID="0x91B8C18A">
-                        <CookPreference>OnlyIfModified</CookPreference>
-                    </Element>
-                </SubProperties>
-            </Element>
+            <Element Type="Struct" ID="0x439F3678" Archetype="RevolutionControl"/>
         </SubProperties>
     </PropertyArchetype>
 </PropertyTemplate>

@@ -178,67 +178,8 @@
             </Element>
             <Element Type="Struct" ID="0xF609C637" Archetype="GrappleData">
                 <SubProperties>
-                    <Element Type="Bool" ID="0xB2BD2723">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Struct" ID="0x424928B3">
-                        <CookPreference>Never</CookPreference>
-                        <SubProperties>
-                            <Element Type="Int" ID="0x8BD240">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Float" ID="0x54178CB8">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Float" ID="0xDE38F04E">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Float" ID="0x9D0C992F">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Float" ID="0x8382CD42">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Bool" ID="0x8A40FD1B">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Bool" ID="0xA62BF627">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Enum" ID="0xF8A14C37">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Bool" ID="0x64FB595C">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                            <Element Type="Bool" ID="0x887FEFE">
-                                <CookPreference>Never</CookPreference>
-                            </Element>
-                        </SubProperties>
-                    </Element>
-                    <Element Type="Float" ID="0x5BBBE79E">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x426F2F60">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Asset" ID="0x771A3176">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xEFD287D9">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x56F41CA8">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x4BDEE69A">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x598B045">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Int" ID="0x7648F63">
-                        <CookPreference>Never</CookPreference>
+                    <Element Type="Struct" ID="0x3F3A2EEB">
+                        <CookPreference>Default</CookPreference>
                     </Element>
                 </SubProperties>
             </Element>

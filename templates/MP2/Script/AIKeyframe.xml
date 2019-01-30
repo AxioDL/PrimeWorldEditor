@@ -18,11 +18,11 @@
                 <DefaultValue>0</DefaultValue>
             </Element>
             <Element Type="Int" ID="0x6D62EF74">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>0</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x6F8D34CA">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>1.0</DefaultValue>
             </Element>
         </SubProperties>

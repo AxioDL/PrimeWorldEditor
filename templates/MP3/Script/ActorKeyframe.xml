@@ -5,7 +5,7 @@
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
             <Element Type="Int" ID="0x1CCD0586">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>-1</DefaultValue>
             </Element>
             <Element Type="Int" ID="0xC215A24F">

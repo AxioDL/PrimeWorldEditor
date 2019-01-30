@@ -5,11 +5,13 @@
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
             <Element Type="Asset" ID="0x2BF9AE74">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <TypeFilter>
                     <Element>MLVL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x567A48F4">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <TypeFilter>
                     <Element>MLVL</Element>
                 </TypeFilter>

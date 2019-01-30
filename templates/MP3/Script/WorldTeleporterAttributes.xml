@@ -21,61 +21,23 @@
             <Element Type="Struct" ID="0x7E51EB61" Archetype="UnknownStruct65"/>
             <Element Type="Struct" ID="0xDBDA7B6F" Archetype="UnknownStruct65"/>
             <Element Type="Struct" ID="0x158A87C7" Archetype="UnknownStruct65"/>
-            <Element Type="Struct" ID="0xB00117C9" Archetype="UnknownStruct65"/>
+            <Element Type="Struct" ID="0xB00117C9" Archetype="UnknownStruct65">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
             <Element Type="Struct" ID="0x85ECA19A" Archetype="UnknownStruct65">
-                <CookPreference>Never</CookPreference>
-                <SubProperties>
-                    <Element Type="Asset" ID="0x31EC14BC">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="String" ID="0xA909F8D3">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Struct" ID="0x20673194" Archetype="UnknownStruct65">
-                <CookPreference>Never</CookPreference>
-                <SubProperties>
-                    <Element Type="Asset" ID="0x31EC14BC">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="String" ID="0xA909F8D3">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Struct" ID="0xC23C5E8B" Archetype="UnknownStruct65">
-                <CookPreference>Never</CookPreference>
-                <SubProperties>
-                    <Element Type="Asset" ID="0x31EC14BC">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="String" ID="0xA909F8D3">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Struct" ID="0x67B7CE85" Archetype="UnknownStruct65">
-                <CookPreference>Never</CookPreference>
-                <SubProperties>
-                    <Element Type="Asset" ID="0x31EC14BC">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="String" ID="0xA909F8D3">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Struct" ID="0x1C6020C4" Archetype="UnknownStruct65">
-                <CookPreference>Never</CookPreference>
-                <SubProperties>
-                    <Element Type="Asset" ID="0x31EC14BC">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="String" ID="0xA909F8D3">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
         </SubProperties>
     </Properties>

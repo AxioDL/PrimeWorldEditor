@@ -128,21 +128,7 @@
                 <DefaultValue>0.5</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0xD8579BA3" Archetype="UnknownStruct6">
-                <CookPreference>Never</CookPreference>
-                <SubProperties>
-                    <Element Type="Float" ID="0xA14433C3">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xAFE48213">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x5A5D4D0">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xD5780905">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
         </SubProperties>
     </PropertyArchetype>

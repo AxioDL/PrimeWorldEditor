@@ -17,25 +17,25 @@
                         <DefaultValue>1</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x58434916">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xFF77C96F">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xB0CFE015">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xC80E329B">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0x3FAE47EB">
                         <DefaultValue>100.0</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x13F0B18F">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0x7D5A0487">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                 </SubProperties>
             </Element>

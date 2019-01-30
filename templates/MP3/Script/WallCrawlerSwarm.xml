@@ -7,7 +7,7 @@
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
             <Element Type="AnimationSet" ID="0xA244C9D8"/>
             <Element Type="Bool" ID="0xC6BB2F45">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>true</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0x4CFC46FE" Archetype="SwarmBasicsData"/>

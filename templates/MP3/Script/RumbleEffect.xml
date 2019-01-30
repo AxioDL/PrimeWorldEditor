@@ -11,7 +11,9 @@
             <Element Type="Flags" ID="0x4F7FEC39">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Spline" ID="0x5A451ED"/>
+            <Element Type="Spline" ID="0x5A451ED">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
         </SubProperties>
     </Properties>
     <EditorProperties>
