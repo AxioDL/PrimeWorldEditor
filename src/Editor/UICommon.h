@@ -141,6 +141,13 @@ inline bool YesNoQuestion(QWidget *pParent, QString InfoBoxTitle, QString Questi
     return Button == QMessageBox::Yes;
 }
 
+inline bool OpenProject()
+{
+    QWidget* pMainWindow = (QWidget*) gpEdApp->WorldEditor();
+    QString ProjPath = UICommon::OpenFileDialog(pMainWindow, "Open Project", "Game Project (*.prj)");
+    return ProjPath.isEmpty() ? false : gpEdApp->OpenProject(ProjPath);
+}
+
 // Constants
 const QColor kImportantButtonColor(36, 100, 100);
 

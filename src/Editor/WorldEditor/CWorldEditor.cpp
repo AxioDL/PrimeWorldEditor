@@ -408,8 +408,7 @@ void CWorldEditor::Paste()
 
 void CWorldEditor::OpenProject()
 {
-    QString ProjPath = UICommon::OpenFileDialog(this, "Open Project", "Game Project (*.prj)");
-    if (!ProjPath.isEmpty()) gpEdApp->OpenProject(ProjPath);
+    UICommon::OpenProject();
 }
 
 void CWorldEditor::OpenRecentProject()

@@ -21,6 +21,7 @@ CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     , mpActiveProject(nullptr)
     , mpWorldEditor(nullptr)
     , mpProjectDialog(nullptr)
+    , mInitialized(false)
 {
     mLastUpdate = CTimer::GlobalTime();
 
@@ -40,10 +41,14 @@ void CEditorApplication::InitEditor()
     mpWorldEditor = new CWorldEditor();
     mpProjectDialog = new CProjectSettingsDialog(mpWorldEditor);
     mpWorldEditor->showMaximized();
+    mInitialized = true;
 }
 
 bool CEditorApplication::CloseAllEditors()
 {
+    if (!mInitialized)
+        return true;
+
     // Close active editor windows.
     foreach (IEditor *pEditor, mEditorWindows)
     {

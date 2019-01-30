@@ -25,6 +25,7 @@ class CEditorApplication : public QApplication
     CProjectSettingsDialog *mpProjectDialog;
     QVector<IEditor*> mEditorWindows;
     QMap<CResourceEntry*,IEditor*> mEditingMap;
+    bool mInitialized;
 
     QTimer mRefreshTimer;
     double mLastUpdate;

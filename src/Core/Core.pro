@@ -255,7 +255,8 @@ HEADERS += \
     Resource/Cooker/CStringCooker.h \
     Resource/Scan/CScan.h \
     Resource/Scan/SScanParametersMP1.h \
-    Resource/Scan/ELogbookCategory.h
+    Resource/Scan/ELogbookCategory.h \
+    NCoreTests.h
 
 # Source Files
 SOURCES += \
@@ -372,7 +373,8 @@ SOURCES += \
     Tweaks/CTweakLoader.cpp \
     Tweaks/CTweakCooker.cpp \
     Resource/Cooker/CStringCooker.cpp \
-    Resource/Scan/CScan.cpp
+    Resource/Scan/CScan.cpp \
+    NCoreTests.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
