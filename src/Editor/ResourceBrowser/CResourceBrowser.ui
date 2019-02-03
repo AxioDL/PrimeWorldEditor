@@ -141,9 +141,18 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="NewFolderButton">
+      <widget class="QPushButton" name="AddButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>  New Folder</string>
+        <string/>
        </property>
        <property name="icon">
         <iconset resource="../Icons.qrc">
@@ -151,8 +160,8 @@
        </property>
        <property name="iconSize">
         <size>
-         <width>16</width>
-         <height>16</height>
+         <width>24</width>
+         <height>24</height>
         </size>
        </property>
       </widget>

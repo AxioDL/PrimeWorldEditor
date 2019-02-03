@@ -67,7 +67,7 @@ public:
     bool IsInDirectory(CVirtualDirectory *pDir) const;
     uint64 Size() const;
     bool NeedsRecook() const;
-    bool Save(bool SkipCacheSave = false);
+    bool Save(bool SkipCacheSave = false, bool FlagForRecook = true);
     bool Cook();
     CResource* Load();
     CResource* LoadCooked(IInputStream& rInput);
@@ -87,7 +87,7 @@ public:
     inline void SetFlagEnabled(EResEntryFlag Flag, bool Enabled)    { Enabled ? SetFlag(Flag) : ClearFlag(Flag); }
 
     inline void SetDirty()                          { SetFlag(EResEntryFlag::NeedsRecook); }
-    inline void SetHidden(bool Hidden)              { Hidden ? SetFlag(EResEntryFlag::Hidden) : ClearFlag(EResEntryFlag::Hidden); }
+    inline void SetHidden(bool Hidden)              { SetFlagEnabled(EResEntryFlag::Hidden, Hidden); }
     inline bool HasFlag(EResEntryFlag Flag) const   { return mFlags.HasFlag(Flag); }
     inline bool IsHidden() const                    { return HasFlag(EResEntryFlag::Hidden); }
 

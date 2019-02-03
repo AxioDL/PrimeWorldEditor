@@ -5,7 +5,9 @@
 #include "CResourceProxyModel.h"
 #include "CResourceTableModel.h"
 #include "CVirtualDirectoryModel.h"
+
 #include <QCheckBox>
+#include <QMenu>
 #include <QTimer>
 #include <QUndoStack>
 #include <QVBoxLayout>
@@ -28,6 +30,9 @@ class CResourceBrowser : public QWidget
     bool mEditorStore;
     bool mAssetListMode;
     bool mSearching;
+
+    // Add Menu
+    QMenu *mpAddMenu;
 
     // Type Filter
     QWidget *mpFilterBoxesContainerWidget;
@@ -59,10 +64,15 @@ public:
     void SelectResource(CResourceEntry *pEntry, bool ClearFiltersIfNecessary = false);
     void SelectDirectory(CVirtualDirectory *pDir);
     void CreateFilterCheckboxes();
+    void CreateAddMenu();
+
+    void AddCreateAssetMenuActions(QMenu* pMenu);
 
     bool RenameResource(CResourceEntry *pEntry, const TString& rkNewName);
     bool RenameDirectory(CVirtualDirectory *pDir, const TString& rkNewName);
     bool MoveResources(const QList<CResourceEntry*>& rkResources, const QList<CVirtualDirectory*>& rkDirectories, CVirtualDirectory *pNewDir);
+
+    CResourceEntry* CreateNewResource(EResourceType Type);
 
     // Interface
     bool eventFilter(QObject *pWatched, QEvent *pEvent);
@@ -82,6 +92,7 @@ public slots:
     void SetResourceListView();
     void OnClearButtonPressed();
     void OnSortModeChanged(int Index);
+    void OnCreateAssetAction();
     bool CreateDirectory();
     bool DeleteDirectories(const QList<CVirtualDirectory*>& rkDirs);
     void OnSearchStringChanged(QString SearchString);
@@ -115,6 +126,12 @@ signals:
 
     void ResourceAboutToBeMoved(CResourceEntry *pRes, QString NewPath);
     void ResourceMoved(CResourceEntry *pRes, CVirtualDirectory *pOldDir, TString OldName);
+
+    void ResourceAboutToBeCreated(CVirtualDirectory* pInDir);
+    void ResourceCreated(CResourceEntry *pRes);
+
+    void ResourceAboutToBeDeleted(CResourceEntry *pRes);
+    void ResourceDeleted();
 
     void DirectoryAboutToBeMoved(CVirtualDirectory *pDir, QString NewPath);
     void DirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName);

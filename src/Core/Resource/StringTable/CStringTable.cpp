@@ -1,4 +1,5 @@
 #include "CStringTable.h"
+#include "Core/GameProject/CGameProject.h"
 #include <Common/Math/MathUtil.h>
 #include <algorithm>
 #include <iterator>
@@ -8,33 +9,59 @@
  * This is also the order that languages appear in game STRG assets.
  */
 // Supported languages in the original NTSC release of Metroid Prime
-const ELanguage gkSupportedLanguagesMP1[] =
+const std::vector<ELanguage> gkSupportedLanguagesMP1 =
 {
     ELanguage::English
 };
 
 // Supported languages in the PAL version of Metroid Prime, and also Metroid Prime 2
-const ELanguage gkSupportedLanguagesMP1PAL[] =
+const std::vector<ELanguage> gkSupportedLanguagesMP1PAL =
 {
     ELanguage::English, ELanguage::French, ELanguage::German,
     ELanguage::Spanish, ELanguage::Italian, ELanguage::Japanese
 };
 
 // Supported languages in Metroid Prime 3
-const ELanguage gkSupportedLanguagesMP3[] =
+const std::vector<ELanguage> gkSupportedLanguagesMP3 =
 {
     ELanguage::English, ELanguage::Japanese, ELanguage::German,
     ELanguage::French, ELanguage::Spanish, ELanguage::Italian
 };
 
 // Supported languages in DKCR
-const ELanguage gkSupportedLanguagesDKCR[] =
+const std::vector<ELanguage> gkSupportedLanguagesDKCR =
 {
     ELanguage::English, ELanguage::Japanese, ELanguage::German,
     ELanguage::French, ELanguage::Spanish, ELanguage::Italian,
     ELanguage::UKEnglish, ELanguage::Korean,
     ELanguage::NAFrench, ELanguage::NASpanish
 };
+
+// Utility function - retrieve the language array for a given game/region
+static const std::vector<ELanguage>& GetSupportedLanguages(EGame Game, ERegion Region)
+{
+    switch (Game)
+    {
+    default:
+    case EGame::PrimeDemo:
+    case EGame::Prime:
+        if (Region == ERegion::NTSC)
+            return gkSupportedLanguagesMP1;
+        else
+            return gkSupportedLanguagesMP1PAL;
+
+    case EGame::EchoesDemo:
+    case EGame::Echoes:
+    case EGame::CorruptionProto:
+        return gkSupportedLanguagesMP1PAL;
+
+    case EGame::Corruption:
+        return gkSupportedLanguagesMP3;
+
+    case EGame::DKCReturns:
+        return gkSupportedLanguagesDKCR;
+    }
+}
 
 // Utility function - retrieve the index of a given language
 static int FindLanguageIndex(const CStringTable* pkInTable, ELanguage InLanguage)
@@ -192,10 +219,19 @@ void CStringTable::RemoveString(uint StringIndex)
     }
 }
 
-/** Configures the string table with default languages for the game/region pairing of the resource */
-void CStringTable::ConfigureDefaultLanguages()
+/** Initialize new resource data */
+void CStringTable::InitializeNewResource()
 {
-    //@todo; this should be called on all newly created string tables
+    // Initialize data for whatever languages are supported by our game/region
+    ERegion Region = ( Entry() && Entry()->Project() ? Entry()->Project()->Region() : ERegion::NTSC );
+    const std::vector<ELanguage>& kLanguageArray = GetSupportedLanguages(Game(), Region);
+    mLanguages.resize( kLanguageArray.size() );
+
+    for (uint i=0; i < kLanguageArray.size(); i++)
+    {
+        mLanguages[i].Language = kLanguageArray[i];
+        mLanguages[i].Strings.resize(1);
+    }
 }
 
 /** Serialize resource data */
@@ -344,36 +380,12 @@ TString CStringTable::StripFormatting(const TString& kInString)
 /** Static - Returns whether a given language is supported by the given game/region combination */
 bool CStringTable::IsLanguageSupported(ELanguage Language, EGame Game, ERegion Region)
 {
-    // Pick the correct array to iterate based on which game/region was requested.
-    const ELanguage* pkSupportedLanguages = nullptr;
-    uint NumLanguages = 0;
-
-    if (Game <= EGame::Prime && Region == ERegion::NTSC)
-    {
-        return (Language == ELanguage::English);
-    }
-    else if (Game <= EGame::CorruptionProto)
-    {
-        pkSupportedLanguages = &gkSupportedLanguagesMP1PAL[0];
-        NumLanguages = ARRAY_SIZE( gkSupportedLanguagesMP1PAL );
-    }
-    else if (Game <= EGame::Corruption)
-    {
-        pkSupportedLanguages = &gkSupportedLanguagesMP3[0];
-        NumLanguages = ARRAY_SIZE( gkSupportedLanguagesMP3 );
-    }
-    else if (Game <= EGame::DKCReturns)
-    {
-        pkSupportedLanguages = &gkSupportedLanguagesDKCR[0];
-        NumLanguages = ARRAY_SIZE( gkSupportedLanguagesDKCR );
-    }
-    ASSERT(pkSupportedLanguages);
-    ASSERT(NumLanguages > 0);
+    const std::vector<ELanguage>& kLanguageArray = GetSupportedLanguages(Game, Region);
 
     // Check if the requested language is in the array.
-    for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
+    for (uint LanguageIdx = 0; LanguageIdx < kLanguageArray.size(); LanguageIdx++)
     {
-        if (pkSupportedLanguages[LanguageIdx] == Language)
+        if (kLanguageArray[LanguageIdx] == Language)
         {
             return true;
         }

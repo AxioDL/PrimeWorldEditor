@@ -60,6 +60,7 @@ public:
     void Serialize(IArchive& rArc);
     void AddResource(const TString& rkName, const CAssetID& rkID, const CFourCC& rkType);
     void UpdateDependencyCache() const;
+    void MarkDirty();
 
     void Cook(IProgressNotifier *pProgress);
     void CompareOriginalAssetList(const std::list<CAssetID>& rkNewList);
@@ -77,7 +78,6 @@ public:
     inline bool NeedsRecook() const                                     { return mNeedsRecook; }
 
     inline void SetPakName(TString NewName) { mPakName = NewName; }
-    inline void MarkDirty()                 { mNeedsRecook = true; Save(); UpdateDependencyCache(); }
 };
 
 #endif // CPACKAGE

@@ -21,6 +21,9 @@ class CScanEditor : public IEditor
 public:
     explicit CScanEditor(CScan* pScan, QWidget* pParent = 0);
     ~CScanEditor();
+
+public slots:
+    virtual bool Save() override;
 };
 
 #endif // CSCANEDITOR_H

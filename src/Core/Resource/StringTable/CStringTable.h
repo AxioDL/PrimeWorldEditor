@@ -84,14 +84,14 @@ public:
     /** Remove a string from the table */
     void RemoveString(uint StringIndex);
 
-    /** Configures the string table with default languages for the game/region pairing of the resource */
-    void ConfigureDefaultLanguages();
+    /** Initialize new resource data */
+    virtual void InitializeNewResource() override;
 
     /** Serialize resource data */
-    virtual void Serialize(IArchive& Arc);
+    virtual void Serialize(IArchive& Arc) override;
 
     /** Build the dependency tree for this resource */
-    virtual CDependencyTree* BuildDependencyTree() const;
+    virtual CDependencyTree* BuildDependencyTree() const override;
 
     /** Static - Strip all formatting tags for a given string */
     static TString StripFormatting(const TString& kInString);

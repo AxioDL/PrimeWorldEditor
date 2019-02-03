@@ -83,6 +83,11 @@ bool CPropertyView::event(QEvent *pEvent)
     else return QTreeView::event(pEvent);
 }
 
+void CPropertyView::SetEditor(IEditor* pEditor)
+{
+    mpDelegate->SetEditor(pEditor);
+}
+
 void CPropertyView::InitColumnWidths(float NameColumnPercentage, float ValueColumnPercentage)
 {
     header()->resizeSection(0, width() * NameColumnPercentage);

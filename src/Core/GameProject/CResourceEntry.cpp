@@ -40,6 +40,15 @@ CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const 
     pEntry->mpDirectory->AddChild("", pEntry);
 
     pEntry->mMetadataDirty = true;
+
+    // Check if the data exists or not. If so, then we are creating an entry for an existing resource (game exporter).
+    // If not, we want to initiate the new resource data and save it as soon as possible.
+    if (!pEntry->HasCookedVersion())
+    {
+        pEntry->mpResource = CResourceFactory::SpawnResource(pEntry);
+        pEntry->mpResource->InitializeNewResource();
+    }
+
     return pEntry;
 }
 
@@ -261,7 +270,7 @@ bool CResourceEntry::NeedsRecook() const
     return (FileUtil::LastModifiedTime(CookedAssetPath()) < FileUtil::LastModifiedTime(RawAssetPath()));
 }
 
-bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
+bool CResourceEntry::Save(bool SkipCacheSave /*= false*/, bool FlagForRecook /*= true*/)
 {
     // SkipCacheSave argument tells us not to save the resource cache file. This is generally not advised because we don't
     // want the actual resource data to desync from the cache data. However, there are occasions where we save multiple
@@ -270,7 +279,6 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
     //
     // For now, always save the resource when this function is called even if there's been no changes made to it in memory.
     // In the future this might not be desired behavior 100% of the time.
-    // We also might want this function to trigger a cook for certain resource types eventually.
     bool ShouldCollectGarbage = false;
 
     // Save raw resource
@@ -298,7 +306,10 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
             return false;
         }
 
-        SetFlag(EResEntryFlag::NeedsRecook);
+        if (FlagForRecook)
+        {
+            SetFlag(EResEntryFlag::NeedsRecook);
+        }
     }
 
     // This resource type doesn't have a raw format; save cooked instead
@@ -324,12 +335,15 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/)
     }
 
     // Flag dirty any packages that contain this resource.
-    for (uint32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
+    if (FlagForRecook)
     {
-        CPackage *pPkg = mpStore->Project()->PackageByIndex(iPkg);
+        for (uint32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
+        {
+            CPackage *pPkg = mpStore->Project()->PackageByIndex(iPkg);
 
-        if (pPkg->ContainsAsset(ID()))
-            pPkg->MarkDirty();
+            if (!pPkg->NeedsRecook() && pPkg->ContainsAsset(ID()))
+                pPkg->MarkDirty();
+        }
     }
 
     if (ShouldCollectGarbage)

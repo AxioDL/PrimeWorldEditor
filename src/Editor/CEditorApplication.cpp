@@ -249,6 +249,7 @@ bool CEditorApplication::RebuildResourceDatabase()
     {
         // Fake-close the project, but keep it in memory so we can modify the resource store
         CGameProject *pProj = mpActiveProject;
+        mpActiveProject->TweakManager()->ClearTweaks();
         mpActiveProject = nullptr;
         emit ActiveProjectChanged(nullptr);
 
@@ -263,6 +264,7 @@ bool CEditorApplication::RebuildResourceDatabase()
 
         // Set project to active again
         mpActiveProject = pProj;
+        mpActiveProject->TweakManager()->LoadTweaks();
         emit ActiveProjectChanged(pProj);
 
         UICommon::InfoMsg(mpWorldEditor, "Success", "Resource database rebuilt successfully!");

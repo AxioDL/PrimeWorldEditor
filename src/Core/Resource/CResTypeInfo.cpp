@@ -10,6 +10,7 @@ CResTypeInfo::CResTypeInfo(EResourceType Type, const TString& rkTypeName, const 
     , mRetroExtension(rkRetroExtension)
     , mCanBeSerialized(false)
     , mCanHaveDependencies(true)
+    , mCanBeCreated(false)
 {
 #if !PUBLIC_RELEASE
     ASSERT(smTypeMap.find(Type) == smTypeMap.end());
@@ -332,6 +333,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Scan, "Scan", "scan");
         AddExtension(pType, "SCAN", EGame::PrimeDemo, EGame::Corruption);
+        pType->mCanBeCreated = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Skeleton, "Skeleton", "cin");
@@ -382,6 +384,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::StringTable, "String Table", "strg");
         AddExtension(pType, "STRG", EGame::PrimeDemo, EGame::DKCReturns);
         pType->mCanBeSerialized = true;
+        pType->mCanBeCreated = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Texture, "Texture", "txtr");

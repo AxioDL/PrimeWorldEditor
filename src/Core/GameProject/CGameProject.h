@@ -19,6 +19,7 @@ namespace nod { class DiscWii; }
 enum class EProjectVersion
 {
     Initial,
+    RawStrings,
     // Add new versions before this line
 
     Max,

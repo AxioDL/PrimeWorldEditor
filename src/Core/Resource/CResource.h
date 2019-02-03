@@ -43,6 +43,7 @@ public:
     virtual ~CResource() {}
     virtual CDependencyTree* BuildDependencyTree() const    { return new CDependencyTree(); }
     virtual void Serialize(IArchive& /*rArc*/)              {}
+    virtual void InitializeNewResource()                    {}
     
     inline CResourceEntry* Entry() const    { return mpEntry; }
     inline CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }

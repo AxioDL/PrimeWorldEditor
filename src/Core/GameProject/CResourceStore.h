@@ -54,7 +54,7 @@ public:
     TString DefaultResourceDirPath() const;
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
-    CResourceEntry* RegisterResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName);
+    CResourceEntry* CreateNewResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName);
     CResourceEntry* FindEntry(const CAssetID& rkID) const;
     CResourceEntry* FindEntry(const TString& rkPath) const;
     bool AreAllEntriesValid() const;

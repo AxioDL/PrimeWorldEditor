@@ -23,6 +23,7 @@ class CResTypeInfo
     TString mRetroExtension; // File extension in Retro's directory tree. We don't use it directly but it is needed for generating asset ID hashes
     bool mCanBeSerialized;
     bool mCanHaveDependencies;
+    bool mCanBeCreated;
 
     static std::unordered_map<EResourceType, CResTypeInfo*> smTypeMap;
 
@@ -36,10 +37,11 @@ public:
     CFourCC CookedExtension(EGame Game) const;
 
     // Accessors
-    inline EResourceType Type() const            { return mType; }
+    inline EResourceType Type() const       { return mType; }
     inline TString TypeName() const         { return mTypeName; }
     inline bool CanBeSerialized() const     { return mCanBeSerialized; }
     inline bool CanHaveDependencies() const { return mCanHaveDependencies; }
+    inline bool CanBeCreated() const        { return mCanBeCreated; }
 
     // Static
     static void GetAllTypesInGame(EGame Game, std::list<CResTypeInfo*>& rOut);

@@ -1,4 +1,5 @@
 #include "CGameProject.h"
+#include "CResourceIterator.h"
 #include "IUIRelay.h"
 #include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/Serialization/XML.h>
@@ -233,7 +234,11 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
         pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
         LoadSuccess = pProj->mpResourceStore->LoadDatabaseCache();
 
-        // Validate resource database
+        // Removed database validation step. We used to do this on project load to make sure all data was correct, but this takes a long
+        // time and significantly extends how long it takes to open a project. In actual practice, this isn't needed most of the time, and
+        // in the odd case that it is needed, there is a button in the resource browser to rebuild the database. So in the interest of
+        // making project startup faster, we no longer validate the database.
+#if 0
         if (LoadSuccess)
         {
             pProgress->Report("Validating resource database");
@@ -253,6 +258,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
                     LoadSuccess = false;
             }
         }
+#endif
     }
 
     if (!LoadSuccess)
@@ -263,6 +269,34 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
 
     pProj->mProjFileLock.Lock(ProjPath);
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
+
+    // Perform update
+    if (Reader.FileVersion() < (uint16) EProjectVersion::Current)
+    {
+        pProgress->Report("Updating project");
+
+        CResourceStore* pOldStore = gpResourceStore;
+        gpResourceStore = pProj->mpResourceStore.get();
+
+        for (CResourceIterator It; It; ++It)
+        {
+            if (It->TypeInfo()->CanBeSerialized() && !It->HasRawVersion())
+            {
+                It->Save(true, false);
+
+                // Touch the cooked file to update its last modified time.
+                // This prevents PWE from erroneously thinking the cooked file is outdated
+                // (due to the raw file we just made having a more recent last modified time)
+                FileUtil::UpdateLastModifiedTime( It->CookedAssetPath() );
+            }
+        }
+
+        pProj->mpResourceStore->ConditionalSaveStore();
+        pProj->Save();
+
+        gpResourceStore = pOldStore;
+    }
+
     pProj->mpAudioManager->LoadAssets();
     pProj->mpTweakManager->LoadTweaks();
     return pProj;

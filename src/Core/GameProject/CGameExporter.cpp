@@ -626,7 +626,7 @@ void CGameExporter::ExportResource(SResourceInstance& rRes)
         Name = rRes.ResourceID.ToString();
 #endif
 
-        CResourceEntry *pEntry = mpStore->RegisterResource(rRes.ResourceID, CResTypeInfo::TypeForCookedExtension(mGame, rRes.ResourceType)->Type(), Directory, Name);
+        CResourceEntry *pEntry = mpStore->CreateNewResource(rRes.ResourceID, CResTypeInfo::TypeForCookedExtension(mGame, rRes.ResourceType)->Type(), Directory, Name);
 
         // Set flags
         pEntry->SetFlag(EResEntryFlag::IsBaseGameResource);

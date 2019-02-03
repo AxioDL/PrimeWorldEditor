@@ -92,7 +92,7 @@ void CAnimationParameters::Write(IOutputStream& rSCLY)
         {
             CAssetID::skInvalidID32.Write(rSCLY);
             rSCLY.WriteLong(0);
-            rSCLY.WriteLong(0);
+            rSCLY.WriteLong(mGame >= EGame::EchoesDemo ? 0 : 0xFFFFFFFF);
         }
     }
 

@@ -9,6 +9,11 @@ CTweakManager::CTweakManager(CGameProject* pInProject)
 {
 }
 
+CTweakManager::~CTweakManager()
+{
+    ClearTweaks();
+}
+
 void CTweakManager::LoadTweaks()
 {
     ASSERT( mTweakObjects.empty() );
@@ -30,21 +35,6 @@ void CTweakManager::LoadTweaks()
         TString FilePath = mpProject->DiscFilesystemRoot(false) + "Standard.ntwk";
         CFileInStream StandardNTWK(FilePath, EEndian::BigEndian);
         CTweakLoader::LoadNTWK(StandardNTWK, mpProject->Game(), mTweakObjects);
-    }
-}
-
-CTweakManager::~CTweakManager()
-{
-    for (CTweakData* pTweakData : mTweakObjects)
-    {
-        if (pTweakData->Entry() != nullptr)
-        {
-            pTweakData->Release();
-        }
-        else
-        {
-            delete pTweakData;
-        }
     }
 }
 
@@ -81,4 +71,20 @@ bool CTweakManager::SaveTweaks()
         CFileOutStream StandardNTWK(FilePath, EEndian::BigEndian);
         return CTweakCooker::CookNTWK(mTweakObjects, StandardNTWK);
     }
+}
+
+void CTweakManager::ClearTweaks()
+{
+    for (CTweakData* pTweakData : mTweakObjects)
+    {
+        if (pTweakData->Entry() != nullptr)
+        {
+            pTweakData->Release();
+        }
+        else
+        {
+            delete pTweakData;
+        }
+    }
+    mTweakObjects.clear();
 }

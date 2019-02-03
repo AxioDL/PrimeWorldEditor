@@ -28,6 +28,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     , mEditorStore(false)
     , mAssetListMode(false)
     , mSearching(false)
+    , mpAddMenu(nullptr)
     , mpInspectedEntry(nullptr)
 {
     mpUI->setupUi(this);
@@ -144,13 +145,12 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     // Create context menu for the resource table
     new CResourceTableContextMenu(this, mpUI->ResourceTableView, mpModel, mpProxyModel);
-
+    
     // Set up connections
     connect(mpUI->SearchBar, SIGNAL(StoppedTyping(QString)), this, SLOT(OnSearchStringChanged(QString)));
     connect(mpUI->ResourceTreeButton, SIGNAL(pressed()), this, SLOT(SetResourceTreeView()));
     connect(mpUI->ResourceListButton, SIGNAL(pressed()), this, SLOT(SetResourceListView()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
-    connect(mpUI->NewFolderButton, SIGNAL(pressed()), this, SLOT(CreateDirectory()));
     connect(mpUI->ClearButton, SIGNAL(pressed()), this, SLOT(OnClearButtonPressed()));
 
     connect(mpUI->DirectoryTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex)));
@@ -281,6 +281,50 @@ void CResourceBrowser::CreateFilterCheckboxes()
     mpFilterBoxesLayout->addSpacerItem(pSpacer);
 }
 
+void CResourceBrowser::CreateAddMenu()
+{
+    // Delete any existing menu
+    if (mpAddMenu)
+    {
+        delete mpAddMenu;
+        mpAddMenu = nullptr;
+    }
+
+    // Create new one, only if we have a valid resource store.
+    if (mpStore)
+    {
+        mpAddMenu = new QMenu(this);
+        mpAddMenu->addAction("New Folder", this, SLOT(CreateDirectory()));
+        mpAddMenu->addSeparator();
+
+        QMenu* pCreateMenu = new QMenu("Create...");
+        mpAddMenu->addMenu(pCreateMenu);
+        AddCreateAssetMenuActions(pCreateMenu);
+
+        mpUI->AddButton->setMenu(mpAddMenu);
+    }
+
+    mpUI->AddButton->setEnabled( mpAddMenu != nullptr );
+}
+
+void CResourceBrowser::AddCreateAssetMenuActions(QMenu* pMenu)
+{
+    std::list<CResTypeInfo*> TypeInfos;
+    CResTypeInfo::GetAllTypesInGame(mpStore->Game(), TypeInfos);
+
+    for (auto Iter = TypeInfos.begin(); Iter != TypeInfos.end(); Iter++)
+    {
+        CResTypeInfo* pTypeInfo = *Iter;
+
+        if (pTypeInfo->CanBeCreated())
+        {
+            QString TypeName = TO_QSTRING( pTypeInfo->TypeName() );
+            QAction* pAction = pMenu->addAction(TypeName, this, SLOT(OnCreateAssetAction()));
+            pAction->setProperty("TypeInfo", QVariant((int) pTypeInfo->Type()));
+        }
+    }
+}
+
 bool CResourceBrowser::RenameResource(CResourceEntry *pEntry, const TString& rkNewName)
 {
     if (pEntry->Name() == rkNewName)
@@ -400,6 +444,49 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     return true;
 }
 
+CResourceEntry* CResourceBrowser::CreateNewResource(EResourceType Type)
+{
+    // Create new asset ID. Sanity check to make sure the ID is unused.
+    CAssetID NewAssetID;
+
+    while (!NewAssetID.IsValid() || mpStore->FindEntry(NewAssetID) != nullptr)
+    {
+        NewAssetID = CAssetID::RandomID( mpStore->Game() );
+    }
+
+    // Boring generic default name - user will immediately be prompted to change this
+    TString BaseName = TString::Format(
+            "New %s", *CResTypeInfo::FindTypeInfo(Type)->TypeName()
+        );
+
+    TString Name = BaseName;
+    int Num = 0;
+
+    while (mpSelectedDir->FindChildResource(Name, Type) != nullptr)
+    {
+        Num++;
+        Name = TString::Format("%s (%d)", *BaseName, Num);
+    }
+
+    emit ResourceAboutToBeCreated(mpSelectedDir);
+
+    // Create the actual resource
+    CResourceEntry* pEntry = mpStore->CreateNewResource(NewAssetID, Type, mpSelectedDir->FullPath(), Name);
+    pEntry->Save();
+
+    emit ResourceCreated(pEntry);
+
+    // Select new resource so user can enter a name
+    QModelIndex Index = mpModel->GetIndexForEntry(pEntry);
+    ASSERT(Index.isValid());
+
+    QModelIndex ProxyIndex = mpProxyModel->mapFromSource(Index);
+    mpUI->ResourceTableView->selectionModel()->select(ProxyIndex, QItemSelectionModel::ClearAndSelect);
+    mpUI->ResourceTableView->edit(ProxyIndex);
+
+    return pEntry;
+}
+
 bool CResourceBrowser::eventFilter(QObject *pWatched, QEvent *pEvent)
 {
     if (pWatched == mpUI->ResourceTableView)
@@ -496,6 +583,23 @@ void CResourceBrowser::OnSortModeChanged(int Index)
 {
     CResourceProxyModel::ESortMode Mode = (Index == 0 ? CResourceProxyModel::ESortMode::ByName : CResourceProxyModel::ESortMode::BySize);
     mpProxyModel->SetSortMode(Mode);
+}
+
+void CResourceBrowser::OnCreateAssetAction()
+{
+    // Attempt to retrieve the asset type from the sender. If successful, create the asset.
+    QAction* pSender = qobject_cast<QAction*>(sender());
+
+    if (pSender)
+    {
+        bool Ok;
+        EResourceType Type = (EResourceType) pSender->property("TypeInfo").toInt(&Ok);
+
+        if (Ok)
+        {
+            CreateNewResource(Type);
+        }
+    }
 }
 
 bool CResourceBrowser::CreateDirectory()
@@ -685,7 +789,8 @@ void CResourceBrowser::UpdateStore()
         mpUI->SearchBar->clear();
         mSearching = false;
 
-        // Refresh type filter list
+        // Refresh project-specific UI
+        CreateAddMenu();
         CreateFilterCheckboxes();
 
         // Refresh directory tree

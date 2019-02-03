@@ -59,6 +59,16 @@ void CPackage::UpdateDependencyCache() const
     mCacheDirty = false;
 }
 
+void CPackage::MarkDirty()
+{
+    if (!mNeedsRecook)
+    {
+        mNeedsRecook = true;
+        Save();
+        UpdateDependencyCache();
+    }
+}
+
 void CPackage::Cook(IProgressNotifier *pProgress)
 {
     SCOPED_TIMER(CookPackage);

@@ -7,6 +7,7 @@ CResourceTableModel::CResourceTableModel(CResourceBrowser *pBrowser, QObject *pP
     , mpCurrentDir(nullptr)
     , mIsDisplayingUserEntryList(false)
 {
+    connect(pBrowser, SIGNAL(ResourceCreated(CResourceEntry*)), this, SLOT(CheckAddResource(CResourceEntry*)));
     connect(pBrowser, SIGNAL(DirectoryCreated(CVirtualDirectory*)), this, SLOT(CheckAddDirectory(CVirtualDirectory*)));
     connect(pBrowser, SIGNAL(DirectoryAboutToBeDeleted(CVirtualDirectory*)), this, SLOT(CheckRemoveDirectory(CVirtualDirectory*)));
     connect(pBrowser, SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)));
@@ -155,7 +156,7 @@ Qt::DropActions CResourceTableModel::supportedDropActions() const
 // ************ FUNCTIONALITY ************
 QModelIndex CResourceTableModel::GetIndexForEntry(CResourceEntry *pEntry) const
 {
-    auto Iter = qBinaryFind(mEntries, pEntry);
+    auto Iter = std::find(mEntries.begin(), mEntries.end(), pEntry);
 
     if (Iter == mEntries.end())
         return QModelIndex();
@@ -286,6 +287,32 @@ void CResourceTableModel::RefreshAllIndices()
     if (NumRows > 0 && NumCols > 0)
     {
         emit dataChanged( index(0,0), index(NumRows-1, NumCols-1) );
+    }
+}
+
+void CResourceTableModel::CheckAddResource(CResourceEntry *pEntry)
+{
+    if ( (mIsAssetListMode && pEntry->IsInDirectory(mpCurrentDir)) ||
+         (!mIsAssetListMode && pEntry->Directory() == mpCurrentDir) )
+    {
+        // Append to the end, let the proxy handle sorting
+        int NumRows = mDirectories.size() + mEntries.size();
+        beginInsertRows(QModelIndex(), NumRows, NumRows);
+        mEntries << pEntry;
+        endInsertRows();
+    }
+}
+
+void CResourceTableModel::CheckRemoveResource(CResourceEntry *pEntry)
+{
+    int Index = mEntries.indexOf(pEntry);
+
+    if (Index != -1)
+    {
+        Index += mDirectories.size();
+        beginRemoveRows(QModelIndex(), Index, Index);
+        mEntries.removeAt(Index);
+        endRemoveRows();
     }
 }
 

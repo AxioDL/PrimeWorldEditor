@@ -17,6 +17,7 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
 {
     ui->setupUi(this);
     ui->PropertyView->InitColumnWidths(0.3f, 0.3f);
+    ui->PropertyView->SetEditor(pEditor);
 
     mpWorldEditor = pEditor;
 

@@ -34,7 +34,12 @@ CPropertyDelegate::CPropertyDelegate(QObject* pParent /*= 0*/)
     , mEditInProgress(false)
     , mRelaysBlocked(false)
 {
-    mpEditor = UICommon::FindAncestor<IEditor>(this);
+    mpEditor = UICommon::FindAncestor<IEditor>(pParent);
+}
+
+void CPropertyDelegate::SetEditor(IEditor* pEditor)
+{
+    mpEditor = pEditor;
 }
 
 void CPropertyDelegate::SetPropertyModel(CPropertyModel* pModel)

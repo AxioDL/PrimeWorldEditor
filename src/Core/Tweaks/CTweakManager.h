@@ -17,6 +17,7 @@ public:
     ~CTweakManager();
     void LoadTweaks();
     bool SaveTweaks();
+    void ClearTweaks();
 
     // Accessors
     inline const std::vector<CTweakData*>& TweakObjects() const

@@ -284,7 +284,14 @@ void CResourceStore::ClearDatabase()
 {
     // THIS OPERATION REQUIRES THAT ALL RESOURCES ARE UNREFERENCED
     DestroyUnreferencedResources();
-    ASSERT(mLoadedResources.empty());
+
+    if (!mLoadedResources.empty())
+    {
+        debugf("ERROR: Resources still loaded:");
+        for (auto Iter = mLoadedResources.begin(); Iter != mLoadedResources.end(); Iter++)
+            debugf("\t[%s] %s", *Iter->first.ToString(), *Iter->second->CookedAssetPath(true));
+        ASSERT(false);
+    }
 
     // Clear out existing resource entries and directories
     for (auto Iter = mResourceEntries.begin(); Iter != mResourceEntries.end(); Iter++)
@@ -384,7 +391,7 @@ bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
     return FindEntry(rkID) != nullptr;
 }
 
-CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName)
+CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -398,6 +405,12 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResource
         {
             pEntry = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type);
             mResourceEntries[rkID] = pEntry;
+            mDatabaseCacheDirty = true;
+
+            if (pEntry->IsLoaded())
+            {
+                TrackLoadedResource(pEntry);
+            }
         }
 
         else
