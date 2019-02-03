@@ -1214,6 +1214,10 @@
             <Value Name="CloseDelay"/>
         </Element>
         <Element>
+            <Key ID="0x6DEE4C5" Type="choice"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x6DEE4C5" Type="int"/>
             <Value Name="Unknown"/>
         </Element>
@@ -27791,7 +27795,7 @@
         </Element>
         <Element>
             <Key ID="0x98169634" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="PathMeshIndex"/>
         </Element>
         <Element>
             <Key ID="0x98186A70" Type="float"/>
