@@ -84,6 +84,7 @@ public:
     // Directory Handling
     inline TString ProjectRoot() const                      { return mProjectRoot; }
     inline TString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName, false) + ".prj"; }
+    inline TString HiddenFilesDir() const                   { return mProjectRoot + ".project/"; }
     inline TString DiscDir(bool Relative) const             { return Relative ? "Disc/" : mProjectRoot + "Disc/"; }
     inline TString PackagesDir(bool Relative) const         { return Relative ? "Packages/" : mProjectRoot + "Packages/"; }
     inline TString ResourcesDir(bool Relative) const        { return Relative ? "Resources/" : mProjectRoot + "Resources/"; }

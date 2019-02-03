@@ -25,8 +25,9 @@ public:
     CPropertyView(QWidget* pParent = 0);
     void setModel(QAbstractItemModel* pModel);
     bool event(QEvent* pEvent);
+    int sizeHintForColumn(int Column) const;
+
     void SetEditor(IEditor* pEditor);
-    void InitColumnWidths(float NameColumnPercentage, float ValueColumnPercentage);
     void ClearProperties();
     void SetIntrinsicProperties(CStructRef InProperties);
     void SetInstance(CScriptObject* pObj);

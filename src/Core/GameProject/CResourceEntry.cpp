@@ -113,6 +113,9 @@ bool CResourceEntry::LoadMetadata()
 
 bool CResourceEntry::SaveMetadata(bool ForceSave /*= false*/)
 {
+    // Make sure we aren't saving a deleted resource
+    ASSERT( !HasFlag(EResEntryFlag::MarkedForDeletion) );
+
     if (mMetadataDirty || ForceSave)
     {
         TString Path = MetadataFilePath();
@@ -491,6 +494,9 @@ bool CResourceEntry::CanMoveTo(const TString& rkDir, const TString& rkName)
 
 bool CResourceEntry::MoveAndRename(const TString& rkDir, const TString& rkName, bool IsAutoGenDir /*= false*/, bool IsAutoGenName /*= false*/)
 {
+    // Make sure we are not moving a deleted resource.
+    ASSERT( !IsMarkedForDeletion() );
+
     if (!CanMoveTo(rkDir, rkName)) return false;
 
     // Store old paths
@@ -501,7 +507,15 @@ bool CResourceEntry::MoveAndRename(const TString& rkDir, const TString& rkName, 
     TString OldMetaPath = MetadataFilePath();
 
     // Set new directory and name
-    CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, true);
+    bool DirAlreadyExisted = true;
+    CVirtualDirectory *pNewDir = mpStore->GetVirtualDirectory(rkDir, false);
+
+    if (!pNewDir)
+    {
+        pNewDir = mpStore->GetVirtualDirectory(rkDir, true);
+        DirAlreadyExisted = false;
+    }
+
     if (pNewDir == mpDirectory && rkName == mName) return false;
 
     // Check if we can legally move to this spot
@@ -580,7 +594,7 @@ bool CResourceEntry::MoveAndRename(const TString& rkDir, const TString& rkName, 
     // If we succeeded, finish the move
     if (FSMoveSuccess)
     {
-        if (mpDirectory != pOldDir)
+        if (mpDirectory != pOldDir && pOldDir != nullptr)
         {
             FSMoveSuccess = pOldDir->RemoveChildResource(this);
             ASSERT(FSMoveSuccess == true); // this shouldn't be able to fail
@@ -605,7 +619,11 @@ bool CResourceEntry::MoveAndRename(const TString& rkDir, const TString& rkName, 
         errorf("MOVE FAILED: %s", *MoveFailReason);
         mpDirectory = pOldDir;
         mName = OldName;
-        mpStore->ConditionalDeleteDirectory(pNewDir, false);
+
+        if (!DirAlreadyExisted)
+        {
+            mpStore->ConditionalDeleteDirectory(pNewDir, true);
+        }
 
         if (FileUtil::Exists(NewRawPath))
             FileUtil::MoveFile(NewRawPath, OldRawPath);
@@ -625,6 +643,96 @@ bool CResourceEntry::Move(const TString& rkDir, bool IsAutoGenDir /*= false*/)
 bool CResourceEntry::Rename(const TString& rkName, bool IsAutoGenName /*= false*/)
 {
     return MoveAndRename(mpDirectory->FullPath(), rkName, false, IsAutoGenName);
+}
+
+void CResourceEntry::MarkDeleted(bool InDeleted)
+{
+    // Flags resource for future deletion. "Deleted" resources remain in memory (which
+    // allows them to easily be un-deleted) but cannot be looked up in the resource
+    // store and will not save back out to the resource database. Their file data is
+    // stored in a temporary directory, which allows them to be moved back if the user
+    // un-does the deletion.
+    if (IsMarkedForDeletion() != InDeleted)
+    {
+        SetFlagEnabled(EResEntryFlag::MarkedForDeletion, InDeleted);
+
+        // Restore old name/directory if un-deleting
+        if (!InDeleted)
+        {
+            // Our directory path is stored in the Name field - see below for explanation
+            int NameEnd = mName.IndexOf('|');
+            ASSERT( NameEnd != -1 );
+
+            TString DirPath = mName.ChopFront(NameEnd + 1);
+            mName = mName.ChopBack( mName.Size() - NameEnd);
+            mpDirectory = mpStore->GetVirtualDirectory( DirPath, true );
+            ASSERT( mpDirectory != nullptr );
+            mpDirectory->AddChild("", this);
+        }
+
+        TString CookedPath = CookedAssetPath();
+        TString RawPath = RawAssetPath();
+        TString MetaPath = MetadataFilePath();
+
+        TString PathBase = mpStore->DeletedResourcePath() + mID.ToString() + ".";
+        TString DelCookedPath = PathBase + CookedExtension().ToString();
+        TString DelRawPath = DelCookedPath + ".rsraw";
+        TString DelMetaPath = DelCookedPath + ".rsmeta";
+
+        // If we are deleting...
+        if (InDeleted)
+        {
+            // Temporarily store our directory path in the name string.
+            // This is a hack, but we can't store the directory pointer because it may have been
+            // deleted and remade by the user by the time the resource is un-deleted, which
+            // means it is not safe to access later. Separating the name and the path with
+            // the '|' character is safe because this character is not allowed in filenames
+            // (which is enforced in FileUtil::IsValidName()).
+            mName = mName + "|" + mpDirectory->FullPath();
+
+            // Remove from parent directory.
+            mpDirectory->RemoveChildResource(this);
+            mpDirectory = nullptr;
+
+            // Move any resource files out of the project into a temporary folder.
+            FileUtil::MakeDirectory(DelMetaPath.GetFileDirectory());
+
+            if (FileUtil::Exists(MetaPath))
+            {
+                FileUtil::MoveFile(MetaPath, DelMetaPath);
+            }
+            if (FileUtil::Exists(RawPath))
+            {
+                FileUtil::MoveFile(RawPath, DelRawPath);
+            }
+            if (FileUtil::Exists(CookedPath))
+            {
+                FileUtil::MoveFile(CookedPath, DelCookedPath);
+            }
+        }
+        // If we are un-deleting...
+        else
+        {
+            // Move any resource files out of the temporary folder back into the project.
+            FileUtil::MakeDirectory(MetaPath.GetFileDirectory());
+
+            if (FileUtil::Exists(DelMetaPath))
+            {
+                FileUtil::MoveFile(DelMetaPath, MetaPath);
+            }
+            if (FileUtil::Exists(DelRawPath))
+            {
+                FileUtil::MoveFile(DelRawPath, RawPath);
+            }
+            if (FileUtil::Exists(DelCookedPath))
+            {
+                FileUtil::MoveFile(DelCookedPath, CookedPath);
+            }
+        }
+
+        mpStore->SetCacheDirty();
+        debugf("%s FOR DELETION: [%s] %s", InDeleted ? "MARKED" : "UNMARKED", *ID().ToString(), *CookedPath.GetFileName());
+    }
 }
 
 CGameProject* CResourceEntry::Project() const

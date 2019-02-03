@@ -41,6 +41,9 @@ public slots:
     void CopyName();
     void CopyPath();
     void CopyID();
+
+    // Asset Specific
+    void CreateSCAN();
 };
 
 #endif // CRESOURCETABLECONTEXTMENU_H

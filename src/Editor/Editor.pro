@@ -203,7 +203,9 @@ HEADERS += \
     Undo/CEditIntrinsicPropertyCommand.h \
     Undo/TSerializeUndoCommand.h \
     StringEditor/CStringMimeData.h \
-    ScanEditor/CScanEditor.h
+    ScanEditor/CScanEditor.h \
+    Undo/ICreateDeleteResourceCommand.h \
+    Undo/CSaveStoreCommand.h
 
 # Source Files
 SOURCES += \

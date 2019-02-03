@@ -8,6 +8,7 @@ CResourceTableModel::CResourceTableModel(CResourceBrowser *pBrowser, QObject *pP
     , mIsDisplayingUserEntryList(false)
 {
     connect(pBrowser, SIGNAL(ResourceCreated(CResourceEntry*)), this, SLOT(CheckAddResource(CResourceEntry*)));
+    connect(pBrowser, SIGNAL(ResourceAboutToBeDeleted(CResourceEntry*)), this, SLOT(CheckRemoveResource(CResourceEntry*)));
     connect(pBrowser, SIGNAL(DirectoryCreated(CVirtualDirectory*)), this, SLOT(CheckAddDirectory(CVirtualDirectory*)));
     connect(pBrowser, SIGNAL(DirectoryAboutToBeDeleted(CVirtualDirectory*)), this, SLOT(CheckRemoveDirectory(CVirtualDirectory*)));
     connect(pBrowser, SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)));
@@ -309,8 +310,8 @@ void CResourceTableModel::CheckRemoveResource(CResourceEntry *pEntry)
 
     if (Index != -1)
     {
-        Index += mDirectories.size();
-        beginRemoveRows(QModelIndex(), Index, Index);
+        int RowIndex = Index + mDirectories.size();
+        beginRemoveRows(QModelIndex(), RowIndex, RowIndex);
         mEntries.removeAt(Index);
         endRemoveRows();
     }

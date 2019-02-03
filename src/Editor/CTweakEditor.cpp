@@ -64,19 +64,6 @@ bool CTweakEditor::Save()
     }
 }
 
-void CTweakEditor::showEvent(QShowEvent* pEvent)
-{
-    // Perform first-time UI initialization
-    // Property view cannot initialize correctly until first show due to window width not being configured
-    if (!mHasBeenShown)
-    {
-        mpUI->PropertyView->InitColumnWidths(0.6f, 0.3f);
-        mHasBeenShown = true;
-    }
-
-    IEditor::showEvent(pEvent);
-}
-
 void CTweakEditor::SetActiveTweakData(CTweakData* pTweakData)
 {
     for( int TweakIdx = 0; TweakIdx < mTweakAssets.size(); TweakIdx++ )

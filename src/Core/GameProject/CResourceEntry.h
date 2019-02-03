@@ -21,6 +21,7 @@ enum class EResEntryFlag
     HasBeenModified     = 0x00000008, // Resource has been modified and resaved by the user
     AutoResName         = 0x00000010, // Resource name is auto-generated
     AutoResDir          = 0x00000020, // Resource directory name is auto-generated
+    MarkedForDeletion   = 0x00000040, // Resource has been marked for deletion by the user
 };
 DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 
@@ -76,6 +77,7 @@ public:
     bool MoveAndRename(const TString& rkDir, const TString& rkName, bool IsAutoGenDir = false, bool IsAutoGenName = false);
     bool Move(const TString& rkDir, bool IsAutoGenDir = false);
     bool Rename(const TString& rkName, bool IsAutoGenName = false);
+    void MarkDeleted(bool InDeleted);
 
     CGameProject* Project() const;
     EGame Game() const;
@@ -90,6 +92,7 @@ public:
     inline void SetHidden(bool Hidden)              { SetFlagEnabled(EResEntryFlag::Hidden, Hidden); }
     inline bool HasFlag(EResEntryFlag Flag) const   { return mFlags.HasFlag(Flag); }
     inline bool IsHidden() const                    { return HasFlag(EResEntryFlag::Hidden); }
+    inline bool IsMarkedForDeletion() const         { return HasFlag(EResEntryFlag::MarkedForDeletion); }
 
     inline bool IsLoaded() const                    { return mpResource != nullptr; }
     inline bool IsCategorized() const               { return mpDirectory && !mpDirectory->FullPath().CaseInsensitiveCompare( mpStore->DefaultResourceDirPath() ); }

@@ -72,7 +72,10 @@ public:
     bool RenameDirectory(CVirtualDirectory *pDir, const TString& rkNewName);
     bool MoveResources(const QList<CResourceEntry*>& rkResources, const QList<CVirtualDirectory*>& rkDirectories, CVirtualDirectory *pNewDir);
 
-    CResourceEntry* CreateNewResource(EResourceType Type);
+    CResourceEntry* CreateNewResource(EResourceType Type,
+                                      TString Name = "",
+                                      CVirtualDirectory* pDir = nullptr,
+                                      CAssetID ID = CAssetID());
 
     // Interface
     bool eventFilter(QObject *pWatched, QEvent *pEvent);
@@ -94,7 +97,7 @@ public slots:
     void OnSortModeChanged(int Index);
     void OnCreateAssetAction();
     bool CreateDirectory();
-    bool DeleteDirectories(const QList<CVirtualDirectory*>& rkDirs);
+    bool Delete(QVector<CResourceEntry*> Resources, QVector<CVirtualDirectory*> Directories);
     void OnSearchStringChanged(QString SearchString);
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex);
     void OnDoubleClickTable(QModelIndex Index);

@@ -1,6 +1,9 @@
 #include "CResourceTableContextMenu.h"
 #include "CResourceBrowser.h"
 #include "Editor/CEditorApplication.h"
+
+#include <Core/Resource/Scan/CScan.h>
+
 #include <QClipboard>
 
 CResourceTableContextMenu::CResourceTableContextMenu(CResourceBrowser *pBrowser, QTableView *pView, CResourceTableModel *pModel, CResourceProxyModel *pProxy)
@@ -70,6 +73,17 @@ void CResourceTableContextMenu::InitMenu()
 
     QMenu* pCreate = addMenu("Create...");
     mpBrowser->AddCreateAssetMenuActions(pCreate);
+
+    // Asset-specific
+    if (mpClickedEntry)
+    {
+        switch (mpClickedEntry->ResourceType())
+        {
+        case EResourceType::StringTable:
+            addAction("Create Scan", this, SLOT(CreateSCAN()));
+            break;
+        }
+    }
 }
 
 void CResourceTableContextMenu::ShowMenu(const QPoint& rkPos)
@@ -198,43 +212,18 @@ void CResourceTableContextMenu::ShowDependencies()
 void CResourceTableContextMenu::Delete()
 {
     // Create confirmation message
-    uint NumResources = 0, NumDirectories = 0;
+    QVector<CResourceEntry*> Resources;
+    QVector<CVirtualDirectory*> Directories;
 
     foreach (const QModelIndex& kIndex, mSelectedIndexes)
     {
         if (mpModel->IsIndexDirectory(kIndex))
-            NumDirectories++;
+            Directories << mpModel->IndexDirectory(kIndex);
         else
-            NumResources++;
+            Resources << mpModel->IndexEntry(kIndex);
     }
 
-    if (NumResources == 0 && NumDirectories == 0)
-        return;
-
-    QString ConfirmMsg = QString("Are you sure you want to permanently delete ");
-
-    if (NumResources > 0)
-    {
-        ConfirmMsg += QString("%d resource%s").arg(NumResources).arg(NumResources == 1 ? "" : "s");
-
-        if (NumDirectories > 0)
-        {
-            ConfirmMsg += " and ";
-        }
-    }
-    if (NumDirectories > 0)
-    {
-        ConfirmMsg += QString("%d %s").arg(NumDirectories).arg(NumDirectories == 1 ? "directory" : "directories");
-    }
-
-    // Allow the user to confirm the action before performing it
-    if (UICommon::YesNoQuestion(mpBrowser, "Warning", ConfirmMsg))
-    {
-        //@todo this is wrong lol
-        QList<CVirtualDirectory*> List;
-        List << mpClickedDirectory;
-        mpBrowser->DeleteDirectories(List);
-    }
+    mpBrowser->Delete(Resources, Directories);
 }
 
 void CResourceTableContextMenu::CopyName()
@@ -257,4 +246,23 @@ void CResourceTableContextMenu::CopyID()
 {
     ASSERT(mpClickedEntry);
     gpEdApp->clipboard()->setText( TO_QSTRING(mpClickedEntry->ID().ToString()) );
+}
+
+
+// Asset Specific
+void CResourceTableContextMenu::CreateSCAN()
+{
+    // Create a SCAN asset to go along with a selected STRG asset
+    ASSERT( mpClickedEntry && mpClickedEntry->ResourceType() == EResourceType::StringTable );
+
+    CResourceEntry* pNewEntry = mpBrowser->CreateNewResource(EResourceType::Scan,
+                                                             mpClickedEntry->Name(),
+                                                             mpClickedEntry->Directory());
+
+    if (pNewEntry)
+    {
+        CScan* pScan = (CScan*) pNewEntry->Load();
+        pScan->ScanStringPropertyRef().Set( mpClickedEntry->ID() );
+        pNewEntry->Save();
+    }
 }

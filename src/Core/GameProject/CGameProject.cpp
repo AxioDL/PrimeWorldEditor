@@ -297,6 +297,15 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
         gpResourceStore = pOldStore;
     }
 
+    // Create hidden files directory, if needed
+    TString HiddenDir = pProj->HiddenFilesDir();
+
+    if (!FileUtil::Exists(HiddenDir))
+    {
+        FileUtil::MakeDirectory(HiddenDir);
+        FileUtil::MarkHidden(HiddenDir, true);
+    }
+
     pProj->mpAudioManager->LoadAssets();
     pProj->mpTweakManager->LoadTweaks();
     return pProj;

@@ -79,20 +79,25 @@ bool CPropertyView::event(QEvent *pEvent)
         pEvent->ignore();
         return true;
     }
+    else if (pEvent->type() == QEvent::Resize && !isVisible())
+    {
+        resizeColumnToContents(0);
+    }
 
-    else return QTreeView::event(pEvent);
+    return QTreeView::event(pEvent);
+}
+
+int CPropertyView::sizeHintForColumn(int Column) const
+{
+    if (Column == 0)
+        return width() * 0.6f;
+    else
+        return width() * 0.4f;
 }
 
 void CPropertyView::SetEditor(IEditor* pEditor)
 {
     mpDelegate->SetEditor(pEditor);
-}
-
-void CPropertyView::InitColumnWidths(float NameColumnPercentage, float ValueColumnPercentage)
-{
-    header()->resizeSection(0, width() * NameColumnPercentage);
-    header()->resizeSection(1, width() * ValueColumnPercentage);
-    header()->setSectionResizeMode(1, QHeaderView::Fixed);
 }
 
 void CPropertyView::ClearProperties()

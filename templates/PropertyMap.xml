@@ -36795,7 +36795,7 @@
         </Element>
         <Element>
             <Key ID="0xC915686F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="DeathBallDamageDelay"/>
         </Element>
         <Element>
             <Key ID="0xC91B0946" Type="int"/>

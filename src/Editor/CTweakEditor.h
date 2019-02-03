@@ -29,7 +29,6 @@ public:
     bool HasTweaks();
 
     virtual bool Save() override;
-    virtual void showEvent(QShowEvent* pEvent) override;
 
 public slots:
     void SetActiveTweakData(CTweakData* pTweakData);

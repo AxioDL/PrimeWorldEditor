@@ -52,6 +52,7 @@ public:
     void CreateVirtualDirectory(const TString& rkPath);
     void ConditionalDeleteDirectory(CVirtualDirectory *pDir, bool Recurse);
     TString DefaultResourceDirPath() const;
+    TString DeletedResourcePath() const;
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
     CResourceEntry* CreateNewResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName);
