@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerMiscControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xDDF88C92" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x8B0E64F6" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xD49E5FCF" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x91B8C18A">
+                        <CookPreference>Default</CookPreference>
+                        <SubProperties>
+                            <Element Type="Struct" ID="0x9E8E5BF9">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                            <Element Type="Struct" ID="0x6D33AE8F">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x9C182689" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x91B8C18A">
+                        <CookPreference>Default</CookPreference>
+                        <SubProperties>
+                            <Element Type="Struct" ID="0x3D8010C2">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                            <Element Type="Struct" ID="0x9E8E5BF9">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x11F0193" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x91B8C18A">
+                        <CookPreference>Default</CookPreference>
+                        <SubProperties>
+                            <Element Type="Struct" ID="0x3D8010C2">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                            <Element Type="Struct" ID="0x9E8E5BF9">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xBB560AD3" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x91B8C18A">
+                        <CookPreference>Default</CookPreference>
+                        <SubProperties>
+                            <Element Type="Struct" ID="0x3D8010C2">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                            <Element Type="Struct" ID="0x9E8E5BF9">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x12A3619E" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x33E1A595" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xABFAA1FA" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x23717B97" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xE59D622" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Enum" ID="0xFE819DDB">
+                        <CookPreference>Default</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x67D45EB2" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Enum" ID="0xFE819DDB">
+                        <CookPreference>Default</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xB4A66335" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xE073645B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCB6D207D" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x7EE3ACDF" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xF6C87BF5" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x4A88A76F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xB43B2477" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xF3A2FBDD" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x30D313EB" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x79DC49CA" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xEFD76F97" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xE6366106" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x98DA6D03" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Enum" ID="0xFE819DDB">
+                        <CookPreference>Default</CookPreference>
+                    </Element>
+                    <Element Type="Enum" ID="0xEBAABF01">
+                        <CookPreference>Default</CookPreference>
+                    </Element>
+                    <Element Type="Enum" ID="0xEDA6D736">
+                        <CookPreference>Default</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -10,25 +10,27 @@ class CPropertyView : public QTreeView
 {
     Q_OBJECT
 
-    CWorldEditor *mpEditor;
-    CPropertyModel *mpModel;
-    CPropertyDelegate *mpDelegate;
-    CScriptObject *mpObject;
+    CPropertyModel* mpModel;
+    CPropertyDelegate* mpDelegate;
+    CScriptObject* mpObject;
 
-    IProperty *mpMenuProperty;
-    QAction *mpShowNameValidityAction;
-    QAction *mpEditTemplateAction;
-    QAction *mpGenNamesForPropertyAction;
-    QAction *mpGenNamesForSiblingsAction;
-    QAction *mpGenNamesForChildrenAction;
+    IProperty* mpMenuProperty;
+    QAction* mpShowNameValidityAction;
+    QAction* mpEditTemplateAction;
+    QAction* mpGenNamesForPropertyAction;
+    QAction* mpGenNamesForSiblingsAction;
+    QAction* mpGenNamesForChildrenAction;
 
 public:
-    CPropertyView(QWidget *pParent = 0);
-    void setModel(QAbstractItemModel *pModel);
-    bool event(QEvent *pEvent);
-    void SetEditor(CWorldEditor *pEditor);
+    CPropertyView(QWidget* pParent = 0);
+    void setModel(QAbstractItemModel* pModel);
+    bool event(QEvent* pEvent);
+    int sizeHintForColumn(int Column) const;
+
+    void SetEditor(IEditor* pEditor);
+    void ClearProperties();
     void SetIntrinsicProperties(CStructRef InProperties);
-    void SetInstance(CScriptObject *pObj);
+    void SetInstance(CScriptObject* pObj);
     void UpdateEditorProperties(const QModelIndex& rkParent);
 
     inline CPropertyModel* PropertyModel() const { return mpModel; }
@@ -46,6 +48,10 @@ public slots:
     void GenerateNamesForProperty();
     void GenerateNamesForSiblings();
     void GenerateNamesForChildren();
+
+signals:
+    void PropertyModified(const QModelIndex& kIndex);
+    void PropertyModified(IProperty* pProperty);
 };
 
 #endif // CPROPERTYVIEW_H

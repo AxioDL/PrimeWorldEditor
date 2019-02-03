@@ -44,34 +44,20 @@ void CResourceTableView::DeleteSelected()
     // Figure out which indices can actually be deleted
     CResourceProxyModel *pProxy = static_cast<CResourceProxyModel*>(model());
     CResourceTableModel *pModel = static_cast<CResourceTableModel*>(pProxy->sourceModel());
-    QList<CVirtualDirectory*> DirsToDelete;
-    bool HasNonEmptyDirSelected = false;
+    QVector<CResourceEntry*> ResourcesToDelete;
+    QVector<CVirtualDirectory*> DirsToDelete;
 
     foreach (QModelIndex Index, List)
     {
         QModelIndex SourceIndex = pProxy->mapToSource(Index);
 
         if (pModel->IsIndexDirectory(SourceIndex))
-        {
-            CVirtualDirectory *pDir = pModel->IndexDirectory(SourceIndex);
+            DirsToDelete << pModel->IndexDirectory(SourceIndex);
+        else
+            ResourcesToDelete << pModel->IndexEntry(SourceIndex);
 
-            if (pDir)
-            {
-                if (pDir->IsEmpty(true))
-                    DirsToDelete << pDir;
-                else
-                    HasNonEmptyDirSelected = true;
-            }
-        }
-    }
-
-    // Let the user know if all selected directories are non empty
-    if (HasNonEmptyDirSelected && DirsToDelete.isEmpty())
-    {
-        UICommon::ErrorMsg(parentWidget(), "Unable to delete; one or more of the selected directories is non-empty.");
-        return;
     }
 
     // Delete
-    gpEdApp->ResourceBrowser()->DeleteDirectories(DirsToDelete);
+    gpEdApp->ResourceBrowser()->Delete(ResourcesToDelete, DirsToDelete);
 }

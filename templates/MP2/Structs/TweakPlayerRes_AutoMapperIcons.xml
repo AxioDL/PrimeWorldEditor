@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerRes_AutoMapperIcons</Name>
+        <SubProperties>
+            <Element Type="String" ID="0xE7014CDA"/>
+            <Element Type="String" ID="0x33C94749"/>
+            <Element Type="String" ID="0x9B36949E"/>
+            <Element Type="String" ID="0xAFA1B87C"/>
+            <Element Type="String" ID="0xFBF479EC"/>
+            <Element Type="String" ID="0x5566B6E4"/>
+            <Element Type="String" ID="0x51FE3F1F"/>
+            <Element Type="String" ID="0xA4127A5A"/>
+            <Element Type="String" ID="0xF8403D18"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

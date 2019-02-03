@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Choice">
+        <Name>HudVisMode</Name>
+        <Values>
+            <Element Name="One" ID="0x0"/>
+            <Element Name="Two" ID="0x1"/>
+            <Element Name="Three" ID="0x2"/>
+            <Element Name="Four" ID="0x3"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

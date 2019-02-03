@@ -96,14 +96,9 @@ HEADERS += \
     Undo/CTranslateNodeCommand.h \
     Undo/EUndoCommand.h \
     Undo/UndoCommands.h \
-    Widgets/IPreviewPanel.h \
     Widgets/WColorPicker.h \
     Widgets/WDraggableSpinBox.h \
     Widgets/WIntegralSpinBox.h \
-    Widgets/WScanPreviewPanel.h \
-    Widgets/WStringPreviewPanel.h \
-    Widgets/WTextureGLWidget.h \
-    Widgets/WTexturePreviewPanel.h \
     Widgets/WVectorEditor.h \
     WorldEditor/CLayerEditor.h \
     WorldEditor/CLayerModel.h \
@@ -198,7 +193,18 @@ HEADERS += \
     Widgets/CCheckableTreeWidgetItem.h \
     Widgets/CCheckableTreeWidget.h \
     Undo/IEditPropertyCommand.h \
-    Widgets/TEnumComboBox.h
+    Widgets/TEnumComboBox.h \
+    StringEditor/CStringEditor.h \
+    StringEditor/CStringListModel.h \
+    StringEditor/CStringDelegate.h \
+    CCustomDelegate.h \
+    CTweakEditor.h \
+    Undo/CEditIntrinsicPropertyCommand.h \
+    Undo/TSerializeUndoCommand.h \
+    StringEditor/CStringMimeData.h \
+    ScanEditor/CScanEditor.h \
+    Undo/ICreateDeleteResourceCommand.h \
+    Undo/CSaveStoreCommand.h
 
 # Source Files
 SOURCES += \
@@ -207,14 +213,9 @@ SOURCES += \
     Undo/CRotateNodeCommand.cpp \
     Undo/CScaleNodeCommand.cpp \
     Undo/CTranslateNodeCommand.cpp \
-    Widgets/IPreviewPanel.cpp \
     Widgets/WColorPicker.cpp \
     Widgets/WDraggableSpinBox.cpp \
     Widgets/WIntegralSpinBox.cpp \
-    Widgets/WScanPreviewPanel.cpp \
-    Widgets/WStringPreviewPanel.cpp \
-    Widgets/WTextureGLWidget.cpp \
-    Widgets/WTexturePreviewPanel.cpp \
     Widgets/WVectorEditor.cpp \
     WorldEditor/CLayerEditor.cpp \
     WorldEditor/CLayerModel.cpp \
@@ -273,14 +274,18 @@ SOURCES += \
     ResourceBrowser/CVirtualDirectoryTreeView.cpp \
     CPropertyNameValidator.cpp \
     CGeneratePropertyNamesDialog.cpp \
-    Undo/IEditPropertyCommand.cpp
+    Undo/IEditPropertyCommand.cpp \
+    StringEditor/CStringEditor.cpp \
+    StringEditor/CStringListModel.cpp \
+    IEditor.cpp \
+    StringEditor/CStringDelegate.cpp \
+    CTweakEditor.cpp \
+    ScanEditor/CScanEditor.cpp
 
 # UI Files
 FORMS += \
     TestDialog.ui \
     ModelEditor/CModelEditorWindow.ui \
-    Widgets/WScanPreviewPanel.ui \
-    Widgets/WTexturePreviewPanel.ui \
     WorldEditor/CLayerEditor.ui \
     WorldEditor/CWorldEditor.ui \
     WorldEditor/WCreateTab.ui \
@@ -300,7 +305,10 @@ FORMS += \
     WorldEditor/CPoiMapSidebar.ui \
     CProgressDialog.ui \
     Widgets/CSelectResourcePanel.ui \
-    CGeneratePropertyNamesDialog.ui
+    CGeneratePropertyNamesDialog.ui \
+    StringEditor/CStringEditor.ui \
+    CTweakEditor.ui \
+    ScanEditor/CScanEditor.ui
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

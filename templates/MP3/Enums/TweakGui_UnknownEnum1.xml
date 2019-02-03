@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Enum">
+        <Name>TweakGui_UnknownEnum1</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0xF104E011"/>
+            <Element Name="Unknown2" ID="0x680DB1AB"/>
+            <Element Name="Unknown3" ID="0x1F0A813D"/>
+            <Element Name="Unknown4" ID="0x816E149E"/>
+            <Element Name="Unknown5" ID="0xF6692408"/>
+            <Element Name="Unknown6" ID="0x6F6075B2"/>
+            <Element Name="Unknown7" ID="0xFFDF6823"/>
+            <Element Name="Unknown8" ID="0x4C9814BE"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

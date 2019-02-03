@@ -16,8 +16,8 @@ protected:
     CVirtualDirectory *mpDir;
 
 public:
-    ICreateDeleteDirectoryCommand(CResourceStore *pStore, TString ParentPath, TString DirName)
-        : IUndoCommand("Create Directory")
+    ICreateDeleteDirectoryCommand(const QString& rkText, CResourceStore *pStore, TString ParentPath, TString DirName)
+        : IUndoCommand(rkText)
         , mpStore(pStore)
         , mParentPath(ParentPath)
         , mDirName(DirName)
@@ -64,7 +64,7 @@ class CCreateDirectoryCommand : public ICreateDeleteDirectoryCommand
 {
 public:
     CCreateDirectoryCommand(CResourceStore *pStore, TString ParentPath, TString DirName)
-        : ICreateDeleteDirectoryCommand(pStore, ParentPath, DirName)
+        : ICreateDeleteDirectoryCommand("Create Directory", pStore, ParentPath, DirName)
     {}
 
     void undo() { DoDelete(); }
@@ -75,7 +75,7 @@ class CDeleteDirectoryCommand : public ICreateDeleteDirectoryCommand
 {
 public:
     CDeleteDirectoryCommand(CResourceStore *pStore, TString ParentPath, TString DirName)
-        : ICreateDeleteDirectoryCommand(pStore, ParentPath, DirName)
+        : ICreateDeleteDirectoryCommand("Delete Directory", pStore, ParentPath, DirName)
     {
         mpDir = pStore->GetVirtualDirectory(ParentPath + DirName, false);
         ASSERT(mpDir);

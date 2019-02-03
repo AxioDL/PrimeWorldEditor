@@ -1,0 +1,773 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakGui</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Bool" ID="0x0">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>MapAlphaInterp</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>PauseBlurFactor</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>RadarXYRadius</Name>
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>Unknown</Name>
+                <DefaultValue>200.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Unknown</Name>
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>RadarZRadius</Name>
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>RadarZCloseRadius</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>Unknown</Name>
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>EnergyBarFilledSpeed</Name>
+                <DefaultValue>99.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>EnergyBarShadowSpeed</Name>
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>EnergyBarDrainDelay</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE">
+                <Name>EnergyBarAlwaysResetDelay</Name>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>HudDamagePracticalsGainConstant</Name>
+            </Element>
+            <Element Type="Float" ID="0x10">
+                <Name>HudDamagePracticalsGainLinear</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>HudDamagePracticalsInitConstant</Name>
+            </Element>
+            <Element Type="Float" ID="0x12">
+                <Name>HudDamagePracticalsInitLinear</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x13">
+                <Name>HudDamageLightSpotAngle</Name>
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14">
+                <Name>DamageLightAngleC</Name>
+            </Element>
+            <Element Type="Float" ID="0x15">
+                <Name>DamageLightAngleL</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x16">
+                <Name>DamageLightAngleQ</Name>
+            </Element>
+            <Element Type="Vector" ID="0x17">
+                <Name>DamageLightPreTranslate</Name>
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>-4.0</Y>
+                    <Z>0.80000001</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x18">
+                <Name>DamageLightCenterTranslate</Name>
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>-4.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x19">
+                <Name>DamageLightXfXAngle</Name>
+                <DefaultValue>70.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A">
+                <Name>DamageLightXfZAngle</Name>
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1B">
+                <Name>HudDecoShakeTranslateVelConstant</Name>
+            </Element>
+            <Element Type="Float" ID="0x1C">
+                <Name>HudDecoShakeTranslateVelLinear</Name>
+                <DefaultValue>0.0099999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1D">
+                <Name>MaxDecoDamageShakeTranslate</Name>
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1E">
+                <Name>DecoDamageShakeDeceleration</Name>
+                <DefaultValue>0.0049999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1F">
+                <Name>DecoShakeGainConstant</Name>
+            </Element>
+            <Element Type="Float" ID="0x20">
+                <Name>DecoShakeGainLinear</Name>
+                <DefaultValue>0.0099999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21">
+                <Name>DecoShakeInitConstant</Name>
+                <DefaultValue>0.02</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x22">
+                <Name>DecoShakeInitLinear</Name>
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23">
+                <Name>MaxDecoDamageShakeRotate</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x24">
+                <Name>HudCameraFoVTweak</Name>
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x25">
+                <Name>HudCameraYTweak</Name>
+                <DefaultValue>40</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x26">
+                <Name>HudCameraZTweak</Name>
+                <DefaultValue>16</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x27">
+                <Name>Unknown</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x28">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x29">
+                <Name>Unknown</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2A">
+                <Name>BeamVisorMenuAnimTime</Name>
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B">
+                <Name>VisorBeamMenuItemActiveScale</Name>
+                <DefaultValue>1.7</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2C">
+                <Name>VisorBeamMenuItemInactiveScale</Name>
+                <DefaultValue>1.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D">
+                <Name>VisorBeamMenuItemTranslate</Name>
+                <DefaultValue>1.8</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E">
+                <Name>Unknown</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2F">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x30">
+                <Name>Unknown</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x31">
+                <Name>Unknown</Name>
+                <DefaultValue>77.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32">
+                <Name>Unknown</Name>
+                <DefaultValue>0.89999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x33">
+                <Name>ThreatRange</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x34">
+                <Name>RadarScopeCoordRadius</Name>
+                <DefaultValue>1.65</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x35">
+                <Name>RadarPlayerPaintRadius</Name>
+                <DefaultValue>0.039999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x36">
+                <Name>RadarEnemyPaintRadius</Name>
+                <DefaultValue>0.039999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x37">
+                <Name>MissileArrowVisTime</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x38" Archetype="HudVisMode">
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x39" Archetype="HelmetVisMode">
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3A">
+                <Name>EnableAutoMapper</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3B">
+                <Name>Unknown</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3C">
+                <Name>EnableTargetingManager</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3D">
+                <Name>EnablePlayerVisor</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3E">
+                <Name>ThreatWarningFraction</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3F">
+                <Name>MissileWarningFraction</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x40">
+                <Name>FreeLookFadeTime</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x41">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x42">
+                <Name>Unknown</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x43">
+                <Name>Unknown</Name>
+                <DefaultValue>-2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x44">
+                <Name>Unknown</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x45">
+                <Name>FreeLookSfxPitchScale</Name>
+                <DefaultValue>3000.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x46">
+                <Name>NoAbsoluteFreeLookSfxPitch</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47">
+                <Name>Unknown</Name>
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x48">
+                <Name>Unknown</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x49">
+                <Name>FaceReflectionOrthoWidth</Name>
+                <DefaultValue>2.1019477e-44</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4A">
+                <Name>FaceReflectionOrthoHeight</Name>
+                <DefaultValue>1.4012985e-44</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4B">
+                <Name>FaceReflectionDistance</Name>
+                <DefaultValue>8.4077908e-45</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C">
+                <Name>FaceReflectionHeight</Name>
+                <DefaultValue>1.2611686e-44</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D">
+                <Name>FaceReflectionAspect</Name>
+                <DefaultValue>1.4012985e-45</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x4E">
+                <Name>Unknown</Name>
+                <DefaultValue>Warning</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x4F">
+                <Name>Unknown</Name>
+                <DefaultValue>Damage</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x50">
+                <Name>Unknown</Name>
+                <DefaultValue>Energy Low</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x51">
+                <Name>Unknown</Name>
+                <DefaultValue>Missiles Low</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x52">
+                <Name>Unknown</Name>
+                <DefaultValue>Depleted</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x53">
+                <Name>MissileWarningPulseTime</Name>
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54">
+                <Name>ExplosionLightFalloffMultConstant</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x55">
+                <Name>ExplosionLightFalloffMultLinear</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x56">
+                <Name>ExplosionLightFalloffMultQuadratic</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x57">
+                <Name>Unknown</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x58">
+                <Name>HudDamagePeakFactor</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x59">
+                <Name>HudDamageFilterGainConstant</Name>
+            </Element>
+            <Element Type="Float" ID="0x5A">
+                <Name>HudDamageFilterGainLinear</Name>
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5B">
+                <Name>HudDamageFilterInitConstant</Name>
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5C">
+                <Name>HudDamageFilterInitLinear</Name>
+                <DefaultValue>0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5D">
+                <Name>EnergyDrainModPeriod</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5E">
+                <Name>EnergyDrainSinusoidalPulse</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5F">
+                <Name>EnergyDrainFilterAdditive</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x60">
+                <Name>HudDamagePulseDuration</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x61">
+                <Name>HudDamageColorGain</Name>
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x62">
+                <Name>HudDecoShakeTranslateGain</Name>
+            </Element>
+            <Element Type="Float" ID="0x63">
+                <Name>HudLagOffsetScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x64">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x65">
+                <Name>Unknown</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x66">
+                <Name>Unknown</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x67">
+                <Name>Unknown</Name>
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68">
+                <Name>Unknown</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x69">
+                <Name>Unknown</Name>
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6A">
+                <Name>Unknown</Name>
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6B">
+                <Name>Unknown</Name>
+                <DefaultValue>1.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6C">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x6D">
+                <Name>ScanSidesAngle</Name>
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6E">
+                <Name>ScanSidesXScale</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6F">
+                <Name>ScanSidesPositionEnd</Name>
+            </Element>
+            <Element Type="Float" ID="0x70">
+                <Name>Unknown</Name>
+                <DefaultValue>0.89999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x71">
+                <Name>ScanSidesDuration</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x72">
+                <Name>ScanSidesStartTime</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x73">
+                <Name>ScanDataDotRadius</Name>
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x74">
+                <Name>ScanDataDotPosRandMag</Name>
+                <DefaultValue>144.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75">
+                <Name>ScanDataDotSeekDurationMin</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76">
+                <Name>ScanDataDotSeekDurationMax</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x77">
+                <Name>ScanDataDotHoldDurationMin</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x78">
+                <Name>ScanDataDotHoldDurationMax</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x79">
+                <Name>ScanAppearanceDuration</Name>
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7A">
+                <Name>ScanPaneFlashFactor</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7B">
+                <Name>ScanPaneFadeInTime</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C">
+                <Name>ScanPaneFadeOutTime</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D">
+                <Name>BallViewportYReduction</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7E">
+                <Name>ScanWindowIdleWidth</Name>
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7F">
+                <Name>ScanWindowIdleHeight</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x80">
+                <Name>ScanWindowActiveWidth</Name>
+                <DefaultValue>1.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x81">
+                <Name>ScanWindowActiveHeight</Name>
+                <DefaultValue>1.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x82">
+                <Name>ScanWindowMagnification</Name>
+                <DefaultValue>1.35</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x83">
+                <Name>ScanWindowScanningAspect</Name>
+                <DefaultValue>1.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x84">
+                <Name>ScanSidesPositionStart</Name>
+                <DefaultValue>-10.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x85">
+                <Name>ShowAutoMapperInMorphball</Name>
+            </Element>
+            <Element Type="Float" ID="0x86">
+                <Name>WorldTransManagerCharsPerSfx</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x87">
+                <Name>XRayFogMode</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x88">
+                <Name>XRayFogNearZ</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x89">
+                <Name>XRayFogFarZ</Name>
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x8A">
+                <Name>XRayFogColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8B">
+                <Name>ThermalVisorLevel</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x8C">
+                <Name>ThermalVisorColor</Name>
+                <DefaultValue>
+                    <R>0.50196099</R>
+                    <G>0.090195999</G>
+                    <B>0.721569</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x8D">
+                <Name>HudLightAddPerVisor0</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.29411799</G>
+                    <B>0.29411799</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x8E">
+                <Name>HudLightAddPerVisor1</Name>
+                <DefaultValue>
+                    <R>0.27451</R>
+                    <G>0.286275</G>
+                    <B>0.56078398</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x8F">
+                <Name>HudLightAddPerVisor2</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.29411799</G>
+                    <B>0.29411799</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x90">
+                <Name>HudLightAddPerVisor3</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.29411799</G>
+                    <B>0.29411799</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x91">
+                <Name>HudLightMultiplyPerVisor0</Name>
+                <DefaultValue>
+                    <R>0.333</R>
+                    <G>0.333</G>
+                    <B>0.333</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x92">
+                <Name>HudLightMultiplyPerVisor1</Name>
+                <DefaultValue>
+                    <R>0.039000001</R>
+                    <G>0.039000001</G>
+                    <B>0.039000001</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x93">
+                <Name>HudLightMultiplyPerVisor2</Name>
+                <DefaultValue>
+                    <R>0.25400001</R>
+                    <G>0.25400001</G>
+                    <B>0.25400001</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x94">
+                <Name>HudLightMultiplyPerVisor3</Name>
+                <DefaultValue>
+                    <R>0.1</R>
+                    <G>0.1</G>
+                    <B>0.1</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x95">
+                <Name>HudReflectivityLightColor</Name>
+                <DefaultValue>
+                    <R>0.38999999</R>
+                    <G>0.38999999</G>
+                    <B>0.38999999</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x96">
+                <Name>HudLightAttMulConstant</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x97">
+                <Name>HudLightAttMulLinear</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x98">
+                <Name>HudLightAttMulQuadratic</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Array" ID="0x99">
+                <Name>ScanSpeeds</Name>
+                <ItemArchetype Type="Float" ID="0x0">
+                    <Name>ScanSpeed</Name>
+                </ItemArchetype>
+            </Element>
+            <Element Type="String" ID="0x9A">
+                <Name>Unknown</Name>
+                <DefaultValue>STRG_Credits</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x9B">
+                <Name>Unknown</Name>
+                <DefaultValue>FONT_Deface13B</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x9C">
+                <Name>Unknown</Name>
+                <DefaultValue>FONT_JapaneseCredits</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x9D">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.76470602</R>
+                    <G>0.89803898</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x9E">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9F">
+                <Name>Unknown</Name>
+                <DefaultValue>191.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA0">
+                <Name>Unknown</Name>
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA1">
+                <Name>Unknown</Name>
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xA2">
+                <Name>Unknown</Name>
+                <DefaultValue>STRG_CompletionScreen</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xA3">
+                <Name>Unknown</Name>
+                <DefaultValue>FONT_DefaceLarge</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xA4">
+                <Name>Unknown</Name>
+                <DefaultValue>FONT_Deface13B</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA5">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA6">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA7">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA8">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA9">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xAA">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAB">
+                <Name>Unknown</Name>
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAC">
+                <Name>Unknown</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAD">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

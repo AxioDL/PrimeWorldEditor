@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_AimStuff</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x27C60D0A">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB7B51DE0">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF77D0359">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDE887CCA">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB4B07D5D">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE5F8C567">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9774749D">
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x133F3002">
+                <DefaultValue>110.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x96FAB602">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x94164A2F">
+                <DefaultValue>360.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54354C80">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5361CE18">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4B2E9260">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3B9A3789">
+                <DefaultValue>0.0099999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x38DD0B85">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1157883E">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

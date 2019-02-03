@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_Collision</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xD0F345B2">
+                <DefaultValue>2.7</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6A884154">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD9355674">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x88EA81DB">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE2F537F">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

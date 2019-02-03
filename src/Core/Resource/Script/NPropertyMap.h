@@ -32,7 +32,7 @@ uint32 CalculatePropertyID(const char* pkName, const char* pkTypeName);
 bool IsValidPropertyID(uint32 ID, const char* pkTypeName, bool* pOutIsValid = nullptr);
 
 /** Retrieves a list of all properties that match the requested property ID. */
-void RetrievePropertiesWithID(uint32 ID, const char* pkTypeName, std::list<IProperty*>& OutList);
+void RetrievePropertiesWithID(uint32 ID, const char* pkTypeName, std::vector<IProperty*>& OutList);
 
 /** Retrieves a list of all XML templates that contain a given property ID. */
 void RetrieveXMLsWithProperty(uint32 ID, const char* pkTypeName, std::set<TString>& OutSet);

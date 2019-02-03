@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Properties Type="Struct">
+        <Name>TweakGui</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Struct" ID="0xD45F7663" Archetype="TweakGui_Misc"/>
+            <Element Type="Struct" ID="0x80B13E60" Archetype="TweakGui_ScannableObjectDownloadTimes"/>
+            <Element Type="Struct" ID="0x41EDF4C8" Archetype="TweakGui_UnknownStruct1"/>
+            <Element Type="Struct" ID="0x93CD6208" Archetype="TweakGui_UnknownStruct1"/>
+            <Element Type="Struct" ID="0x102AA38D" Archetype="TweakGui_UnknownStruct1"/>
+            <Element Type="Struct" ID="0x2B698E45" Archetype="TweakGui_EchoVisor"/>
+            <Element Type="Struct" ID="0x40FFB3C4" Archetype="TweakGui_ScanVisor"/>
+            <Element Type="Struct" ID="0x97B8A76A" Archetype="TweakGui_LogBook"/>
+            <Element Type="Struct" ID="0x77393416" Archetype="TweakGui_Credits"/>
+            <Element Type="Struct" ID="0x2149892" Archetype="TweakGui_Completion"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

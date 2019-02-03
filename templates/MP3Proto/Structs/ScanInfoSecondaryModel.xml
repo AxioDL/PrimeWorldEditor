@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>ScanInfoSecondaryModel</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x1F7921BC">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0x48B192CF"/>
+            <Element Type="String" ID="0x3EA2BED8"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

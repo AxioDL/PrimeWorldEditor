@@ -8,7 +8,6 @@
                 <DefaultValue>0</DefaultValue>
             </Element>
             <Element Type="Choice" ID="0x6A3E9A3D">
-                <DefaultValue>0x0</DefaultValue>
                 <Values>
                     <Element Name="FullScreen" ID="0x0"/>
                     <Element Name="FullScreenHalvesLeftRight" ID="0x1"/>

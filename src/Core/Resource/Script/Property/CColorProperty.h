@@ -25,7 +25,7 @@ public:
 
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        Value(pData).Serialize(Arc);
+        ValueRef(pData).Serialize(Arc);
     }
 };
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGame_CoinLimitChoices</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x6B4CAE26">
+                <DefaultValue>200</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD3F0C943">
+                <DefaultValue>400</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC14566AD">
+                <DefaultValue>600</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x79F901C8">
+                <DefaultValue>800</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE42E3971">
+                <DefaultValue>1000</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

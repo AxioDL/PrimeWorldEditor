@@ -3,6 +3,7 @@
 #include "UICommon.h"
 #include <Common/Log.h>
 
+#include <Core/NCoreTests.h>
 #include <Core/Resource/Script/NGameList.h>
 
 #include <QApplication>
@@ -58,6 +59,12 @@ public:
             debugf("Editor store has invalid entries. Rebuilding database...");
             gpEditorStore->RebuildFromDirectory();
             gpEditorStore->ConditionalSaveStore();
+        }
+
+        // Check for unit tests being run
+        if ( NCoreTests::RunTests(argc, argv) )
+        {
+            return 0;
         }
 
         // Execute application

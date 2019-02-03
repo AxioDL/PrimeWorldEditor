@@ -1,4 +1,6 @@
 #include "IEditPropertyCommand.h"
+#include "Editor/CEditorApplication.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
 
 /** Save the current state of the object properties to the given data buffer */
 void IEditPropertyCommand::SaveObjectStateToArray(std::vector<char>& rVector)
@@ -31,14 +33,36 @@ void IEditPropertyCommand::RestoreObjectStateFromArray(std::vector<char>& rArray
 
 IEditPropertyCommand::IEditPropertyCommand(
         IProperty* pProperty,
-        const QString& rkCommandName /*= "Edit Property"*/
+        CPropertyModel* pModel,
+        const QModelIndex& kIndex,
+        const QString& kCommandName /*= "Edit Property"*/
         )
-    : IUndoCommand(rkCommandName)
+    : IUndoCommand(kCommandName)
     , mpProperty(pProperty)
+    , mpModel(pModel)
+    , mIndex(kIndex)
     , mSavedOldData(false)
     , mSavedNewData(false)
 {
     ASSERT(mpProperty);
+
+    if (!mIndex.isValid())
+    {
+        // If the property being passed in is part of an array archetype, then we MUST have a QModelIndex.
+        // Without the index, there's no way to identify the correct child being edited.
+        // So if we don't have an index, we need to serialize the entire array property.
+        if (mpProperty->IsArrayArchetype())
+        {
+            while (mpProperty && mpProperty->IsArrayArchetype())
+            {
+                mpProperty = mpProperty->Parent();
+            }
+            ASSERT(mpProperty && !mpProperty->IsArrayArchetype());
+        }
+
+        // Now we can fetch the index from the model
+        mIndex = mpModel->IndexForProperty(mpProperty);
+    }
 }
 
 void IEditPropertyCommand::SaveOldData()
@@ -108,12 +132,30 @@ void IEditPropertyCommand::undo()
     ASSERT(mSavedOldData && mSavedNewData);
     RestoreObjectStateFromArray(mOldData);
     mCommandEnded = true;
+
+    if (mpModel && mIndex.isValid())
+    {
+        mpModel->NotifyPropertyModified(mIndex);
+    }
+    else
+    {
+        gpEdApp->WorldEditor()->OnPropertyModified(mpProperty);
+    }
 }
 
 void IEditPropertyCommand::redo()
 {
     ASSERT(mSavedOldData && mSavedNewData);
     RestoreObjectStateFromArray(mNewData);
+
+    if (mpModel && mIndex.isValid())
+    {
+        mpModel->NotifyPropertyModified(mIndex);
+    }
+    else
+    {
+        gpEdApp->WorldEditor()->OnPropertyModified(mpProperty);
+    }
 }
 
 bool IEditPropertyCommand::AffectsCleanState() const

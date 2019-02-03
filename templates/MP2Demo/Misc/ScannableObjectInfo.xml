@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Properties Type="Struct">
+        <Name>ScannableObjectInfo</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x2F5B6423">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Choice" ID="0xC308A322" Archetype="ScanSpeed"/>
+            <Element Type="Bool" ID="0x7B714814">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1733B1EC">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xB7ADC418">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0x15694EE1"/>
+            <Element Type="Struct" ID="0xCA3699F8" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x20B0449A" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0xCFE2F27B" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x2ECCF81F" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0xC19E4EFE" Archetype="ScanInfoSecondaryModel"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

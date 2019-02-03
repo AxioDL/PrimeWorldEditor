@@ -32,27 +32,46 @@
 // Common conversion functions
 #define TO_QSTRING(Str)     UICommon::ToQString(Str)
 #define TO_TSTRING(Str)     UICommon::ToTString(Str)
-#define TO_TWIDESTRING(Str) UICommon::ToTWideString(Str)
 #define TO_CCOLOR(Clr)      CColor::Integral(Clr.red(), Clr.green(), Clr.blue(), Clr.alpha())
 #define TO_QCOLOR(Clr)      QColor(Clr.R * 255, Clr.G * 255, Clr.B * 255, Clr.A * 255)
+
+//@todo This name isn't ideal, too similar to ToWChar and so might cause confusion
+#define TO_WCHAR(Str)       ToWChar( UICommon::ToT16String(Str) )
 
 namespace UICommon
 {
 
 // Utility
-QWindow* FindWidgetWindowHandle(QWidget *pWidget);
+QWindow* FindWidgetWindowHandle(QWidget* pWidget);
 void OpenContainingFolder(const QString& rkPath);
 bool OpenInExternalApplication(const QString& rkPath);
+
+// Searches the widget's ancestry tree to find an ancestor of type ObjectT.
+// ObjectT must be a QObject subclass.
+template<typename ObjectT>
+ObjectT* FindAncestor(QObject* pObject)
+{
+    for (QObject* pParent = pObject->parent(); pParent; pParent = pParent->parent())
+    {
+        ObjectT* pCasted = qobject_cast<ObjectT*>(pParent);
+
+        if (pCasted)
+        {
+            return pCasted;
+        }
+    }
+    return nullptr;
+}
 
 // TString/TWideString <-> QString
 inline QString ToQString(const TString& rkStr)
 {
-    return QString::fromStdString(rkStr.ToStdString());
+    return QString::fromUtf8(*rkStr);
 }
 
-inline QString ToQString(const TWideString& rkStr)
+inline QString ToQString(const T16String& rkStr)
 {
-    return QString::fromStdWString(rkStr.ToStdString());
+    return QString::fromUtf16(*rkStr);
 }
 
 inline TString ToTString(const QString& rkStr)
@@ -60,9 +79,9 @@ inline TString ToTString(const QString& rkStr)
     return TString(rkStr.toStdString());
 }
 
-inline TWideString ToTWideString(const QString& rkStr)
+inline T16String ToT16String(const QString& rkStr)
 {
-    return TWideString(rkStr.toStdWString());
+    return T16String(rkStr.toStdU16String());
 }
 
 // QFileDialog wrappers
@@ -120,6 +139,13 @@ inline bool YesNoQuestion(QWidget *pParent, QString InfoBoxTitle, QString Questi
 {
     QMessageBox::StandardButton Button = QMessageBox::question(pParent, InfoBoxTitle, Question, QMessageBox::Yes | QMessageBox::No);
     return Button == QMessageBox::Yes;
+}
+
+inline bool OpenProject()
+{
+    QWidget* pMainWindow = (QWidget*) gpEdApp->WorldEditor();
+    QString ProjPath = UICommon::OpenFileDialog(pMainWindow, "Open Project", "Game Project (*.prj)");
+    return ProjPath.isEmpty() ? false : gpEdApp->OpenProject(ProjPath);
 }
 
 // Constants

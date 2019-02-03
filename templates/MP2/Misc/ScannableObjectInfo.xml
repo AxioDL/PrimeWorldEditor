@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Properties Type="Struct">
+        <Name>ScannableObjectInfo</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x2F5B6423">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Choice" ID="0xC308A322" Archetype="ScanSpeed"/>
+            <Element Type="Bool" ID="0x7B714814">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1733B1EC">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x53336141">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x3DE0BA64">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2ADD6628">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD0C15066">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xB7ADC418">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0x15694EE1"/>
+            <Element Type="AnimationSet" ID="0x58F9FE99"/>
+            <Element Type="Struct" ID="0x1C5B4A3A" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x8728A0EE" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0xF1CD99D3" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x6ABE7307" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x1C07EBA9" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x8774017D" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0xF1913840" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x6AE2D294" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x1CE2091C" Archetype="ScanInfoSecondaryModel"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

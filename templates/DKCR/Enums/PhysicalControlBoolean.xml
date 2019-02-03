@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Enum">
+        <Name>PhysicalControlBoolean</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0xCCE11D4C"/>
+            <Element Name="Unknown2" ID="0x67E8A811"/>
+            <Element Name="Unknown3" ID="0xC3117B54"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerRes_AutoMapperIcons</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x1EBA4BD8"/>
+            <Element Type="String" ID="0xDD1B0445"/>
+            <Element Type="String" ID="0xB35B7BEC"/>
+            <Element Type="String" ID="0x64667637"/>
+            <Element Type="String" ID="0xD5D00133"/>
+            <Element Type="String" ID="0xDFAC0DB1"/>
+            <Element Type="String" ID="0xB838C9C0"/>
+            <Element Type="String" ID="0x5096BFA5"/>
+            <Element Type="String" ID="0x5291EB5F"/>
+            <Element Type="String" ID="0xF4E6E0EB"/>
+            <Element Type="String" ID="0x65700CCC"/>
+            <Element Type="String" ID="0xA0D73242"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

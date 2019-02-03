@@ -1,10 +1,9 @@
 #ifndef CRESOURCEBROWSERDELEGATE_H
 #define CRESOURCEBROWSERDELEGATE_H
 
-#include <QStyledItemDelegate>
+#include "Editor/CCustomDelegate.h"
 
-
-class CResourceBrowserDelegate : public QStyledItemDelegate
+class CResourceBrowserDelegate : public CCustomDelegate
 {
 public:
     static const int skIconSize = 32;
@@ -14,7 +13,7 @@ private:
 
 public:
     CResourceBrowserDelegate(QObject *pParent = 0)
-        : QStyledItemDelegate(pParent)
+        : CCustomDelegate(pParent)
         , mDisplayAssetIDs(false)
     {}
 

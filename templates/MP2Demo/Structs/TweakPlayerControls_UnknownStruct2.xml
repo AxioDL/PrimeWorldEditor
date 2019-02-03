@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerControls_UnknownStruct2</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0xFF1B0413">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE0C1D958">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x55C20D58">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1F99C6BA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x18EB3AB5">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xBDC01C71">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1C30F1A6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xDA97BBCD">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x83583ABD">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xC224D966">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1FCFAF3F">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3FB16819">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4FCF4B70">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7BB06A6">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4D8D57B">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5282C47E">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7304DAFA">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7A49267D">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA796A8B9">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7C0599C8">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x522AB1AC">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

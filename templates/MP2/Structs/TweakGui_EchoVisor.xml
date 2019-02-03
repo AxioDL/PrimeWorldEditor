@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGui_EchoVisor</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0x905FA7E4">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x62CA2DDD">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xDC4C2A5F">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA288FE51">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF316C617">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB56D2286">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5C2D8FC">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47D948B1">
+                <DefaultValue>800.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5708B903">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAFC8C571">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x28BFFDC5">
+                <DefaultValue>0.89999998</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x66351D36">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x99A65CA7">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x51F19DEA">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

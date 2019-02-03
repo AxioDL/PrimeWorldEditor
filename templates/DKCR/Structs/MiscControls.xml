@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>MiscControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x439F3678" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBF8653ED" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x9CA552B4" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x88B5FD4D" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xB63C1D0B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1D88EE3E" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x19A3E07D" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD9CF3E97" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xB7346005" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x76299DF7" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x2C2B2B0E" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakPlayerGun</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>UpLookAngle</Name>
+                <DefaultValue>22.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>DownLookAngle</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>VerticalSpread</Name>
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>HorizontalSpread</Name>
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>HighVerticalSpread</Name>
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>HighHorizontalSpread</Name>
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>LowVerticalSpread</Name>
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>LowHorizontalSpread</Name>
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>AimVerticalSpeed</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>AimHorizontalSpeed</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>BombFuseTime</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>BombDropDelayTime</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>HoloHoldTime</Name>
+                <DefaultValue>0.0625</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>GunTransformTime</Name>
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>GunHolsterTime</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>GunNotFiringTime</Name>
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10">
+                <Name>FixedVerticalAim</Name>
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>GunExtendDistance</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x12">
+                <Name>GunPosition</Name>
+                <DefaultValue>
+                    <X>0.25</X>
+                    <Y>0.30000001</Y>
+                    <Z>-0.34999999</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x13">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <X>-0.64999998</X>
+                    <Y>-0.1</Y>
+                    <Z>0.050000001</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x14">
+                <Name>GrapplingArmPosition</Name>
+                <DefaultValue>
+                    <X>-0.44999999</X>
+                    <Y>-0.1</Y>
+                    <Z>-0.30000001</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x15" Archetype="ShotParam">
+                <Name>Bomb</Name>
+                <SubProperties>
+                    <Element Type="Choice" ID="0x0">
+                        <DefaultValue>4</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3">
+                        <DefaultValue>3.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x16" Archetype="ShotParam">
+                <Name>PowerBomb</Name>
+                <SubProperties>
+                    <Element Type="Choice" ID="0x0">
+                        <DefaultValue>5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x17" Archetype="ShotParam">
+                <Name>Missile</Name>
+                <SubProperties>
+                    <Element Type="Choice" ID="0x0">
+                        <DefaultValue>6</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>30.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2">
+                        <DefaultValue>15.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3">
+                        <DefaultValue>4.5</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x18" Archetype="BeamInfo">
+                <Name>PowerBeam</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x0">
+                        <DefaultValue>0.111</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x1">
+                        <SubProperties>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x2">
+                        <SubProperties>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>50.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>25.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>2.5</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x19" Archetype="BeamInfo">
+                <Name>IceBeam</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x0">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x1">
+                        <SubProperties>
+                            <Element Type="Choice" ID="0x0">
+                                <DefaultValue>1</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>20.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>1.25</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x2">
+                        <SubProperties>
+                            <Element Type="Choice" ID="0x0">
+                                <DefaultValue>1</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>60.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>15.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>4.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x1A" Archetype="BeamInfo">
+                <Name>WaveBeam</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x0">
+                        <DefaultValue>0.5</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x1">
+                        <SubProperties>
+                            <Element Type="Choice" ID="0x0">
+                                <DefaultValue>2</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x2">
+                        <SubProperties>
+                            <Element Type="Choice" ID="0x0">
+                                <DefaultValue>2</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>40.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>37.5</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x1B" Archetype="BeamInfo">
+                <Name>PlasmaBeam</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x0">
+                        <DefaultValue>0.1</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x1">
+                        <SubProperties>
+                            <Element Type="Choice" ID="0x0">
+                                <DefaultValue>3</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>12.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>12.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x2">
+                        <SubProperties>
+                            <Element Type="Choice" ID="0x0">
+                                <DefaultValue>3</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>100.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>50.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>5.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x1C" Archetype="BeamInfo">
+                <Name>PhazonBeam</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x0">
+                        <DefaultValue>0.1</DefaultValue>
+                    </Element>
+                    <Element Type="Struct" ID="0x1">
+                        <SubProperties>
+                            <Element Type="Choice" ID="0x0">
+                                <DefaultValue>8</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>100.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>100.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>2.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                    <Element Type="Struct" ID="0x2">
+                        <SubProperties>
+                            <Element Type="Choice" ID="0x0">
+                                <DefaultValue>8</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x1">
+                                <DefaultValue>500.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x2">
+                                <DefaultValue>3.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x3">
+                                <DefaultValue>10.0</DefaultValue>
+                            </Element>
+                            <Element Type="Float" ID="0x4">
+                                <DefaultValue>1.0</DefaultValue>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x1D" Archetype="ShotParam">
+                <Name>PowerCombo</Name>
+                <SubProperties>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>180.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2">
+                        <DefaultValue>120.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3">
+                        <DefaultValue>8.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4">
+                        <DefaultValue>8.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x1E" Archetype="ShotParam">
+                <Name>IceCombo</Name>
+                <SubProperties>
+                    <Element Type="Choice" ID="0x0">
+                        <DefaultValue>1</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>150.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2">
+                        <DefaultValue>150.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x1F" Archetype="ShotParam">
+                <Name>WaveCombo</Name>
+                <SubProperties>
+                    <Element Type="Choice" ID="0x0">
+                        <DefaultValue>2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2">
+                        <DefaultValue>0.80000001</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4">
+                        <DefaultValue>4.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x20" Archetype="ShotParam">
+                <Name>PlasmaCombo</Name>
+                <SubProperties>
+                    <Element Type="Choice" ID="0x0">
+                        <DefaultValue>3</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>1.2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2">
+                        <DefaultValue>1.2</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x21" Archetype="ShotParam">
+                <Name>PhazonCombo</Name>
+                <SubProperties>
+                    <Element Type="Choice" ID="0x0">
+                        <DefaultValue>8</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x1">
+                        <DefaultValue>10.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x2">
+                        <DefaultValue>5.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x3">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4">
+                        <DefaultValue>1.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Float" ID="0x22">
+                <Name>PowerBeamRicochet</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23">
+                <Name>IceBeamRicochet</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24">
+                <Name>WaveBeamRicochet</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x25">
+                <Name>PlasmaBeamRicochet</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x26">
+                <Name>MissileRicochet</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x26">
+                <Name>PhazonBeamRicochet</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

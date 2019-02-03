@@ -24,31 +24,7 @@
             <Element Type="Float" ID="0x95C19D09">
                 <DefaultValue>100.0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0x55D89AB7" Archetype="LaunchProjectileData">
-                <SubProperties>
-                    <Element Type="Float" ID="0x53AE4A7">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xCF201BFA">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x88137FA8">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Bool" ID="0xB2D02323">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Vector" ID="0xF344C0B0">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x56B20B2">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xF78469D6">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
-            </Element>
+            <Element Type="Struct" ID="0x55D89AB7" Archetype="LaunchProjectileData"/>
             <Element Type="Struct" ID="0x7B71AE90" Archetype="DamageVulnerability"/>
         </SubProperties>
     </PropertyArchetype>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakGame</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>WorldPackagePrefix</Name>
+                <DefaultValue>Metroid</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1">
+                <Name>RuinsArea</Name>
+                <DefaultValue>ruin_area22</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>FieldOfView</Name>
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x3">
+                <Name>Unknown</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x4">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Bool" ID="0x5">
+                <Name>Unknown</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x6">
+                <Name>DisableSplashScreens</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Unknown</Name>
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>PressStartDelay</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>WavecapIntensityNormal</Name>
+                <DefaultValue>450.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>WavecapIntensityPoison</Name>
+                <DefaultValue>400.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>WavecapIntensityLava</Name>
+                <DefaultValue>1750.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>RippleIntensityNormal</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>RippleIntensityPoison</Name>
+                <DefaultValue>1.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>RippleIntensityLava</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>FluidEnvBumpScale</Name>
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10">
+                <Name>UnderwaterFogDistanceBase</Name>
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>UnderwaterFogDistanceRange</Name>
+                <DefaultValue>125.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x12">
+                <Name>GravitySuitUnderwaterFogDistanceBase</Name>
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x13">
+                <Name>GravitySuitUnderwaterFogDistanceRange</Name>
+                <DefaultValue>300.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14">
+                <Name>HardModeDamageMultiplier</Name>
+                <DefaultValue>1.53</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x15">
+                <Name>HardModeWeaponMultiplier</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

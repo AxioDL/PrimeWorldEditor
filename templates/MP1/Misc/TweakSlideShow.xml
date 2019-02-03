@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakSlideShow</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>PackageName</Name>
+                <DefaultValue>SlideShow</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1">
+                <Name>FontAssetName</Name>
+                <DefaultValue>FONT_Deface14B_O</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2">
+                <Name>FontColor</Name>
+                <DefaultValue>
+                    <R>0.54901999</R>
+                    <G>0.80000001</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3">
+                <Name>OutlineColor</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>ScanPercentInterval</Name>
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>Unknown</Name>
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>Unknown</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>Unknown</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>Unknown</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x9">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.55000001</R>
+                    <G>0.80000001</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>Unknown</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>Unknown</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>Unknown</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>Unknown</Name>
+                <DefaultValue>0.001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>Unknown</Name>
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

@@ -22,6 +22,8 @@
 #include "CUnsupportedParticleLoader.h"
 #include "CWorldLoader.h"
 
+#include "Core/Tweaks/CTweakLoader.h"
+
 #include "Core/Resource/Resources.h"
 
 // Static helper class to allow spawning resources based on an EResType
@@ -97,6 +99,7 @@ public:
         case EResourceType::StringList:           pRes = CAudioGroupLoader::LoadSTLC(rInput, pEntry);         break;
         case EResourceType::StringTable:          pRes = CStringLoader::LoadSTRG(rInput, pEntry);             break;
         case EResourceType::Texture:              pRes = CTextureDecoder::LoadTXTR(rInput, pEntry);           break;
+        case EResourceType::Tweaks:               pRes = CTweakLoader::LoadCTWK(rInput, pEntry);              break;
         case EResourceType::World:                pRes = CWorldLoader::LoadMLVL(rInput, pEntry);              break;
 
         case EResourceType::StateMachine:

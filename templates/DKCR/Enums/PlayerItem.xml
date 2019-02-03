@@ -2,7 +2,6 @@
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Enum">
         <Name>PlayerItem</Name>
-        <DefaultValue>0x0</DefaultValue>
         <OverrideTypeName>true</OverrideTypeName>
         <Values>
             <Element Name="Banana" ID="0xB22FD89B"/>

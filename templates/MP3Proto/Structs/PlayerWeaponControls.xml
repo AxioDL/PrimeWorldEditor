@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerWeaponControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x82168860" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD55C24C4" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x6FE93D70" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCBB88CB7" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x711804A6" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xFAD9340E" Archetype="RevolutionControl"/>
+            <Element Type="Spline" ID="0x2F1E9D"/>
+            <Element Type="Spline" ID="0xFAD945BE"/>
+            <Element Type="Spline" ID="0xA166125C"/>
+            <Element Type="Spline" ID="0xDF87AA4E"/>
+            <Element Type="Spline" ID="0x1A86616E"/>
+            <Element Type="Spline" ID="0x5F281C4"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -2,7 +2,6 @@
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Enum">
         <Name>Shape</Name>
-        <DefaultValue>0x0</DefaultValue>
         <Values>
             <Element Name="Box" ID="0x482B22F1"/>
             <Element Name="Box" ID="0x779DB545"/>

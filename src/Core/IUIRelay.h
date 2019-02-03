@@ -6,8 +6,10 @@
 class IUIRelay
 {
 public:
-    virtual void AsyncMessageBox(const TString& rkInfoBoxTitle, const TString& rkMessage) = 0;
+    virtual void ShowMessageBox(const TString& rkInfoBoxTitle, const TString& rkMessage) = 0;
+    virtual void ShowMessageBoxAsync(const TString& rkInfoBoxTitle, const TString& rkMessage) = 0;
     virtual bool AskYesNoQuestion(const TString& rkInfoBoxTitle, const TString& rkQuestion) = 0;
+    virtual bool OpenProject(const TString& kPath = "") = 0;
 };
 extern IUIRelay *gpUIRelay;
 

@@ -10,25 +10,25 @@
             <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x58434916">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xFF77C96F">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xB0CFE015">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xC80E329B">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0x3FAE47EB">
                         <DefaultValue>100.0</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x13F0B18F">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0x7D5A0487">
-                        <CookPreference>Never</CookPreference>
+                        <CookPreference>OnlyIfModified</CookPreference>
                     </Element>
                     <Element Type="Struct" ID="0xCF90D15E">
                         <SubProperties>
@@ -122,7 +122,7 @@
             <Element Type="Struct" ID="0xDF636C4B" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0xB</DefaultValue>
+                        <DefaultValue>11</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>
@@ -149,7 +149,7 @@
             <Element Type="Struct" ID="0x13E30E4D" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0xB</DefaultValue>
+                        <DefaultValue>11</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>
@@ -183,7 +183,7 @@
             <Element Type="Struct" ID="0x5285DB00" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0xB</DefaultValue>
+                        <DefaultValue>11</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>
@@ -252,7 +252,7 @@
             <Element Type="Struct" ID="0x6EC26414" Archetype="DamageInfo">
                 <SubProperties>
                     <Element Type="Choice" ID="0x119FBD31">
-                        <DefaultValue>0xB</DefaultValue>
+                        <DefaultValue>11</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0xF2D02613">
                         <DefaultValue>5.0</DefaultValue>

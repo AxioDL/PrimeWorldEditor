@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Choice">
+        <Name>LogbookCategory</Name>
+        <Values>
+            <Element Name="None" ID="0x0"/>
+            <Element Name="SpacePirateData" ID="0x1"/>
+            <Element Name="ChozoLore" ID="0x2"/>
+            <Element Name="Creatures" ID="0x3"/>
+            <Element Name="Research" ID="0x4"/>
+            <Element Name="Artifacts" ID="0x5"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

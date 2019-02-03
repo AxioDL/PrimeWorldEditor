@@ -888,6 +888,10 @@
             <Value Path="Structs/Data.xml"/>
         </Element>
         <Element>
+            <Key>DeathTikiTransition</Key>
+            <Value Path="Structs/DeathTikiTransition.xml"/>
+        </Element>
+        <Element>
             <Key>DebrisProperties</Key>
             <Value Path="Structs/DebrisProperties.xml"/>
         </Element>
@@ -1092,6 +1096,10 @@
             <Value Path="Structs/LocomotionContextEnum.xml"/>
         </Element>
         <Element>
+            <Key>MapControls</Key>
+            <Value Path="Structs/MapControls.xml"/>
+        </Element>
+        <Element>
             <Key>MaterialSoundPair</Key>
             <Value Path="Structs/MaterialSoundPair.xml"/>
         </Element>
@@ -1106,6 +1114,10 @@
         <Element>
             <Key>MineCartMaterialSounds</Key>
             <Value Path="Structs/MineCartMaterialSounds.xml"/>
+        </Element>
+        <Element>
+            <Key>MiscControls</Key>
+            <Value Path="Structs/MiscControls.xml"/>
         </Element>
         <Element>
             <Key>ModifyContactRuleData</Key>
@@ -1214,6 +1226,14 @@
         <Element>
             <Key>PeanutProperties</Key>
             <Value Path="Structs/PeanutProperties.xml"/>
+        </Element>
+        <Element>
+            <Key>PhysicalControl</Key>
+            <Value Path="Enums/PhysicalControl.xml"/>
+        </Element>
+        <Element>
+            <Key>PhysicalControlBoolean</Key>
+            <Value Path="Enums/PhysicalControlBoolean.xml"/>
         </Element>
         <Element>
             <Key>PickupData</Key>
@@ -1448,6 +1468,46 @@
             <Value Path="Structs/RetronomeMessage.xml"/>
         </Element>
         <Element>
+            <Key>RevolutionControl</Key>
+            <Value Path="Structs/RevolutionControl.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionControlType</Key>
+            <Value Path="Enums/RevolutionControlType.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionControl_UnknownEnum1</Key>
+            <Value Path="Enums/RevolutionControl_UnknownEnum1.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionControl_UnknownEnum2</Key>
+            <Value Path="Enums/RevolutionControl_UnknownEnum2.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionControl_UnknownStruct1</Key>
+            <Value Path="Structs/RevolutionControl_UnknownStruct1.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionControl_UnknownStruct2</Key>
+            <Value Path="Structs/RevolutionControl_UnknownStruct2.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionControl_UnknownStruct3</Key>
+            <Value Path="Structs/RevolutionControl_UnknownStruct3.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionControl_UnknownStruct4</Key>
+            <Value Path="Structs/RevolutionControl_UnknownStruct4.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionPhysicalControl</Key>
+            <Value Path="Structs/RevolutionPhysicalControl.xml"/>
+        </Element>
+        <Element>
+            <Key>RevolutionVirtualControl</Key>
+            <Value Path="Enums/RevolutionVirtualControl.xml"/>
+        </Element>
+        <Element>
             <Key>RobotChickenEnum</Key>
             <Value Path="Enums/RobotChickenEnum.xml"/>
         </Element>
@@ -1646,6 +1706,30 @@
         <Element>
             <Key>TriggerShape</Key>
             <Value Path="Structs/TriggerShape.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakControls_UnknownStruct1</Key>
+            <Value Path="Structs/TweakControls_UnknownStruct1.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakControls_UnknownStruct2</Key>
+            <Value Path="Structs/TweakControls_UnknownStruct2.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakControls_UnknownStruct3</Key>
+            <Value Path="Structs/TweakControls_UnknownStruct3.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGraphicalTransitions_UnknownEnum1</Key>
+            <Value Path="Enums/TweakGraphicalTransitions_UnknownEnum1.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGraphicalTransitions_UnknownStruct1</Key>
+            <Value Path="Structs/TweakGraphicalTransitions_UnknownStruct1.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGraphicalTransitions_UnknownStruct2</Key>
+            <Value Path="Structs/TweakGraphicalTransitions_UnknownStruct2.xml"/>
         </Element>
         <Element>
             <Key>UnknownEnum1</Key>
@@ -2604,6 +2688,16 @@
             <Value Path="Structs/ZoomBehaviorData.xml"/>
         </Element>
     </PropertyArchetypes>
+    <MiscTemplates>
+        <Element>
+            <Key>TweakControls</Key>
+            <Value Path="Misc/TweakControls.xml"/>
+        </Element>
+        <Element>
+            <Key>TweakGraphicalTransitions</Key>
+            <Value Path="Misc/TweakGraphicalTransitions.xml"/>
+        </Element>
+    </MiscTemplates>
     <States>
         <Element>
             <Key>!ZER</Key>

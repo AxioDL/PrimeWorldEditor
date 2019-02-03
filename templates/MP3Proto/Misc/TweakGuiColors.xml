@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>TweakGuiColors</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Struct" ID="0xCB737724" Archetype="TweakGuiColors_HUDColorsTypedef"/>
+            <Element Type="Struct" ID="0x6756D4DE" Archetype="TweakGuiColors_Misc"/>
+            <Element Type="Struct" ID="0x697613E9" Archetype="TweakGuiColors_Multiplayer"/>
+            <Element Type="Struct" ID="0x67C70055" Archetype="TweakGui_VisorColorSchemeTypedef"/>
+            <Element Type="Struct" ID="0x62E0A08F" Archetype="TweakGui_VisorColorSchemeTypedef"/>
+            <Element Type="Struct" ID="0x80BECD6E" Archetype="TweakGui_VisorColorSchemeTypedef"/>
+            <Element Type="Struct" ID="0x7DE4B297" Archetype="TweakGui_VisorColorSchemeTypedef"/>
+            <Element Type="Struct" ID="0xC0181762" Archetype="TweakGui_VisorColorSchemeTypedef"/>
+            <Element Type="Struct" ID="0x45D7A40F" Archetype="TweakGui_HudColorTypedef"/>
+            <Element Type="Struct" ID="0x594B44CF" Archetype="TweakGui_HudColorTypedef"/>
+            <Element Type="Struct" ID="0x8F5EBEB9" Archetype="TweakGui_HudColorTypedef"/>
+            <Element Type="Struct" ID="0xF12B1E59" Archetype="TweakGui_HudColorTypedef"/>
+            <Element Type="Struct" ID="0x58CD6373" Archetype="TweakGui_HudColorTypedef"/>
+            <Element Type="Struct" ID="0xDE139081" Archetype="TweakGuiColors_TurretHudTypedef"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

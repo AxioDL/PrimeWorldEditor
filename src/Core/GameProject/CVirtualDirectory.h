@@ -26,6 +26,7 @@ public:
 
     bool IsEmpty(bool CheckFilesystem) const;
     bool IsDescendantOf(CVirtualDirectory *pDir) const;
+    bool IsSafeToDelete() const;
     TString FullPath() const;
     TString AbsolutePath() const;
     CVirtualDirectory* GetRoot();

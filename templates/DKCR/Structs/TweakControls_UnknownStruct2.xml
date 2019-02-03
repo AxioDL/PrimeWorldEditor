@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakControls_UnknownStruct2</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x1D9B5CC1" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x56AAA727" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xDCCB2CAA" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x3C573A20" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x6B6FCE63" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xC66160E6" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xC6BC4B19" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x79810B2B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD6787EBE" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x532087D5" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x3ED13A6A" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x7AA0B07C" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1C204629" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1996475F" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

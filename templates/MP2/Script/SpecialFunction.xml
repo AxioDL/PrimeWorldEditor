@@ -11,7 +11,6 @@
                 </SubProperties>
             </Element>
             <Element Type="Choice" ID="0x95F8D644">
-                <DefaultValue>0x0</DefaultValue>
                 <Values>
                     <Element Name="What" ID="0x0"/>
                     <Element Name="Player Follow Locator" ID="0x1"/>

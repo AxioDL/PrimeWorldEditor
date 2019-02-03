@@ -15,14 +15,6 @@ INodeEditor::INodeEditor(QWidget *pParent)
     , mRotateSpace(ETransformSpace::World)
     , mCloneState(eNotCloning)
 {
-    // Create undo actions
-    QAction *pUndoAction = mUndoStack.createUndoAction(this);
-    QAction *pRedoAction = mUndoStack.createRedoAction(this);
-    pUndoAction->setShortcut(QKeySequence::Undo);
-    pRedoAction->setShortcut(QKeySequence::Redo);
-    mUndoActions.push_back(pUndoAction);
-    mUndoActions.push_back(pRedoAction);
-
     // Create gizmo actions
     mGizmoActions.append(new QAction(QIcon(":/icons/SelectMode.png"), "Select Objects", this));
     mGizmoActions.append(new QAction(QIcon(":/icons/Translate.png"), "Translate", this));
@@ -61,11 +53,6 @@ INodeEditor::INodeEditor(QWidget *pParent)
 INodeEditor::~INodeEditor()
 {
     delete mpSelection;
-}
-
-QUndoStack* INodeEditor::UndoStack()
-{
-    return &mUndoStack;
 }
 
 CScene* INodeEditor::Scene()

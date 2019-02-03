@@ -30,12 +30,12 @@ TString COpeningBanner::EnglishGameName() const
     Banner.ReadBytes(NameBuffer.data(), MaxLen * CharSize);
 
     Banner.SetData(NameBuffer.data(), NameBuffer.size(), EEndian::BigEndian);
-    return mWii ? Banner.ReadWString().ToUTF8() : Banner.ReadString();
+    return mWii ? Banner.Read16String().ToUTF8() : Banner.ReadString();
 }
 
 void COpeningBanner::SetEnglishGameName(const TString& rkName)
 {
-        CMemoryOutStream Banner(mBannerData.data(), mBannerData.size(), EEndian::BigEndian);
+    CMemoryOutStream Banner(mBannerData.data(), mBannerData.size(), EEndian::BigEndian);
     uint32 PadCount = 0;
 
     uint32 MaxLen = MaxGameNameLength();
@@ -44,7 +44,7 @@ void COpeningBanner::SetEnglishGameName(const TString& rkName)
     if (mWii)
     {
         Banner.GoTo(0xB0);
-        Banner.WriteWString(rkName.ToUTF16(), -1, false);
+        Banner.Write16String(rkName.ToUTF16(), -1, false);
         PadCount = (MaxLen - rkName.Size()) * 2;
     }
     else

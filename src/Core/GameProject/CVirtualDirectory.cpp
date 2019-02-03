@@ -46,6 +46,28 @@ bool CVirtualDirectory::IsDescendantOf(CVirtualDirectory *pDir) const
     return (this == pDir) || (mpParent && pDir && (mpParent == pDir || mpParent->IsDescendantOf(pDir)));
 }
 
+bool CVirtualDirectory::IsSafeToDelete() const
+{
+    // Return false if we contain any referenced assets.
+    for (CResourceEntry* pEntry : mResources)
+    {
+        if (pEntry->IsLoaded() && pEntry->Resource()->IsReferenced())
+        {
+            return false;
+        }
+    }
+
+    for (CVirtualDirectory* pSubdir : mSubdirectories)
+    {
+        if (!pSubdir->IsSafeToDelete())
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 TString CVirtualDirectory::FullPath() const
 {
     if (IsRoot())

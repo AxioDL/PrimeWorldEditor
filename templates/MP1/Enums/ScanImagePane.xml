@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Choice">
+        <Name>ScanImagePane</Name>
+        <Values>
+            <Element Name="Pane0" ID="0x0"/>
+            <Element Name="Pane1" ID="0x1"/>
+            <Element Name="Pane2" ID="0x2"/>
+            <Element Name="Pane3" ID="0x3"/>
+            <Element Name="Pane01" ID="0x4"/>
+            <Element Name="Pane12" ID="0x5"/>
+            <Element Name="Pane23" ID="0x6"/>
+            <Element Name="Pane012" ID="0x7"/>
+            <Element Name="Pane123" ID="0x8"/>
+            <Element Name="Pane0123" ID="0x9"/>
+            <Element Name="Pane4" ID="0xA"/>
+            <Element Name="Pane5" ID="0xB"/>
+            <Element Name="Pane6" ID="0xC"/>
+            <Element Name="Pane7" ID="0xD"/>
+            <Element Name="Pane45" ID="0xE"/>
+            <Element Name="Pane56" ID="0xF"/>
+            <Element Name="Pane67" ID="0x10"/>
+            <Element Name="Pane456" ID="0x11"/>
+            <Element Name="Pane567" ID="0x12"/>
+            <Element Name="Pane4567" ID="0x13"/>
+            <Element Name="None" ID="0xFFFFFFFF"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

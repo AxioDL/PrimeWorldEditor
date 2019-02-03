@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>TweakGame</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="String" ID="0x2BD13AB3"/>
+            <Element Type="String" ID="0xF8BE005A"/>
+            <Element Type="Float" ID="0xFC93CEB8">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA9096914">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7262D27B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE943BA12">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA3DCF42A">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB35C72BE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8ED1D96E">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6D353C85">
+                <DefaultValue>1.3</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4DFCD432">
+                <DefaultValue>1.53</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAE1831D9">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x44EBDBE2">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA70F3E09">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD09F373B">
+                <DefaultValue>102</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x40818220"/>
+            <Element Type="Float" ID="0x5EE57BCC">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x36F52473">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAF3C21EA">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD81A54F7">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x465D90B8">
+                <DefaultValue>500.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

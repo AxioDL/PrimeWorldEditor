@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_ScanVisor</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xB0A32E5B">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2A75F2B8">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x58284BB">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1E54F5AE">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xADFA90FC">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF4DB84A9">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8A7B245F">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

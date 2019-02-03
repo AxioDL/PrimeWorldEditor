@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>MiscControls_UnknownStruct1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x10699C6F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x50DE5441" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x6E14BC06">
+                        <CookPreference>Default</CookPreference>
+                    </Element>
+                    <Element Type="Struct" ID="0xF0BF68A4">
+                        <CookPreference>Default</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xA9A26569" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x6F71ADF7" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

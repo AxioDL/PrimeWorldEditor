@@ -96,5 +96,25 @@ public:
     void EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut);
 };
 
+// ************ CAssetDependencyListBuilder ************
+//@todo merge with CAreaDependencyListBuilder; code is very similar
+class CAssetDependencyListBuilder
+{
+    CResourceEntry* mpResourceEntry;
+    CCharacterUsageMap mCharacterUsageMap;
+    std::set<CAssetID> mUsedAssets;
+    CAssetID mCurrentAnimSetID;
+
+public:
+    CAssetDependencyListBuilder(CResourceEntry* pEntry)
+        : mpResourceEntry(pEntry)
+        , mCharacterUsageMap(pEntry->ResourceStore())
+    {}
+
+    void BuildDependencyList(std::vector<CAssetID>& OutAssets);
+    void AddDependency(const CAssetID& kID, std::vector<CAssetID>& Out);
+    void EvaluateDependencyNode(CResourceEntry* pCurEntry, IDependencyNode* pNode, std::vector<CAssetID>& Out);
+};
+
 #endif // DEPENDENCYLISTBUILDERS
 

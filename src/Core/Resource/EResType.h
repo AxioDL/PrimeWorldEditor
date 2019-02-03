@@ -66,7 +66,7 @@ enum class EResourceType
     StringList,
     StringTable,
     Texture,
-    Tweak,
+    Tweaks,
     UserEvaluatorData,
     Video,
     World,

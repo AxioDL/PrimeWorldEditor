@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakAutoMapper</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Bool" ID="0x0">
+                <Name>ShowOneMiniMapArea</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1">
+                <Name>Unknown</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x2">
+                <Name>ScaleMoveSpeedWithCameraDistance</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>CameraDistance</Name>
+                <DefaultValue>175.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>MinCameraDistance</Name>
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>MaxCameraDistance</Name>
+                <DefaultValue>700.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>MinCameraRotationX</Name>
+                <DefaultValue>-89.900002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>MaxCameraRotationX</Name>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>CameraAngle</Name>
+                <DefaultValue>75.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>Unknown</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA">
+                <Name>AutoMapperWidgetColor</Name>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>MiniMapCameraDistance</Name>
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>MiniMapCameraAngleX</Name>
+                <DefaultValue>-45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>MiniMapCameraAngle</Name>
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>Unknown</Name>
+                <DefaultValue>0.60000002</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF">
+                <Name>AutoMapperWidgetColorMiniMap</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x10">
+                <Name>VisitedSurfaceColor</Name>
+                <DefaultValue>
+                    <R>0.95686299</R>
+                    <G>0.40784299</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x11">
+                <Name>VisitedOutlineColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.52941197</G>
+                    <B>0.023529001</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x12">
+                <Name>UnvisitedSurfaceColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.094117999</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x13">
+                <Name>UnvisitedOutlineColor</Name>
+                <DefaultValue>
+                    <R>0.384314</R>
+                    <G>0.64705902</G>
+                    <B>0.83529401</B>
+                    <A>0.113725</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x14">
+                <Name>VisitedAndSelectedSurfaceColor</Name>
+                <DefaultValue>
+                    <R>0.95686299</R>
+                    <G>0.67451</G>
+                    <B>0.011765</B>
+                    <A>0.90196103</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x15">
+                <Name>VisitedAndSelectedOutlineColor</Name>
+                <DefaultValue>
+                    <R>0.98000002</R>
+                    <G>0.83999997</G>
+                    <B>0.75</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x16">
+                <Name>MapSurfaceNormColorLinear</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x17">
+                <Name>MapSurfaceNormColorConstant</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x18">
+                <Name>Unknown</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x19">
+                <Name>OpenMapScreenTime</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A">
+                <Name>CloseMapScreenTime</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1B">
+                <Name>HintPanTime</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1C">
+                <Name>ZoomUnitsPerFrame</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1D">
+                <Name>RotateDegreesPerFrame</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1E">
+                <Name>CameraMoveSpeed</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1F">
+                <Name>UnvisitedAndSelectedSurfaceColor</Name>
+                <DefaultValue>
+                    <R>0.40000001</R>
+                    <G>0.67058802</G>
+                    <B>0.86274499</B>
+                    <A>0.90196103</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x20">
+                <Name>UnvisitedAndSelectedOutlineColor</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21">
+                <Name>MiniMapOpacityVisited</Name>
+                <DefaultValue>0.60000002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x22">
+                <Name>MapOpacityVisited</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23">
+                <Name>MiniMapOutlineOpacityVisited</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24">
+                <Name>MapOutlineOpacityVisited</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x25">
+                <Name>MiniMapOpacityUnvisited</Name>
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x26">
+                <Name>MapOpacityUnvisited</Name>
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x27">
+                <Name>MiniMapOutlineOpacityUnvisited</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x28">
+                <Name>MapOutlineOpacityUnvisited</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x29">
+                <Name>DoorOriginX</Name>
+                <DefaultValue>3.5699999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2A">
+                <Name>DoorOriginY</Name>
+                <DefaultValue>3.5699999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B">
+                <Name>DoorOriginZ</Name>
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2C">
+                <Name>Unknown</Name>
+                <DefaultValue>24.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D">
+                <Name>Unknown</Name>
+                <DefaultValue>348.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E">
+                <Name>MiniMapViewportWidth</Name>
+                <DefaultValue>152.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F">
+                <Name>MiniMapViewportHeight</Name>
+                <DefaultValue>114.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x30">
+                <Name>MiniMapCameraDistanceScale</Name>
+                <DefaultValue>0.85000002</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x31">
+                <Name>MapPlaneScaleX</Name>
+                <DefaultValue>1.85</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32">
+                <Name>MapPlaneScaleZ</Name>
+                <DefaultValue>1.36</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x33">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x34">
+                <Name>UniverseCameraDistance</Name>
+                <DefaultValue>800.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x35">
+                <Name>MinUniverseCameraDistance</Name>
+                <DefaultValue>400.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x36">
+                <Name>MaxUniverseCameraDistance</Name>
+                <DefaultValue>2000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x37">
+                <Name>UniverseTransitionTime</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x38">
+                <Name>CameraPanUnitsPerFrame</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39">
+                <Name>AutoMapperScaleX</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3A">
+                <Name>AutoMapperScaleZ</Name>
+                <DefaultValue>0.63499999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3B">
+                <Name>CameraVerticalOffset</Name>
+                <DefaultValue>-0.050000001</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3C">
+                <Name>MiniMapSamusModColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3D">
+                <Name>AreaFlashPulseColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3E">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.78125</R>
+                    <G>0.196078</G>
+                    <B>0.196078</B>
+                    <A>0.78125</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3F">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.39215699</G>
+                    <B>0.39215699</B>
+                    <A>0.78125</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Array" ID="0x40">
+                <Name>DoorColors</Name>
+                <ItemArchetype Type="Color" ID="0x0">
+                    <Name>Color</Name>
+                </ItemArchetype>
+            </Element>
+            <Element Type="Color" ID="0x41">
+                <Name>DoorBorderColor</Name>
+                <DefaultValue>
+                    <R>0.5</R>
+                    <G>0.5</G>
+                    <B>0.5</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x42">
+                <Name>OpenedDoorColor</Name>
+                <DefaultValue>
+                    <R>0.015686</R>
+                    <G>0.72548997</G>
+                    <B>0.074510001</B>
+                </DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

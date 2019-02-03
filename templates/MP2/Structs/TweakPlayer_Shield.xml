@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_Shield</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xD42FA1C1">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x787855E6">
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5DADD6AB">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x59EFBB34">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

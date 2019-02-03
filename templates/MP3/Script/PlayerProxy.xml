@@ -25,6 +25,7 @@
                 <DefaultValue>false</DefaultValue>
             </Element>
             <Element Type="Vector" ID="0x8927B141">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>
                     <X>0.0</X>
                     <Y>0.0</Y>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="CorruptionProto">
+    <Properties Type="Struct">
+        <Name>TweakGame</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="String" ID="0x2BD13AB3"/>
+            <Element Type="String" ID="0xF8BE005A"/>
+            <Element Type="Asset" ID="0x38D91A6E">
+                <TypeFilter>
+                    <Element>MREA</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0xFC93CEB8">
+                <DefaultValue>55.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9FB2FAA6">
+                <DefaultValue>45.0</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xA9096914">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x7262D27B">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xE943BA12">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA3DCF42A">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB35C72BE">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4A02103C">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE1FCA71B">
+                <DefaultValue>125.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFBCE966A">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9C6CA10">
+                <DefaultValue>300.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4DFCD432">
+                <DefaultValue>1.53</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAE1831D9">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5AB5812C">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x53401390">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD09F373B">
+                <DefaultValue>102</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x1D627808" Archetype="TweakGame_FragLimitChoices"/>
+            <Element Type="Struct" ID="0xB2E8828D" Archetype="TweakGame_TimeLimitChoices"/>
+            <Element Type="Struct" ID="0x6AF87BD" Archetype="TweakGame_CoinLimitChoices"/>
+            <Element Type="Struct" ID="0x1533EA4E" Archetype="TweakGame_TimeLimitChoices"/>
+            <Element Type="Spline" ID="0x40818220"/>
+            <Element Type="Float" ID="0x5EE57BCC">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

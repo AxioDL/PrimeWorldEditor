@@ -6,6 +6,7 @@
 #include "CLinkDialog.h"
 #include "CPoiMapSidebar.h"
 #include "CScriptEditSidebar.h"
+#include "CTweakEditor.h"
 #include "CWorldInfoSidebar.h"
 #include "Editor/INodeEditor.h"
 #include "Editor/CGeneratePropertyNamesDialog.h"
@@ -29,7 +30,6 @@
 #include <QList>
 #include <QMainWindow>
 #include <QTimer>
-#include <QUndoStack>
 
 namespace Ui {
 class CWorldEditor;
@@ -47,43 +47,38 @@ class CWorldEditor : public INodeEditor
     Q_OBJECT
     static const int mskMaxRecentProjects = 10;
 
-    Ui::CWorldEditor *ui;
-    QMenu *mpOpenRecentMenu;
-    QAction *mRecentProjectsActions[ mskMaxRecentProjects ];
+    Ui::CWorldEditor* ui;
+    QMenu* mpOpenRecentMenu;
+    QAction* mRecentProjectsActions[ mskMaxRecentProjects ];
 
     TResPtr<CWorld> mpWorld;
     TResPtr<CGameArea> mpArea;
 
-    CCollisionRenderSettingsDialog *mpCollisionDialog;
-    CLinkDialog *mpLinkDialog;
+    CCollisionRenderSettingsDialog* mpCollisionDialog;
+    CLinkDialog* mpLinkDialog;
     CGeneratePropertyNamesDialog* mpGeneratePropertyNamesDialog;
+    CTweakEditor* mpTweakEditor;
 
     bool mIsMakingLink;
-    CScriptObject *mpNewLinkSender;
-    CScriptObject *mpNewLinkReceiver;
-
-    QString mWorldDir;
-    QString mPakFileList;
-    QString mPakTarget;
+    CScriptObject* mpNewLinkSender;
+    CScriptObject* mpNewLinkReceiver;
 
     // Sidebars
-    QVBoxLayout *mpRightSidebarLayout;
-    CWorldEditorSidebar *mpCurSidebar;
+    QVBoxLayout* mpRightSidebarLayout;
+    CWorldEditorSidebar* mpCurSidebar;
 
-    QButtonGroup *mpEditModeButtonGroup;
-    CWorldInfoSidebar *mpWorldInfoSidebar;
-    CScriptEditSidebar *mpScriptSidebar;
-    CPoiMapSidebar *mpPoiMapSidebar;
+    QButtonGroup* mpEditModeButtonGroup;
+    CWorldInfoSidebar* mpWorldInfoSidebar;
+    CScriptEditSidebar* mpScriptSidebar;
+    CPoiMapSidebar* mpPoiMapSidebar;
 
-    QAction *mpPoiMapAction;
+    QAction* mpPoiMapAction;
 
 public:
     explicit CWorldEditor(QWidget *parent = 0);
     ~CWorldEditor();
-    void closeEvent(QCloseEvent *pEvent);
     bool CloseWorld();
     bool SetArea(CWorld *pWorld, int AreaIndex);
-    bool CheckUnsavedChanges();
     void ResetCamera();
     bool HasAnyScriptNodesSelected() const;
 
@@ -92,18 +87,14 @@ public:
     inline EGame CurrentGame() const        { return gpEdApp->CurrentGame(); }
     inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
     inline CGeneratePropertyNamesDialog* NameGeneratorDialog() const    { return mpGeneratePropertyNamesDialog; }
+    inline CTweakEditor* TweakEditor()      { return mpTweakEditor; }
     CResourceBrowser* ResourceBrowser() const;
     CSceneViewport* Viewport() const;
-
-    inline void SetWorldDir(QString WorldDir)       { mWorldDir = (QDir(WorldDir).exists() ? WorldDir : ""); }
-    inline void SetPakFileList(QString FileList)    { mPakFileList = (QFile::exists(FileList) ? FileList : ""); }
-    inline void SetPakTarget(QString PakTarget)     { mPakTarget = (QFile::exists(PakTarget) ? PakTarget : ""); }
-
-    inline bool CanRepack() const { return !mWorldDir.isEmpty() && !mPakFileList.isEmpty() && !mPakTarget.isEmpty(); }
 
 public slots:
     virtual void EditorTick(float);
     virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode);
+    virtual bool Save() override;
 
     void Cut();
     void Copy();
@@ -111,8 +102,6 @@ public slots:
 
     void OpenProject();
     void OpenRecentProject();
-    bool Save();
-    bool SaveAndRepack();
     void ExportGame();
     void CloseProject();
 
@@ -125,7 +114,7 @@ public slots:
 
     void OnActiveProjectChanged(CGameProject *pProj);
     void OnLinksModified(const QList<CScriptObject*>& rkInstances);
-    void OnPropertyModified(CScriptObject* pObject, IProperty *pProp);
+    void OnPropertyModified(IProperty *pProp);
     void SetSelectionActive(bool Active);
     void SetSelectionInstanceNames(const QString& rkNewName, bool IsDone);
     void SetSelectionLayer(CScriptLayer *pLayer);
@@ -153,7 +142,6 @@ private slots:
     void OnLinkEnd();
     void OnUnlinkClicked();
 
-    void OnUndoStackIndexChanged();
     void OnPickModeEnter(QCursor Cursor);
     void OnPickModeExit();
     void UpdateCameraOrbit();
@@ -180,9 +168,7 @@ private slots:
     void SetBloom();
     void IncrementGizmo();
     void DecrementGizmo();
-    void EditCollisionRenderSettings();
     void EditLayers();
-    void GeneratePropertyNames();
 
 signals:
     void MapChanged(CWorld *pNewWorld, CGameArea *pNewArea);
@@ -190,7 +176,7 @@ signals:
     void InstancesLayerAboutToChange();
     void InstancesLayerChanged(const QList<CScriptNode*>& rkInstanceList);
     void InstanceLinksModified(const QList<CScriptObject*>& rkInstances);
-    void PropertyModified(CScriptObject *pInst, IProperty *pProp);
+    void PropertyModified(IProperty *pProp, CScriptObject* pObject);
 };
 
 #endif // CWORLDEDITOR_H

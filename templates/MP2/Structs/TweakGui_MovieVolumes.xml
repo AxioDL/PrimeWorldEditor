@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGui_MovieVolumes</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xAE149646">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC1A2E858">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x138C3BB8">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xE5587648">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9ED00248">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x6F135424">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xDB2260B7">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xF38093F5">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

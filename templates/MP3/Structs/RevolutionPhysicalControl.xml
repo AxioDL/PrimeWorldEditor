@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>RevolutionPhysicalControl</Name>
+        <SubProperties>
+            <Element Type="Enum" ID="0x60D66244" Archetype="PhysicalControl">
+                <DefaultValue>0x201D3330</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x15567FE7"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>MapControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xFED78DA3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x74E647C1" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xDCCF07B6" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x56AE8C3B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBBD5FC52" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x19A0C4CB" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x827C4E63" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x1F679" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xFB5628FA" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x571BF6D0" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xCFAA0627" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x385CBD2F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x5F55CCCA" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x85E1418D" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xB5F75BFB" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x31C2D282" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xFAA6ABE5" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xDDA39041" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x705876AB" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1203801F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x98620B92" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x14112B99" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

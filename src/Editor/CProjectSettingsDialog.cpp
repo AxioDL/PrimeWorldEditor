@@ -164,7 +164,7 @@ void CProjectSettingsDialog::BuildISO()
 
             // Verify this ISO matches the original
             bool IsWii;
-            pBaseDisc = nod::OpenDiscFromImage(*TO_TWIDESTRING(SourceIsoPath), IsWii);
+            pBaseDisc = nod::OpenDiscFromImage(TO_WCHAR(SourceIsoPath), IsWii);
 
             if (!pBaseDisc || !IsWii)
             {

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakBall</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>TranslationAcceleration0</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>TranslationAcceleration1</Name>
+                <DefaultValue>3000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>TranslationAcceleration2</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>TranslationAcceleration3</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>TranslationAcceleration4</Name>
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>TranslationAcceleration5</Name>
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>TranslationAcceleration6</Name>
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>TranslationAcceleration7</Name>
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>TranslationFriction0</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>TranslationFriction1</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>TranslationFriction2</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB">
+                <Name>TranslationFriction3</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC">
+                <Name>TranslationFriction4</Name>
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>TranslationFriction5</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>TranslationFriction6</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>TranslationFriction7</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10">
+                <Name>TranslationMaxSpeed0</Name>
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>TranslationMaxSpeed1</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x12">
+                <Name>TranslationMaxSpeed2</Name>
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x13">
+                <Name>TranslationMaxSpeed3</Name>
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14">
+                <Name>TranslationMaxSpeed4</Name>
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x15">
+                <Name>TranslationMaxSpeed5</Name>
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x16">
+                <Name>TranslationMaxSpeed6</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x17">
+                <Name>TranslationMaxSpeed7</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x18">
+                <Name>Unknown</Name>
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x19">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x1A">
+                <Name>Unknown</Name>
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1B">
+                <Name>Unknown</Name>
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1C">
+                <Name>BallForwardBrakingAcceleration0</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1D">
+                <Name>BallForwardBrakingAcceleration1</Name>
+                <DefaultValue>3000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1E">
+                <Name>BallForwardBrakingAcceleration2</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1F">
+                <Name>BallForwardBrakingAcceleration3</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20">
+                <Name>BallForwardBrakingAcceleration4</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x21">
+                <Name>BallForwardBrakingAcceleration5</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x22">
+                <Name>BallForwardBrakingAcceleration6</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23">
+                <Name>BallForwardBrakingAcceleration7</Name>
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24">
+                <Name>BallGravity</Name>
+                <DefaultValue>76.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x25">
+                <Name>BallUnderwaterGravity</Name>
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x26">
+                <Name>Unknown</Name>
+                <DefaultValue>3.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x27">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0x28">
+                <Name>Unknown</Name>
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x29">
+                <Name>MinimumAlignmentSpeed</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2A">
+                <Name>Tireness</Name>
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B">
+                <Name>MaxLeanAngle</Name>
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2C">
+                <Name>TireToMarbleThresholdSpeed</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D">
+                <Name>MarbleToTireThresholdSpeed</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E">
+                <Name>ForceToLeanGain</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F">
+                <Name>LeanTrackingGain</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x30">
+                <Name>BallCameraRotationSpeed</Name>
+                <DefaultValue>1200.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x31">
+                <Name>BallCameraOffset</Name>
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>4.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32">
+                <Name>BallCameraMinSpeedDistance</Name>
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x33">
+                <Name>BallCameraMaxSpeedDistance</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x34">
+                <Name>BallCameraBackwardsDistance</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x35">
+                <Name>Unknown</Name>
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x36">
+                <Name>BallCameraSpringConstant</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x37">
+                <Name>BallCameraSpringMax</Name>
+                <DefaultValue>0.0099999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x38">
+                <Name>BallCameraSpringTardis</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x39">
+                <Name>BallCameraCentroidSpringConstant</Name>
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3A">
+                <Name>BallCameraCentroidSpringMax</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3B">
+                <Name>BallCameraCentroidSpringTardis</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3C">
+                <Name>BallCameraCentroidDistanceSpringConstant</Name>
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D">
+                <Name>BallCameraCentroidDistanceSpringMax</Name>
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3E">
+                <Name>BallCameraCentroidDistanceSpringTardis</Name>
+                <DefaultValue>2.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3F">
+                <Name>BallCameraLookAtSpringConstant</Name>
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x40">
+                <Name>BallCameraLookAtSpringMax</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x41">
+                <Name>BallCameraLookAtSpringTardis</Name>
+                <DefaultValue>1.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x42">
+                <Name>Unknown</Name>
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x43">
+                <Name>Unknown</Name>
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x44">
+                <Name>Unknown</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x45">
+                <Name>Unknown</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x46">
+                <Name>Unknown</Name>
+                <DefaultValue>6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47">
+                <Name>Unknown</Name>
+                <DefaultValue>89.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x48">
+                <Name>ConservativeDoorCameraDistance</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x49">
+                <Name>Unknown</Name>
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4A">
+                <Name>BallCameraChaseElevation</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4B">
+                <Name>BallCameraChaseDampenAngle</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C">
+                <Name>BallCameraChaseDistance</Name>
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D">
+                <Name>BallCameraChaseYawSpeed</Name>
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4E">
+                <Name>BallCameraChaseAnglePerSecond</Name>
+                <DefaultValue>1200.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x4F">
+                <Name>BallCameraChaseLookAtOffset</Name>
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>10.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50">
+                <Name>BallCameraChaseSpringConstant</Name>
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x51">
+                <Name>BallCameraChaseSpringMax</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x52">
+                <Name>BallCameraChaseSpringTardis</Name>
+                <DefaultValue>5.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x53">
+                <Name>BallCameraBoostElevation</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54">
+                <Name>BallCameraBoostDampenAngle</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x55">
+                <Name>BallCameraBoostDistance</Name>
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x56">
+                <Name>BallCameraBoostYawSpeed</Name>
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x57">
+                <Name>BallCameraBoostAnglePerSecond</Name>
+                <DefaultValue>2400.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x58">
+                <Name>BallCameraBoostLookAtOffset</Name>
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x59">
+                <Name>BallCameraBoostSpringConstant</Name>
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5A">
+                <Name>BallCameraBoostSpringMax</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5B">
+                <Name>BallCameraBoostSpringTardis</Name>
+                <DefaultValue>5.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5C">
+                <Name>BallCameraControlDistance</Name>
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5D">
+                <Name>Unknown</Name>
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5E">
+                <Name>Unknown</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5F">
+                <Name>LeftStickDivisor</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x60">
+                <Name>RightStickDivisor</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x61">
+                <Name>Unknown</Name>
+                <DefaultValue>200.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x62">
+                <Name>BallTouchRadius</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x63">
+                <Name>BoostBallDrainTime</Name>
+                <DefaultValue>0.33000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x64">
+                <Name>BoostBallMinChargeTime</Name>
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x65">
+                <Name>BoostBallMinRelativeSpeedForDamage</Name>
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x66">
+                <Name>BoostBallChargeTime0</Name>
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x67">
+                <Name>BoostBallChargeTime1</Name>
+                <DefaultValue>1.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68">
+                <Name>BoostBallMaxChargeTime</Name>
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x69">
+                <Name>BoostBallIncrementalSpeed0</Name>
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6A">
+                <Name>BoostBallIncrementalSpeed1</Name>
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6B">
+                <Name>BoostBallIncrementalSpeed2</Name>
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

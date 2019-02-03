@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Enum">
+        <Name>TweakPlayer_AimStuff_UnknownEnum1</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0xE4AD6A9D"/>
+            <Element Name="Unknown2" ID="0xE2488BD0"/>
+            <Element Name="Unknown3" ID="0xFC54340F"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

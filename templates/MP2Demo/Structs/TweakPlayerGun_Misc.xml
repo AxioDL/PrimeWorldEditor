@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerGun_Misc</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xE8BB7E3C">
+                <DefaultValue>22.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5ED7E0BD">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x842AE0B4">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8C29E91C">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7D5A6C93">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB2E26D02">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD81D1450">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCEBB5C6">
+                <DefaultValue>7.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x904CD49D">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFCCDDB00">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF355D075">
+                <DefaultValue>0.0625</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9262A722">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

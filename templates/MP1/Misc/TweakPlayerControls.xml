@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakPlayerControls</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Choice" ID="0x0" Archetype="ControllerMapping">
+                <Name>Forward</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x1" Archetype="ControllerMapping">
+                <Name>Backward</Name>
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x2" Archetype="ControllerMapping">
+                <Name>TurnLeft</Name>
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x3" Archetype="ControllerMapping">
+                <Name>TurnRight</Name>
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x4" Archetype="ControllerMapping">
+                <Name>StrafeLeft</Name>
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x5" Archetype="ControllerMapping">
+                <Name>StrafeRight</Name>
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x6" Archetype="ControllerMapping">
+                <Name>LookLeft</Name>
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x7" Archetype="ControllerMapping">
+                <Name>LookRight</Name>
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x8" Archetype="ControllerMapping">
+                <Name>LookUp</Name>
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x9" Archetype="ControllerMapping">
+                <Name>LookDown</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0xA" Archetype="ControllerMapping">
+                <Name>JumpOrBoost</Name>
+                <DefaultValue>16</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0xB" Archetype="ControllerMapping">
+                <Name>FireOrBomb</Name>
+                <DefaultValue>15</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0xC" Archetype="ControllerMapping">
+                <Name>MissileOrPowerBomb</Name>
+                <DefaultValue>18</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0xD" Archetype="ControllerMapping">
+                <Name>Morph</Name>
+                <DefaultValue>17</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0xE" Archetype="ControllerMapping">
+                <Name>AimUp</Name>
+            </Element>
+            <Element Type="Choice" ID="0xF" Archetype="ControllerMapping">
+                <Name>AimDown</Name>
+            </Element>
+            <Element Type="Choice" ID="0x10" Archetype="ControllerMapping">
+                <Name>CycleBeamUp</Name>
+            </Element>
+            <Element Type="Choice" ID="0x11" Archetype="ControllerMapping">
+                <Name>CycleBeamDown</Name>
+            </Element>
+            <Element Type="Choice" ID="0x12" Archetype="ControllerMapping">
+                <Name>CycleItem</Name>
+            </Element>
+            <Element Type="Choice" ID="0x13" Archetype="ControllerMapping">
+                <Name>PowerBeam</Name>
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x14" Archetype="ControllerMapping">
+                <Name>IceBeam</Name>
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x15" Archetype="ControllerMapping">
+                <Name>WaveBeam</Name>
+                <DefaultValue>8</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x16" Archetype="ControllerMapping">
+                <Name>PlasmaBeam</Name>
+                <DefaultValue>7</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x17" Archetype="ControllerMapping">
+                <Name>ToggleHolster</Name>
+            </Element>
+            <Element Type="Choice" ID="0x18" Archetype="ControllerMapping">
+                <Name>OrbitClose</Name>
+            </Element>
+            <Element Type="Choice" ID="0x19" Archetype="ControllerMapping">
+                <Name>OrbitFar</Name>
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x1A" Archetype="ControllerMapping">
+                <Name>OrbitObject</Name>
+                <DefaultValue>20</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x1B" Archetype="ControllerMapping">
+                <Name>OrbitSelect</Name>
+            </Element>
+            <Element Type="Choice" ID="0x1C" Archetype="ControllerMapping">
+                <Name>OrbitConfirm</Name>
+            </Element>
+            <Element Type="Choice" ID="0x1D" Archetype="ControllerMapping">
+                <Name>OrbitLeft</Name>
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x1E" Archetype="ControllerMapping">
+                <Name>OrbitRight</Name>
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x1F" Archetype="ControllerMapping">
+                <Name>OrbitUp</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x20" Archetype="ControllerMapping">
+                <Name>OrbitDown</Name>
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x21" Archetype="ControllerMapping">
+                <Name>LookHold1</Name>
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x22" Archetype="ControllerMapping">
+                <Name>LookHold2</Name>
+            </Element>
+            <Element Type="Choice" ID="0x23" Archetype="ControllerMapping">
+                <Name>LookZoomIn</Name>
+                <DefaultValue>17</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x24" Archetype="ControllerMapping">
+                <Name>LookZoomOut</Name>
+                <DefaultValue>18</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x25" Archetype="ControllerMapping">
+                <Name>AimHold</Name>
+            </Element>
+            <Element Type="Choice" ID="0x26" Archetype="ControllerMapping">
+                <Name>MapCircleUp</Name>
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x27" Archetype="ControllerMapping">
+                <Name>MapCircleDown</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x28" Archetype="ControllerMapping">
+                <Name>MapCircleLeft</Name>
+                <DefaultValue>3</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x29" Archetype="ControllerMapping">
+                <Name>MapCircleRight</Name>
+                <DefaultValue>4</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x2A" Archetype="ControllerMapping">
+                <Name>MapMoveForward</Name>
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x2B" Archetype="ControllerMapping">
+                <Name>MapMoveBack</Name>
+                <DefaultValue>6</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x2C" Archetype="ControllerMapping">
+                <Name>MapMoveLeft</Name>
+                <DefaultValue>7</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x2D" Archetype="ControllerMapping">
+                <Name>MapMoveRight</Name>
+                <DefaultValue>8</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x2E" Archetype="ControllerMapping">
+                <Name>MapZoomIn</Name>
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x2F" Archetype="ControllerMapping">
+                <Name>MapZoomOut</Name>
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x30" Archetype="ControllerMapping">
+                <Name>SpiderBall</Name>
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x31" Archetype="ControllerMapping">
+                <Name>ChaseCamera</Name>
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x32" Archetype="ControllerMapping">
+                <Name>XRayVisor</Name>
+                <DefaultValue>14</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x33" Archetype="ControllerMapping">
+                <Name>ThermoVisor</Name>
+                <DefaultValue>12</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x34" Archetype="ControllerMapping">
+                <Name>EnviroVisor</Name>
+                <DefaultValue>13</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x35" Archetype="ControllerMapping">
+                <Name>NoVisor</Name>
+                <DefaultValue>11</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x36" Archetype="ControllerMapping">
+                <Name>VisorMenu</Name>
+            </Element>
+            <Element Type="Choice" ID="0x37" Archetype="ControllerMapping">
+                <Name>VisorUp</Name>
+            </Element>
+            <Element Type="Choice" ID="0x38" Archetype="ControllerMapping">
+                <Name>VisorDown</Name>
+            </Element>
+            <Element Type="Choice" ID="0x39" Archetype="ControllerMapping">
+                <Name>ShowCrosshairs</Name>
+                <DefaultValue>21</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x3A" Archetype="ControllerMapping">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Choice" ID="0x3B" Archetype="ControllerMapping">
+                <Name>UseShield</Name>
+            </Element>
+            <Element Type="Choice" ID="0x3C" Archetype="ControllerMapping">
+                <Name>ScanItem</Name>
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x3D" Archetype="ControllerMapping">
+                <Name>PreviousPauseScreen</Name>
+                <DefaultValue>13</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x3E" Archetype="ControllerMapping">
+                <Name>NextPauseScreen</Name>
+                <DefaultValue>22</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x3F" Archetype="ControllerMapping">
+                <Name>Unknown</Name>
+                <DefaultValue>12</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x40" Archetype="ControllerMapping">
+                <Name>Unknown</Name>
+                <DefaultValue>14</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x41" Archetype="ControllerMapping">
+                <Name>Unknown</Name>
+                <DefaultValue>9</DefaultValue>
+            </Element>
+            <Element Type="Choice" ID="0x42" Archetype="ControllerMapping">
+                <Name>Unknown</Name>
+                <DefaultValue>10</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

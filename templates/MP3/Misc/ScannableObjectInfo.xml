@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Corruption">
+    <Properties Type="Struct">
+        <Name>ScannableObjectInfo</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x2F5B6423">
+                <TypeFilter>
+                    <Element>STRG</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Choice" ID="0xC308A322" Archetype="ScanSpeed"/>
+            <Element Type="Bool" ID="0x7B714814">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xD39621A0">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0x53336141">
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xB3B8E67E">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Struct" ID="0x1AA8D353" Archetype="BonusCredit"/>
+            <Element Type="Float" ID="0x3DE0BA64">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2ADD6628">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD0C15066">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xC4C1E212">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Asset" ID="0xB7ADC418">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xC4AD00A7"/>
+            <Element Type="Struct" ID="0x1065769D" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0xC787F6C5" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x64D1706C" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0xB333F034" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0xF90D7B7F" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x2EEFFB27" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x8DB97D8E" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x5A5BFDD6" Archetype="ScanInfoSecondaryModel"/>
+            <Element Type="Struct" ID="0x19C46B18" Archetype="ScanInfoSecondaryModel"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

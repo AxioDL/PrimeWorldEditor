@@ -9,7 +9,6 @@
 
 CPropertyView::CPropertyView(QWidget *pParent)
     : QTreeView(pParent)
-    , mpEditor(nullptr)
     , mpMenuProperty(nullptr)
 {
     mpModel = new CPropertyModel(this);
@@ -80,21 +79,36 @@ bool CPropertyView::event(QEvent *pEvent)
         pEvent->ignore();
         return true;
     }
+    else if (pEvent->type() == QEvent::Resize && !isVisible())
+    {
+        resizeColumnToContents(0);
+    }
 
-    else return QTreeView::event(pEvent);
+    return QTreeView::event(pEvent);
 }
 
-void CPropertyView::SetEditor(CWorldEditor *pEditor)
+int CPropertyView::sizeHintForColumn(int Column) const
 {
-    mpEditor = pEditor;
+    if (Column == 0)
+        return width() * 0.6f;
+    else
+        return width() * 0.4f;
+}
+
+void CPropertyView::SetEditor(IEditor* pEditor)
+{
     mpDelegate->SetEditor(pEditor);
-    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), mpModel, SLOT(NotifyPropertyModified(CScriptObject*,IProperty*)));
+}
+
+void CPropertyView::ClearProperties()
+{
+    mpObject = nullptr;
+    mpModel->ConfigureScript(nullptr, nullptr, nullptr);
 }
 
 void CPropertyView::SetIntrinsicProperties(CStructRef InProperties)
 {
     mpObject = nullptr;
-    mpModel->SetBoldModifiedProperties(false); // todo, we prob want this, but can't set default properties on non script yet
     mpModel->ConfigureIntrinsic(nullptr, InProperties.Property(), InProperties.DataPointer());
     SetPersistentEditors(QModelIndex());
 }
@@ -102,7 +116,7 @@ void CPropertyView::SetIntrinsicProperties(CStructRef InProperties)
 void CPropertyView::SetInstance(CScriptObject *pObj)
 {
     mpObject = pObj;
-    mpModel->SetBoldModifiedProperties(mpEditor ? (mpEditor->CurrentGame() > EGame::Prime) : true);
+    mpModel->SetBoldModifiedProperties(gpEdApp->CurrentGame() > EGame::Prime);
 
     if (pObj)
         mpModel->ConfigureScript(pObj->Area()->Entry()->Project(), pObj->Template()->Properties(), pObj);
@@ -121,7 +135,7 @@ void CPropertyView::SetInstance(CScriptObject *pObj)
 void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
 {
     // Check what game this is
-    EGame Game = mpEditor->CurrentGame();
+    EGame Game = gpEdApp->CurrentGame();
 
     // Iterate over all properties and update if they're an editor property.
     for (int iRow = 0; iRow < mpModel->rowCount(rkParent); iRow++)
@@ -179,8 +193,7 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
 
             if (pProp->Type() == EPropertyType::AnimationSet)
             {
-                EGame Game = mpObject->Area()->Game();
-                Type = mpDelegate->DetermineCharacterPropType(Game, ChildIndex);
+                Type = mpDelegate->DetermineCharacterPropType(pProp->Game(), ChildIndex);
                 IsAnimSet = true;
             }
 
@@ -237,6 +250,10 @@ void CPropertyView::OnPropertyModified(const QModelIndex& rkIndex)
         ClosePersistentEditors(rkIndex);
         SetPersistentEditors(rkIndex);
     }
+
+    scrollTo(rkIndex);
+    emit PropertyModified(rkIndex);
+    emit PropertyModified(pProperty);
 }
 
 void CPropertyView::RefreshView()
@@ -260,7 +277,7 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
             Menu.addAction(mpEditTemplateAction);
         }
 
-        if (mpEditor->CurrentGame() >= EGame::EchoesDemo)
+        if (gpEdApp->CurrentGame() >= EGame::EchoesDemo)
         {
             Menu.addAction(mpShowNameValidityAction);
         }
@@ -297,7 +314,8 @@ void CPropertyView::ToggleShowNameValidity(bool ShouldShow)
 
 void CPropertyView::EditPropertyTemplate()
 {
-    CTemplateEditDialog Dialog(mpMenuProperty, mpEditor);
+    QMainWindow* pParentWindow = UICommon::FindAncestor<QMainWindow>(this);
+    CTemplateEditDialog Dialog(mpMenuProperty, pParentWindow);
     connect(&Dialog, SIGNAL(PerformedTypeConversion()), this, SLOT(RefreshView()));
     Dialog.exec();
 }
@@ -305,21 +323,21 @@ void CPropertyView::EditPropertyTemplate()
 
 void CPropertyView::GenerateNamesForProperty()
 {
-    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    CGeneratePropertyNamesDialog* pDialog = gpEdApp->WorldEditor()->NameGeneratorDialog();
     pDialog->AddToIDPool(mpMenuProperty);
     pDialog->show();
 }
 
 void CPropertyView::GenerateNamesForSiblings()
 {
-    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    CGeneratePropertyNamesDialog* pDialog = gpEdApp->WorldEditor()->NameGeneratorDialog();
     pDialog->AddChildrenToIDPool(mpMenuProperty->Parent(), false);
     pDialog->show();
 }
 
 void CPropertyView::GenerateNamesForChildren()
 {
-    CGeneratePropertyNamesDialog* pDialog = mpEditor->NameGeneratorDialog();
+    CGeneratePropertyNamesDialog* pDialog = gpEdApp->WorldEditor()->NameGeneratorDialog();
     pDialog->AddChildrenToIDPool(mpMenuProperty, false);
     pDialog->show();
 }

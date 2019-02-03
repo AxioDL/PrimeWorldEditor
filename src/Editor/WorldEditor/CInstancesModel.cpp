@@ -45,7 +45,7 @@ CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
     connect(mpEditor, SIGNAL(NodeSpawned(CSceneNode*)), this, SLOT(NodeCreated(CSceneNode*)));
     connect(mpEditor, SIGNAL(NodeAboutToBeDeleted(CSceneNode*)), this, SLOT(NodeAboutToBeDeleted(CSceneNode*)));
     connect(mpEditor, SIGNAL(NodeDeleted()), this, SLOT(NodeDeleted()));
-    connect(mpEditor, SIGNAL(PropertyModified(CScriptObject*,IProperty*)), this, SLOT(PropertyModified(CScriptObject*,IProperty*)));
+    connect(mpEditor, SIGNAL(PropertyModified(IProperty*,CScriptObject*)), this, SLOT(PropertyModified(IProperty*,CScriptObject*)));
     connect(mpEditor, SIGNAL(InstancesLayerAboutToChange()), this, SLOT(InstancesLayerPreChange()));
     connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(InstancesLayerPostChange(QList<CScriptNode*>)));
 }
@@ -472,7 +472,7 @@ void CInstancesModel::NodeDeleted()
     }
 }
 
-void CInstancesModel::PropertyModified(CScriptObject *pInst, IProperty *pProp)
+void CInstancesModel::PropertyModified(IProperty *pProp, CScriptObject *pInst)
 {
     if (pProp->Name() == "Name")
     {

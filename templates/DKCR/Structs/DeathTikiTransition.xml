@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>DeathTikiTransition</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x78A61647" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
+            <Element Type="Struct" ID="0x8DEA4C64" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
+            <Element Type="Struct" ID="0xB9DAFDC8" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
+            <Element Type="Struct" ID="0x64C6C03C" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
+            <Element Type="Struct" ID="0x34797A20" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
+            <Element Type="Struct" ID="0xA681D655" Archetype="TweakGraphicalTransitions_UnknownStruct2">
+                <SubProperties>
+                    <Element Type="Color" ID="0xE3A5171E">
+                        <CookPreference>Always</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x930C911D" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
+            <Element Type="Struct" ID="0x5B7662CE" Archetype="TweakGraphicalTransitions_UnknownStruct2"/>
+            <Element Type="String" ID="0xC96BA94A"/>
+            <Element Type="Color" ID="0xF9E0D0FB">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xE0417E89">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF2E13506">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9CD35D69">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7B497313">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB015A0B6">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xED3BBA6">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x68A22C5F">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xF96E96A8">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xB635E8B7">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6A69AA8C">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x2DD09193">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xBD5D2395">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x921B9CDC">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x92BE12E9"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

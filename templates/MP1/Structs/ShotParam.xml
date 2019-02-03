@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>ShotParam</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Choice" ID="0x0" Archetype="WeaponType"/>
+            <Element Type="Float" ID="0x1">
+                <Name>Damage</Name>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>RadiusDamage</Name>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>Radius</Name>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>KnockbackPower</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

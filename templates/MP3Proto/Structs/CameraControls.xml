@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>CameraControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x1C1D6F49" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1A20D5F4" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x90415E79" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x23C1333C" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x2B4BA1A3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD47F24D7" Archetype="RevolutionControl"/>
+            <Element Type="Spline" ID="0xA03390A5"/>
+            <Element Type="Spline" ID="0xE746F77E"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

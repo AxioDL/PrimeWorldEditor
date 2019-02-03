@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayer_GrappleBeam</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x14849367">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6C6E6F3C">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x88AA6E41">
+                <DefaultValue>0.125</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2AAB8DDA">
+                <DefaultValue>0.875</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

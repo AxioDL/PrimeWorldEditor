@@ -16,14 +16,9 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     , mIsPicking(false)
 {
     ui->setupUi(this);
+    ui->PropertyView->SetEditor(pEditor);
 
     mpWorldEditor = pEditor;
-    ui->PropertyView->SetEditor(mpWorldEditor);
-
-    int PropViewWidth = ui->PropertyView->width();
-    ui->PropertyView->header()->resizeSection(0, PropViewWidth * 0.3);
-    ui->PropertyView->header()->resizeSection(1, PropViewWidth * 0.3);
-    ui->PropertyView->header()->setSectionResizeMode(1, QHeaderView::Fixed);
 
     mpInLinkModel = new CLinkModel(this);
     mpInLinkModel->SetConnectionType(ELinkType::Incoming);
@@ -50,6 +45,7 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     connect(ui->DeleteIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteLinksClicked()));
     connect(ui->EditOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditLinkClicked()));
     connect(ui->EditIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditLinkClicked()));
+    connect(ui->PropertyView, SIGNAL(PropertyModified(IProperty*)), mpWorldEditor, SLOT(OnPropertyModified(IProperty*)));
     connect(mpWorldEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChanged()));
     connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
     connect(mpWorldEditor, SIGNAL(InstanceLinksModified(const QList<CScriptObject*>&)), this, SLOT(OnInstanceLinksModified(const QList<CScriptObject*>&)));
@@ -68,6 +64,11 @@ void WModifyTab::ClearUI()
     ui->ObjectsTabWidget->hide();
     ui->PropertyView->SetInstance(nullptr);
     mpSelectedNode = nullptr;
+}
+
+CPropertyView* WModifyTab::PropertyView() const
+{
+    return ui->PropertyView;
 }
 
 // ************ PUBLIC SLOTS ************
@@ -236,7 +237,7 @@ void WModifyTab::OnDeleteLinksClicked()
 
             CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
             CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(mpWorldEditor, pInst, Type, Indices);
-            mpWorldEditor->UndoStack()->push(pCmd);
+            mpWorldEditor->UndoStack().push(pCmd);
         }
     }
 }

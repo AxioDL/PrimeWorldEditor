@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakTargeting_LockDagger</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x469550E8">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7B48E6F9">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x53C2C9FC">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA29CDF22">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x631200E2">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFAF066E3">
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

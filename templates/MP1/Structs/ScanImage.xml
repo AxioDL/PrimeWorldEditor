@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>ScanImage</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Asset" ID="0x0">
+                <Name>Texture</Name>
+                <TypeFilter>
+                    <Element>TXTR</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>AppearPercentage</Name>
+            </Element>
+            <Element Type="Choice" ID="0x2" Archetype="ScanImagePane">
+                <DefaultValue>-1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x3">
+                <Name>AnimationCellWidth</Name>
+            </Element>
+            <Element Type="Int" ID="0x4">
+                <Name>AnimationCellHeight</Name>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>AnimationSwapInterval</Name>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>FadeTime</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

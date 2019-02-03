@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TGunResources</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x2705318D"/>
+            <Element Type="String" ID="0x7CC2879F"/>
+            <Element Type="String" ID="0x382765B0"/>
+            <Element Type="String" ID="0xCB269AC8"/>
+            <Element Type="String" ID="0xA3890335"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

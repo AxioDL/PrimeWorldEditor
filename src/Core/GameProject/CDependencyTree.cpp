@@ -30,6 +30,70 @@ void IDependencyNode::GetAllResourceReferences(std::set<CAssetID>& rOutSet) cons
         mChildren[iChild]->GetAllResourceReferences(rOutSet);
 }
 
+void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructProperty* pProperties, void* pData)
+{
+    // Recursive function for parsing dependencies in properties
+    for (uint32 PropertyIdx = 0; PropertyIdx < pProperties->NumChildren(); PropertyIdx++)
+    {
+        IProperty* pProp = pProperties->ChildByIndex(PropertyIdx);
+        EPropertyType Type = pProp->Type();
+
+        // Technically we aren't parsing array children, but it's not really worth refactoring this function
+        // to support it when there aren't any array properties that contain any asset references anyway...
+        if (Type == EPropertyType::Struct)
+            ParseProperties( pParentEntry, TPropCast<CStructProperty>(pProp), pData );
+
+        else if (Type == EPropertyType::Sound)
+        {
+            uint32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pData);
+
+            if (SoundID != -1)
+            {
+                CGameProject* pProj = pParentEntry->Project();
+                SSoundInfo Info = pProj->AudioManager()->GetSoundInfo(SoundID);
+
+                if (Info.pAudioGroup)
+                {
+                    CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), Info.pAudioGroup->ID());
+                    mChildren.push_back(pDep);
+                }
+            }
+        }
+
+        else if (Type == EPropertyType::Asset)
+        {
+            CAssetID ID = TPropCast<CAssetProperty>(pProp)->Value(pData);
+
+            if (ID.IsValid())
+            {
+                CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), ID);
+                mChildren.push_back(pDep);
+            }
+        }
+
+        else if (Type == EPropertyType::AnimationSet)
+        {
+            CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pData);
+            CAssetID ID = Params.ID();
+
+            if (ID.IsValid())
+            {
+                // Character sets are removed starting in MP3, so we only need char property dependencies in Echoes and earlier
+                if (pProperties->Game() <= EGame::Echoes)
+                {
+                    CCharPropertyDependency *pDep = new CCharPropertyDependency(pProp->IDString(true), ID, Params.CharacterIndex());
+                    mChildren.push_back(pDep);
+                }
+                else
+                {
+                    CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), ID);
+                    mChildren.push_back(pDep);
+                }
+            }
+        }
+    }
+}
+
 // Serialization constructor
 IDependencyNode* IDependencyNode::ArchiveConstructor(EDependencyNodeType Type)
 {
@@ -149,74 +213,8 @@ CScriptInstanceDependency* CScriptInstanceDependency::BuildTree(CScriptObject *p
 {
     CScriptInstanceDependency *pInst = new CScriptInstanceDependency();
     pInst->mObjectType = pInstance->ObjectTypeID();
-    ParseStructDependencies(pInst, pInstance, pInstance->Template()->Properties());
+    pInst->ParseProperties(pInstance->Area()->Entry(), pInstance->Template()->Properties(), pInstance->PropertyData());
     return pInst;
-}
-
-void CScriptInstanceDependency::ParseStructDependencies(CScriptInstanceDependency* pInst, CScriptObject* pInstance, CStructProperty *pStruct)
-{
-    // Recursive function for parsing script dependencies and loading them into the script instance dependency
-    void* pPropertyData = pInstance->PropertyData();
-
-    for (uint32 PropertyIdx = 0; PropertyIdx < pStruct->NumChildren(); PropertyIdx++)
-    {
-        IProperty *pProp = pStruct->ChildByIndex(PropertyIdx);
-        EPropertyType Type = pProp->Type();
-
-        // Technically we aren't parsing array children, but it's not really worth refactoring this function
-        // to support it when there aren't any array properties that contain any asset references anyway...
-        if (Type == EPropertyType::Struct)
-            ParseStructDependencies(pInst, pInstance, TPropCast<CStructProperty>(pProp));
-
-        else if (Type == EPropertyType::Sound)
-        {
-            uint32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pPropertyData);
-
-            if (SoundID != -1)
-            {
-                CGameProject *pProj = pInstance->Area()->Entry()->Project();
-                SSoundInfo Info = pProj->AudioManager()->GetSoundInfo(SoundID);
-
-                if (Info.pAudioGroup)
-                {
-                    CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), Info.pAudioGroup->ID());
-                    pInst->mChildren.push_back(pDep);
-                }
-            }
-        }
-
-        else if (Type == EPropertyType::Asset)
-        {
-            CAssetID ID = TPropCast<CAssetProperty>(pProp)->Value(pPropertyData);
-
-            if (ID.IsValid())
-            {
-                CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), ID);
-                pInst->mChildren.push_back(pDep);
-            }
-        }
-
-        else if (Type == EPropertyType::AnimationSet)
-        {
-            CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pPropertyData);
-            CAssetID ID = Params.ID();
-
-            if (ID.IsValid())
-            {
-                // Character sets are removed starting in MP3, so we only need char property dependencies in Echoes and earlier
-                if (pStruct->Game() <= EGame::Echoes)
-                {
-                    CCharPropertyDependency *pDep = new CCharPropertyDependency(pProp->IDString(true), ID, Params.CharacterIndex());
-                    pInst->mChildren.push_back(pDep);
-                }
-                else
-                {
-                    CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), ID);
-                    pInst->mChildren.push_back(pDep);
-                }
-            }
-        }
-    }
 }
 
 // ************ CSetCharacterDependency ************

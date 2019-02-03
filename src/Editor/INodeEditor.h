@@ -12,17 +12,12 @@
 #include <QActionGroup>
 #include <QComboBox>
 #include <QList>
-#include <QUndoStack>
 
 class INodeEditor : public IEditor
 {
     Q_OBJECT
 
 protected:
-    // Undo stack
-    QUndoStack mUndoStack;
-    QList<QAction*> mUndoActions;
-
     // Node management
     CScene mScene;
     CNodeSelection *mpSelection;
@@ -55,7 +50,6 @@ protected:
 public:
     explicit INodeEditor(QWidget *pParent = 0);
     virtual ~INodeEditor();
-    QUndoStack* UndoStack();
     CScene* Scene();
     CGizmo* Gizmo();
     bool IsGizmoVisible();

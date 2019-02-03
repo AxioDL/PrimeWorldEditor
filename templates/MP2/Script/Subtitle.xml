@@ -4,7 +4,19 @@
         <Name>Subtitle</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Struct" ID="0xE0543E66" Archetype="TextProperties"/>
+            <Element Type="Struct" ID="0xE0543E66" Archetype="TextProperties">
+                <SubProperties>
+                    <Element Type="Float" ID="0x1A996292">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                    </Element>
+                    <Element Type="Int" ID="0x5EFF913">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                    </Element>
+                    <Element Type="Int" ID="0x45830901">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                    </Element>
+                </SubProperties>
+            </Element>
             <Element Type="Int" ID="0xC33A87C7">
                 <DefaultValue>0</DefaultValue>
             </Element>
@@ -12,6 +24,7 @@
                 <DefaultValue>0</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0xC8E441FA" Archetype="TextProperties">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <SubProperties>
                     <Element Type="Int" ID="0xEE521DC6">
                         <DefaultValue>640</DefaultValue>
@@ -25,9 +38,11 @@
                 </SubProperties>
             </Element>
             <Element Type="Int" ID="0x53A7F7A7">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>0</DefaultValue>
             </Element>
             <Element Type="Int" ID="0xEB1B90C2">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>100</DefaultValue>
             </Element>
             <Element Type="Asset" ID="0xFD95ED2A">

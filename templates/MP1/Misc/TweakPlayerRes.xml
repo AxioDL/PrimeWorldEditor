@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakPlayerRes</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>SaveStationIcon</Name>
+                <DefaultValue>TXTR_SaveStationIcon</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1">
+                <Name>MissileStationIcon</Name>
+                <DefaultValue>TXTR_MissileStationIcon</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2">
+                <Name>ElevatorIcon</Name>
+                <DefaultValue>TXTR_ElevatorIcon</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x3">
+                <Name>MinesBreakFirstTopIcon</Name>
+                <DefaultValue>TXTR_MinesBreakFirstTop</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x4">
+                <Name>MinesBreakFirstBottomIcon</Name>
+                <DefaultValue>TXTR_MinesBreakFirstBottom</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x5">
+                <Name>MinesBreakSecondTopIcon</Name>
+                <DefaultValue>TXTR_MinesBreakSecondTop</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x6">
+                <Name>MinesBreakSecondBottomIcon</Name>
+                <DefaultValue>TXTR_MinesBreakSecondBottom</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x7">
+                <Name>LeftStickNeutral</Name>
+                <DefaultValue>LStickN</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x8">
+                <Name>LeftStickUp</Name>
+                <DefaultValue>LStickU</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x9">
+                <Name>LeftStickUpLeft</Name>
+                <DefaultValue>LStickUL</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xA">
+                <Name>LeftStickLeft</Name>
+                <DefaultValue>LStickL</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xB">
+                <Name>LeftStickDownLeft</Name>
+                <DefaultValue>LStickDL</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xC">
+                <Name>LeftStickDown</Name>
+                <DefaultValue>LStickD</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xD">
+                <Name>LeftStickDownRight</Name>
+                <DefaultValue>LStickDR</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xE">
+                <Name>LeftStickRight</Name>
+                <DefaultValue>LStickR</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xF">
+                <Name>LeftStickUpRight</Name>
+                <DefaultValue>LStickUR</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x10">
+                <Name>CStickNeutral</Name>
+                <DefaultValue>CStickN</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x11">
+                <Name>CStickUp</Name>
+                <DefaultValue>CStickU</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x12">
+                <Name>CStickUpLeft</Name>
+                <DefaultValue>CStickUL</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x13">
+                <Name>CStickLeft</Name>
+                <DefaultValue>CStickL</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x14">
+                <Name>CStickDownLeft</Name>
+                <DefaultValue>CStickDL</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x15">
+                <Name>CStickDown</Name>
+                <DefaultValue>CStickD</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x16">
+                <Name>CStickDownRight</Name>
+                <DefaultValue>CStickDR</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x17">
+                <Name>CStickRight</Name>
+                <DefaultValue>CStickR</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x18">
+                <Name>CStickUpRight</Name>
+                <DefaultValue>CStickUR</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x19">
+                <Name>LeftTriggerOut</Name>
+                <DefaultValue>LTriggerOut</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1A">
+                <Name>LeftTriggerIn</Name>
+                <DefaultValue>LTriggerIn</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1B">
+                <Name>RightTriggerOut</Name>
+                <DefaultValue>RTriggerOut</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1C">
+                <Name>RightTriggerIn</Name>
+                <DefaultValue>RTriggerIn</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1D">
+                <Name>StartButtonOut</Name>
+                <DefaultValue>StartButtonOut</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1E">
+                <Name>StartButtonIn</Name>
+                <DefaultValue>StartButtonOut</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1F">
+                <Name>AButtonOut</Name>
+                <DefaultValue>AButtonIn</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x20">
+                <Name>AButtonIn</Name>
+                <DefaultValue>AButtonIn</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x21">
+                <Name>BButtonOut</Name>
+                <DefaultValue>BButtonIn</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x22">
+                <Name>BButtonIn</Name>
+                <DefaultValue>BButtonIn</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x23">
+                <Name>XButtonOut</Name>
+                <DefaultValue>XButtonOut</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x24">
+                <Name>XButtonIn</Name>
+                <DefaultValue>XButtonOut</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x25">
+                <Name>YButtonOut</Name>
+                <DefaultValue>YButtonOut</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x26">
+                <Name>YButtonIn</Name>
+                <DefaultValue>YButtonOut</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x27">
+                <Name>BallTransitionsANCS</Name>
+                <DefaultValue>BallTransitionsANCS</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x28">
+                <Name>BallTransitionsPower</Name>
+                <DefaultValue>BallTransitionsPowerBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x29">
+                <Name>BallTransitionsIce</Name>
+                <DefaultValue>BallTransitionsPowerBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2A">
+                <Name>BallTransitionsWave</Name>
+                <DefaultValue>BallTransitionsPowerBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2B">
+                <Name>BallTransitionsPlasma</Name>
+                <DefaultValue>BallTransitionsPowerBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2C">
+                <Name>BallTransitionsPhazon</Name>
+                <DefaultValue>BallTransitionsPowerBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2D">
+                <Name>CinePower</Name>
+                <DefaultValue>CinematicGunPower</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2E">
+                <Name>CineIce</Name>
+                <DefaultValue>CinematicGunIce</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2F">
+                <Name>CineWave</Name>
+                <DefaultValue>CinematicGunWave</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x30">
+                <Name>CinePlasma</Name>
+                <DefaultValue>CinematicGunPlasma</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x31">
+                <Name>CinePhazon</Name>
+                <DefaultValue>CinematicGunPhazon</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x32">
+                <Name>CinematicMoveOutOfIntoPlayerDistance</Name>
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

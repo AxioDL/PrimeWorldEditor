@@ -4,6 +4,7 @@
 #include "CLinkDialog.h"
 #include "CLinkModel.h"
 #include "Editor/CNodeSelection.h"
+#include "Editor/PropertyEdit/CPropertyView.h"
 #include <Core/Scene/CSceneNode.h>
 #include <Core/Scene/CScriptNode.h>
 
@@ -37,6 +38,7 @@ public:
     explicit WModifyTab(CWorldEditor *pEditor, QWidget *pParent = 0);
     ~WModifyTab();
     void ClearUI();
+    CPropertyView* PropertyView() const;
 
 public slots:
     void GenerateUI();

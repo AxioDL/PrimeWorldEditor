@@ -16,30 +16,17 @@ class CResourceTableContextMenu : public QMenu
     CResourceTableModel *mpModel;
     CResourceProxyModel *mpProxy;
 
-    QModelIndex mProxyIndex;
-    QModelIndex mIndex;
-    CResourceEntry *mpEntry;
-    CVirtualDirectory *mpDirectory;
-
-    // Actions
-    QAction *mpOpenAction;
-    QAction *mpOpenInExternalAppAction;
-    QAction *mpOpenInExplorerAction;
-    QAction *mpSelectFolderAction;
-
-    QAction *mpRenameAction;
-    QAction *mpShowReferencersAction;
-    QAction *mpShowDependenciesAction;
-    QAction *mpDeleteAction;
-
-    QAction *mpCopyNameAction;
-    QAction *mpCopyPathAction;
-    QAction *mpCopyIDAction;
+    QModelIndexList mSelectedIndexes;
+    QModelIndex mClickedIndex;
+    QModelIndex mClickedProxyIndex;
+    CResourceEntry *mpClickedEntry;
+    CVirtualDirectory *mpClickedDirectory;
 
 public:
     CResourceTableContextMenu(CResourceBrowser *pBrowser, QTableView *pView, CResourceTableModel *pModel, CResourceProxyModel *pProxy);
 
 public slots:
+    void InitMenu();
     void ShowMenu(const QPoint& rkPos);
 
     // Menu Options
@@ -54,6 +41,9 @@ public slots:
     void CopyName();
     void CopyPath();
     void CopyID();
+
+    // Asset Specific
+    void CreateSCAN();
 };
 
 #endif // CRESOURCETABLECONTEXTMENU_H

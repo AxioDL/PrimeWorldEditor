@@ -69,7 +69,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     }
 
     // If TestIntsAsChoices is enabled, and int is in the type list, then choice must be in the type list too.
-    if (rkParams.TestIntsAsChoices && NBasics::VectorContains(mTypeNames, TString("int")))
+    if (rkParams.TestIntsAsChoices && NBasics::VectorFind(mTypeNames, TString("int")) >= 0)
     {
         NBasics::VectorAddUnique(mTypeNames, TString("choice"));
     }
@@ -218,7 +218,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                     // If we have too many saved results, then to avoid crashing we will force enable log output.
                     if (mGeneratedNames.size() > 9999)
                     {
-                        gpUIRelay->AsyncMessageBox("Warning", "There are over 10,000 results. Results will no longer print to the screen. Check the log for the remaining output.");
+                        gpUIRelay->ShowMessageBoxAsync("Warning", "There are over 10,000 results. Results will no longer print to the screen. Check the log for the remaining output.");
                         WriteToLog = true;
                         SaveResults = false;
                     }

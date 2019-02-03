@@ -8,7 +8,9 @@
 #include "Editor/Undo/CMoveResourceCommand.h"
 #include "Editor/Undo/CRenameDirectoryCommand.h"
 #include "Editor/Undo/CRenameResourceCommand.h"
+#include "Editor/Undo/CSaveStoreCommand.h"
 #include "Editor/Undo/ICreateDeleteDirectoryCommand.h"
+#include "Editor/Undo/ICreateDeleteResourceCommand.h"
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
 
@@ -28,6 +30,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     , mEditorStore(false)
     , mAssetListMode(false)
     , mSearching(false)
+    , mpAddMenu(nullptr)
     , mpInspectedEntry(nullptr)
 {
     mpUI->setupUi(this);
@@ -144,13 +147,12 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     // Create context menu for the resource table
     new CResourceTableContextMenu(this, mpUI->ResourceTableView, mpModel, mpProxyModel);
-
+    
     // Set up connections
     connect(mpUI->SearchBar, SIGNAL(StoppedTyping(QString)), this, SLOT(OnSearchStringChanged(QString)));
     connect(mpUI->ResourceTreeButton, SIGNAL(pressed()), this, SLOT(SetResourceTreeView()));
     connect(mpUI->ResourceListButton, SIGNAL(pressed()), this, SLOT(SetResourceListView()));
     connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
-    connect(mpUI->NewFolderButton, SIGNAL(pressed()), this, SLOT(CreateDirectory()));
     connect(mpUI->ClearButton, SIGNAL(pressed()), this, SLOT(OnClearButtonPressed()));
 
     connect(mpUI->DirectoryTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex)));
@@ -281,6 +283,50 @@ void CResourceBrowser::CreateFilterCheckboxes()
     mpFilterBoxesLayout->addSpacerItem(pSpacer);
 }
 
+void CResourceBrowser::CreateAddMenu()
+{
+    // Delete any existing menu
+    if (mpAddMenu)
+    {
+        delete mpAddMenu;
+        mpAddMenu = nullptr;
+    }
+
+    // Create new one, only if we have a valid resource store.
+    if (mpStore)
+    {
+        mpAddMenu = new QMenu(this);
+        mpAddMenu->addAction("New Folder", this, SLOT(CreateDirectory()));
+        mpAddMenu->addSeparator();
+
+        QMenu* pCreateMenu = new QMenu("Create...");
+        mpAddMenu->addMenu(pCreateMenu);
+        AddCreateAssetMenuActions(pCreateMenu);
+
+        mpUI->AddButton->setMenu(mpAddMenu);
+    }
+
+    mpUI->AddButton->setEnabled( mpAddMenu != nullptr );
+}
+
+void CResourceBrowser::AddCreateAssetMenuActions(QMenu* pMenu)
+{
+    std::list<CResTypeInfo*> TypeInfos;
+    CResTypeInfo::GetAllTypesInGame(mpStore->Game(), TypeInfos);
+
+    for (auto Iter = TypeInfos.begin(); Iter != TypeInfos.end(); Iter++)
+    {
+        CResTypeInfo* pTypeInfo = *Iter;
+
+        if (pTypeInfo->CanBeCreated())
+        {
+            QString TypeName = TO_QSTRING( pTypeInfo->TypeName() );
+            QAction* pAction = pMenu->addAction(TypeName, this, SLOT(OnCreateAssetAction()));
+            pAction->setProperty("TypeInfo", QVariant((int) pTypeInfo->Type()));
+        }
+    }
+}
+
 bool CResourceBrowser::RenameResource(CResourceEntry *pEntry, const TString& rkNewName)
 {
     if (pEntry->Name() == rkNewName)
@@ -302,7 +348,11 @@ bool CResourceBrowser::RenameResource(CResourceEntry *pEntry, const TString& rkN
     }
 
     // Everything seems to be valid; proceed with the rename
+    mUndoStack.beginMacro("Rename Resource");
+    mUndoStack.push( new CSaveStoreCommand(mpStore) );
     mUndoStack.push( new CRenameResourceCommand(pEntry, rkNewName) );
+    mUndoStack.push( new CSaveStoreCommand(mpStore) );
+    mUndoStack.endMacro();
     return true;
 }
 
@@ -325,7 +375,11 @@ bool CResourceBrowser::RenameDirectory(CVirtualDirectory *pDir, const TString& r
     }
 
     // No conflicts, proceed with the rename
+    mUndoStack.beginMacro("Rename Directory");
+    mUndoStack.push( new CSaveStoreCommand(mpStore) );
     mUndoStack.push( new CRenameDirectoryCommand(pDir, rkNewName) );
+    mUndoStack.push( new CSaveStoreCommand(mpStore) );
+    mUndoStack.endMacro();
     return true;
 }
 
@@ -387,6 +441,7 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     if (!ValidResources.isEmpty() || !ValidDirs.isEmpty())
     {
         mUndoStack.beginMacro("Move Resources");
+        mUndoStack.push( new CSaveStoreCommand(mpStore) );
 
         foreach (CVirtualDirectory *pDir, ValidDirs)
             mUndoStack.push( new CMoveDirectoryCommand(mpStore, pDir, pNewDir) );
@@ -394,10 +449,69 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
         foreach (CResourceEntry *pEntry, ValidResources)
             mUndoStack.push( new CMoveResourceCommand(pEntry, pNewDir) );
 
+        mUndoStack.push( new CSaveStoreCommand(mpStore) );
         mUndoStack.endMacro();
     }
 
     return true;
+}
+
+CResourceEntry* CResourceBrowser::CreateNewResource(EResourceType Type,
+                                                    TString Name /*= ""*/,
+                                                    CVirtualDirectory* pDir /*= nullptr*/,
+                                                    CAssetID ID /*= CAssetID()*/)
+{
+    if (!pDir)
+    {
+        pDir = mpSelectedDir;
+    }
+
+    // Create new asset ID. Sanity check to make sure the ID is unused.
+    while (!ID.IsValid() || mpStore->FindEntry(ID) != nullptr)
+    {
+        ID = CAssetID::RandomID( mpStore->Game() );
+    }
+
+    // Boring generic default name - user will immediately be prompted to change this
+    TString BaseName = Name;
+
+    if (BaseName.IsEmpty())
+    {
+        BaseName = TString::Format(
+            "New %s", *CResTypeInfo::FindTypeInfo(Type)->TypeName()
+        );
+    }
+
+    Name = BaseName;
+    int Num = 0;
+
+    while (pDir->FindChildResource(Name, Type) != nullptr)
+    {
+        Num++;
+        Name = TString::Format("%s (%d)", *BaseName, Num);
+    }
+
+    // Create the actual resource
+    CResourceEntry* pEntry = mpStore->CreateNewResource(ID, Type, pDir->FullPath(), Name);
+
+    // Push undo command
+    mUndoStack.beginMacro("Create Resource");
+    mUndoStack.push( new CSaveStoreCommand(mpStore) );
+    mUndoStack.push( new CCreateResourceCommand(pEntry) );
+    mUndoStack.push( new CSaveStoreCommand(mpStore) );
+    mUndoStack.endMacro();
+
+    pEntry->Save();
+
+    // Select new resource so user can enter a name
+    QModelIndex Index = mpModel->GetIndexForEntry(pEntry);
+    ASSERT(Index.isValid());
+
+    QModelIndex ProxyIndex = mpProxyModel->mapFromSource(Index);
+    mpUI->ResourceTableView->selectionModel()->select(ProxyIndex, QItemSelectionModel::ClearAndSelect);
+    mpUI->ResourceTableView->edit(ProxyIndex);
+
+    return pEntry;
 }
 
 bool CResourceBrowser::eventFilter(QObject *pWatched, QEvent *pEvent)
@@ -498,6 +612,23 @@ void CResourceBrowser::OnSortModeChanged(int Index)
     mpProxyModel->SetSortMode(Mode);
 }
 
+void CResourceBrowser::OnCreateAssetAction()
+{
+    // Attempt to retrieve the asset type from the sender. If successful, create the asset.
+    QAction* pSender = qobject_cast<QAction*>(sender());
+
+    if (pSender)
+    {
+        bool Ok;
+        EResourceType Type = (EResourceType) pSender->property("TypeInfo").toInt(&Ok);
+
+        if (Ok)
+        {
+            CreateNewResource(Type);
+        }
+    }
+}
+
 bool CResourceBrowser::CreateDirectory()
 {
     if (mpSelectedDir)
@@ -513,8 +644,12 @@ bool CResourceBrowser::CreateDirectory()
         }
 
         // Push create command to actually create the directory
+        mUndoStack.beginMacro("Create Directory");
+        mUndoStack.push( new CSaveStoreCommand(mpStore) );
         CCreateDirectoryCommand *pCmd = new CCreateDirectoryCommand(mpStore, mpSelectedDir->FullPath(), DirName);
         mUndoStack.push(pCmd);
+        mUndoStack.push( new CSaveStoreCommand(mpStore) );
+        mUndoStack.endMacro();
 
         // Now fetch the new directory and start editing it so the user can enter a name
         CVirtualDirectory *pNewDir = mpSelectedDir->FindChildDirectory(DirName, false);
@@ -537,28 +672,101 @@ bool CResourceBrowser::CreateDirectory()
     return false;
 }
 
-bool CResourceBrowser::DeleteDirectories(const QList<CVirtualDirectory*>& rkDirs)
+bool CResourceBrowser::Delete(QVector<CResourceEntry*> Resources, QVector<CVirtualDirectory*> Directories)
 {
-    QList<CVirtualDirectory*> DeletableDirs;
+    // Don't delete any resources/directories that are still referenced.
+    // This is kind of a hack but there's no good way to clear out these references right now.
+    QString ErrorPaths;
 
-    foreach (CVirtualDirectory *pDir, rkDirs)
+    for (int DirIdx = 0; DirIdx < Directories.size(); DirIdx++)
     {
-        if (pDir && pDir->IsEmpty(true))
-            DeletableDirs << pDir;
+        if (!Directories[DirIdx]->IsSafeToDelete())
+        {
+            ErrorPaths += TO_QSTRING( Directories[DirIdx]->FullPath() ) + '\n';
+            Directories.removeAt(DirIdx);
+            DirIdx--;
+        }
     }
 
-    if (DeletableDirs.size() > 0)
+    for (int ResIdx = 0; ResIdx < Resources.size(); ResIdx++)
     {
-        mUndoStack.beginMacro("Delete Directories");
+        if (Resources[ResIdx]->IsLoaded() && Resources[ResIdx]->Resource()->IsReferenced())
+        {
+            ErrorPaths += TO_QSTRING( Resources[ResIdx]->CookedAssetPath(true) ) + '\n';
+            Resources.removeAt(ResIdx);
+            ResIdx--;
+        }
+    }
 
-        foreach (CVirtualDirectory *pDir, DeletableDirs)
+    if (!ErrorPaths.isEmpty())
+    {
+        // Remove trailing newline
+        ErrorPaths.chop(1);
+        UICommon::ErrorMsg(this, QString("The following resources/directories are still referenced and cannot be deleted:\n\n%1")
+                           .arg(ErrorPaths));
+    }
+
+    // Gather a complete list of resources in subdirectories
+    for (int DirIdx = 0; DirIdx < Directories.size(); DirIdx++)
+    {
+        CVirtualDirectory* pDir = Directories[DirIdx];
+        Resources.reserve( Resources.size() + pDir->NumResources() );
+        Directories.reserve( Directories.size() + pDir->NumSubdirectories() );
+
+        for (uint ResourceIdx = 0; ResourceIdx < pDir->NumResources(); ResourceIdx++)
+            Resources << pDir->ResourceByIndex(ResourceIdx);
+
+        for (uint SubdirIdx = 0; SubdirIdx < pDir->NumSubdirectories(); SubdirIdx++)
+            Directories << pDir->SubdirectoryByIndex(SubdirIdx);
+    }
+
+    // Exit if we have nothing to do.
+    if (Resources.isEmpty() && Directories.isEmpty())
+        return false;
+
+    // Allow the user to confirm before proceeding.
+    QString ConfirmMsg = QString("Are you sure you want to permanently delete ");
+
+    if (Resources.size() > 0)
+    {
+        ConfirmMsg += QString("%1 resource%2").arg(Resources.size()).arg(Resources.size() == 1 ? "" : "s");
+
+        if (Directories.size() > 0)
+        {
+            ConfirmMsg += " and ";
+        }
+    }
+    if (Directories.size() > 0)
+    {
+        ConfirmMsg += QString("%1 %2").arg(Directories.size()).arg(Directories.size() == 1 ? "directory" : "directories");
+    }
+    ConfirmMsg += "?";
+
+    if (UICommon::YesNoQuestion(this, "Warning", ConfirmMsg))
+    {
+        // Note that the undo stack will undo actions in the reverse order they are pushed
+        // So we need to push commands last that we want to be undone first
+        // We want to delete subdirectories first, then parent directories, then resources
+        mUndoStack.beginMacro("Delete");
+        mUndoStack.push( new CSaveStoreCommand(mpStore) );
+
+        // Delete resources first.
+        foreach (CResourceEntry* pEntry, Resources)
+            mUndoStack.push( new CDeleteResourceCommand(pEntry) );
+
+        // Now delete directories in reverse order (so subdirectories delete first)
+        for (int DirIdx = Directories.size()-1; DirIdx >= 0; DirIdx--)
+        {
+            CVirtualDirectory* pDir = Directories[DirIdx];
             mUndoStack.push( new CDeleteDirectoryCommand(mpStore, pDir->Parent()->FullPath(), pDir->Name()) );
+        }
 
+        mUndoStack.push( new CSaveStoreCommand(mpStore) );
         mUndoStack.endMacro();
         return true;
     }
-
-    else return false;
+    else
+        return false;
 }
 
 void CResourceBrowser::OnSearchStringChanged(QString SearchString)
@@ -685,7 +893,8 @@ void CResourceBrowser::UpdateStore()
         mpUI->SearchBar->clear();
         mSearching = false;
 
-        // Refresh type filter list
+        // Refresh project-specific UI
+        CreateAddMenu();
         CreateFilterCheckboxes();
 
         // Refresh directory tree

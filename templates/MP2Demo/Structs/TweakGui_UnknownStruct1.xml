@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGui_UnknownStruct1</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0xC571A8C6">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA8F78303">
+                <DefaultValue>0.025</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x37232177">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6C247761">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFC8FA5DE">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8A98229">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x520FDFEB">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xD4402199">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xE5A83B04">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xEBDEB854">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xDA36A2C9">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x7C41A97D">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xB9E697F3">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x9F4651DB">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xAEAE4B46">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x8D940F2">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xCD7E7E7C">
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>0.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD83FCBA0">
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9E442F31">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5895FD46">
+                <DefaultValue>250.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xE65578E3">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x93DB3352">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x92F8C63A">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAF902412">
+                <DefaultValue>0.0625</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDA732D7D">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xFC913090">
+                <DefaultValue>100</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xD275CEEE">
+                <DefaultValue>248</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xAA8047A0">
+                <DefaultValue>50</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2773FBB3">
+                <DefaultValue>540</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

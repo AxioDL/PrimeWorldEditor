@@ -109,6 +109,7 @@ HEADERS += \
     Resource/Script/CScriptObject.h \
     Resource/Script/CScriptTemplate.h \
     Resource/Script/EVolumeShape.h \
+    Resource/StringTable/CStringTable.h \
     Resource/CCollisionMesh.h \
     Resource/CCollisionMeshGroup.h \
     Resource/CFont.h \
@@ -117,8 +118,6 @@ HEADERS += \
     Resource/CMaterialPass.h \
     Resource/CMaterialSet.h \
     Resource/CResource.h \
-    Resource/CScan.h \
-    Resource/CStringTable.h \
     Resource/CTexture.h \
     Resource/CWorld.h \
     Resource/EResType.h \
@@ -246,7 +245,18 @@ HEADERS += \
     Resource/Script/Property/CGuidProperty.h \
     Resource/Script/CGameTemplate.h \
     Resource/Script/NPropertyMap.h \
-    Resource/Script/NGameList.h
+    Resource/Script/NGameList.h \
+    Resource/StringTable/ELanguage.h \
+    Tweaks/CTweakManager.h \
+    Tweaks/CTweakData.h \
+    Tweaks/CTweakLoader.h \
+    Tweaks/CTweakCooker.h \
+    Resource/Cooker/CStringCooker.h \
+    Resource/Scan/CScan.h \
+    Resource/Scan/SScanParametersMP1.h \
+    Resource/Scan/ELogbookCategory.h \
+    Resource/Cooker/CScanCooker.h \
+    NCoreTests.h
 
 # Source Files
 SOURCES += \
@@ -357,7 +367,15 @@ SOURCES += \
     Resource/Script/Property/CFlagsProperty.cpp \
     Resource/Script/CGameTemplate.cpp \
     Resource/Script/NPropertyMap.cpp \
-    Resource/Script/NGameList.cpp
+    Resource/Script/NGameList.cpp \
+    Resource/StringTable/CStringTable.cpp \
+    Tweaks/CTweakManager.cpp \
+    Tweaks/CTweakLoader.cpp \
+    Tweaks/CTweakCooker.cpp \
+    Resource/Cooker/CStringCooker.cpp \
+    Resource/Scan/CScan.cpp \
+    Resource/Cooker/CScanCooker.cpp \
+    NCoreTests.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

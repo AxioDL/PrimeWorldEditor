@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakBall_ScrewAttack</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x7EAB4BAB">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCB77FB28">
+                <DefaultValue>4.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3FDEB046">
+                <DefaultValue>4.5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x691B244D">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x591DA5B4">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE428F231">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D03D8A6">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF1F2498F">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4B0ABA1C">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x14351140">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x315DF4D7">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5DEC33C5">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC5B758F5">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB8431384">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x38F84011">
+                <DefaultValue>40.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0xB372ECAB" Archetype="TDamageInfo">
+                <SubProperties>
+                    <Element Type="Int" ID="0x4D577910">
+                        <DefaultValue>7</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF3EC8748">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x37B6DF3D">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF598739">
+                        <DefaultValue>2.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakParticle</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>Particle</Name>
+                <DefaultValue>Particle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1">
+                <Name>PowerBeam</Name>
+                <DefaultValue>PowerBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2">
+                <Name>GenThrust</Name>
+                <DefaultValue>GenThrust</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

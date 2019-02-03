@@ -39,7 +39,7 @@
                 <DefaultValue>false</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x2766636A">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>1.0</DefaultValue>
             </Element>
         </SubProperties>

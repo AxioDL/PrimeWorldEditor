@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGraphicalTransitions_UnknownStruct2</Name>
+        <SubProperties>
+            <Element Type="String" ID="0xD211BAED">
+                <CookPreference>Always</CookPreference>
+            </Element>
+            <Element Type="String" ID="0xE27C08D5">
+                <CookPreference>Always</CookPreference>
+            </Element>
+            <Element Type="Color" ID="0xE3A5171E">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0xB918579" Archetype="TweakGraphicalTransitions_UnknownEnum1">
+                <DefaultValue>0x10C04105</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBEFC4DA4">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8E16E012">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A26C1CC">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0x22AC0539"/>
+            <Element Type="Spline" ID="0xEE835F65"/>
+            <Element Type="Bool" ID="0xEED6E4D2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2154FB4">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xE4CE0582"/>
+            <Element Type="Spline" ID="0x484A7EA"/>
+            <Element Type="Bool" ID="0x77C331B1">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x46177339">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xB1E6472E">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6B08F2F2">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

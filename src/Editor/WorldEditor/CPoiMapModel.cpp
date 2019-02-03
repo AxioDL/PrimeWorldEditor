@@ -52,7 +52,7 @@ QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
                 CScan *pScan = static_cast<CPointOfInterestExtra*>(pNode->Extra())->GetScan();
 
                 if (pScan)
-                    IsImportant = pScan->IsImportant();
+                    IsImportant = pScan->IsCriticalPropertyRef();
             }
 
             if (IsImportant)

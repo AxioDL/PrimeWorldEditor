@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Choice">
+        <Name>ControllerMapping</Name>
+        <Values>
+            <Element Name="None" ID="0x0"/>
+            <Element Name="LeftStickUp" ID="0x1"/>
+            <Element Name="LeftStickDown" ID="0x2"/>
+            <Element Name="LeftStickLeft" ID="0x3"/>
+            <Element Name="LeftStickRight" ID="0x4"/>
+            <Element Name="RightStickUp" ID="0x5"/>
+            <Element Name="RightStickDown" ID="0x6"/>
+            <Element Name="RightStickLeft" ID="0x7"/>
+            <Element Name="RightStickRight" ID="0x8"/>
+            <Element Name="LeftTrigger" ID="0x9"/>
+            <Element Name="RightTrigger" ID="0xA"/>
+            <Element Name="DPadUp" ID="0xB"/>
+            <Element Name="DPadDown" ID="0xC"/>
+            <Element Name="DPadLeft" ID="0xD"/>
+            <Element Name="DPadRight" ID="0xE"/>
+            <Element Name="AButton" ID="0xF"/>
+            <Element Name="BButton" ID="0x10"/>
+            <Element Name="XButton" ID="0x11"/>
+            <Element Name="YButton" ID="0x12"/>
+            <Element Name="ZButton" ID="0x13"/>
+            <Element Name="LeftTriggerPress" ID="0x14"/>
+            <Element Name="RightTriggerPress" ID="0x15"/>
+            <Element Name="Start" ID="0x16"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

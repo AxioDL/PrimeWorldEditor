@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Struct">
+        <Name>BeamInfo</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0">
+                <Name>Cooldown</Name>
+            </Element>
+            <Element Type="Struct" ID="0x1" Archetype="ShotParam">
+                <Name>NormalDamage</Name>
+            </Element>
+            <Element Type="Struct" ID="0x2" Archetype="ShotParam">
+                <Name>ChargedDamage</Name>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

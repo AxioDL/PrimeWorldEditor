@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>MiscControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x9ACB4ACE" Archetype="MapControls"/>
+            <Element Type="Struct" ID="0xED3482B7" Archetype="InventoryControls"/>
+            <Element Type="Struct" ID="0x36E52F14" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x10699C6F" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -10,6 +10,7 @@ CResTypeInfo::CResTypeInfo(EResourceType Type, const TString& rkTypeName, const 
     , mRetroExtension(rkRetroExtension)
     , mCanBeSerialized(false)
     , mCanHaveDependencies(true)
+    , mCanBeCreated(false)
 {
 #if !PUBLIC_RELEASE
     ASSERT(smTypeMap.find(Type) == smTypeMap.end());
@@ -195,7 +196,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::AudioGroup, "Audio Group", "agsc");
-        AddExtension(pType, "AGSC", EGame::PrimeDemo, EGame::Echoes);
+        AddExtension(pType, "AGSC", EGame::PrimeDemo, EGame::CorruptionProto);
         pType->mCanHaveDependencies = false;
     }
     {
@@ -332,6 +333,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Scan, "Scan", "scan");
         AddExtension(pType, "SCAN", EGame::PrimeDemo, EGame::Corruption);
+        pType->mCanBeCreated = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Skeleton, "Skeleton", "cin");
@@ -381,6 +383,8 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::StringTable, "String Table", "strg");
         AddExtension(pType, "STRG", EGame::PrimeDemo, EGame::DKCReturns);
+        pType->mCanBeSerialized = true;
+        pType->mCanBeCreated = true;
     }
     {
         CResTypeInfo *pType = new CResTypeInfo(EResourceType::Texture, "Texture", "txtr");
@@ -388,7 +392,7 @@ void CResTypeInfo::CResTypeInfoFactory::InitTypes()
         pType->mCanHaveDependencies = false;
     }
     {
-        CResTypeInfo *pType = new CResTypeInfo(EResourceType::Tweak, "Tweak Data", "ctwk");
+        CResTypeInfo *pType = new CResTypeInfo(EResourceType::Tweaks, "Tweak Data", "ctwk");
         AddExtension(pType, "CTWK", EGame::PrimeDemo, EGame::Prime);
         pType->mCanHaveDependencies = false;
     }

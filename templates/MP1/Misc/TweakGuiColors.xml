@@ -1,0 +1,961 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakGuiColors</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Color" ID="0x0">
+                <Name>PauseBlurFilterColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.709804</G>
+                    <B>0.39607799</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1">
+                <Name>RadarStuffColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.627451</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2">
+                <Name>RadarPlayerPaintColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.40000001</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3">
+                <Name>RadarEnemyPaintColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.019608</B>
+                    <A>0.78431398</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4">
+                <Name>HudMessageFillColor</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5">
+                <Name>HudMessageOutlineColor</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x6">
+                <Name>HudFrameColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.627451</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x7">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40784299</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x8">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x9">
+                <Name>MissileIconActiveColor</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xA">
+                <Name>VisorBeamMenuItemActive</Name>
+                <DefaultValue>
+                    <R>0.662745</R>
+                    <G>0.662745</G>
+                    <B>0.662745</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xB">
+                <Name>VisorBeamMenuColorInactive</Name>
+                <DefaultValue>
+                    <R>0.56470603</R>
+                    <G>0.56470603</G>
+                    <B>0.56470603</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xC">
+                <Name>EnergyBarFilledLowEnergy</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40784299</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xD">
+                <Name>EnergyBarShadowLowEnergy</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xE">
+                <Name>EnergyBarEmptyLowEnergy</Name>
+                <DefaultValue>
+                    <R>0.17254899</R>
+                    <G>0.290196</G>
+                    <B>0.372549</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xF">
+                <Name>HudDamageLightColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x10">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.2</R>
+                    <G>0.337255</G>
+                    <B>0.43921599</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x11">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.40000001</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x12">
+                <Name>VisorMenuTextFont</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x13">
+                <Name>VisorMenuTextOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x14">
+                <Name>BeamMenuTextFont</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x15">
+                <Name>BeamMenuTextOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x16">
+                <Name>EnergyWarningFont</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40784299</G>
+                    <B>0.019608</B>
+                    <A>0.49803901</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x17">
+                <Name>ThreatWarningFont</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x18">
+                <Name>MissileWarningFont</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x19">
+                <Name>ThreatBarFilled</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1A">
+                <Name>ThreatBarShadow</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1B">
+                <Name>ThreatBarEmpty</Name>
+                <DefaultValue>
+                    <R>0.16862699</R>
+                    <G>0.286275</G>
+                    <B>0.36862701</B>
+                    <A>0.49803901</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1C">
+                <Name>MissileBarFilled</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1D">
+                <Name>MissileBarShadow</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1E">
+                <Name>MissileBarEmpty</Name>
+                <DefaultValue>
+                    <R>0.16862699</R>
+                    <G>0.286275</G>
+                    <B>0.36862701</B>
+                    <A>0.49803901</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1F">
+                <Name>ThreatIconColor</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x20">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.627451</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x21">
+                <Name>TickDecoColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.31372601</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x22">
+                <Name>HelmetLightColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x23">
+                <Name>ThreatIconSafeColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.40000001</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x24">
+                <Name>MissileIconColorInactive</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.40000001</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x25">
+                <Name>MissileIconColorChargedCanAlt</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x26">
+                <Name>MissileIconChargedNoAlt</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x27">
+                <Name>MissileIconColorDepleteAlt</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x28">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                    <A>0.196078</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x29">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2A">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0039220001</R>
+                    <G>0.0039220001</G>
+                    <B>0.0039220001</B>
+                    <A>0.40000001</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2B">
+                <Name>VisorBeamMenuLozColor</Name>
+                <DefaultValue>
+                    <R>0.16862699</R>
+                    <G>0.286275</G>
+                    <B>0.36862701</B>
+                    <A>0.5</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2C">
+                <Name>EnergyWarningOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2D">
+                <Name>ThreatWarningOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2E">
+                <Name>MissileWarningOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2F">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40000001</R>
+                    <G>0.40000001</G>
+                    <B>0.40000001</B>
+                    <A>0.40000001</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x30">
+                <Name>DamageAmbientColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.019608</B>
+                    <A>0.70588201</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x31">
+                <Name>ScanFrameInactiveColor</Name>
+                <DefaultValue>
+                    <R>0.286275</R>
+                    <G>0.482353</G>
+                    <B>0.62352902</B>
+                    <A>0.466667</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x32">
+                <Name>ScanFrameActiveColor</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x33">
+                <Name>ScanFrameImpulseColor</Name>
+                <DefaultValue>
+                    <R>0.337255</R>
+                    <G>0.431373</G>
+                    <B>0.73725498</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x34">
+                <Name>ScanVisorHudLightMultiply</Name>
+                <DefaultValue>
+                    <R>0.709804</R>
+                    <G>0.709804</G>
+                    <B>0.709804</B>
+                    <A>0.58431399</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x35">
+                <Name>ScanVisorScreenDimColor</Name>
+                <DefaultValue>
+                    <R>0.39215699</R>
+                    <G>0.39215699</G>
+                    <B>0.39215699</B>
+                    <A>0.58431399</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x36">
+                <Name>ThermalVisorHudLightMultiply</Name>
+                <DefaultValue>
+                    <R>0.40000001</R>
+                    <G>0.40000001</G>
+                    <B>0.40000001</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x37">
+                <Name>EnergyDrainFilterColor</Name>
+                <DefaultValue>
+                    <R>0.419608</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.39215699</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x38">
+                <Name>DamageAmbientPulseColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.69999999</G>
+                    <B>0.40000001</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x39">
+                <Name>EnergyBarFlashColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3A">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.49411801</B>
+                    <A>0.78431398</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3B">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.39215699</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3C">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.31372601</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3D">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.50196099</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3E">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.074510001</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3F">
+                <Name>XRayEnergyDecoColor</Name>
+                <DefaultValue>
+                    <R>0.54901999</R>
+                    <G>0.60784298</G>
+                    <B>0.88235301</B>
+                    <A>0.466667</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x40">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.54901999</R>
+                    <G>0.60784298</G>
+                    <B>0.88235301</B>
+                    <A>0.466667</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x41">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.54901999</R>
+                    <G>0.60784298</G>
+                    <B>0.88235301</B>
+                    <A>0.466667</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x42">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.54901999</R>
+                    <G>0.60784298</G>
+                    <B>0.88235301</B>
+                    <A>0.466667</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x43">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.39215699</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x44">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x45">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x46">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x47">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x48">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.49411801</B>
+                    <A>0.66666698</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x49">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.73725498</G>
+                    <B>0.011765</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4A">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.49411801</B>
+                    <A>0.66666698</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4B">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.73725498</G>
+                    <B>0.011765</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4C">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.2</R>
+                    <G>0.337255</G>
+                    <B>0.43921599</B>
+                    <A>0.431373</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4D">
+                <Name>ScanDataDotColor</Name>
+                <DefaultValue>
+                    <R>0.384314</R>
+                    <G>0.48627499</G>
+                    <B>0.57647097</B>
+                    <A>0.39215699</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4E">
+                <Name>PowerBombDigitAvailableFont</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x4F">
+                <Name>PowerBombDigitAvailableOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x50">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x51">
+                <Name>BallBombFilled</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x52">
+                <Name>BallBombEmpty</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.49803901</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x53">
+                <Name>PowerBombIconAvailable</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x54">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x55">
+                <Name>BallEnergyDeco</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x56">
+                <Name>BallBombDeco</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x57">
+                <Name>PowerBombDigitDepletedFont</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x58">
+                <Name>PowerBombDigitDepletedOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.5</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x59">
+                <Name>PowerBombIconUnavailable</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.5</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5A">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5B">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.2</R>
+                    <G>0.337255</G>
+                    <B>0.43921599</B>
+                    <A>0.39215699</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5C">
+                <Name>ScanDisplayImagePaneColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                    <A>0.58823502</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5D">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>1.0</B>
+                    <A>0.1</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5E">
+                <Name>ThreatIconWarningColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5F">
+                <Name>HudCounterFill</Name>
+                <DefaultValue>
+                    <R>0.5</R>
+                    <G>0.69999999</G>
+                    <B>1.0</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x60">
+                <Name>HudCounterOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                    <A>0.69999999</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x61">
+                <Name>ScanIconCriticalColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x62">
+                <Name>ScanIconCriticalDimColor</Name>
+                <DefaultValue>
+                    <R>0.49411801</R>
+                    <G>0.203922</G>
+                    <B>0.0039220001</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x63">
+                <Name>ScanIconNoncriticalColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x64">
+                <Name>ScanIconNoncriticalDimColor</Name>
+                <DefaultValue>
+                    <R>0.49411801</R>
+                    <G>0.203922</G>
+                    <B>0.0078429999</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x65">
+                <Name>ScanReticuleColor</Name>
+                <DefaultValue>
+                    <R>0.2</R>
+                    <G>0.337255</G>
+                    <B>0.43921599</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x66">
+                <Name>ThreatDigitsFont</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x67">
+                <Name>ThreatDigitsOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x68">
+                <Name>MissileDigitsFont</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x69">
+                <Name>MissileDigitsOutline</Name>
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x6A">
+                <Name>ThermalDecoColor</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.78431398</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x6B">
+                <Name>ThermalDecoOutlinesColor</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.82352901</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x6C">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x6D">
+                <Name>ThermalLockColor</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                    <A>0.49019599</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x6E">
+                <Name>PauseItemAmber</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40392199</G>
+                    <B>0.019608</B>
+                    <A>0.70588201</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x6F">
+                <Name>PauseItemBlue</Name>
+                <DefaultValue>
+                    <R>0.40392101</R>
+                    <G>0.68235201</G>
+                    <B>0.88235199</B>
+                    <A>0.70196003</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Array" ID="0x70">
+                <Name>EnergyBarColorsPerVisor</Name>
+                <ItemArchetype Type="Struct" Archetype="EnergyBarColors"/>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

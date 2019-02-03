@@ -338,6 +338,7 @@
     <property name="title">
      <string>Tools</string>
     </property>
+    <addaction name="ActionEditTweaks"/>
     <addaction name="ActionEditLayers"/>
     <addaction name="ActionGeneratePropertyNames"/>
    </widget>
@@ -783,6 +784,14 @@
   <action name="ActionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="ActionEditTweaks">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Edit Tweaks</string>
    </property>
   </action>
  </widget>

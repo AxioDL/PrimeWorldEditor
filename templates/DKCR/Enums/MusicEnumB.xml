@@ -2,7 +2,6 @@
 <PropertyTemplate ArchiveVer="4" Game="DKCReturns">
     <PropertyArchetype Type="Enum">
         <Name>MusicEnumB</Name>
-        <DefaultValue>0x0</DefaultValue>
         <Values>
             <Element Name="Unknown 1" ID="0xCBF698CA"/>
             <Element Name="Unknown 2" ID="0xBCF1A85C"/>

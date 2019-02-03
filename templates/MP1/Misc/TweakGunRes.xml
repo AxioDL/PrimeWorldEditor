@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakGunRes</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="String" ID="0x0">
+                <Name>GunMotion</Name>
+                <DefaultValue>GunMotion</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1">
+                <Name>GrappleArm</Name>
+                <DefaultValue>grappleArm</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x2">
+                <Name>RightHand</Name>
+                <DefaultValue>rightHand</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x3">
+                <Name>PowerBeam</Name>
+                <DefaultValue>Power</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x4">
+                <Name>IceBeam</Name>
+                <DefaultValue>Ice</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x5">
+                <Name>WaveBeam</Name>
+                <DefaultValue>Wave</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x6">
+                <Name>PlasmaBeam</Name>
+                <DefaultValue>Plasma</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x7">
+                <Name>PhazonBeam</Name>
+                <DefaultValue>Phazon</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x8">
+                <Name>HoloTransition</Name>
+                <DefaultValue>holoTransition</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x9">
+                <Name>BombSet</Name>
+                <DefaultValue>BombSet</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xA">
+                <Name>BombExplode</Name>
+                <DefaultValue>BombExplo</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xB">
+                <Name>PowerBombExplode</Name>
+                <DefaultValue>PowerBombExplo</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xC">
+                <Name>PowerBeamWeapon</Name>
+                <DefaultValue>PowerBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xD">
+                <Name>PowerChargeWeapon</Name>
+                <DefaultValue>PowerBall</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xE">
+                <Name>IceBeamWeapon</Name>
+                <DefaultValue>IceBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xF">
+                <Name>IceChargeWeapon</Name>
+                <DefaultValue>IceBall</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x10">
+                <Name>WaveBeamWeapon</Name>
+                <DefaultValue>WaveBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x11">
+                <Name>WaveChargeWeapon</Name>
+                <DefaultValue>WaveBall</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x12">
+                <Name>PlasmaBeamWeapon</Name>
+                <DefaultValue>PlasmaBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x13">
+                <Name>PlasmaChargeWeapon</Name>
+                <DefaultValue>PlasmaBall</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x14">
+                <Name>PhazonBeamWeapon</Name>
+                <DefaultValue>PhazonBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x15">
+                <Name>PhazonChargeWeapon</Name>
+                <DefaultValue>PhazonBeam</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x16">
+                <Name>PowerMuzzle</Name>
+                <DefaultValue>PowerMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x17">
+                <Name>IceMuzzle</Name>
+                <DefaultValue>IceMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x18">
+                <Name>WaveMuzzle</Name>
+                <DefaultValue>PowerMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x19">
+                <Name>PlasmaMuzzle</Name>
+                <DefaultValue>PlasmaMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1A">
+                <Name>PhazonMuzzle</Name>
+                <DefaultValue>PhazonMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1B">
+                <Name>PowerCharge</Name>
+                <DefaultValue>PowerCharge</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1C">
+                <Name>IceCharge</Name>
+                <DefaultValue>IceCharge</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1D">
+                <Name>WaveCharge</Name>
+                <DefaultValue>WaveCharge</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1E">
+                <Name>PlasmaCharge</Name>
+                <DefaultValue>PlasmaCharge</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x1F">
+                <Name>PhazonCharge</Name>
+                <DefaultValue>PowerCharge</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x20">
+                <Name>PowerAuxMuzzle</Name>
+                <DefaultValue>PowerAuxMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x21">
+                <Name>IceAuxMuzzle</Name>
+                <DefaultValue>IceAuxMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x22">
+                <Name>WaveAuxMuzzle</Name>
+                <DefaultValue>WaveAuxMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x23">
+                <Name>PlasmaAuxMuzzle</Name>
+                <DefaultValue>PlasmaAuxMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x24">
+                <Name>PhazonAuxMuzzle</Name>
+                <DefaultValue>PowerAuxMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x25">
+                <Name>GrappleSegment</Name>
+                <DefaultValue>grappleSegment</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x26">
+                <Name>GrappleClaw</Name>
+                <DefaultValue>grappleClaw</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x27">
+                <Name>GrappleHit</Name>
+                <DefaultValue>grappleHit</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x28">
+                <Name>GrappleMuzzle</Name>
+                <DefaultValue>grappleMuzzle</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0x29">
+                <Name>GrappleSwoosh</Name>
+                <DefaultValue>grappleSwoosh</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

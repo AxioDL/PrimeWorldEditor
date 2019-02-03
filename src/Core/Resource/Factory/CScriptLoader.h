@@ -15,8 +15,8 @@ class CScriptLoader
     CGameArea* mpArea;
     CGameTemplate *mpGameTemplate;
 
-    // Current array item pointer
-    void* mpArrayItemData;
+    // Current data pointer
+    void* mpCurrentData;
 
     CScriptLoader();
     void ReadProperty(IProperty* pProp, uint32 Size, IInputStream& rSCLY);
@@ -32,6 +32,7 @@ class CScriptLoader
 public:
     static CScriptLayer* LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EGame Version);
     static CScriptObject* LoadInstance(IInputStream& rSCLY, CGameArea *pArea, CScriptLayer *pLayer, EGame Version, bool ForceReturnsFormat);
+    static void LoadStructData(IInputStream& rInput, CStructRef InStruct);
 };
 
 #endif // CSCRIPTLOADER_H

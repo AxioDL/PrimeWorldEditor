@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakPlayerGun_Beam_Misc</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xF8F9BF33">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4848F444">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1E710222">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3AE5D1FA">
+                <DefaultValue>0.75</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

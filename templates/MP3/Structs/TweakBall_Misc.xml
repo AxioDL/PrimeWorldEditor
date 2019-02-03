@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakBall_Misc</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x13CFDE23">
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF3499713">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x895A47FB">
+                <DefaultValue>200.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,4 +1,5 @@
 #include "CGameProject.h"
+#include "CResourceIterator.h"
 #include "IUIRelay.h"
 #include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/Serialization/XML.h>
@@ -10,16 +11,12 @@ CGameProject::~CGameProject()
     {
         ASSERT(!mpResourceStore->IsCacheDirty());
 
-        if (gpResourceStore == mpResourceStore)
+        if (gpResourceStore == mpResourceStore.get())
             gpResourceStore = nullptr;
     }
 
     for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
         delete mPackages[iPkg];
-
-    delete mpAudioManager;
-    delete mpGameInfo;
-    delete mpResourceStore;
 }
 
 bool CGameProject::Save()
@@ -83,21 +80,21 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
 
     auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString.data()).ToUTF8());
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
-    TWideString DiscRoot = DiscDir(false).ToUTF16();
+    TString DiscRoot = DiscDir(false);
 
     if (!IsWiiBuild())
     {
-        nod::DiscBuilderGCN Builder(*rkIsoPath.ToUTF16(), ProgressCallback);
-        return Builder.buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
+        nod::DiscBuilderGCN Builder(ToWChar(rkIsoPath), ProgressCallback);
+        return Builder.buildFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
     }
     else
     {
-        nod::DiscBuilderWii Builder(*rkIsoPath.ToUTF16(), IsTrilogy(), ProgressCallback);
-        return Builder.buildFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
+        nod::DiscBuilderWii Builder(ToWChar(rkIsoPath), IsTrilogy(), ProgressCallback);
+        return Builder.buildFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
     }
 }
 
@@ -109,15 +106,15 @@ bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso
 
     auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, TWideString(rkInfoString.data()).ToUTF8());
+        pProgress->Report((int) (ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
 
-    TWideString DiscRoot = DiscFilesystemRoot(false).ToUTF16();
+    TString DiscRoot = DiscFilesystemRoot(false);
 
-    nod::DiscMergerWii Merger(*rkIsoPath.ToUTF16(), *pOriginalIso, IsTrilogy(), ProgressCallback);
-    return Merger.mergeFromDirectory(*DiscRoot) == nod::EBuildResult::Success;
+    nod::DiscMergerWii Merger(ToWChar(rkIsoPath), *pOriginalIso, IsTrilogy(), ProgressCallback);
+    return Merger.mergeFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
 }
 
 void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
@@ -200,7 +197,7 @@ CGameProject* CGameProject::CreateProjectForExport(
 
     pProj->mProjectRoot = rkProjRootDir;
     pProj->mProjectRoot.Replace("\\", "/");
-    pProj->mpResourceStore = new CResourceStore(pProj);
+    pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
     pProj->mpGameInfo->LoadGameInfo(Game);
     return pProj;
 }
@@ -234,10 +231,14 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
     {
         // Load resource database
         pProgress->Report("Loading resource database");
-        pProj->mpResourceStore = new CResourceStore(pProj);
+        pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
         LoadSuccess = pProj->mpResourceStore->LoadDatabaseCache();
 
-        // Validate resource database
+        // Removed database validation step. We used to do this on project load to make sure all data was correct, but this takes a long
+        // time and significantly extends how long it takes to open a project. In actual practice, this isn't needed most of the time, and
+        // in the odd case that it is needed, there is a button in the resource browser to rebuild the database. So in the interest of
+        // making project startup faster, we no longer validate the database.
+#if 0
         if (LoadSuccess)
         {
             pProgress->Report("Validating resource database");
@@ -257,6 +258,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
                     LoadSuccess = false;
             }
         }
+#endif
     }
 
     if (!LoadSuccess)
@@ -267,6 +269,44 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
 
     pProj->mProjFileLock.Lock(ProjPath);
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
+
+    // Perform update
+    if (Reader.FileVersion() < (uint16) EProjectVersion::Current)
+    {
+        pProgress->Report("Updating project");
+
+        CResourceStore* pOldStore = gpResourceStore;
+        gpResourceStore = pProj->mpResourceStore.get();
+
+        for (CResourceIterator It; It; ++It)
+        {
+            if (It->TypeInfo()->CanBeSerialized() && !It->HasRawVersion())
+            {
+                It->Save(true, false);
+
+                // Touch the cooked file to update its last modified time.
+                // This prevents PWE from erroneously thinking the cooked file is outdated
+                // (due to the raw file we just made having a more recent last modified time)
+                FileUtil::UpdateLastModifiedTime( It->CookedAssetPath() );
+            }
+        }
+
+        pProj->mpResourceStore->ConditionalSaveStore();
+        pProj->Save();
+
+        gpResourceStore = pOldStore;
+    }
+
+    // Create hidden files directory, if needed
+    TString HiddenDir = pProj->HiddenFilesDir();
+
+    if (!FileUtil::Exists(HiddenDir))
+    {
+        FileUtil::MakeDirectory(HiddenDir);
+        FileUtil::MarkHidden(HiddenDir, true);
+    }
+
     pProj->mpAudioManager->LoadAssets();
+    pProj->mpTweakManager->LoadTweaks();
     return pProj;
 }

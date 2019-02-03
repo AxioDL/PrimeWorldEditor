@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>RevolutionControl_UnknownStruct2</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x8C938C3F">
+                <DefaultValue>320.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47CF5F9A">
+                <DefaultValue>224.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7CBF27CA">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xC599BCBB">
+                <DefaultValue>64.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

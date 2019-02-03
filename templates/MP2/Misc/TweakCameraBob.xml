@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Echoes">
+    <Properties Type="Struct">
+        <Name>TweakCameraBob</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="Float" ID="0xE2A0B6F1">
+                <DefaultValue>0.07</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x29FC6554">
+                <DefaultValue>0.14</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x149D7339">
+                <DefaultValue>0.38999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA27BB5A7">
+                <DefaultValue>0.76999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE3580B2B">
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB05DADE7">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6DC5D440">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD16539A7">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xADBB0A42">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE7F8F11B">
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1985EFA">
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEF19BA33">
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7F59BE96">
+                <DefaultValue>0.22</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x38A82AC1">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

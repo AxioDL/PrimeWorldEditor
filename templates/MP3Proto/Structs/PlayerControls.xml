@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x4CF2B66E" Archetype="PlayerMovementControls"/>
+            <Element Type="Struct" ID="0x478B6C20" Archetype="PlayerWeaponControls"/>
+            <Element Type="Struct" ID="0x49BD3F51" Archetype="PlayerMiscControls"/>
+            <Element Type="Int" ID="0x61FE67A1">
+                <DefaultValue>61</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x1681D3E9" Archetype="BallMovementControls"/>
+            <Element Type="Struct" ID="0x265E569" Archetype="BallMiscControls"/>
+            <Element Type="Int" ID="0xD1777BF7">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x40E350AD" Archetype="CameraControls"/>
+            <Element Type="Struct" ID="0xBE77DED2" Archetype="MiscControls"/>
+            <Element Type="Struct" ID="0x47069911" Archetype="DebugControls"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

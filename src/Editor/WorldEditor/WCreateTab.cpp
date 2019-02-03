@@ -49,7 +49,7 @@ bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
             {
                 CVector3f SpawnPoint = mpEditor->Viewport()->HoverPoint();
                 CCreateInstanceCommand *pCmd = new CCreateInstanceCommand(mpEditor, pMimeData->Template(), mpSpawnLayer, SpawnPoint);
-                mpEditor->UndoStack()->push(pCmd);
+                mpEditor->UndoStack().push(pCmd);
                 return true;
             }
         }

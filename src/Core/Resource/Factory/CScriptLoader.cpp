@@ -15,13 +15,13 @@
 
 CScriptLoader::CScriptLoader()
     : mpObj(nullptr)
-    , mpArrayItemData(nullptr)
+    , mpCurrentData(nullptr)
 {
 }
 
 void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rSCLY)
 {
-    void* pData = (mpArrayItemData ? mpArrayItemData : mpObj->mPropertyData.data());
+    void* pData = (mpCurrentData ? mpCurrentData : mpObj->mPropertyData.data());
 
     switch (pProp->Type())
     {
@@ -151,7 +151,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rS
 #if VALIDATE_PROPERTY_VALUES
         CAssetID ID = pAsset->ValueRef(pData);
 
-        if (ID.IsValid())
+        if (ID.IsValid() && gpResourceStore)
         {
             CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
 
@@ -237,7 +237,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rS
         int Count = rSCLY.ReadLong();
 
         pArray->Resize(pData, Count);
-        void* pOldArrayItemData = mpArrayItemData;
+        void* pOldData = mpCurrentData;
 
         // Make sure the array archetype is atomic... non-atomic array archetypes is not supported
         // because arrays can only have one possible archetype so having property IDs here wouldn't make sense
@@ -257,11 +257,11 @@ void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rS
              * migrated to Sequence properties eventually, so there isn't really any good reason to spend a lot of effort refactoring
              * things to make this cleaner
              */
-            mpArrayItemData = pArray->ItemPointer(pData, ElementIdx);
+            mpCurrentData = pArray->ItemPointer(pData, ElementIdx);
             ReadProperty(pArray->ItemArchetype(), 0, rSCLY);
         }
 
-        mpArrayItemData = pOldArrayItemData;
+        mpCurrentData = pOldData;
         break;
     }
 
@@ -504,4 +504,21 @@ CScriptObject* CScriptLoader::LoadInstance(IInputStream& rSCLY, CGameArea *pArea
         return Loader.LoadObjectMP1(rSCLY);
     else
         return Loader.LoadObjectMP2(rSCLY);
+}
+
+void CScriptLoader::LoadStructData(IInputStream& rInput, CStructRef InStruct)
+{
+    if (!rInput.IsValid()) return;
+
+    CScriptLoader Loader;
+    Loader.mVersion = InStruct.Property()->Game();
+    Loader.mpGameTemplate = NGameList::GetGameTemplate(Loader.mVersion);
+    Loader.mpArea = nullptr;
+    Loader.mpLayer = nullptr;
+    Loader.mpCurrentData = InStruct.DataPointer();
+
+    if (Loader.mVersion <= EGame::Prime)
+        Loader.LoadStructMP1(rInput, InStruct.Property());
+    else
+        Loader.LoadStructMP2(rInput, InStruct.Property());
 }

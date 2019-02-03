@@ -9,7 +9,7 @@
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x1C5687CC">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Asset" ID="0xC95479D4">
                 <TypeFilter>
@@ -26,24 +26,25 @@
             </Element>
             <Element Type="Struct" ID="0x98821996" Archetype="DamageInfo"/>
             <Element Type="Float" ID="0xC26C291C">
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>10.0</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x78C507EB">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>0.1</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x3FED5E52">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>150.0</DefaultValue>
             </Element>
             <Element Type="Asset" ID="0x4F387C49">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0xD4124C4C">
-                <CookPreference>Never</CookPreference>
+                <CookPreference>OnlyIfModified</CookPreference>
                 <DefaultValue>1.0</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x8F4FB79D">

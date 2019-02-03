@@ -115,15 +115,20 @@
                         <DefaultValue>0.1</DefaultValue>
                     </Element>
                     <Element Type="Float" ID="0x53AE4A7">
+                        <CookPreference>Default</CookPreference>
                         <DefaultValue>30.0</DefaultValue>
                     </Element>
-                    <Element Type="Float" ID="0xCF201BFA">
-                        <CookPreference>Never</CookPreference>
+                    <Element Type="Bool" ID="0xB2D02323">
+                        <CookPreference>Default</CookPreference>
                     </Element>
-                    <Element Type="Float" ID="0x88137FA8">
-                        <CookPreference>Never</CookPreference>
+                    <Element Type="Vector" ID="0xF344C0B0">
+                        <CookPreference>Default</CookPreference>
+                    </Element>
+                    <Element Type="Float" ID="0x56B20B2">
+                        <CookPreference>Default</CookPreference>
                     </Element>
                     <Element Type="Float" ID="0xF78469D6">
+                        <CookPreference>Default</CookPreference>
                         <DefaultValue>1.0</DefaultValue>
                     </Element>
                 </SubProperties>

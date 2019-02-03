@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerMiscControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xDDF88C92" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x8B0E64F6" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD49E5FCF" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x9C182689" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x11F0193" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBB560AD3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x12A3619E" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x33E1A595" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x23717B97" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xE59D622" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x67D45EB2" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x7EE3ACDF" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x7E349BD0" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xF6C87BF5" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x8A2C06E4" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1F2BC2AF" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x4A88A76F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xF3A2FBDD" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x30D313EB" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

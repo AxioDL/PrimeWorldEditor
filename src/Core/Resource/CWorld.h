@@ -3,9 +3,9 @@
 
 #include "CResource.h"
 #include "CSavedStateID.h"
-#include "CStringTable.h"
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Model/CModel.h"
+#include "Core/Resource/StringTable/CStringTable.h"
 #include <Common/Math/CTransform4f.h>
 
 class CWorld : public CResource

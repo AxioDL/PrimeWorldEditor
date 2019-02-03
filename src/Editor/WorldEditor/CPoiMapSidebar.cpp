@@ -3,8 +3,8 @@
 #include "CWorldEditor.h"
 #include "Editor/UICommon.h"
 
-#include <Core/Resource/CScan.h>
 #include <Core/Resource/Cooker/CPoiToWorldCooker.h>
+#include <Core/Resource/Scan/CScan.h>
 #include <Core/Resource/Script/CGameTemplate.h>
 #include <Core/Resource/Script/NGameList.h>
 #include <Core/ScriptExtra/CPointOfInterestExtra.h>
@@ -171,7 +171,7 @@ bool CPoiMapSidebar::IsImportant(const QModelIndex& rkIndex)
     TResPtr<CScan> pScan = static_cast<CPointOfInterestExtra*>(pPOI->Extra())->GetScan();
 
     if (pScan)
-        Important = pScan->IsImportant();
+        Important = pScan->IsCriticalPropertyRef();
 
     return Important;
 }

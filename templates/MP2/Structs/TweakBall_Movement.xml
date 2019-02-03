@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakBall_Movement</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x18D0B2DA">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x84F61AC5">
+                <DefaultValue>3000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEDB06C1D">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x56F9F2AF">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD05B643F">
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x122CE118">
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF848DABE">
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68AC6028">
+                <DefaultValue>8000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD4A25028">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2B5CB136">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x421AC7EE">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x586137D">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAECE038B">
+                <DefaultValue>0.25</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3637E815">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x343A384C">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCAF4624">
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xFFD4A030">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x59DFBCB9">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3099CA61">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x16C1FDDB">
+                <DefaultValue>25.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6C648931">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4B42F5A9">
+                <DefaultValue>15.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1F4CC854">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB3408173">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x85EE51ED">
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6D7811F5">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF80A0655">
+                <DefaultValue>20.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x92F30F94">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB06AC970">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBB3C2629">
+                <DefaultValue>3000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD27A50F1">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x60520222">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDFF9B92">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBBAF8577">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50F2A114">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5B3C4299">
+                <DefaultValue>12000.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD83E5EEC">
+                <DefaultValue>76.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9C905747">
+                <DefaultValue>35.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xEEB74968">
+                <DefaultValue>3.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xBD28AF6E">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE2BB0298">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xE46FA96A">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4ED87EBD">
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xCA8EDEAB">
+                <DefaultValue>30.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x96226D18">
+                <DefaultValue>5.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x191F4F62">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54C20211">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB90A721E">
+                <DefaultValue>4.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

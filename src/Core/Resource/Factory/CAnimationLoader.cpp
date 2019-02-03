@@ -81,7 +81,7 @@ void CAnimationLoader::ReadUncompressedANIM()
     // Echoes only - rotation channel indices
     std::vector<uint8> RotationIndices;
 
-    if (mGame == EGame::Echoes)
+    if (mGame >= EGame::EchoesDemo)
     {
         uint32 NumRotationIndices = mpInput->ReadLong();
         RotationIndices.resize(NumRotationIndices);
@@ -125,7 +125,7 @@ void CAnimationLoader::ReadUncompressedANIM()
     // Echoes only - scale channel indices
     std::vector<uint8> ScaleIndices;
 
-    if (mGame == EGame::Echoes)
+    if (mGame >= EGame::EchoesDemo)
     {
         uint32 NumScaleIndices = mpInput->ReadLong();
         ScaleIndices.resize(NumScaleIndices);
@@ -161,7 +161,7 @@ void CAnimationLoader::ReadUncompressedANIM()
     }
 
     // Read bone transforms
-    if (mGame == EGame::Echoes)
+    if (mGame >= EGame::EchoesDemo)
     {
         mpInput->Seek(0x4, SEEK_CUR); // Skipping scale key count
         mpAnim->mScaleChannels.resize(NumScaleChannels);
@@ -208,23 +208,24 @@ void CAnimationLoader::ReadCompressedANIM()
     // Header
     mpInput->Seek(0x4, SEEK_CUR); // Skip alloc size
 
-    if (mGame == EGame::Invalid)
-        mGame = (mpInput->PeekShort() == 0x0101 ? EGame::Echoes : EGame::Prime);
+    // Version check
+    mGame = (mpInput->PeekShort() == 0x0101 ? EGame::Echoes : EGame::Prime);
 
-    if (mGame == EGame::Prime)
+    // Check the ANIM resource's game instead of the version check we just determined.
+    // The Echoes demo has some ANIMs that use MP1's format, but don't have the EVNT reference.
+    if (mpAnim->Game() <= EGame::Prime)
     {
         mpAnim->mpEventData = gpResourceStore->LoadResource<CAnimEventData>(mpInput->ReadLong());
-        mpInput->Seek(0x4, SEEK_CUR); // Skip unknown
     }
-    else mpInput->Seek(0x2, SEEK_CUR); // Skip unknowns
 
+    mpInput->Seek(mGame <= EGame::Prime ? 4 : 2, SEEK_CUR); // Skip unknowns
     mpAnim->mDuration = mpInput->ReadFloat();
     mpAnim->mTickInterval = mpInput->ReadFloat();
     mpInput->Seek(0x8, SEEK_CUR); // Skip two unknown values
 
     mRotationDivisor = mpInput->ReadLong();
     mTranslationMultiplier = mpInput->ReadFloat();
-    if (mGame == EGame::Echoes) mScaleMultiplier = mpInput->ReadFloat();
+    if (mGame >= EGame::EchoesDemo) mScaleMultiplier = mpInput->ReadFloat();
     uint32 NumBoneChannels = mpInput->ReadLong();
     mpInput->Seek(0x4, SEEK_CUR); // Skip unknown value
 
@@ -284,7 +285,7 @@ void CAnimationLoader::ReadCompressedANIM()
         // Read scale parameters
         uint8 ScaleIdx = 0xFF;
 
-        if (mGame == EGame::Echoes)
+        if (mGame >= EGame::EchoesDemo)
         {
             rChan.NumScaleKeys = mpInput->ReadShort();
 

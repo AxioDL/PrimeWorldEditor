@@ -22,12 +22,16 @@ public:
 
     virtual CResourceEntry* Next()
     {
-        if (mIter != mpkStore->mResourceEntries.end())
+        do
         {
-            mpCurEntry = mIter->second;
-            mIter++;
+            if (mIter != mpkStore->mResourceEntries.end())
+            {
+                mpCurEntry = mIter->second;
+                mIter++;
+            }
+            else mpCurEntry = nullptr;
         }
-        else mpCurEntry = nullptr;
+        while (mpCurEntry && mpCurEntry->IsMarkedForDeletion());
 
         return mpCurEntry;
     }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>BallMovementControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xB4F29640" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xA25009D3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x9CBA817B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCDC3A9CF" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x2F0E0276" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x9A973454" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x8B9F60A3" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

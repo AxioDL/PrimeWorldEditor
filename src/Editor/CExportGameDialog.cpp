@@ -33,8 +33,7 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
     mpUI->setupUi(this);
 
     // Set up disc
-    TWideString StrPath = TO_TWIDESTRING(rkIsoPath);
-    mpDisc = nod::OpenDiscFromImage(*StrPath).release();
+    mpDisc = nod::OpenDiscFromImage(TO_WCHAR(rkIsoPath)).release();
 
     if (ValidateGame())
     {
@@ -151,12 +150,32 @@ bool CExportGameDialog::ValidateGame()
         // This ID is normally MP1, but it's used by the MP1 NTSC demo and the MP2 bonus disc demo as well
         if (strcmp(rkHeader.m_gameTitle, "Long Game Name") == 0)
         {
-            // todo - not handling demos yet
-            return false;
-        }
+            // Calculate the CRC of the apploader to figure out which game this is.
+            std::unique_ptr<uint8_t[]> pApploaderData = mpDisc->getDataPartition()->getApploaderBuf();
+            uint ApploaderSize = (uint) mpDisc->getDataPartition()->getApploaderSize();
+            uint ApploaderHash = CCRC32::StaticHashData(pApploaderData.get(), ApploaderSize);
 
-        mGame = EGame::Prime;
-        break;
+            if (ApploaderHash == 0x21B7AFF5)
+            {
+                // This is the hash for the NTSC MP1 demo.
+                mGame = EGame::PrimeDemo;
+            }
+            else
+            {
+                // Hash is different, so this is most likely an Echoes demo build
+                mGame = EGame::EchoesDemo;
+            }
+
+            break;
+        }
+        else
+        {
+            // This could be either Metroid Prime, or the PAL demo of it...
+            // In either case, the PAL demo is based on a later build of the game than the NTSC demo
+            // So the PAL demo should be configured the same way as the release build of the game anyway
+            mGame = EGame::Prime;
+            break;
+        }
 
     case FOURCC('G2MX'):
         // Echoes, but also appears in the MP3 proto
@@ -200,6 +219,16 @@ bool CExportGameDialog::ValidateGame()
 
     default:
         // Unrecognized game ID
+        return false;
+    }
+
+    // The demo builds are not supported. The MP1 demo does not have script templates currently.
+    // Additionally, a lot of file format loaders currently don't support the demo variants of the
+    // file formats, meaning that attempting to export results in crashes.
+    if (mGame == EGame::PrimeDemo || mGame == EGame::EchoesDemo || mGame == EGame::CorruptionProto)
+    {
+        // we cannot parent the error message box to ourselves because this window hasn't been shown
+        UICommon::ErrorMsg(parentWidget(), "The demo builds are currently not supported.");
         return false;
     }
 

@@ -2,6 +2,7 @@
 #define CANIMATIONSETPROPERTY_H
 
 #include "IProperty.h"
+#include "Core/Resource/Animation/CAnimationParameters.h"
 
 class CAnimationSetProperty : public TSerializeableTypedProperty< CAnimationParameters, EPropertyType::AnimationSet >
 {
@@ -17,7 +18,7 @@ protected:
 public:
     virtual void SerializeValue(void* pData, IArchive& Arc) const
     {
-        Value(pData).Serialize(Arc);
+        ValueRef(pData).Serialize(Arc);
     }
 
     virtual const char* HashableTypeName() const

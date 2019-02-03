@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="Prime">
+    <Properties Type="Struct">
+        <Name>TweakTargeting</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Int" ID="0x0">
+                <Name>TargetRadiusMode</Name>
+                <DefaultValue>2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1">
+                <Name>CurrLockOnExitDuration</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2">
+                <Name>CurrLockOnEnterDuration</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3">
+                <Name>CurrLockOnSwitchDuration</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4">
+                <Name>LockConfirmScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5">
+                <Name>NextLockOnEnterDuration</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6">
+                <Name>NextLockOnExitDuration</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7">
+                <Name>NextLockOnSwitchDuration</Name>
+                <DefaultValue>0.2</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x8">
+                <Name>SeekerScale</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x9">
+                <Name>SeekerAngleSpeed</Name>
+                <DefaultValue>-120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA">
+                <Name>XRayRetAngleSpeed</Name>
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xB">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <X>0.95999998</X>
+                    <Y>0.46000001</Y>
+                    <Z>0.17</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0xC">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xE">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Float" ID="0xF">
+                <Name>OrbitPointZOffset</Name>
+                <DefaultValue>-0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x10">
+                <Name>OrbitPointInTime</Name>
+                <DefaultValue>0.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x11">
+                <Name>OrbitPointOutTime</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x12">
+                <Name>Unknown</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x13">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <X>0.0</X>
+                    <Y>1.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x14">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x15">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>0.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Vector" ID="0x16">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <X>1.0</X>
+                    <Y>1.0</Y>
+                    <Z>1.0</Z>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x17">
+                <Name>Unknown</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x18">
+                <Name>Unknown</Name>
+                <DefaultValue>0.69999999</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x19">
+                <Name>Unknown</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1A">
+                <Name>Unknown</Name>
+                <DefaultValue>0.40000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1B">
+                <Name>Unknown</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1C">
+                <Name>Unknown</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1D">
+                <Name>Unknown</Name>
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x1E">
+                <Name>Unknown</Name>
+            </Element>
+            <Element Type="Color" ID="0x1F">
+                <Name>ThermalReticuleColor</Name>
+                <DefaultValue>
+                    <R>0.40392199</R>
+                    <G>0.68235302</G>
+                    <B>0.88235301</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x20">
+                <Name>TargetFlowerScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x21">
+                <Name>TargetFlowerColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.470588</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x22">
+                <Name>MissileBracketDuration</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x23">
+                <Name>MissileBracketScaleStart</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x24">
+                <Name>MissileBracketScaleEnd</Name>
+                <DefaultValue>0.89999998</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x25">
+                <Name>MissileBracketScaleDuration</Name>
+                <DefaultValue>0.15000001</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x26">
+                <Name>MissileBracketColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.40784299</G>
+                    <B>0.019608</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x27">
+                <Name>LockOnDuration</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x28">
+                <Name>InnearBeamScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x29">
+                <Name>InnerBeamColorPower</Name>
+                <DefaultValue>
+                    <R>0.27451</R>
+                    <G>0.419608</G>
+                    <B>1.0</B>
+                    <A>0.235294</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2A">
+                <Name>InnerBeamColorIce</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                    <A>0.235294</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2B">
+                <Name>InnerBeamColorWave</Name>
+                <DefaultValue>
+                    <R>0.419608</R>
+                    <G>0.086274996</G>
+                    <B>0.568627</B>
+                    <A>0.231373</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2C">
+                <Name>InnerBeamColorPlasma</Name>
+                <DefaultValue>
+                    <R>0.42745101</R>
+                    <G>0.074510001</G>
+                    <B>0.082353003</B>
+                    <A>0.231373</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2D">
+                <Name>ChargeGaugeOvershootOffset</Name>
+                <DefaultValue>1.1</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2E">
+                <Name>ChargeGaugeOvershootDuration</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2F">
+                <Name>OuterBeamSquaresScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x30">
+                <Name>OuterBeamSquaresColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.627451</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Array" ID="0x31">
+                <Name>OuterBeamSquares</Name>
+                <ItemArchetype Type="Array" ID="0x0">
+                    <Name>Angles</Name>
+                    <ItemArchetype Type="Float" ID="0x0">
+                        <Name>Angle</Name>
+                    </ItemArchetype>
+                </ItemArchetype>
+            </Element>
+            <Element Type="Array" ID="0x32">
+                <Name>ChargeGaugeAngles</Name>
+                <ItemArchetype Type="Float" ID="0x0">
+                    <Name>Angle</Name>
+                </ItemArchetype>
+            </Element>
+            <Element Type="Float" ID="0x33">
+                <Name>ChargeGaugeScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x34">
+                <Name>ChargeGaugeNonFullColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.470588</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x35">
+                <Name>ChargeTickCount</Name>
+                <DefaultValue>14</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x36">
+                <Name>ChargeTickAnglePitch</Name>
+                <DefaultValue>8.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x37">
+                <Name>LockFireScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x38">
+                <Name>LockFireDuration</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x39">
+                <Name>LockFireColor</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3A">
+                <Name>LockDaggerScaleStart</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3B">
+                <Name>LockDaggerScaleEnd</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x3C">
+                <Name>LockDaggerColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.470588</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3D">
+                <Name>LockDaggerAngle0</Name>
+            </Element>
+            <Element Type="Float" ID="0x3E">
+                <Name>LockDaggerAngle1</Name>
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3F">
+                <Name>LockDaggerAngle2</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x40">
+                <Name>LockConfirmColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.470588</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x41">
+                <Name>SeekerColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.70588201</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x42">
+                <Name>LockConfirmClampMin</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x43">
+                <Name>LockConfirmClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x44">
+                <Name>TargetFlowerClampMin</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x45">
+                <Name>TargetFlowerClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x46">
+                <Name>SeekerClampMin</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x47">
+                <Name>SeekerClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x48">
+                <Name>MissileBracketClampMin</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x49">
+                <Name>MissileBracketClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4A">
+                <Name>InnerBeamClampMin</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4B">
+                <Name>InnerBeamClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4C">
+                <Name>ChargeGaugeClampMin</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4D">
+                <Name>ChargeGaugeClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4E">
+                <Name>LockFireClampMin</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x4F">
+                <Name>LockFireClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x50">
+                <Name>LockDaggerClampMin</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x51">
+                <Name>LockDaggerClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x52">
+                <Name>GrappleSelectScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x53">
+                <Name>GrappleScale</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x54">
+                <Name>GrappleClampMin</Name>
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x55">
+                <Name>GrappleClampMax</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x56">
+                <Name>GrapplePointSelectColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x57">
+                <Name>GrapplePointColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>0.61960799</G>
+                    <B>0.156863</B>
+                    <A>0.25097999</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x58">
+                <Name>LockedGrapplePointSelectColor</Name>
+                <DefaultValue>
+                    <R>0.109804</R>
+                    <G>0.184314</G>
+                    <B>0.239216</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x59">
+                <Name>GrappleMinClampScale</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5A">
+                <Name>ChargeGaugePulseColorHigh</Name>
+                <DefaultValue>
+                    <R>0.53725499</R>
+                    <G>0.83921599</G>
+                    <B>1.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5B">
+                <Name>FullChargeFadeDuration</Name>
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5C">
+                <Name>OrbitPointColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.49019599</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x5D">
+                <Name>CrosshairsColor</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.196078</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x5E">
+                <Name>CrosshairsScaleDuration</Name>
+                <DefaultValue>0.30000001</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5F">
+                <Name>DrawOrbitPoint</Name>
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x60">
+                <Name>ChargeGaugePulseColorLow</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.49019599</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x61">
+                <Name>ChargeGaugePulsePeriod</Name>
+                <DefaultValue>0.80000001</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x62">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x63">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x64">
+                <Name>Unknown</Name>
+                <DefaultValue>
+                    <R>0.29411799</R>
+                    <G>0.49411801</G>
+                    <B>0.63921601</B>
+                    <A>0.0</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x65">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x66">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x67">
+                <Name>Unknown</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x68">
+                <Name>Unknown</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x69">
+                <Name>Unknown</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6A">
+                <Name>Unknown</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6B">
+                <Name>Unknown</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6C">
+                <Name>Unknown</Name>
+                <DefaultValue>160.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6D">
+                <Name>Unknown</Name>
+                <DefaultValue>240.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6E">
+                <Name>Unknown</Name>
+                <DefaultValue>60.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x6F">
+                <Name>Unknown</Name>
+                <DefaultValue>-6.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x70">
+                <Name>ReticuleClampMin</Name>
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x71">
+                <Name>ReticuleClampMax</Name>
+                <DefaultValue>80.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x72">
+                <Name>XRayReticuleRingColor</Name>
+                <DefaultValue>
+                    <R>1.0</R>
+                    <G>1.0</G>
+                    <B>1.0</B>
+                    <A>0.25490201</A>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x73">
+                <Name>ReticuleScale</Name>
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x74">
+                <Name>ScanTargetClampMin</Name>
+                <DefaultValue>32.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x75">
+                <Name>ScanTargetClampMax</Name>
+                <DefaultValue>120.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x76">
+                <Name>AngularLagSpeed</Name>
+                <DefaultValue>18.0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

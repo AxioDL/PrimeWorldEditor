@@ -35,54 +35,23 @@ struct SObjId
     }
 };
 
-/** Struct holding a reference to a script object template */
-struct SScriptTemplatePath
+/** Struct holding a reference to a template */
+template<typename TemplateT>
+struct TTemplatePath
 {
     /** File path to the template file, relative to the game directory */
     TString Path;
 
     /** Template in memory */
-    std::shared_ptr<CScriptTemplate> pTemplate;
+    std::shared_ptr<TemplateT> pTemplate;
 
     /** Constructor */
-    SScriptTemplatePath()
+    TTemplatePath()
     {}
 
-    SScriptTemplatePath(const TString& kInPath, CScriptTemplate* pInTemplate)
+    TTemplatePath(const TString& kInPath, TemplateT* pInTemplate)
         : Path(kInPath)
-        , pTemplate( std::shared_ptr<CScriptTemplate>(pInTemplate) )
-    {}
-
-    /** Serializer */
-    void Serialize(IArchive& Arc)
-    {
-        if (Arc.FileVersion() == 0)
-        {
-            Arc << SerialParameter("Path", Path, SH_Attribute);
-        }
-        else
-        {
-            Arc.SerializePrimitive(Path, 0);
-        }
-    }
-};
-
-/** Struct holding a reference to a property template */
-struct SPropertyTemplatePath
-{
-    /** File path to the template file, relative to the game directory */
-    TString Path;
-
-    /** Template in memory */
-    std::shared_ptr<IProperty> pTemplate;
-
-    /** Constructor */
-    SPropertyTemplatePath()
-    {}
-
-    SPropertyTemplatePath(const TString& kInPath, IProperty* pInTemplate)
-        : Path(kInPath)
-        , pTemplate( std::shared_ptr<IProperty>(pInTemplate) )
+        , pTemplate( std::shared_ptr<TemplateT>(pInTemplate) )
     {}
 
     /** Serializer */
@@ -91,6 +60,9 @@ struct SPropertyTemplatePath
         Arc << SerialParameter("Path", Path, SH_Attribute);
     }
 };
+
+typedef TTemplatePath<CScriptTemplate>  SScriptTemplatePath;
+typedef TTemplatePath<IProperty>        SPropertyTemplatePath;
 
 /** CGameTemplate - Per-game template data */
 class CGameTemplate
@@ -103,6 +75,7 @@ class CGameTemplate
     /** Template arrays */
     std::map<SObjId,  SScriptTemplatePath>    mScriptTemplates;
     std::map<TString, SPropertyTemplatePath>  mPropertyTemplates;
+    std::map<TString, SScriptTemplatePath>    mMiscTemplates;
 
     std::map<SObjId, TString> mStates;
     std::map<SObjId, TString> mMessages;
@@ -130,6 +103,7 @@ public:
     IProperty* FindPropertyArchetype(const TString& kTypeName);
     TString GetPropertyArchetypeFilePath(const TString& kTypeName);
     bool RenamePropertyArchetype(const TString& kTypeName, const TString& kNewTypeName);
+    CScriptTemplate* FindMiscTemplate(const TString& kTemplateName);
     TString GetGameDirectory() const;
 
     // Inline Accessors

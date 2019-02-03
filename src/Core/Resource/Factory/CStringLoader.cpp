@@ -1,193 +1,234 @@
 #include "CStringLoader.h"
 #include <Common/Log.h>
+#include <Common/Math/MathUtil.h>
 
-void CStringLoader::LoadPrimeDemoSTRG(IInputStream& rSTRG)
+void CStringLoader::LoadPrimeDemoSTRG(IInputStream& STRG)
 {
     // This function starts at 0x4 in the file - right after the size
     // This STRG version only supports one language per file
-    mpStringTable->mLangTables.resize(1);
-    CStringTable::SLangTable* Lang = &mpStringTable->mLangTables[1];
-    Lang->Language = "ENGL";
-    uint32 TableStart = rSTRG.Tell();
+    mpStringTable->mLanguages.resize(1);
+    CStringTable::SLanguageData& Language = mpStringTable->mLanguages[0];
+    Language.Language = ELanguage::English;
+    uint TableStart = STRG.Tell();
 
     // Header
-    uint32 NumStrings = rSTRG.ReadLong();
-    Lang->Strings.resize(NumStrings);
-    mpStringTable->mNumStrings = NumStrings;
+    uint NumStrings = STRG.ReadLong();
+    Language.Strings.resize(NumStrings);
 
     // String offsets (yeah, that wasn't much of a header)
-    std::vector<uint32> StringOffsets(NumStrings);
-    for (uint32 iOff = 0; iOff < StringOffsets.size(); iOff++)
-        StringOffsets[iOff] = rSTRG.ReadLong();
+    std::vector<uint> StringOffsets(NumStrings);
+    for (uint32 OffsetIdx = 0; OffsetIdx < NumStrings; OffsetIdx++)
+        StringOffsets[OffsetIdx] = STRG.ReadLong();
 
     // Strings
-    for (uint32 iStr = 0; iStr < NumStrings; iStr++)
+    for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
     {
-        rSTRG.Seek(TableStart + StringOffsets[iStr], SEEK_SET);
-        Lang->Strings[iStr] = rSTRG.ReadWString().ToUTF8();
+        STRG.GoTo( TableStart + StringOffsets[StringIdx] );
+        Language.Strings[StringIdx].String = STRG.Read16String().ToUTF8();
     }
 }
 
-void CStringLoader::LoadPrimeSTRG(IInputStream& rSTRG)
+void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
 {
     // This function starts at 0x8 in the file, after magic/version
     // Header
-    uint32 NumLanguages = rSTRG.ReadLong();
-    uint32 NumStrings = rSTRG.ReadLong();
-    mpStringTable->mNumStrings = NumStrings;
+    uint NumLanguages = STRG.ReadLong();
+    uint NumStrings = STRG.ReadLong();
 
     // Language definitions
-    mpStringTable->mLangTables.resize(NumLanguages);
-    std::vector<uint32> LangOffsets(NumLanguages);
+    mpStringTable->mLanguages.resize(NumLanguages);
+    std::vector<uint> LanguageOffsets(NumLanguages);
 
-    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
+    for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
     {
-        mpStringTable->mLangTables[iLang].Language = CFourCC(rSTRG);
-        LangOffsets[iLang] = rSTRG.ReadLong();
-        if (mVersion == EGame::Echoes) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
+        mpStringTable->mLanguages[LanguageIdx].Language = (ELanguage) STRG.ReadFourCC();
+        LanguageOffsets[LanguageIdx] = STRG.ReadLong();
+
+        // Skip strings size in MP2
+        if (mVersion >= EGame::EchoesDemo)
+        {
+            STRG.Skip(4);
+        }
     }
 
+    // Some of the following code assumes that language 0 is English
+    ASSERT( mpStringTable->mLanguages[0].Language == ELanguage::English );
+
     // String names
-    if (mVersion == EGame::Echoes)
-        LoadNameTable(rSTRG);
+    if (mVersion >= EGame::EchoesDemo)
+    {
+        LoadNameTable(STRG);
+    }
 
     // Strings
-    uint32 StringsStart = rSTRG.Tell();
-    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
+    uint StringsStart = STRG.Tell();
+    for (uint32 LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
     {
-        rSTRG.Seek(StringsStart + LangOffsets[iLang], SEEK_SET);
-        if (mVersion == EGame::Prime) rSTRG.Seek(0x4, SEEK_CUR); // Skipping strings size
+        STRG.GoTo( StringsStart + LanguageOffsets[LanguageIdx] );
 
-        uint32 LangStart = rSTRG.Tell();
-        CStringTable::SLangTable* pLang = &mpStringTable->mLangTables[iLang];
-        pLang->Strings.resize(NumStrings);
+        // Skip strings size in MP1
+        if (mVersion == EGame::Prime)
+        {
+            STRG.Skip(4);
+        }
+
+        CStringTable::SLanguageData& Language = mpStringTable->mLanguages[LanguageIdx];
+        Language.Strings.resize(NumStrings);
 
         // Offsets
-        std::vector<uint32> StringOffsets(NumStrings);
-        for (uint32 iOff = 0; iOff < NumStrings; iOff++)
-            StringOffsets[iOff] = rSTRG.ReadLong();
+        uint LanguageStart = STRG.Tell();
+        std::vector<uint> StringOffsets(NumStrings);
+
+        for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
+        {
+            StringOffsets[StringIdx] = LanguageStart + STRG.ReadLong();
+        }
 
         // The actual strings
-        for (uint32 iStr = 0; iStr < NumStrings; iStr++)
+        for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
         {
-            rSTRG.Seek(LangStart + StringOffsets[iStr], SEEK_SET);
-            pLang->Strings[iStr] = rSTRG.ReadWString().ToUTF8();
+            STRG.GoTo( StringOffsets[StringIdx] );
+            TString String = STRG.Read16String().ToUTF8();
+
+            // Flag the string as localized if it is different than the English
+            // version of the same string.
+            const TString& kEnglishString = (StringIdx == 0 ? String :
+                mpStringTable->mLanguages[0].Strings[StringIdx].String);
+
+            bool IsLocalized = (LanguageIdx == 0 || String != kEnglishString);
+
+            Language.Strings[StringIdx].String = String;
+            Language.Strings[StringIdx].IsLocalized = IsLocalized;
         }
     }
 }
 
-void CStringLoader::LoadCorruptionSTRG(IInputStream& rSTRG)
+void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
 {
     // This function starts at 0x8 in the file, after magic/version
     // Header
-    uint32 NumLanguages = rSTRG.ReadLong();
-    uint32 NumStrings = rSTRG.ReadLong();
-    mpStringTable->mNumStrings = NumStrings;
+    uint NumLanguages = STRG.ReadLong();
+    uint NumStrings = STRG.ReadLong();
 
     // String names
-    LoadNameTable(rSTRG);
+    LoadNameTable(STRG);
 
     // Language definitions
-    mpStringTable->mLangTables.resize(NumLanguages);
-    std::vector<std::vector<uint32>> LangOffsets(NumLanguages);
+    mpStringTable->mLanguages.resize(NumLanguages);
+    std::vector< std::vector<uint> > LanguageOffsets(NumLanguages);
 
-    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
-        mpStringTable->mLangTables[iLang].Language = CFourCC(rSTRG);
-
-    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
+    for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
     {
-        LangOffsets[iLang].resize(NumStrings);
-
-        rSTRG.Seek(0x4, SEEK_CUR); // Skipping total string size
-
-        for (uint32 iStr = 0; iStr < NumStrings; iStr++)
-            LangOffsets[iLang][iStr] = rSTRG.ReadLong();
+        mpStringTable->mLanguages[LanguageIdx].Language = (ELanguage) STRG.ReadFourCC();
     }
 
-    // Strings
-    uint32 StringsStart = rSTRG.Tell();
-
-    for (uint32 iLang = 0; iLang < NumLanguages; iLang++)
+    for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
     {
-        CStringTable::SLangTable *pLang = &mpStringTable->mLangTables[iLang];
-        pLang->Strings.resize(NumStrings);
+        LanguageOffsets[LanguageIdx].resize(NumStrings);
+        STRG.Skip(4); // Skipping total string size
 
-        for (uint32 iStr = 0; iStr < NumStrings; iStr++)
+        for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
         {
-            rSTRG.Seek(StringsStart + LangOffsets[iLang][iStr], SEEK_SET);
-            rSTRG.Seek(0x4, SEEK_CUR); // Skipping string size
+            LanguageOffsets[LanguageIdx][StringIdx] = STRG.ReadLong();
+        }
+    }
 
-            pLang->Strings[iStr] = rSTRG.ReadString();
+    // Some of the following code assumes that language 0 is English
+    ASSERT( mpStringTable->mLanguages[0].Language == ELanguage::English );
+
+    // Strings
+    uint StringsStart = STRG.Tell();
+
+    for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
+    {
+        CStringTable::SLanguageData& Language = mpStringTable->mLanguages[LanguageIdx];
+        Language.Strings.resize(NumStrings);
+
+        for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
+        {
+            STRG.GoTo( StringsStart + LanguageOffsets[LanguageIdx][StringIdx] );
+            STRG.Skip(4); // Skipping string size
+            Language.Strings[StringIdx].String = STRG.ReadString();
+
+            // Flag the string as localized if it has a different offset than the English string
+            Language.Strings[StringIdx].IsLocalized = (LanguageIdx == 0 ||
+                LanguageOffsets[LanguageIdx][StringIdx] != LanguageOffsets[0][StringIdx]);
         }
     }
 }
 
-void CStringLoader::LoadNameTable(IInputStream& rSTRG)
+void CStringLoader::LoadNameTable(IInputStream& STRG)
 {
     // Name table header
-    uint32 NameCount = rSTRG.ReadLong();
-    uint32 NameTableSize = rSTRG.ReadLong();
-    uint32 NameTableStart = rSTRG.Tell();
-    uint32 NameTableEnd = NameTableStart + NameTableSize;
+    uint NameCount = STRG.ReadLong();
+    uint NameTableSize = STRG.ReadLong();
+    uint NameTableStart = STRG.Tell();
+    uint NameTableEnd = NameTableStart + NameTableSize;
 
     // Name definitions
     struct SNameDef {
-        uint32 NameOffset, StringIndex;
+        uint NameOffset, StringIndex;
     };
     std::vector<SNameDef> NameDefs(NameCount);
 
-    for (uint32 iName = 0; iName < NameCount; iName++)
+    // Keep track of max string index so we can size the names array appropriately.
+    // Note that it is possible that not every string in the table has a name.
+    int MaxIndex = -1;
+
+    for (uint NameIdx = 0; NameIdx < NameCount; NameIdx++)
     {
-        NameDefs[iName].NameOffset = rSTRG.ReadLong() + NameTableStart;
-        NameDefs[iName].StringIndex = rSTRG.ReadLong();
+        NameDefs[NameIdx].NameOffset = STRG.ReadLong() + NameTableStart;
+        NameDefs[NameIdx].StringIndex = STRG.ReadLong();
+        MaxIndex = Math::Max(MaxIndex, (int) NameDefs[NameIdx].StringIndex);
     }
 
     // Name strings
-    mpStringTable->mStringNames.resize(mpStringTable->mNumStrings);
-    for (uint32 iName = 0; iName < NameCount; iName++)
+    mpStringTable->mStringNames.resize(MaxIndex + 1);
+
+    for (uint NameIdx = 0; NameIdx < NameCount; NameIdx++)
     {
-        SNameDef *pDef = &NameDefs[iName];
-        rSTRG.Seek(pDef->NameOffset, SEEK_SET);
-        mpStringTable->mStringNames[pDef->StringIndex] = rSTRG.ReadString();
+        SNameDef& NameDef = NameDefs[NameIdx];
+        STRG.GoTo(NameDef.NameOffset);
+        mpStringTable->mStringNames[NameDef.StringIndex] = STRG.ReadString();
     }
-    rSTRG.Seek(NameTableEnd, SEEK_SET);
+    STRG.GoTo(NameTableEnd);
 }
 
 // ************ STATIC ************
-CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntry)
+CStringTable* CStringLoader::LoadSTRG(IInputStream& STRG, CResourceEntry* pEntry)
 {
-    // Verify that this is a valid STRG
-    if (!rSTRG.IsValid()) return nullptr;
+    if (!STRG.IsValid()) return nullptr;
 
-    uint32 Magic = rSTRG.ReadLong();
+    // Verify that this is a valid STRG
+    uint Magic = STRG.ReadLong();
     EGame Version = EGame::Invalid;
 
     if (Magic != 0x87654321)
     {
         // Check for MP1 Demo STRG format - no magic/version; the first value is actually the filesize
-        // so the best I can do is verify the first value actually points to the end of the file
-        if (Magic <= (uint32) rSTRG.Size())
+        // so the best I can do is verify the first value actually points to the end of the file.
+        // The file can have up to 31 padding bytes at the end so we account for that
+        if (Magic <= (uint) STRG.Size() && Magic > STRG.Size() - 32)
         {
-            rSTRG.Seek(Magic, SEEK_SET);
-            if ((rSTRG.EoF()) || (rSTRG.ReadShort() == 0xFFFF))
-                Version = EGame::PrimeDemo;
+            Version = EGame::PrimeDemo;
         }
 
+        // If not, then we seem to have an invalid file...
         if (Version != EGame::PrimeDemo)
         {
-            errorf("%s: Invalid STRG magic: 0x%08X", *rSTRG.GetSourceString(), Magic);
+            errorf("%s: Invalid STRG magic: 0x%08X", *STRG.GetSourceString(), Magic);
             return nullptr;
         }
     }
 
     else
     {
-        uint32 FileVersion = rSTRG.ReadLong();
+        uint FileVersion = STRG.ReadLong();
         Version = GetFormatVersion(FileVersion);
 
         if (Version == EGame::Invalid)
         {
-            errorf("%s: Unsupported STRG version: 0x%X", *rSTRG.GetSourceString(), FileVersion);
+            errorf("%s: Unrecognized STRG version: 0x%X", *STRG.GetSourceString(), FileVersion);
             return nullptr;
         }
     }
@@ -197,9 +238,9 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& rSTRG, CResourceEntry *pEntr
     Loader.mpStringTable = new CStringTable(pEntry);
     Loader.mVersion = Version;
 
-    if (Version == EGame::PrimeDemo) Loader.LoadPrimeDemoSTRG(rSTRG);
-    else if (Version < EGame::Corruption) Loader.LoadPrimeSTRG(rSTRG);
-    else Loader.LoadCorruptionSTRG(rSTRG);
+    if (Version == EGame::PrimeDemo)        Loader.LoadPrimeDemoSTRG(STRG);
+    else if (Version < EGame::Corruption)   Loader.LoadPrimeSTRG(STRG);
+    else                                    Loader.LoadCorruptionSTRG(STRG);
 
     return Loader.mpStringTable;
 }

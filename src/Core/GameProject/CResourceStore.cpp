@@ -66,6 +66,22 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
     {
         // Serialize resources
         uint32 ResourceCount = mResourceEntries.size();
+
+        if (rArc.IsWriter())
+        {
+            // Make sure deleted resources aren't included in the count.
+            // We can't use CResourceIterator because it skips MarkedForDeletion resources.
+            for (auto Iter = mResourceEntries.begin(); Iter != mResourceEntries.end(); Iter++)
+            {
+                CResourceEntry* pEntry = Iter->second;
+
+                if (pEntry->IsMarkedForDeletion())
+                {
+                    ResourceCount--;
+                }
+            }
+        }
+
         rArc << SerialParameter("ResourceCount", ResourceCount);
 
         if (rArc.IsReader())
@@ -85,10 +101,13 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
         {
             for (CResourceIterator It(this); It; ++It)
             {
-                if (rArc.ParamBegin("Resource", 0))
+                if (!It->IsMarkedForDeletion())
                 {
-                    It->SerializeEntryInfo(rArc, false);
-                    rArc.ParamEnd();
+                    if (rArc.ParamBegin("Resource", 0))
+                    {
+                        It->SerializeEntryInfo(rArc, false);
+                        rArc.ParamEnd();
+                    }
                 }
             }
         }
@@ -140,18 +159,22 @@ bool CResourceStore::LoadDatabaseCache()
     }
     else
     {
-        // Database is succesfully loaded at this point
+        // Database is successfully loaded at this point
         if (mpProj)
+        {
             ASSERT(mpProj->Game() == Reader.Game());
+        }
+
+        mGame = Reader.Game();
     }
 
-    mGame = Reader.Game();
     return true;
 }
 
 bool CResourceStore::SaveDatabaseCache()
 {
     TString Path = DatabasePath();
+    debugf("Saving database cache...");
 
     CBasicBinaryWriter Writer(Path, FOURCC('CACH'), 0, mGame);
 
@@ -182,6 +205,14 @@ void CResourceStore::SetProject(CGameProject *pProj)
         mDatabasePath = mpProj->ProjectRoot();
         mpDatabaseRoot = new CVirtualDirectory(this);
         mGame = mpProj->Game();
+
+        // Clear deleted files from previous runs
+        TString DeletedPath = DeletedResourcePath();
+
+        if (FileUtil::Exists(DeletedPath))
+        {
+            FileUtil::ClearDirectory(DeletedPath);
+        }
     }
 }
 
@@ -213,6 +244,14 @@ void CResourceStore::CloseProject()
     {
         delete It->second;
         It = mResourceEntries.erase(It);
+    }
+
+    // Clear deleted files from previous runs
+    TString DeletedPath = DeletedResourcePath();
+
+    if (FileUtil::Exists(DeletedPath))
+    {
+        FileUtil::ClearDirectory(DeletedPath);
     }
 
     delete mpDatabaseRoot;
@@ -256,12 +295,27 @@ TString CResourceStore::DefaultResourceDirPath() const
     return StaticDefaultResourceDirPath( mGame );
 }
 
+TString CResourceStore::DeletedResourcePath() const
+{
+    return mpProj->HiddenFilesDir() / "delete/";
+}
+
 CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
 {
-    if (!rkID.IsValid()) return nullptr;
-    auto Found = mResourceEntries.find(rkID);
-    if (Found == mResourceEntries.end()) return nullptr;
-    else return Found->second;
+    if (rkID.IsValid())
+    {
+        auto Found = mResourceEntries.find(rkID);
+
+        if (Found != mResourceEntries.end())
+        {
+            CResourceEntry* pEntry = Found->second;
+
+            if (!pEntry->IsMarkedForDeletion())
+                return pEntry;
+        }
+    }
+
+    return nullptr;
 }
 
 CResourceEntry* CResourceStore::FindEntry(const TString& rkPath) const
@@ -284,7 +338,14 @@ void CResourceStore::ClearDatabase()
 {
     // THIS OPERATION REQUIRES THAT ALL RESOURCES ARE UNREFERENCED
     DestroyUnreferencedResources();
-    ASSERT(mLoadedResources.empty());
+
+    if (!mLoadedResources.empty())
+    {
+        debugf("ERROR: Resources still loaded:");
+        for (auto Iter = mLoadedResources.begin(); Iter != mLoadedResources.end(); Iter++)
+            debugf("\t[%s] %s", *Iter->first.ToString(), *Iter->second->CookedAssetPath(true));
+        ASSERT(false);
+    }
 
     // Clear out existing resource entries and directories
     for (auto Iter = mResourceEntries.begin(); Iter != mResourceEntries.end(); Iter++)
@@ -384,7 +445,7 @@ bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
     return FindEntry(rkID) != nullptr;
 }
 
-CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName)
+CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -398,6 +459,14 @@ CResourceEntry* CResourceStore::RegisterResource(const CAssetID& rkID, EResource
         {
             pEntry = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type);
             mResourceEntries[rkID] = pEntry;
+            mDatabaseCacheDirty = true;
+
+            if (pEntry->IsLoaded())
+            {
+                TrackLoadedResource(pEntry);
+            }
+
+            debugf("CREATED NEW RESOURCE: [%s] %s", *rkID.ToString(), *pEntry->CookedAssetPath());
         }
 
         else

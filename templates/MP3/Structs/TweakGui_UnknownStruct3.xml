@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGui_UnknownStruct3</Name>
+        <SubProperties>
+            <Element Type="Color" ID="0xF295D923">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xECE48021">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x1B05214D">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x27112D25">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Spline" ID="0xBC85E959"/>
+            <Element Type="Spline" ID="0xFBD0FA9B"/>
+            <Element Type="Spline" ID="0x1EB39A1A"/>
+            <Element Type="Spline" ID="0xE0FD8966"/>
+            <Element Type="Float" ID="0x4E95E12A">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x4CC80933" Archetype="TweakGui_UnknownEnum1">
+                <DefaultValue>0xF104E011</DefaultValue>
+            </Element>
+            <Element Type="Enum" ID="0x8D05EBE2" Archetype="TweakGui_UnknownEnum1">
+                <DefaultValue>0x680DB1AB</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x2F2B9D19">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x59412843">
+                <DefaultValue>12.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xF07D9BAC">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Struct" ID="0x60BB24C7" Archetype="TweakGui_UnknownStruct5">
+                <SubProperties>
+                    <Element Type="Float" ID="0x7BE14EE3">
+                        <DefaultValue>33.333302</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2F3F939">
+                        <DefaultValue>16.666599</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4E324158">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xDE513312">
+                        <DefaultValue>90.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x165E1DFA" Archetype="TweakGui_UnknownStruct5">
+                <SubProperties>
+                    <Element Type="Float" ID="0x7BE14EE3">
+                        <DefaultValue>66.666603</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2F3F939">
+                        <DefaultValue>20.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4E324158">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xDE513312">
+                        <DefaultValue>70.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x8D2DF72E" Archetype="TweakGui_UnknownStruct5">
+                <SubProperties>
+                    <Element Type="Float" ID="0x7BE14EE3">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0xF2F3F939">
+                        <DefaultValue>25.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x4E324158">
+                        <DefaultValue>100.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Enum">
+        <Name>HyperModeType</Name>
+        <Values>
+            <Element Name="Unknown1" ID="0xA5D16FA8"/>
+            <Element Name="Unknown2" ID="0x1A3C7D69"/>
+            <Element Name="Unknown3" ID="0xFD188D51"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

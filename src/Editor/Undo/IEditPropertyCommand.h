@@ -13,6 +13,8 @@ protected:
     std::vector<char> mNewData;
 
     IProperty* mpProperty;
+    CPropertyModel* mpModel;
+    QModelIndex mIndex;
     bool mCommandEnded;
     bool mSavedOldData;
     bool mSavedNewData;
@@ -26,8 +28,12 @@ protected:
 public:
     IEditPropertyCommand(
             IProperty* pProperty,
-            const QString& rkCommandName = "Edit Property"
+            CPropertyModel* pModel,
+            const QModelIndex& kIndex,
+            const QString& kCommandName = "Edit Property"
             );
+
+    virtual ~IEditPropertyCommand() {}
 
     virtual void SaveOldData();
     virtual void SaveNewData();

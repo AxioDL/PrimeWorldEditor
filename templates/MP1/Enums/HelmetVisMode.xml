@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Prime">
+    <PropertyArchetype Type="Choice">
+        <Name>HelmetVisMode</Name>
+        <Values>
+            <Element Name="ReducedUpdate" ID="0x0"/>
+            <Element Name="NotVisible" ID="0x1"/>
+            <Element Name="Deco" ID="0x2"/>
+            <Element Name="HelmetDeco" ID="0x3"/>
+            <Element Name="GlowHelmetDeco" ID="0x4"/>
+            <Element Name="HelmetOnly" ID="0x5"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

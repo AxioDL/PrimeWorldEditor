@@ -105,6 +105,31 @@
                     <Element Name="Unknown 97" ID="0xCC2EBD0B"/>
                     <Element Name="Unknown 98" ID="0xC4995F26"/>
                     <Element Name="Unknown 99" ID="0x84D0DFFA"/>
+                    <Element Name="Invalid 1" ID="0x8035B497"/>
+                    <Element Name="Invalid 2" ID="0x959F7A1"/>
+                    <Element Name="Invalid 3" ID="0x9AEC5178"/>
+                    <Element Name="Invalid 4" ID="0xDAFECEB9"/>
+                    <Element Name="Invalid 5" ID="0x5B3C30F0"/>
+                    <Element Name="Invalid 6" ID="0x5658590D"/>
+                    <Element Name="Invalid 7" ID="0x6C8290BF"/>
+                    <Element Name="Invalid 8" ID="0x30C3E6E6"/>
+                    <Element Name="Invalid 9" ID="0xB996F03D"/>
+                    <Element Name="Invalid 10" ID="0xE2FE74ED"/>
+                    <Element Name="Invalid 11" ID="0xB1D7CD80"/>
+                    <Element Name="Invalid 12" ID="0xD4B83772"/>
+                    <Element Name="Invalid 13" ID="0x742978E6"/>
+                    <Element Name="Invalid 14" ID="0xAB5F1B6"/>
+                    <Element Name="Invalid 15" ID="0x4D8EB6D8"/>
+                    <Element Name="Invalid 16" ID="0x2B16C18B"/>
+                    <Element Name="Invalid 17" ID="0x5F9A587D"/>
+                    <Element Name="Invalid 18" ID="0xAD758C9C"/>
+                    <Element Name="Invalid 19" ID="0x3CBFE7D4"/>
+                    <Element Name="Invalid 20" ID="0x860C23F0"/>
+                    <Element Name="Invalid 21" ID="0xD63FEC08"/>
+                    <Element Name="Invalid 22" ID="0xA8E2D33"/>
+                    <Element Name="Invalid 23" ID="0x4907BC94"/>
+                    <Element Name="Invalid 24" ID="0x2F621E09"/>
+                    <Element Name="Invalid 25" ID="0xFB9E419E"/>
                 </Values>
             </Element>
         </SubProperties>

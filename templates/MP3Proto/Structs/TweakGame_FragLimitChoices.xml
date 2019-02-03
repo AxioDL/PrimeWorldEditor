@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="CorruptionProto">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakGame_FragLimitChoices</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0xA2023BA8">
+                <DefaultValue>0</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x1ABE5CCD">
+                <DefaultValue>5</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x80BF323">
+                <DefaultValue>10</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xB0B79446">
+                <DefaultValue>15</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x2D60ACFF">
+                <DefaultValue>20</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

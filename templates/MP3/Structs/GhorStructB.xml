@@ -3,31 +3,7 @@
     <PropertyArchetype Type="Struct">
         <Name>GhorStructB</Name>
         <SubProperties>
-            <Element Type="Struct" ID="0x78A03D9" Archetype="LaunchProjectileData">
-                <SubProperties>
-                    <Element Type="Float" ID="0x53AE4A7">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xCF201BFA">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x88137FA8">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Bool" ID="0xB2D02323">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Vector" ID="0xF344C0B0">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x56B20B2">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xF78469D6">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
-            </Element>
+            <Element Type="Struct" ID="0x78A03D9" Archetype="LaunchProjectileData"/>
             <Element Type="Struct" ID="0x1598012A" Archetype="PlasmaBeamInfo"/>
             <Element Type="Struct" ID="0x13E30E4D" Archetype="DamageInfo"/>
             <Element Type="Float" ID="0x4CACFAE3">
@@ -35,31 +11,7 @@
             </Element>
             <Element Type="Struct" ID="0xE79ECFD4" Archetype="DamageInfo"/>
             <Element Type="Struct" ID="0x603BFD21" Archetype="HoverThenHomeProjectile"/>
-            <Element Type="Struct" ID="0x8F4D54F9" Archetype="LaunchProjectileData">
-                <SubProperties>
-                    <Element Type="Float" ID="0x53AE4A7">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xCF201BFA">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x88137FA8">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Bool" ID="0xB2D02323">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Vector" ID="0xF344C0B0">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0x56B20B2">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                    <Element Type="Float" ID="0xF78469D6">
-                        <CookPreference>Never</CookPreference>
-                    </Element>
-                </SubProperties>
-            </Element>
+            <Element Type="Struct" ID="0x8F4D54F9" Archetype="LaunchProjectileData"/>
             <Element Type="Float" ID="0x63FEE872">
                 <DefaultValue>10.0</DefaultValue>
             </Element>

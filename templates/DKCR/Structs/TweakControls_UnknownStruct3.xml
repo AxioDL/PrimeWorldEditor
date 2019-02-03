@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="DKCReturns">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakControls_UnknownStruct3</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0xC6EAA851" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x9D3BC049" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x175A4BC4" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x9696E718" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x7C952179" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x248B8851" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xDBF45A8B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x83EAF3A3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCA9AE184" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x99F86D75" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x4C1364E6" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCD7DCFE1" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xE86E3271" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xA344CC33" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xA1075E4C" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x36899C91" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBCE8171C" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1E350FA2" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xB643A723" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x0452EA77" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x783419BF" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xE1A023EF" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x6BC1A862" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xA95F7A26" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x64103626" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x48531082" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x00693F4C" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCAC79E5F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x08FE5B85" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x7EC1A572" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x5D2373BE" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD742F833" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xB58F9814" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x10575A8F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD0352E31" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x38ED0EC3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCE9D8F9B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCF8D32F4" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x6E2701E2" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x233DFCB8" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x6C8EDA79" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x0825C1F5" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x39638E7C" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x52739B7B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x936C903D" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xF3E413F0" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x769412EB" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCE92BE94" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xFC31E19E" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x0BFCB7A2" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x769909C1" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x4DAB695E" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xC7CAE2D3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x1595F276" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBF09B38B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xB32A840F" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xBCBE70F0" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x0158EF31" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x7B0B3EC0" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x0999A54B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD38203D7" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xED1235D3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xC73501A3" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xC578CA0D" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x8BB24630" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x4C3FA03B" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x0A965E74" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x52604FD4" Archetype="RevolutionControl"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

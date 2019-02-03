@@ -5,6 +5,8 @@
 #include "CProjectSettingsDialog.h"
 #include "Editor/CharacterEditor/CCharacterEditor.h"
 #include "Editor/ModelEditor/CModelEditorWindow.h"
+#include "Editor/ScanEditor/CScanEditor.h"
+#include "Editor/StringEditor/CStringEditor.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
 #include <Common/Macros.h>
@@ -19,6 +21,7 @@ CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     , mpActiveProject(nullptr)
     , mpWorldEditor(nullptr)
     , mpProjectDialog(nullptr)
+    , mInitialized(false)
 {
     mLastUpdate = CTimer::GlobalTime();
 
@@ -38,10 +41,14 @@ void CEditorApplication::InitEditor()
     mpWorldEditor = new CWorldEditor();
     mpProjectDialog = new CProjectSettingsDialog(mpWorldEditor);
     mpWorldEditor->showMaximized();
+    mInitialized = true;
 }
 
 bool CEditorApplication::CloseAllEditors()
 {
+    if (!mInitialized)
+        return true;
+
     // Close active editor windows.
     foreach (IEditor *pEditor, mEditorWindows)
     {
@@ -152,12 +159,31 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
         case EResourceType::AnimSet:
             pEd = new CCharacterEditor((CAnimSet*) pRes, mpWorldEditor);
             break;
+
+        case EResourceType::Scan:
+            pEd = new CScanEditor((CScan*) pRes, mpWorldEditor);
+            break;
+
+        case EResourceType::StringTable:
+            pEd = new CStringEditor((CStringTable*) pRes, mpWorldEditor);
+            break;
+
+        case EResourceType::Tweaks:
+        {
+            CTweakEditor* pTweakEditor = mpWorldEditor->TweakEditor();
+            pTweakEditor->SetActiveTweakData( (CTweakData*) pRes );
+            pEd = pTweakEditor;
+            break;
+        }
+
         }
 
         if (pEd)
         {
             pEd->show();
-            mEditingMap[pEntry] = pEd;
+
+            if (pEntry->ResourceType() != EResourceType::Tweaks)
+                mEditingMap[pEntry] = pEd;
         }
         else if (pEntry->ResourceType() != EResourceType::Area)
             UICommon::InfoMsg(mpWorldEditor, "Unsupported Resource", "This resource type is currently unsupported for editing.");
@@ -223,6 +249,7 @@ bool CEditorApplication::RebuildResourceDatabase()
     {
         // Fake-close the project, but keep it in memory so we can modify the resource store
         CGameProject *pProj = mpActiveProject;
+        mpActiveProject->TweakManager()->ClearTweaks();
         mpActiveProject = nullptr;
         emit ActiveProjectChanged(nullptr);
 
@@ -237,6 +264,7 @@ bool CEditorApplication::RebuildResourceDatabase()
 
         // Set project to active again
         mpActiveProject = pProj;
+        mpActiveProject->TweakManager()->LoadTweaks();
         emit ActiveProjectChanged(pProj);
 
         UICommon::InfoMsg(mpWorldEditor, "Success", "Resource database rebuilt successfully!");
@@ -303,7 +331,11 @@ void CEditorApplication::OnEditorClose()
         }
 
         mEditorWindows.removeOne(pEditor);
-        delete pEditor;
+
+        if (pEditor != mpWorldEditor->TweakEditor())
+        {
+            delete pEditor;
+        }
 
         if (mpActiveProject)
         {

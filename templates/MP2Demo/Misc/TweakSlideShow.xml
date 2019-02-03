@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="EchoesDemo">
+    <Properties Type="Struct">
+        <Name>TweakSlideShow</Name>
+        <SubProperties>
+            <Element Type="String" ID="0x7FDA1466"/>
+            <Element Type="String" ID="0x2BD13AB3"/>
+            <Element Type="String" ID="0xFE31FBA0"/>
+            <Element Type="Color" ID="0x1A96EC67">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x844AB6B0">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xD398DAC2">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3757D08">
+                <DefaultValue>50.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x59276E14">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3CE7A013">
+                <DefaultValue>10.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x278C0893">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0xD75D29F8">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x27515C7B">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xAE47DC81">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x29D2082">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xB187CD9B">
+                <DefaultValue>0.5</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x90AA341F">
+                <DefaultValue>0.001</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7C269EBC">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="String" ID="0xC0544BC1"/>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

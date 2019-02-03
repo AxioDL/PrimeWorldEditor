@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Corruption">
+    <PropertyArchetype Type="Struct">
+        <Name>PlayerWeaponControls</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x82168860" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xD55C24C4" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x6FE93D70" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xCBB88CB7" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0x711804A6" Archetype="RevolutionControl"/>
+            <Element Type="Struct" ID="0xFAD9340E" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Enum" ID="0x6E14BC06">
+                        <CookPreference>Default</CookPreference>
+                    </Element>
+                    <Element Type="Struct" ID="0xF0BF68A4">
+                        <CookPreference>Default</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>OnlyIfModified</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0x78A69A53" Archetype="RevolutionControl">
+                <SubProperties>
+                    <Element Type="Struct" ID="0xE646D3B7">
+                        <CookPreference>OnlyIfModified</CookPreference>
+                        <SubProperties>
+                            <Element Type="Spline" ID="0x15567FE7">
+                                <CookPreference>Default</CookPreference>
+                            </Element>
+                        </SubProperties>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Spline" ID="0x2F1E9D"/>
+            <Element Type="Spline" ID="0xFAD945BE"/>
+            <Element Type="Spline" ID="0xA166125C"/>
+            <Element Type="Spline" ID="0xDF87AA4E"/>
+            <Element Type="Spline" ID="0x3B0A66B"/>
+            <Element Type="Spline" ID="0x1A86616E"/>
+            <Element Type="Spline" ID="0x5F281C4"/>
+            <Element Type="Bool" ID="0x42C64D90">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

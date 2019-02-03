@@ -4,7 +4,7 @@
         <Name>ConditionalTest</Name>
         <SubProperties>
             <Element Type="Choice" ID="0xDE3E40A3">
-                <DefaultValue>0x1</DefaultValue>
+                <DefaultValue>1</DefaultValue>
                 <Values>
                     <Element Name="Unknown" ID="0x0"/>
                     <Element Name="And" ID="0x1"/>
@@ -13,14 +13,12 @@
             </Element>
             <Element Type="Choice" ID="0xD3AF8D72" Archetype="PlayerItem"/>
             <Element Type="Choice" ID="0x3BDEA98">
-                <DefaultValue>0x0</DefaultValue>
                 <Values>
                     <Element Name="Amount" ID="0x0"/>
                     <Element Name="Capacity" ID="0x1"/>
                 </Values>
             </Element>
             <Element Type="Choice" ID="0x70729364">
-                <DefaultValue>0x0</DefaultValue>
                 <Values>
                     <Element Name="Equal To" ID="0x0"/>
                     <Element Name="Not Equal To" ID="0x1"/>

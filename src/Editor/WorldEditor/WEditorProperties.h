@@ -14,32 +14,32 @@
 class WEditorProperties : public QWidget
 {
     Q_OBJECT
-    CWorldEditor *mpEditor;
-    CSceneNode *mpDisplayNode;
+    CWorldEditor* mpEditor;
+    CSceneNode* mpDisplayNode;
 
-    QVBoxLayout *mpMainLayout;
+    QVBoxLayout* mpMainLayout;
 
-    QLabel *mpInstanceInfoLabel;
-    QHBoxLayout *mpInstanceInfoLayout;
+    QLabel* mpInstanceInfoLabel;
+    QHBoxLayout* mpInstanceInfoLayout;
 
-    QCheckBox *mpActiveCheckBox;
-    QLineEdit *mpInstanceNameLineEdit;
-    QHBoxLayout *mpNameLayout;
+    QCheckBox* mpActiveCheckBox;
+    QLineEdit* mpInstanceNameLineEdit;
+    QHBoxLayout* mpNameLayout;
 
-    QLabel *mpLayersLabel;
-    QComboBox *mpLayersComboBox;
-    QHBoxLayout *mpLayersLayout;
+    QLabel* mpLayersLabel;
+    QComboBox* mpLayersComboBox;
+    QHBoxLayout* mpLayersLayout;
 
     bool mHasEditedName;
 
 public:
-    WEditorProperties(QWidget *pParent = 0);
-    void SyncToEditor(CWorldEditor *pEditor);
+    WEditorProperties(QWidget* pParent = 0);
+    void SyncToEditor(CWorldEditor* pEditor);
     void SetLayerComboBox();
 
 public slots:
     void OnSelectionModified();
-    void OnPropertyModified(CScriptObject *pInst, IProperty *pProp);
+    void OnPropertyModified(IProperty* pProp, CScriptObject* pInstance);
     void OnInstancesLayerChanged(const QList<CScriptNode*>& rkNodeList);
     void OnLayersModified();
     void UpdatePropertyValues();

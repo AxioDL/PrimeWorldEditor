@@ -25,9 +25,16 @@ public:
 
     // Note: All function calls should be deferred with QMetaObject::invokeMethod to ensure
     // that they run on the UI thread instead of whatever thread we happen to be on.
-    virtual void AsyncMessageBox(const TString& rkInfoBoxTitle, const TString& rkMessage)
+    virtual void ShowMessageBox(const TString& rkInfoBoxTitle, const TString& rkMessage)
     {
-        QMetaObject::invokeMethod(this, "AsyncMessageBoxSlot", Qt::QueuedConnection,
+        QMetaObject::invokeMethod(this, "MessageBoxSlot", GetConnectionType(),
+                                  Q_ARG(QString, TO_QSTRING(rkInfoBoxTitle)),
+                                  Q_ARG(QString, TO_QSTRING(rkMessage)) );
+    }
+
+    virtual void ShowMessageBoxAsync(const TString& rkInfoBoxTitle, const TString& rkMessage)
+    {
+        QMetaObject::invokeMethod(this, "MessageBoxSlot", Qt::QueuedConnection,
                                   Q_ARG(QString, TO_QSTRING(rkInfoBoxTitle)),
                                   Q_ARG(QString, TO_QSTRING(rkMessage)) );
     }
@@ -42,8 +49,17 @@ public:
         return RetVal;
     }
 
-public slots:
-    void AsyncMessageBoxSlot(const QString& rkInfoBoxTitle, const QString& rkMessage)
+    virtual bool OpenProject(const TString& kPath = "")
+    {
+        bool RetVal;
+        QMetaObject::invokeMethod(this, "OpenProjectSlot", GetConnectionType(),
+                                  Q_RETURN_ARG(bool, RetVal),
+                                  Q_ARG(QString, TO_QSTRING(kPath)) );
+        return RetVal;
+    }
+
+private slots:
+    void MessageBoxSlot(const QString& rkInfoBoxTitle, const QString& rkMessage)
     {
         UICommon::InfoMsg(gpEdApp->WorldEditor(), rkInfoBoxTitle, rkMessage);
     }
@@ -51,6 +67,11 @@ public slots:
     bool AskYesNoQuestionSlot(const QString& rkInfoBoxTitle, const QString& rkQuestion)
     {
         return UICommon::YesNoQuestion(gpEdApp->WorldEditor(), rkInfoBoxTitle, rkQuestion);
+    }
+
+    bool OpenProjectSlot(const QString& kPath)
+    {
+        return !kPath.isEmpty() ? gpEdApp->OpenProject(kPath) : UICommon::OpenProject();
     }
 };
 

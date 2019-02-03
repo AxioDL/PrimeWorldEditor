@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TweakTargeting_Charge_Gauge</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0xD032C2A1">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xA118E250">
+                <DefaultValue>90.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDB1AC8EE">
+                <DefaultValue>150.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xECD100F8">
+                <DefaultValue>210.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x49F8161F">
+                <DefaultValue>1.0</DefaultValue>
+            </Element>
+            <Element Type="Color" ID="0x526E60F4">
+                <DefaultValue>
+                    <R>0.0</R>
+                    <G>0.0</G>
+                    <B>0.0</B>
+                </DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0xED78E6EB">
+                <DefaultValue>14</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x2C3D9E27">
+                <DefaultValue>8.5</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

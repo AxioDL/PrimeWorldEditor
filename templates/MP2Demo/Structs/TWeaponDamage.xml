@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="EchoesDemo">
+    <PropertyArchetype Type="Struct">
+        <Name>TWeaponDamage</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x8AC4278A" Archetype="TDamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF3EC8748">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x37B6DF3D">
+                        <DefaultValue>25.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+            <Element Type="Struct" ID="0xC9AC01D2" Archetype="TDamageInfo">
+                <SubProperties>
+                    <Element Type="Float" ID="0xF3EC8748">
+                        <DefaultValue>50.0</DefaultValue>
+                    </Element>
+                    <Element Type="Float" ID="0x37B6DF3D">
+                        <DefaultValue>25.0</DefaultValue>
+                    </Element>
+                </SubProperties>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

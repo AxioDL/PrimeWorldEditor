@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Struct">
+        <Name>ScanInfoSecondaryModel</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0x1F7921BC">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="AnimationSet" ID="0xCDD202D1"/>
+            <Element Type="String" ID="0x3EA2BED8"/>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>
