@@ -55,7 +55,7 @@ public:
     TString DeletedResourcePath() const;
 
     bool IsResourceRegistered(const CAssetID& rkID) const;
-    CResourceEntry* CreateNewResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName);
+    CResourceEntry* CreateNewResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName, bool ExistingResource = false);
     CResourceEntry* FindEntry(const CAssetID& rkID) const;
     CResourceEntry* FindEntry(const TString& rkPath) const;
     bool AreAllEntriesValid() const;

@@ -46,7 +46,7 @@ class CResourceEntry
 public:
     static CResourceEntry* CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
                                              const TString& rkDir, const TString& rkName,
-                                             EResourceType Type);
+                                             EResourceType Type, bool ExistingResource = false);
     static CResourceEntry* BuildFromArchive(CResourceStore *pStore, IArchive& rArc);
     static CResourceEntry* BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
                                               const TString& rkDirPath, const TString& rkName);

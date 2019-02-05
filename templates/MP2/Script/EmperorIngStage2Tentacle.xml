@@ -15,7 +15,7 @@
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
-            <Element Type="Struct" ID="0x5105FA2D" Archetype="UnknownStruct18"/>
+            <Element Type="Struct" ID="0x5105FA2D" Archetype="EmperorIngStage2TentacleData"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

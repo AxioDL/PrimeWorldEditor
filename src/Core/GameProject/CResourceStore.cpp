@@ -445,7 +445,7 @@ bool CResourceStore::IsResourceRegistered(const CAssetID& rkID) const
     return FindEntry(rkID) != nullptr;
 }
 
-CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName)
+CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourceType Type, const TString& rkDir, const TString& rkName, bool ExistingResource /*= false*/)
 {
     CResourceEntry *pEntry = FindEntry(rkID);
 
@@ -457,7 +457,7 @@ CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourc
         // Validate directory
         if (IsValidResourcePath(rkDir, rkName))
         {
-            pEntry = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type);
+            pEntry = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type, ExistingResource);
             mResourceEntries[rkID] = pEntry;
             mDatabaseCacheDirty = true;
 

@@ -24,7 +24,7 @@ CResourceEntry::CResourceEntry(CResourceStore *pStore)
 // Static constructors
 CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
                                                     const TString& rkDir, const TString& rkName,
-                                                    EResourceType Type)
+                                                    EResourceType Type, bool ExistingResource /*= false*/)
 {
     // Initialize all entry info with the input data.
     CResourceEntry *pEntry = new CResourceEntry(pStore);
@@ -41,12 +41,16 @@ CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const 
 
     pEntry->mMetadataDirty = true;
 
-    // Check if the data exists or not. If so, then we are creating an entry for an existing resource (game exporter).
-    // If not, we want to initiate the new resource data and save it as soon as possible.
-    if (!pEntry->HasCookedVersion())
+    // If this is a new resource (i.e. not a base game resource that we are currently exporting),
+    // then instantiate the new resource data so it can be saved as soon as possible.
+    if (!ExistingResource)
     {
-        pEntry->mpResource = CResourceFactory::SpawnResource(pEntry);
-        pEntry->mpResource->InitializeNewResource();
+        pEntry->mpResource = CResourceFactory::CreateResource(pEntry);
+
+        if (pEntry->mpResource)
+        {
+            pEntry->mpResource->InitializeNewResource();
+        }
     }
 
     return pEntry;
@@ -394,7 +398,7 @@ CResource* CResourceEntry::Load()
     // support serialization yet) then load the cooked version as a backup.
     if (HasRawVersion())
     {
-        mpResource = CResourceFactory::SpawnResource(this);
+        mpResource = CResourceFactory::CreateResource(this);
 
         if (mpResource)
         {

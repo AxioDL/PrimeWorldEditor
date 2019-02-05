@@ -840,6 +840,18 @@
             <Value Path="Structs/EditorProperties.xml"/>
         </Element>
         <Element>
+            <Key>EmperorIngStage1Data</Key>
+            <Value Path="Structs/EmperorIngStage1Data.xml"/>
+        </Element>
+        <Element>
+            <Key>EmperorIngStage1TentacleData</Key>
+            <Value Path="Structs/EmperorIngStage1TentacleData.xml"/>
+        </Element>
+        <Element>
+            <Key>EmperorIngStage2TentacleData</Key>
+            <Value Path="Structs/EmperorIngStage2TentacleData.xml"/>
+        </Element>
+        <Element>
             <Key>EmperorIngStage3Data</Key>
             <Value Path="Structs/EmperorIngStage3Data.xml"/>
         </Element>
@@ -1308,14 +1320,6 @@
             <Value Path="Structs/UnknownStruct17.xml"/>
         </Element>
         <Element>
-            <Key>UnknownStruct18</Key>
-            <Value Path="Structs/UnknownStruct18.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct19</Key>
-            <Value Path="Structs/UnknownStruct19.xml"/>
-        </Element>
-        <Element>
             <Key>UnknownStruct2</Key>
             <Value Path="Structs/UnknownStruct2.xml"/>
         </Element>
@@ -1338,10 +1342,6 @@
         <Element>
             <Key>UnknownStruct24</Key>
             <Value Path="Structs/UnknownStruct24.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct25</Key>
-            <Value Path="Structs/UnknownStruct25.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct26</Key>

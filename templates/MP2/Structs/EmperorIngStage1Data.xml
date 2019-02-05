@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Echoes">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct25</Name>
+        <Name>EmperorIngStage1Data</Name>
         <SubProperties>
-            <Element Type="Struct" ID="0xB3C6398F" Archetype="UnknownStruct19"/>
+            <Element Type="Struct" ID="0xB3C6398F" Archetype="EmperorIngStage1TentacleData"/>
             <Element Type="Struct" ID="0xF59F9A60" Archetype="UnknownStruct20"/>
             <Element Type="Struct" ID="0xA1CDA0B6" Archetype="UnknownStruct21"/>
             <Element Type="Struct" ID="0x85F36473" Archetype="UnknownStruct22"/>
@@ -31,7 +31,7 @@
             <Element Type="Float" ID="0xE5A7C358">
                 <DefaultValue>0.0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x93357240">
+            <Element Type="Sound" ID="0x93357240">
                 <DefaultValue>-1</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x293A0C19">

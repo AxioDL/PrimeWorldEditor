@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Echoes">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct18</Name>
+        <Name>EmperorIngStage2TentacleData</Name>
         <SubProperties>
             <Element Type="Float" ID="0xBAA9254A">
                 <DefaultValue>0.0</DefaultValue>

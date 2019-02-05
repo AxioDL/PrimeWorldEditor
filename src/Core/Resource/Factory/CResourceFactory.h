@@ -32,7 +32,7 @@ class CResourceFactory
     CResourceFactory() {}
 
 public:
-    static CResource* SpawnResource(CResourceEntry *pEntry)
+    static CResource* CreateResource(CResourceEntry *pEntry)
     {
         switch (pEntry->ResourceType())
         {
@@ -58,7 +58,7 @@ public:
         case EResourceType::StringTable:          return new CStringTable(pEntry);
         case EResourceType::Texture:              return new CTexture(pEntry);
         case EResourceType::World:                return new CWorld(pEntry);
-        default:                    return nullptr; // should it return a CResource instead?
+        default:                                  return nullptr; // should it return a CResource instead?
         }
     }
 

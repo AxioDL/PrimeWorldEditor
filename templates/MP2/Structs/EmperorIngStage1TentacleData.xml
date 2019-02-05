@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Echoes">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct19</Name>
+        <Name>EmperorIngStage1TentacleData</Name>
         <SubProperties>
             <Element Type="Struct" ID="0xCF90D15E" Archetype="HealthInfo"/>
             <Element Type="Struct" ID="0x29DF61E1" Archetype="DamageVulnerability"/>
