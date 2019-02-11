@@ -466,7 +466,10 @@ CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourc
                 TrackLoadedResource(pEntry);
             }
 
-            debugf("CREATED NEW RESOURCE: [%s] %s", *rkID.ToString(), *pEntry->CookedAssetPath());
+            if (!ExistingResource)
+            {
+                debugf("CREATED NEW RESOURCE: [%s] %s", *rkID.ToString(), *pEntry->CookedAssetPath());
+            }
         }
 
         else
