@@ -39,7 +39,7 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     glDepthMask(GL_TRUE);
 
     // Turn off backface culling
-    EGame Game = mpScene->ActiveArea()->Game();
+    EGame Game = mpCollision->Game();
     bool ForceDisableBackfaceCull = (rkViewInfo.CollisionSettings.DrawBackfaces || Game == EGame::DKCReturns) && glIsEnabled(GL_CULL_FACE);
 
     if (ForceDisableBackfaceCull)
@@ -47,35 +47,48 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
 
     CColor BaseTint = TintColor(rkViewInfo);
 
-    for (uint32 iMesh = 0; iMesh < mpCollision->NumMeshes(); iMesh++)
+    for (uint32 MeshIdx = 0; MeshIdx < mpCollision->NumMeshes(); MeshIdx++)
     {
-        CCollisionMesh *pMesh = mpCollision->MeshByIndex(iMesh);
+        CCollisionMesh *pMesh = mpCollision->MeshByIndex(MeshIdx);
+        CCollisionRenderData& RenderData = pMesh->GetRenderData();
+        const SCollisionIndexData& kIndexData = pMesh->GetIndexData();
 
-        for (uint32 iMat = 0; iMat < pMesh->NumMaterials(); iMat++)
+        for (int MatIdx = 0; MatIdx < (int) kIndexData.Materials.size(); MatIdx++)
         {
-            CCollisionMaterial& rMat = pMesh->GetMaterial(iMat);
+            const CCollisionMaterial& kMat = kIndexData.Materials[MatIdx];
 
-            if (rkViewInfo.CollisionSettings.HideMaterial & rMat)
+            if (rkViewInfo.CollisionSettings.HideMaterial & kMat)
                 continue;
 
-            if (rkViewInfo.CollisionSettings.HideMask != 0 && (rMat.RawFlags() & rkViewInfo.CollisionSettings.HideMask) != 0)
+            if (rkViewInfo.CollisionSettings.HideMask != 0 && (kMat.RawFlags() & rkViewInfo.CollisionSettings.HideMask) != 0)
                 continue;
 
             CColor Tint = BaseTint;
 
-            if (rkViewInfo.CollisionSettings.HighlightMask != 0 && (rMat.RawFlags() & rkViewInfo.CollisionSettings.HighlightMask) == rkViewInfo.CollisionSettings.HighlightMask)
+            if (rkViewInfo.CollisionSettings.HighlightMask != 0 && (kMat.RawFlags() & rkViewInfo.CollisionSettings.HighlightMask) == rkViewInfo.CollisionSettings.HighlightMask)
                 Tint *= CColor::skRed;
 
             else if (Game != EGame::DKCReturns && rkViewInfo.CollisionSettings.TintWithSurfaceColor)
-                Tint *= rMat.SurfaceColor(Game);
+                Tint *= kMat.SurfaceColor(Game);
 
-            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsFloor() : true) || Game == EGame::DKCReturns;
-            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? rMat.IsUnstandable(Game) : false) && Game != EGame::DKCReturns;
+            bool IsFloor = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? kMat.IsFloor() : true) || Game == EGame::DKCReturns;
+            bool IsUnstandable = (rkViewInfo.CollisionSettings.TintUnwalkableTris ? kMat.IsUnstandable(Game) : false) && Game != EGame::DKCReturns;
             CDrawUtil::UseCollisionShader(IsFloor, IsUnstandable, Tint);
-            pMesh->DrawMaterial(iMat, false);
+            RenderData.Render(false, MatIdx);
 
             if (rkViewInfo.CollisionSettings.DrawWireframe)
-                pMesh->DrawMaterial(iMat, true);
+                RenderData.Render(true, MatIdx);
+        }
+    }
+
+    // Render bounding hierarchy
+    if (rkViewInfo.CollisionSettings.DrawBoundingHierarchy)
+    {
+        int Depth = rkViewInfo.CollisionSettings.BoundingHierarchyRenderDepth;
+
+        for (uint MeshIdx = 0; MeshIdx < mpCollision->NumMeshes(); MeshIdx++)
+        {
+            mpCollision->MeshByIndex(MeshIdx)->GetRenderData().RenderBoundingHierarchy(Depth);
         }
     }
 
@@ -86,8 +99,13 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     // Draw collision bounds for area collision
     // note: right now checking parent is the best way to check whether this node is area collision instead of actor collision
     // actor collision will have a script node parent whereas area collision will have a root node parent
-    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds && Parent()->NodeType() == ENodeType::Root && Game != EGame::DKCReturns)
-        CDrawUtil::DrawWireCube( mpCollision->MeshByIndex(0)->BoundingBox(), CColor::skRed );
+    if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds)
+    {
+        if (Parent() && Parent()->NodeType() == ENodeType::Root && Game != EGame::DKCReturns)
+        {
+            CDrawUtil::DrawWireCube( mpCollision->MeshByIndex(0)->Bounds(), CColor::skRed );
+        }
+    }
 }
 
 void CCollisionNode::RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, const SViewInfo& /*rkViewInfo*/)
@@ -106,4 +124,9 @@ SRayIntersection CCollisionNode::RayNodeIntersectTest(const CRay& /*rkRay*/, uin
 void CCollisionNode::SetCollision(CCollisionMeshGroup *pCollision)
 {
     mpCollision = pCollision;
+
+    if (mpCollision)
+    {
+        mpCollision->BuildRenderData();
+    }
 }

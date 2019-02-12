@@ -6,6 +6,7 @@ CCollisionLoader::CCollisionLoader()
 {
 }
 
+#if 0
 CCollisionMesh::CCollisionOctree* CCollisionLoader::ParseOctree(IInputStream& /*rSrc*/)
 {
     return nullptr;
@@ -20,172 +21,180 @@ CCollisionMesh::CCollisionOctree::SLeaf* CCollisionLoader::ParseOctreeLeaf(IInpu
 {
     return nullptr;
 }
+#endif
 
-void CCollisionLoader::ParseOBBNode(IInputStream& rDCLN)
+SOBBTreeNode* CCollisionLoader::ParseOBBNode(IInputStream& DCLN)
 {
-    bool b = false;
+    SOBBTreeNode* pOut = nullptr;
 
-    while (b == false)
+    CTransform4f Transform(DCLN);
+    CVector3f Radius(DCLN);
+    bool IsLeaf = DCLN.ReadBool();
+
+    if (IsLeaf)
     {
-        rDCLN.Seek(0x3C, SEEK_CUR);
-        b = (rDCLN.ReadByte() == 1);
-        if (!b) ParseOBBNode(rDCLN);
+        SOBBTreeLeaf* pLeaf = new SOBBTreeLeaf;
+        uint NumTris = DCLN.ReadLong();
+        pLeaf->TriangleIndices.resize(NumTris);
+
+        for (uint i=0; i<NumTris; i++)
+            pLeaf->TriangleIndices[i] = DCLN.ReadShort();
+
+        pOut = pLeaf;
+    }
+    else
+    {
+        SOBBTreeBranch* pBranch = new SOBBTreeBranch;
+        pBranch->pLeft = std::unique_ptr<SOBBTreeNode>( ParseOBBNode(DCLN) );
+        pBranch->pRight = std::unique_ptr<SOBBTreeNode>( ParseOBBNode(DCLN) );
+        pOut = pBranch;
     }
 
-    uint32 NumFaces = rDCLN.ReadLong();
-    rDCLN.Seek(NumFaces * 2, SEEK_CUR);
+    pOut->Transform = Transform;
+    pOut->Radii = Radius;
+    return pOut;
 }
 
-void CCollisionLoader::ReadPropertyFlags(IInputStream& rSrc)
+void CCollisionLoader::LoadCollisionMaterial(IInputStream& Src, CCollisionMaterial& OutMaterial)
 {
-    CCollisionMaterial Material;
-    uint64 RawFlags = (mVersion <= EGame::Prime ? rSrc.ReadLong() : rSrc.ReadLongLong());
-    Material.mRawFlags = RawFlags;
+    uint64 RawFlags = (mVersion <= EGame::Prime ? Src.ReadLong() : Src.ReadLongLong());
+    OutMaterial.mRawFlags = RawFlags;
 
     if (mVersion <= EGame::Prime)
     {
-        if (RawFlags & 0x00000001) Material |= eCF_Unknown;
-        if (RawFlags & 0x00000002) Material |= eCF_Stone;
-        if (RawFlags & 0x00000004) Material |= eCF_Metal;
-        if (RawFlags & 0x00000008) Material |= eCF_Grass;
-        if (RawFlags & 0x00000010) Material |= eCF_Ice;
-        if (RawFlags & 0x00000040) Material |= eCF_MetalGrating;
-        if (RawFlags & 0x00000080) Material |= eCF_Phazon;
-        if (RawFlags & 0x00000100) Material |= eCF_Dirt;
-        if (RawFlags & 0x00000200) Material |= eCF_Lava;
-        if (RawFlags & 0x00000800) Material |= eCF_Snow;
-        if (RawFlags & 0x00001000) Material |= eCF_SlowMud;
-        if (RawFlags & 0x00004000) Material |= eCF_Mud;
-        if (RawFlags & 0x00008000) Material |= eCF_Glass;
-        if (RawFlags & 0x00010000) Material |= eCF_Shield;
-        if (RawFlags & 0x00020000) Material |= eCF_Sand;
-        if (RawFlags & 0x00040000) Material |= eCF_ShootThru;
-        if (RawFlags & 0x00200000) Material |= eCF_CameraThru;
-        if (RawFlags & 0x00400000) Material |= eCF_Wood;
-        if (RawFlags & 0x00800000) Material |= eCF_Organic;
-        if (RawFlags & 0x02000000) Material |= eCF_FlippedTri;
-        if (RawFlags & 0x08000000) Material |= eCF_ScanThru;
-        if (RawFlags & 0x10000000) Material |= eCF_AiWalkThru;
-        if (RawFlags & 0x20000000) Material |= eCF_Ceiling;
-        if (RawFlags & 0x40000000) Material |= eCF_Wall;
-        if (RawFlags & 0x80000000) Material |= eCF_Floor;
+        if (RawFlags & 0x00000001) OutMaterial |= eCF_Unknown;
+        if (RawFlags & 0x00000002) OutMaterial |= eCF_Stone;
+        if (RawFlags & 0x00000004) OutMaterial |= eCF_Metal;
+        if (RawFlags & 0x00000008) OutMaterial |= eCF_Grass;
+        if (RawFlags & 0x00000010) OutMaterial |= eCF_Ice;
+        if (RawFlags & 0x00000040) OutMaterial |= eCF_MetalGrating;
+        if (RawFlags & 0x00000080) OutMaterial |= eCF_Phazon;
+        if (RawFlags & 0x00000100) OutMaterial |= eCF_Dirt;
+        if (RawFlags & 0x00000200) OutMaterial |= eCF_Lava;
+        if (RawFlags & 0x00000800) OutMaterial |= eCF_Snow;
+        if (RawFlags & 0x00001000) OutMaterial |= eCF_SlowMud;
+        if (RawFlags & 0x00004000) OutMaterial |= eCF_Mud;
+        if (RawFlags & 0x00008000) OutMaterial |= eCF_Glass;
+        if (RawFlags & 0x00010000) OutMaterial |= eCF_Shield;
+        if (RawFlags & 0x00020000) OutMaterial |= eCF_Sand;
+        if (RawFlags & 0x00040000) OutMaterial |= eCF_ShootThru;
+        if (RawFlags & 0x00200000) OutMaterial |= eCF_CameraThru;
+        if (RawFlags & 0x00400000) OutMaterial |= eCF_Wood;
+        if (RawFlags & 0x00800000) OutMaterial |= eCF_Organic;
+        if (RawFlags & 0x02000000) OutMaterial |= eCF_FlippedTri;
+        if (RawFlags & 0x08000000) OutMaterial |= eCF_ScanThru;
+        if (RawFlags & 0x10000000) OutMaterial |= eCF_AiWalkThru;
+        if (RawFlags & 0x20000000) OutMaterial |= eCF_Ceiling;
+        if (RawFlags & 0x40000000) OutMaterial |= eCF_Wall;
+        if (RawFlags & 0x80000000) OutMaterial |= eCF_Floor;
     }
 
     else if (mVersion <= EGame::Corruption)
     {
-        if (RawFlags & 0x00000001) Material |= eCF_Unknown;
-        if (RawFlags & 0x00000002) Material |= eCF_Stone;
-        if (RawFlags & 0x00000004) Material |= eCF_Metal;
-        if (RawFlags & 0x00000008) Material |= eCF_Grass;
-        if (RawFlags & 0x00000010) Material |= eCF_Ice;
-        if (RawFlags & 0x00000040) Material |= eCF_MetalGrating;
-        if (RawFlags & 0x00000080) Material |= eCF_Phazon;
-        if (RawFlags & 0x00000100) Material |= eCF_Dirt;
-        if (RawFlags & 0x00000200) Material |= eCF_AltMetal;
-        if (RawFlags & 0x00000400) Material |= eCF_Glass;
-        if (RawFlags & 0x00000800) Material |= eCF_Snow;
-        if (RawFlags & 0x00001000) Material |= eCF_Fabric;
-        if (RawFlags & 0x00010000) Material |= eCF_Shield;
-        if (RawFlags & 0x00020000) Material |= eCF_Sand;
-        if (RawFlags & 0x00040000) Material |= eCF_MothSeedOrganics;
-        if (RawFlags & 0x00080000) Material |= eCF_Web;
-        if (RawFlags & 0x00100000) Material |= eCF_ShootThru;
-        if (RawFlags & 0x00200000) Material |= eCF_CameraThru;
-        if (RawFlags & 0x00400000) Material |= eCF_Wood;
-        if (RawFlags & 0x00800000) Material |= eCF_Organic;
-        if (RawFlags & 0x01000000) Material |= eCF_FlippedTri;
-        if (RawFlags & 0x02000000) Material |= eCF_Rubber;
-        if (RawFlags & 0x08000000) Material |= eCF_ScanThru;
-        if (RawFlags & 0x10000000) Material |= eCF_AiWalkThru;
-        if (RawFlags & 0x20000000) Material |= eCF_Ceiling;
-        if (RawFlags & 0x40000000) Material |= eCF_Wall;
-        if (RawFlags & 0x80000000) Material |= eCF_Floor;
+        if (RawFlags & 0x00000001) OutMaterial |= eCF_Unknown;
+        if (RawFlags & 0x00000002) OutMaterial |= eCF_Stone;
+        if (RawFlags & 0x00000004) OutMaterial |= eCF_Metal;
+        if (RawFlags & 0x00000008) OutMaterial |= eCF_Grass;
+        if (RawFlags & 0x00000010) OutMaterial |= eCF_Ice;
+        if (RawFlags & 0x00000040) OutMaterial |= eCF_MetalGrating;
+        if (RawFlags & 0x00000080) OutMaterial |= eCF_Phazon;
+        if (RawFlags & 0x00000100) OutMaterial |= eCF_Dirt;
+        if (RawFlags & 0x00000200) OutMaterial |= eCF_AltMetal;
+        if (RawFlags & 0x00000400) OutMaterial |= eCF_Glass;
+        if (RawFlags & 0x00000800) OutMaterial |= eCF_Snow;
+        if (RawFlags & 0x00001000) OutMaterial |= eCF_Fabric;
+        if (RawFlags & 0x00010000) OutMaterial |= eCF_Shield;
+        if (RawFlags & 0x00020000) OutMaterial |= eCF_Sand;
+        if (RawFlags & 0x00040000) OutMaterial |= eCF_MothSeedOrganics;
+        if (RawFlags & 0x00080000) OutMaterial |= eCF_Web;
+        if (RawFlags & 0x00100000) OutMaterial |= eCF_ShootThru;
+        if (RawFlags & 0x00200000) OutMaterial |= eCF_CameraThru;
+        if (RawFlags & 0x00400000) OutMaterial |= eCF_Wood;
+        if (RawFlags & 0x00800000) OutMaterial |= eCF_Organic;
+        if (RawFlags & 0x01000000) OutMaterial |= eCF_FlippedTri;
+        if (RawFlags & 0x02000000) OutMaterial |= eCF_Rubber;
+        if (RawFlags & 0x08000000) OutMaterial |= eCF_ScanThru;
+        if (RawFlags & 0x10000000) OutMaterial |= eCF_AiWalkThru;
+        if (RawFlags & 0x20000000) OutMaterial |= eCF_Ceiling;
+        if (RawFlags & 0x40000000) OutMaterial |= eCF_Wall;
+        if (RawFlags & 0x80000000) OutMaterial |= eCF_Floor;
 
-        if (RawFlags & 0x0001000000000000) Material |= eCF_AiBlock;
-        if (RawFlags & 0x0400000000000000) Material |= eCF_JumpNotAllowed;
+        if (RawFlags & 0x0001000000000000) OutMaterial |= eCF_AiBlock;
+        if (RawFlags & 0x0400000000000000) OutMaterial |= eCF_JumpNotAllowed;
     }
 
     else if (mVersion == EGame::DKCReturns)
     {
-        if (RawFlags & 0x10000000) Material |= eCF_FlippedTri;
+        if (RawFlags & 0x10000000) OutMaterial |= eCF_FlippedTri;
     }
-
-    mpMesh->mMaterials.push_back(Material);
 }
 
-void CCollisionLoader::LoadCollisionIndices(IInputStream &rFile, bool BuildAABox)
+void CCollisionLoader::LoadCollisionIndices(IInputStream& File, SCollisionIndexData& OutData)
 {
-    // Properties
-    uint32 PropSetCount = rFile.ReadLong();
-    for (uint32 iProp = 0; iProp < PropSetCount; iProp++)
-        ReadPropertyFlags(rFile);
+    // Materials
+    uint NumMaterials = File.ReadLong();
+    OutData.Materials.resize( NumMaterials );
 
-    // Property indices for vertices/lines/faces
-    uint32 VtxIndexCount = rFile.ReadLong();
-    std::vector<uint8> VtxIndices(VtxIndexCount);
-    rFile.ReadBytes(VtxIndices.data(), VtxIndices.size());
-
-    uint32 LineIndexCount = rFile.ReadLong();
-    std::vector<uint8> LineIndices(LineIndexCount);
-    rFile.ReadBytes(LineIndices.data(), LineIndices.size());
-
-    uint32 FaceIndexCount = rFile.ReadLong();
-    std::vector<uint8> FaceIndices(FaceIndexCount);
-    rFile.ReadBytes(FaceIndices.data(), FaceIndices.size());
-
-    // Lines
-    mpMesh->mLineCount = rFile.ReadLong();
-    mpMesh->mCollisionLines.resize(mpMesh->mLineCount);
-    for (uint32 iLine = 0; iLine < mpMesh->mLineCount; iLine++)
+    for (uint i=0; i<NumMaterials; i++)
     {
-        CCollisionMesh::CCollisionLine *pLine = &mpMesh->mCollisionLines[iLine];
-        pLine->Vertices[0] = rFile.ReadShort();
-        pLine->Vertices[1] = rFile.ReadShort();
-        pLine->MaterialIdx = LineIndices[iLine];
+        LoadCollisionMaterial(File, OutData.Materials[i]);
     }
 
-    // Faces
-    mpMesh->mFaceCount = rFile.ReadLong() / 3; // Not sure why they store it this way. It's inconsistent.
-    mpMesh->mCollisionFaces.resize(mpMesh->mFaceCount);
+    // Property indices for vertices/edges/triangles
+    uint VertexMaterialCount = File.ReadLong();
+    OutData.VertexMaterialIndices.resize(VertexMaterialCount);
+    File.ReadBytes(OutData.VertexMaterialIndices.data(), VertexMaterialCount);
 
-    for (uint32 iFace = 0; iFace < mpMesh->mFaceCount; iFace++)
+    uint32 EdgeMaterialCount = File.ReadLong();
+    OutData.EdgeMaterialIndices.resize(EdgeMaterialCount);
+    File.ReadBytes(OutData.EdgeMaterialIndices.data(), EdgeMaterialCount);
+
+    uint32 TriMaterialCount = File.ReadLong();
+    OutData.TriangleMaterialIndices.resize(TriMaterialCount);
+    File.ReadBytes(OutData.TriangleMaterialIndices.data(), TriMaterialCount);
+
+    // Edges
+    uint NumEdges = File.ReadLong();
+    OutData.EdgeIndices.resize( NumEdges * 2 );
+
+    for (uint i=0; i<OutData.EdgeIndices.size(); i++)
     {
-        CCollisionMesh::CCollisionFace *pFace = &mpMesh->mCollisionFaces[iFace];
-        pFace->Lines[0] = rFile.ReadShort();
-        pFace->Lines[1] = rFile.ReadShort();
-        pFace->Lines[2] = rFile.ReadShort();
-        pFace->MaterialIdx = FaceIndices[iFace];
+        OutData.EdgeIndices[i] = File.ReadShort();
+    }
+
+    // Triangles
+    uint NumTris = File.ReadLong();
+    OutData.TriangleIndices.resize( NumTris );
+
+    for (uint i=0; i<NumTris; i++)
+    {
+        OutData.TriangleIndices[i] = File.ReadShort();
     }
 
     // Echoes introduces a new data chunk; don't know what it is yet, skipping for now
     if (mVersion >= EGame::Echoes)
     {
-        uint32 UnknownCount = rFile.ReadLong();
-        rFile.Seek(UnknownCount * 2, SEEK_CUR);
+        uint UnknownCount = File.ReadLong();
+        File.Skip(UnknownCount * 2);
     }
 
     // Vertices
-    mpMesh->mVertexCount = rFile.ReadLong();
-    mpMesh->mCollisionVertices.resize(mpMesh->mVertexCount);
-    CAABox Bounds;
+    uint NumVertices = File.ReadLong();
+    OutData.Vertices.resize(NumVertices);
 
-    for (uint32 iVtx = 0; iVtx < mpMesh->mVertexCount; iVtx++)
+    for (uint32 i=0; i<NumVertices; i++)
     {
-        CCollisionMesh::CCollisionVertex *pVtx = &mpMesh->mCollisionVertices[iVtx];
-        pVtx->Pos = CVector3f(rFile);
-        pVtx->MaterialIdx = VtxIndices[iVtx];
-        if (BuildAABox) Bounds.ExpandBounds(pVtx->Pos);
+        OutData.Vertices[i].Read(File);
     }
-    if (BuildAABox) mpMesh->mAABox = Bounds;
 }
 
 // ************ STATIC ************
 CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
 {
     if (!rMREA.IsValid()) return nullptr;
-    CCollisionLoader loader;
+    rMREA.Skip(0x8); // Skipping unknown value + collion section size
 
-    rMREA.Seek(0x8, SEEK_CUR);
+    // Validate magic
     uint32 DeafBabe = rMREA.ReadLong();
     if (DeafBabe != 0xDEAFBABE)
     {
@@ -193,22 +202,22 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
         return nullptr;
     }
 
-    loader.mVersion = GetFormatVersion(rMREA.ReadLong());
-
-    loader.mpGroup = new CCollisionMeshGroup;
-    loader.mpMesh = new CCollisionMesh;
+    CCollisionLoader Loader;
+    Loader.mVersion = GetFormatVersion(rMREA.ReadLong());
+    Loader.mpMesh = new CCollisionMesh;
 
     // Octree - structure is known, but not coding this right now
-    loader.mpMesh->mAABox = CAABox(rMREA);
-    rMREA.Seek(0x4, SEEK_CUR);
+    Loader.mpMesh->mAABox = CAABox(rMREA);
+    rMREA.Skip(0x4);
     uint32 OctreeSize = rMREA.ReadLong();
-    rMREA.Seek(OctreeSize, SEEK_CUR); // Skipping the octree for now
-    loader.mpMesh->mOctreeLoaded = false;
+    rMREA.Skip(OctreeSize); // Skipping the octree for now
 
     // Read collision indices and return
-    loader.LoadCollisionIndices(rMREA, false);
-    loader.mpGroup->AddMesh(loader.mpMesh);
-    return loader.mpGroup;
+    Loader.LoadCollisionIndices(rMREA, Loader.mpMesh->mIndexData);
+
+    CCollisionMeshGroup* pOut = new CCollisionMeshGroup();
+    pOut->AddMesh(Loader.mpMesh);
+    return pOut;
 }
 
 CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEntry *pEntry)
@@ -220,32 +229,45 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEn
 
     uint32 NumMeshes = rDCLN.ReadLong();
 
-    for (uint32 iMesh = 0; iMesh < NumMeshes; iMesh++)
+    for (uint32 MeshIdx = 0; MeshIdx < NumMeshes; MeshIdx++)
     {
         uint32 DeafBabe = rDCLN.ReadLong();
 
         if (DeafBabe != 0xDEAFBABE)
         {
             errorf("%s [0x%X]: Invalid collision magic: 0x%08X", *rDCLN.GetSourceString(), rDCLN.Tell() - 4, DeafBabe);
-            Loader.mpGroup.Delete();
+            delete Loader.mpGroup;
             return nullptr;
         }
 
         Loader.mVersion = GetFormatVersion(rDCLN.ReadLong());
 
-        Loader.mpMesh = new CCollisionMesh;
-        Loader.mpMesh->mOctreeLoaded = false;
+        Loader.mpMesh = new CCollidableOBBTree;
 
         if (Loader.mVersion == EGame::DKCReturns)
             Loader.mpMesh->mAABox = CAABox(rDCLN);
 
         // Read indices and return
         rDCLN.Seek(0x4, SEEK_CUR);
-        Loader.LoadCollisionIndices(rDCLN, Loader.mVersion != EGame::DKCReturns);
+        Loader.LoadCollisionIndices(rDCLN, Loader.mpMesh->mIndexData);
         Loader.mpGroup->AddMesh(Loader.mpMesh);
 
+        // Build bounding box
+        if (Loader.mVersion != EGame::DKCReturns)
+        {
+            Loader.mpMesh->mAABox = CAABox::skInfinite;
+
+            for (uint i=0; i<Loader.mpMesh->mIndexData.Vertices.size(); i++)
+            {
+                Loader.mpMesh->mAABox.ExpandBounds(
+                    Loader.mpMesh->mIndexData.Vertices[i]
+                );
+            }
+        }
+
         // Parse OBB tree
-        Loader.ParseOBBNode(rDCLN);
+        CCollidableOBBTree* pOBBTree = static_cast<CCollidableOBBTree*>(Loader.mpMesh);
+        pOBBTree->mpOBBTree = std::unique_ptr<SOBBTreeNode>( Loader.ParseOBBNode(rDCLN) );
     }
     return Loader.mpGroup;
 }

@@ -1,9 +1,10 @@
 #ifndef CCOLLISIONMESHGROUP_H
 #define CCOLLISIONMESHGROUP_H
 
-#include "CResource.h"
 #include "CCollisionMesh.h"
-#include "TResPtr.h"
+#include "Core/Resource/CResource.h"
+#include "Core/Resource/TResPtr.h"
+#include <Common/Math/CTransform4f.h>
 #include <vector>
 
 class CCollisionMeshGroup : public CResource
@@ -24,16 +25,22 @@ public:
     inline CCollisionMesh* MeshByIndex(uint32 Index) const  { return mMeshes[Index]; }
     inline void AddMesh(CCollisionMesh *pMesh)              { mMeshes.push_back(pMesh); }
 
+    inline void BuildRenderData()
+    {
+        for (auto It = mMeshes.begin(); It != mMeshes.end(); It++)
+            (*It)->BuildRenderData();
+    }
+
     inline void Draw()
     {
         for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
-            (*it)->Draw();
+            (*it)->GetRenderData().Render(false);
     }
 
     inline void DrawWireframe()
     {
         for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
-            (*it)->DrawWireframe();
+            (*it)->GetRenderData().Render(true);
     }
 };
 

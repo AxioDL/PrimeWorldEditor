@@ -19,8 +19,6 @@ CGameArea::~CGameArea()
 {
     ClearTerrain();
 
-    delete mpCollision;
-
     for (uint32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
         delete mScriptLayers[iSCLY];
 

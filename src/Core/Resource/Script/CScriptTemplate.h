@@ -4,7 +4,7 @@
 #include "Core/Resource/Script/Property/Properties.h"
 #include "EVolumeShape.h"
 #include "Core/Resource/Model/CModel.h"
-#include "Core/Resource/CCollisionMeshGroup.h"
+#include "Core/Resource/Collision/CCollisionMeshGroup.h"
 #include <Common/BasicTypes.h>
 #include <Common/CFourCC.h>
 #include <list>

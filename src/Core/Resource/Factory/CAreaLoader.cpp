@@ -620,7 +620,8 @@ void CAreaLoader::LoadSectionDataBuffers()
 void CAreaLoader::ReadCollision()
 {
     mpSectionMgr->ToSection(mCollisionBlockNum);
-    mpArea->mpCollision = CCollisionLoader::LoadAreaCollision(*mpMREA);
+    CCollisionMeshGroup* pAreaCollision = CCollisionLoader::LoadAreaCollision(*mpMREA);
+    mpArea->mpCollision = std::unique_ptr<CCollisionMeshGroup>(pAreaCollision);
 }
 
 void CAreaLoader::ReadPATH()

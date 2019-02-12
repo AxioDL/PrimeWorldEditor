@@ -3,8 +3,8 @@
 
 #include "CScriptTemplate.h"
 #include "Core/Resource/Area/CGameArea.h"
+#include "Core/Resource/Collision/CCollisionMeshGroup.h"
 #include "Core/Resource/Model/CModel.h"
-#include "Core/Resource/CCollisionMeshGroup.h"
 #include "Core/Resource/Script/Property/Properties.h"
 
 class CScriptLayer;

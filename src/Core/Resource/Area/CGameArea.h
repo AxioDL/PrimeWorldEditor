@@ -2,10 +2,10 @@
 #define CGAMEAREA_H
 
 #include "Core/Resource/CResource.h"
-#include "Core/Resource/CCollisionMeshGroup.h"
 #include "Core/Resource/CLight.h"
 #include "Core/Resource/CMaterialSet.h"
 #include "Core/Resource/CPoiToWorld.h"
+#include "Core/Resource/Collision/CCollisionMeshGroup.h"
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/Model/CStaticModel.h"
 #include <Common/BasicTypes.h>
@@ -51,7 +51,7 @@ class CGameArea : public CResource
     std::vector<CScriptLayer*> mScriptLayers;
     std::unordered_map<uint32, CScriptObject*> mObjectMap;
     // Collision
-    CCollisionMeshGroup *mpCollision;
+    std::unique_ptr<CCollisionMeshGroup> mpCollision;
     // Lights
     std::vector<std::vector<CLight*>> mLightLayers;
     // Path Mesh
@@ -93,7 +93,7 @@ public:
     inline uint32 NumStaticModels() const                               { return mStaticWorldModels.size(); }
     inline CModel* TerrainModel(uint32 iMdl) const                      { return mWorldModels[iMdl]; }
     inline CStaticModel* StaticModel(uint32 iMdl) const                 { return mStaticWorldModels[iMdl]; }
-    inline CCollisionMeshGroup* Collision() const                       { return mpCollision; }
+    inline CCollisionMeshGroup* Collision() const                       { return mpCollision.get(); }
     inline uint32 NumScriptLayers() const                               { return mScriptLayers.size(); }
     inline CScriptLayer* ScriptLayer(uint32 Index) const                { return mScriptLayers[Index]; }
     inline uint32 NumLightLayers() const                                { return mLightLayers.size(); }

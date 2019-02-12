@@ -3,12 +3,15 @@
 #include "CBasicViewport.h"
 #include "CProgressDialog.h"
 #include "CProjectSettingsDialog.h"
+
 #include "Editor/CharacterEditor/CCharacterEditor.h"
+#include "Editor/CollisionEditor/CCollisionEditor.h"
 #include "Editor/ModelEditor/CModelEditorWindow.h"
 #include "Editor/ScanEditor/CScanEditor.h"
 #include "Editor/StringEditor/CStringEditor.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include "Editor/WorldEditor/CWorldEditor.h"
+
 #include <Common/Macros.h>
 #include <Common/CTimer.h>
 #include <Core/GameProject/CGameProject.h>
@@ -173,6 +176,12 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
             CTweakEditor* pTweakEditor = mpWorldEditor->TweakEditor();
             pTweakEditor->SetActiveTweakData( (CTweakData*) pRes );
             pEd = pTweakEditor;
+            break;
+        }
+
+        case EResourceType::DynamicCollision:
+        {
+            pEd = new CCollisionEditor((CCollisionMeshGroup*) pRes, mpWorldEditor);
             break;
         }
 

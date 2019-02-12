@@ -2,7 +2,7 @@
 #define CCOLLISIONNODE_H
 
 #include "CSceneNode.h"
-#include "Core/Resource/CCollisionMeshGroup.h"
+#include "Core/Resource/Collision/CCollisionMeshGroup.h"
 
 class CCollisionNode : public CSceneNode
 {

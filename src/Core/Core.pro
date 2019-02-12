@@ -110,8 +110,8 @@ HEADERS += \
     Resource/Script/CScriptTemplate.h \
     Resource/Script/EVolumeShape.h \
     Resource/StringTable/CStringTable.h \
-    Resource/CCollisionMesh.h \
-    Resource/CCollisionMeshGroup.h \
+    Resource/Collision/CCollisionMesh.h \
+    Resource/Collision/CCollisionMeshGroup.h \
     Resource/CFont.h \
     Resource/CLight.h \
     Resource/CMaterial.h \
@@ -174,7 +174,7 @@ HEADERS += \
     Render/EDepthGroup.h \
     Scene/CScriptAttachNode.h \
     ScriptExtra/CSandwormExtra.h \
-    Resource/CCollisionMaterial.h \
+    Resource/Collision/CCollisionMaterial.h \
     GameProject/CGameProject.h \
     GameProject/CPackage.h \
     GameProject/CGameExporter.h \
@@ -256,7 +256,11 @@ HEADERS += \
     Resource/Scan/SScanParametersMP1.h \
     Resource/Scan/ELogbookCategory.h \
     Resource/Cooker/CScanCooker.h \
-    NCoreTests.h
+    NCoreTests.h \
+    Resource/Collision/SCollisionIndexData.h \
+    Resource/Collision/CCollisionRenderData.h \
+    Resource/Collision/SOBBTreeNode.h \
+    Resource/Collision/CCollidableOBBTree.h
 
 # Source Files
 SOURCES += \
@@ -287,7 +291,7 @@ SOURCES += \
     Resource/Model/SSurface.cpp \
     Resource/Script/CScriptObject.cpp \
     Resource/Script/CScriptTemplate.cpp \
-    Resource/CCollisionMesh.cpp \
+    Resource/Collision/CCollisionMesh.cpp \
     Resource/CFont.cpp \
     Resource/CLight.cpp \
     Resource/CMaterial.cpp \
@@ -333,7 +337,7 @@ SOURCES += \
     Resource/Model/EVertexAttribute.cpp \
     Scene/CScriptAttachNode.cpp \
     ScriptExtra/CSandwormExtra.cpp \
-    Resource/CCollisionMaterial.cpp \
+    Resource/Collision/CCollisionMaterial.cpp \
     GameProject/CGameProject.cpp \
     GameProject/CGameExporter.cpp \
     GameProject/CResourceStore.cpp \
@@ -375,7 +379,8 @@ SOURCES += \
     Resource/Cooker/CStringCooker.cpp \
     Resource/Scan/CScan.cpp \
     Resource/Cooker/CScanCooker.cpp \
-    NCoreTests.cpp
+    NCoreTests.cpp \
+    Resource/Collision/CCollisionRenderData.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen
