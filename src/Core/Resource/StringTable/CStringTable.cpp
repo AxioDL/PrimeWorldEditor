@@ -96,12 +96,13 @@ TString CStringTable::GetString(ELanguage Language, uint StringIndex) const
 void CStringTable::SetString(ELanguage Language, uint StringIndex, const TString& kNewString)
 {
     int LanguageIdx = FindLanguageIndex(this, Language);
+    int EnglishIdx = FindLanguageIndex(this, ELanguage::English);
 
     if (LanguageIdx >= 0 && mLanguages[LanguageIdx].Strings.size() > StringIndex)
     {
         mLanguages[LanguageIdx].Strings[StringIndex].String = kNewString;
         mLanguages[LanguageIdx].Strings[StringIndex].IsLocalized =
-            (LanguageIdx == 0 || kNewString != mLanguages[0].Strings[StringIndex].String);
+            (LanguageIdx == EnglishIdx || kNewString != mLanguages[EnglishIdx].Strings[StringIndex].String);
     }
 }
 

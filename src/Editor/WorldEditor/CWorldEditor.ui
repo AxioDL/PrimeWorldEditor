@@ -568,6 +568,9 @@
    </property>
   </action>
   <action name="ActionEditLayers">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Edit Layers</string>
    </property>

@@ -38,6 +38,7 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
     // Language definitions
     mpStringTable->mLanguages.resize(NumLanguages);
     std::vector<uint> LanguageOffsets(NumLanguages);
+    int EnglishIdx = -1;
 
     for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
     {
@@ -49,10 +50,13 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
         {
             STRG.Skip(4);
         }
-    }
 
-    // Some of the following code assumes that language 0 is English
-    ASSERT( mpStringTable->mLanguages[0].Language == ELanguage::English );
+        if (mpStringTable->mLanguages[LanguageIdx].Language == ELanguage::English)
+        {
+            EnglishIdx = (int) LanguageIdx;
+        }
+    }
+    ASSERT(EnglishIdx != -1);
 
     // String names
     if (mVersion >= EGame::EchoesDemo)
@@ -89,16 +93,24 @@ void CStringLoader::LoadPrimeSTRG(IInputStream& STRG)
         {
             STRG.GoTo( StringOffsets[StringIdx] );
             TString String = STRG.Read16String().ToUTF8();
+            Language.Strings[StringIdx].String = String;
+        }
+    }
 
+    // Set "localized" flags on strings
+    const CStringTable::SLanguageData& kEnglishData = mpStringTable->mLanguages[EnglishIdx];
+
+    for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
+    {
+        CStringTable::SLanguageData& LanguageData = mpStringTable->mLanguages[LanguageIdx];
+
+        for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
+        {
             // Flag the string as localized if it is different than the English
             // version of the same string.
-            const TString& kEnglishString = (StringIdx == 0 ? String :
-                mpStringTable->mLanguages[0].Strings[StringIdx].String);
-
-            bool IsLocalized = (LanguageIdx == 0 || String != kEnglishString);
-
-            Language.Strings[StringIdx].String = String;
-            Language.Strings[StringIdx].IsLocalized = IsLocalized;
+            const TString& kLocalString = LanguageData.Strings[StringIdx].String;
+            const TString& kEnglishString = kEnglishData.Strings[StringIdx].String;
+            LanguageData.Strings[StringIdx].IsLocalized = (LanguageIdx == EnglishIdx || kLocalString != kEnglishString);
         }
     }
 }
@@ -116,11 +128,18 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
     // Language definitions
     mpStringTable->mLanguages.resize(NumLanguages);
     std::vector< std::vector<uint> > LanguageOffsets(NumLanguages);
+    int EnglishIdx = -1;
 
     for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
     {
         mpStringTable->mLanguages[LanguageIdx].Language = (ELanguage) STRG.ReadFourCC();
+
+        if (mpStringTable->mLanguages[LanguageIdx].Language == ELanguage::English)
+        {
+            EnglishIdx = (int) LanguageIdx;
+        }
     }
+    ASSERT(EnglishIdx != -1);
 
     for (uint LanguageIdx = 0; LanguageIdx < NumLanguages; LanguageIdx++)
     {
@@ -132,9 +151,6 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
             LanguageOffsets[LanguageIdx][StringIdx] = STRG.ReadLong();
         }
     }
-
-    // Some of the following code assumes that language 0 is English
-    ASSERT( mpStringTable->mLanguages[0].Language == ELanguage::English );
 
     // Strings
     uint StringsStart = STRG.Tell();
@@ -151,8 +167,8 @@ void CStringLoader::LoadCorruptionSTRG(IInputStream& STRG)
             Language.Strings[StringIdx].String = STRG.ReadString();
 
             // Flag the string as localized if it has a different offset than the English string
-            Language.Strings[StringIdx].IsLocalized = (LanguageIdx == 0 ||
-                LanguageOffsets[LanguageIdx][StringIdx] != LanguageOffsets[0][StringIdx]);
+            Language.Strings[StringIdx].IsLocalized = (LanguageIdx == EnglishIdx ||
+                LanguageOffsets[LanguageIdx][StringIdx] != LanguageOffsets[EnglishIdx][StringIdx]);
         }
     }
 }

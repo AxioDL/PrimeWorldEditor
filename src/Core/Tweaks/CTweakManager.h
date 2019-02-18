@@ -12,6 +12,9 @@ class CTweakManager
     /** All tweak resources in the current game */
     std::vector< CTweakData* > mTweakObjects;
 
+    /** For MP2+, the path to Standard.ntwk */
+    TString mStandardFilePath;
+
 public:
     CTweakManager(CGameProject* pInProject);
     ~CTweakManager();

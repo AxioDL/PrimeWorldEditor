@@ -19,7 +19,9 @@ void CCollisionRenderData::BuildRenderData(const SCollisionIndexData& kIndexData
     mWireframeIndexBuffer.SetPrimitiveType(GL_LINES);
 
     // Build list of triangle indices sorted by material index
-    std::vector<uint16> SortedTris(kIndexData.TriangleMaterialIndices.size(), 0);
+    // Apparently some collision meshes have more triangle indices than actual triangles
+    uint NumTris = Math::Min(kIndexData.TriangleIndices.size() / 3, kIndexData.TriangleMaterialIndices.size());
+    std::vector<uint16> SortedTris(NumTris, 0);
 
     for (uint16 i=0; i<SortedTris.size(); i++)
     {

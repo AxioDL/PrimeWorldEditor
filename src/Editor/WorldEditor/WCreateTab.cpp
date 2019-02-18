@@ -31,12 +31,15 @@ bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
     {
         if (pEvent->type() == QEvent::DragEnter)
         {
-            QDragEnterEvent *pDragEvent = static_cast<QDragEnterEvent*>(pEvent);
-
-            if (qobject_cast<const CTemplateMimeData*>(pDragEvent->mimeData()))
+            if (mpEditor->ActiveArea() != nullptr)
             {
-                pDragEvent->acceptProposedAction();
-                return true;
+                QDragEnterEvent *pDragEvent = static_cast<QDragEnterEvent*>(pEvent);
+
+                if (qobject_cast<const CTemplateMimeData*>(pDragEvent->mimeData()))
+                {
+                    pDragEvent->acceptProposedAction();
+                    return true;
+                }
             }
         }
 

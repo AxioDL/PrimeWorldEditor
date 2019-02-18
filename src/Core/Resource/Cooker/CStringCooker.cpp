@@ -156,6 +156,7 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
         uint TotalSize;
     };
     std::vector<SCookedLanguageData> CookedLanguageData( mpStringTable->NumLanguages() );
+    int EnglishIdx = -1;
 
     for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
@@ -165,6 +166,11 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
         CookedData.Language = kLanguageData.Language;
         CookedData.StringOffsets.resize( mpStringTable->NumStrings() );
         CookedData.TotalSize = 0;
+
+        if (CookedData.Language == ELanguage::English)
+        {
+            EnglishIdx = (int) LanguageIdx;
+        }
     }
 
     // Language IDs
@@ -185,9 +191,6 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
             STRG.WriteLong( 0 );
     }
 
-    // Some of the following code assumes that language 0 is English.
-    ASSERT( mpStringTable->mLanguages[0].Language == ELanguage::English );
-
     // Strings
     uint StringsStart = STRG.Tell();
 
@@ -201,7 +204,7 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
 
             // If the "localized" flag is disabled, then we will not write this string. Instead, it will
             // reuse the offset for the English text.
-            if (LanguageIdx == 0 || kStringData.IsLocalized)
+            if (LanguageIdx == EnglishIdx || kStringData.IsLocalized)
             {
                 CookedData.StringOffsets[StringIdx] = STRG.Tell() - StringsStart;
                 CookedData.TotalSize += kStringData.String.Size() + 1; // +1 for terminating zero
@@ -210,8 +213,8 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
             }
             else
             {
-                CookedData.StringOffsets[StringIdx] = CookedLanguageData[0].StringOffsets[StringIdx];
-                CookedData.TotalSize += mpStringTable->mLanguages[0].Strings[StringIdx].String.Size() + 1; // +1 for terminating zero
+                CookedData.StringOffsets[StringIdx] = CookedLanguageData[EnglishIdx].StringOffsets[StringIdx];
+                CookedData.TotalSize += mpStringTable->mLanguages[EnglishIdx].Strings[StringIdx].String.Size() + 1; // +1 for terminating zero
             }
         }
     }

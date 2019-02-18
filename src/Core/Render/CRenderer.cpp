@@ -29,6 +29,7 @@ CRenderer::CRenderer()
 CRenderer::~CRenderer()
 {
     sNumRenderers--;
+    CGraphics::ReleaseContext(mContextIndex);
 
     if (sNumRenderers == 0)
     {

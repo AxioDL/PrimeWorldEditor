@@ -34,6 +34,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     , mpInspectedEntry(nullptr)
 {
     mpUI->setupUi(this);
+    setEnabled(false);
 
     // Hide sorting combo box for now. The size isn't displayed on the UI so this isn't really useful for the end user.
     mpUI->SortComboBox->hide();
@@ -896,6 +897,7 @@ void CResourceBrowser::UpdateStore()
         // Refresh project-specific UI
         CreateAddMenu();
         CreateFilterCheckboxes();
+        setEnabled(mpStore != nullptr);
 
         // Refresh directory tree
         mpDirectoryModel->SetRoot(mpStore ? mpStore->RootDirectory() : nullptr);

@@ -229,6 +229,7 @@ bool CWorldEditor::CloseWorld()
 
         ui->ActionSave->setEnabled(false);
         ui->ActionSaveAndRepack->setEnabled(false);
+        ui->ActionEditLayers->setEnabled(false);
         emit MapChanged(mpWorld, mpArea);
         return true;
     }
@@ -287,6 +288,7 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     // Update toolbar actions
     ui->ActionSave->setEnabled(true);
     ui->ActionSaveAndRepack->setEnabled(true);
+    ui->ActionEditLayers->setEnabled(true);
 
     // Emit signals
     emit MapChanged(mpWorld, mpArea);

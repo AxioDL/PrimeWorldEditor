@@ -7927,7 +7927,7 @@
         </Element>
         <Element>
             <Key ID="0x2BD13AB3" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="PakFile"/>
         </Element>
         <Element>
             <Key ID="0x2BD1C15B" Type="float"/>
@@ -13562,10 +13562,6 @@
             <Value Name="Data"/>
         </Element>
         <Element>
-            <Key ID="0x4A1E493B" Type="UnknownStruct25"/>
-            <Value Name="Data"/>
-        </Element>
-        <Element>
             <Key ID="0x4A1E8961" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -14914,10 +14910,6 @@
             <Value Name="Data"/>
         </Element>
         <Element>
-            <Key ID="0x5105FA2D" Type="UnknownStruct18"/>
-            <Value Name="Data"/>
-        </Element>
-        <Element>
             <Key ID="0x5106FEB9" Type="bool"/>
             <Value Name="Unknown"/>
         </Element>
@@ -16003,7 +15995,7 @@
         </Element>
         <Element>
             <Key ID="0x56E3CEEF" Type="float"/>
-            <Value Name="Fade Length"/>
+            <Value Name="Fadetime"/>
         </Element>
         <Element>
             <Key ID="0x56EB17BB" Type="GenericCreatureStructE"/>
@@ -32866,10 +32858,6 @@
             <Value Name="Tentacle"/>
         </Element>
         <Element>
-            <Key ID="0xB3C6398F" Type="UnknownStruct19"/>
-            <Value Name="Tentacle"/>
-        </Element>
-        <Element>
             <Key ID="0xB3DABF84" Type="DamageInfo"/>
             <Value Name="HyperDamage"/>
         </Element>
@@ -36643,7 +36631,7 @@
         </Element>
         <Element>
             <Key ID="0xC80FC827" Type="float"/>
-            <Value Name="Time"/>
+            <Value Name="PickupEffectLifetime"/>
         </Element>
         <Element>
             <Key ID="0xC81690CB" Type="string"/>

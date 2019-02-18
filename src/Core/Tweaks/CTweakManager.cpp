@@ -32,14 +32,42 @@ void CTweakManager::LoadTweaks()
     // MP2+ - Load tweaks from Standard.ntwk
     else
     {
-        TString FilePath = mpProject->DiscFilesystemRoot(false) + "Standard.ntwk";
-        CFileInStream StandardNTWK(FilePath, EEndian::BigEndian);
-        CTweakLoader::LoadNTWK(StandardNTWK, mpProject->Game(), mTweakObjects);
+        if (!mpProject->IsWiiBuild())
+        {
+            mStandardFilePath = mpProject->DiscFilesystemRoot(false) / "Standard.ntwk";
+        }
+        else
+        {
+            // For Wii builds, there is another game-dependent subfolder.
+            EGame Game = mpProject->Game();
+            TString GameName = (Game == EGame::Prime  ? "MP1" :
+                                Game == EGame::Echoes ? "MP2" :
+                                                        "MP3");
+            mStandardFilePath = mpProject->DiscFilesystemRoot(false) / GameName / "Standard.ntwk";
+
+            // MP3 might actually be FrontEnd
+            if (Game == EGame::Corruption && !FileUtil::Exists(mStandardFilePath))
+            {
+                mStandardFilePath = mpProject->DiscFilesystemRoot(false) / "fe/Standard.ntwk";
+            }
+        }
+
+        if (FileUtil::Exists(mStandardFilePath))
+        {
+            CFileInStream StandardNTWK(mStandardFilePath, EEndian::BigEndian);
+            CTweakLoader::LoadNTWK(StandardNTWK, mpProject->Game(), mTweakObjects);
+        }
     }
 }
 
 bool CTweakManager::SaveTweaks()
 {
+    // If we don't have any tweaks loaded, nothing to do
+    if (mTweakObjects.empty())
+    {
+        return false;
+    }
+
     // MP1 - Save all tweak assets
     if (mpProject->Game() <= EGame::Prime)
     {
@@ -67,8 +95,7 @@ bool CTweakManager::SaveTweaks()
     // MP2+ - Save tweaks to Standard.ntwk
     else
     {
-        TString FilePath = mpProject->DiscFilesystemRoot(false) + "Standard.ntwk";
-        CFileOutStream StandardNTWK(FilePath, EEndian::BigEndian);
+        CFileOutStream StandardNTWK(mStandardFilePath, EEndian::BigEndian);
         return CTweakCooker::CookNTWK(mTweakObjects, StandardNTWK);
     }
 }
