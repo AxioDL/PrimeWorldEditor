@@ -128,5 +128,14 @@ void CCollisionNode::SetCollision(CCollisionMeshGroup *pCollision)
     if (mpCollision)
     {
         mpCollision->BuildRenderData();
+
+        // Update bounds
+        mLocalAABox = CAABox::skInfinite;
+
+        for (uint MeshIdx = 0; MeshIdx < pCollision->NumMeshes(); MeshIdx++)
+        {
+            CCollisionMesh* pMesh = pCollision->MeshByIndex(MeshIdx);
+            mLocalAABox.ExpandBounds(pMesh->Bounds());
+        }
     }
 }

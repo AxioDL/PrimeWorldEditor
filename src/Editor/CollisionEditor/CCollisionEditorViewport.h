@@ -14,17 +14,24 @@ class CCollisionEditorViewport : public CBasicViewport
     std::unique_ptr<CRenderer>  mpRenderer;
     CCollisionNode*             mpCollisionNode;
     CGridRenderable             mGrid;
+    bool                        mGridEnabled;
 
 public:
     /** Constructor */
     CCollisionEditorViewport(QWidget* pParent = 0);
 
-    /** Update the collision node to render in the scene */
-    void SetNode(CCollisionNode* pNode);
-
     /** CBasicViewport interface */
     virtual void Paint() override;
     virtual void OnResize() override;
+
+    /** Accessors */
+    inline void SetNode(CCollisionNode* pNode)      { mpCollisionNode = pNode; }
+    inline void SetGridEnabled(bool Enabled)        { mGridEnabled = Enabled; }
+    inline void SetOBBTreeDepth(int Depth)
+    {
+        mViewInfo.CollisionSettings.DrawBoundingHierarchy = (Depth > 0);
+        mViewInfo.CollisionSettings.BoundingHierarchyRenderDepth = Depth;
+    }
 };
 
 #endif // CCOLLISIONEDITORVIEWPORT_H

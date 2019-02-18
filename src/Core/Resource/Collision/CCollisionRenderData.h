@@ -49,10 +49,10 @@ public:
     /** Render */
     void Render(bool Wireframe, int MaterialIndex = -1);
     void RenderBoundingHierarchy(int MaxDepthLevel = -1);
+    int MaxBoundingHierarchyDepth() const;
 
     /** Accessors */
     inline bool IsBuilt() const                     { return mBuilt; }
-    inline int MaxBoundingHierarchyDepth() const    { return mBoundingHierarchyBuilt ? mBoundingDepthOffsets.size() - 1 : 0; }
 };
 
 #endif // CCOLLISIONRENDERDATA_H

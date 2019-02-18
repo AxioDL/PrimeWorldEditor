@@ -29,6 +29,11 @@ public:
     /** Constructor/destructor */
     explicit CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget* pParent = 0);
     virtual CCollisionEditorViewport* Viewport() const override;
+
+public slots:
+    void OnGridToggled(bool Enabled);
+    void OnOrbitToggled(bool Enabled);
+    void OnOBBTreeDepthChanged(int NewValue);
 };
 
 #endif // CCOLLISIONEDITOR_H

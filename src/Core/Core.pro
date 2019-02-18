@@ -380,7 +380,8 @@ SOURCES += \
     Resource/Scan/CScan.cpp \
     Resource/Cooker/CScanCooker.cpp \
     NCoreTests.cpp \
-    Resource/Collision/CCollisionRenderData.cpp
+    Resource/Collision/CCollisionRenderData.cpp \
+    Resource/Collision/CCollidableOBBTree.cpp
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

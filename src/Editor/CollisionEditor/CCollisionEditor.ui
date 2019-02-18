@@ -20,7 +20,64 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="ToolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>32</width>
+     <height>32</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="ActionToggleGrid"/>
+   <addaction name="ActionToggleOrbit"/>
+  </widget>
+  <action name="ActionToggleGrid">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/Grid_32px.png</normaloff>:/icons/Grid_32px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle Grid</string>
+   </property>
+   <property name="shortcut">
+    <string>G</string>
+   </property>
+  </action>
+  <action name="ActionToggleOrbit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Icons.qrc">
+     <normaloff>:/icons/OrbitCamera_32px.png</normaloff>:/icons/OrbitCamera_32px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Toggle Orbit</string>
+   </property>
+   <property name="toolTip">
+    <string>Toggle Orbit</string>
+   </property>
+   <property name="shortcut">
+    <string>Z</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -30,6 +87,8 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../Icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

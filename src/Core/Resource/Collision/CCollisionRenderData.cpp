@@ -134,7 +134,7 @@ void CCollisionRenderData::BuildBoundingHierarchyRenderData(const SOBBTreeNode* 
     mBoundingIndexBuffer.SetPrimitiveType(GL_LINES);
 
     // Iterate through the OBB tree, building a list of nodes as we go.
-    // We iterate through this using a breadth-first search in order to group together
+    // We iterate through this using a breadth-first traversal in order to group together
     // OBBs in the same depth level in the index buffer. This allows us to render a
     // subset of the bounding hierarchy based on a max depth level.
     std::vector<const SOBBTreeNode*> TreeNodes;
@@ -199,7 +199,7 @@ void CCollisionRenderData::BuildBoundingHierarchyRenderData(const SOBBTreeNode* 
                 2, 6,
                 3, 7
             };
-            uint FirstIndex = mBoundingIndexBuffer.GetSize();
+            uint FirstIndex = mBoundingVertexBuffer.Size() - 8;
             for (uint i=0; i<24; i++)
             {
                 mBoundingIndexBuffer.AddIndex(skUnitCubeWireIndices[i] + FirstIndex);
@@ -260,4 +260,9 @@ void CCollisionRenderData::RenderBoundingHierarchy(int MaxDepthLevel /*= -1*/)
     uint NumIndices = LastIndex - FirstIndex;
     mBoundingIndexBuffer.DrawElements(FirstIndex, NumIndices);
     mBoundingVertexBuffer.Unbind();
+}
+
+int CCollisionRenderData::MaxBoundingHierarchyDepth() const
+{
+    return mBoundingHierarchyBuilt ? mBoundingDepthOffsets.size()-1 : 0;
 }

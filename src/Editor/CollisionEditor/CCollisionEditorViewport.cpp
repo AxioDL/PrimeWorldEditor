@@ -3,6 +3,7 @@
 /** Constructor */
 CCollisionEditorViewport::CCollisionEditorViewport(QWidget* pParent /*= 0*/)
     : CBasicViewport(pParent)
+    , mGridEnabled(true)
 {
     mpRenderer = std::make_unique<CRenderer>();
     mpRenderer->SetViewportSize(width(), height());
@@ -13,13 +14,8 @@ CCollisionEditorViewport::CCollisionEditorViewport(QWidget* pParent /*= 0*/)
     mViewInfo.pRenderer = mpRenderer.get();
     mViewInfo.pScene = nullptr;
     mViewInfo.GameMode = false;
-    mViewInfo.CollisionSettings.DrawBoundingHierarchy = true;
-}
-
-/** Update the collision node to render in the scene */
-void CCollisionEditorViewport::SetNode(CCollisionNode* pNode)
-{
-    mpCollisionNode = pNode;
+    mViewInfo.CollisionSettings.DrawBoundingHierarchy = false;
+    mViewInfo.CollisionSettings.BoundingHierarchyRenderDepth = 0;
 }
 
 /** CBasicViewport interface */
@@ -27,7 +23,7 @@ void CCollisionEditorViewport::Paint()
 {
     mpRenderer->BeginFrame();
     mCamera.LoadMatrices();
-    //mGrid.AddToRenderer(mpRenderer.get(), mViewInfo);
+    if (mGridEnabled) mGrid.AddToRenderer(mpRenderer.get(), mViewInfo);
 
     if (mpCollisionNode)
     {
