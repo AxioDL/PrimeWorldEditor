@@ -3,6 +3,7 @@
 #include "CBasicViewport.h"
 #include "CProgressDialog.h"
 #include "CProjectSettingsDialog.h"
+#include "NDolphinIntegration.h"
 
 #include "Editor/CharacterEditor/CCharacterEditor.h"
 #include "Editor/CollisionEditor/CCollisionEditor.h"
@@ -71,6 +72,9 @@ bool CEditorApplication::CloseProject()
 {
     if (mpActiveProject && CloseAllEditors())
     {
+        // Close any active quickplay sessions
+        NDolphinIntegration::KillQuickplay();
+
         // Emit before actually deleting the project to allow editor references to clean up
         CGameProject *pOldProj = mpActiveProject;
         mpActiveProject = nullptr;

@@ -8,6 +8,7 @@
 #include "CScriptEditSidebar.h"
 #include "CTweakEditor.h"
 #include "CWorldInfoSidebar.h"
+#include "NDolphinIntegration.h"
 #include "Editor/INodeEditor.h"
 #include "Editor/CGeneratePropertyNamesDialog.h"
 #include "Editor/CGizmo.h"
@@ -30,6 +31,7 @@
 #include <QList>
 #include <QMainWindow>
 #include <QTimer>
+#include <QToolButton>
 
 namespace Ui {
 class CWorldEditor;
@@ -63,6 +65,10 @@ class CWorldEditor : public INodeEditor
     CScriptObject* mpNewLinkSender;
     CScriptObject* mpNewLinkReceiver;
 
+    // Quickplay
+    QAction* mpQuickplayAction;
+    NDolphinIntegration::SQuickplayParameters mQuickplayParms;
+
     // Sidebars
     QVBoxLayout* mpRightSidebarLayout;
     CWorldEditorSidebar* mpCurSidebar;
@@ -81,6 +87,7 @@ public:
     bool SetArea(CWorld *pWorld, int AreaIndex);
     void ResetCamera();
     bool HasAnyScriptNodesSelected() const;
+    bool IsQuickplayEnabled() const;
 
     inline CWorld* ActiveWorld() const      { return mpWorld; }
     inline CGameArea* ActiveArea() const    { return mpArea; }
@@ -127,6 +134,9 @@ public slots:
     void UpdateSelectionUI();
     void UpdateCursor();
     void UpdateNewLinkLine();
+
+    void LaunchQuickplay();
+    void LaunchQuickplayFromLocation(CVector3f Location);
 
 protected:
     QAction* AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode);

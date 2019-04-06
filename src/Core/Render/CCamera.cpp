@@ -200,6 +200,14 @@ void CCamera::LoadMatrices() const
     CGraphics::UpdateMVPBlock();
 }
 
+CTransform4f CCamera::GetCameraTransform() const
+{
+    CTransform4f Out = CTransform4f::skIdentity;
+    Out.SetRotationFromAxes(mRightVector, mDirection, mUpVector);
+    Out.SetTranslation(mPosition);
+    return Out;
+}
+
 // ************ PRIVATE ************
 void CCamera::ValidatePitch()
 {

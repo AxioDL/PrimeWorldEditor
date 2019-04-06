@@ -3,6 +3,7 @@
 #include "CEditorApplication.h"
 #include "CExportGameDialog.h"
 #include "CProgressDialog.h"
+#include "NDolphinIntegration.h"
 #include "UICommon.h"
 #include "Editor/ResourceBrowser/CResourceBrowser.h"
 #include <Common/Macros.h>
@@ -184,6 +185,9 @@ void CProjectSettingsDialog::BuildISO()
 
         if (gpEdApp->CookAllDirtyPackages())
         {
+            // Make sure there will be no leftover quickplay files in the built ISO
+            NDolphinIntegration::CleanupQuickplayFiles(pProj);
+
             CProgressDialog Dialog("Building ISO", false, true, this);
             Dialog.DisallowCanceling();
             bool Success;

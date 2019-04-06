@@ -206,7 +206,8 @@ HEADERS += \
     Undo/ICreateDeleteResourceCommand.h \
     Undo/CSaveStoreCommand.h \
     CollisionEditor/CCollisionEditor.h \
-    CollisionEditor/CCollisionEditorViewport.h
+    CollisionEditor/CCollisionEditorViewport.h \
+    NDolphinIntegration.h
 
 # Source Files
 SOURCES += \
@@ -284,7 +285,8 @@ SOURCES += \
     CTweakEditor.cpp \
     ScanEditor/CScanEditor.cpp \
     CollisionEditor/CCollisionEditor.cpp \
-    CollisionEditor/CCollisionEditorViewport.cpp
+    CollisionEditor/CCollisionEditorViewport.cpp \
+    NDolphinIntegration.cpp
 
 # UI Files
 FORMS += \

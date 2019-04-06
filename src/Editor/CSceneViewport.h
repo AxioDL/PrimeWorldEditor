@@ -34,7 +34,10 @@ class CSceneViewport : public CBasicViewport
     QAction *mpHideHoverLayerAction;
     QAction *mpUnhideSeparator;
     QAction *mpUnhideAllAction;
+    QAction *mpPlayFromHereSeparator;
+    QAction *mpPlayFromHereAction;
     CSceneNode *mpMenuNode;
+    CVector3f mMenuPoint;
 
     QMenu *mpSelectConnectedMenu;
     QAction *mpSelectConnectedOutgoingAction;
@@ -97,6 +100,7 @@ protected slots:
     void OnHideType();
     void OnHideLayer();
     void OnUnhideAll();
+    void OnPlayFromHere();
     void OnContextMenuClose();
 };
 

@@ -204,11 +204,17 @@ void CSceneViewport::CreateContextMenu()
     mpUnhideAllAction = new QAction("Unhide all", this);
     connect(mpUnhideAllAction, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
 
+    mpPlayFromHereSeparator = new QAction(this);
+    mpPlayFromHereSeparator->setSeparator(true);
+
+    mpPlayFromHereAction = new QAction("Play from here");
+    connect(mpPlayFromHereAction, SIGNAL(triggered()), this, SLOT(OnPlayFromHere()));
+
     QList<QAction*> Actions;
     Actions << mpToggleSelectAction
             << mpHideSelectionSeparator << mpHideSelectionAction << mpHideUnselectedAction
             << mpHideHoverSeparator << mpHideHoverNodeAction << mpHideHoverTypeAction << mpHideHoverLayerAction
-            << mpUnhideSeparator << mpUnhideAllAction;
+            << mpUnhideSeparator << mpUnhideAllAction << mpPlayFromHereSeparator << mpPlayFromHereAction;
 
     mpContextMenu->addActions(Actions);
 
@@ -227,7 +233,6 @@ void CSceneViewport::CreateContextMenu()
     QList<QAction*> SelectConnectedActions;
     SelectConnectedActions << mpSelectConnectedOutgoingAction << mpSelectConnectedIncomingAction << mpSelectConnectedAllAction;
     mpSelectConnectedMenu->addActions(SelectConnectedActions);
-
     mpContextMenu->insertMenu(mpHideSelectionSeparator, mpSelectConnectedMenu);
 }
 
@@ -343,6 +348,9 @@ void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
     bool HasSelection = mpEditor->HasSelection();
     bool IsScriptNode = (mpHoverNode && mpHoverNode->NodeType() == ENodeType::Script);
 
+    CWorldEditor* pOwnerWorldEd = qobject_cast<CWorldEditor*>(mpEditor);
+    bool QuickplayEnabled = (pOwnerWorldEd && pOwnerWorldEd->IsQuickplayEnabled());
+
     mpToggleSelectAction->setVisible(HasHoverNode);
     mpSelectConnectedMenu->menuAction()->setVisible(IsScriptNode);
     mpHideSelectionSeparator->setVisible(HasHoverNode);
@@ -353,6 +361,8 @@ void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
     mpHideHoverTypeAction->setVisible(IsScriptNode);
     mpHideHoverLayerAction->setVisible(IsScriptNode);
     mpUnhideSeparator->setVisible(HasHoverNode);
+    mpPlayFromHereSeparator->setVisible(QuickplayEnabled);
+    mpPlayFromHereAction->setVisible(QuickplayEnabled);
 
     if (HasHoverNode)
     {
@@ -379,6 +389,7 @@ void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
 
     // Show menu
     mpMenuNode = mpHoverNode;
+    mMenuPoint = mHoverPoint;
     mpContextMenu->exec(pEvent->pos());
 }
 
@@ -498,6 +509,21 @@ void CSceneViewport::OnUnhideAll()
         }
 
         ++it;
+    }
+}
+
+void CSceneViewport::OnPlayFromHere()
+{
+    CWorldEditor* pOwnerWorldEd = qobject_cast<CWorldEditor*>(mpEditor);
+    ASSERT( pOwnerWorldEd != nullptr );
+
+    if (mpMenuNode)
+    {
+        pOwnerWorldEd->LaunchQuickplayFromLocation(mMenuPoint);
+    }
+    else
+    {
+        pOwnerWorldEd->LaunchQuickplay();
     }
 }
 

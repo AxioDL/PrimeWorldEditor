@@ -61,6 +61,7 @@ public:
     void ProcessMouseInput(FKeyInputs KeyFlags, FMouseInputs MouseFlags, float XMovement, float YMovement);
     CRay CastRay(CVector2f DeviceCoords) const;
     void LoadMatrices() const;
+    CTransform4f GetCameraTransform() const;
 
     void SetMoveMode(ECameraMoveMode Mode);
     void SetOrbit(const CVector3f& rkOrbitTarget, float Distance);
