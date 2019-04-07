@@ -519,7 +519,7 @@ void CSceneViewport::OnPlayFromHere()
 
     if (mpMenuNode)
     {
-        pOwnerWorldEd->LaunchQuickplayFromLocation(mMenuPoint);
+        pOwnerWorldEd->LaunchQuickplayFromLocation(mMenuPoint, true);
     }
     else
     {

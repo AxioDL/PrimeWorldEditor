@@ -13,9 +13,6 @@
 // are mirrored in PWEQuickplayPatch and are used by the game.
 // If you modify one, make sure you modify the other.
 
-namespace NDolphinIntegration
-{
-
 /** Return value for LaunchQuickplay */
 enum class EQuickplayLaunchResult
 {
@@ -33,6 +30,9 @@ enum class EQuickplayFeature
     JumpToArea              = 0x00000001,
     /** Spawn the player in the location specified by SpawnTransform */
     SetSpawnPosition        = 0x00000002,
+
+    /** Flags enabled by default */
+    DefaultFeatures         = JumpToArea | SetSpawnPosition
 };
 DECLARE_FLAGS_ENUMCLASS(EQuickplayFeature, FQuickplayFeatures)
 
@@ -71,17 +71,19 @@ struct SQuickplayParameters
     }
 };
 
-/** Minimal relay class that detects when the active quickplay session is closed */
+namespace NDolphinIntegration
+{
+
+/** Minimal relay class for internal use that detects when the active quickplay session is closed */
 class CQuickplayRelay : public QObject
 {
     Q_OBJECT
 
 public:
     CQuickplayRelay() {}
-    void TrackProcess(QProcess* pProcess);
-
 public slots:
-    void OnQuickplayFinished(int ReturnCode);
+    void QuickplayStarted();
+    void QuickplayFinished(int ReturnCode);
 };
 
 /** Attempt to launch quickplay based on the current editor state. */
@@ -102,6 +104,13 @@ void CleanupQuickplayFiles(CGameProject* pProject);
 bool SetDolphinPath(QWidget* pParentWidget,
                     const QString& kDolphinPath,
                     bool bSilent = false);
+
+/** Retrieves the user path to Dolphin. */
+QString GetDolphinPath();
+
+/** Saves/retrieves the given quickplay settings to/from QSettings. */
+void SaveQuickplayParameters(const SQuickplayParameters& kParms);
+void LoadQuickplayParameters(SQuickplayParameters& Parms);
 
 }
 

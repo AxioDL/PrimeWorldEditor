@@ -207,7 +207,8 @@ HEADERS += \
     Undo/CSaveStoreCommand.h \
     CollisionEditor/CCollisionEditor.h \
     CollisionEditor/CCollisionEditorViewport.h \
-    NDolphinIntegration.h
+    NDolphinIntegration.h \
+    CQuickplayPropertyEditor.h
 
 # Source Files
 SOURCES += \
@@ -286,7 +287,8 @@ SOURCES += \
     ScanEditor/CScanEditor.cpp \
     CollisionEditor/CCollisionEditor.cpp \
     CollisionEditor/CCollisionEditorViewport.cpp \
-    NDolphinIntegration.cpp
+    NDolphinIntegration.cpp \
+    CQuickplayPropertyEditor.cpp
 
 # UI Files
 FORMS += \
@@ -315,7 +317,8 @@ FORMS += \
     StringEditor/CStringEditor.ui \
     CTweakEditor.ui \
     ScanEditor/CScanEditor.ui \
-    CollisionEditor/CCollisionEditor.ui
+    CollisionEditor/CCollisionEditor.ui \
+    CQuickplayPropertyEditor.ui
 
 # Codegen
 CODEGEN_DIR = $$EXTERNALS_DIR/CodeGen

@@ -67,7 +67,7 @@ class CWorldEditor : public INodeEditor
 
     // Quickplay
     QAction* mpQuickplayAction;
-    NDolphinIntegration::SQuickplayParameters mQuickplayParms;
+    SQuickplayParameters mQuickplayParms;
 
     // Sidebars
     QVBoxLayout* mpRightSidebarLayout;
@@ -136,7 +136,7 @@ public slots:
     void UpdateNewLinkLine();
 
     void LaunchQuickplay();
-    void LaunchQuickplayFromLocation(CVector3f Location);
+    void LaunchQuickplayFromLocation(CVector3f Location, bool ForceAsSpawnPosition);
 
 protected:
     QAction* AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode);

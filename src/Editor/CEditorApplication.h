@@ -43,6 +43,7 @@ public:
     bool CookPackage(CPackage *pPackage);
     bool CookAllDirtyPackages();
     bool CookPackageList(QList<CPackage*> PackageList);
+    bool HasAnyDirtyPackages();
 
     bool RebuildResourceDatabase();
 

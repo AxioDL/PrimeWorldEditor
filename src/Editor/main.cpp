@@ -1,5 +1,6 @@
 #include "CEditorApplication.h"
 #include "CUIRelay.h"
+#include "NDolphinIntegration.h"
 #include "UICommon.h"
 #include <Common/Log.h>
 
@@ -75,6 +76,7 @@ public:
     /** Clean up any resources at the end of application execution */
     ~CMain()
     {
+        NDolphinIntegration::KillQuickplay();
         NGameList::Shutdown();
     }
 

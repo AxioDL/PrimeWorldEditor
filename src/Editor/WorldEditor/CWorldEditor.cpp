@@ -12,6 +12,7 @@
 #include "Editor/CExportGameDialog.h"
 #include "Editor/CNodeCopyMimeData.h"
 #include "Editor/CProjectSettingsDialog.h"
+#include "Editor/CQuickplayPropertyEditor.h"
 #include "Editor/CSelectionIterator.h"
 #include "Editor/UICommon.h"
 #include "Editor/PropertyEdit/CPropertyView.h"
@@ -122,6 +123,11 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     // Quickplay buttons
     QToolButton* pQuickplayButton = new QToolButton(this);
     pQuickplayButton->setIcon( QIcon(":/icons/Play_32px.png") );
+    pQuickplayButton->setPopupMode( QToolButton::MenuButtonPopup );
+    pQuickplayButton->setMenu( new CQuickplayPropertyEditor(mQuickplayParms, this) );
+    pQuickplayButton->setToolTip( "Quickplay" );
+
+    ui->MainToolBar->addSeparator();
     mpQuickplayAction = ui->MainToolBar->addWidget(pQuickplayButton);
     mpQuickplayAction->setVisible(false);
     mpQuickplayAction->setEnabled(false);
@@ -950,23 +956,29 @@ void CWorldEditor::UpdateNewLinkLine()
 void CWorldEditor::LaunchQuickplay()
 {
     CVector3f CameraPosition = Viewport()->Camera().Position();
-    LaunchQuickplayFromLocation(CameraPosition);
+    LaunchQuickplayFromLocation(CameraPosition, false);
 }
 
-void CWorldEditor::LaunchQuickplayFromLocation(CVector3f Location)
+void CWorldEditor::LaunchQuickplayFromLocation(CVector3f Location, bool ForceAsSpawnPosition)
 {
     // This function should not be called if a level is not open in a project.
     ASSERT( gpEdApp->ActiveProject() != nullptr );
     ASSERT( mpWorld && mpArea );
 
     // Fill in parameters and start running
-    mQuickplayParms.BootWorldAssetID = mpWorld->ID().ToLong();
-    mQuickplayParms.BootAreaAssetID = mpArea->ID().ToLong();
-    mQuickplayParms.SpawnTransform = Viewport()->Camera().GetCameraTransform();
-    mQuickplayParms.SpawnTransform.SetTranslation(Location);
-    mQuickplayParms.Features.SetFlag(NDolphinIntegration::EQuickplayFeature::JumpToArea);
-    mQuickplayParms.Features.SetFlag(NDolphinIntegration::EQuickplayFeature::SetSpawnPosition);
-    NDolphinIntegration::LaunchQuickplay(this, gpEdApp->ActiveProject(), mQuickplayParms);
+    SQuickplayParameters Parameters = mQuickplayParms;
+    Parameters.BootWorldAssetID = mpWorld->ID().ToLong();
+    Parameters.BootAreaAssetID = mpArea->ID().ToLong();
+    Parameters.SpawnTransform = Viewport()->Camera().GetCameraTransform();
+    Parameters.SpawnTransform.SetTranslation(Location);
+
+    if (ForceAsSpawnPosition)
+    {
+        Parameters.Features.SetFlag(EQuickplayFeature::JumpToArea);
+        Parameters.Features.SetFlag(EQuickplayFeature::SetSpawnPosition);
+    }
+
+    NDolphinIntegration::LaunchQuickplay(this, gpEdApp->ActiveProject(), Parameters);
 }
 
 // ************ PROTECTED ************

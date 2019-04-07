@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CQuickplayPropertyEditor</class>
+ <widget class="QMenu" name="CQuickplayPropertyEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>345</width>
+    <height>94</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="DolphinPathLabel">
+         <property name="text">
+          <string>Dolphin Path</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="CSoftValidatorLineEdit" name="DolphinPathLineEdit"/>
+       </item>
+       <item>
+        <widget class="QToolButton" name="DolphinBrowseButton">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="BootToAreaCheckBox">
+       <property name="text">
+        <string>Boot to Current Area</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="SpawnAtCameraLocationCheckBox">
+       <property name="text">
+        <string>Spawn at Camera Location</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CSoftValidatorLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>Editor/Widgets/CSoftValidatorLineEdit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

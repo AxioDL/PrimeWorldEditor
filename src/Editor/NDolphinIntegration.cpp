@@ -11,6 +11,8 @@ namespace NDolphinIntegration
 
 /** Constants */
 const char* const gkDolphinPathSetting  = "Quickplay/DolphinPath";
+const char* const gkFeaturesSetting     = "Quickplay/Features";
+
 const char* const gkRelFileName         = "EditorQuickplay.rel";
 const char* const gkParameterFile       = "dbgconfig";
 const char* const gkDolPath             = "sys/main.dol";
@@ -20,23 +22,27 @@ const char* const gkDolBackupPath       = "sys/main.original.dol";
 QString gDolphinPath;
 
 /** The current Dolphin quickplay process */
-QProcess gDolphinProcess;
+QProcess* gpDolphinProcess = nullptr;
 
 /** The project that the current active quickplay session is running for */
 CGameProject* gpQuickplayProject = nullptr;
 
 /** Quickplay relay implementation to detect when the active quickplay session closes */
-void CQuickplayRelay::TrackProcess(QProcess* pProcess)
+void CQuickplayRelay::QuickplayStarted()
 {
-    disconnect(this);
-    connect(pProcess, SIGNAL(finished(int)), this, SLOT(OnQuickplayFinished(int)));
+    debugf("Quickplay session started.");
+    connect(gpDolphinProcess, SIGNAL(finished(int)), this, SLOT(QuickplayFinished(int)));
 }
 
-void CQuickplayRelay::OnQuickplayFinished(int ReturnCode)
+void CQuickplayRelay::QuickplayFinished(int ReturnCode)
 {
     debugf("Quickplay session finished.");
-    disconnect(this);
+
+    disconnect(gpDolphinProcess, 0, this, 0);
     CleanupQuickplayFiles(gpQuickplayProject);
+    gpDolphinProcess->waitForFinished();
+    gpDolphinProcess->deleteLater();
+    gpDolphinProcess = nullptr;
     gpQuickplayProject = nullptr;
 }
 
@@ -62,7 +68,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     }
 
     // Check if quickplay is already running
-    if (gDolphinProcess.state() != QProcess::NotRunning)
+    if (gpDolphinProcess && gpDolphinProcess->state() != QProcess::NotRunning)
     {
         if (UICommon::YesNoQuestion(pParentWidget, "Quickplay",
             "Quickplay is already running. Close the existing session and relaunch?"))
@@ -80,8 +86,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     if (gDolphinPath.isEmpty())
     {
         // If the user configured Dolphin on a previous run, it should be stashed in settings
-        QSettings Settings;
-        QString Path = Settings.value(gkDolphinPathSetting).toString();
+        QString Path = GetDolphinPath();
 
         if (Path.isEmpty())
         {
@@ -96,6 +101,16 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
             // We don't have Dolphin
             warnf("Quickplay launch failed! Dolphin is not configured.");
             return EQuickplayLaunchResult::DolphinNotSet;
+        }
+    }
+
+    // Check if the user has any dirty packages
+    if (gpEdApp->HasAnyDirtyPackages())
+    {
+        if (UICommon::YesNoQuestion(pParentWidget, "Uncooked Changes",
+            "You have uncooked changes. Cook before starting quickplay?"))
+        {
+            gpEdApp->CookAllDirtyPackages();
         }
     }
 
@@ -139,7 +154,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     memcpy(&DolData[PatchOffset], &PatchData[0], PatchData.size());
 
     // These constants are hardcoded for the moment.
-    // We write the patch to text section 6, which should be at address 0x80002600.
+    // We write the patch to text section 6, which must be at address 0x80002600.
     // We hook over the call to LCEnable, which is at offset 0x1D64.
     CMemoryOutStream Mem(DolData.data(), DolData.size(), EEndian::BigEndian);
     Mem.GoTo(0x18);
@@ -167,18 +182,20 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     kParms.Write(FSTParmPath);
 
     // We're good to go - launch the quickplay process
-    gDolphinProcess.start(gDolphinPath, QStringList() << TO_QSTRING(DolPath));
-    gDolphinProcess.waitForStarted();
+    gpDolphinProcess = new QProcess(pParentWidget);
+    gpDolphinProcess->start(gDolphinPath, QStringList() << TO_QSTRING(DolPath));
+    gpDolphinProcess->waitForStarted();
 
-    if (gDolphinProcess.state() != QProcess::Running)
+    if (gpDolphinProcess->state() != QProcess::Running)
     {
         warnf("Quickplay launch failed! Process did not start correctly.");
+        delete gpDolphinProcess;
+        gpDolphinProcess = nullptr;
         return EQuickplayLaunchResult::Failure;
     }
 
-    gQuickplayRelay.TrackProcess(&gDolphinProcess);
     gpQuickplayProject = pProject;
-    debugf("Quickplay session started.");
+    gQuickplayRelay.QuickplayStarted();
     return EQuickplayLaunchResult::Success;
 }
 
@@ -196,10 +213,12 @@ bool IsQuickplaySupported(CGameProject* pProject)
 /** Kill the current quickplay process, if it exists. */
 void KillQuickplay()
 {
-    debugf("Killing quickplay.");
-    gDolphinProcess.close();
-    CleanupQuickplayFiles(gpQuickplayProject);
-    gpQuickplayProject = nullptr;
+    if (gpDolphinProcess)
+    {
+        debugf("Stopping active quickplay session.");
+        gpDolphinProcess->close();
+        // CQuickplayRelay handles remaining destruction & cleanup
+    }
 }
 
 /** Clean up any quickplay related file data from the project disc files. */
@@ -248,6 +267,40 @@ bool SetDolphinPath(QWidget* pParentWidget, const QString& kDolphinPath, bool bS
     debugf("Setting Dolphin path to %s.", *TO_TSTRING(kDolphinPath));
 
     return true;
+}
+
+/** Retrieves the user path to Dolphin. */
+QString GetDolphinPath()
+{
+    // Check if we have a path to Dolphin
+    QString Path = gDolphinPath;
+
+    if (Path.isEmpty())
+    {
+        // If the user configured Dolphin on a previous run, it should be stashed in settings
+        QSettings Settings;
+        Path = Settings.value(gkDolphinPathSetting).toString();
+
+        if (!Path.isEmpty())
+        {
+            gDolphinPath = Path;
+        }
+    }
+
+    return Path;
+}
+
+/** Saves/retrieves the given quickplay settings to/from QSettings. */
+void SaveQuickplayParameters(const SQuickplayParameters& kParms)
+{
+    QSettings Settings;
+    Settings.setValue(gkFeaturesSetting, kParms.Features.ToInt32());
+}
+
+void LoadQuickplayParameters(SQuickplayParameters& Parms)
+{
+    QSettings Settings;
+    Parms.Features = Settings.value(gkFeaturesSetting, (uint32) EQuickplayFeature::DefaultFeatures).toInt();
 }
 
 }

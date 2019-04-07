@@ -70,17 +70,17 @@ bool CEditorApplication::CloseAllEditors()
 
 bool CEditorApplication::CloseProject()
 {
-    if (mpActiveProject && CloseAllEditors())
-    {
-        // Close any active quickplay sessions
-        NDolphinIntegration::KillQuickplay();
+    if (mpActiveProject && !CloseAllEditors())
+        return false;
 
-        // Emit before actually deleting the project to allow editor references to clean up
-        CGameProject *pOldProj = mpActiveProject;
-        mpActiveProject = nullptr;
-        emit ActiveProjectChanged(nullptr);
-        delete pOldProj;
-    }
+    // Close any active quickplay sessions
+    NDolphinIntegration::KillQuickplay();
+
+    // Emit before actually deleting the project to allow editor references to clean up
+    CGameProject *pOldProj = mpActiveProject;
+    mpActiveProject = nullptr;
+    emit ActiveProjectChanged(nullptr);
+    delete pOldProj;
 
     return true;
 }
@@ -253,6 +253,22 @@ bool CEditorApplication::CookPackageList(QList<CPackage*> PackageList)
         return !Dialog.ShouldCancel();
     }
     else return true;
+}
+
+bool CEditorApplication::HasAnyDirtyPackages()
+{
+    if (!mpActiveProject)
+        return false;
+
+    for (uint32 PkgIdx = 0; PkgIdx < mpActiveProject->NumPackages(); PkgIdx++)
+    {
+        CPackage *pPackage = mpActiveProject->PackageByIndex(PkgIdx);
+
+        if (pPackage->NeedsRecook())
+            return true;
+    }
+
+    return false;
 }
 
 bool CEditorApplication::RebuildResourceDatabase()
