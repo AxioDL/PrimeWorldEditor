@@ -44,6 +44,9 @@ CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Paramet
 
     connect(mpUI->SpawnAtCameraLocationCheckBox, SIGNAL(toggled(bool)),
             this, SLOT(OnSpawnAtCameraLocationToggled(bool)));
+
+    connect(mpUI->GiveAllItemsCheckBox, SIGNAL(toggled(bool)),
+            this, SLOT(OnGiveAllItemsToggled(bool)));
 }
 
 CQuickplayPropertyEditor::~CQuickplayPropertyEditor()
@@ -92,6 +95,20 @@ void CQuickplayPropertyEditor::OnSpawnAtCameraLocationToggled(bool Enabled)
     else
     {
         mParameters.Features.ClearFlag(EQuickplayFeature::SetSpawnPosition);
+    }
+
+    NDolphinIntegration::SaveQuickplayParameters(mParameters);
+}
+
+void CQuickplayPropertyEditor::OnGiveAllItemsToggled(bool Enabled)
+{
+    if (Enabled)
+    {
+        mParameters.Features.SetFlag(EQuickplayFeature::GiveAllItems);
+    }
+    else
+    {
+        mParameters.Features.ClearFlag(EQuickplayFeature::GiveAllItems);
     }
 
     NDolphinIntegration::SaveQuickplayParameters(mParameters);

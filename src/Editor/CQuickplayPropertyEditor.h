@@ -27,6 +27,7 @@ public slots:
     void OnDolphinPathChanged(const QString& kNewPath);
     void OnBootToAreaToggled(bool Enabled);
     void OnSpawnAtCameraLocationToggled(bool Enabled);
+    void OnGiveAllItemsToggled(bool Enabled);
 };
 
 #endif // CQUICKPLAYPROPERTYEDITOR_H

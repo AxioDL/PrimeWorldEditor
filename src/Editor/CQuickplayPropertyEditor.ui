@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>345</width>
-    <height>94</height>
+    <height>99</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="title">
+   <string/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -48,6 +51,13 @@
       <widget class="QCheckBox" name="SpawnAtCameraLocationCheckBox">
        <property name="text">
         <string>Spawn at Camera Location</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="GiveAllItemsCheckBox">
+       <property name="text">
+        <string>Give All Items</string>
        </property>
       </widget>
      </item>

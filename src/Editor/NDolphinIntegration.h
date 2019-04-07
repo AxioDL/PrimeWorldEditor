@@ -30,6 +30,8 @@ enum class EQuickplayFeature
     JumpToArea              = 0x00000001,
     /** Spawn the player in the location specified by SpawnTransform */
     SetSpawnPosition        = 0x00000002,
+    /** Give the player all items on spawn */
+    GiveAllItems            = 0x00000004,
 
     /** Flags enabled by default */
     DefaultFeatures         = JumpToArea | SetSpawnPosition
