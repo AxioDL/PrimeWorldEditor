@@ -42,6 +42,9 @@ CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Paramet
     connect(mpUI->DolphinPathLineEdit, SIGNAL(textChanged(QString)),
             this, SLOT(OnDolphinPathChanged(QString)));
 
+    connect(mpUI->DolphinBrowseButton, SIGNAL(pressed()),
+            this, SLOT(BrowseForDolphin()));
+
     connect(mpUI->BootToAreaCheckBox, SIGNAL(toggled(bool)),
             this, SLOT(OnBootToAreaToggled(bool)));
 
