@@ -1,8 +1,12 @@
 #ifndef CQUICKPLAYPROPERTYEDITOR_H
 #define CQUICKPLAYPROPERTYEDITOR_H
 
+#include <QListWidgetItem>
 #include <QMenu>
 #include "NDolphinIntegration.h"
+
+#include <Core/Resource/CWorld.h>
+#include <Core/Resource/Area/CGameArea.h>
 
 namespace Ui {
 class CQuickplayPropertyEditor;
@@ -28,6 +32,9 @@ public slots:
     void OnBootToAreaToggled(bool Enabled);
     void OnSpawnAtCameraLocationToggled(bool Enabled);
     void OnGiveAllItemsToggled(bool Enabled);
+    void OnLayerListItemChanged(QListWidgetItem* pItem);
+
+    void OnWorldEditorAreaChanged(CWorld* pWorld, CGameArea* pArea);
 };
 
 #endif // CQUICKPLAYPROPERTYEDITOR_H

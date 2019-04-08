@@ -219,12 +219,6 @@ CWorldEditor::~CWorldEditor()
     delete ui;
 }
 
-/*void CWorldEditor::closeEvent(QCloseEvent *pEvent)
-{
-    mpCollisionDialog->close();
-    mpLinkDialog->close();
-}*/
-
 bool CWorldEditor::CloseWorld()
 {
     if (CheckUnsavedChanges())

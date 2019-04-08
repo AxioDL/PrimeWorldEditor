@@ -61,6 +61,28 @@
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QListWidget" name="LayerList">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>150</height>
+        </size>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
+       <property name="verticalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <property name="horizontalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <property name="spacing">
+        <number>5</number>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>

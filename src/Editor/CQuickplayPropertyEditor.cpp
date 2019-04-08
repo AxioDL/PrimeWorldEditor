@@ -1,6 +1,8 @@
 #include "CQuickplayPropertyEditor.h"
 #include "ui_CQuickplayPropertyEditor.h"
 #include "UICommon.h"
+#include "WorldEditor/CWorldEditor.h"
+#include <Core/Resource/Script/CScriptLayer.h>
 #include <QFileInfo>
 
 /** Validator class for Dolphin line edit */
@@ -35,6 +37,7 @@ CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Paramet
     mpUI->DolphinPathLineEdit->setValidator( new CDolphinValidator(this) );
     mpUI->BootToAreaCheckBox->setChecked( Parameters.Features.HasFlag(EQuickplayFeature::JumpToArea) );
     mpUI->SpawnAtCameraLocationCheckBox->setChecked( Parameters.Features.HasFlag(EQuickplayFeature::SetSpawnPosition) );
+    mpUI->GiveAllItemsCheckBox->setChecked( Parameters.Features.HasFlag(EQuickplayFeature::GiveAllItems) );
 
     connect(mpUI->DolphinPathLineEdit, SIGNAL(textChanged(QString)),
             this, SLOT(OnDolphinPathChanged(QString)));
@@ -47,6 +50,18 @@ CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Paramet
 
     connect(mpUI->GiveAllItemsCheckBox, SIGNAL(toggled(bool)),
             this, SLOT(OnGiveAllItemsToggled(bool)));
+
+    connect(mpUI->LayerList, SIGNAL(itemChanged(QListWidgetItem*)),
+            this, SLOT(OnLayerListItemChanged(QListWidgetItem*)));
+
+    // Connect to World Editor signals
+    CWorldEditor* pWorldEditor = qobject_cast<CWorldEditor*>(pParent);
+
+    if (pWorldEditor)
+    {
+        connect(pWorldEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)),
+                this, SLOT(OnWorldEditorAreaChanged(CWorld*,CGameArea*)));
+    }
 }
 
 CQuickplayPropertyEditor::~CQuickplayPropertyEditor()
@@ -112,4 +127,44 @@ void CQuickplayPropertyEditor::OnGiveAllItemsToggled(bool Enabled)
     }
 
     NDolphinIntegration::SaveQuickplayParameters(mParameters);
+}
+
+void CQuickplayPropertyEditor::OnLayerListItemChanged(QListWidgetItem* pItem)
+{
+    int LayerIdx = mpUI->LayerList->row(pItem);
+    uint64 LayerBit = 1ULL << LayerIdx;
+    mParameters.BootAreaLayerFlags &= ~LayerBit;
+
+    if (pItem->checkState() == Qt::Checked)
+    {
+        mParameters.BootAreaLayerFlags |= LayerBit;
+    }
+}
+
+void CQuickplayPropertyEditor::OnWorldEditorAreaChanged(CWorld* pWorld, CGameArea* pArea)
+{
+    mParameters.BootAreaLayerFlags = 0;
+    mpUI->LayerList->blockSignals(true);
+    mpUI->LayerList->clear();
+
+    if (pArea)
+    {
+        for (uint LayerIdx = 0; LayerIdx < pArea->NumScriptLayers(); LayerIdx++)
+        {
+            CScriptLayer* pLayer = pArea->ScriptLayer(LayerIdx);
+            bool bActive = pLayer->IsActive();
+
+            QListWidgetItem* pItem = new QListWidgetItem();
+            pItem->setText( TO_QSTRING(pLayer->Name()) );
+            pItem->setCheckState( bActive ? Qt::Checked : Qt::Unchecked );
+            mpUI->LayerList->addItem( pItem );
+
+            if (bActive)
+            {
+                mParameters.BootAreaLayerFlags |= (1ULL << LayerIdx);
+            }
+        }
+    }
+
+    mpUI->LayerList->blockSignals(false);
 }

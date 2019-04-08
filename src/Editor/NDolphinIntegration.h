@@ -43,13 +43,17 @@ struct SQuickplayParameters
 {
     /** Magic/Version */
     static const uint32 kParmsMagic = 0x00BADB01;
-    static const uint32 kParmsVersion = 1;
+    static const uint32 kParmsVersion = 2;
 
     /** Flags indicating which features are enabled. */
     FQuickplayFeatures      Features;
     /** Asset ID of the world/area to load on boot (if JumpToArea is set). */
     uint32                  BootWorldAssetID;
     uint32                  BootAreaAssetID;
+    /** Explicit align to 64 bits */
+    uint32                  __PADDING;
+    /** Flags indicating which layers to enable on boot (if JumpToArea is set). */
+    uint64                  BootAreaLayerFlags;
     /** Location to spawn the player at when the game initially starts up. */
     CTransform4f            SpawnTransform;
 
@@ -67,6 +71,8 @@ struct SQuickplayParameters
         Stream.WriteLong( Features.ToInt32() );
         Stream.WriteLong( BootWorldAssetID );
         Stream.WriteLong( BootAreaAssetID );
+        Stream.WriteLong( 0 );
+        Stream.WriteLongLong( BootAreaLayerFlags );
         SpawnTransform.Write( Stream );
 
         Stream.Close();

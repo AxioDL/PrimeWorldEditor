@@ -35,6 +35,7 @@ CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
 
 CEditorApplication::~CEditorApplication()
 {
+    NDolphinIntegration::KillQuickplay();
     delete mpWorldEditor;
     delete mpProjectDialog;
 }
