@@ -9,7 +9,6 @@
 #include <Common/Math/CMatrix4f.h>
 #include <Common/Math/CVector3f.h>
 #include <Common/Math/CVector4f.h>
-#include <GL/glew.h>
 
 /**
  * todo: this entire thing needs to be further abstracted, other classes shouldn't

@@ -1,0 +1,67 @@
+{
+    "dependencies": [
+        {
+            "name": "zlib",
+            "url": "https://github.com/madler/zlib",
+            "type": "git",
+            "head": "master",
+            "ref": "cacf7f1d4e3d44d871b605da3b647f07d718623f"
+        },
+        {
+            "name": "assimp",
+            "url": "https://github.com/jackoalan/assimp",
+            "type": "git",
+            "head": "static-lib-export",
+            "ref": "2c16b2f6c517006367a558c06075584bbd230367",
+            "dependson": [
+                "zlib"
+            ],
+            "cmake_defines": {
+                "ASSIMP_BUILD_ZLIB": "OFF",
+                "ASSIMP_BUILD_ASSIMP_TOOLS": "OFF"
+            }
+        },
+        {
+            "name": "nod",
+            "url": "https://github.com/AxioDL/nod",
+            "type": "git",
+            "head": "master",
+            "ref": "01237372e17e4470e002efbe100c81ed804eeea3"
+        },
+        {
+            "name": "CodeGen",
+            "url": "https://github.com/jackoalan/CodeGen",
+            "type": "git",
+            "head": "cmake",
+            "ref": "94dc9ac32986f14a734c3523dd85d50ae50f7128"
+        },
+        {
+            "name": "LibCommon",
+            "url": "https://github.com/jackoalan/LibCommon",
+            "type": "git",
+            "head": "dew",
+            "ref": "4c780619259a31168e6a8ce6e7018b2ea640b3af"
+        },
+        {
+            "name": "lzo",
+            "url": "https://github.com/nemequ/lzo",
+            "type": "git",
+            "head": "master",
+            "ref": "0083878c235a89ef96a009d1ff0b500f3a364e4b"
+        },
+        {
+            "name": "lzokay",
+            "url": "https://github.com/sfuller/lzokay",
+            "type": "git",
+            "head": "cmake",
+            "ref": "87467048df10e72540a5abcac9dd5c0c4df3a712"
+        },
+        {
+            "name": "tinyxml2",
+            "url": "https://github.com/leethomason/tinyxml2",
+            "type": "git",
+            "head": "master",
+            "ref": "c483646db00a6a9ac3a8e93f7c490aecb589979d"
+        }
+    ]
+}

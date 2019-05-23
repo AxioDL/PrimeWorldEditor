@@ -19,6 +19,7 @@
 #include <QInputDialog>
 #include <QMenu>
 #include <QMessageBox>
+#include <QButtonGroup>
 #include <QtConcurrent/QtConcurrentRun>
 
 CResourceBrowser::CResourceBrowser(QWidget *pParent)

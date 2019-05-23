@@ -13,8 +13,6 @@
 #include <QPoint>
 #include <QTimer>
 
-#include <GL/glew.h>
-
 class CBasicViewport : public QOpenGLWidget
 {
     Q_OBJECT

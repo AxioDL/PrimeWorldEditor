@@ -36,6 +36,7 @@ class CResourceStore
 
     // Directory paths
     TString mDatabasePath;
+    bool mDatabasePathExists;
 
 public:
     CResourceStore(const TString& rkDatabasePath);
@@ -80,6 +81,7 @@ public:
     inline CGameProject* Project() const            { return mpProj; }
     inline EGame Game() const                       { return mGame; }
     inline TString DatabaseRootPath() const         { return mDatabasePath; }
+    inline bool DatabasePathExists() const          { return mDatabasePathExists; }
     inline TString ResourcesDir() const             { return IsEditorStore() ? DatabaseRootPath() : DatabaseRootPath() + "Resources/"; }
     inline TString DatabasePath() const             { return DatabaseRootPath() + "ResourceDatabaseCache.bin"; }
     inline CVirtualDirectory* RootDirectory() const { return mpDatabaseRoot; }

@@ -1,5 +1,4 @@
 # C++ objects and libs
-
 *.slo
 *.lo
 *.o
@@ -13,7 +12,6 @@
 *.ilk
 
 # Qt-es
-
 /.qmake.cache
 /.qmake.stash
 *.pro.user
@@ -28,12 +26,14 @@ Makefile*
 *-build-*
 
 # QtCreator
-
 *.autosave
 
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+
+#Dew
+.dew/*
 
 # PrimeWorldEditor files
 bin/*.log

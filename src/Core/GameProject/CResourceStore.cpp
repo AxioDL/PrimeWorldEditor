@@ -23,7 +23,8 @@ CResourceStore::CResourceStore(const TString& rkDatabasePath)
 {
     mpDatabaseRoot = new CVirtualDirectory(this);
     mDatabasePath = FileUtil::MakeAbsolute(rkDatabasePath.GetFileDirectory());
-    LoadDatabaseCache();
+    if ((mDatabasePathExists = FileUtil::IsDirectory(mDatabasePath)))
+        LoadDatabaseCache();
 }
 
 // Main constructor for game projects and game exporter

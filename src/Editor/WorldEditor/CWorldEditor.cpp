@@ -33,6 +33,7 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <QToolButton>
+#include <QButtonGroup>
 
 CWorldEditor::CWorldEditor(QWidget *parent)
     : INodeEditor(parent)

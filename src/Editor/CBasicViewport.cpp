@@ -5,8 +5,6 @@
 
 #include <QCursor>
 
-#include <GL/glew.h>
-
 CBasicViewport::CBasicViewport(QWidget *pParent)
     : QOpenGLWidget(pParent)
     , mLastDrawTime(CTimer::GlobalTime())

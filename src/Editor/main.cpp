@@ -54,6 +54,14 @@ public:
         // Create editor resource store
         gpEditorStore = new CResourceStore("../resources/");
 
+        if (!gpEditorStore->DatabasePathExists())
+        {
+            QMessageBox::critical(0, "Error", "Unable to locate PWE resources directory; "
+                                              "PWE's executable must remain as deployed.",
+                                  QMessageBox::Close);
+            return 1;
+        }
+
         if (!gpEditorStore->AreAllEntriesValid())
         {
             debugf("Editor store has invalid entries. Rebuilding database...");

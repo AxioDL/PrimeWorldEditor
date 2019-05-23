@@ -19,8 +19,6 @@
 #include <Common/Math/CAABox.h>
 #include <Common/Math/CMatrix4f.h>
 
-#include <GL/glew.h>
-
 enum class EBloomMode
 {
     NoBloom,
