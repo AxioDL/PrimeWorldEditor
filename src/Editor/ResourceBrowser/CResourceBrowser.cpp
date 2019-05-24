@@ -14,12 +14,12 @@
 #include <Core/GameProject/AssetNameGeneration.h>
 #include <Core/GameProject/CAssetNameMap.h>
 
+#include <QButtonGroup>
 #include <QCheckBox>
 #include <QFileDialog>
 #include <QInputDialog>
 #include <QMenu>
 #include <QMessageBox>
-#include <QButtonGroup>
 #include <QtConcurrent/QtConcurrentRun>
 
 CResourceBrowser::CResourceBrowser(QWidget *pParent)

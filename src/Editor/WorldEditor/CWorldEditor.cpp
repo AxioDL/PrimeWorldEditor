@@ -27,13 +27,13 @@
 #include <Core/Resource/Script/NGameList.h>
 #include <Core/Scene/CSceneIterator.h>
 
+#include <QButtonGroup>
 #include <QClipboard>
 #include <QComboBox>
 #include <QFontMetrics>
 #include <QMessageBox>
 #include <QSettings>
 #include <QToolButton>
-#include <QButtonGroup>
 
 CWorldEditor::CWorldEditor(QWidget *parent)
     : INodeEditor(parent)

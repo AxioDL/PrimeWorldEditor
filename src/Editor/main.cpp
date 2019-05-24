@@ -8,7 +8,6 @@
 
 #include <QApplication>
 #include <QIcon>
-#include <QMessageBox>
 #include <QStyleFactory>
 #include <QtGlobal>
 
@@ -48,7 +47,7 @@ public:
 
         // Init log
         bool Initialized = NLog::InitLog("primeworldeditor.log");
-        if (!Initialized) QMessageBox::warning(0, "Error", "Couldn't open log file. Logging will not work for this session.");
+        if (!Initialized) UICommon::ErrorMsg(0, "Couldn't open log file. Logging will not work for this session.");
         qInstallMessageHandler(QtLogRedirect);
 
         // Create editor resource store
@@ -56,9 +55,8 @@ public:
 
         if (!gpEditorStore->DatabasePathExists())
         {
-            QMessageBox::critical(0, "Error", "Unable to locate PWE resources directory; "
-                                              "PWE's executable must remain as deployed.",
-                                  QMessageBox::Close);
+            UICommon::ErrorMsg(0, "Unable to locate PWE resources directory; "
+                                  "PWE's executable must remain as deployed.");
             return 1;
         }
 
