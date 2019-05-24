@@ -26,7 +26,7 @@
             "url": "https://github.com/AxioDL/nod",
             "type": "git",
             "head": "master",
-            "ref": "01237372e17e4470e002efbe100c81ed804eeea3"
+            "ref": "4dd0375cae9557a1881d56f722e20557075a9d93"
         },
         {
             "name": "CodeGen",

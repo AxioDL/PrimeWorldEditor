@@ -59,7 +59,7 @@ find_package(Qt5 COMPONENTS Core Widgets ${QT_PLATFORM_COMPONENTS} REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 
 # AssImp's cmake config is pretty awful. It doesn't include necesary libraries. Hopefully this can be fixed later.
-find_library(IIRXML_LIBRARY IrrXMLd IrrXML)
+find_library(IIRXML_LIBRARY NAMES IrrXMLd IrrXML)
 
 file(GLOB_RECURSE source_files
     "*.cpp"
@@ -69,21 +69,16 @@ file(GLOB_RECURSE source_files
 
 add_executable(pwe_editor ${source_files})
 
-target_compile_features(pwe_editor PRIVATE cxx_std_17)
+set_target_properties(pwe_editor PROPERTIES OUTPUT_NAME PrimeWorldEditor DEBUG_POSTFIX -debug)
 
-target_link_directories(
-    pwe_editor
-    PRIVATE
-    ${ASSIMP_LIBRARY_DIRS}
-)
+target_compile_features(pwe_editor PRIVATE cxx_std_17)
 
 target_link_libraries(
     pwe_editor
     pwe_core
     Qt5::Widgets
     ${QT_PLATFORM_COMPONENTS_LIBS}
-    ${ASSIMP_LIBRARIES}
-    "${IIRXML_LIBRARY}"
+    ${IIRXML_LIBRARY}
 )
 
 # TODO: These should be drive by CI if CI ever becomes a thing for PWE.
@@ -108,7 +103,8 @@ if (WIN32)
     endif()
 
     # run windeployqt to gather necessary .dlls
-    add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${WINDEPLOYQT_PROGRAM} ARGS $<TARGET_FILE:pwe_editor>)
+    add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${WINDEPLOYQT_PROGRAM} ARGS
+                       --no-angle --no-opengl-sw $<TARGET_FILE:pwe_editor>)
 
     # copy bin directory of dew prefix
     add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${CMAKE_COMMAND} ARGS -E copy_directory

@@ -32,12 +32,6 @@ target_include_directories(pwe_core
         OpenGL
 )
 
-target_link_directories(
-    pwe_core
-    PRIVATE
-        ${ASSIMP_LIBRARY_DIRS}
-)
-
 target_link_libraries(
     pwe_core
     libcommon::libcommon
@@ -46,8 +40,8 @@ target_link_libraries(
     lzokay::lzokay
     OpenGL::GL
     codegen::codegen
-    "${ZLIB_LIBRARY}"
-    ${ASSIMP_LIBRARIES}
+    assimp::assimp
+    ${ZLIB_LIBRARY}
 )
 
 target_compile_definitions(

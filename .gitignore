@@ -27,6 +27,7 @@ Makefile*
 
 # QtCreator
 *.autosave
+CMakeLists.txt.user
 
 #QtCtreator Qml
 *.qmlproject.user
@@ -36,9 +37,6 @@ Makefile*
 .dew/*
 
 # PrimeWorldEditor files
-bin/*.log
-bin/dump/*
-bin/PrimeWorldEditor.exe
-bin/PrimeWorldEditor-debug.exe
+bin/*
+bin-debug/*
 build/*
-externals/*
