@@ -8,8 +8,8 @@ namespace NPropertyMap
 {
 
 /** Path to the property map file */
-const char* gpkLegacyMapPath = "../templates/PropertyMapLegacy.xml";
-const char* gpkMapPath = "../templates/PropertyMap.xml";
+const char* gpkLegacyMapPath = "templates/PropertyMapLegacy.xml";
+const char* gpkMapPath = "templates/PropertyMap.xml";
 
 /** Whether to do name lookups from the legacy map */
 const bool gkUseLegacyMapForNameLookups = false;
@@ -150,13 +150,13 @@ void LoadMap()
 
     if ( gkUseLegacyMapForNameLookups )
     {
-        CXMLReader Reader(gpkLegacyMapPath);
+        CXMLReader Reader(gDataDir + gpkLegacyMapPath);
         ASSERT(Reader.IsValid());
         Reader << SerialParameter("PropertyMap", gLegacyNameMap, SH_HexDisplay);
     }
     else
     {
-        CXMLReader Reader(gpkMapPath);
+        CXMLReader Reader(gDataDir + gpkMapPath);
         ASSERT(Reader.IsValid());
         Reader << SerialParameter("PropertyMap", gNameMap, SH_HexDisplay);
 
@@ -198,7 +198,7 @@ void SaveMap(bool Force /*= false*/)
     {
         if( gkUseLegacyMapForUpdates )
         {
-            CXMLWriter Writer(gpkLegacyMapPath, "PropertyMap");
+            CXMLWriter Writer(gDataDir + gpkLegacyMapPath, "PropertyMap");
             ASSERT(Writer.IsValid());
             Writer << SerialParameter("PropertyMap", gLegacyNameMap, SH_HexDisplay);
         }
@@ -219,7 +219,7 @@ void SaveMap(bool Force /*= false*/)
             }
 
             // Perform the actual save
-            CXMLWriter Writer(gpkMapPath, "PropertyMap");
+            CXMLWriter Writer(gDataDir + gpkMapPath, "PropertyMap");
             ASSERT(Writer.IsValid());
             Writer << SerialParameter("PropertyMap", gNameMap, SH_HexDisplay);
         }

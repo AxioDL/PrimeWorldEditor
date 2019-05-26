@@ -6,18 +6,18 @@
 #include <iostream>
 
 // ************ MEMBER INITIALIZATION ************
-CVertexBuffer CDrawUtil::mGridVertices;
+std::optional<CVertexBuffer> CDrawUtil::mGridVertices;
 CIndexBuffer CDrawUtil::mGridIndices;
 
-CDynamicVertexBuffer CDrawUtil::mSquareVertices;
+std::optional<CDynamicVertexBuffer> CDrawUtil::mSquareVertices;
 CIndexBuffer CDrawUtil::mSquareIndices;
 
-CDynamicVertexBuffer CDrawUtil::mLineVertices;
+std::optional<CDynamicVertexBuffer> CDrawUtil::mLineVertices;
 CIndexBuffer CDrawUtil::mLineIndices;
 
 TResPtr<CModel> CDrawUtil::mpCubeModel;
 
-CVertexBuffer CDrawUtil::mWireCubeVertices;
+std::optional<CVertexBuffer> CDrawUtil::mWireCubeVertices;
 CIndexBuffer CDrawUtil::mWireCubeIndices;
 
 TResPtr<CModel> CDrawUtil::mpSphereModel;
@@ -45,7 +45,7 @@ void CDrawUtil::DrawGrid(CColor LineColor, CColor BoldLineColor)
 {
     Init();
 
-    mGridVertices.Bind();
+    mGridVertices->Bind();
 
     CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
     CGraphics::UpdateMVPBlock();
@@ -88,13 +88,13 @@ void CDrawUtil::DrawSquare(const float *pTexCoords)
     for (uint32 iTex = 0; iTex < 8; iTex++)
     {
         EVertexAttribute TexAttrib = (EVertexAttribute) ((uint) (EVertexAttribute::Tex0) << iTex);
-        mSquareVertices.BufferAttrib(TexAttrib, pTexCoords);
+        mSquareVertices->BufferAttrib(TexAttrib, pTexCoords);
     }
 
     // Draw
-    mSquareVertices.Bind();
+    mSquareVertices->Bind();
     mSquareIndices.DrawElements();
-    mSquareVertices.Unbind();
+    mSquareVertices->Unbind();
 }
 
 void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB)
@@ -114,13 +114,13 @@ void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const
 
     // Copy vec3s into an array to ensure they are adjacent in memory
     CVector3f Points[2] = { PointA, PointB };
-    mLineVertices.BufferAttrib(EVertexAttribute::Position, Points);
+    mLineVertices->BufferAttrib(EVertexAttribute::Position, Points);
 
     // Draw
     UseColorShader(LineColor);
-    mLineVertices.Bind();
+    mLineVertices->Bind();
     mLineIndices.DrawElements();
-    mLineVertices.Unbind();
+    mLineVertices->Unbind();
 }
 
 void CDrawUtil::DrawLine(const CVector2f& PointA, const CVector2f& PointB, const CColor& LineColor)
@@ -161,9 +161,9 @@ void CDrawUtil::DrawWireCube()
 {
     Init();
     glLineWidth(1.f);
-    mWireCubeVertices.Bind();
+    mWireCubeVertices->Bind();
     mWireCubeIndices.DrawElements();
-    mWireCubeVertices.Unbind();
+    mWireCubeVertices->Unbind();
 }
 
 void CDrawUtil::DrawWireCube(const CAABox& kAABox, const CColor& kColor)
@@ -413,22 +413,23 @@ void CDrawUtil::InitGrid()
     int MinIdx = (kGridSize - 1) / -2;
     int MaxIdx = (kGridSize - 1) / 2;
 
-    mGridVertices.SetVertexDesc(EVertexAttribute::Position);
-    mGridVertices.Reserve(kGridSize * 4);
+    mGridVertices.emplace();
+    mGridVertices->SetVertexDesc(EVertexAttribute::Position);
+    mGridVertices->Reserve(kGridSize * 4);
 
      for (int32 i = MinIdx; i <= MaxIdx; i++)
      {
          if (i == 0) continue;
-         mGridVertices.AddVertex(CVector3f(MinIdx * kGridSpacing, i * kGridSpacing, 0.0f));
-         mGridVertices.AddVertex(CVector3f(MaxIdx * kGridSpacing, i * kGridSpacing, 0.0f));
-         mGridVertices.AddVertex(CVector3f(i * kGridSpacing, MinIdx * kGridSpacing, 0.0f));
-         mGridVertices.AddVertex(CVector3f(i * kGridSpacing, MaxIdx * kGridSpacing, 0.0f));
+         mGridVertices->AddVertex(CVector3f(MinIdx * kGridSpacing, i * kGridSpacing, 0.0f));
+         mGridVertices->AddVertex(CVector3f(MaxIdx * kGridSpacing, i * kGridSpacing, 0.0f));
+         mGridVertices->AddVertex(CVector3f(i * kGridSpacing, MinIdx * kGridSpacing, 0.0f));
+         mGridVertices->AddVertex(CVector3f(i * kGridSpacing, MaxIdx * kGridSpacing, 0.0f));
      }
 
-     mGridVertices.AddVertex(CVector3f(MinIdx * kGridSpacing, 0, 0.0f));
-     mGridVertices.AddVertex(CVector3f(MaxIdx * kGridSpacing, 0, 0.0f));
-     mGridVertices.AddVertex(CVector3f(0, MinIdx * kGridSpacing, 0.0f));
-     mGridVertices.AddVertex(CVector3f(0, MaxIdx * kGridSpacing, 0.0f));
+     mGridVertices->AddVertex(CVector3f(MinIdx * kGridSpacing, 0, 0.0f));
+     mGridVertices->AddVertex(CVector3f(MaxIdx * kGridSpacing, 0, 0.0f));
+     mGridVertices->AddVertex(CVector3f(0, MinIdx * kGridSpacing, 0.0f));
+     mGridVertices->AddVertex(CVector3f(0, MaxIdx * kGridSpacing, 0.0f));
 
      int NumIndices = kGridSize * 4;
      mGridIndices.Reserve(NumIndices);
@@ -439,17 +440,18 @@ void CDrawUtil::InitGrid()
 void CDrawUtil::InitSquare()
 {
     debugf("Creating square");
-    mSquareVertices.SetActiveAttribs(EVertexAttribute::Position |
-                                     EVertexAttribute::Normal |
-                                     EVertexAttribute::Tex0 |
-                                     EVertexAttribute::Tex1 |
-                                     EVertexAttribute::Tex2 |
-                                     EVertexAttribute::Tex3 |
-                                     EVertexAttribute::Tex4 |
-                                     EVertexAttribute::Tex5 |
-                                     EVertexAttribute::Tex6 |
-                                     EVertexAttribute::Tex7 );
-    mSquareVertices.SetVertexCount(4);
+    mSquareVertices.emplace();
+    mSquareVertices->SetActiveAttribs(EVertexAttribute::Position |
+                                      EVertexAttribute::Normal |
+                                      EVertexAttribute::Tex0 |
+                                      EVertexAttribute::Tex1 |
+                                      EVertexAttribute::Tex2 |
+                                      EVertexAttribute::Tex3 |
+                                      EVertexAttribute::Tex4 |
+                                      EVertexAttribute::Tex5 |
+                                      EVertexAttribute::Tex6 |
+                                      EVertexAttribute::Tex7 );
+    mSquareVertices->SetVertexCount(4);
 
     CVector3f SquareVertices[] = {
         CVector3f(-1.f,  1.f, 0.f),
@@ -472,13 +474,13 @@ void CDrawUtil::InitSquare()
         CVector2f(0.f, 0.f)
     };
 
-    mSquareVertices.BufferAttrib(EVertexAttribute::Position, SquareVertices);
-    mSquareVertices.BufferAttrib(EVertexAttribute::Normal, SquareNormals);
+    mSquareVertices->BufferAttrib(EVertexAttribute::Position, SquareVertices);
+    mSquareVertices->BufferAttrib(EVertexAttribute::Normal, SquareNormals);
 
     for (uint32 iTex = 0; iTex < 8; iTex++)
     {
         EVertexAttribute Attrib = (EVertexAttribute) (EVertexAttribute::Tex0 << iTex);
-        mSquareVertices.BufferAttrib(Attrib, SquareTexCoords);
+        mSquareVertices->BufferAttrib(Attrib, SquareTexCoords);
     }
 
     mSquareIndices.Reserve(4);
@@ -492,8 +494,9 @@ void CDrawUtil::InitSquare()
 void CDrawUtil::InitLine()
 {
     debugf("Creating line");
-    mLineVertices.SetActiveAttribs(EVertexAttribute::Position);
-    mLineVertices.SetVertexCount(2);
+    mLineVertices.emplace();
+    mLineVertices->SetActiveAttribs(EVertexAttribute::Position);
+    mLineVertices->SetVertexCount(2);
 
     mLineIndices.Reserve(2);
     mLineIndices.SetPrimitiveType(GL_LINES);
@@ -510,16 +513,17 @@ void CDrawUtil::InitCube()
 void CDrawUtil::InitWireCube()
 {
     debugf("Creating wire cube");
-    mWireCubeVertices.SetVertexDesc(EVertexAttribute::Position);
-    mWireCubeVertices.Reserve(8);
-    mWireCubeVertices.AddVertex(CVector3f(-0.5f, -0.5f, -0.5f));
-    mWireCubeVertices.AddVertex(CVector3f(-0.5f,  0.5f, -0.5f));
-    mWireCubeVertices.AddVertex(CVector3f( 0.5f,  0.5f, -0.5f));
-    mWireCubeVertices.AddVertex(CVector3f( 0.5f, -0.5f, -0.5f));
-    mWireCubeVertices.AddVertex(CVector3f(-0.5f, -0.5f,  0.5f));
-    mWireCubeVertices.AddVertex(CVector3f( 0.5f, -0.5f,  0.5f));
-    mWireCubeVertices.AddVertex(CVector3f( 0.5f,  0.5f,  0.5f));
-    mWireCubeVertices.AddVertex(CVector3f(-0.5f,  0.5f,  0.5f));
+    mWireCubeVertices.emplace();
+    mWireCubeVertices->SetVertexDesc(EVertexAttribute::Position);
+    mWireCubeVertices->Reserve(8);
+    mWireCubeVertices->AddVertex(CVector3f(-0.5f, -0.5f, -0.5f));
+    mWireCubeVertices->AddVertex(CVector3f(-0.5f,  0.5f, -0.5f));
+    mWireCubeVertices->AddVertex(CVector3f( 0.5f,  0.5f, -0.5f));
+    mWireCubeVertices->AddVertex(CVector3f( 0.5f, -0.5f, -0.5f));
+    mWireCubeVertices->AddVertex(CVector3f(-0.5f, -0.5f,  0.5f));
+    mWireCubeVertices->AddVertex(CVector3f( 0.5f, -0.5f,  0.5f));
+    mWireCubeVertices->AddVertex(CVector3f( 0.5f,  0.5f,  0.5f));
+    mWireCubeVertices->AddVertex(CVector3f(-0.5f,  0.5f,  0.5f));
 
     uint16 Indices[] = {
         0, 1,
@@ -585,6 +589,10 @@ void CDrawUtil::Shutdown()
     if (mDrawUtilInitialized)
     {
         debugf("Shutting down");
+        mGridVertices = std::nullopt;
+        mSquareVertices = std::nullopt;
+        mLineVertices = std::nullopt;
+        mWireCubeVertices = std::nullopt;
         delete mpColorShader;
         delete mpColorShaderLighting;
         delete mpTextureShader;

@@ -33,10 +33,16 @@ CMakeLists.txt.user
 *.qmlproject.user
 *.qmlproject.user.*
 
+#Intellij IDEA
+.idea/PrimeWorldEditor.iml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+
 #Dew
 .dew/*
 
 # PrimeWorldEditor files
 bin/*
-bin-debug/*
 build/*

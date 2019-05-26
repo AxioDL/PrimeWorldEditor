@@ -3,7 +3,7 @@
 #include "Core/Render/CDrawUtil.h"
 #include "Core/Render/CRenderer.h"
 
-CDynamicVertexBuffer CFont::smGlyphVertices;
+std::optional<CDynamicVertexBuffer> CFont::smGlyphVertices;
         CIndexBuffer CFont::smGlyphIndices;
                 bool CFont::smBuffersInitialized = false;
 
@@ -43,7 +43,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
     GLuint ColorLoc = pTextShader->GetUniformLocation("FontColor");
     GLuint LayerLoc = pTextShader->GetUniformLocation("RGBALayer");
     mpFontTexture->Bind(0);
-    smGlyphVertices.Bind();
+    smGlyphVertices->Bind();
     glDisable(GL_DEPTH_TEST);
 
     // Initialize some more stuff before we start the character loop
@@ -116,7 +116,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
 
         // Load shader uniforms, buffer texture
         glUniformMatrix4fv(ModelMtxLoc, 1, GL_FALSE, (GLfloat*) &GlyphTransform);
-        smGlyphVertices.BufferAttrib(EVertexAttribute::Tex0, &pGlyph->TexCoords);
+        smGlyphVertices->BufferAttrib(EVertexAttribute::Tex0, &pGlyph->TexCoords);
 
         // Draw fill
         glUniform1i(LayerLoc, GlyphLayer);
@@ -148,8 +148,9 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
 
 void CFont::InitBuffers()
 {
-    smGlyphVertices.SetActiveAttribs(EVertexAttribute::Position | EVertexAttribute::Tex0);
-    smGlyphVertices.SetVertexCount(4);
+    smGlyphVertices.emplace();
+    smGlyphVertices->SetActiveAttribs(EVertexAttribute::Position | EVertexAttribute::Tex0);
+    smGlyphVertices->SetVertexCount(4);
 
     CVector3f Vertices[4] = {
         CVector3f( 0.f,  0.f, 0.f),
@@ -157,7 +158,7 @@ void CFont::InitBuffers()
         CVector3f( 0.f, -2.f, 0.f),
         CVector3f( 2.f, -2.f, 0.f)
     };
-    smGlyphVertices.BufferAttrib(EVertexAttribute::Position, Vertices);
+    smGlyphVertices->BufferAttrib(EVertexAttribute::Position, Vertices);
 
     CVector2f TexCoords[4] = {
         CVector2f(0.f, 0.f),
@@ -165,7 +166,7 @@ void CFont::InitBuffers()
         CVector2f(0.f, 1.f),
         CVector2f(1.f, 1.f)
     };
-    smGlyphVertices.BufferAttrib(EVertexAttribute::Tex0, TexCoords);
+    smGlyphVertices->BufferAttrib(EVertexAttribute::Tex0, TexCoords);
 
     smGlyphIndices.Reserve(4);
     smGlyphIndices.AddIndex(0);
@@ -175,4 +176,13 @@ void CFont::InitBuffers()
     smGlyphIndices.SetPrimitiveType(GL_TRIANGLE_STRIP);
 
     smBuffersInitialized = true;
+}
+
+void CFont::ShutdownBuffers()
+{
+    if (smBuffersInitialized)
+    {
+        smGlyphVertices = std::nullopt;
+        smBuffersInitialized = false;
+    }
 }

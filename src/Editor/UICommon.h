@@ -38,12 +38,20 @@
 //@todo This name isn't ideal, too similar to ToWChar and so might cause confusion
 #define TO_WCHAR(Str)       ToWChar( UICommon::ToT16String(Str) )
 
+#include <nod/Util.hpp>
+
+#if NOD_UCS2
+#define QStringToNodString(string) TO_WCHAR(string)
+#else
+#define QStringToNodString(string) string.toUtf8().data()
+#endif
+
 namespace UICommon
 {
 
 // Utility
 QWindow* FindWidgetWindowHandle(QWidget* pWidget);
-void OpenContainingFolder(const QString& rkPath);
+void OpenContainingFolder(QWidget* parent, const QString& pathIn);
 bool OpenInExternalApplication(const QString& rkPath);
 
 // Searches the widget's ancestry tree to find an ancestor of type ObjectT.

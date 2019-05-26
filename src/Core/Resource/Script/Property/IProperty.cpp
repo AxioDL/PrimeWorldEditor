@@ -10,6 +10,8 @@
 #include "Core/Resource/Script/NGameList.h"
 #include "Core/Resource/Script/NPropertyMap.h"
 
+#include <cfloat>
+
 /** IProperty */
 IProperty::IProperty(EGame Game)
     : mpParent( nullptr )
@@ -311,7 +313,7 @@ TString IProperty::GetTemplateFileName()
     pTemplateRoot = pTemplateRoot->RootParent();
 
     // Now that we have the base property of our template, we can return the file path.
-    static const uint32 kChopAmount = strlen("../templates/");
+    static const uint32 kChopAmount = strlen(*(gDataDir + "templates/"));
 
     if (pTemplateRoot->ScriptTemplate())
     {

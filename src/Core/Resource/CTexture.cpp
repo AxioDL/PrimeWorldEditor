@@ -1,4 +1,5 @@
 #include "CTexture.h"
+#include <cmath>
 
 CTexture::CTexture(CResourceEntry *pEntry /*= 0*/)
     : CResource(pEntry)
@@ -143,7 +144,7 @@ float CTexture::ReadTexelAlpha(const CVector2f& rkTexCoord)
     // todo: support texel formats other than DXT1
     // DXT1 is definitely the most complicated one anyway; try reusing CTextureDecoder functions for other formats
     uint32 TexelX = (uint32) ((mWidth - 1) * rkTexCoord.X);
-    uint32 TexelY = (uint32) ((mHeight - 1) * (1.f - fmodf(rkTexCoord.Y, 1.f)));
+    uint32 TexelY = (uint32) ((mHeight - 1) * (1.f - std::fmod(rkTexCoord.Y, 1.f)));
 
     if (mTexelFormat == ETexelFormat::DXT1 && mBufferExists)
     {

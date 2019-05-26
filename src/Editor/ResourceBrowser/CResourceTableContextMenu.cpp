@@ -138,13 +138,13 @@ void CResourceTableContextMenu::OpenInExplorer()
     if (mpClickedEntry)
     {
         QString Path = TO_QSTRING( mpClickedEntry->CookedAssetPath() );
-        UICommon::OpenContainingFolder(Path);
+        UICommon::OpenContainingFolder(nullptr, Path);
     }
     else
     {
         TString BasePath = mpBrowser->CurrentStore()->ResourcesDir();
         QString Path = TO_QSTRING( BasePath + mpClickedDirectory->FullPath() );
-        UICommon::OpenContainingFolder(Path);
+        UICommon::OpenContainingFolder(nullptr, Path);
     }
 }
 

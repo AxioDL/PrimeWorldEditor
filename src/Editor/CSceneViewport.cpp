@@ -25,7 +25,8 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
 
     mpRenderer = new CRenderer();
     mpRenderer->SetClearColor(CColor::skBlack);
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 
     mViewInfo.pScene = mpScene;
     mViewInfo.pRenderer = mpRenderer;
@@ -207,7 +208,7 @@ void CSceneViewport::CreateContextMenu()
     mpPlayFromHereSeparator = new QAction(this);
     mpPlayFromHereSeparator->setSeparator(true);
 
-    mpPlayFromHereAction = new QAction("Play from here");
+    mpPlayFromHereAction = new QAction("Play from here", this);
     connect(mpPlayFromHereAction, SIGNAL(triggered()), this, SLOT(OnPlayFromHere()));
 
     QList<QAction*> Actions;
@@ -395,7 +396,8 @@ void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
 
 void CSceneViewport::OnResize()
 {
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 }
 
 void CSceneViewport::OnMouseClick(QMouseEvent *pEvent)

@@ -111,19 +111,6 @@ EGame CScriptTemplate::Game() const
     return mpGame->Game();
 }
 
-// ************ PROPERTY FETCHING ************
-template<class PropType>
-PropType* TFetchProperty(CStructProperty* pProperties, const TIDString& rkID)
-{
-    if (rkID.IsEmpty()) return nullptr;
-    IProperty *pProp = pProperties->ChildByIDString(rkID);
-
-    if (pProp && (pProp->Type() == PropEnum))
-        return static_cast<PropType*>(pProp)->ValuePtr();
-    else
-        return nullptr;
-}
-
 EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
 {
     if (pObj->Template() != this)

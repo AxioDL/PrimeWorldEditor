@@ -21,10 +21,6 @@ CGameArea::~CGameArea()
 
     for (uint32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
         delete mScriptLayers[iSCLY];
-
-    for (uint32 iLyr = 0; iLyr < mLightLayers.size(); iLyr++)
-        for (uint32 iLight = 0; iLight < mLightLayers[iLyr].size(); iLight++)
-            delete mLightLayers[iLyr][iLight];
 }
 
 CDependencyTree* CGameArea::BuildDependencyTree() const

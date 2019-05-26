@@ -28,6 +28,7 @@ class CCollisionEditor : public IEditor
 public:
     /** Constructor/destructor */
     explicit CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget* pParent = 0);
+    virtual ~CCollisionEditor();
     virtual CCollisionEditorViewport* Viewport() const override;
 
 public slots:

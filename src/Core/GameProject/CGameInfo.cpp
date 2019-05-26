@@ -1,4 +1,5 @@
 #include "CGameInfo.h"
+#include "CResourceStore.h"
 #include <Common/FileUtil.h>
 
 bool CGameInfo::LoadGameInfo(EGame Game)
@@ -83,5 +84,5 @@ TString CGameInfo::GetDefaultGameInfoPath(EGame Game)
         return "";
 
     TString GameName = GetGameShortName(Game);
-    return TString::Format("%s/GameInfo%s.%s", *gkGameInfoDir, *GameName, *gkGameInfoExt);
+    return TString::Format("%s/%s/GameInfo%s.%s", *gDataDir, *gkGameInfoDir, *GameName, *gkGameInfoExt);
 }

@@ -5,6 +5,7 @@
 
 class CDamageableTriggerExtra : public CScriptExtra
 {
+public:
     // Render fluid planes for doors in MP1
     enum class ERenderSide
     {
@@ -17,6 +18,7 @@ class CDamageableTriggerExtra : public CScriptExtra
         Down     = 0x20
     };
 
+private:
     CVectorRef mPlaneSize;
     TEnumRef<ERenderSide> mRenderSide;
     CAssetRef mTextureAssets[3];

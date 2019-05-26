@@ -216,8 +216,8 @@ void CShader::SetCurrent()
 // ************ STATIC ************
 CShader* CShader::FromResourceFile(const TString& rkShaderName)
 {
-    TString VertexShaderFilename = "../resources/shaders/" + rkShaderName + ".vs";
-    TString PixelShaderFilename = "../resources/shaders/" + rkShaderName + ".ps";
+    TString VertexShaderFilename = gDataDir + "resources/shaders/" + rkShaderName + ".vs";
+    TString PixelShaderFilename = gDataDir + "resources/shaders/" + rkShaderName + ".ps";
     TString VertexShaderText, PixelShaderText;
 
     if (!FileUtil::LoadFileToString(VertexShaderFilename, VertexShaderText))

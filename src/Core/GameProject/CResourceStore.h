@@ -93,6 +93,7 @@ public:
     inline bool IsEditorStore() const               { return mpProj == nullptr; }
 };
 
+extern TString gDataDir;
 extern CResourceStore *gpResourceStore;
 extern CResourceStore *gpEditorStore;
 

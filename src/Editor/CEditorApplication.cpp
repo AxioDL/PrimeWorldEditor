@@ -37,7 +37,6 @@ CEditorApplication::~CEditorApplication()
 {
     NDolphinIntegration::KillQuickplay();
     delete mpWorldEditor;
-    delete mpProjectDialog;
 }
 
 void CEditorApplication::InitEditor()
@@ -346,6 +345,7 @@ void CEditorApplication::OnEditorClose()
 
     if (pEditor == mpWorldEditor)
     {
+        mpWorldEditor->deleteLater();
         mpWorldEditor = nullptr;
         quit();
     }

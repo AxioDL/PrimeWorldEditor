@@ -216,56 +216,56 @@ void CLight::Load() const
 }
 
 // ************ STATIC ************
-CLight* CLight::BuildLocalAmbient(const CVector3f& rkPosition, const CColor& rkColor)
+CLight CLight::BuildLocalAmbient(const CVector3f& rkPosition, const CColor& rkColor)
 {
-    CLight *pLight = new CLight;
-    pLight->mType = ELightType::LocalAmbient;
-    pLight->mPosition = rkPosition;
-    pLight->mDirection = skDefaultLightDir;
-    pLight->mColor = rkColor;
-    pLight->mSpotCutoff = 0.f;
+    CLight pLight;
+    pLight.mType = ELightType::LocalAmbient;
+    pLight.mPosition = rkPosition;
+    pLight.mDirection = skDefaultLightDir;
+    pLight.mColor = rkColor;
+    pLight.mSpotCutoff = 0.f;
     return pLight;
 }
 
-CLight* CLight::BuildDirectional(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor)
+CLight CLight::BuildDirectional(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor)
 {
-    CLight *pLight = new CLight;
-    pLight->mType = ELightType::Directional;
-    pLight->mPosition = rkPosition;
-    pLight->mDirection = rkDirection;
-    pLight->mColor = rkColor;
-    pLight->mSpotCutoff = 0.f;
+    CLight pLight;
+    pLight.mType = ELightType::Directional;
+    pLight.mPosition = rkPosition;
+    pLight.mDirection = rkDirection;
+    pLight.mColor = rkColor;
+    pLight.mSpotCutoff = 0.f;
     return pLight;
 }
 
-CLight* CLight::BuildSpot(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor, float Cutoff)
+CLight CLight::BuildSpot(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor, float Cutoff)
 {
-    CLight *pLight = new CLight;
-    pLight->mType = ELightType::Spot;
-    pLight->mPosition = rkPosition;
-    pLight->mDirection = -rkDirection.Normalized();
-    pLight->mColor = rkColor;
-    pLight->mSpotCutoff = Cutoff * 0.5f;
-    pLight->mAngleAttenCoefficients = pLight->CalculateSpotAngleAtten();
+    CLight pLight;
+    pLight.mType = ELightType::Spot;
+    pLight.mPosition = rkPosition;
+    pLight.mDirection = -rkDirection.Normalized();
+    pLight.mColor = rkColor;
+    pLight.mSpotCutoff = Cutoff * 0.5f;
+    pLight.mAngleAttenCoefficients = pLight.CalculateSpotAngleAtten();
     return pLight;
 }
 
-CLight* CLight::BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor,
-                                  float DistAttenA, float DistAttenB, float DistAttenC,
-                                  float AngleAttenA, float AngleAttenB, float AngleAttenC)
+CLight CLight::BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor,
+                           float DistAttenA, float DistAttenB, float DistAttenC,
+                           float AngleAttenA, float AngleAttenB, float AngleAttenC)
 {
-    CLight *pLight = new CLight;
-    pLight->mType = ELightType::Custom;
-    pLight->mPosition = rkPosition;
-    pLight->mDirection = rkDirection;
-    pLight->mColor = rkColor;
-    pLight->mSpotCutoff = 0.f;
-    pLight->mDistAttenCoefficients.X = DistAttenA;
-    pLight->mDistAttenCoefficients.Y = DistAttenB;
-    pLight->mDistAttenCoefficients.Z = DistAttenC;
-    pLight->mAngleAttenCoefficients.X = AngleAttenA;
-    pLight->mAngleAttenCoefficients.Y = AngleAttenB;
-    pLight->mAngleAttenCoefficients.Z = AngleAttenC * AngleAttenC;
+    CLight pLight;
+    pLight.mType = ELightType::Custom;
+    pLight.mPosition = rkPosition;
+    pLight.mDirection = rkDirection;
+    pLight.mColor = rkColor;
+    pLight.mSpotCutoff = 0.f;
+    pLight.mDistAttenCoefficients.X = DistAttenA;
+    pLight.mDistAttenCoefficients.Y = DistAttenB;
+    pLight.mDistAttenCoefficients.Z = DistAttenC;
+    pLight.mAngleAttenCoefficients.X = AngleAttenA;
+    pLight.mAngleAttenCoefficients.Y = AngleAttenB;
+    pLight.mAngleAttenCoefficients.Z = AngleAttenC * AngleAttenC;
     return pLight;
 }
 

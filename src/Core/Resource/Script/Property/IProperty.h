@@ -419,29 +419,30 @@ public:
 template<typename PropType, EPropertyType PropEnum>
 class TSerializeableTypedProperty : public TTypedProperty<PropType, PropEnum>
 {
+  using base = TTypedProperty<PropType, PropEnum>;
 protected:
     TSerializeableTypedProperty(EGame Game)
-        : TTypedProperty(Game)
+        : base(Game)
     {}
 
 public:
     virtual void Serialize(IArchive& rArc)
     {
-        TTypedProperty::Serialize(rArc);
-        TSerializeableTypedProperty* pArchetype = static_cast<TSerializeableTypedProperty*>(mpArchetype);
+        base::Serialize(rArc);
+        TSerializeableTypedProperty* pArchetype = static_cast<TSerializeableTypedProperty*>(base::mpArchetype);
 
         // Determine if default value should be serialized as optional.
         // All MP1 properties should be optional. For MP2 and on, we set optional
         // on property types that don't have default values in the game executable.
         bool MakeOptional = false;
 
-        if (Game() <= EGame::Prime || pArchetype != nullptr)
+        if (base::Game() <= EGame::Prime || pArchetype != nullptr)
         {
             MakeOptional = true;
         }
         else
         {
-            switch (Type())
+            switch (base::Type())
             {
             case EPropertyType::String:
             case EPropertyType::Asset:
@@ -457,17 +458,18 @@ public:
 
         // Branch here to avoid constructing a default value if we don't need to.
         if (MakeOptional)
-            rArc << SerialParameter("DefaultValue", mDefaultValue, SH_Optional, pArchetype ? pArchetype->mDefaultValue : GetSerializationDefaultValue());
+            rArc << SerialParameter("DefaultValue", base::mDefaultValue, SH_Optional,
+                    pArchetype ? pArchetype->mDefaultValue : GetSerializationDefaultValue());
         else
-            rArc << SerialParameter("DefaultValue", mDefaultValue);
+            rArc << SerialParameter("DefaultValue", base::mDefaultValue);
     }
 
     virtual bool ShouldSerialize() const
     {
-        TTypedProperty* pArchetype = static_cast<TTypedProperty*>(mpArchetype);
+        base* pArchetype = static_cast<base*>(base::mpArchetype);
 
-        return TTypedProperty::ShouldSerialize() ||
-                !(mDefaultValue == pArchetype->DefaultValue());
+        return base::ShouldSerialize() ||
+                !(base::mDefaultValue == pArchetype->DefaultValue());
     }
 
     /** Return default value for serialization - can be customized per type */
@@ -480,6 +482,7 @@ public:
 template<typename PropType, EPropertyType PropEnum>
 class TNumericalProperty : public TSerializeableTypedProperty<PropType, PropEnum>
 {
+    using base = TSerializeableTypedProperty<PropType, PropEnum>;
     friend class IProperty;
     friend class CTemplateLoader;
 
@@ -488,7 +491,7 @@ protected:
     PropType mMaxValue;
 
     TNumericalProperty(EGame Game)
-        : TSerializeableTypedProperty(Game)
+        : base(Game)
         , mMinValue( -1 )
         , mMaxValue( -1 )
     {}
@@ -496,8 +499,8 @@ protected:
 public:
     virtual void Serialize(IArchive& rArc)
     {
-        TSerializeableTypedProperty::Serialize(rArc);
-        TNumericalProperty* pArchetype = static_cast<TNumericalProperty*>(mpArchetype);
+        base::Serialize(rArc);
+        TNumericalProperty* pArchetype = static_cast<TNumericalProperty*>(base::mpArchetype);
 
         rArc << SerialParameter("Min", mMinValue, SH_Optional, pArchetype ? pArchetype->mMinValue : (PropType) -1)
              << SerialParameter("Max", mMaxValue, SH_Optional, pArchetype ? pArchetype->mMaxValue : (PropType) -1);
@@ -505,15 +508,15 @@ public:
 
     virtual bool ShouldSerialize() const
     {
-        TNumericalProperty* pArchetype = static_cast<TNumericalProperty*>(mpArchetype);
-        return TSerializeableTypedProperty::ShouldSerialize() ||
+        TNumericalProperty* pArchetype = static_cast<TNumericalProperty*>(base::mpArchetype);
+        return base::ShouldSerialize() ||
                 mMinValue != pArchetype->mMinValue ||
                 mMaxValue != pArchetype->mMaxValue;
     }
 
     virtual void InitFromArchetype(IProperty* pOther)
     {
-        TSerializeableTypedProperty::InitFromArchetype(pOther);
+        base::InitFromArchetype(pOther);
         TNumericalProperty* pCastOther = static_cast<TNumericalProperty*>(pOther);
         mMinValue = pCastOther->mMinValue;
         mMaxValue = pCastOther->mMaxValue;
@@ -521,11 +524,11 @@ public:
 
     virtual void PropertyValueChanged(void* pPropertyData)
     {
-        TSerializeableTypedProperty::PropertyValueChanged(pPropertyData);
+        base::PropertyValueChanged(pPropertyData);
 
         if (mMinValue >= 0 && mMaxValue >= 0)
         {
-            PropType& rValue = ValueRef(pPropertyData);
+            PropType& rValue = base::ValueRef(pPropertyData);
             rValue = Math::Clamp(mMinValue, mMaxValue, rValue);
         }
     }

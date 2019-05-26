@@ -12,7 +12,7 @@ class CRenderbuffer
     bool mInitialized;
 
 public:
-    CRenderbuffer::CRenderbuffer()
+    CRenderbuffer()
         : mWidth(0)
         , mHeight(0)
         , mEnableMultisampling(false)
@@ -20,7 +20,7 @@ public:
     {
     }
 
-    CRenderbuffer::CRenderbuffer(uint Width, uint Height)
+    CRenderbuffer(uint Width, uint Height)
         : mWidth(Width)
         , mHeight(Height)
         , mEnableMultisampling(false)
@@ -28,20 +28,20 @@ public:
     {
     }
 
-    CRenderbuffer::~CRenderbuffer()
+    ~CRenderbuffer()
     {
         if (mInitialized)
             glDeleteRenderbuffers(1, &mRenderbuffer);
     }
 
-    void CRenderbuffer::Init()
+    void Init()
     {
         mInitialized = true;
         glGenRenderbuffers(1, &mRenderbuffer);
         InitStorage();
     }
 
-    inline void CRenderbuffer::Resize(uint Width, uint Height)
+    inline void Resize(uint Width, uint Height)
     {
         mWidth = Width;
         mHeight = Height;
@@ -50,13 +50,13 @@ public:
             InitStorage();
     }
 
-    inline void CRenderbuffer::Bind()
+    inline void Bind()
     {
         if (!mInitialized) Init();
         glBindRenderbuffer(GL_RENDERBUFFER, mRenderbuffer);
     }
 
-    inline void CRenderbuffer::Unbind()
+    inline void Unbind()
     {
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }

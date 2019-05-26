@@ -22,7 +22,7 @@ void CPropertyNameGenerator::Warmup()
     mWords.clear();
 
     // Load the word list from the file
-    FILE* pListFile = fopen("../resources/WordList.txt", "r");
+    FILE* pListFile = fopen(*(gDataDir + "resources/WordList.txt"), "r");
     ASSERT(pListFile);
 
     while (!feof(pListFile))

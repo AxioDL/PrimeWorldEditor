@@ -9,6 +9,7 @@
 #include "Core/OpenGL/CIndexBuffer.h"
 #include <Common/BasicTypes.h>
 
+#include <optional>
 #include <string>
 #include <unordered_map>
 
@@ -20,9 +21,9 @@ class CFont : public CResource
 {
     DECLARE_RESOURCE_TYPE(Font)
     friend class CFontLoader;
-    static CDynamicVertexBuffer smGlyphVertices; // This is the vertex buffer used to draw glyphs. It has two attributes - Pos and Tex0. Tex0 should be updated for each glyph.
-    static CIndexBuffer smGlyphIndices;          // This is the index buffer used to draw glyphs. It uses a triangle strip.
-    static bool smBuffersInitialized;            // This bool indicates whether the vertex/index buffer have been initialized. Checked at the start of RenderString().
+    static std::optional<CDynamicVertexBuffer> smGlyphVertices; // This is the vertex buffer used to draw glyphs. It has two attributes - Pos and Tex0. Tex0 should be updated for each glyph.
+    static CIndexBuffer smGlyphIndices; // This is the index buffer used to draw glyphs. It uses a triangle strip.
+    static bool smBuffersInitialized;   // This bool indicates whether the vertex/index buffer have been initialized. Checked at the start of RenderString().
 
     uint32 mUnknown;                    // Value at offset 0x8. Not sure what this is. Including for experimentation purposes.
     uint32 mLineHeight;                 // Height of each line, in points
@@ -70,7 +71,8 @@ public:
     inline TString FontName() const         { return mFontName; }
     inline CTexture* Texture() const   { return mpFontTexture; }
 private:
-    void InitBuffers();
+    static void InitBuffers();
+    static void ShutdownBuffers();
 };
 
 #endif // CFONT_H

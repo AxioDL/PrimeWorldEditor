@@ -23,6 +23,47 @@ void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*/, cons
     }
 }
 
+static TString LocateDataDirectory()
+{
+#if !defined(_WIN32) && !defined(__APPLE__)
+#ifdef PWE_DATADIR
+    {
+        /* This is for build-configured root */
+        TString dir = FileUtil::MakeAbsolute(PWE_DATADIR);
+        debugf("Checking '%s' for resources", *dir);
+        if (FileUtil::IsDirectory(dir + "resources"))
+            return dir;
+    }
+#endif
+    {
+        /* This is for locating appimage root */
+        TString dir = FileUtil::MakeAbsolute(TString(QCoreApplication::applicationDirPath().toUtf8().data()) + "/../share/PrimeWorldEditor");
+        debugf("Checking '%s' for resources", *dir);
+        if (FileUtil::IsDirectory(dir + "resources"))
+            return dir;
+    }
+#endif
+    {
+        /* This is for locating build directory root */
+        TString dir = FileUtil::MakeAbsolute(TString(QCoreApplication::applicationDirPath().toUtf8().data()) + "/..");
+        debugf("Checking '%s' for resources", *dir);
+        if (FileUtil::IsDirectory(dir + "resources"))
+            return dir;
+    }
+    TString dir = FileUtil::MakeAbsolute("..");
+    warnf("Falling back to '%s' for resources", *dir);
+    return dir;
+}
+
+static TString LocateLogPath()
+{
+#ifndef _WIN32
+    return TString(getenv("HOME")) + "/.primeworldeditor.log";
+#else
+    return "primeworldeditor.log";
+#endif
+}
+
 class CMain
 {
 public:
@@ -35,7 +76,7 @@ public:
         App.setApplicationName( APP_NAME );
         App.setApplicationVersion( APP_VERSION );
         App.setOrganizationName("Aruki");
-        App.setWindowIcon(QIcon(":/icons/AppIcon.ico"));
+        App.setWindowIcon(QIcon(":/icons/win/AppIcon.ico"));
 
         // Create UI relay
         CUIRelay UIRelay(&App);
@@ -46,12 +87,15 @@ public:
         SetupPalette();
 
         // Init log
-        bool Initialized = NLog::InitLog("primeworldeditor.log");
+        bool Initialized = NLog::InitLog(LocateLogPath());
         if (!Initialized) UICommon::ErrorMsg(0, "Couldn't open log file. Logging will not work for this session.");
         qInstallMessageHandler(QtLogRedirect);
 
+        // Locate data directory
+        gDataDir = LocateDataDirectory();
+
         // Create editor resource store
-        gpEditorStore = new CResourceStore("../resources/");
+        gpEditorStore = new CResourceStore(gDataDir + "resources/");
 
         if (!gpEditorStore->DatabasePathExists())
         {

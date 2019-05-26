@@ -19,6 +19,12 @@
 #define USE_ASSET_NAME_MAP 1
 #define EXPORT_COOKED 1
 
+#if NOD_UCS2
+static nod::SystemStringView TStringToNodString(const TString& string) { return ToWChar(string); }
+#else
+static nod::SystemStringView TStringToNodString(const TString& string) { return *string; }
+#endif
+
 CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion)
     : mGame(Game)
     , mRegion(Region)
@@ -198,16 +204,16 @@ bool CGameExporter::ExtractDiscData()
         if (IsWii)
         {
             // Extract crypto files
-            if (!pDataPartition->extractCryptoFiles(ToWChar(AbsDiscDir), Context))
+            if (!pDataPartition->extractCryptoFiles(TStringToNodString(AbsDiscDir), Context))
                 return false;
 
             // Extract disc header files
-            if (!mpDisc->extractDiscHeaderFiles(ToWChar(AbsDiscDir), Context))
+            if (!mpDisc->extractDiscHeaderFiles(TStringToNodString(AbsDiscDir), Context))
                 return false;
         }
 
         // Extract system files
-        if (!pDataPartition->extractSysFiles(ToWChar(AbsDiscDir), Context))
+        if (!pDataPartition->extractSysFiles(TStringToNodString(AbsDiscDir), Context))
             return false;
 
         return true;
@@ -226,7 +232,7 @@ bool CGameExporter::ExtractDiscNodeRecursive(const nod::Node *pkNode, const TStr
         if (Iter->getKind() == nod::Node::Kind::File)
         {
             TString FilePath = rkDir + Iter->getName().data();
-            bool Success = Iter->extractToDirectory(ToWChar(rkDir), rkContext);
+            bool Success = Iter->extractToDirectory(TStringToNodString(rkDir), rkContext);
             if (!Success) return false;
 
             if (FilePath.GetFileExtension().CaseInsensitiveCompare("pak"))

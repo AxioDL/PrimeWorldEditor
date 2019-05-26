@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Prime World Editor
+GenericName=Game Data Editor
+Comment=Edit world assets from games by Retro Studios
+Exec=PrimeWorldEditor
+Icon=PrimeWorldEditor
+Terminal=false
+Type=Application
+Categories=Development;

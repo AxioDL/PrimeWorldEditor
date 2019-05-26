@@ -17,7 +17,7 @@ function(integrate_dew)
         return()
     endif()
     
-    if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
+    if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
         set(dew_cmake_prefix_suffix debug)
     else()
         set(dew_cmake_prefix_suffix release)

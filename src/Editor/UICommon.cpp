@@ -13,14 +13,48 @@ QWindow* FindWidgetWindowHandle(QWidget *pWidget)
     return pWidget ? pWidget->windowHandle() : nullptr;
 }
 
-void OpenContainingFolder(const QString& rkPath)
+void OpenContainingFolder(QWidget* parent, const QString& pathIn)
 {
-#if WIN32
-    QStringList Args;
-    Args << "/select," << QDir::toNativeSeparators(rkPath);
-    QProcess::startDetached("explorer", Args);
+    const QFileInfo fileInfo(pathIn);
+    // Mac, Windows support folder or file.
+#if defined(Q_OS_WIN)
+    QString paths = QProcessEnvironment::systemEnvironment().value(QStringLiteral("Path"));
+    QString explorer;
+    for (QString path : paths.split(QStringLiteral(";")))
+    {
+        QFileInfo finfo(QDir(path), QStringLiteral("explorer.exe"));
+        if (finfo.exists())
+        {
+            explorer = finfo.filePath();
+            break;
+        }
+    }
+    if (explorer.isEmpty())
+    {
+        QMessageBox::warning(parent, MainWindow::tr("Launching Windows Explorer Failed"),
+                             MainWindow::tr("Could not find explorer.exe in path to launch Windows Explorer."));
+        return;
+    }
+    QStringList param;
+    if (!fileInfo.isDir())
+        param += QLatin1String("/select,");
+    param += QDir::toNativeSeparators(fileInfo.canonicalFilePath());
+    QProcess::startDetached(explorer, param);
+#elif defined(Q_OS_MAC)
+    QStringList scriptArgs;
+    scriptArgs << QLatin1String("-e")
+               << QString::fromLatin1("tell application \"Finder\" to reveal POSIX file \"%1\"")
+                      .arg(fileInfo.canonicalFilePath());
+    QProcess::execute(QLatin1String("/usr/bin/osascript"), scriptArgs);
+    scriptArgs.clear();
+    scriptArgs << QLatin1String("-e") << QLatin1String("tell application \"Finder\" to activate");
+    QProcess::execute(QLatin1String("/usr/bin/osascript"), scriptArgs);
 #else
-#error OpenContainingFolder() not implemented!
+    // we cannot select a file here, because no file browser really supports it...
+    const QString folder = fileInfo.isDir() ? fileInfo.absoluteFilePath() : fileInfo.filePath();
+    QProcess browserProc;
+    const QString browserArgs = QStringLiteral("xdg-open \"%1\"").arg(QFileInfo(folder).path());
+    browserProc.startDetached(browserArgs);
 #endif
 }
 

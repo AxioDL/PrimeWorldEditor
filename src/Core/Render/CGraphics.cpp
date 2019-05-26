@@ -26,9 +26,9 @@ const CColor CGraphics::skDefaultAmbientColor = CColor(0.5f, 0.5f, 0.5f, 1.f);
 CColor CGraphics::sAreaAmbientColor = CColor::skBlack;
 float CGraphics::sWorldLightMultiplier;
 CLight CGraphics::sDefaultDirectionalLights[3] = {
-    *CLight::BuildDirectional(CVector3f(0), CVector3f   (0.f, -0.866025f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f)),
-    *CLight::BuildDirectional(CVector3f(0), CVector3f(-0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f)),
-    *CLight::BuildDirectional(CVector3f(0), CVector3f( 0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f))
+    CLight::BuildDirectional(CVector3f(0), CVector3f   (0.f, -0.866025f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f)),
+    CLight::BuildDirectional(CVector3f(0), CVector3f(-0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f)),
+    CLight::BuildDirectional(CVector3f(0), CVector3f( 0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f))
 };
 
 // ************ FUNCTIONS ************

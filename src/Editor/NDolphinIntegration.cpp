@@ -56,7 +56,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     debugf("Launching quickplay...");
 
     // Check if quickplay is supported for this project
-    TString QuickplayDir = "../resources/quickplay" / ::GetGameShortName(pProject->Game());
+    TString QuickplayDir = gDataDir + "resources/quickplay" / ::GetGameShortName(pProject->Game());
     TString BuildString = "v" + TString::FromFloat(pProject->BuildVersion());
     TString RelFile = QuickplayDir / BuildString + ".rel";
     TString PatchFile = QuickplayDir / BuildString + ".bin";
@@ -203,7 +203,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
 bool IsQuickplaySupported(CGameProject* pProject)
 {
     // Quickplay is supported if there is a quickplay module & patch in the resources folder
-    TString QuickplayDir = "../resources/quickplay" / ::GetGameShortName(pProject->Game());
+    TString QuickplayDir = gDataDir + "resources/quickplay" / ::GetGameShortName(pProject->Game());
     TString BuildString = "v" + TString::FromFloat(pProject->BuildVersion());
     TString RelFile = QuickplayDir / BuildString + ".rel";
     TString PatchFile = QuickplayDir / BuildString + ".bin";

@@ -63,6 +63,7 @@ class CGameExporter
     // Progress
     IProgressNotifier *mpProgress;
 
+public:
     enum EExportStep
     {
         eES_ExtractDisc,
@@ -72,7 +73,6 @@ class CGameExporter
         eES_NumSteps
     };
 
-public:
     CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
     bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress);
     void LoadResource(const CAssetID& rkID, std::vector<uint8>& rBuffer);

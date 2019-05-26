@@ -4,8 +4,10 @@
 #include "Core/OpenGL/CVertexBuffer.h"
 #include "Core/OpenGL/CDynamicVertexBuffer.h"
 #include "Core/OpenGL/CIndexBuffer.h"
-#include "Core/Resource/model/CModel.h"
+#include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CLight.h"
+
+#include <optional>
 
 /**
  * @todo there are a LOT of problems with how this is implemented; trying to
@@ -17,22 +19,22 @@
 class CDrawUtil
 {
     // 7x7 Grid
-    static CVertexBuffer mGridVertices;
+    static std::optional<CVertexBuffer> mGridVertices;
     static CIndexBuffer mGridIndices;
 
     // Square
-    static CDynamicVertexBuffer mSquareVertices;
+    static std::optional<CDynamicVertexBuffer> mSquareVertices;
     static CIndexBuffer mSquareIndices;
 
     // Line
-    static CDynamicVertexBuffer mLineVertices;
+    static std::optional<CDynamicVertexBuffer> mLineVertices;
     static CIndexBuffer mLineIndices;
 
     // Cube
     static TResPtr<CModel> mpCubeModel;
 
     // Wire Cube
-    static CVertexBuffer mWireCubeVertices;
+    static std::optional<CVertexBuffer> mWireCubeVertices;
     static CIndexBuffer mWireCubeIndices;
 
     // Sphere

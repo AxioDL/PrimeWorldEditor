@@ -226,7 +226,7 @@ void CGeneratePropertyNamesDialog::OnTreeItemDoubleClicked(QTreeWidgetItem* pIte
         if (Text.endsWith(".xml"))
         {
             TString TStrText = TO_TSTRING(Text);
-            TString DirPath = "../templates/" + TStrText.GetFileDirectory();
+            TString DirPath = gDataDir + "templates/" + TStrText.GetFileDirectory();
             TString AbsPath = FileUtil::MakeAbsolute(DirPath) + TStrText.GetFileName();
             UICommon::OpenInExternalApplication( TO_QSTRING(AbsPath) );
         }

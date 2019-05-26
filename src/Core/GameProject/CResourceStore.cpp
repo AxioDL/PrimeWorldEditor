@@ -12,6 +12,7 @@
 #include <tinyxml2.h>
 
 using namespace tinyxml2;
+TString gDataDir;
 CResourceStore *gpResourceStore = nullptr;
 CResourceStore *gpEditorStore = nullptr;
 
@@ -607,6 +608,19 @@ bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
     return true;
 }
 
+#ifdef _WIN32
+static int wrap_fopen(FILE** pFile, const char *filename, const char *mode)
+{
+    return fopen_s(pFile, filename, mode);
+}
+#else
+static int wrap_fopen(FILE** pFile, const char *filename, const char *mode)
+{
+  *pFile = fopen(filename, mode);
+  return *pFile == nullptr;
+}
+#endif
+
 void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, bool UnnamedOnly)
 {
     // Read file contents -first- then move assets -after-; this
@@ -615,7 +629,7 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
     // todo: move to CAssetNameMap?
     std::map<CResourceEntry*, TString> PathMap;
     FILE *pContentsFile;
-    fopen_s(&pContentsFile, *rkTxtPath, "r");
+    wrap_fopen(&pContentsFile, *rkTxtPath, "r");
 
     if (!pContentsFile)
     {

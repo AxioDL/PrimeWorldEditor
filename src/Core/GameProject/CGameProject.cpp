@@ -5,6 +5,12 @@
 #include <Common/Serialization/XML.h>
 #include <nod/nod.hpp>
 
+#if NOD_UCS2
+static nod::SystemStringView TStringToNodString(const TString& string) { return ToWChar(string); }
+#else
+static nod::SystemStringView TStringToNodString(const TString& string) { return *string; }
+#endif
+
 CGameProject::~CGameProject()
 {
     if (mpResourceStore)
@@ -88,13 +94,13 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
 
     if (!IsWiiBuild())
     {
-        nod::DiscBuilderGCN Builder(ToWChar(rkIsoPath), ProgressCallback);
-        return Builder.buildFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
+        nod::DiscBuilderGCN Builder(TStringToNodString(rkIsoPath), ProgressCallback);
+        return Builder.buildFromDirectory(TStringToNodString(DiscRoot)) == nod::EBuildResult::Success;
     }
     else
     {
-        nod::DiscBuilderWii Builder(ToWChar(rkIsoPath), IsTrilogy(), ProgressCallback);
-        return Builder.buildFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
+        nod::DiscBuilderWii Builder(TStringToNodString(rkIsoPath), IsTrilogy(), ProgressCallback);
+        return Builder.buildFromDirectory(TStringToNodString(DiscRoot)) == nod::EBuildResult::Success;
     }
 }
 
@@ -113,8 +119,8 @@ bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso
 
     TString DiscRoot = DiscFilesystemRoot(false);
 
-    nod::DiscMergerWii Merger(ToWChar(rkIsoPath), *pOriginalIso, IsTrilogy(), ProgressCallback);
-    return Merger.mergeFromDirectory(ToWChar(DiscRoot)) == nod::EBuildResult::Success;
+    nod::DiscMergerWii Merger(TStringToNodString(rkIsoPath), *pOriginalIso, IsTrilogy(), ProgressCallback);
+    return Merger.mergeFromDirectory(TStringToNodString(DiscRoot)) == nod::EBuildResult::Success;
 }
 
 void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const

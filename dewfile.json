@@ -12,12 +12,13 @@
             "url": "https://github.com/jackoalan/assimp",
             "type": "git",
             "head": "static-lib-export",
-            "ref": "2c16b2f6c517006367a558c06075584bbd230367",
+            "ref": "d048bccad1ea3f72906da2d970b30f187db91f33",
             "dependson": [
                 "zlib"
             ],
             "cmake_defines": {
                 "ASSIMP_BUILD_ZLIB": "OFF",
+                "ASSIMP_BUILD_MINIZIP": "ON",
                 "ASSIMP_BUILD_ASSIMP_TOOLS": "OFF"
             }
         },
@@ -26,21 +27,21 @@
             "url": "https://github.com/AxioDL/nod",
             "type": "git",
             "head": "master",
-            "ref": "4dd0375cae9557a1881d56f722e20557075a9d93"
+            "ref": "a1284ae06586b958f36b8ecaba29390835ed2820"
         },
         {
             "name": "CodeGen",
             "url": "https://github.com/jackoalan/CodeGen",
             "type": "git",
             "head": "cmake",
-            "ref": "94dc9ac32986f14a734c3523dd85d50ae50f7128"
+            "ref": "7a71e4866a60c5bf49e6d8f26717726d939c2aaf"
         },
         {
             "name": "LibCommon",
             "url": "https://github.com/jackoalan/LibCommon",
             "type": "git",
             "head": "dew",
-            "ref": "4c780619259a31168e6a8ce6e7018b2ea640b3af"
+            "ref": "f5c22715fbeb451a167ec3494f9d40ad53866029"
         },
         {
             "name": "lzo",

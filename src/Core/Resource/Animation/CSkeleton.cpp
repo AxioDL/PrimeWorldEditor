@@ -5,6 +5,8 @@
 #include <Common/Macros.h>
 #include <Common/Math/MathUtil.h>
 
+#include <cfloat>
+
 // ************ CBone ************
 CBone::CBone(CSkeleton *pSkel)
     : mpSkeleton(pSkel)

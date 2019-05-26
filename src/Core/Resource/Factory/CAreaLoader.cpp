@@ -8,6 +8,7 @@
 
 #include <Common/CFourCC.h>
 
+#include <cfloat>
 #include <iostream>
 
 CAreaLoader::CAreaLoader()
@@ -151,7 +152,7 @@ void CAreaLoader::ReadSCLYPrime()
         CFourCC SCGN = mpMREA->ReadFourCC();
 
         if (SCGN != FOURCC('SCGN'))
-            errorf("%s [0x%X]: Invalid SCGN magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, SCGN.ToString());
+            errorf("%s [0x%X]: Invalid SCGN magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, *SCGN.ToString());
 
         else
         {
@@ -191,7 +192,7 @@ void CAreaLoader::ReadLightsPrime()
             mpMREA->Seek(0x4, SEEK_CUR);
 
             // Relevant data is read - now we process and form a CLight out of it
-            CLight *pLight;
+            CLight pLight;
 
             CColor LightColor = CColor(Color.X, Color.Y, Color.Z, 0.f);
             if (Multiplier < FLT_EPSILON)
@@ -225,7 +226,7 @@ void CAreaLoader::ReadLightsPrime()
                 float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
                 float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
                 float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
-                pLight->SetDistAtten(DistAttenA, DistAttenB, DistAttenC);
+                pLight.SetDistAtten(DistAttenA, DistAttenB, DistAttenC);
             }
 
             // Custom
@@ -240,7 +241,7 @@ void CAreaLoader::ReadLightsPrime()
                                             1.f, 0.f, 0.f);
             }
 
-            pLight->SetLayer(iLyr);
+            pLight.SetLayer(iLyr);
             mpArea->mLightLayers[iLyr][iLight] = pLight;
         }
     }
@@ -493,7 +494,7 @@ void CAreaLoader::ReadLightsCorruption()
             mpMREA->Seek(0x18, SEEK_CUR);
 
             // Relevant data is read - now we process and form a CLight out of it
-            CLight *pLight;
+            CLight pLight;
 
             if (Multiplier < FLT_EPSILON)
                 Multiplier = FLT_EPSILON;
@@ -518,7 +519,7 @@ void CAreaLoader::ReadLightsCorruption()
                 float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
                 float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
                 float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
-                pLight->SetDistAtten(DistAttenA, DistAttenB, DistAttenC);
+                pLight.SetDistAtten(DistAttenA, DistAttenB, DistAttenC);
             }
 
             // Custom
@@ -533,7 +534,7 @@ void CAreaLoader::ReadLightsCorruption()
                                             1.f, 0.f, 0.f);
             }
 
-            pLight->SetLayer(iLayer);
+            pLight.SetLayer(iLayer);
             mpArea->mLightLayers[iLayer][iLight] = pLight;
         }
     }

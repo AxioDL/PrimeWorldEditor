@@ -27,7 +27,7 @@
         <file>icons/SelectMode.png</file>
         <file>icons/POI Important.png</file>
         <file>icons/POI Normal.png</file>
-        <file>icons/AppIcon.ico</file>
+        <file>icons/win/AppIcon.ico</file>
         <file>icons/New.png</file>
         <file>icons/Open.png</file>
         <file>icons/Redo.png</file>

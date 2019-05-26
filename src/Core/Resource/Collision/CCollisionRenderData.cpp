@@ -1,5 +1,6 @@
 #include "CCollisionRenderData.h"
 #include <Core/Render/CDrawUtil.h>
+#include <algorithm>
 
 /** Build from collision data */
 void CCollisionRenderData::BuildRenderData(const SCollisionIndexData& kIndexData)

@@ -5,7 +5,7 @@ namespace NGameList
 {
 
 /** Path for the templates directory */
-const TString gkTemplatesDir = "../templates/";
+const TString gkTemplatesDir = "templates/";
 
 /** Path to the game list file */
 const TString gkGameListPath = gkTemplatesDir + "GameList.xml";
@@ -33,7 +33,7 @@ struct SGameInfo
         }
     }
 };
-SGameInfo gGameList[EGame::Max];
+SGameInfo gGameList[int(EGame::Max)];
 
 /** Whether the game list has been loaded */
 bool gLoadedGameList = false;
@@ -88,7 +88,7 @@ void LoadGameList()
     ASSERT(!gLoadedGameList);
     debugf("Loading game list");
 
-    CXMLReader Reader(gkGameListPath);
+    CXMLReader Reader(gDataDir + gkGameListPath);
     ASSERT(Reader.IsValid());
 
     SerializeGameList(Reader);
@@ -101,7 +101,7 @@ void SaveGameList()
     ASSERT(gLoadedGameList);
     debugf("Saving game list");
 
-    CXMLWriter Writer(gkGameListPath, "GameList");
+    CXMLWriter Writer(gDataDir + gkGameListPath, "GameList");
     ASSERT(Writer.IsValid());
 
     SerializeGameList(Writer);
@@ -151,7 +151,7 @@ CGameTemplate* GetGameTemplate(EGame Game)
     // Load the game template, if it hasn't been loaded yet.
     if (!GameInfo.pTemplate && !GameInfo.Name.IsEmpty())
     {
-        TString GamePath = gkTemplatesDir + GameInfo.TemplatePath;
+        TString GamePath = gDataDir + gkTemplatesDir + GameInfo.TemplatePath;
         GameInfo.pTemplate = std::make_unique<CGameTemplate>();
         GameInfo.pTemplate->Load(GamePath);
     }

@@ -19,7 +19,7 @@ public:
     explicit TEnumComboBox(QWidget* pParent = 0)
         : QComboBox(pParent)
     {
-        for (TEnumReflection<EnumT>::CIterator It; It; ++It)
+        for (typename TEnumReflection<EnumT>::CIterator It; It; ++It)
         {
             if (It.Value() != TEnumReflection<EnumT>::ErrorValue())
             {

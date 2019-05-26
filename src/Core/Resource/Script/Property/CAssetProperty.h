@@ -11,7 +11,7 @@ class CAssetProperty : public TSerializeableTypedProperty<CAssetID, EPropertyTyp
     CResTypeFilter mTypeFilter;
 
 protected:
-    CAssetProperty::CAssetProperty(EGame Game)
+    CAssetProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
     {
         mDefaultValue = CAssetID::InvalidID( mGame );

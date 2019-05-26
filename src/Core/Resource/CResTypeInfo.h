@@ -25,11 +25,12 @@ class CResTypeInfo
     bool mCanHaveDependencies;
     bool mCanBeCreated;
 
-    static std::unordered_map<EResourceType, CResTypeInfo*> smTypeMap;
+    static std::unordered_map<EResourceType, std::unique_ptr<CResTypeInfo>> smTypeMap;
 
     // Private Methods
     CResTypeInfo(EResourceType Type, const TString& rkTypeName, const TString& rkRetroExtension);
-    ~CResTypeInfo() {}
+    ~CResTypeInfo() = default;
+    friend class std::default_delete<CResTypeInfo>;
 
     // Public Methods
 public:
@@ -47,11 +48,7 @@ public:
     static void GetAllTypesInGame(EGame Game, std::list<CResTypeInfo*>& rOut);
     static CResTypeInfo* TypeForCookedExtension(EGame, CFourCC Ext);
 
-    inline static CResTypeInfo* FindTypeInfo(EResourceType Type)
-    {
-        auto Iter = smTypeMap.find(Type);
-        return (Iter == smTypeMap.end() ? nullptr : Iter->second);
-    }
+    static CResTypeInfo* FindTypeInfo(EResourceType Type);
 
 private:
     // Creation

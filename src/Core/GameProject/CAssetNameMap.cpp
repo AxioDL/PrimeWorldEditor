@@ -182,7 +182,7 @@ void CAssetNameMap::PostLoadValidate()
 
         for (auto Iter = Dupes.begin(); Iter != Dupes.end(); Iter++)
         {
-            warnf("\t%s", Iter->FullPath());
+            warnf("\t%s", *Iter->FullPath());
         }
 
         mMap.clear();
@@ -195,7 +195,7 @@ TString CAssetNameMap::DefaultNameMapPath(EIDLength IDLength)
 {
     ASSERT(IDLength != kInvalidIDLength);
     TString Suffix = (IDLength == k32Bit ? "32" : "64");
-    return gkAssetMapPath + Suffix + "." + gkAssetMapExt;
+    return gDataDir + gkAssetMapPath + Suffix + "." + gkAssetMapExt;
 }
 
 TString CAssetNameMap::DefaultNameMapPath(EGame Game)

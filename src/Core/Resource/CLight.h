@@ -69,10 +69,10 @@ public:
     void Load() const;
 
     // Static
-    static CLight* BuildLocalAmbient(const CVector3f& rkPosition, const CColor& rkColor);
-    static CLight* BuildDirectional(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor);
-    static CLight* BuildSpot(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor, float Cutoff);
-    static CLight* BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor,
+    static CLight BuildLocalAmbient(const CVector3f& rkPosition, const CColor& rkColor);
+    static CLight BuildDirectional(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor);
+    static CLight BuildSpot(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor, float Cutoff);
+    static CLight BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDirection, const CColor& rkColor,
                               float DistAttenA, float DistAttenB, float DistAttenC,
                               float AngleAttenA, float AngleAttenB, float AngleAttenC);
 

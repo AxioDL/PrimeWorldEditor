@@ -40,11 +40,13 @@ class CMaterial
     friend class CMaterialLoader;
     friend class CMaterialCooker;
 
+public:
     enum class EShaderStatus
     {
         NoShader, ShaderExists, ShaderFailed
     };
 
+private:
     // Statics
     static uint64 sCurrentMaterial; // The hash for the currently bound material
     static CColor sCurrentTint;  // The tint for the currently bound material

@@ -53,7 +53,7 @@ class CGameArea : public CResource
     // Collision
     std::unique_ptr<CCollisionMeshGroup> mpCollision;
     // Lights
-    std::vector<std::vector<CLight*>> mLightLayers;
+    std::vector<std::vector<CLight>> mLightLayers;
     // Path Mesh
     CAssetID mPathID;
     // Portal Area
@@ -98,7 +98,7 @@ public:
     inline CScriptLayer* ScriptLayer(uint32 Index) const                { return mScriptLayers[Index]; }
     inline uint32 NumLightLayers() const                                { return mLightLayers.size(); }
     inline uint32 NumLights(uint32 LayerIndex) const                    { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
-    inline CLight* Light(uint32 LayerIndex, uint32 LightIndex) const    { return mLightLayers[LayerIndex][LightIndex]; }
+    inline CLight* Light(uint32 LayerIndex, uint32 LightIndex)          { return &mLightLayers[LayerIndex][LightIndex]; }
     inline CAssetID PathID() const                                      { return mPathID; }
     inline CPoiToWorld* PoiToWorldMap() const                           { return mpPoiToWorldMap; }
     inline CAssetID PortalAreaID() const                                { return mPortalAreaID; }

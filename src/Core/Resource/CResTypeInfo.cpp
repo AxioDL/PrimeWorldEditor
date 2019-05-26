@@ -2,7 +2,7 @@
 #include <Common/Macros.h>
 #include <algorithm>
 
-std::unordered_map<EResourceType, CResTypeInfo*> CResTypeInfo::smTypeMap;
+std::unordered_map<EResourceType, std::unique_ptr<CResTypeInfo>> CResTypeInfo::smTypeMap;
 
 CResTypeInfo::CResTypeInfo(EResourceType Type, const TString& rkTypeName, const TString& rkRetroExtension)
     : mType(Type)
@@ -15,7 +15,7 @@ CResTypeInfo::CResTypeInfo(EResourceType Type, const TString& rkTypeName, const 
 #if !PUBLIC_RELEASE
     ASSERT(smTypeMap.find(Type) == smTypeMap.end());
 #endif
-    smTypeMap[Type] = this;
+    smTypeMap[Type] = std::unique_ptr<CResTypeInfo>(this);
 }
 
 bool CResTypeInfo::IsInGame(EGame Game) const
@@ -48,7 +48,7 @@ void CResTypeInfo::GetAllTypesInGame(EGame Game, std::list<CResTypeInfo*>& rOut)
 {
     for (auto Iter = smTypeMap.begin(); Iter != smTypeMap.end(); Iter++)
     {
-        CResTypeInfo *pType = Iter->second;
+        CResTypeInfo *pType = Iter->second.get();
 
         if (pType->IsInGame(Game))
             rOut.push_back(pType);
@@ -78,7 +78,7 @@ CResTypeInfo* CResTypeInfo::TypeForCookedExtension(EGame Game, CFourCC Ext)
     // Not cached - do a slow lookup
     for (auto Iter = smTypeMap.begin(); Iter != smTypeMap.end(); Iter++)
     {
-        CResTypeInfo *pType = Iter->second;
+        CResTypeInfo *pType = Iter->second.get();
 
         if (pType->CookedExtension(Game) == Ext)
         {
@@ -96,6 +96,12 @@ CResTypeInfo* CResTypeInfo::TypeForCookedExtension(EGame Game, CFourCC Ext)
     }
     sCachedTypeMap[Ext] = nullptr;
     return nullptr;
+}
+
+CResTypeInfo* CResTypeInfo::FindTypeInfo(EResourceType Type)
+{
+    auto Iter = smTypeMap.find(Type);
+    return (Iter == smTypeMap.end() ? nullptr : Iter->second.get());
 }
 
 // ************ SERIALIZATION ************

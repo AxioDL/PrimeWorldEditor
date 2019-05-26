@@ -52,7 +52,6 @@ public:
         ScaleEnabled, ScaleDisabled, ScaleVolume
     };
 
-private:
     struct SEditorAsset
     {
         enum class EAssetType {
@@ -75,6 +74,7 @@ private:
         }
     };
 
+private:
     std::vector<TString> mModules;
     std::unique_ptr<CStructProperty> mpProperties;
     std::vector<SEditorAsset> mAssets;

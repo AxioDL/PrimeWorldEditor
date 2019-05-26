@@ -66,6 +66,8 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 }
 
+CCollisionEditor::~CCollisionEditor() {}
+
 CCollisionEditorViewport* CCollisionEditor::Viewport() const
 {
     return mpUI->Viewport;

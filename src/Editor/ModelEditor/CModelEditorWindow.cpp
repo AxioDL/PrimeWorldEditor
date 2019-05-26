@@ -6,10 +6,10 @@
 #include <Common/TString.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CRenderer.h>
-#include <Core/Resource/cooker/CTextureEncoder.h>
-#include <Core/Resource/factory/CModelLoader.h>
-#include <Core/Resource/factory/CMaterialLoader.h>
-#include <Core/Resource/factory/CTextureDecoder.h>
+#include <Core/Resource/Cooker/CTextureEncoder.h>
+#include <Core/Resource/Factory/CModelLoader.h>
+#include <Core/Resource/Factory/CMaterialLoader.h>
+#include <Core/Resource/Factory/CTextureDecoder.h>
 #include <Core/Scene/CScene.h>
 
 #include <iostream>
