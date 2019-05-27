@@ -66,4 +66,4 @@ void main()
         Illum += (Atten * DiffuseAtten * Lights[iLight].Color);
     }
     COLOR0A0 = COLOR0_Mat * (Illum + COLOR0_Amb);
-};
+}

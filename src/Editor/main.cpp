@@ -107,6 +107,12 @@ public:
         MacOSSetDarkAppearance();
 #endif
 
+        // Default OpenGL format
+        QSurfaceFormat glFormat;
+        glFormat.setVersion(3, 3);
+        glFormat.setProfile(QSurfaceFormat::CoreProfile);
+        QSurfaceFormat::setDefaultFormat(glFormat);
+
         // Init log
         bool Initialized = NLog::InitLog(LocateLogPath());
         if (!Initialized) UICommon::ErrorMsg(0, "Couldn't open log file. Logging will not work for this session.");

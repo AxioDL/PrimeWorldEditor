@@ -16,4 +16,4 @@ void main()
 {
 	mat4 MVP = ModelMtx * ViewMtx * ProjMtx;
 	gl_Position = vec4(Position, 1) * MVP;
-};
+}

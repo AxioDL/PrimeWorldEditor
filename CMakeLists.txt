@@ -10,6 +10,8 @@ include(cmake/generate_product_version.cmake)
 
 if(MSVC)
     add_compile_options(/WX /wd4267 /wd4100 /wd4101 /wd4189)
+elseif(APPLE)
+    add_compile_definitions(GL_SILENCE_DEPRECATION)
 endif()
 
 # Set where the binary files will be built.  The program will not execute from

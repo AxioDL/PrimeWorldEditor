@@ -37,6 +37,7 @@ public:
     GLuint GetProgramID();
     GLuint GetUniformLocation(const char* pkUniform);
     GLuint GetUniformBlockIndex(const char* pkUniformBlock);
+    void UniformBlockBinding(GLuint BlockIndex, GLuint BlockBinding);
     void SetTextureUniforms(uint32 NumTextures);
     void SetNumLights(uint32 NumLights);
     void SetCurrent();

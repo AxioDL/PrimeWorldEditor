@@ -187,6 +187,12 @@ GLuint CShader::GetUniformBlockIndex(const char* pkUniformBlock)
     return glGetUniformBlockIndex(mProgram, pkUniformBlock);
 }
 
+void CShader::UniformBlockBinding(GLuint BlockIndex, GLuint BlockBinding)
+{
+    if (BlockIndex != GL_INVALID_INDEX)
+        glUniformBlockBinding(mProgram, BlockIndex, BlockBinding);
+}
+
 void CShader::SetTextureUniforms(uint32 NumTextures)
 {
     for (uint32 iTex = 0; iTex < NumTextures; iTex++)
@@ -205,11 +211,11 @@ void CShader::SetCurrent()
         glUseProgram(mProgram);
         spCurrentShader = this;
 
-        glUniformBlockBinding(mProgram, mMVPBlockIndex, CGraphics::MVPBlockBindingPoint());
-        glUniformBlockBinding(mProgram, mVertexBlockIndex, CGraphics::VertexBlockBindingPoint());
-        glUniformBlockBinding(mProgram, mPixelBlockIndex, CGraphics::PixelBlockBindingPoint());
-        glUniformBlockBinding(mProgram, mLightBlockIndex, CGraphics::LightBlockBindingPoint());
-        glUniformBlockBinding(mProgram, mBoneTransformBlockIndex, CGraphics::BoneTransformBlockBindingPoint());
+        UniformBlockBinding(mMVPBlockIndex, CGraphics::MVPBlockBindingPoint());
+        UniformBlockBinding(mVertexBlockIndex, CGraphics::VertexBlockBindingPoint());
+        UniformBlockBinding(mPixelBlockIndex, CGraphics::PixelBlockBindingPoint());
+        UniformBlockBinding(mLightBlockIndex, CGraphics::LightBlockBindingPoint());
+        UniformBlockBinding(mBoneTransformBlockIndex, CGraphics::BoneTransformBlockBindingPoint());
     }
 }
 
