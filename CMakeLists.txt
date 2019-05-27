@@ -8,6 +8,10 @@ integrate_dew()
 
 include(cmake/generate_product_version.cmake)
 
+if(MSVC)
+    add_compile_options(/WX /wd4267 /wd4100 /wd4101 /wd4189)
+endif()
+
 # Set where the binary files will be built.  The program will not execute from
 # here.  You must run "make install" to install these to the proper location
 # as defined above.
