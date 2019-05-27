@@ -35,7 +35,7 @@
         </Element>
         <Element>
             <Key>AMKF</Key>
-            <Value Path="Script/ActorMultiKeyframe.xml"/>
+            <Value Path="Script/ActorMultiKeyFrame.xml"/>
         </Element>
         <Element>
             <Key>AOCL</Key>

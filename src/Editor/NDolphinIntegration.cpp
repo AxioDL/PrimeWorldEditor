@@ -41,7 +41,6 @@ void CQuickplayRelay::QuickplayStarted()
 void CQuickplayRelay::QuickplayFinished(int ReturnCode)
 {
     debugf("Quickplay session finished.");
-
     disconnect(gpDolphinProcess, 0, this, 0);
     CleanupQuickplayFiles(gpQuickplayProject);
     gpDolphinProcess->waitForFinished();
@@ -95,7 +94,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
         if (Path.isEmpty())
         {
             // Allow the user to select the Dolphin exe.
-            Path = UICommon::OpenFileDialog(pParentWidget, "Open Dolphin", "Dolphin.exe");
+            Path = UICommon::OpenFileDialog(pParentWidget, "Open Dolphin", "Dolphin");
         }
 
         bool bGotDolphin = (!Path.isEmpty() && SetDolphinPath(pParentWidget, Path, true));
@@ -254,14 +253,45 @@ bool SetDolphinPath(QWidget* pParentWidget, const QString& kDolphinPath, bool bS
     //@todo Validate the build version to make sure the build supports quickplay? Necessary?
     QFileInfo DolphinFile(kDolphinPath);
 
-    if (!DolphinFile.exists() || DolphinFile.suffix() != "exe")
+    if (!DolphinFile.exists() || !DolphinFile.isExecutable())
     {
         if (!bSilent)
         {
-            UICommon::ErrorMsg(pParentWidget, "The selected file is not a Dolphin exe!");
+            UICommon::ErrorMsg(pParentWidget, "The selected file is not a Dolphin executable!");
         }
         return false;
     }
+
+    // Try to obtain the version from Dolphin
+    QProcess DolphinProcess;
+    DolphinProcess.start(kDolphinPath, QStringList() << "--version");
+    DolphinProcess.waitForFinished();
+    QString VersionString = DolphinProcess.readLine().trimmed();
+    
+    // Make sure we have a valid string
+    if (VersionString.isNull())
+    {
+        if (!bSilent)
+        {
+            UICommon::ErrorMsg(pParentWidget, "Unable to validate version string, the selected file is likely not a Dolphin executable");
+        }
+        return false;
+    }
+
+    // Dolphin's version string is broken into two parts, the first part is the name the second is the version
+    // Dolphin unfortunately collide's with KDE Plasma's file manager which also happens to be named "Dolphin"
+    // Fortunately the latter uses a lowercase name so we can differentiate.
+    QStringList VersionParts = VersionString.split(' ');
+    if (VersionParts.count() != 2 || VersionParts[0] != "Dolphin")
+    {
+        if (!bSilent)
+        {
+            UICommon::ErrorMsg(pParentWidget, "The selected file is not a Dolphin executable!");
+        }
+        return false;
+    }
+
+    debugf("Found dolphin version %s", *TO_TSTRING(VersionParts[1]));
 
     // Build is legit, stash it
     QSettings Settings;
