@@ -163,6 +163,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
             break;
         }
 
+        default: break;
         }
     }
 
@@ -328,7 +329,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
 
                     break;
                 }
-
+                default: break;
                 }
             }
         }
@@ -491,7 +492,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     pAsset->ValueRef(pData) = (pEntry ? pEntry->ID() : CAssetID::InvalidID(pAsset->Game()));
                     break;
                 }
-
+                default: break;
                 }
             }
 

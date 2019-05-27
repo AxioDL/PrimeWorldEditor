@@ -451,6 +451,7 @@ void CModelEditorWindow::UpdateMaterial(int Value)
         mpCurrentPass->SetAnimMode((EUVAnimMode) (Value - 1));
         UpdateAnimParamUI((EUVAnimMode) (Value - 1));
         break;
+    default: break;
     }
 
     mpCurrentMat->GenerateShader();
@@ -506,6 +507,7 @@ void CModelEditorWindow::UpdateMaterial(double Value)
     case EModelEditorWidget::AnimParamDSpinBox:
         mpCurrentPass->SetAnimParam(3, (float) Value);
         break;
+    default: break;
     }
 }
 
@@ -543,7 +545,7 @@ void CModelEditorWindow::UpdateMaterial(bool Value)
     case EModelEditorWidget::EnableLightingCheckBox:
         mpCurrentMat->SetLightingEnabled(Value);
         break;
-
+    default: break;
     }
 }
 
@@ -570,6 +572,7 @@ void CModelEditorWindow::UpdateMaterial(QColor Color)
     case EModelEditorWidget::KonstColorPickerD:
         mpCurrentMat->SetKonst(KColor, 3);
         break;
+    default: break;
     }
 }
 
@@ -592,6 +595,7 @@ void CModelEditorWindow::UpdateMaterial(QString Value)
     case EModelEditorWidget::IndTextureResSelector:
         mpCurrentMat->SetIndTexture(pTex);
         break;
+    default: break;
     }
 }
 void CModelEditorWindow::UpdateUI(int Value)
@@ -610,6 +614,7 @@ void CModelEditorWindow::UpdateUI(int Value)
         SetActiveMaterial(Value);
         ActivateMatEditUI(true);
         break;
+    default: break;
     }
 }
 

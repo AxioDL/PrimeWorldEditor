@@ -453,6 +453,8 @@ public:
             case EPropertyType::Guid:
                 MakeOptional = true;
                 break;
+            default:
+                break;
             }
         }
 

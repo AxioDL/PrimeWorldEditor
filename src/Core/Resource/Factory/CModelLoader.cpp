@@ -219,6 +219,8 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
             case EPrimitiveType::TriangleStrip:
                 pSurf->TriangleCount += VertexCount - 2;
                 break;
+            default:
+                break;
         }
 
         pSurf->Primitives.push_back(Prim);

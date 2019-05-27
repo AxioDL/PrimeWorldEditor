@@ -18,7 +18,7 @@ public:
 
     virtual void undo() override { mpEditor->SetActiveTweakIndex(mOldIndex); }
     virtual void redo() override { mpEditor->SetActiveTweakIndex(mNewIndex); }
-    virtual bool AffectsCleanState() const { return false; }
+    virtual bool AffectsCleanState() const override { return false; }
 };
 
 /** CTweakEditor functions */

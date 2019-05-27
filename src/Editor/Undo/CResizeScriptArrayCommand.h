@@ -22,7 +22,7 @@ public:
     {
     }
 
-    bool mergeWith(const QUndoCommand *pkOther)
+    bool mergeWith(const QUndoCommand *pkOther) override
     {
         return false;
     }
@@ -49,7 +49,7 @@ public:
 
     // Note in some cases undo/redo may be called when the change has already been applied outside of the undo command
     // This is why we need to check the array's actual current size instead of assuming it will match one of the arrays
-    void undo()
+    void undo() override
     {
         //@todo verify, do we need to fully override undo()?
         if (mpModel)
@@ -65,7 +65,7 @@ public:
         }
     }
 
-    void redo()
+    void redo() override
     {
         if (mpModel)
         {

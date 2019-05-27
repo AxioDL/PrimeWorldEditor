@@ -327,6 +327,7 @@ void INodeEditor::OnGizmoMoved()
             mUndoStack.push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), Delta));
             break;
         }
+        default: break;
     }
 
     UpdateGizmoUI();

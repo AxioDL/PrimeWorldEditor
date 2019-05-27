@@ -366,6 +366,8 @@ void CMaterialCooker::WriteCookedMatSet(CMaterialSet *pSet, EGame Version, IOutp
     case EGame::Echoes:
         Cooker.WriteMatSetPrime(rOut);
         break;
+    default:
+        break;
     }
 }
 
@@ -384,5 +386,6 @@ void CMaterialCooker::WriteCookedMaterial(CMaterial *pMat, EGame Version, IOutpu
         Cooker.WriteMaterialPrime(rOut);
         break;
     // TODO: Corruption/Uncooked
+    default: break;
     }
 }

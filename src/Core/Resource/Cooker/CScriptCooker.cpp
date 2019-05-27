@@ -214,7 +214,8 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, voi
 
         break;
     }
-
+    default:
+        break;
     }
 
     if (SizeOffset != 0)

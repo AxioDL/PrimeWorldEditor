@@ -96,11 +96,11 @@ public:
     inline CGeneratePropertyNamesDialog* NameGeneratorDialog() const    { return mpGeneratePropertyNamesDialog; }
     inline CTweakEditor* TweakEditor()      { return mpTweakEditor; }
     CResourceBrowser* ResourceBrowser() const;
-    CSceneViewport* Viewport() const;
+    CSceneViewport* Viewport() const override;
 
 public slots:
-    virtual void EditorTick(float);
-    virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode);
+    virtual void EditorTick(float) override;
+    virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode) override;
     virtual bool Save() override;
 
     void Cut();
@@ -130,8 +130,8 @@ public slots:
     void UpdateOpenRecentActions();
     void UpdateWindowTitle();
     void UpdateStatusBar();
-    void UpdateGizmoUI();
-    void UpdateSelectionUI();
+    void UpdateGizmoUI() override;
+    void UpdateSelectionUI() override;
     void UpdateCursor();
     void UpdateNewLinkLine();
 
@@ -141,7 +141,7 @@ public slots:
 protected:
     QAction* AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEditorMode Mode);
     void SetSidebar(CWorldEditorSidebar *pSidebar);
-    void GizmoModeChanged(CGizmo::EGizmoMode Mode);
+    void GizmoModeChanged(CGizmo::EGizmoMode Mode) override;
 
 private slots:
     void OnClipboardDataModified();

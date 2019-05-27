@@ -188,7 +188,7 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
             pEd = new CCollisionEditor((CCollisionMeshGroup*) pRes, mpWorldEditor);
             break;
         }
-
+        default: break;
         }
 
         if (pEd)

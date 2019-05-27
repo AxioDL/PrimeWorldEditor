@@ -633,6 +633,7 @@ IProperty* IProperty::Create(EPropertyType Type,
     case EPropertyType::Pointer:         pOut = new CPointerProperty(Game);          break;
     case EPropertyType::Struct:          pOut = new CStructProperty(Game);        break;
     case EPropertyType::Array:           pOut = new CArrayProperty(Game);            break;
+    default: break;
     }
 
     // If this assertion fails, then there is an unhandled type!

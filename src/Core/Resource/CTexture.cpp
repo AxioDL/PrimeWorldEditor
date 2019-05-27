@@ -72,6 +72,7 @@ bool CTexture::BufferGL()
             GLFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
             IsCompressed = true;
             break;
+        default: break;
     }
 
     // The smallest mipmaps are probably not being loaded correctly, because mipmaps in GX textures have a minimum size depending on the format, and these don't.
@@ -188,7 +189,7 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
 
     CopyGLBuffer();
 
-    rOut.WriteFourCC(FOURCC('DDS')); // "DDS " fourCC
+    rOut.WriteFourCC(FOURCC('DDS ')); // "DDS " fourCC
     rOut.WriteLong(0x7C);            // dwSize
     rOut.WriteLong(0x21007);         // dwFlags
     rOut.WriteLong(mHeight);         // dwHeight
@@ -242,6 +243,8 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
             break;
         case ETexelFormat::DXT1:
             PFFlags = 0x4;
+            break;
+        default:
             break;
     }
 
