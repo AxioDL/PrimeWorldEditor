@@ -569,7 +569,7 @@ void CResourceBrowser::UpdateDescriptionLabel()
     bool CanGoUp = (mpSelectedDir && !mpSelectedDir->IsRoot());
     bool CanClear = (!mpUI->SearchBar->text().isEmpty() || mpModel->IsDisplayingUserEntryList());
     mpUI->ClearButton->setEnabled(CanGoUp || CanClear);
-    mpUI->ClearButton->setIcon( CanClear ? QIcon(":/icons/X_16px.png") : QIcon(":/icons/ToParentFolder_16px.png") );
+    mpUI->ClearButton->setIcon( CanClear ? QIcon(":/icons/X_16px.svg") : QIcon(":/icons/ToParentFolder_16px.svg") );
 }
 
 void CResourceBrowser::SetResourceTreeView()

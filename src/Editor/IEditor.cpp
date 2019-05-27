@@ -17,8 +17,8 @@ IEditor::IEditor(QWidget* pParent)
     QAction *pRedoAction = mUndoStack.createRedoAction(this);
     pUndoAction->setShortcut(QKeySequence::Undo);
     pRedoAction->setShortcut(QKeySequence::Redo);
-    pUndoAction->setIcon(QIcon(":/icons/Undo.png"));
-    pRedoAction->setIcon(QIcon(":/icons/Redo.png"));
+    pUndoAction->setIcon(QIcon(":/icons/Undo.svg"));
+    pRedoAction->setIcon(QIcon(":/icons/Redo.svg"));
     mUndoActions.push_back(pUndoAction);
     mUndoActions.push_back(pRedoAction);
 

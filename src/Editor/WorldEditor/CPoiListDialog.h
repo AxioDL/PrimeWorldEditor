@@ -60,9 +60,9 @@ public:
             bool IsImportant = (pScan ? pScan->IsCriticalPropertyRef() : false);
 
             if (IsImportant)
-                return QIcon(":/icons/POI Important.png");
+                return QIcon(":/icons/POI Important.svg");
             else
-                return QIcon(":/icons/POI Normal.png");
+                return QIcon(":/icons/POI Normal.svg");
         }
 
         return QVariant::Invalid;

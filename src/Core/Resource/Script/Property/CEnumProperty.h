@@ -94,7 +94,7 @@ public:
 
     virtual void InitFromArchetype(IProperty* pOther)
     {
-        base::InitFromArchetype(pOther);
+        TTypedProperty<int32, TypeEnum>::InitFromArchetype(pOther);
         TEnumPropertyBase* pOtherEnum = static_cast<TEnumPropertyBase*>(pOther);
         mValues = pOtherEnum->mValues;
     }

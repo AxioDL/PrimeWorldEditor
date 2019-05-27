@@ -1,82 +1,82 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/Down.png</file>
-        <file>icons/Free Camera.png</file>
-        <file>icons/Material Highlight.png</file>
-        <file>icons/Minus v2.png</file>
-        <file>icons/Minus.png</file>
-        <file>icons/Plus.png</file>
-        <file>icons/Rotate.png</file>
-        <file>icons/Samus Silhouette Gradient.png</file>
-        <file>icons/Scale.png</file>
-        <file>icons/Sphere Preview.png</file>
-        <file>icons/Square Preview.png</file>
-        <file>icons/Translate.png</file>
-        <file>icons/Up.png</file>
-        <file>icons/Hide.png</file>
-        <file>icons/Highlight.png</file>
-        <file>icons/Model Preview.png</file>
-        <file>icons/Show.png</file>
-        <file>icons/Create.png</file>
-        <file>icons/Display.png</file>
-        <file>icons/Instances.png</file>
-        <file>icons/Link.png</file>
-        <file>icons/Modify.png</file>
-        <file>icons/Unlink.png</file>
-        <file>icons/World.png</file>
-        <file>icons/SelectMode.png</file>
-        <file>icons/POI Important.png</file>
-        <file>icons/POI Normal.png</file>
+        <file>icons/Down.svg</file>
+        <file>icons/Free Camera.svg</file>
+        <file>icons/Material Highlight.svg</file>
+        <file>icons/Minus v2.svg</file>
+        <file>icons/Minus.svg</file>
+        <file>icons/Plus.svg</file>
+        <file>icons/Rotate.svg</file>
+        <file>icons/Samus Silhouette Gradient.svg</file>
+        <file>icons/Scale.svg</file>
+        <file>icons/Sphere Preview.svg</file>
+        <file>icons/Square Preview.svg</file>
+        <file>icons/Translate.svg</file>
+        <file>icons/Up.svg</file>
+        <file>icons/Hide.svg</file>
+        <file>icons/Highlight.svg</file>
+        <file>icons/Model Preview.svg</file>
+        <file>icons/Show.svg</file>
+        <file>icons/Create.svg</file>
+        <file>icons/Display.svg</file>
+        <file>icons/Instances.svg</file>
+        <file>icons/Link.svg</file>
+        <file>icons/Modify.svg</file>
+        <file>icons/Unlink.svg</file>
+        <file>icons/World.svg</file>
+        <file>icons/SelectMode.svg</file>
+        <file>icons/POI Important.svg</file>
+        <file>icons/POI Normal.svg</file>
         <file>icons/win/AppIcon.ico</file>
-        <file>icons/New.png</file>
-        <file>icons/Open.png</file>
-        <file>icons/Redo.png</file>
-        <file>icons/Save.png</file>
-        <file>icons/Undo.png</file>
-        <file>icons/Instances_16px.png</file>
-        <file>icons/SelectMode_16px.png</file>
-        <file>icons/Swap_16px.png</file>
-        <file>icons/Swap_24px.png</file>
-        <file>icons/Edit_16px.png</file>
-        <file>icons/Edit_24px.png</file>
-        <file>icons/Edit_32px.png</file>
-        <file>icons/SaveAndRepack_32px.png</file>
-        <file>icons/Play_32px.png</file>
-        <file>icons/Pause_32px.png</file>
-        <file>icons/End_32px.png</file>
-        <file>icons/Beginning_32px.png</file>
-        <file>icons/AnchorRoot_32px.png</file>
-        <file>icons/ShowSkeleton_32px.png</file>
-        <file>icons/BindPose_32px.png</file>
-        <file>icons/DontLoop_32px.png</file>
-        <file>icons/Loop_32px.png</file>
-        <file>icons/ShowSkeleton_24px.png</file>
-        <file>icons/BindPose_24px.png</file>
-        <file>icons/DontLoop_24px.png</file>
-        <file>icons/Loop_24px.png</file>
-        <file>icons/Beginning_24px.png</file>
-        <file>icons/End_24px.png</file>
-        <file>icons/Pause_24px.png</file>
-        <file>icons/Play_24px.png</file>
-        <file>icons/Open_24px.png</file>
-        <file>icons/ShowMesh_24px.png</file>
-        <file>icons/OrbitCamera_24px.png</file>
-        <file>icons/Grid_24px.png</file>
-        <file>icons/Grid_32px.png</file>
-        <file>icons/OrbitCamera_32px.png</file>
-        <file>icons/X_16px.png</file>
-        <file>icons/ArrowL_16px.png</file>
-        <file>icons/Search_16px.png</file>
-        <file>icons/Open_16px.png</file>
-        <file>icons/New_16px.png</file>
-        <file>icons/Disc_16px.png</file>
-        <file>icons/World_16px.png</file>
-        <file>icons/PoiSymbol_24px.png</file>
-        <file>icons/ArrowD_16px.png</file>
-        <file>icons/Tree_16px.png</file>
-        <file>icons/Tree_24px.png</file>
-        <file>icons/Gear_16px.png</file>
-        <file>icons/Gear_24px.png</file>
-        <file>icons/ToParentFolder_16px.png</file>
+        <file>icons/New.svg</file>
+        <file>icons/Open.svg</file>
+        <file>icons/Redo.svg</file>
+        <file>icons/Save.svg</file>
+        <file>icons/Undo.svg</file>
+        <file>icons/Instances_16px.svg</file>
+        <file>icons/SelectMode_16px.svg</file>
+        <file>icons/Swap_16px.svg</file>
+        <file>icons/Swap_24px.svg</file>
+        <file>icons/Edit_16px.svg</file>
+        <file>icons/Edit_24px.svg</file>
+        <file>icons/Edit_32px.svg</file>
+        <file>icons/SaveAndRepack_32px.svg</file>
+        <file>icons/Play_32px.svg</file>
+        <file>icons/Pause_32px.svg</file>
+        <file>icons/End_32px.svg</file>
+        <file>icons/Beginning_32px.svg</file>
+        <file>icons/AnchorRoot_32px.svg</file>
+        <file>icons/ShowSkeleton_32px.svg</file>
+        <file>icons/BindPose_32px.svg</file>
+        <file>icons/DontLoop_32px.svg</file>
+        <file>icons/Loop_32px.svg</file>
+        <file>icons/ShowSkeleton_24px.svg</file>
+        <file>icons/BindPose_24px.svg</file>
+        <file>icons/DontLoop_24px.svg</file>
+        <file>icons/Loop_24px.svg</file>
+        <file>icons/Beginning_24px.svg</file>
+        <file>icons/End_24px.svg</file>
+        <file>icons/Pause_24px.svg</file>
+        <file>icons/Play_24px.svg</file>
+        <file>icons/Open_24px.svg</file>
+        <file>icons/ShowMesh_24px.svg</file>
+        <file>icons/OrbitCamera_24px.svg</file>
+        <file>icons/Grid_24px.svg</file>
+        <file>icons/Grid_32px.svg</file>
+        <file>icons/OrbitCamera_32px.svg</file>
+        <file>icons/X_16px.svg</file>
+        <file>icons/ArrowL_16px.svg</file>
+        <file>icons/Search_16px.svg</file>
+        <file>icons/Open_16px.svg</file>
+        <file>icons/New_16px.svg</file>
+        <file>icons/Disc_16px.svg</file>
+        <file>icons/World_16px.svg</file>
+        <file>icons/PoiSymbol_24px.svg</file>
+        <file>icons/ArrowD_16px.svg</file>
+        <file>icons/Tree_16px.svg</file>
+        <file>icons/Tree_24px.svg</file>
+        <file>icons/Gear_16px.svg</file>
+        <file>icons/Gear_24px.svg</file>
+        <file>icons/ToParentFolder_16px.svg</file>
     </qresource>
 </RCC>

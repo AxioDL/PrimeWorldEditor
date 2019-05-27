@@ -173,7 +173,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../Icons.qrc">
-                    <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
+                    <normaloff>:/icons/Plus.svg</normaloff>:/icons/Plus.svg</iconset>
                   </property>
                   <property name="popupMode">
                    <enum>QToolButton::InstantPopup</enum>
@@ -199,7 +199,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../Icons.qrc">
-                    <normaloff>:/icons/Edit_16px.png</normaloff>:/icons/Edit_16px.png</iconset>
+                    <normaloff>:/icons/Edit_16px.svg</normaloff>:/icons/Edit_16px.svg</iconset>
                   </property>
                  </widget>
                 </item>
@@ -232,7 +232,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../Icons.qrc">
-                    <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+                    <normaloff>:/icons/Minus v2.svg</normaloff>:/icons/Minus v2.svg</iconset>
                   </property>
                  </widget>
                 </item>
@@ -296,7 +296,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../Icons.qrc">
-                    <normaloff>:/icons/Plus.png</normaloff>:/icons/Plus.png</iconset>
+                    <normaloff>:/icons/Plus.svg</normaloff>:/icons/Plus.svg</iconset>
                   </property>
                   <property name="popupMode">
                    <enum>QToolButton::InstantPopup</enum>
@@ -319,7 +319,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../Icons.qrc">
-                    <normaloff>:/icons/Edit_16px.png</normaloff>:/icons/Edit_16px.png</iconset>
+                    <normaloff>:/icons/Edit_16px.svg</normaloff>:/icons/Edit_16px.svg</iconset>
                   </property>
                  </widget>
                 </item>
@@ -352,7 +352,7 @@
                   </property>
                   <property name="icon">
                    <iconset resource="../Icons.qrc">
-                    <normaloff>:/icons/Minus v2.png</normaloff>:/icons/Minus v2.png</iconset>
+                    <normaloff>:/icons/Minus v2.svg</normaloff>:/icons/Minus v2.svg</iconset>
                   </property>
                  </widget>
                 </item>

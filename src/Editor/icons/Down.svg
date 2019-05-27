@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px"
+	 height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+<defs>
+<linearGradient id="Gradient_Inner" x1="2" x2="0" y1="0" y2="3">
+	<stop offset="25%" stop-color="#21dcff"/>
+	<stop offset="45%" stop-color="#106d84"/>
+</linearGradient>
+<linearGradient id="Gradient_Outer" x1="2" x2="0" y1="0" y2="3">
+	<stop offset="25%" stop-color="#1385a1"/>
+	<stop offset="45%" stop-color="#09414f"/>
+</linearGradient>
+</defs>
+<g
+   id="Down_copy_2">
+	<g
+   id="g4">
+		<polygon
+   fill="url(#Gradient_Inner)"
+   points="10.5,6.5 10.5,0.5 5.5,0.5 5.5,6.5 1,6.5 8,15 15,6.5 		"
+   id="polygon2"
+   style="stroke:url(#Gradient_Outer);stroke-opacity:1" />
+	</g>
+</g>
+</svg>

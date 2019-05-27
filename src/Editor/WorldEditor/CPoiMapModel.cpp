@@ -56,9 +56,9 @@ QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
             }
 
             if (IsImportant)
-                return QIcon(":/icons/POI Important.png");
+                return QIcon(":/icons/POI Important.svg");
             else
-                return QIcon(":/icons/POI Normal.png");
+                return QIcon(":/icons/POI Normal.svg");
         }
     }
 

@@ -20,9 +20,9 @@
 #define EXPORT_COOKED 1
 
 #if NOD_UCS2
-static nod::SystemStringView TStringToNodString(const TString& string) { return ToWChar(string); }
+#define TStringToNodString(string) ToWChar(string)
 #else
-static nod::SystemStringView TStringToNodString(const TString& string) { return *string; }
+#define TStringToNodString(string) *string
 #endif
 
 CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion)

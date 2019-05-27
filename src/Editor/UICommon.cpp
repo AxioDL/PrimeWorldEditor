@@ -31,8 +31,8 @@ void OpenContainingFolder(QWidget* parent, const QString& pathIn)
     }
     if (explorer.isEmpty())
     {
-        QMessageBox::warning(parent, MainWindow::tr("Launching Windows Explorer Failed"),
-                             MainWindow::tr("Could not find explorer.exe in path to launch Windows Explorer."));
+        QMessageBox::warning(parent, "Launching Windows Explorer Failed",
+                             "Could not find explorer.exe in path to launch Windows Explorer.");
         return;
     }
     QStringList param;

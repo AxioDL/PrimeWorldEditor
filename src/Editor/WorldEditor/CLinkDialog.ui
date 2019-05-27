@@ -62,7 +62,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/Instances_16px.png</normaloff>:/icons/Instances_16px.png</iconset>
+              <normaloff>:/icons/Instances_16px.svg</normaloff>:/icons/Instances_16px.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -79,7 +79,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/SelectMode_16px.png</normaloff>:/icons/SelectMode_16px.png</iconset>
+              <normaloff>:/icons/SelectMode_16px.svg</normaloff>:/icons/SelectMode_16px.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -125,7 +125,7 @@
        </property>
        <property name="icon">
         <iconset resource="../Icons.qrc">
-         <normaloff>:/icons/Swap_16px.png</normaloff>:/icons/Swap_16px.png</iconset>
+         <normaloff>:/icons/Swap_16px.svg</normaloff>:/icons/Swap_16px.svg</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -172,7 +172,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/Instances_16px.png</normaloff>:/icons/Instances_16px.png</iconset>
+              <normaloff>:/icons/Instances_16px.svg</normaloff>:/icons/Instances_16px.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -189,7 +189,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/SelectMode_16px.png</normaloff>:/icons/SelectMode_16px.png</iconset>
+              <normaloff>:/icons/SelectMode_16px.svg</normaloff>:/icons/SelectMode_16px.svg</iconset>
             </property>
             <property name="iconSize">
              <size>

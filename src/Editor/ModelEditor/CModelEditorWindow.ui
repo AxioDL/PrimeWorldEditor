@@ -2176,7 +2176,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/Grid_32px.png</normaloff>:/icons/Grid_32px.png</iconset>
+              <normaloff>:/icons/Grid_32px.svg</normaloff>:/icons/Grid_32px.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2205,7 +2205,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/OrbitCamera_32px.png</normaloff>:/icons/OrbitCamera_32px.png</iconset>
+              <normaloff>:/icons/OrbitCamera_32px.svg</normaloff>:/icons/OrbitCamera_32px.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2253,7 +2253,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/Model Preview.png</normaloff>:/icons/Model Preview.png</iconset>
+              <normaloff>:/icons/Model Preview.svg</normaloff>:/icons/Model Preview.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2288,7 +2288,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/Sphere Preview.png</normaloff>:/icons/Sphere Preview.png</iconset>
+              <normaloff>:/icons/Sphere Preview.svg</normaloff>:/icons/Sphere Preview.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2323,7 +2323,7 @@
             </property>
             <property name="icon">
              <iconset resource="../Icons.qrc">
-              <normaloff>:/icons/Square Preview.png</normaloff>:/icons/Square Preview.png</iconset>
+              <normaloff>:/icons/Square Preview.svg</normaloff>:/icons/Square Preview.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2430,7 +2430,7 @@
   <action name="ActionSave">
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/Save.png</normaloff>:/icons/Save.png</iconset>
+     <normaloff>:/icons/Save.svg</normaloff>:/icons/Save.svg</iconset>
    </property>
    <property name="text">
     <string>Save</string>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Modfy_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="24px" height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+<g id="Modify">
+	<g>
+		<path fill-rule="evenodd" clip-rule="evenodd" fill="#B2B2B2" d="M12,7c-2.761,0-5,2.238-5,5s2.239,5,5,5c2.762,0,5-2.238,5-5
+			S14.762,7,12,7z M13,14h-2c0,0,0-1.097,0-2.667L9,10l1-1l2,1.504L14,9l1,1l-2,1.333V14z"/>
+	</g>
+</g>
+<g id="Modify_Cube">
+	<g>
+		<path fill-rule="evenodd" clip-rule="evenodd" fill="#B2B2B2" d="M5.943,5.497L5.102,3.983L1.608,6v4H3.34V7.189l2.679,1.488
+			v-0.13l1.196-0.69L4.536,6.31L5.943,5.497z M6.019,15.453v-0.13L3.34,16.812V14H1.608v4l3.494,2.018l0.841-1.515L4.536,17.69
+			l2.679-1.547L6.019,15.453z M8.306,2.133l0.866,1.5L11,2.578v3.093l1-0.577l1,0.577V2.577l1.828,1.056l0.865-1.5L12,0L8.306,2.133
+			z M18.898,3.983l-0.842,1.514l1.407,0.813l-2.679,1.547l1.195,0.69v0.131l2.68-1.489V10h1.732V6L18.898,3.983z M20.66,16.812
+			l-2.68-1.489v0.131l-1.196,0.69l2.68,1.547l-1.407,0.813l0.842,1.515L22.393,18v-4H20.66V16.812z M13,21.423v-3.094l-1,0.577
+			l-1-0.577v3.094l-1.828-1.056l-0.866,1.5L12,24l3.693-2.133l-0.865-1.5L13,21.423z"/>
+	</g>
+</g>
+</svg>

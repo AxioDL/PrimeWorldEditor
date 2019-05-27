@@ -96,9 +96,9 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     mpEditModeButtonGroup = new QButtonGroup(this);
     connect(mpEditModeButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(ChangeEditMode(int)));
 
-    AddEditModeButton( QIcon(":/icons/World.png"), "Edit World Info",eWEM_EditWorldInfo );
-    AddEditModeButton( QIcon(":/icons/Modify.png"), "Edit Script", eWEM_EditScript );
-    mpPoiMapAction = AddEditModeButton( QIcon(":/icons/PoiSymbol_24px.png"), "Edit POI Mappings", eWEM_EditPOIMappings );
+    AddEditModeButton( QIcon(":/icons/World.svg"), "Edit World Info",eWEM_EditWorldInfo );
+    AddEditModeButton( QIcon(":/icons/Modify.svg"), "Edit Script", eWEM_EditScript );
+    mpPoiMapAction = AddEditModeButton( QIcon(":/icons/PoiSymbol_24px.svg"), "Edit POI Mappings", eWEM_EditPOIMappings );
     mpPoiMapAction->setVisible(false);
 
     ChangeEditMode(eWEM_EditWorldInfo);
@@ -123,7 +123,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     // Quickplay buttons
     QToolButton* pQuickplayButton = new QToolButton(this);
-    pQuickplayButton->setIcon( QIcon(":/icons/Play_32px.png") );
+    pQuickplayButton->setIcon( QIcon(":/icons/Play_32px.svg") );
     pQuickplayButton->setPopupMode( QToolButton::MenuButtonPopup );
     pQuickplayButton->setMenu( new CQuickplayPropertyEditor(mQuickplayParms, this) );
     pQuickplayButton->setToolTip( "Quickplay" );

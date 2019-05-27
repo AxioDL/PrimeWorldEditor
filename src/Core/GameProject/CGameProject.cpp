@@ -6,9 +6,9 @@
 #include <nod/nod.hpp>
 
 #if NOD_UCS2
-static nod::SystemStringView TStringToNodString(const TString& string) { return ToWChar(string); }
+#define TStringToNodString(string) ToWChar(string)
 #else
-static nod::SystemStringView TStringToNodString(const TString& string) { return *string; }
+#define TStringToNodString(string) *string
 #endif
 
 CGameProject::~CGameProject()

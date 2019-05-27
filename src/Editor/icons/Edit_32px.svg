@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Edit_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<defs>
+<linearGradient id="Yellow_Gradient_Inner" x1="2" x2="0" y1="0" y2="3">
+	<stop offset="25%" stop-color="#f5b733"/>
+	<stop offset="45%" stop-color="#a77d22"/>
+</linearGradient>
+<linearGradient id="Yellow_Gradient_Outer" x1="2" x2="0" y1="0" y2="3">
+	<stop offset="25%" stop-color="#a47c21"/>
+	<stop offset="45%" stop-color="#5d4613"/>
+</linearGradient>
+<linearGradient id="Pink_Gradient_Inner" x1="2" x2="-3" y1="0" y2="0">
+	<stop offset="25%" stop-color="#f77e7e"/>
+	<stop offset="45%" stop-color="#da7070"/>
+</linearGradient>
+<linearGradient id="Pink_Gradient_Outer" x1="2" x2="-2" y1="0" y2="0">
+	<stop offset="25%" stop-color="#b75d5d"/>
+	<stop offset="45%" stop-color="#824242"/>
+</linearGradient>
+</defs>
+<g id="Edit_Eraser">
+	<g>
+		
+			<rect x="23.672" y="1.964" transform="matrix(0.7071 -0.7071 0.7071 0.7071 3.8726 20.3492)" fill="url(#Pink_Gradient_Inner)" stroke="url(#Pink_Gradient_Outer)" stroke-width="2" width="5.657" height="7.071"/>
+	</g>
+</g>
+<g id="Edit_Pencil">
+	<g>
+		<polygon fill="url(#Yellow_Gradient_Inner)" stroke="url(#Yellow_Gradient_Outer)" stroke-width="2" points="20,7 5,22 3,29 10,27 25,12 		"/>
+	</g>
+</g>
+</svg>

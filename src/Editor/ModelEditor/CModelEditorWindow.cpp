@@ -274,9 +274,9 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
         QTableWidgetItem *pItemB = new QTableWidgetItem();
 
         if (pPass->IsEnabled())
-            pItemB->setIcon(QIcon(":/icons/Show.png"));
+            pItemB->setIcon(QIcon(":/icons/Show.svg"));
         else
-            pItemB->setIcon(QIcon(":/icons/Hide.png"));
+            pItemB->setIcon(QIcon(":/icons/Hide.svg"));
 
         ui->PassTable->setItem(iPass, 0, pItemA);
         ui->PassTable->setItem(iPass, 1, pItemB);
@@ -478,9 +478,9 @@ void CModelEditorWindow::UpdateMaterial(int ValueA, int ValueB)
         mpCurrentMat->Pass(ValueA)->SetEnabled(Enabled);
 
         if (Enabled)
-            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Show.png"));
+            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Show.svg"));
         else
-            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Hide.png"));
+            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Hide.svg"));
     }
 }
 

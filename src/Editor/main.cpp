@@ -11,6 +11,10 @@
 #include <QStyleFactory>
 #include <QtGlobal>
 
+#ifdef __APPLE__
+void MacOSSetDarkAppearance();
+#endif
+
 // Redirect qDebug output to the log file
 void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*/, const QString& rkMessage)
 {
@@ -71,6 +75,10 @@ public:
     int Main(int argc, char *argv[])
     {
         // Create application
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
+        QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+        QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+#endif
         QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
         CEditorApplication App(argc, argv);
         App.setApplicationName( APP_NAME );
@@ -85,6 +93,9 @@ public:
         // Set up dark theme
         qApp->setStyle(QStyleFactory::create("Fusion"));
         SetupPalette();
+#ifdef __APPLE__
+        MacOSSetDarkAppearance();
+#endif
 
         // Init log
         bool Initialized = NLog::InitLog(LocateLogPath());

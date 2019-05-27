@@ -271,8 +271,8 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
     {
         if (!mpScene) return QVariant::Invalid;
 
-        static QIcon Visible(":/icons/Show.png");
-        static QIcon Invisible(":/icons/Hide.png");
+        static QIcon Visible(":/icons/Show.svg");
+        static QIcon Invisible(":/icons/Hide.svg");
 
         // Show/Hide Node Types
         if (Type == EIndexType::NodeType)

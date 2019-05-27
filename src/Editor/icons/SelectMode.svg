@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Select_Mode_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+<g id="Top">
+	<g>
+		<polygon fill-rule="evenodd" clip-rule="evenodd" fill="#B7B7B7" points="20,12 22.233,14.394 26.989,8.078 15,1.156 3.011,8.078 
+			15,24 20,17.36 		"/>
+	</g>
+</g>
+<g id="Right">
+	<g>
+		<path fill-rule="evenodd" clip-rule="evenodd" fill="#7B7B7B" d="M15,28.844l5-2.887V12.113L15,15V28.844z M20.068,12.074
+			l6.921,7.415V8.078L20.068,12.074z"/>
+	</g>
+</g>
+<g id="Left">
+	<g>
+		<polygon fill="#5C5C5C" points="3.011,8.078 3.011,21.922 15,28.844 15,15 		"/>
+	</g>
+</g>
+<g id="Cursor">
+	<g>
+		<polygon fill="#BBBBBB" points="31,25 21,15 21,29 25,26 27.5,31 29.236,30.245 26.834,25.328 		"/>
+	</g>
+</g>
+</svg>

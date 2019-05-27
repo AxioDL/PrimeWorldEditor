@@ -96,7 +96,7 @@ void CExportGameDialog::InitUI(QString ExportDir)
     const nod::Node *pkDiscRoot = &pPartition->getFSTRoot();
     RecursiveAddToTree(pkDiscRoot, pTreeRoot);
 
-    pTreeRoot->setIcon(0, QIcon(":/icons/Disc_16px.png"));
+    pTreeRoot->setIcon(0, QIcon(":/icons/Disc_16px.svg"));
     pTreeRoot->setExpanded(true);
 
     // Signals and slots
@@ -346,8 +346,8 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
     });
 
     // Add nodes to tree
-    static const QIcon skFileIcon = QIcon(":/icons/New_16px.png");
-    static const QIcon skDirIcon = QIcon(":/icons/Open_16px.png");
+    static const QIcon skFileIcon = QIcon(":/icons/New_16px.svg");
+    static const QIcon skDirIcon = QIcon(":/icons/Open_16px.svg");
 
     for (auto Iter = NodeList.begin(); Iter != NodeList.end(); Iter++)
     {

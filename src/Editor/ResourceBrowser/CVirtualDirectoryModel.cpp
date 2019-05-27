@@ -91,7 +91,7 @@ QVariant CVirtualDirectoryModel::data(const QModelIndex& rkIndex, int Role) cons
 
     if (Role == Qt::DecorationRole)
     {
-        return QIcon(":/icons/Open_24px.png");
+        return QIcon(":/icons/Open_24px.svg");
     }
 
     return QVariant::Invalid;

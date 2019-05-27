@@ -73,7 +73,7 @@ public:
             }
             else if (Role == Qt::DecorationRole)
             {
-                return QIcon(":/icons/Sphere Preview.png");
+                return QIcon(":/icons/Sphere Preview.svg");
             }
         }
         else

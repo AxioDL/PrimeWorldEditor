@@ -57,7 +57,7 @@ target_compile_definitions(
         GLEW_STATIC
 )
 
-get_target_property(pwecore_include_directories pwe_core INCLUDE_DIRECTORIES)
+gather_include_directories(pwecore_include_directories pwe_core)
 
 add_codegen_targets(
     "${source_files}"

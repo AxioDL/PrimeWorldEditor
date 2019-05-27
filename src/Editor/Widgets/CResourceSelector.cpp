@@ -32,13 +32,13 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     
     mpSelectButton = new QPushButton(this);
     mpSelectButton->setToolTip("Select Resource");
-    mpSelectButton->setIcon(QIcon(":/icons/ArrowD_16px.png"));
+    mpSelectButton->setIcon(QIcon(":/icons/ArrowD_16px.svg"));
     mpSelectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpSelectButton->setFixedSize(16, 16);
 
     mpClearButton = new QPushButton(this);
     mpClearButton->setToolTip("Clear");
-    mpClearButton->setIcon(QIcon(":/icons/X_16px.png"));
+    mpClearButton->setIcon(QIcon(":/icons/X_16px.svg"));
     mpClearButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpClearButton->setFixedSize(16, 16);
     

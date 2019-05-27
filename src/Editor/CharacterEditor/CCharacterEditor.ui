@@ -88,8 +88,8 @@
               </property>
               <property name="icon">
                <iconset resource="../Icons.qrc">
-                <normaloff>:/icons/Loop_24px.png</normaloff>
-                <normalon>:/icons/DontLoop_24px.png</normalon>:/icons/Loop_24px.png</iconset>
+                <normaloff>:/icons/Loop_24px.svg</normaloff>
+                <normalon>:/icons/DontLoop_24px.svg</normalon>:/icons/Loop_24px.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -141,7 +141,7 @@
               </property>
               <property name="icon">
                <iconset resource="../Icons.qrc">
-                <normaloff>:/icons/Beginning_24px.png</normaloff>:/icons/Beginning_24px.png</iconset>
+                <normaloff>:/icons/Beginning_24px.svg</normaloff>:/icons/Beginning_24px.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -167,7 +167,7 @@
               </property>
               <property name="icon">
                <iconset resource="../Icons.qrc">
-                <normaloff>:/icons/Pause_24px.png</normaloff>:/icons/Pause_24px.png</iconset>
+                <normaloff>:/icons/Pause_24px.svg</normaloff>:/icons/Pause_24px.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -199,7 +199,7 @@
               </property>
               <property name="icon">
                <iconset resource="../Icons.qrc">
-                <normaloff>:/icons/End_24px.png</normaloff>:/icons/End_24px.png</iconset>
+                <normaloff>:/icons/End_24px.svg</normaloff>:/icons/End_24px.svg</iconset>
               </property>
               <property name="iconSize">
                <size>
@@ -355,7 +355,7 @@
    </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/ShowSkeleton_24px.png</normaloff>:/icons/ShowSkeleton_24px.png</iconset>
+     <normaloff>:/icons/ShowSkeleton_24px.svg</normaloff>:/icons/ShowSkeleton_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Show Skeleton</string>
@@ -376,7 +376,7 @@
    </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/ShowMesh_24px.png</normaloff>:/icons/ShowMesh_24px.png</iconset>
+     <normaloff>:/icons/ShowMesh_24px.svg</normaloff>:/icons/ShowMesh_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Show Mesh</string>
@@ -394,7 +394,7 @@
    </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/BindPose_24px.png</normaloff>:/icons/BindPose_24px.png</iconset>
+     <normaloff>:/icons/BindPose_24px.svg</normaloff>:/icons/BindPose_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Bind Pose</string>
@@ -415,7 +415,7 @@
    </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/OrbitCamera_24px.png</normaloff>:/icons/OrbitCamera_24px.png</iconset>
+     <normaloff>:/icons/OrbitCamera_24px.svg</normaloff>:/icons/OrbitCamera_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Orbit</string>
@@ -436,7 +436,7 @@
    </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/Grid_24px.png</normaloff>:/icons/Grid_24px.png</iconset>
+     <normaloff>:/icons/Grid_24px.svg</normaloff>:/icons/Grid_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Show Grid</string>
@@ -470,8 +470,8 @@
    </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/Play_24px.png</normaloff>
-     <normalon>:/icons/Pause_24px.png</normalon>:/icons/Play_24px.png</iconset>
+     <normaloff>:/icons/Play_24px.svg</normaloff>
+     <normalon>:/icons/Pause_24px.svg</normalon>:/icons/Play_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Pause</string>
@@ -483,7 +483,7 @@
   <action name="ActionRewind">
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/Beginning_24px.png</normaloff>:/icons/Beginning_24px.png</iconset>
+     <normaloff>:/icons/Beginning_24px.svg</normaloff>:/icons/Beginning_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Jump to Beginning</string>
@@ -495,7 +495,7 @@
   <action name="ActionFastForward">
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/End_24px.png</normaloff>:/icons/End_24px.png</iconset>
+     <normaloff>:/icons/End_24px.svg</normaloff>:/icons/End_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Jump to End</string>
@@ -513,7 +513,7 @@
    </property>
    <property name="icon">
     <iconset resource="../Icons.qrc">
-     <normaloff>:/icons/Loop_24px.png</normaloff>:/icons/Loop_24px.png</iconset>
+     <normaloff>:/icons/Loop_24px.svg</normaloff>:/icons/Loop_24px.svg</iconset>
    </property>
    <property name="text">
     <string>Loop</string>

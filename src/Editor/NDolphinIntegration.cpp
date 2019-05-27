@@ -6,6 +6,10 @@
 #include <QObject>
 #include <QSettings>
 
+#undef CopyFile
+#undef MoveFile
+#undef DeleteFile
+
 namespace NDolphinIntegration
 {
 

@@ -383,7 +383,7 @@ void CCharacterEditor::TogglePlay()
     ui->PlayPauseButton->setToolTip(NewText);
     ui->ActionPlay->setText(NewText);
 
-    QIcon PlayPauseIcon = QIcon(mPlayAnim ? ":/icons/Pause_24px.png" : ":/icons/Play_24px.png");
+    QIcon PlayPauseIcon = QIcon(mPlayAnim ? ":/icons/Pause_24px.svg" : ":/icons/Play_24px.svg");
     ui->PlayPauseButton->setIcon(PlayPauseIcon);
 
     if (ui->ActionPlay != sender())
@@ -412,7 +412,7 @@ void CCharacterEditor::ToggleLoop(bool Loop)
     ui->LoopButton->setToolTip(NewText);
     ui->ActionLoop->setText(NewText);
 
-    QIcon ActionIcon = QIcon(Loop ? ":/icons/DontLoop_24px" : ":/icons/Loop_24px.png");
+    QIcon ActionIcon = QIcon(Loop ? ":/icons/DontLoop_24px" : ":/icons/Loop_24px.svg");
     ui->ActionLoop->setIcon(ActionIcon);
 
     if (sender() != ui->LoopButton)

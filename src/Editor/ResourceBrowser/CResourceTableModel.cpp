@@ -41,7 +41,7 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
                     ? ".." : TO_QSTRING(pDir->Name()));
 
         else if (Role == Qt::DecorationRole)
-            return QIcon(":/icons/Open_24px.png");
+            return QIcon(":/icons/Open_24px.svg");
 
         else
             return QVariant::Invalid;
@@ -57,7 +57,7 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
         return TO_QSTRING(pEntry->CookedAssetPath(true));
 
     else if (Role == Qt::DecorationRole)
-        return QIcon(":/icons/Sphere Preview.png");
+        return QIcon(":/icons/Sphere Preview.svg");
 
     return QVariant::Invalid;
 }

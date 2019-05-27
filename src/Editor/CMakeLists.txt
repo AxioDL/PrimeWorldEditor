@@ -65,6 +65,7 @@ file(GLOB_RECURSE source_files
     "*.cpp"
     "*.h"
     "*.hpp"
+    "*.ui"
 )
 
 string(TIMESTAMP CURRENT_YEAR "%Y")
@@ -75,7 +76,7 @@ if (WIN32)
             VERSION_MAJOR ${pwe_editor_VERSION_MAJOR} VERSION_MINOR ${pwe_editor_VERSION_MINOR}
             VERSION_PATCH ${pwe_editor_VERSION_PATCH} VERSION_REVISION ${pwe_editor_VERSION_TWEAK}
             COMPANY_NAME "Aruki" COMMENTS "${PWE_APP_NAME} ${PWE_WC_DESCRIBE}"
-            ORIGINAL_FILENAME "PrimeWorldEditor")
+            ORIGINAL_FILENAME "PrimeWorldEditor.exe")
     set(PLAT_SRCS ${rc_file} icons/win/PrimeWorldEditor.manifest)
 elseif (APPLE)
     set_source_files_properties(icons/mac/mainicon.icns PROPERTIES
@@ -87,7 +88,7 @@ elseif (APPLE)
         get_filename_component(reldir ${relsrc} DIRECTORY)
         set_source_files_properties(${src} PROPERTIES MACOSX_PACKAGE_LOCATION Resources/${reldir})
     endforeach()
-    set(PLAT_SRCS icons/mac/mainicon.icns ${RES_SOURCES})
+    set(PLAT_SRCS icons/mac/mainicon.icns ${RES_SOURCES} MacOSExtras.mm)
 else()
     configure_file(icons/freedesktop/metainfo/PrimeWorldEditor.appdata.xml.in
                    "${CMAKE_CURRENT_BINARY_DIR}/PrimeWorldEditor.appdata.xml" @ONLY)
@@ -95,7 +96,7 @@ else()
     install(DIRECTORY icons/freedesktop/applications icons/freedesktop/icons DESTINATION share)
 endif()
 
-add_executable(pwe_editor MACOSX_BUNDLE ${source_files} Icons.qrc ${PLAT_SRCS})
+add_executable(pwe_editor WIN32 MACOSX_BUNDLE ${source_files} Icons.qrc ${PLAT_SRCS})
 
 set_target_properties(pwe_editor PROPERTIES OUTPUT_NAME PrimeWorldEditor DEBUG_POSTFIX -debug
         MACOSX_BUNDLE_INFO_PLIST "${CMAKE_CURRENT_BINARY_DIR}/Info.plist"
