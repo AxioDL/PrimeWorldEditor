@@ -10,6 +10,10 @@
 #undef MoveFile
 #undef DeleteFile
 
+#if defined(__APPLE__)
+QString MacOSPathToDolphinBinary();
+#endif
+
 namespace NDolphinIntegration
 {
 
@@ -318,6 +322,12 @@ QString GetDolphinPath()
         if (!Path.isEmpty())
         {
             gDolphinPath = Path;
+        }
+        else
+        {
+#if defined(__APPLE__)
+            gDolphinPath = MacOSPathToDolphinBinary();
+#endif
         }
     }
 
