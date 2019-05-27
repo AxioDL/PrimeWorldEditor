@@ -172,7 +172,7 @@ public:
         Palette.setColor( Group, QPalette::WindowText,       QColor(Qt::white) .darker(Factor) );
         Palette.setColor( Group, QPalette::Base,             QColor(25,25,25)  .darker(Factor) );
         Palette.setColor( Group, QPalette::AlternateBase,    QColor(35,35,35)  .darker(Factor) );
-        Palette.setColor( Group, QPalette::ToolTipBase,      QColor(Qt::white) .darker(Factor) );
+        Palette.setColor( Group, QPalette::ToolTipBase,      QColor(Qt::black) .darker(Factor) );
         Palette.setColor( Group, QPalette::ToolTipText,      QColor(Qt::white) .darker(Factor) );
         Palette.setColor( Group, QPalette::Text,             QColor(Qt::white) .darker(Factor) );
         Palette.setColor( Group, QPalette::Button,           QColor(53,53,53)  .darker(Factor) );
