@@ -48,6 +48,15 @@ static TString LocateDataDirectory()
             return dir;
     }
 #endif
+#if defined(__APPLE__)
+    {
+        /* This is for locating mac bundle root */
+        TString dir = FileUtil::MakeAbsolute(TString(QCoreApplication::applicationDirPath().toUtf8().data()) + "/../Resources");
+        debugf("Checking '%s' for resources", *dir);
+        if (FileUtil::IsDirectory(dir + "resources"))
+            return dir;
+    }
+#endif
     {
         /* This is for locating build directory root */
         TString dir = FileUtil::MakeAbsolute(TString(QCoreApplication::applicationDirPath().toUtf8().data()) + "/..");

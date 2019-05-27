@@ -213,7 +213,7 @@ void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u
         {
             ChildOffset += mChildren[ChildIdx-1]->DataSize();
         }
-        ChildOffset = ALIGN(ChildOffset, pChild->DataAlignment());
+        ChildOffset = VAL_ALIGN(ChildOffset, pChild->DataAlignment());
 
         // Don't call Initialize on intrinsic children as they have already been initialized.
         if (!pChild->IsIntrinsic())

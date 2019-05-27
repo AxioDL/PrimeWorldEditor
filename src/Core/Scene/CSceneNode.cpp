@@ -144,7 +144,7 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
         SLightEntry(CLight *_pLight, float _Distance)
             : pLight(_pLight), Distance(_Distance) {}
 
-        bool operator<(const SLightEntry& rkOther) {
+        bool operator<(const SLightEntry& rkOther) const {
             return (Distance < rkOther.Distance);
         }
     };

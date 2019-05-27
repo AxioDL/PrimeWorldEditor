@@ -89,6 +89,8 @@ elseif (APPLE)
         set_source_files_properties(${src} PROPERTIES MACOSX_PACKAGE_LOCATION Resources/${reldir})
     endforeach()
     set(PLAT_SRCS icons/mac/mainicon.icns ${RES_SOURCES} MacOSExtras.mm)
+    find_library(APPKIT_LIBRARY AppKit)
+    set(PLAT_LIBS ${APPKIT_LIBRARY})
 else()
     configure_file(icons/freedesktop/metainfo/io.github.arukibree.PrimeWorldEditor.appdata.xml.in
                    "${CMAKE_CURRENT_BINARY_DIR}/io.github.arukibree.PrimeWorldEditor.appdata.xml" @ONLY)
@@ -109,6 +111,7 @@ target_link_libraries(
     pwe_core
     Qt5::Widgets
     ${QT_PLATFORM_COMPONENTS_LIBS}
+    ${PLAT_LIBS}
 )
 
 target_compile_definitions(
@@ -122,7 +125,7 @@ target_compile_definitions(
 )
 
 if (WIN32)
-    find_program(WINDEPLOYQT_PROGRAM windeployqt PATHS $ENV{QTDIR}/bin/)
+    find_program(WINDEPLOYQT_PROGRAM windeployqt PATHS ${Qt5_DIR}/../../../bin/)
     if(WINDEPLOYQT_PROGRAM)
         message(STATUS "Found ${WINDEPLOYQT_PROGRAM}")
     else()
@@ -137,7 +140,7 @@ if (WIN32)
     add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${CMAKE_COMMAND} ARGS -E copy_directory
                        "${DEW_CMAKE_PREFIX_PATH}/bin" $<TARGET_FILE_DIR:pwe_editor>)
 elseif (APPLE)
-    find_program(MACDEPLOYQT_PROGRAM macdeployqt PATHS $ENV{QTDIR}/bin/)
+    find_program(MACDEPLOYQT_PROGRAM macdeployqt PATHS ${Qt5_DIR}/../../../bin/)
     if(MACDEPLOYQT_PROGRAM)
         message(STATUS "Found ${MACDEPLOYQT_PROGRAM}")
     else()
@@ -145,7 +148,8 @@ elseif (APPLE)
     endif()
 
     # run macdeployqt to gather necessary qt libraries and plugins
-    add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${MACDEPLOYQT_PROGRAM} ARGS $<TARGET_FILE:pwe_editor>)
+    add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${MACDEPLOYQT_PROGRAM} ARGS
+                       $<TARGET_FILE_DIR:pwe_editor>/../..)
 else()
     target_compile_definitions(
         pwe_editor

@@ -150,8 +150,8 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     }
 
     // Append the patch data to the end of the dol
-    uint32 AlignedDolSize = ALIGN(DolData.size(), 32);
-    uint32 AlignedPatchSize = ALIGN(PatchData.size(), 32);
+    uint32 AlignedDolSize = VAL_ALIGN(DolData.size(), 32);
+    uint32 AlignedPatchSize = VAL_ALIGN(PatchData.size(), 32);
     uint32 PatchOffset = AlignedDolSize;
     uint32 PatchSize = AlignedPatchSize;
     DolData.resize(PatchOffset + PatchSize);

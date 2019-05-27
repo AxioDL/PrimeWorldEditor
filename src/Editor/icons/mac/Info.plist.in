@@ -5,9 +5,9 @@
     <key>CFBundleExecutable</key>
     <string>PrimeWorldEditor</string>
     <key>CFBundleGetInfoString</key>
-    <string>@METADATA_VERSION_STRING@</string>
+    <string>@PWE_WC_DESCRIBE@</string>
     <key>CFBundleShortVersionString</key>
-    <string>@METADATA_VERSION_STRING@</string>
+    <string>@PWE_WC_DESCRIBE@</string>
     <key>NSHumanReadableCopyright</key>
     <string>@CURRENT_YEAR@ Aruki</string>
     <key>CFBundleIconFile</key>
@@ -19,7 +19,7 @@
     <key>CFBundleName</key>
     <string>@PWE_APP_NAME@</string>
     <key>CFBundleVersion</key>
-    <string>@METADATA_VERSION_STRING@</string>
+    <string>@PWE_WC_DESCRIBE@</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleSignature</key>

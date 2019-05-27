@@ -195,7 +195,7 @@ public:
     uint32 ItemSize() const
     {
         uint32 ItemAlign = mpItemArchetype->DataAlignment();
-        uint32 ItemSize = ALIGN(mpItemArchetype->DataSize(), ItemAlign);
+        uint32 ItemSize = VAL_ALIGN(mpItemArchetype->DataSize(), ItemAlign);
         return ItemSize;
     }
 
