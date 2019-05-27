@@ -550,6 +550,7 @@ void CScriptNode::UpdatePreviewVolume()
     case EVolumeShape::CylinderShape:
         pVolumeModel = gpEditorStore->LoadResource("VolumeCylinder.CMDL");
         break;
+    default: break;
     }
 
     mHasVolumePreview = (pVolumeModel != nullptr);

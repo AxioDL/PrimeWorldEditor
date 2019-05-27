@@ -264,7 +264,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rS
         mpCurrentData = pOldData;
         break;
     }
-
+    default: break;
     }
 }
 

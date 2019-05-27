@@ -179,6 +179,8 @@ int32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors
         case EPropertyType::Choice:
             Val = TPropCast<CEnumProperty>(pProp)->Value(pData);
             break;
+        default:
+            break;
         }
 
         // Test and check whether any of the conditions are true

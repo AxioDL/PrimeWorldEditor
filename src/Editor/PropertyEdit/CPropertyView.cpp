@@ -219,6 +219,7 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
         case EPropertyType::Struct:
             setFirstColumnSpanned(iChild, rkParent, true);
             break;
+        default: break;
         }
 
         if (isExpanded(ChildIndex))

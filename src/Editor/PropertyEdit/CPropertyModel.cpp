@@ -342,7 +342,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                     SSoundInfo SoundInfo = mpProject->AudioManager()->GetSoundInfo(SoundID);
                     QString Out = QString::number(SoundID);
 
-                    if (SoundInfo.DefineID == -1)
+                    if (SoundInfo.DefineID == 0xFFFF)
                         return Out + " [INVALID]";
 
                     // Always display define ID. Display sound name if we have one, otherwise display AGSC ID.
@@ -655,6 +655,7 @@ EPropertyType CPropertyModel::GetEffectiveFieldType(IProperty* pProperty) const
         break;
     }
 
+    default: break;
     }
 
     return Out;

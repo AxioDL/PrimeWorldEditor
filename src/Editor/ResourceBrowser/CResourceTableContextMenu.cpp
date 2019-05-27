@@ -82,6 +82,7 @@ void CResourceTableContextMenu::InitMenu()
         case EResourceType::StringTable:
             addAction("Create Scan", this, SLOT(CreateSCAN()));
             break;
+        default: break;
         }
     }
 }

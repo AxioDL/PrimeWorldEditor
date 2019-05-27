@@ -24,6 +24,7 @@ void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*/, cons
     case QtWarningMsg:  warnf ("Qt Warning: %s",  *TO_TSTRING(rkMessage)); break;
     case QtCriticalMsg: errorf("Qt Critical: %s", *TO_TSTRING(rkMessage)); break;
     case QtFatalMsg:    fatalf("Qt Fatal: %s",    *TO_TSTRING(rkMessage)); break;
+    default: break;
     }
 }
 

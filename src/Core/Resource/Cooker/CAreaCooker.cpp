@@ -45,6 +45,8 @@ void CAreaCooker::DetermineSectionNumbersPrime()
     case EGame::Echoes:
         GeometrySections = 3 + (9 * OriginalMeshCount); // Acount for materials + AROT + an unknown section
         break;
+    default:
+        break;
     }
 
     for (uint32 iMesh = 0; iMesh < mpArea->mWorldModels.size(); iMesh++)

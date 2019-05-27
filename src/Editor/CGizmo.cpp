@@ -515,6 +515,7 @@ void CGizmo::SetMode(EGizmoMode Mode)
         mDeltaTranslation = CVector3f::skZero;
         mDeltaRotation = CQuaternion::skIdentity;
         break;
+    default: break;
     }
 }
 

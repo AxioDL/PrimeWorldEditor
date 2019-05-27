@@ -20,12 +20,12 @@ public:
         CreateIntrinsic(EPropertyType::Float, this, mOffset + 8, "Z");
     }
 
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    virtual void SerializeValue(void* pData, IArchive& Arc) const override
     {
         ValueRef(pData).Serialize(Arc);
     }
 
-    virtual TString ValueAsString(void* pData) const
+    virtual TString ValueAsString(void* pData) const override
     {
         return Value(pData).ToString();
     }

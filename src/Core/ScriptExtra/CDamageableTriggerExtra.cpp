@@ -119,7 +119,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
         mCoordScale = -mPlaneSize.Get().XY();
         break;
     }
-
+    default: break;
     }
 
     if (mRenderSide == ERenderSide::NoRender)
@@ -268,6 +268,7 @@ void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester
         case ERenderSide::East:  if (rkRay.Origin().X > AbsolutePosition().X) return; break;
         case ERenderSide::Up:    if (rkRay.Origin().Z > AbsolutePosition().Z) return; break;
         case ERenderSide::Down:  if (rkRay.Origin().Z < AbsolutePosition().Z) return; break;
+        default: break;
         }
     }
 

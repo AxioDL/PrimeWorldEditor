@@ -830,6 +830,8 @@ void CWorldEditor::UpdateGizmoUI()
                 else if (!mpSelection->IsEmpty())
                     SpinBoxValue = mpSelection->Front()->AbsoluteScale();
                 break;
+
+            default: break;
             }
         }
         else if (!mpSelection->IsEmpty()) SpinBoxValue = mpSelection->Front()->AbsolutePosition();
@@ -1195,6 +1197,7 @@ void CWorldEditor::OnTransformSpinBoxModified(CVector3f Value)
             UndoStack().push(new CScaleNodeCommand(this, mpSelection->SelectedNodeList(), true, mGizmo.Position(), Delta));
             break;
         }
+        default: break;
     }
 
     UpdateGizmoUI();

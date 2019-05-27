@@ -188,7 +188,7 @@ void CSceneViewport::CreateContextMenu()
     connect(mpHideUnselectedAction, SIGNAL(triggered()), this, SLOT(OnHideUnselected()));
 
     mpHideHoverSeparator = new QAction(this);
-    mpHideHoverSeparator->setSeparator(this);
+    mpHideHoverSeparator->setSeparator(true);
 
     mpHideHoverNodeAction = new QAction("HideNode", this);
     connect(mpHideHoverNodeAction, SIGNAL(triggered()), this, SLOT(OnHideNode()));
