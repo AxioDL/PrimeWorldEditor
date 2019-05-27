@@ -190,7 +190,10 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     connect(ui->ActionEditTweaks, SIGNAL(triggered()), mpTweakEditor, SLOT(show()));
     connect(ui->ActionEditLayers, SIGNAL(triggered()), this, SLOT(EditLayers()));
-    connect(ui->ActionGeneratePropertyNames, SIGNAL(triggered()), mpGeneratePropertyNamesDialog, SLOT(show()));
+    if (gTemplatesWritable)
+        connect(ui->ActionGeneratePropertyNames, SIGNAL(triggered()), mpGeneratePropertyNamesDialog, SLOT(show()));
+    else
+        ui->ActionGeneratePropertyNames->setEnabled(false);
 
     connect(ui->ActionDrawWorld, SIGNAL(triggered()), this, SLOT(ToggleDrawWorld()));
     connect(ui->ActionDrawObjects, SIGNAL(triggered()), this, SLOT(ToggleDrawObjects()));

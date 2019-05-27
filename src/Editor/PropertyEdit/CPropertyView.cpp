@@ -24,8 +24,16 @@ CPropertyView::CPropertyView(QWidget *pParent)
     mpShowNameValidityAction->setChecked(false);
     connect(mpShowNameValidityAction, SIGNAL(triggered(bool)), this, SLOT(ToggleShowNameValidity(bool)));
 
-    mpEditTemplateAction = new QAction("Edit template", this);
-    connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
+    if (gTemplatesWritable)
+    {
+        mpEditTemplateAction = new QAction("Edit template", this);
+        connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
+    }
+    else
+    {
+        mpEditTemplateAction = new QAction("Template files not writable", this);
+        mpEditTemplateAction->setEnabled(false);
+    }
 
     mpGenNamesForPropertyAction = new QAction("Generate names for this property", this);
     mpGenNamesForSiblingsAction = new QAction(this); // Text set in CreateContextMenu()

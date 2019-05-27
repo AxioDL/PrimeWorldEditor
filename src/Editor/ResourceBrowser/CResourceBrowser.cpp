@@ -989,7 +989,8 @@ void CResourceBrowser::ImportAssetNameMap()
 
 void CResourceBrowser::ExportAssetNames()
 {
-    QString OutFile = UICommon::SaveFileDialog(this, "Export asset name map", "*.xml", *(gDataDir + "resources/gameinfo/"));
+    QString OutFile = UICommon::SaveFileDialog(this, "Export asset name map", "*.xml",
+            gResourcesWritable ? *(gDataDir + "resources/gameinfo/") : "");
     if (OutFile.isEmpty()) return;
     TString OutFileStr = TO_TSTRING(OutFile);
 

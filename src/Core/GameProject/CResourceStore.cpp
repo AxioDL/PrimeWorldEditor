@@ -13,6 +13,8 @@
 
 using namespace tinyxml2;
 TString gDataDir;
+bool gResourcesWritable = false;
+bool gTemplatesWritable = false;
 CResourceStore *gpResourceStore = nullptr;
 CResourceStore *gpEditorStore = nullptr;
 

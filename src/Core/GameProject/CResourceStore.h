@@ -94,6 +94,8 @@ public:
 };
 
 extern TString gDataDir;
+extern bool gResourcesWritable;
+extern bool gTemplatesWritable;
 extern CResourceStore *gpResourceStore;
 extern CResourceStore *gpEditorStore;
 

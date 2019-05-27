@@ -103,8 +103,10 @@ public:
         if (!Initialized) UICommon::ErrorMsg(0, "Couldn't open log file. Logging will not work for this session.");
         qInstallMessageHandler(QtLogRedirect);
 
-        // Locate data directory
+        // Locate data directory and check write permissions
         gDataDir = LocateDataDirectory();
+        gResourcesWritable = FileUtil::IsDirectoryWritable(gDataDir + "resources");
+        gTemplatesWritable = FileUtil::IsDirectoryWritable(gDataDir + "templates");
 
         // Create editor resource store
         gpEditorStore = new CResourceStore(gDataDir + "resources/");
