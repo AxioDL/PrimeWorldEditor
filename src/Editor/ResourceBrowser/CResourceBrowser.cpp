@@ -301,7 +301,7 @@ void CResourceBrowser::CreateAddMenu()
         mpAddMenu->addAction("New Folder", this, SLOT(CreateDirectory()));
         mpAddMenu->addSeparator();
 
-        QMenu* pCreateMenu = new QMenu("Create...");
+        QMenu* pCreateMenu = new QMenu("Create...", mpAddMenu);
         mpAddMenu->addMenu(pCreateMenu);
         AddCreateAssetMenuActions(pCreateMenu);
 

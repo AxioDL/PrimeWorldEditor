@@ -66,7 +66,7 @@ CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CSc
         }
 
         // Fetch LightParameters
-        mpLightParameters = new CLightParameters(mpInstance->LightParameters(), mpInstance->GameTemplate()->Game());
+        mpLightParameters = std::make_unique<CLightParameters>(mpInstance->LightParameters(), mpInstance->GameTemplate()->Game());
         SetLightLayerIndex(mpLightParameters->LightLayerIndex());
     }
 

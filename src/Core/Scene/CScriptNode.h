@@ -25,7 +25,7 @@ class CScriptNode : public CSceneNode
     bool mHasVolumePreview;
     CModelNode *mpVolumePreviewNode;
 
-    CLightParameters *mpLightParameters;
+    std::unique_ptr<CLightParameters> mpLightParameters;
 
 public:
     enum class EGameModeVisibility

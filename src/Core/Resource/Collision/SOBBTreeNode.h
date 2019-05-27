@@ -14,6 +14,7 @@ enum class EOBBTreeNodeType : uint8
 
 struct SOBBTreeNode
 {
+    virtual ~SOBBTreeNode() = default;
     CTransform4f        Transform;
     CVector3f           Radii;
     EOBBTreeNodeType    NodeType;

@@ -90,9 +90,9 @@ elseif (APPLE)
     endforeach()
     set(PLAT_SRCS icons/mac/mainicon.icns ${RES_SOURCES} MacOSExtras.mm)
 else()
-    configure_file(icons/freedesktop/metainfo/PrimeWorldEditor.appdata.xml.in
-                   "${CMAKE_CURRENT_BINARY_DIR}/PrimeWorldEditor.appdata.xml" @ONLY)
-    #install(FILES "${CMAKE_CURRENT_BINARY_DIR}/PrimeWorldEditor.appdata.xml" DESTINATION share/metainfo)
+    configure_file(icons/freedesktop/metainfo/io.github.arukibree.PrimeWorldEditor.appdata.xml.in
+                   "${CMAKE_CURRENT_BINARY_DIR}/io.github.arukibree.PrimeWorldEditor.appdata.xml" @ONLY)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/io.github.arukibree.PrimeWorldEditor.appdata.xml" DESTINATION share/metainfo)
     install(DIRECTORY icons/freedesktop/applications icons/freedesktop/icons DESTINATION share)
 endif()
 

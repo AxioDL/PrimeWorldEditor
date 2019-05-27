@@ -17,6 +17,7 @@ protected:
     CCollisionRenderData    mRenderData;
 
 public:
+    virtual ~CCollisionMesh() = default;
     virtual void BuildRenderData();
 
     /** Accessors */

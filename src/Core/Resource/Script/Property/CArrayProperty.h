@@ -50,6 +50,8 @@ protected:
     {}
 
 public:
+    virtual ~CArrayProperty() { delete mpItemArchetype; }
+
     virtual uint32 DataSize() const
     {
         return sizeof(SScriptArray);

@@ -352,13 +352,9 @@ public:
     typedef PropType ValueType;
     
 protected:
-    PropType mDefaultValue;
+    PropType mDefaultValue = {};
 
-    TTypedProperty(EGame Game)
-        : IProperty(Game)
-    {
-        memset(&mDefaultValue, 0, sizeof(PropType));
-    }
+    TTypedProperty(EGame Game) : IProperty(Game) {}
 
 public:
     virtual EPropertyType Type() const              { return PropEnum; }
