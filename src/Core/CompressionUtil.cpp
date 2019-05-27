@@ -105,7 +105,9 @@ namespace CompressionUtil
     bool DecompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut)
     {
 #if USE_LZOKAY
-        lzokay::EResult Result = lzokay::decompress(pSrc, (size_t) SrcLen, pDst, (size_t&) rTotalOut);
+        size_t TotalOut = rTotalOut;
+        lzokay::EResult Result = lzokay::decompress(pSrc, (size_t) SrcLen, pDst, TotalOut);
+        rTotalOut = TotalOut;
 
         if (Result < lzokay::EResult::Success)
         {
