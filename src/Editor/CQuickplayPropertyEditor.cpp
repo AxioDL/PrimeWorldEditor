@@ -19,7 +19,7 @@ public:
     static bool PathValid(const QString& kPath)
     {
         QFileInfo FileInfo(kPath);
-        return FileInfo.exists() && FileInfo.suffix() == "exe";
+        return FileInfo.exists() && FileInfo.isExecutable();
     }
 };
 
@@ -74,7 +74,7 @@ CQuickplayPropertyEditor::~CQuickplayPropertyEditor()
 
 void CQuickplayPropertyEditor::BrowseForDolphin()
 {
-    QString Path = UICommon::OpenFileDialog(this, "Open Dolphin", "Dolphin.exe");
+    QString Path = UICommon::OpenFileDialog(this, "Open Dolphin", "Dolphin");
 
     if (!Path.isEmpty())
     {
