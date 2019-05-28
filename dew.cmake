@@ -17,6 +17,31 @@ function(integrate_dew)
         return()
     endif()
     
+    #
+    # Run dew update
+    #
+    option(DEW_AUTOUPDATE "Automatically update dew prefixes as part of cmake generation." ON)
+    if (DEW_AUTOUPDATE)
+        find_package(Python3 COMPONENTS Interpreter REQUIRED)
+        message(STATUS "Installing dew")
+        execute_process(
+            COMMAND "${Python3_EXECUTABLE}" -m pip install --user dew-pacman
+            RESULT_VARIABLE install_dew_result
+        )
+        if (NOT install_dew_result EQUAL 0)
+            message(FATAL_ERROR "Failed to install dew with pip: result: ${install_dew_result}.")
+        endif()
+        message(STATUS "Building dew dependencies")
+        execute_process(COMMAND "${Python3_EXECUTABLE}" -m dew update WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+                        RESULT_VARIABLE dew_res)
+        if(NOT ${dew_res} EQUAL 0)
+            message(FATAL_ERROR "Unable to run dew: ${dew_res}")
+        endif()
+    endif()
+
+    #
+    # Acquaint CMake with dew prefix
+    #
     if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)
         set(dew_cmake_prefix_suffix debug)
     else()
