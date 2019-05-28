@@ -16,7 +16,7 @@ function(integrate_dew)
     if ($ENV{INVOKED_BY_DEW})
         return()
     endif()
-    
+
     #
     # Run dew update
     #

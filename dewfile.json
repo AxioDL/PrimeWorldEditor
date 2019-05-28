@@ -44,13 +44,6 @@
             "ref": "a36312e91be8d6489d6b34447281dabb5422f96f"
         },
         {
-            "name": "lzo",
-            "url": "https://github.com/nemequ/lzo",
-            "type": "git",
-            "head": "master",
-            "ref": "0083878c235a89ef96a009d1ff0b500f3a364e4b"
-        },
-        {
             "name": "lzokay",
             "url": "https://github.com/sfuller/lzokay",
             "type": "git",
