@@ -57,7 +57,7 @@ They should be set to `C:/Qt/<QT VERSION>/msvc2017_64/lib/cmake/Qt5`.
 ## Requirements
 
 * [Xcode 10.2+](https://developer.apple.com/xcode/)
-* [Qt 5.10+](https://download.qt.io/official_releases/qt/) (Clang 64-bit specification)
+* [Qt 5.10+](https://download.qt.io/official_releases/qt/) (macOS specification)
 * *cmake*, *ninja* and *python* installed using [Homebrew](https://brew.sh/)
 
 ## Build using Xcode
@@ -83,7 +83,7 @@ They should be set to `C:/Qt/<QT VERSION>/msvc2017_64/lib/cmake/Qt5`.
 ## Requirements
 
 * A working compiler toolchain (GCC or Clang)
-* *cmake*, *ninja*, *python3*, *clang* (library) packages
+* *cmake*, *ninja*, *python3*, *qt5* (dev), *clang* (dev) packages
 
 ## Build using Command Line
 
