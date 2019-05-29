@@ -73,12 +73,12 @@ public:
         InternalWaitForResults(Future);
         return Future.result();
     }
-
-    template<>
-    void WaitForResults(QFuture<void> Future)
-    {
-        InternalWaitForResults(Future);
-    }
 };
+
+template<>
+inline void CProgressDialog::WaitForResults(QFuture<void> Future)
+{
+    InternalWaitForResults(Future);
+}
 
 #endif // CPROGRESSDIALOG_H
