@@ -364,7 +364,7 @@ void CEditorApplication::OnEditorClose()
 
         if (pEditor != mpWorldEditor->TweakEditor())
         {
-            delete pEditor;
+            pEditor->deleteLater();
         }
 
         if (mpActiveProject)
