@@ -34,14 +34,14 @@
             "url": "https://github.com/jackoalan/CodeGen",
             "type": "git",
             "head": "cmake",
-            "ref": "d2a1331406ad9d4e144f1f02d29d829ea1213bfa"
+            "ref": "7b4ac845a80181fd9592897c01fc76d03eb29691"
         },
         {
             "name": "LibCommon",
             "url": "https://github.com/jackoalan/LibCommon",
             "type": "git",
             "head": "dew",
-            "ref": "f17ab43c3a50c1dd1dc59932c0375bd4dc664bdc"
+            "ref": "1b3b81b4e2d2536c55e70b4f62b42e01da6ec082"
         },
         {
             "name": "lzokay",
