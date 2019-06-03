@@ -124,6 +124,15 @@ target_compile_definitions(
         UNICODE
 )
 
+if (WIN32 OR APPLE)
+    set(CPACK_GENERATOR ZIP)
+    set(CPACK_STRIP_FILES ON)
+    set(CPACK_PACKAGE_VERSION_MAJOR ${pwe_editor_VERSION_MAJOR})
+    set(CPACK_PACKAGE_VERSION_MINOR ${pwe_editor_VERSION_MINOR})
+    set(CPACK_PACKAGE_VERSION_PATCH ${pwe_editor_VERSION_PATCH})
+    include(CPack)
+endif()
+
 if (WIN32)
     find_program(WINDEPLOYQT_PROGRAM windeployqt PATHS ${Qt5_DIR}/../../../bin/)
     if(WINDEPLOYQT_PROGRAM)
@@ -139,6 +148,11 @@ if (WIN32)
     # copy bin directory of dew prefix
     add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${CMAKE_COMMAND} ARGS -E copy_directory
                        "${DEW_CMAKE_PREFIX_PATH}/bin" $<TARGET_FILE_DIR:pwe_editor>)
+
+    # Install targets for CPack distribution
+    install(DIRECTORY $<TARGET_FILE_DIR:pwe_editor> DESTINATION ".")
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/resources" DESTINATION ".")
+    install(DIRECTORY "${CMAKE_SOURCE_DIR}/templates" DESTINATION ".")
 elseif (APPLE)
     find_program(MACDEPLOYQT_PROGRAM macdeployqt PATHS ${Qt5_DIR}/../../../bin/)
     if(MACDEPLOYQT_PROGRAM)
@@ -150,6 +164,10 @@ elseif (APPLE)
     # run macdeployqt to gather necessary qt libraries and plugins
     add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${MACDEPLOYQT_PROGRAM} ARGS
                        $<TARGET_FILE_DIR:pwe_editor>/../..)
+
+    # Install targets for CPack distribution
+    set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
+    install(DIRECTORY $<TARGET_FILE_DIR:pwe_editor>/../.. DESTINATION ".")
 else()
     target_compile_definitions(
         pwe_editor
