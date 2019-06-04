@@ -1,4 +1,5 @@
 #include "NDolphinIntegration.h"
+#include "Editor/MacOSExtras.h"
 #include "Editor/UICommon.h"
 
 #include <QFileInfo>
@@ -9,10 +10,6 @@
 #undef CopyFile
 #undef MoveFile
 #undef DeleteFile
-
-#if defined(__APPLE__)
-QString MacOSPathToDolphinBinary();
-#endif
 
 namespace NDolphinIntegration
 {

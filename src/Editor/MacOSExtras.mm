@@ -1,5 +1,5 @@
 #import <AppKit/AppKit.h>
-#include <QString>
+#include "MacOSExtras.h"
 
 void MacOSSetDarkAppearance()
 {
@@ -16,3 +16,22 @@ QString MacOSPathToDolphinBinary()
         return QString::fromNSString(path) + QStringLiteral("/Contents/MacOS/Dolphin");
     return QString();
 }
+
+/* Filter to accumulate relative coordinates of middle and right mouse drags for camera control. */
+bool MouseDragCocoaEventFilter::nativeEventFilter(const QByteArray& eventType, void* message, long*)
+{
+    if (eventType == "mac_generic_NSEvent")
+    {
+        NSEvent* event = static_cast<NSEvent*>(message);
+        NSEventType evType = event.type;
+        if (evType == NSEventTypeRightMouseDragged ||
+            (evType == NSEventTypeOtherMouseDragged && event.buttonNumber == 2))
+        {
+            mX += event.deltaX;
+            mY += event.deltaY;
+        }
+    }
+    return false;
+}
+
+MouseDragCocoaEventFilter* gpMouseDragCocoaEventFilter = nullptr;

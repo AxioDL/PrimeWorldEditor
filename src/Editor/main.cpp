@@ -1,5 +1,6 @@
 #include "CEditorApplication.h"
 #include "CUIRelay.h"
+#include "MacOSExtras.h"
 #include "UICommon.h"
 #include <Common/Log.h>
 
@@ -10,10 +11,6 @@
 #include <QIcon>
 #include <QStyleFactory>
 #include <QtGlobal>
-
-#ifdef __APPLE__
-void MacOSSetDarkAppearance();
-#endif
 
 // Redirect qDebug output to the log file
 void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*/, const QString& rkMessage)
@@ -105,6 +102,9 @@ public:
         SetupPalette();
 #ifdef __APPLE__
         MacOSSetDarkAppearance();
+        MouseDragCocoaEventFilter mouseDragCocoaEventFilter;
+        gpMouseDragCocoaEventFilter = &mouseDragCocoaEventFilter;
+        qApp->installNativeEventFilter(gpMouseDragCocoaEventFilter);
 #endif
 
         // Default OpenGL format

@@ -2,6 +2,7 @@
 #include <Common/Math/MathUtil.h>
 #include <Core/Render/CDrawUtil.h>
 #include <Core/Render/CGraphics.h>
+#include <Editor/MacOSExtras.h>
 
 #include <QCursor>
 
@@ -264,8 +265,13 @@ void CBasicViewport::ProcessInput()
 
     if (IsMouseInputActive())
     {
+#ifdef __APPLE__
+        float XMovement = gpMouseDragCocoaEventFilter->claimX() * 0.01f;
+        float YMovement = gpMouseDragCocoaEventFilter->claimY() * 0.01f;
+#else
         float XMovement = (QCursor::pos().x() - mLastMousePos.x()) * 0.01f;
         float YMovement = (QCursor::pos().y() - mLastMousePos.y()) * 0.01f;
+#endif
 
         if ((XMovement != 0) || (YMovement != 0))
         {
