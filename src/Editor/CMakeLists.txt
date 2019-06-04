@@ -130,6 +130,10 @@ if (WIN32 OR APPLE)
     set(CPACK_PACKAGE_VERSION_MAJOR ${pwe_editor_VERSION_MAJOR})
     set(CPACK_PACKAGE_VERSION_MINOR ${pwe_editor_VERSION_MINOR})
     set(CPACK_PACKAGE_VERSION_PATCH ${pwe_editor_VERSION_PATCH})
+    if (APPLE)
+        set(CPACK_SYSTEM_NAME macOS)
+        set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
+    endif()
     include(CPack)
 endif()
 
@@ -166,8 +170,7 @@ elseif (APPLE)
                        $<TARGET_FILE_DIR:pwe_editor>/../..)
 
     # Install targets for CPack distribution
-    set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
-    install(DIRECTORY $<TARGET_FILE_DIR:pwe_editor>/../.. DESTINATION ".")
+    install(TARGETS pwe_editor BUNDLE DESTINATION ".")
 else()
     target_compile_definitions(
         pwe_editor
