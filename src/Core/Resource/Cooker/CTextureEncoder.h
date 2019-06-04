@@ -1,7 +1,8 @@
 #ifndef CTEXTUREENCODER_H
 #define CTEXTUREENCODER_H
 
-#include "Core/Resource/CTexture.h"
+#if 0
+#include "Core/Resource/Texture/CTexture.h"
 #include "Core/Resource/TResPtr.h"
 
 // Class contains basic functionality right now - only supports directly converting DXT1 to CMPR
@@ -23,5 +24,6 @@ public:
     static ETexelFormat GetGXFormat(ETexelFormat Format);
     static ETexelFormat GetFormat(ETexelFormat Format);
 };
+#endif
 
 #endif // CTEXTUREENCODER_H

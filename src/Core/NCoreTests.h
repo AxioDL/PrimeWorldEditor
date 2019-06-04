@@ -1,7 +1,7 @@
 #ifndef NCORETESTS_H
 #define NCORETESTS_H
 
-#include "Core/Resource/EResType.h"
+#include "Core/Resource/EResourceType.h"
 
 /** Unit tests for Core */
 namespace NCoreTests

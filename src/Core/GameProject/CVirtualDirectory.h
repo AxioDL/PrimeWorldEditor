@@ -2,7 +2,7 @@
 #define CVIRTUALDIRECTORY
 
 /* Virtual directory system used to look up resources by their location in the filesystem. */
-#include "Core/Resource/EResType.h"
+#include "Core/Resource/EResourceType.h"
 #include <Common/Macros.h>
 #include <Common/TString.h>
 #include <vector>

@@ -42,7 +42,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
     GLuint ModelMtxLoc = pTextShader->GetUniformLocation("ModelMtx");
     GLuint ColorLoc = pTextShader->GetUniformLocation("FontColor");
     GLuint LayerLoc = pTextShader->GetUniformLocation("RGBALayer");
-    mpFontTexture->Bind(0);
+    mpFontTexture->BindToSampler(0);
     smGlyphVertices->Bind();
     glDisable(GL_DEPTH_TEST);
 

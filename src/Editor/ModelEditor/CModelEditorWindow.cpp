@@ -91,10 +91,7 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     ui->AnimParamCSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamCSpinBox);
     ui->AnimParamDSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamDSpinBox);
 
-    connect(ui->ActionImport, SIGNAL(triggered()), this, SLOT(Import()));
     connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
-    connect(ui->ActionConvertToDDS, SIGNAL(triggered()), this, SLOT(ConvertToDDS()));
-    connect(ui->ActionConvertToTXTR, SIGNAL(triggered()), this, SLOT(ConvertToTXTR()));
     connect(ui->MeshPreviewButton, SIGNAL(clicked()), this, SLOT(SetMeshPreview()));
     connect(ui->SpherePreviewButton, SIGNAL(clicked()), this, SLOT(SetSpherePreview()));
     connect(ui->FlatPreviewButton, SIGNAL(clicked()), this, SLOT(SetFlatPreview()));
@@ -763,55 +760,6 @@ void CModelEditorWindow::Import()
     SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: Untitled");
     mOutputFilename = "";
     gpResourceStore->DestroyUnreferencedResources();
-}
-
-void CModelEditorWindow::ConvertToDDS()
-{
-    QString Input = QFileDialog::getOpenFileName(this, "Retro Texture (*.TXTR)", "", "*.TXTR");
-    if (Input.isEmpty()) return;
-
-    TString TexFilename = TO_TSTRING(Input);
-    CFileInStream InTextureFile(TexFilename, EEndian::LittleEndian);
-    CTexture *pTex = CTextureDecoder::LoadTXTR( InTextureFile, nullptr );
-
-    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
-    CFileOutStream Out(OutName, EEndian::LittleEndian);
-    if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
-
-    else
-    {
-        bool Success = pTex->WriteDDS(Out);
-        if (!Success) QMessageBox::warning(this, "Error", "Couldn't write output DDS!");
-        else QMessageBox::information(this, "Success", "Successfully converted to DDS!");
-    }
-
-    delete pTex;
-}
-
-void CModelEditorWindow::ConvertToTXTR()
-{
-    QString Input = QFileDialog::getOpenFileName(this, "DirectDraw Surface (*.dds)", "", "*.dds");
-    if (Input.isEmpty()) return;
-
-    TString TexFilename = TO_TSTRING(Input);
-    CFileInStream InTextureFile = CFileInStream(TexFilename, EEndian::LittleEndian);
-    CTexture *pTex = CTextureDecoder::LoadDDS(InTextureFile, nullptr);
-    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
-
-    if ((pTex->TexelFormat() != ETexelFormat::DXT1) || (pTex->NumMipMaps() > 1))
-        QMessageBox::warning(this, "Error", "Can't convert DDS to TXTR! Save your texture as a DXT1 DDS with no mipmaps, then try again.");
-
-    else
-    {
-        CFileOutStream Out(OutName, EEndian::BigEndian);
-        if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output TXTR!");
-
-        else
-        {
-            CTextureEncoder::EncodeTXTR(Out, pTex, ETexelFormat::GX_CMPR);
-            QMessageBox::information(this, "Success", "Successfully converted to TXTR!");
-        }
-    }
 }
 
 void CModelEditorWindow::SetMeshPreview()

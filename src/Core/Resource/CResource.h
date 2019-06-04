@@ -2,7 +2,7 @@
 #define CRESOURCE_H
 
 #include "CResTypeInfo.h"
-#include "EResType.h"
+#include "EResourceType.h"
 #include "Core/GameProject/CDependencyTree.h"
 #include "Core/GameProject/CResourceEntry.h"
 #include "Core/GameProject/CResourceStore.h"

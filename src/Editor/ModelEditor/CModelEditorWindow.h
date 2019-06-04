@@ -101,8 +101,6 @@ private:
 
 private slots:
     void Import();
-    void ConvertToDDS();
-    void ConvertToTXTR();
     void SetMeshPreview();
     void SetSpherePreview();
     void SetFlatPreview();

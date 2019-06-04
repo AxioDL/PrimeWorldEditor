@@ -172,9 +172,9 @@
          <property name="geometry">
           <rect>
            <x>0</x>
-           <y>-489</y>
-           <width>308</width>
-           <height>1184</height>
+           <y>0</y>
+           <width>319</width>
+           <height>1302</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -2407,7 +2407,7 @@
      <x>0</x>
      <y>0</y>
      <width>1280</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -2415,17 +2415,8 @@
      <string>File</string>
     </property>
     <addaction name="ActionSave"/>
-    <addaction name="ActionImport"/>
-   </widget>
-   <widget class="QMenu" name="menuTextures">
-    <property name="title">
-     <string>Textures</string>
-    </property>
-    <addaction name="ActionConvertToDDS"/>
-    <addaction name="ActionConvertToTXTR"/>
    </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuTextures"/>
   </widget>
   <action name="ActionSave">
    <property name="icon">

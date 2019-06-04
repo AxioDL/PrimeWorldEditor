@@ -12,7 +12,7 @@
 #include "Core/OpenGL/CFramebuffer.h"
 #include "Core/Resource/CFont.h"
 #include "Core/Resource/CLight.h"
-#include "Core/Resource/CTexture.h"
+#include "Core/Resource/Texture/CTexture.h"
 #include "Core/Scene/CSceneNode.h"
 
 #include <Common/CColor.h>

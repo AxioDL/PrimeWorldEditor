@@ -1,7 +1,7 @@
 #ifndef CRESTYPEFILTER_H
 #define CRESTYPEFILTER_H
 
-#include "EResType.h"
+#include "EResourceType.h"
 #include "CResTypeInfo.h"
 #include "Core/GameProject/CResourceEntry.h"
 

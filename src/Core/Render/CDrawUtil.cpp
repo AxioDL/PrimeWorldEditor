@@ -237,7 +237,7 @@ void CDrawUtil::DrawBillboard(CTexture* pTexture, const CVector3f& Position, con
     static GLuint TintLoc = mpBillboardShader->GetUniformLocation("TintColor");
     glUniform4f(TintLoc, Tint.R, Tint.G, Tint.B, Tint.A);
 
-    pTexture->Bind(0);
+    pTexture->BindToSampler(0);
 
     // Set other properties
     CMaterial::KillCachedMaterial();
@@ -271,8 +271,8 @@ void CDrawUtil::DrawLightBillboard(ELightType Type, const CColor& LightColor, co
 
     CTexture *pTexA = GetLightTexture(Type);
     CTexture *pTexB = GetLightMask(Type);
-    pTexA->Bind(0);
-    pTexB->Bind(1);
+    pTexA->BindToSampler(0);
+    pTexB->BindToSampler(1);
 
     static GLuint TextureLoc = mpLightBillboardShader->GetUniformLocation("Texture");
     static GLuint MaskLoc    = mpLightBillboardShader->GetUniformLocation("LightMask");
@@ -360,7 +360,7 @@ CShader* CDrawUtil::GetTextShader()
 void CDrawUtil::LoadCheckerboardTexture(uint32 GLTextureUnit)
 {
     Init();
-    mpCheckerTexture->Bind(GLTextureUnit);
+    mpCheckerTexture->BindToSampler(GLTextureUnit);
 }
 
 CTexture* CDrawUtil::GetLightTexture(ELightType Type)

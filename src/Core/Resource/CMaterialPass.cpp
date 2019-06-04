@@ -81,7 +81,7 @@ void CMaterialPass::HashParameters(CFNV1A& rHash)
 void CMaterialPass::LoadTexture(uint32 PassIndex)
 {
     if (mpTexture)
-        mpTexture->Bind(PassIndex);
+        mpTexture->BindToSampler(PassIndex);
 }
 
 void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)

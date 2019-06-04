@@ -2,7 +2,7 @@
 #define CFONT_H
 
 #include "CResource.h"
-#include "CTexture.h"
+#include "Core/Resource/Texture/CTexture.h"
 #include "TResPtr.h"
 #include "Core/Resource/Model/CVertex.h"
 #include "Core/OpenGL/CDynamicVertexBuffer.h"

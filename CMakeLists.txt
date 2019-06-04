@@ -39,5 +39,7 @@ set(CODEGEN_GENERATE_INSTALL_TARGETS OFF)
 set(CODEGEN_BUILD_PACKAGE_DURING_CONFIGURE ON)
 add_subdirectory(externals/LibCommon)
 
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/externals/stb)
+
 add_subdirectory(src/Core)
 add_subdirectory(src/Editor)

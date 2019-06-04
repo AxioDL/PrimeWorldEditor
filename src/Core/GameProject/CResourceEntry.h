@@ -4,7 +4,7 @@
 #include "CResourceStore.h"
 #include "CVirtualDirectory.h"
 #include "Core/Resource/CResTypeInfo.h"
-#include "Core/Resource/EResType.h"
+#include "Core/Resource/EResourceType.h"
 #include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
 #include <Common/Flags.h>

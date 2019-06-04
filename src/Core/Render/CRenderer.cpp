@@ -188,7 +188,7 @@ void CRenderer::RenderBloom()
 
     CDrawUtil::UseTextureShader();
     glBlendFunc(GL_SRC_ALPHA, GL_ZERO);
-    mPostProcessFramebuffer.Texture()->Bind(0);
+    mPostProcessFramebuffer.Texture()->BindToSampler(0);
     CDrawUtil::DrawSquare();
 
     // Pass 2: Horizontal blur
@@ -197,7 +197,7 @@ void CRenderer::RenderBloom()
 
     CDrawUtil::UseTextureShader(CColor::skGray);
     glBlendFunc(GL_ONE, GL_ZERO);
-    mBloomFramebuffers[0].Texture()->Bind(0);
+    mBloomFramebuffers[0].Texture()->BindToSampler(0);
     CDrawUtil::DrawSquare();
 
     for (uint32 iPass = 0; iPass < 6; iPass++)
@@ -217,7 +217,7 @@ void CRenderer::RenderBloom()
 
     CDrawUtil::UseTextureShader(CColor::skGray);
     glBlendFunc(GL_ONE, GL_ZERO);
-    mBloomFramebuffers[1].Texture()->Bind(0);
+    mBloomFramebuffers[1].Texture()->BindToSampler(0);
     CDrawUtil::DrawSquare();
 
     for (uint32 iPass = 0; iPass < 6; iPass++)
@@ -240,7 +240,7 @@ void CRenderer::RenderBloom()
 
     CDrawUtil::UseTextureShader();
     glBlendFunc(GL_ONE, GL_ONE);
-    mBloomFramebuffers[2].Texture()->Bind(0);
+    mBloomFramebuffers[2].Texture()->BindToSampler(0);
     CDrawUtil::DrawSquare();
 
     if (mBloomMode == EBloomMode::BloomMaps)

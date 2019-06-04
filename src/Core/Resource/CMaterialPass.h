@@ -2,7 +2,7 @@
 #define CMATERIALPASS_H
 
 #include "TResPtr.h"
-#include "CTexture.h"
+#include "Core/Resource/Texture/CTexture.h"
 #include "ETevEnums.h"
 #include "Core/Render/FRenderOptions.h"
 #include <Common/CFourCC.h>

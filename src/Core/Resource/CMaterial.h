@@ -2,7 +2,7 @@
 #define MATERIAL_H
 
 #include "CMaterialPass.h"
-#include "CTexture.h"
+#include "Core/Resource/Texture/CTexture.h"
 #include "TResPtr.h"
 #include "Core/Resource/Model/EVertexAttribute.h"
 #include "Core/Render/FRenderOptions.h"

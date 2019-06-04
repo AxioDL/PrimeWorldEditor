@@ -2,7 +2,7 @@
 #define CRESOURCESTORE_H
 
 #include "CVirtualDirectory.h"
-#include "Core/Resource/EResType.h"
+#include "Core/Resource/EResourceType.h"
 #include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
 #include <Common/FileUtil.h>

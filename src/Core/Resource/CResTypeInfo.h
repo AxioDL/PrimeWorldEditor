@@ -1,7 +1,7 @@
 #ifndef CRESTYPEINFO
 #define CRESTYPEINFO
 
-#include "EResType.h"
+#include "EResourceType.h"
 #include <Common/CFourCC.h>
 #include <Common/EGame.h>
 #include <Common/Flags.h>

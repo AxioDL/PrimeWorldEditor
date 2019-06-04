@@ -2,7 +2,7 @@
 #define CMATERIALSET_H
 
 #include "CMaterial.h"
-#include "CTexture.h"
+#include "Core/Resource/Texture/CTexture.h"
 #include <Common/EGame.h>
 #include <Common/FileIO/IInputStream.h>
 

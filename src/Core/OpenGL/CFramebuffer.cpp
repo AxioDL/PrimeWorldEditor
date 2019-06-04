@@ -46,9 +46,10 @@ void CFramebuffer::Init()
         glBindFramebuffer(GL_FRAMEBUFFER, mFramebuffer);
 
         mpRenderbuffer = new CRenderbuffer(mWidth, mHeight);
-        mpTexture = new CTexture(mWidth, mHeight);
         mpRenderbuffer->SetMultisamplingEnabled(mEnableMultisampling);
+        mpTexture = new CTexture(mWidth, mHeight);
         mpTexture->SetMultisamplingEnabled(mEnableMultisampling);
+        mpTexture->CreateRenderResources();
         InitBuffers();
         mInitialized = true;
     }
@@ -101,9 +102,9 @@ void CFramebuffer::InitBuffers()
         GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, mpRenderbuffer->BufferID()
     );
 
-    mpTexture->Bind(0);
+    mpTexture->BindToSampler(0);
     glFramebufferTexture2D(
-        GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D), mpTexture->TextureID(), 0
+        GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D), mpTexture->RenderResource(), 0
     );
 
     mStatus = glCheckFramebufferStatus(GL_FRAMEBUFFER);
