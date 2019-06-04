@@ -6,7 +6,7 @@ Metroid Prime series and Donkey Kong Country Returns.
 
 ## Requirements
 
-**64-bit Note:** Except for Visual Studio, ensure 64-bit (x86-64, x64) packages are installed.
+**64-bit Note:** Except for Visual Studio and the Qt installer, ensure 64-bit (x86-64, x64) packages are installed.
 
 * [Visual Studio 2017](https://visualstudio.microsoft.com/vs/) (Desktop development with C++)
 * [Qt 5.10+](https://download.qt.io/official_releases/qt/) (MSVC 2017 64-bit specification)
