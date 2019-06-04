@@ -49,7 +49,8 @@ void CBasicViewport::initializeGL()
 void CBasicViewport::paintGL()
 {
     // Prep render
-    glViewport(0, 0, width(), height());
+    float scale = devicePixelRatioF();
+    glViewport(0, 0, (int)((float)width() * scale), (int)((float)height() * scale));
     glLineWidth(1.f);
     glEnable(GL_DEPTH_TEST);
     mViewInfo.ViewFrustum = mCamera.FrustumPlanes();
@@ -67,7 +68,8 @@ void CBasicViewport::paintGL()
 void CBasicViewport::resizeGL(int Width, int Height)
 {
     mCamera.SetAspectRatio((float) Width / Height);
-    glViewport(0, 0, Width, Height);
+    float scale = devicePixelRatioF();
+    glViewport(0, 0, (int)((float)Width * scale), (int)((float)Height * scale));
     OnResize();
 }
 
