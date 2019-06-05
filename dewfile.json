@@ -1,4 +1,5 @@
 {
+    "subdirectories": ["externals/LibCommon"],
     "dependencies": [
         {
             "name": "zlib",
@@ -9,10 +10,10 @@
         },
         {
             "name": "assimp",
-            "url": "https://github.com/jackoalan/assimp",
+            "url": "https://github.com/assimp/assimp",
             "type": "git",
-            "head": "static-lib-export",
-            "ref": "d048bccad1ea3f72906da2d970b30f187db91f33",
+            "head": "master",
+            "ref": "83237de02ffb97305317d24564c44ce4794af3db",
             "dependson": [
                 "zlib"
             ],
@@ -28,20 +29,6 @@
             "type": "git",
             "head": "master",
             "ref": "a1284ae06586b958f36b8ecaba29390835ed2820"
-        },
-        {
-            "name": "CodeGen",
-            "url": "https://github.com/jackoalan/CodeGen",
-            "type": "git",
-            "head": "cmake",
-            "ref": "abfbe39870a0de99a31d536fa958e5391977b85c"
-        },
-        {
-            "name": "LibCommon",
-            "url": "https://github.com/jackoalan/LibCommon",
-            "type": "git",
-            "head": "dew",
-            "ref": "09184cc6dd132c831734a3235c4143fcfbd72281"
         },
         {
             "name": "lzokay",

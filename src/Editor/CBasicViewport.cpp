@@ -83,6 +83,11 @@ void CBasicViewport::mousePressEvent(QMouseEvent *pEvent)
 
     if (IsMouseInputActive())
     {
+#if __APPLE__
+        // This will zero out the drag accumulators
+        gpMouseDragCocoaEventFilter->claimX();
+        gpMouseDragCocoaEventFilter->claimY();
+#endif
         SetCursorVisible(false);
         mMouseMoved = false;
         mMoveTimer.Restart();
@@ -266,6 +271,10 @@ void CBasicViewport::ProcessInput()
     if (IsMouseInputActive())
     {
 #ifdef __APPLE__
+        // QCursor::setPos only works on macOS when the user permits PWE
+        // to control the computer via Universal Access.
+        // As an alternative to relying on the delta of a warped mouse,
+        // use the accumulated delta directly reported by AppKit.
         float XMovement = gpMouseDragCocoaEventFilter->claimX() * 0.01f;
         float YMovement = gpMouseDragCocoaEventFilter->claimY() * 0.01f;
 #else

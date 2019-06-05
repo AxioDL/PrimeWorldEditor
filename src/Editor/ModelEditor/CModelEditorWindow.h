@@ -38,24 +38,6 @@ public:
     void SetActiveModel(CModel *pModel);
     CModelEditorViewport* Viewport() const;
 
-public slots:
-    void RefreshViewport();
-    void SetActiveMaterial(int MatIndex);
-    void SetActivePass(int PassIndex);
-    void UpdateMaterial();
-    void UpdateMaterial(int Value);
-    void UpdateMaterial(int ValueA, int ValueB);
-    void UpdateMaterial(double Value);
-    void UpdateMaterial(bool Value);
-    void UpdateMaterial(QColor Value);
-    void UpdateMaterial(QString Value);
-    void UpdateUI(int Value);
-    void UpdateAnimParamUI(EUVAnimMode Mode);
-
-private:
-    void ActivateMatEditUI(bool Active);
-    void RefreshMaterial();
-
     enum class EModelEditorWidget
     {
         SetSelectComboBox,
@@ -98,6 +80,24 @@ private:
         AnimParamCSpinBox,
         AnimParamDSpinBox,
     };
+
+public slots:
+    void RefreshViewport();
+    void SetActiveMaterial(int MatIndex);
+    void SetActivePass(int PassIndex);
+    void UpdateMaterial();
+    void UpdateMaterial(int Value);
+    void UpdateMaterial(int ValueA, int ValueB);
+    void UpdateMaterial(double Value);
+    void UpdateMaterial(bool Value);
+    void UpdateMaterial(QColor Value);
+    void UpdateMaterial(QString Value);
+    void UpdateUI(int Value);
+    void UpdateAnimParamUI(EUVAnimMode Mode);
+
+private:
+    void ActivateMatEditUI(bool Active);
+    void RefreshMaterial();
 
 private slots:
     void Import();

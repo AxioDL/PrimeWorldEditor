@@ -2,8 +2,6 @@ cmake_minimum_required(VERSION 3.12)
 
 project(pwe_core CXX C)
 
-find_package(libcommon CONFIG REQUIRED)
-find_package(codegen CONFIG REQUIRED)
 find_package(tinyxml2 CONFIG REQUIRED)
 find_package(nod CONFIG REQUIRED)
 find_package(logvisor CONFIG REQUIRED)
@@ -14,8 +12,6 @@ find_package(ZLIB REQUIRED)
 
 # AssImp's cmake config is pretty awful. It doesn't include necesary libraries. Hopefully this can be fixed later.
 find_library(IIRXML_LIBRARY NAMES IrrXMLd IrrXML)
-
-include(codegen)
 
 file(GLOB_RECURSE source_files
     "*.c"
@@ -37,12 +33,11 @@ target_include_directories(pwe_core
 
 target_link_libraries(
     pwe_core
-    libcommon::libcommon
+    libcommon
     nod::nod
     logvisor::logvisor
     lzokay::lzokay
     OpenGL::GL
-    codegen::codegen
     assimp::assimp
     ${IIRXML_LIBRARY}
     ${ZLIB_LIBRARY}
@@ -57,14 +52,14 @@ target_compile_definitions(
         GLEW_STATIC
 )
 
-gather_include_directories(pwecore_include_directories pwe_core)
+gather_include_directories(pwe_core_include_directories pwe_core)
 
 add_codegen_targets(
     "${source_files}"
     codegen_generated_files
     "${PROJECT_SOURCE_DIR}"
     "${PROJECT_BINARY_DIR}"
-    "${pwecore_include_directories}"
+    "${pwe_core_include_directories}"
 )
 add_custom_target(pwe_core_codegen DEPENDS ${codegen_generated_files} SOURCES ${source_files})
 

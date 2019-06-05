@@ -2,6 +2,11 @@
 Prime World Editor is a custom editor suite for Retro Studios' GameCube and Wii games, including the
 Metroid Prime series and Donkey Kong Country Returns.
 
+# Clone Submodules First!
+
+Builders on all platforms should ensure submodules are up to date with the current PrimeWorldEditor
+by running `git submodule update --init --recursive`.
+
 # Building on Windows
 
 ## Requirements

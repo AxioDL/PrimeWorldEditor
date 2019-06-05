@@ -8,6 +8,11 @@ endif()
 
 project(PrimeWorldEditor CXX)
 
+# Ensure submodules checked out
+if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/externals/LibCommon/CMakeLists.txt)
+    message(FATAL_ERROR "Please run 'git submodules update --init --recursive' to fetch submodules.")
+endif()
+
 include(./dew.cmake)
 integrate_dew()
 
@@ -16,7 +21,7 @@ include(cmake/generate_product_version.cmake)
 if(MSVC)
     add_compile_options(/WX /wd4267 /wd4100 /wd4101 /wd4189)
 else()
-    add_compile_options(-Wno-multichar)
+    add_compile_options(-Wno-multichar -Wno-undefined-var-template)
 endif()
 
 if(APPLE)
@@ -27,6 +32,12 @@ endif()
 # here.  You must run "make install" to install these to the proper location
 # as defined above.
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Directly integrate libcommon and block install targets
+set(LIBCOMMON_GENERATE_INSTALL_TARGETS OFF)
+set(CODEGEN_GENERATE_INSTALL_TARGETS OFF)
+set(CODEGEN_BUILD_PACKAGE_DURING_CONFIGURE ON)
+add_subdirectory(externals/LibCommon)
 
 add_subdirectory(src/Core)
 add_subdirectory(src/Editor)
