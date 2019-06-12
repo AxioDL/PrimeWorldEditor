@@ -34,8 +34,8 @@ endif()
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Directly integrate libcommon and block install targets
-set(LIBCOMMON_GENERATE_INSTALL_TARGETS OFF)
-set(CODEGEN_GENERATE_INSTALL_TARGETS OFF)
+set(LIBCOMMON_GENERATE_INSTALL_TARGETS OFF CACHE BOOL "Make libcommon install targets" FORCE)
+set(CODEGEN_GENERATE_INSTALL_TARGETS OFF CACHE BOOL "Make codegen install targets" FORCE)
 set(CODEGEN_BUILD_PACKAGE_DURING_CONFIGURE ON)
 add_subdirectory(externals/LibCommon)
 
