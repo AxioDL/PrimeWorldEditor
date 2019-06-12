@@ -119,7 +119,6 @@ target_compile_definitions(
     PRIVATE
         "APP_NAME=\"${PWE_APP_NAME}\""
         "APP_VERSION=\"${PROJECT_VERSION}\""
-        "PUBLIC_RELEASE=1"
         "APP_FULL_NAME=\"${PWE_APP_NAME} ${PWE_WC_DESCRIBE}\""
         UNICODE
 )
@@ -147,6 +146,9 @@ if (WIN32 OR APPLE)
     if (APPLE)
         set(CPACK_SYSTEM_NAME macOS)
         set(CPACK_INCLUDE_TOPLEVEL_DIRECTORY OFF)
+    endif()
+    if (CMAKE_BUILD_TYPE STREQUAL Debug)
+        set(CPACK_PACKAGE_NAME ${CMAKE_PROJECT_NAME}-debug)
     endif()
     include(CPack)
 endif()

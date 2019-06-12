@@ -8,6 +8,12 @@ endif()
 
 project(PrimeWorldEditor CXX)
 
+option(PWE_PUBLIC_RELEASE "Enable end-user deployment configuration for PWE" OFF)
+if (PWE_PUBLIC_RELEASE)
+    add_compile_definitions(PUBLIC_RELEASE=1)
+    message(STATUS "Enabled public release mode")
+endif()
+
 # Ensure submodules checked out
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/externals/LibCommon/CMakeLists.txt)
     message(FATAL_ERROR "Please run 'git submodules update --init --recursive' to fetch submodules.")
