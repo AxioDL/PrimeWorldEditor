@@ -10,6 +10,7 @@ WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
 {
     mpInstanceInfoLabel = new QLabel;
     mpInstanceInfoLabel->setText("<i>[No selection]</i>");
+    mpInstanceInfoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
     mpInstanceInfoLayout = new QHBoxLayout;
     mpInstanceInfoLayout->addWidget(mpInstanceInfoLabel);
 
@@ -124,14 +125,22 @@ void WEditorProperties::OnSelectionModified()
             mpInstanceInfoLabel->setText(QString("<i>[%1 objects selected]</i>").arg(pSelection->Size()));
             mpInstanceNameLineEdit->clear();
         }
+
+        mpInstanceInfoLabel->setToolTip({});
     }
 
     else
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
-        TString InstanceID = TString::HexString(pScript->Instance()->InstanceID(), 8, false);
+        CInstanceID InstanceID = pScript->Instance()->InstanceID();
         TString ObjectType = pScript->Template()->Name();
-        mpInstanceInfoLabel->setText(QString("[%1] [%2]").arg( TO_QSTRING(ObjectType) ).arg( TO_QSTRING(InstanceID) ));
+        mpInstanceInfoLabel->setText(QString("[%1] [%2]").
+                                     arg( TO_QSTRING(ObjectType) ).
+                                     arg( TO_QSTRING(TString::HexString(InstanceID, 8, false)) ));
+        mpInstanceInfoLabel->setToolTip(QString("[Layer: %1] [Area: %2] [ID: %3]").
+                                        arg( InstanceID.Layer() ).
+                                        arg( InstanceID.Area() ).
+                                        arg( TO_QSTRING(TString::HexString(InstanceID.Id(), 4, false)) ));
 
         UpdatePropertyValues();
     }
