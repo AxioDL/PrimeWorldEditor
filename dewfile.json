@@ -32,10 +32,10 @@
         },
         {
             "name": "lzokay",
-            "url": "https://github.com/sfuller/lzokay",
+            "url": "https://github.com/jackoalan/lzokay",
             "type": "git",
-            "head": "cmake",
-            "ref": "87467048df10e72540a5abcac9dd5c0c4df3a712"
+            "head": "master",
+            "ref": "343f9707f6ab2143d3455c93d8b7570a0ffcee97"
         },
         {
             "name": "tinyxml2",

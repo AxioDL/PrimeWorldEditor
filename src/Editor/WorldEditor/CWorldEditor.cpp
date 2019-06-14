@@ -219,6 +219,11 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
 CWorldEditor::~CWorldEditor()
 {
+    mScene.ClearScene();
+    mpArea = nullptr;
+    mpWorld = nullptr;
+    gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
+
     delete mpScriptSidebar; // For some reason WCreateTab filters an event during the viewport's destructor
     delete ui;
 }
