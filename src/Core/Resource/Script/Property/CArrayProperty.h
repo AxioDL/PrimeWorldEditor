@@ -70,7 +70,7 @@ public:
     virtual void Destruct(void* pData) const
     {
         RevertToDefault(pData);
-        TTypedProperty::Destruct(pData);
+        _GetInternalArray(pData).~SScriptArray();
     }
 
     virtual bool MatchesDefault(void* pData) const
