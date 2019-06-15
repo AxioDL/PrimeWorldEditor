@@ -84,7 +84,7 @@ public:
 
 class CInstancePtr
 {
-    uint32 mInstanceID;
+    CInstanceID mInstanceID;
     CGameArea *mpArea;
     bool mValid;
 
@@ -94,12 +94,12 @@ public:
 
     inline void SetInstance(CScriptObject *pInst)
     {
-        mInstanceID = pInst ? pInst->InstanceID() : 0;
+        mInstanceID = pInst ? pInst->InstanceID() : CInstanceID();
         mpArea = pInst ? pInst->Area() : nullptr;
         mValid = pInst ? true : false;
     }
 
-    inline uint32 InstanceID() const   { return mInstanceID; }
+    inline CInstanceID InstanceID() const   { return mInstanceID; }
     inline CGameArea* Area() const  { return mpArea; }
     inline CScriptObject* operator* () const { return mValid ? mpArea->InstanceByID(mInstanceID) : nullptr; }
     inline CScriptObject* operator->() const { return mValid ? mpArea->InstanceByID(mInstanceID) : nullptr; }

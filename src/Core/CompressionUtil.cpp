@@ -102,11 +102,11 @@ namespace CompressionUtil
         else return true;
     }
 
-    bool DecompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32& rTotalOut)
+    bool DecompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32 DstLen, uint32& rTotalOut)
     {
 #if USE_LZOKAY
-        size_t TotalOut = rTotalOut;
-        lzokay::EResult Result = lzokay::decompress(pSrc, (size_t) SrcLen, pDst, TotalOut);
+        size_t TotalOut;
+        lzokay::EResult Result = lzokay::decompress(pSrc, (size_t) SrcLen, pDst, DstLen, TotalOut);
         rTotalOut = TotalOut;
 
         if (Result < lzokay::EResult::Success)
@@ -172,7 +172,7 @@ namespace CompressionUtil
                 // No zlib magic - this is LZO
                 else
                 {
-                    bool Success = DecompressLZO(pSrc, Size, pDst, TotalOut);
+                    bool Success = DecompressLZO(pSrc, Size, pDst, (uint32) (pDstEnd - pDst), TotalOut);
                     if (!Success) return false;
                 }
 
@@ -220,8 +220,9 @@ namespace CompressionUtil
     bool CompressLZO(uint8 *pSrc, uint32 SrcLen, uint8 *pDst, uint32 DstLen, uint32& rTotalOut)
     {
 #if USE_LZOKAY
-        rTotalOut = DstLen;
-        lzokay::EResult Result = lzokay::compress(pSrc, (size_t) SrcLen, pDst, (size_t&) rTotalOut);
+        size_t TotalOut;
+        lzokay::EResult Result = lzokay::compress(pSrc, (size_t) SrcLen, pDst, DstLen, TotalOut);
+        rTotalOut = TotalOut;
 
         if (Result < lzokay::EResult::Success)
         {

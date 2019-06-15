@@ -280,7 +280,8 @@ CDependencyTree* CStringTable::BuildDependencyTree() const
                 {
                     if (Game() >= EGame::CorruptionProto)
                     {
-                        ASSERT(ParamString.StartsWith("0x"));
+                        if (!ParamString.StartsWith("0x"))
+                            continue;
                         ParamString = ParamString.ChopFront(2);
                     }
 

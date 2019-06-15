@@ -16,6 +16,19 @@ enum class ELinkType
     Outgoing
 };
 
+class CInstanceID
+{
+    uint32 mId = 0;
+public:
+    operator uint32() const { return mId; }
+    CInstanceID() = default;
+    CInstanceID(uint32 id) : mId(id) {}
+    CInstanceID& operator=(uint32 id) { mId = id; return *this; }
+    uint8 Layer() const { return uint8((mId >> 26u) & 0x3fu); }
+    uint16 Area() const { return uint16((mId >> 16u) & 0x3ffu); }
+    uint16 Id() const { return uint16(mId & 0xffffu); }
+};
+
 class CScriptObject
 {
     friend class CScriptLoader;
@@ -26,7 +39,7 @@ class CScriptObject
     CScriptLayer *mpLayer;
     uint32 mVersion;
 
-    uint32 mInstanceID;
+    CInstanceID mInstanceID;
     std::vector<CLink*> mOutLinks;
     std::vector<CLink*> mInLinks;
     std::vector<char> mPropertyData;
@@ -75,7 +88,7 @@ public:
     CScriptLayer* Layer() const                                     { return mpLayer; }
     uint32 Version() const                                          { return mVersion; }
     uint32 ObjectTypeID() const                                     { return mpTemplate->ObjectID(); }
-    uint32 InstanceID() const                                       { return mInstanceID; }
+    CInstanceID InstanceID() const                                  { return mInstanceID; }
     uint32 NumLinks(ELinkType Type) const                           { return (Type == ELinkType::Incoming ? mInLinks.size() : mOutLinks.size()); }
     CLink* Link(ELinkType Type, uint32 Index) const                 { return (Type == ELinkType::Incoming ? mInLinks[Index] : mOutLinks[Index]); }
     void* PropertyData() const                                      { return (void*) mPropertyData.data(); }
