@@ -1,29 +1,29 @@
 #include "CMayaSpline.h"
-#include <Math/MathUtil.h>
+#include <Common/Math/MathUtil.h>
 
-void ValidateTangent(CVector2f& rTangent)
+void ValidateTangent(CVector2f& Tangent)
 {
-    if (rTangent.X < 0.f) rTangent.X = 0.f;
-    rTangent = rTangent.Normalized();
+    if (Tangent.X < 0.f) Tangent.X = 0.f;
+    Tangent = Tangent.Normalized();
 
-    if (rTangent.X == 0.f && rTangent.Y != 0.f)
+    if (Tangent.X == 0.f && Tangent.Y != 0.f)
     {
-        float Mul = (rTangent.Y >= 0.f ? 1.f : -1.f);
-        rTangent.X = 0.0001f;
-        rTangent.Y = 5729578 * rTangent.X * Mul; // not sure where that number comes from!
+        float Mul = (Tangent.Y >= 0.f ? 1.f : -1.f);
+        Tangent.X = 0.0001f;
+        Tangent.Y = 5729578 * Tangent.X * Mul; // not sure where that number comes from!
     }
 }
 
-void CMayaSplineKnot::GetTangents(const CMayaSplineKnot *pkPrev, const CMayaSplineKnot *pkNext, CVector2f& rOutTangentA, CVector2f& rOutTangentB) const
+void CMayaSplineKnot::GetTangents(const CMayaSplineKnot* pkPrev, const CMayaSplineKnot* pkNext, CVector2f& OutTangentA, CVector2f& OutTangentB) const
 {
     if (Flags & 0x8000)
         CalculateTangents(pkPrev, pkNext);
 
-    rOutTangentA = CachedTangentA;
-    rOutTangentB = CachedTangentB;
+    OutTangentA = CachedTangentA;
+    OutTangentB = CachedTangentB;
 }
 
-void CMayaSplineKnot::CalculateTangents(const CMayaSplineKnot *pkPrev, const CMayaSplineKnot *pkNext) const
+void CMayaSplineKnot::CalculateTangents(const CMayaSplineKnot* pkPrev, const CMayaSplineKnot* pkNext) const
 {
     // todo: this function is incomplete
     Flags &= ~0x8000;
@@ -40,14 +40,14 @@ void CMayaSplineKnot::CalculateTangents(const CMayaSplineKnot *pkPrev, const CMa
         }
     }
 
-    u32 TopFlagByte = (Flags >> 24) & 0xFF;
+    uint32 TopFlagByte = (Flags >> 24) & 0xFF;
 
     if (TopFlagByte == 0)
     {
     }
 }
 
-u32 CMayaSpline::GetKnotCount() const
+uint CMayaSpline::GetKnotCount() const
 {
     return mKnots.size();
 }
@@ -78,18 +78,13 @@ float CMayaSpline::EvaluateAt(float Time) const
     float Amplitude = EvaluateAtUnclamped(Time);
 
     if (mClampMode == 0)
-        return Amplitude;
-
-    else if (mClampMode == 1)
     {
-        if (Amplitude < mMinAmplitude)
-            Amplitude = mMinAmplitude;
-        else if (Amplitude > mMaxAmplitude)
-            Amplitude = mMaxAmplitude;
-
         return Amplitude;
     }
-
+    else if (mClampMode == 1)
+    {
+        return Math::Clamp(mMinAmplitude, mMaxAmplitude, Amplitude);
+    }
     else if (mClampMode == 2)
     {
         if (mMaxAmplitude <= mMinAmplitude)
@@ -98,8 +93,10 @@ float CMayaSpline::EvaluateAt(float Time) const
         // todo
         return 0.f;
     }
-
-    else return 0.f;
+    else
+    {
+        return 0.f;
+    }
 }
 
 float CMayaSpline::EvaluateAtUnclamped(float Time) const
@@ -247,21 +244,21 @@ float CMayaSpline::EvaluateHermite(float Time) const
     return f1;
 }
 
-bool CMayaSpline::FindKnot(float Time, int& rOutKnotIndex) const
+bool CMayaSpline::FindKnot(float Time, int& OutKnotIndex) const
 {
     // Stores the index of the closest knot to Time (without going over).
     // Returns whether or not the knot found was an exact match.
-    rOutKnotIndex = 0;
+    OutKnotIndex = 0;
 
     if (mKnots.empty())
         return false;
 
-    u32 Lower = 0;
-    u32 Upper = mKnots.size();
+    uint Lower = 0;
+    uint Upper = mKnots.size();
 
     while (Lower < Upper)
     {
-        u32 Index = (Lower + Upper) >> 1;
+        uint Index = (Lower + Upper) >> 1;
 
         if (mKnots[Index].Time > Time)
             Lower = Index + 1;
@@ -270,58 +267,60 @@ bool CMayaSpline::FindKnot(float Time, int& rOutKnotIndex) const
 
         else
         {
-            rOutKnotIndex = Index;
+            OutKnotIndex = Index;
             return true;
         }
     }
 
-    rOutKnotIndex = Lower;
+    OutKnotIndex = Lower;
     return false;
 }
 
-void CMayaSpline::FindControlPoints(int KnotIdx, std::vector<CVector2f>& rOut) const
+void CMayaSpline::FindControlPoints(int KnotIdx, std::vector<CVector2f>& Out) const
 {
-        const CMayaSplineKnot *pkKnot = &mKnots[KnotIdx];
+        const CMayaSplineKnot* pkKnot = &mKnots[KnotIdx];
         CVector2f KnotPos(pkKnot->Time, pkKnot->Amplitude);
-        rOut.push_back(KnotPos);
+        Out.push_back(KnotPos);
 
         CVector2f TangentA(0,0), TangentB(0,0);
-        const CMayaSplineKnot *pkNext = (KnotIdx < (s32) mKnots.size() ? &mKnots[KnotIdx + 1] : nullptr);
-        const CMayaSplineKnot *pkPrev = (KnotIdx > 0 ? &mKnots[KnotIdx - 1] : nullptr);
+        const CMayaSplineKnot* pkNext = (KnotIdx < mKnots.size() ? &mKnots[KnotIdx + 1] : nullptr);
+        const CMayaSplineKnot* pkPrev = (KnotIdx > 0 ? &mKnots[KnotIdx - 1] : nullptr);
         pkKnot->GetTangents(pkPrev, pkNext, TangentA, TangentB);
 
-        rOut.push_back(KnotPos + (TangentB * 0.333333f));
+        Out.push_back(KnotPos + (TangentB * 0.333333f));
 
         // The game doesn't check whether the next knot exists before executing this code, not sure why...
         KnotIdx++;
         pkKnot = pkNext;
         KnotPos = CVector2f(pkNext->Time, pkNext->Amplitude);
 
-        pkNext = (KnotIdx < (s32) mKnots.size() ? &mKnots[KnotIdx + 1] : nullptr);
+        pkNext = (KnotIdx < mKnots.size() ? &mKnots[KnotIdx + 1] : nullptr);
         pkPrev = (KnotIdx > 0 ? &mKnots[KnotIdx - 1] : nullptr);
         pkKnot->GetTangents(pkPrev, pkNext, TangentA, TangentB);
 
-        rOut.push_back(KnotPos - (TangentA * 0.333333f));
-        rOut.push_back(KnotPos);
+        Out.push_back(KnotPos - (TangentA * 0.333333f));
+        Out.push_back(KnotPos);
 }
 
-void CMayaSpline::CalculateHermiteCoefficients(const std::vector<CVector2f>& rkControlPoints, float *pOutCoefs) const
+void CMayaSpline::CalculateHermiteCoefficients(const std::vector<CVector2f>& kControlPoints, float* pOutCoefs) const
 {
     // rkControlPoints should contain 4 elements.
-    const CVector2f& rkKnotA = rkControlPoints[0];
-    const CVector2f& rkTangentA = rkControlPoints[1];
-    const CVector2f& rkTangentB = rkControlPoints[2];
-    const CVector2f& rkKnotB = rkControlPoints[3];
+    const CVector2f& kKnotA = kControlPoints[0];
+    const CVector2f& kTangentA = kControlPoints[1];
+    const CVector2f& kTangentB = kControlPoints[2];
+    const CVector2f& kKnotB = kControlPoints[3];
 
-    CVector2f Range = rkKnotB - rkKnotA;
+    CVector2f Range = kKnotB - kKnotA;
 
-    CVector2f KnotAToTangentA = rkTangentA - rkKnotA;
+    CVector2f KnotAToTangentA = kTangentA - kKnotA;
     float MulA = (KnotAToTangentA.X == 0 ? 5729578.f : KnotAToTangentA.Y / KnotAToTangentA.X);
 
-    CVector2f KnotBToTangentB = rkKnotB - rkTangentB;
+    CVector2f KnotBToTangentB = kKnotB - kTangentB;
     float MulB = (KnotBToTangentB.X == 0 ? 5729578.f : KnotBToTangentB.Y / KnotBToTangentB.X);
 
+#if 0
     // todo: better organization and better variable names
+    // also this doesn't actually compile, oops! will need to be re-reverse engineered
     float f3 = Range.X * Range.X;
     float f1 = 1.0f;
     float f0 = Range.Y * 2;
@@ -341,6 +340,10 @@ void CMayaSpline::CalculateHermiteCoefficients(const std::vector<CVector2f>& rkC
 
     pOutCoefs[0] = f1;
     pOutCoefs[1] = f0;
+#else
+    pOutCoefs[0] = 0.0f;
+    pOutCoefs[1] = 0.0f;
+#endif
     pOutCoefs[2] = MulA;
-    pOutCoefs[3] = rkKnotA.Y;
+    pOutCoefs[3] = kKnotA.Y;
 }
