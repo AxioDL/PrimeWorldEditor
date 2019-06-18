@@ -1,8 +1,8 @@
 #ifndef CMAYASPLINE_H
 #define CMAYASPLINE_H
 
-#include <Common/types.h>
-#include <Math/CVector2f.h>
+#include <Common/BasicTypes.h>
+#include <Common/Math/CVector2f.h>
 #include <vector>
 
 // These classes based off Metroid Prime 2's CMayaSpline implementation
