@@ -400,6 +400,17 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
 
                 // Unknown/unsupported animation type
                 case EUVAnimMode::ConvolutedModeB:
+                    pPass->mAnimConvolutedModeBType = EUVConvolutedModeBType(mpFile->ReadLong());
+                    pPass->mAnimParams[0] = mpFile->ReadFloat();
+                    pPass->mAnimParams[1] = mpFile->ReadFloat();
+                    pPass->mAnimParams[2] = mpFile->ReadFloat();
+                    pPass->mAnimParams[3] = mpFile->ReadFloat();
+                    pPass->mAnimParams[4] = mpFile->ReadFloat();
+                    pPass->mAnimParams[5] = mpFile->ReadFloat();
+                    pPass->mAnimParams[6] = mpFile->ReadFloat();
+                    pPass->mAnimParams[7] = mpFile->ReadFloat();
+                    debugf("%s: UVMode8 Used with type %i", *mpFile->GetSourceString(), int(pPass->mAnimConvolutedModeBType));
+                    break;
                 case EUVAnimMode::Eleven:
                     break;
                 default:

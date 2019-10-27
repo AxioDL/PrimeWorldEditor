@@ -103,5 +103,13 @@ enum class EUVAnimMode
     NoUVAnim            = -1
 };
 
+enum class EUVConvolutedModeBType {
+    Zero,
+    One,
+    Two,
+    Three,
+    Four
+};
+
 #endif // ETEVENUMS
 

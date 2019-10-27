@@ -198,7 +198,33 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
 
     case EUVAnimMode::ConvolutedModeB: // Mode 8 (MP3/DKCR only)
     {
-        // todo
+        float t = mAnimParams[2] + (Seconds * mAnimParams[3]);
+        float sin = std::sin(t);
+        float cos = std::cos(t);
+        /* TODO Properly implement the mode type */
+        if (mAnimConvolutedModeBType == EUVConvolutedModeBType::Zero)
+        {
+        } else if (mAnimConvolutedModeBType == EUVConvolutedModeBType::One)
+        {
+        } else if (mAnimConvolutedModeBType == EUVConvolutedModeBType::Two)
+        {
+
+        } else if (mAnimConvolutedModeBType == EUVConvolutedModeBType::Three)
+        {
+
+        } else if (mAnimConvolutedModeBType == EUVConvolutedModeBType::Four)
+        {
+
+        }
+
+        float X = (mAnimParams[0] * (mAnimParams[5] + (mAnimParams[6] * Seconds))) + (0.5f - (0.5f * (cos - sin)));
+        float Y = (mAnimParams[1] * (mAnimParams[5] + (mAnimParams[7] * Seconds))) + (0.5f - (0.5f * (sin + cos)));
+        TexMtx = CMatrix4f(mAnimParams[0] * cos, mAnimParams[1] * -sin, 0.f,
+                           X,
+                           mAnimParams[0] * sin, mAnimParams[1] * cos, 0.f,
+                           Y,
+                           0.f, 0.f, 0.f, 1.f,
+                           0.f, 0.f, 0.f, 1.f);
         break;
     }
 

@@ -37,7 +37,8 @@ class CMaterialPass
     uint32 mTexCoordSource; // Should maybe be an enum but worried about conflicts with EVertexDescriptionn
     TResPtr<CTexture> mpTexture;
     EUVAnimMode mAnimMode;
-    float mAnimParams[4];
+    EUVConvolutedModeBType mAnimConvolutedModeBType;
+    float mAnimParams[8];
     bool mEnabled;
 
 public:
