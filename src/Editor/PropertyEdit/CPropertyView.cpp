@@ -241,7 +241,7 @@ void CPropertyView::ClosePersistentEditors(const QModelIndex& rkIndex)
 
     for (uint32 iChild = 0; iChild < NumChildren; iChild++)
     {
-        QModelIndex ChildIndex = rkIndex.child(iChild, 1);
+        QModelIndex ChildIndex = mpModel->index(iChild, 1, rkIndex);
         closePersistentEditor(ChildIndex);
 
         if (mpModel->rowCount(ChildIndex) != 0)

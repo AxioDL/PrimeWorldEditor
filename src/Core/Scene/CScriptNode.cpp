@@ -207,8 +207,8 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
         {
             if (pModel->IsSkinned()) CGraphics::LoadIdentityBoneTransforms();
 
-            if (mpExtra) CGraphics::sPixelBlock.TevColor = mpExtra->TevColor();
-            else CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+            if (mpExtra) CGraphics::sPixelBlock.SetAllTevColors(mpExtra->TevColor());
+            else CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
 
             CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
             CGraphics::UpdatePixelBlock();

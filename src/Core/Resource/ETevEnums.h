@@ -1,6 +1,8 @@
 #ifndef ETEVENUMS
 #define ETEVENUMS
 
+#include <Common/BasicTypes.h>
+
 enum ETevColorInput
 {
     kPrevRGB    = 0x0,
@@ -101,6 +103,20 @@ enum class EUVAnimMode
     SimpleMode          = 0xA,
     Eleven              = 0xB,
     NoUVAnim            = -1
+};
+
+enum class EUVAnimUVSource : uint16
+{
+    Position,
+    Normal,
+    UV
+};
+enum class EUVAnimMatrixConfig : uint16
+{
+    NoMtxNoPost,
+    MtxNoPost,
+    NoMtxPost,
+    MtxPost
 };
 
 enum class EUVConvolutedModeBType {

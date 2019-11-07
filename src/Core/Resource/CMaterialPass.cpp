@@ -14,8 +14,11 @@ CMaterialPass::CMaterialPass(CMaterial *pParent)
     , mKColorSel(kKonstOne)
     , mKAlphaSel(kKonstOne)
     , mRasSel(kRasColorNull)
+    , mTevColorScale(1.f)
+    , mTevAlphaScale(1.f)
     , mTexCoordSource(0xFF)
     , mAnimMode(EUVAnimMode::NoUVAnim)
+    , mTexSwapComps{'r', 'g', 'b', 'a'}
 {
     for (uint32 iParam = 0; iParam < 4; iParam++)
     {
@@ -46,12 +49,17 @@ CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
     pOut->mKColorSel = mKColorSel;
     pOut->mKAlphaSel = mKAlphaSel;
     pOut->mRasSel = mRasSel;
+    pOut->mTevColorScale = mTevColorScale;
+    pOut->mTevAlphaScale = mTevAlphaScale;
     pOut->mTexCoordSource = mTexCoordSource;
     pOut->mpTexture = mpTexture;
     pOut->mAnimMode = mAnimMode;
 
-    for (uint32 iParam = 0; iParam < 4; iParam++)
+    for (uint32 iParam = 0; iParam < 8; iParam++)
         pOut->mAnimParams[iParam] = mAnimParams[iParam];
+
+    for (uint32 iComp = 0; iComp < 4; iComp++)
+        pOut->mTexSwapComps[iComp] = mTexSwapComps[iComp];
 
     pOut->mEnabled = mEnabled;
 
@@ -71,9 +79,12 @@ void CMaterialPass::HashParameters(CFNV1A& rHash)
         rHash.HashLong(mKColorSel);
         rHash.HashLong(mKAlphaSel);
         rHash.HashLong(mRasSel);
+        rHash.HashLong(mTevColorScale);
+        rHash.HashLong(mTevAlphaScale);
         rHash.HashLong(mTexCoordSource);
         rHash.HashLong((uint) mAnimMode);
-        rHash.HashData(mAnimParams, sizeof(float) * 4);
+        rHash.HashData(mAnimParams, sizeof(float) * 8);
+        rHash.HashData(mTexSwapComps, sizeof(char) * 4);
         rHash.HashByte(mEnabled);
     }
 }
@@ -295,6 +306,18 @@ void CMaterialPass::SetRasSel(ETevRasSel Sel)
     mpParentMat->Update();
 }
 
+void CMaterialPass::SetTevColorScale(float Scale)
+{
+    mTevColorScale = Scale;
+    mpParentMat->Update();
+}
+
+void CMaterialPass::SetTevAlphaScale(float Scale)
+{
+    mTevAlphaScale = Scale;
+    mpParentMat->Update();
+}
+
 void CMaterialPass::SetTexCoordSource(uint32 Source)
 {
     mTexCoordSource = Source;
@@ -315,6 +338,11 @@ void CMaterialPass::SetAnimMode(EUVAnimMode Mode)
 void CMaterialPass::SetAnimParam(uint32 ParamIndex, float Value)
 {
     mAnimParams[ParamIndex] = Value;
+}
+
+void CMaterialPass::SetTexSwapComp(uint32 Comp, char Value)
+{
+    mTexSwapComps[Comp] = Value;
 }
 
 void CMaterialPass::SetEnabled(bool Enabled)

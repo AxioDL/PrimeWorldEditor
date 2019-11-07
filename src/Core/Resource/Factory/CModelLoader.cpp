@@ -128,7 +128,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
         LoadSurfaceHeaderDKCR(rModel, pSurf);
 
     bool HasAABB = (pSurf->AABox != CAABox::skInfinite);
-    CMaterial *pMat = mMaterials[0]->MaterialByIndex(pSurf->MaterialID);
+    CMaterial *pMat = mMaterials[0]->MaterialByIndex(pSurf->MaterialID, false);
 
     // Primitive table
     uint8 Flag = rModel.ReadByte();
@@ -282,7 +282,7 @@ void CModelLoader::LoadSurfaceHeaderDKCR(IInputStream& rModel, SSurface *pSurf)
 SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
 {
     // Create vertex description and assign it to material
-    CMaterial *pMat = pSet->MaterialByIndex(pkMesh->mMaterialIndex);
+    CMaterial *pMat = pSet->MaterialByIndex(pkMesh->mMaterialIndex, false);
     FVertexDescription Desc = pMat->VtxDesc();
 
     if (Desc == (FVertexDescription) EVertexAttribute::None)

@@ -9,7 +9,8 @@ CModelEditorViewport::CModelEditorViewport(QWidget *pParent)
     , mGridEnabled(true)
 {
     mpRenderer = new CRenderer();
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
     mpRenderer->SetClearColor(CColor::skBlack);
     mpRenderer->ToggleGrid(true);
 
@@ -109,5 +110,6 @@ void CModelEditorViewport::Paint()
 
 void CModelEditorViewport::OnResize()
 {
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 }

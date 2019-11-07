@@ -111,7 +111,7 @@ void CDeleteSelectionCommand::undo()
     }
 
     // Sort links by sender index, add outgoing
-    qSort(mDeletedLinks.begin(), mDeletedLinks.end(), [](SDeletedLink& rLeft, SDeletedLink& rRight) -> bool {
+    std::sort(mDeletedLinks.begin(), mDeletedLinks.end(), [](SDeletedLink& rLeft, SDeletedLink& rRight) -> bool {
         return (rLeft.SenderIndex < rRight.SenderIndex);
     });
 
@@ -128,7 +128,7 @@ void CDeleteSelectionCommand::undo()
     }
 
     // Sort links by receiver index, add incoming
-    qSort(mDeletedLinks.begin(), mDeletedLinks.end(), [](SDeletedLink& rLeft, SDeletedLink& rRight) -> bool {
+    std::sort(mDeletedLinks.begin(), mDeletedLinks.end(), [](SDeletedLink& rLeft, SDeletedLink& rRight) -> bool {
         return (rLeft.ReceiverIndex < rRight.ReceiverIndex);
     });
 

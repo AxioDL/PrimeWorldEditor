@@ -108,8 +108,8 @@ void CModel::GenerateMaterialShaders()
 
         for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
         {
-            CMaterial *pMat = pSet->MaterialByIndex(iMat);
-            pMat->GenerateShader(false);
+            pSet->MaterialByIndex(iMat, false)->GenerateShader(false);
+            pSet->MaterialByIndex(iMat, true)->GenerateShader(false);
         }
     }
 }
@@ -136,29 +136,40 @@ void CModel::DrawSurface(FRenderOptions Options, uint32 Surface, uint32 MatSet)
     if (MatSet >= mMaterialSets.size())
         MatSet = mMaterialSets.size() - 1;
 
+    auto DoDraw = [this, Surface]()
+    {
+        // Draw IBOs
+        mVBO.Bind();
+        glLineWidth(1.f);
+
+        for (uint32 iIBO = 0; iIBO < mSurfaceIndexBuffers[Surface].size(); iIBO++)
+        {
+            CIndexBuffer *pIBO = &mSurfaceIndexBuffers[Surface][iIBO];
+            pIBO->DrawElements();
+        }
+
+        mVBO.Unbind();
+    };
+
     // Bind material
     if ((Options & ERenderOption::NoMaterialSetup) == 0)
     {
         SSurface *pSurf = mSurfaces[Surface];
-        CMaterial *pMat = mMaterialSets[MatSet]->MaterialByIndex(pSurf->MaterialID);
+        CMaterial *pMat = mMaterialSets[MatSet]->MaterialByIndex(pSurf->MaterialID, Options.HasFlag(ERenderOption::EnableBloom));
 
         if (!Options.HasFlag(ERenderOption::EnableOccluders) && pMat->Options().HasFlag(EMaterialOption::Occluder))
             return;
 
-        pMat->SetCurrent(Options);
+        for (CMaterial* passMat = pMat; passMat; passMat = passMat->GetNextDrawPass())
+        {
+            passMat->SetCurrent(Options);
+            DoDraw();
+        }
     }
-
-    // Draw IBOs
-    mVBO.Bind();
-    glLineWidth(1.f);
-
-    for (uint32 iIBO = 0; iIBO < mSurfaceIndexBuffers[Surface].size(); iIBO++)
+    else
     {
-        CIndexBuffer *pIBO = &mSurfaceIndexBuffers[Surface][iIBO];
-        pIBO->DrawElements();
+        DoDraw();
     }
-
-    mVBO.Unbind();
 }
 
 void CModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::skWhite*/)
@@ -206,19 +217,22 @@ void CModel::SetSkin(CSkin *pSkin)
 
             for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
             {
-                CMaterial *pMat = pSet->MaterialByIndex(iMat);
-                FVertexDescription VtxDesc = pMat->VtxDesc();
-
-                if (pSkin && !VtxDesc.HasAllFlags(kBoneFlags))
+                for (bool iBloom = false; !iBloom; iBloom = true)
                 {
-                    VtxDesc |= kBoneFlags;
-                    pMat->SetVertexDescription(VtxDesc);
-                }
+                    CMaterial *pMat = pSet->MaterialByIndex(iMat, iBloom);
+                    FVertexDescription VtxDesc = pMat->VtxDesc();
 
-                else if (!pSkin && VtxDesc.HasAnyFlags(kBoneFlags))
-                {
-                    VtxDesc &= ~kBoneFlags;
-                    pMat->SetVertexDescription(VtxDesc);
+                    if (pSkin && !VtxDesc.HasAllFlags(kBoneFlags))
+                    {
+                        VtxDesc |= kBoneFlags;
+                        pMat->SetVertexDescription(VtxDesc);
+                    }
+
+                    else if (!pSkin && VtxDesc.HasAnyFlags(kBoneFlags))
+                    {
+                        VtxDesc &= ~kBoneFlags;
+                        pMat->SetVertexDescription(VtxDesc);
+                    }
                 }
             }
         }
@@ -249,7 +263,7 @@ CMaterial* CModel::GetMaterialByIndex(uint32 MatSet, uint32 Index)
     if (GetMatCount() == 0)
         return nullptr;
 
-    return mMaterialSets[MatSet]->MaterialByIndex(Index);
+    return mMaterialSets[MatSet]->MaterialByIndex(Index, false);
 }
 
 CMaterial* CModel::GetMaterialBySurface(uint32 MatSet, uint32 Surface)
@@ -263,7 +277,7 @@ bool CModel::HasTransparency(uint32 MatSet)
         MatSet = mMaterialSets.size() - 1;
 
     for (uint32 iMat = 0; iMat < mMaterialSets[MatSet]->NumMaterials(); iMat++)
-        if (mMaterialSets[MatSet]->MaterialByIndex(iMat)->Options() & EMaterialOption::Transparent ) return true;
+        if (mMaterialSets[MatSet]->MaterialByIndex(iMat, true)->Options() & EMaterialOption::Transparent ) return true;
 
     return false;
 }
@@ -274,7 +288,7 @@ bool CModel::IsSurfaceTransparent(uint32 Surface, uint32 MatSet)
         MatSet = mMaterialSets.size() - 1;
 
     uint32 matID = mSurfaces[Surface]->MaterialID;
-    return (mMaterialSets[MatSet]->MaterialByIndex(matID)->Options() & EMaterialOption::Transparent) != 0;
+    return (mMaterialSets[MatSet]->MaterialByIndex(matID, true)->Options() & EMaterialOption::Transparent) != 0;
 }
 
 bool CModel::IsLightmapped() const
@@ -285,7 +299,7 @@ bool CModel::IsLightmapped() const
 
         for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
         {
-            CMaterial *pMat = pSet->MaterialByIndex(iMat);
+            CMaterial *pMat = pSet->MaterialByIndex(iMat, true);
             if (pMat->Options().HasFlag(EMaterialOption::Lightmap))
                 return true;
         }

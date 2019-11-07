@@ -79,7 +79,7 @@ void CDoorExtra::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCom
     CColor Tint = mpParent->TintColor(rkViewInfo) * mShieldColor;
 
     CGraphics::sPixelBlock.TintColor = Tint;
-    CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+    CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
     CGraphics::UpdatePixelBlock();
     DrawModelParts(mpShieldModel, Options, 0, Command);
 }

@@ -6,7 +6,8 @@ CCollisionEditorViewport::CCollisionEditorViewport(QWidget* pParent /*= 0*/)
     , mGridEnabled(true)
 {
     mpRenderer = std::make_unique<CRenderer>();
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
     mpRenderer->SetClearColor(CColor(0.3f, 0.3f, 0.3f));
     mpRenderer->ToggleGrid(true);
 

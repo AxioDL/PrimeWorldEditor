@@ -130,7 +130,7 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
     // Sort in alphabetical order and create tabs
     if (!mTweakAssets.isEmpty())
     {
-        qSort(mTweakAssets.begin(), mTweakAssets.end(), [](CTweakData* pLeft, CTweakData* pRight) -> bool {
+        std::sort(mTweakAssets.begin(), mTweakAssets.end(), [](CTweakData* pLeft, CTweakData* pRight) -> bool {
             return pLeft->TweakName().ToUpper() < pRight->TweakName().ToUpper();
         });
 

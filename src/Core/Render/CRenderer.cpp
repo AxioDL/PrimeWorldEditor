@@ -270,7 +270,7 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo)
 
     CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
     CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
-    CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+    CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
     CGraphics::sPixelBlock.TintColor = CColor::skWhite;
     CGraphics::sNumLights = 0;
     CGraphics::UpdateVertexBlock();

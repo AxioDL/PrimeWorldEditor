@@ -6,7 +6,8 @@ CCharacterEditorViewport::CCharacterEditorViewport(QWidget *pParent /*= 0*/)
     , mGridEnabled(true)
 {
     mpRenderer = new CRenderer();
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
     mpRenderer->SetClearColor(CColor(0.3f, 0.3f, 0.3f));
     mpRenderer->ToggleGrid(true);
 
@@ -63,7 +64,8 @@ void CCharacterEditorViewport::Paint()
 
 void CCharacterEditorViewport::OnResize()
 {
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 }
 
 void CCharacterEditorViewport::OnMouseClick(QMouseEvent *pEvent)

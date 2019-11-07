@@ -75,7 +75,7 @@ void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderComman
     }
 
     float Mul = CGraphics::sWorldLightMultiplier;
-    CGraphics::sPixelBlock.TevColor = CColor(Mul,Mul,Mul);
+    CGraphics::sPixelBlock.SetAllTevColors(CColor(Mul,Mul,Mul));
     CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
     LoadModelMatrix();
 

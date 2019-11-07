@@ -172,7 +172,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
                 for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
                 {
-                    CMaterial *pMat = pSet->MaterialByIndex(iMat);
+                    CMaterial *pMat = pSet->MaterialByIndex(iMat, true);
 
                     for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
                     {
@@ -239,7 +239,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
             for (uint32 iMat = 0; iMat < pMaterials->NumMaterials(); iMat++)
             {
-                CMaterial *pMat = pMaterials->MaterialByIndex(iMat);
+                CMaterial *pMat = pMaterials->MaterialByIndex(iMat, true);
                 bool FoundLightmap = false;
 
                 for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
@@ -415,7 +415,7 @@ void GenerateAssetNames(CGameProject *pProj)
 
             for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
             {
-                CMaterial *pMat = pSet->MaterialByIndex(iMat);
+                CMaterial *pMat = pSet->MaterialByIndex(iMat, true);
 
                 for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
                 {

@@ -32,7 +32,7 @@ public:
             }
         }
 
-        qSort(mEntries.begin(), mEntries.end(), [](CResourceEntry *pA, CResourceEntry *pB) -> bool {
+        std::sort(mEntries.begin(), mEntries.end(), [](CResourceEntry *pA, CResourceEntry *pB) -> bool {
             return pA->UppercaseName() < pB->UppercaseName();
         });
 

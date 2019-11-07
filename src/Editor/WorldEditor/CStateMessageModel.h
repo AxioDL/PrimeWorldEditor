@@ -87,7 +87,7 @@ public:
             }
         }
 
-        qSort(mEntries);
+        std::sort(mEntries.begin(), mEntries.end());
         endResetModel();
     }
 

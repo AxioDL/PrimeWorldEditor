@@ -31,9 +31,31 @@ enum class EMaterialOption
     Lightmap                = 0x800,
     ShortTexCoord           = 0x2000,
     AllMP1Settings          = 0x2FF8,
+    ColorWrite              = 0x10000,
+    AlphaWrite              = 0x20000,
+    ZeroDestAlpha           = 0x40000,
     DrawWhiteAmbientDKCR    = 0x80000
 };
 DECLARE_FLAGS_ENUMCLASS(EMaterialOption, FMaterialOptions)
+
+enum class EMP3MaterialOption
+{
+    None                        = 0,
+    Bloom                       = 0x1,
+    ForceLightingStage          = 0x4,
+    PreIncandecenceTransparency = 0x8,
+    Masked                      = 0x10,
+    AdditiveIncandecence        = 0x20,
+    Occluder                    = 0x100,
+    SolidWhiteOnly              = 0x200,
+    ReflectionAlphaTarget       = 0x400,
+    SolidColorOnly              = 0x800,
+    ExcludeFromScanVisor        = 0x4000,
+    XRayOpaque                  = 0x8000,
+    XRayAlphaTarget             = 0x10000,
+    DrawWhiteAmbientDKCR        = 0x80000,
+};
+DECLARE_FLAGS_ENUMCLASS(EMP3MaterialOption, FMP3MaterialOptions)
 
 class CMaterial
 {
@@ -57,12 +79,12 @@ private:
     EShaderStatus mShaderStatus;    // A status variable so that PWE won't crash if a shader fails to compile.
     uint64 mParametersHash;         // A hash of all the parameters that can identify this TEV setup.
     bool mRecalcHash;               // Indicates the hash needs to be recalculated. Set true when parameters are changed.
-    bool mEnableBloom;              // Bool that toggles bloom on or off. On by default on MP3 materials, off by default on MP1 materials.
 
     EGame mVersion;
-    FMaterialOptions mOptions;           // See the EMaterialOptions enum above
+    FMaterialOptions mOptions;           // See the EMaterialOption enum above
     FVertexDescription mVtxDesc;         // Descriptor of vertex attributes used by this material
     CColor mKonstColors[4];              // Konst color values for TEV
+    CColor mTevColors[4];                // Initial TEV color register values (for MP3 materials only)
     GLenum mBlendSrcFac;                 // Source blend factor
     GLenum mBlendDstFac;                 // Dest blend factor
     bool mLightingEnabled;               // Color channel control flags; indicate whether lighting is enabled
@@ -71,6 +93,16 @@ private:
     TResPtr<CTexture> mpIndirectTexture; // Optional texture used for the indirect stage for reflections
 
     std::vector<CMaterialPass*> mPasses;
+
+    // Transparent materials in MP3/DKCR may require multiple draw passes to achieve hybrid
+    // blending modes. This serves as a linked list of materials to be drawn successively
+    // for each surface.
+    CMaterial* mpNextDrawPassMaterial;
+
+    // Bloom in MP3 changes the CMaterialPass layout significantly. This is an alternate
+    // material head that may be conditionally used when the user wants to view bloom.
+    // (only set in the head non-bloom CMaterial).
+    CMaterial* mpBloomMaterial;
 
     // Reuse shaders between materials that have identical TEV setups
     struct SMaterialShader
@@ -101,18 +133,22 @@ public:
     inline GLenum BlendSrcFac() const                   { return mBlendSrcFac; }
     inline GLenum BlendDstFac() const                   { return mBlendDstFac; }
     inline CColor Konst(uint32 KIndex) const            { return mKonstColors[KIndex]; }
+    inline CColor TevColor(ETevOutput Out) const        { return mTevColors[int(Out)]; }
     inline CTexture* IndTexture() const                 { return mpIndirectTexture; }
     inline bool IsLightingEnabled() const               { return mLightingEnabled; }
     inline uint32 EchoesUnknownA() const                { return mEchoesUnknownA; }
     inline uint32 EchoesUnknownB() const                { return mEchoesUnknownB; }
     inline uint32 PassCount() const                     { return mPasses.size(); }
     inline CMaterialPass* Pass(uint32 PassIndex) const  { return mPasses[PassIndex]; }
+    inline CMaterial* GetNextDrawPass() const           { return mpNextDrawPassMaterial; }
+    inline CMaterial* GetBloomVersion() const           { return mpBloomMaterial; }
 
     inline void SetName(const TString& rkName)                 { mName = rkName; }
     inline void SetOptions(FMaterialOptions Options)           { mOptions = Options; Update(); }
     inline void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; Update(); }
     inline void SetBlendMode(GLenum SrcFac, GLenum DstFac)     { mBlendSrcFac = SrcFac; mBlendDstFac = DstFac; mRecalcHash = true; }
     inline void SetKonst(const CColor& Konst, uint32 KIndex)   { mKonstColors[KIndex] = Konst; Update(); }
+    inline void SetTevColor(const CColor& Color, ETevOutput Out) { mTevColors[int(Out)] = Color; }
     inline void SetIndTexture(CTexture *pTex)                  { mpIndirectTexture = pTex; }
     inline void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; Update(); }
 
