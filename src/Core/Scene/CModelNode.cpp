@@ -75,7 +75,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
         if (IsLightingEnabled)
         {
             CGraphics::sNumLights = 0;
-            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
+            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentBlack;
             CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
             CGraphics::UpdateLightBlock();
         }

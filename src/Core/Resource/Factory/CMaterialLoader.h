@@ -8,7 +8,8 @@
 #include <Common/FileIO.h>
 #include <assimp/scene.h>
 
-enum class EMP3RenderConfig {
+enum class EMP3RenderConfig
+{
     NoBloomTransparent,
     NoBloomAdditiveIncandecence,
     FullRenderOpaque,
@@ -30,7 +31,8 @@ enum class EMP3RenderConfig {
     XRayOpaque
 };
 
-enum class EPASS {
+enum class EPASS
+{
     DIFF,
     RIML,
     BLOL,
@@ -47,7 +49,8 @@ enum class EPASS {
     TOON
 };
 
-enum class EINT {
+enum class EINT
+{
     OPAC,
     BLOD,
     BLOI,
@@ -55,7 +58,8 @@ enum class EINT {
     XRBR
 };
 
-enum class ECLR {
+enum class ECLR
+{
     CLR,
     DIFB
 };

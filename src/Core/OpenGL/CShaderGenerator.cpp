@@ -463,12 +463,6 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
         if (pPass->Texture())
             ShaderCode << "    Tex = texture(Texture" << iPass << ", TevCoord)";
 
-        // A couple pass types require special swizzles to access different texture color channels as alpha
-        if ((PassType == "TRAN") || (PassType == "INCA") || (PassType == "BLOI"))
-            ShaderCode << ".rgbr";
-        else if (PassType == "BLOL")
-            ShaderCode << ".rgbg";
-
         // Apply lightmap multiplier
         bool UseLightmapMultiplier = (PassType == "DIFF") ||
                                      (PassType == "CUST" && (rkMat.Options() & EMaterialOption::Lightmap) && iPass == 0);
