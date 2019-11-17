@@ -181,6 +181,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
         {
             CGraphics::sNumLights = 0;
             CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentBlack;
+            CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
             CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
             CGraphics::UpdateLightBlock();
         }
@@ -192,6 +193,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
             {
                 CGraphics::SetDefaultLighting();
                 CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
+                CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
             }
 
             else

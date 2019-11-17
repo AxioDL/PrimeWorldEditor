@@ -269,7 +269,8 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo)
     glEnable(GL_CULL_FACE);
 
     CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-    CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
+    CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentWhite;
+    CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
     CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
     CGraphics::sPixelBlock.TintColor = CColor::skWhite;
     CGraphics::sNumLights = 0;

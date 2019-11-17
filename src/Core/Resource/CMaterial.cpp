@@ -190,8 +190,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
                 CGraphics::sPixelBlock.TevColor[iTev] = mTevColors[iTev];
 
         // Set color channels
-        // COLOR0_Amb is initialized by the node instead of by the material
-        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skWhite;
+        // COLOR0_Amb,Mat is initialized by the node instead of by the material
 
         // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
         if ((mOptions & EMaterialOption::DepthWrite) || (Options & ERenderOption::NoAlpha)) glDepthMask(GL_TRUE);

@@ -22,8 +22,8 @@ CGraphics::SLightBlock  CGraphics::sLightBlock;
 
 CGraphics::ELightingMode CGraphics::sLightMode;
 uint32 CGraphics::sNumLights;
-const CColor CGraphics::skDefaultAmbientColor = CColor(0.5f, 0.5f, 0.5f, 0.5f);
-CColor CGraphics::sAreaAmbientColor = CColor::skBlack;
+const CColor CGraphics::skDefaultAmbientColor = CColor(0.5f, 0.5f, 0.5f, 0.0f);
+CColor CGraphics::sAreaAmbientColor = CColor::skTransparentBlack;
 float CGraphics::sWorldLightMultiplier;
 CLight CGraphics::sDefaultDirectionalLights[3] = {
     CLight::BuildDirectional(CVector3f(0), CVector3f   (0.f, -0.866025f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f)),
@@ -171,7 +171,7 @@ void CGraphics::SetDefaultLighting()
     UpdateLightBlock();
 
     sVertexBlock.COLOR0_Amb = CColor::skGray;
-    sVertexBlock.COLOR0_Amb.A = 0.5f;
+    sVertexBlock.COLOR0_Mat = CColor::skWhite;
     UpdateVertexBlock();
 }
 
@@ -182,7 +182,7 @@ void CGraphics::SetupAmbientColor()
     else if (sLightMode == ELightingMode::Basic)
         sVertexBlock.COLOR0_Amb = skDefaultAmbientColor;
     else
-        sVertexBlock.COLOR0_Amb = CColor::skWhite;
+        sVertexBlock.COLOR0_Amb = CColor::skTransparentWhite;
 }
 
 void CGraphics::SetIdentityMVP()

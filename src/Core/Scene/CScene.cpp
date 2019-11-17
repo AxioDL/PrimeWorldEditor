@@ -228,7 +228,7 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     }
 
     uint32 NumLightLayers = mpArea->NumLightLayers();
-    CGraphics::sAreaAmbientColor = CColor::skBlack;
+    CGraphics::sAreaAmbientColor = CColor::skTransparentBlack;
 
     for (uint32 iLyr = 0; iLyr < NumLightLayers; iLyr++)
     {

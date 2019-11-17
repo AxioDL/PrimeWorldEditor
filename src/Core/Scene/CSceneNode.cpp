@@ -132,7 +132,7 @@ void CSceneNode::LoadModelMatrix()
 void CSceneNode::BuildLightList(CGameArea *pArea)
 {
     mLightCount = 0;
-    mAmbientColor = CColor::skBlack;
+    mAmbientColor = CColor::skTransparentBlack;
 
     uint32 Index = mLightLayerIndex;
     if ((pArea->NumLightLayers() <= Index) || (pArea->NumLights(Index) == 0)) Index = 0;
@@ -152,7 +152,7 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
 
     // Default ambient color to white if there are no lights on the selected layer
     uint32 NumLights = pArea->NumLights(Index);
-    if (NumLights == 0) mAmbientColor = CColor::skWhite;
+    if (NumLights == 0) mAmbientColor = CColor::skTransparentWhite;
 
     for (uint32 iLight = 0; iLight < NumLights; iLight++)
     {
@@ -192,7 +192,7 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
     {
     case CGraphics::ELightingMode::None:
         // No lighting: full white ambient, no dynamic lights
-        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skWhite;
+        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentWhite;
         break;
 
     case CGraphics::ELightingMode::Basic:
@@ -209,6 +209,8 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
             mLights[iLight]->Load();
         break;
     }
+
+    CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
 
     CGraphics::sPixelBlock.LightmapMultiplier = (Mode == CGraphics::ELightingMode::World ? 1.f : 0.f);
     CGraphics::UpdateLightBlock();

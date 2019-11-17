@@ -62,6 +62,7 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCom
         CGraphics::SetDefaultLighting();
         CGraphics::UpdateLightBlock();
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
+        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
         CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
         CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
         CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);

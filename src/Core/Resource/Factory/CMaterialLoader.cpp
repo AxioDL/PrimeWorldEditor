@@ -996,6 +996,7 @@ bool CMaterialLoader::SetupIncandecenceStage(STevTracker& Tracker, CMaterial* pM
     auto pPass = std::make_unique<CMaterialPass>(pMat);
     SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateInca);
 
+    /* KColor is set as the INCA mod color in game */
     pPass->SetKColorSel(kKonstOne);
     pPass->SetColorInputs(kZeroRGB, kKonstRGB, kTextureRGB, kPrevRGB);
     pPass->SetColorOutput(kPrevReg);
@@ -1036,6 +1037,7 @@ bool CMaterialLoader::SetupIncandecenceStageNoBloom(STevTracker& Tracker, CMater
     auto pPass = std::make_unique<CMaterialPass>(pMat);
     SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateInca);
 
+    /* KColor is set as the INCA mod color in game */
     pPass->SetKColorSel(kKonstOne);
     pPass->SetColorInputs(kZeroRGB, kKonstRGB, kTextureRGB, kPrevRGB);
     pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
@@ -1073,6 +1075,7 @@ bool CMaterialLoader::SetupStartingIncandecenceStage(STevTracker& Tracker, CMate
     auto pPass = std::make_unique<CMaterialPass>(pMat);
     SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateInca);
 
+    /* KColor is set as the INCA mod color in game */
     pPass->SetKColorSel(kKonstOne);
     pPass->SetColorInputs(kZeroRGB, kTextureRGB, kKonstRGB, kZeroRGB);
     if (IntermediateInca->mSettings & EPassSettings::BloomContribution)
