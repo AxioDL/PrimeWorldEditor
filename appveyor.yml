@@ -1,0 +1,41 @@
+image: Visual Studio 2017
+
+clone_folder: c:\pwe
+
+cache:
+  - .dew -> dewfile.json
+
+branches:
+  except:
+    - gh-pages
+    - travis
+
+environment:
+  MSVC_SETUP_PATH: C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsall.bat
+  MSVC_SETUP_ARG: x64
+  LLVM_URL: http://releases.llvm.org/6.0.1/LLVM-6.0.1-win64.exe
+  PYTHON: C:\\Python37-x64
+  QT_PATH: C:\\Qt\\5.12\\msvc2017_64
+  CONFIGURATION: Debug
+
+install:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git submodule update --init --recursive
+  
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - python --version
+
+  - appveyor DownloadFile %LLVM_URL% -FileName llvm-installer.exe
+  - start /WAIT llvm-installer.exe /S /D=C:\"Program Files\LLVM"
+
+before_build:
+  - call "%MSVC_SETUP_PATH%" %MSVC_SETUP_ARG%
+
+build_script:
+  - cd c:\pwe
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=%QT_PATH%\lib\cmake\Qt5 -Bbuild .
+  - cmake --build build
+
+artifacts:
+  - path: build/bin
+    name: binaries
