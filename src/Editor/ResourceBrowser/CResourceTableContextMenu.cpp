@@ -26,9 +26,9 @@ void CResourceTableContextMenu::InitMenu()
 
     if (mpClickedEntry)
     {
-    #if WIN32
+    #ifdef WIN32
         const QString kOpenInExplorerString = "Show in Explorer";
-    #elif __APPLE__
+    #elif defined(__APPLE__)
         const QString kOpenInExplorerString = "Show in Finder";
     #else
         const QString kOpenInExplorerString = "Show in file manager";

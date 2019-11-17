@@ -10,7 +10,7 @@
 #include <QFuture>
 #include <QFutureWatcher>
 
-#if WIN32
+#ifdef WIN32
 #include <QtWinExtras/QWinTaskbarButton>
 #include <QtWinExtras/QWinTaskbarProgress>
 #endif
@@ -28,7 +28,7 @@ class CProgressDialog : public IProgressNotifierUI
     bool mFinished;
     bool mCanceled;
 
-#if WIN32
+#ifdef WIN32
     QWinTaskbarProgress *mpTaskbarProgress;
 #endif
 

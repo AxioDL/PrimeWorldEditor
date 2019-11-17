@@ -1,8 +1,8 @@
 #include "CTweakManager.h"
 #include "Core/GameProject/CGameProject.h"
 #include "Core/GameProject/CResourceIterator.h"
-#include "Core/Tweaks/CTweakLoader.h"
 #include "Core/Tweaks/CTweakCooker.h"
+#include "Core/Tweaks/CTweakLoader.h"
 
 CTweakManager::CTweakManager(CGameProject* pInProject)
     : mpProject(pInProject)
@@ -16,16 +16,18 @@ CTweakManager::~CTweakManager()
 
 void CTweakManager::LoadTweaks()
 {
-    ASSERT( mTweakObjects.empty() );
+    ASSERT(mTweakObjects.empty());
 
     // MP1 - Load all tweak assets into memory
     if (mpProject->Game() <= EGame::Prime)
     {
         for (TResourceIterator<EResourceType::Tweaks> It(mpProject->ResourceStore()); It; ++It)
         {
-            CTweakData* pTweaks = (CTweakData*) It->Load();
-            pTweaks->Lock();
-            mTweakObjects.push_back(pTweaks);
+            if (CTweakData* pTweaks = (CTweakData*)It->Load())
+            {
+                pTweaks->Lock();
+                mTweakObjects.push_back(pTweaks);
+            }
         }
     }
 
@@ -40,9 +42,7 @@ void CTweakManager::LoadTweaks()
         {
             // For Wii builds, there is another game-dependent subfolder.
             EGame Game = mpProject->Game();
-            TString GameName = (Game == EGame::Prime  ? "MP1" :
-                                Game == EGame::Echoes ? "MP2" :
-                                                        "MP3");
+            TString GameName = (Game == EGame::Prime ? "MP1" : Game == EGame::Echoes ? "MP2" : "MP3");
             mStandardFilePath = mpProject->DiscFilesystemRoot(false) / GameName / "Standard.ntwk";
 
             // MP3 might actually be FrontEnd

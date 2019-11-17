@@ -222,7 +222,8 @@ CWorldEditor::~CWorldEditor()
     mScene.ClearScene();
     mpArea = nullptr;
     mpWorld = nullptr;
-    gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
+    if (gpResourceStore)
+        gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
 
     delete mpScriptSidebar; // For some reason WCreateTab filters an event during the viewport's destructor
     delete ui;
@@ -244,7 +245,8 @@ bool CWorldEditor::CloseWorld()
 
         mpArea = nullptr;
         mpWorld = nullptr;
-        gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
+        if (gpResourceStore)
+            gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
         UpdateWindowTitle();
 
         ui->ActionSave->setEnabled(false);
