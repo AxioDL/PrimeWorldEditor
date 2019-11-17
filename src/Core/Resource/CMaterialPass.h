@@ -48,7 +48,7 @@ class CMaterialPass
 public:
     CMaterialPass(CMaterial *pParent);
     ~CMaterialPass();
-    CMaterialPass* Clone(CMaterial *pParent);
+    std::unique_ptr<CMaterialPass> Clone(CMaterial *pParent);
     void HashParameters(CFNV1A& rHash);
     void LoadTexture(uint32 PassIndex);
     void SetAnimCurrent(FRenderOptions Options, uint32 PassIndex);

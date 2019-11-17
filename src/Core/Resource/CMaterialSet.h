@@ -11,16 +11,12 @@ class CMaterialSet
     friend class CMaterialLoader;
     friend class CMaterialCooker;
 
-    std::vector<CMaterial*> mMaterials;
+    std::vector<std::unique_ptr<CMaterial>> mMaterials;
 
 public:
     CMaterialSet() {}
 
-    ~CMaterialSet()
-    {
-        for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
-            delete mMaterials[iMat];
-    }
+    ~CMaterialSet() {}
 
     CMaterialSet* Clone()
     {
@@ -41,7 +37,7 @@ public:
     CMaterial* MaterialByIndex(uint32 Index, bool TryBloom)
     {
         if (Index >= NumMaterials()) return nullptr;
-        CMaterial* Ret = mMaterials[Index];
+        CMaterial* Ret = mMaterials[Index].get();
         if (TryBloom && Ret->GetBloomVersion())
             return Ret->GetBloomVersion();
         return Ret;
@@ -50,7 +46,7 @@ public:
     CMaterial* MaterialByName(const TString& rkName)
     {
         for (auto it = mMaterials.begin(); it != mMaterials.end(); it++)
-            if ((*it)->Name() == rkName) return *it;
+            if ((*it)->Name() == rkName) return it->get();
 
         return nullptr;
     }
@@ -67,7 +63,7 @@ public:
     {
         for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
         {
-            CMaterial *pMat = mMaterials[iMat];
+            CMaterial *pMat = mMaterials[iMat].get();
             if (pMat->IndTexture()) rOut.insert(pMat->IndTexture()->ID());
 
             for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)

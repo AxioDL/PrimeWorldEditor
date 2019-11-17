@@ -92,17 +92,17 @@ private:
     uint32 mEchoesUnknownB;              // Second unknown value introduced in Echoes. Included for cooking.
     TResPtr<CTexture> mpIndirectTexture; // Optional texture used for the indirect stage for reflections
 
-    std::vector<CMaterialPass*> mPasses;
+    std::vector<std::unique_ptr<CMaterialPass>> mPasses;
 
     // Transparent materials in MP3/DKCR may require multiple draw passes to achieve hybrid
     // blending modes. This serves as a linked list of materials to be drawn successively
     // for each surface.
-    CMaterial* mpNextDrawPassMaterial;
+    std::unique_ptr<CMaterial> mpNextDrawPassMaterial;
 
     // Bloom in MP3 changes the CMaterialPass layout significantly. This is an alternate
     // material head that may be conditionally used when the user wants to view bloom.
     // (only set in the head non-bloom CMaterial).
-    CMaterial* mpBloomMaterial;
+    std::unique_ptr<CMaterial> mpBloomMaterial;
 
     // Reuse shaders between materials that have identical TEV setups
     struct SMaterialShader
@@ -117,7 +117,7 @@ public:
     CMaterial(EGame Version, FVertexDescription VtxDesc);
     ~CMaterial();
 
-    CMaterial* Clone();
+    std::unique_ptr<CMaterial> Clone();
     void GenerateShader(bool AllowRegen = true);
     void ClearShader();
     bool SetCurrent(FRenderOptions Options);
@@ -139,9 +139,9 @@ public:
     inline uint32 EchoesUnknownA() const                { return mEchoesUnknownA; }
     inline uint32 EchoesUnknownB() const                { return mEchoesUnknownB; }
     inline uint32 PassCount() const                     { return mPasses.size(); }
-    inline CMaterialPass* Pass(uint32 PassIndex) const  { return mPasses[PassIndex]; }
-    inline CMaterial* GetNextDrawPass() const           { return mpNextDrawPassMaterial; }
-    inline CMaterial* GetBloomVersion() const           { return mpBloomMaterial; }
+    inline CMaterialPass* Pass(uint32 PassIndex) const  { return mPasses[PassIndex].get(); }
+    inline CMaterial* GetNextDrawPass() const           { return mpNextDrawPassMaterial.get(); }
+    inline CMaterial* GetBloomVersion() const           { return mpBloomMaterial.get(); }
 
     inline void SetName(const TString& rkName)                 { mName = rkName; }
     inline void SetOptions(FMaterialOptions Options)           { mOptions = Options; Update(); }

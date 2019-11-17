@@ -131,10 +131,10 @@ class CMaterialLoader
 
     // Load Functions
     void ReadPrimeMatSet();
-    CMaterial* ReadPrimeMaterial();
+    std::unique_ptr<CMaterial> ReadPrimeMaterial();
 
     void ReadCorruptionMatSet();
-    CMaterial* ReadCorruptionMaterial();
+    std::unique_ptr<CMaterial> ReadCorruptionMaterial();
     void SetMP3IntermediateIntoMaterialPass(CMaterialPass* pPass, const SMP3IntermediateMaterial::PASS& Intermediate);
     void SelectBestCombinerConfig(EMP3RenderConfig& OutConfig, uint8& OutAlpha,
                                   const SMP3IntermediateMaterial& Material, bool Bloom);
@@ -180,7 +180,7 @@ class CMaterialLoader
     void SetupOptimizedDiffuseLightingColorOpaque(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
     void SetupOptimizedDiffuseBloomLightingColorOpaque(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
     void SetupAdditiveIncandecenceOnly(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
-    void SetupFullRenderTransparent(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate, uint8 Alpha);
+    CMaterial* SetupFullRenderTransparent(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate, uint8 Alpha);
     void SetupFullRenderTransparentAdditiveIncandecence(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate,
                                                         uint8 Alpha);
     void SetupMaterialAlphaCompare(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
@@ -189,7 +189,7 @@ class CMaterialLoader
 
     void CreateCorruptionPasses(CMaterial *pMat, const SMP3IntermediateMaterial& Intermediate, bool Bloom);
 
-    CMaterial* LoadAssimpMaterial(const aiMaterial *pAiMat);
+    std::unique_ptr<CMaterial> LoadAssimpMaterial(const aiMaterial* pAiMat);
 
     // Static
 public:

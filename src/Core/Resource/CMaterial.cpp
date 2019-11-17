@@ -49,18 +49,12 @@ CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
 
 CMaterial::~CMaterial()
 {
-    for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
-        delete mPasses[iPass];
-
-    delete mpNextDrawPassMaterial;
-    delete mpBloomMaterial;
-
     ClearShader();
 }
 
-CMaterial* CMaterial::Clone()
+std::unique_ptr<CMaterial> CMaterial::Clone()
 {
-    CMaterial *pOut = new CMaterial();
+    std::unique_ptr<CMaterial> pOut = std::make_unique<CMaterial>();
     pOut->mName = mName;
     pOut->mVersion = mVersion;
     pOut->mOptions = mOptions;
@@ -78,7 +72,7 @@ CMaterial* CMaterial::Clone()
 
     pOut->mPasses.resize(mPasses.size());
     for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
-        pOut->mPasses[iPass] = mPasses[iPass]->Clone(pOut);
+        pOut->mPasses[iPass] = mPasses[iPass]->Clone(pOut.get());
 
     if (mpNextDrawPassMaterial)
         pOut->mpNextDrawPassMaterial = mpNextDrawPassMaterial->Clone();
@@ -283,19 +277,13 @@ void CMaterial::Update()
 
 void CMaterial::SetNumPasses(uint32 NumPasses)
 {
-    if (NumPasses < mPasses.size())
-    {
-        for (uint32 iPass = NumPasses; iPass < mPasses.size(); iPass++)
-            delete mPasses[iPass];
-    }
-
     uint32 OldCount = mPasses.size();
     mPasses.resize(NumPasses);
 
     if (NumPasses > OldCount)
     {
         for (uint32 iPass = OldCount; iPass < NumPasses; iPass++)
-            mPasses[iPass] = new CMaterialPass(this);
+            mPasses[iPass] = std::make_unique<CMaterialPass>(this);
     }
 
     mRecalcHash = true;

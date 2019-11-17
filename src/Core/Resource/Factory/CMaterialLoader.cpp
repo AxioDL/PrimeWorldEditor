@@ -69,9 +69,9 @@ void CMaterialLoader::ReadPrimeMatSet()
     }
 }
 
-CMaterial* CMaterialLoader::ReadPrimeMaterial()
+std::unique_ptr<CMaterial> CMaterialLoader::ReadPrimeMaterial()
 {
-    CMaterial *pMat = new CMaterial(mVersion, {});
+    auto pMat = std::make_unique<CMaterial>(mVersion, FVertexDescription{});
 
     // Flags
     pMat->mOptions = (mpFile->ReadLong() & (uint) EMaterialOption::AllMP1Settings);
@@ -133,7 +133,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
 
     for (uint32 iTev = 0; iTev < TevCount; iTev++)
     {
-        CMaterialPass *pPass = new CMaterialPass(pMat);
+        auto pPass = std::make_unique<CMaterialPass>(pMat.get());
 
         uint32 ColorIn = mpFile->ReadLong();
         uint32 AlphaIn = mpFile->ReadLong();
@@ -150,7 +150,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
             pPass->mAlphaInputs[iInput] = (ETevAlphaInput) ((AlphaIn >> (iInput * 5)) & 0x7);
         }
 
-        pMat->mPasses[iTev] = pPass;
+        pMat->mPasses[iTev] = std::move(pPass);
     }
 
     std::vector<uint8> TevCoordIndices(TevCount);
@@ -217,7 +217,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
     // Move TexGen and anims into passes
     for (uint32 iPass = 0; iPass < pMat->mPasses.size(); iPass++)
     {
-        CMaterialPass *pPass = pMat->mPasses[iPass];
+        CMaterialPass *pPass = pMat->mPasses[iPass].get();
         uint8 TexCoordIdx = TevCoordIndices[iPass];
 
         if ((TexGens.size() == 0) || (TexCoordIdx == 0xFF))
@@ -323,7 +323,7 @@ ECLR ClrFourCCToEnum(CFourCC fcc)
     return ECLR::CLR;
 };
 
-CMaterial* CMaterialLoader::ReadCorruptionMaterial()
+std::unique_ptr<CMaterial> CMaterialLoader::ReadCorruptionMaterial()
 {
     // Flags
     FMP3MaterialOptions MP3Options = mpFile->ReadLong();
@@ -432,10 +432,10 @@ CMaterial* CMaterialLoader::ReadCorruptionMaterial()
     }
 
     // Create non-bloom and bloom versions
-    CMaterial* pMat = new CMaterial(mVersion, VtxDesc);
-    CreateCorruptionPasses(pMat, Intermediate, false);
-    pMat->mpBloomMaterial = new CMaterial(mVersion, VtxDesc);
-    CreateCorruptionPasses(pMat->mpBloomMaterial, Intermediate, true);
+    auto pMat = std::make_unique<CMaterial>(mVersion, VtxDesc);
+    CreateCorruptionPasses(pMat.get(), Intermediate, false);
+    pMat->mpBloomMaterial = std::make_unique<CMaterial>(mVersion, VtxDesc);
+    CreateCorruptionPasses(pMat->mpBloomMaterial.get(), Intermediate, true);
     return pMat;
 }
 
@@ -587,10 +587,10 @@ bool CMaterialLoader::SetupStaticDiffuseLightingStage(STevTracker& Tracker, CMat
                                                      EMP3MaterialOption::ForceLightingStage)
         return false;
     pMat->SetTevColor(Intermediate.GetCLR(ECLR::DIFB), kColor1Reg);
-    CMaterialPass* pPass = new CMaterialPass(pMat);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
     if (hasDIFFTexture)
     {
-        SetMP3IntermediateIntoMaterialPass(pPass, *Intermediate.GetPASS(EPASS::DIFF));
+        SetMP3IntermediateIntoMaterialPass(pPass.get(), *Intermediate.GetPASS(EPASS::DIFF));
         pPass->SetColorInputs(kZeroRGB, kTextureRGB, kColor1RGB, kRasRGB);
         pPass->SetColorOutput(kColor0Reg);
         if (FullAlpha)
@@ -642,15 +642,15 @@ bool CMaterialLoader::SetupStaticDiffuseLightingStage(STevTracker& Tracker, CMat
         pPass->SetRasSel(kRasColor0A0);
         Tracker.mStaticLightingAlphaSet = true;
     }
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
     return true;
 }
 
 void CMaterialLoader::SetupStaticDiffuseLightingNoBloomStage(STevTracker& Tracker, CMaterial* pMat,
                                                              const SMP3IntermediateMaterial& Intermediate)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *Intermediate.GetPASS(EPASS::DIFF));
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *Intermediate.GetPASS(EPASS::DIFF));
 
     pMat->SetTevColor(Intermediate.GetCLR(ECLR::DIFB), kColor1Reg);
     pPass->SetColorInputs(kZeroRGB, kTextureRGB, kColor1RGB, kRasRGB);
@@ -661,14 +661,14 @@ void CMaterialLoader::SetupStaticDiffuseLightingNoBloomStage(STevTracker& Tracke
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColor0A0);
 
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
 }
 
 void CMaterialLoader::SetupStaticDiffuseLightingNoBLOLStage(STevTracker& Tracker, CMaterial* pMat,
                                                             const SMP3IntermediateMaterial& Intermediate)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *Intermediate.GetPASS(EPASS::DIFF));
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *Intermediate.GetPASS(EPASS::DIFF));
 
     pMat->SetTevColor(Intermediate.GetCLR(ECLR::DIFB), kColor1Reg);
     pPass->SetColorInputs(kZeroRGB, kTextureRGB, kColor1RGB, kRasRGB);
@@ -693,15 +693,15 @@ void CMaterialLoader::SetupStaticDiffuseLightingNoBLOLStage(STevTracker& Tracker
     Tracker.mStaticLightingAlphaSet = true;
     pPass->SetRasSel(kRasColor0A0);
 
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
 }
 
 void CMaterialLoader::SetupColorTextureStage(STevTracker& Tracker, CMaterial* pMat,
                                              const SMP3IntermediateMaterial& Intermediate,
                                              bool useStageAlpha, uint8 Alpha, bool StaticLighting)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *Intermediate.GetPASS(EPASS::CLR));
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *Intermediate.GetPASS(EPASS::CLR));
 
     bool useDynamicLightingAlpha = false;
     pPass->SetColorInputs(kZeroRGB, StaticLighting ? kColor0RGB : kRasRGB, kTextureRGB, kZeroRGB);
@@ -732,14 +732,14 @@ void CMaterialLoader::SetupColorTextureStage(STevTracker& Tracker, CMaterial* pM
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel((useDynamicLightingAlpha || !StaticLighting) ? kRasColor0A0 : kRasColorNull);
 
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
 }
 
 void CMaterialLoader::SetupColorTextureAlwaysStaticLightingStage(STevTracker& Tracker, CMaterial* pMat,
                                                                  const SMP3IntermediateMaterial& Intermediate)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *Intermediate.GetPASS(EPASS::CLR));
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *Intermediate.GetPASS(EPASS::CLR));
 
     pPass->SetColorInputs(kZeroRGB, kColor0RGB, kTextureRGB, kZeroRGB);
     pPass->SetColorOutput(kPrevReg);
@@ -748,14 +748,14 @@ void CMaterialLoader::SetupColorTextureAlwaysStaticLightingStage(STevTracker& Tr
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColorNull);
 
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
 }
 
 void CMaterialLoader::SetupColorKColorStage(STevTracker& Tracker, CMaterial* pMat,
                                             const SMP3IntermediateMaterial& Intermediate,
                                             bool useStageAlpha, uint8 Alpha, bool StaticLighting)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
     pPass->mPassType = "CLR ";
 
     bool useDynamicLightingAlpha = false;
@@ -782,15 +782,15 @@ void CMaterialLoader::SetupColorKColorStage(STevTracker& Tracker, CMaterial* pMa
     pPass->SetRasSel((useDynamicLightingAlpha || !StaticLighting) ? kRasColor0A0 : kRasColorNull);
     Tracker.mCurKColor += 1;
 
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
 }
 
 bool CMaterialLoader::SetupTransparencyStage(STevTracker& Tracker, CMaterial* pMat,
                                              const SMP3IntermediateMaterial& Intermediate)
 {
     if (const auto& IntermediateTran = Intermediate.GetPASS(EPASS::TRAN)) {
-        CMaterialPass* pPass = new CMaterialPass(pMat);
-        SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateTran);
+        auto pPass = std::make_unique<CMaterialPass>(pMat);
+        SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateTran);
 
         if (IntermediateTran->mSettings & EPassSettings::InvertOpacityMap)
         {
@@ -806,7 +806,7 @@ bool CMaterialLoader::SetupTransparencyStage(STevTracker& Tracker, CMaterial* pM
         pPass->SetRasSel(kRasColorNull);
         pPass->SetTexSwapComp(3, IntermediateTran->GetSwapAlphaComp());
 
-        pMat->mPasses.push_back(pPass);
+        pMat->mPasses.push_back(std::move(pPass));
         return true;
     }
     return false;
@@ -818,7 +818,7 @@ void CMaterialLoader::SetupTransparencyKAlphaMultiplyStage(STevTracker& Tracker,
 {
     if (Intermediate.GetPASS(EPASS::CLR) || Intermediate.GetPASS(EPASS::TRAN))
     {
-        CMaterialPass* pPass = new CMaterialPass(pMat);
+        auto pPass = std::make_unique<CMaterialPass>(pMat);
         ETevAlphaInput argA;
         if (Alpha < 255)
         {
@@ -829,8 +829,8 @@ void CMaterialLoader::SetupTransparencyKAlphaMultiplyStage(STevTracker& Tracker,
                 pPass->SetAlphaInputs(kZeroAlpha, kPrevAlpha, kKonstAlpha, kZeroAlpha);
                 pPass->SetAlphaOutput(kPrevReg);
                 pPass->SetRasSel(kRasColorNull);
-                pMat->mPasses.push_back(pPass);
-                pPass = new CMaterialPass(pMat);
+                pMat->mPasses.push_back(std::move(pPass));
+                pPass = std::make_unique<CMaterialPass>(pMat);
                 argA = kPrevAlpha;
             }
             else
@@ -862,21 +862,21 @@ void CMaterialLoader::SetupTransparencyKAlphaMultiplyStage(STevTracker& Tracker,
         pPass->SetAlphaOutput(kPrevReg);
         if (IntermediateTran)
         {
-            SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateTran);
+            SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateTran);
             pPass->SetRasSel(kRasColorNull);
             pPass->SetTexSwapComp(3, IntermediateTran->GetSwapAlphaComp());
         }
         else
         {
-            SetMP3IntermediateIntoMaterialPass(pPass, *Intermediate.GetPASS(EPASS::CLR));
+            SetMP3IntermediateIntoMaterialPass(pPass.get(), *Intermediate.GetPASS(EPASS::CLR));
             pPass->SetRasSel(kRasColorNull);
         }
         Tracker.mCurKColor += 1;
-        pMat->mPasses.push_back(pPass);
+        pMat->mPasses.push_back(std::move(pPass));
     }
     else
     {
-        CMaterialPass* pPass = new CMaterialPass(pMat);
+        auto pPass = std::make_unique<CMaterialPass>(pMat);
         pMat->SetKonst(CColor::Integral(255, 255, 255, Alpha), Tracker.mCurKColor);
         pPass->SetKAlphaSel(ETevKSel(kKonst0_A + Tracker.mCurKColor));
         if (multiplyPrevAlpha)
@@ -890,7 +890,7 @@ void CMaterialLoader::SetupTransparencyKAlphaMultiplyStage(STevTracker& Tracker,
         pPass->SetAlphaOutput(kPrevReg);
         pPass->SetRasSel(kRasColorNull);
         Tracker.mCurKColor += 1;
-        pMat->mPasses.push_back(pPass);
+        pMat->mPasses.push_back(std::move(pPass));
     }
 }
 
@@ -901,8 +901,8 @@ bool CMaterialLoader::SetupReflectionAlphaStage(STevTracker& Tracker, CMaterial*
     {
         if (const auto& IntermediateRfld = Intermediate.GetPASS(EPASS::RFLD))
         {
-            CMaterialPass* pPass = new CMaterialPass(pMat);
-            SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateRfld);
+            auto pPass = std::make_unique<CMaterialPass>(pMat);
+            SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateRfld);
 
             pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
             pPass->SetAlphaInputs(kZeroAlpha, kPrevAlpha, kTextureAlpha, kZeroAlpha);
@@ -911,7 +911,7 @@ bool CMaterialLoader::SetupReflectionAlphaStage(STevTracker& Tracker, CMaterial*
             pPass->SetRasSel(kRasColorNull);
             pPass->SetTexSwapComp(3, 'r');
 
-            pMat->mPasses.push_back(pPass);
+            pMat->mPasses.push_back(std::move(pPass));
             return true;
         }
     }
@@ -926,7 +926,7 @@ bool CMaterialLoader::SetupReflectionStages(STevTracker& Tracker, CMaterial* pMa
         return false;
     ETevColorInput argC = kOneRGB;
     if (Intermediate.GetPASS(EPASS::RFLV) || Intermediate.GetPASS(EPASS::LRLD) || Intermediate.GetPASS(EPASS::LURD)) {
-        CMaterialPass* pPass = new CMaterialPass(pMat);
+        auto pPass = std::make_unique<CMaterialPass>(pMat);
         pPass->SetColorOutput(kColor2Reg);
         pPass->SetAlphaOutput(kColor2Reg);
         if (const auto& IntermediateRflv = Intermediate.GetPASS(EPASS::RFLV))
@@ -934,49 +934,49 @@ bool CMaterialLoader::SetupReflectionStages(STevTracker& Tracker, CMaterial* pMa
             pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kTextureRGB);
             pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kZeroAlpha);
             pPass->SetRasSel(kRasColorNull);
-            SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateRflv);
+            SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateRflv);
         }
         else if (const auto& IntermediateLrld = Intermediate.GetPASS(EPASS::LRLD))
         {
             pPass->SetColorInputs(kZeroRGB, StaticLighting ? kColor0RGB : kRasRGB, kTextureRGB, kZeroRGB);
             pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kZeroAlpha);
             pPass->SetRasSel(StaticLighting ? kRasColorNull : kRasColor0A0);
-            SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateLrld);
+            SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateLrld);
         }
         else if (const auto& IntermediateLurd = Intermediate.GetPASS(EPASS::LURD))
         {
             pPass->SetColorInputs(kZeroRGB, StaticLighting ? kColor0RGB : kRasRGB, kTextureAAA, kTextureRGB);
             pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kZeroAlpha);
             pPass->SetRasSel(StaticLighting ? kRasColorNull : kRasColor0A0);
-            SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateLurd);
+            SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateLurd);
         }
         argC = kColor2RGB;
-        pMat->mPasses.push_back(pPass);
+        pMat->mPasses.push_back(std::move(pPass));
     }
     if (const auto& IntermediateRfld = Intermediate.GetPASS(EPASS::RFLD))
     {
-        CMaterialPass* pPass = new CMaterialPass(pMat);
+        auto pPass = std::make_unique<CMaterialPass>(pMat);
         pPass->SetColorInputs(kZeroRGB, kTextureRGB, argC, argD);
         pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
         pPass->SetColorOutput(kPrevReg);
         pPass->SetAlphaOutput(kPrevReg);
         pPass->SetRasSel(kRasColorNull);
-        SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateRfld);
-        pMat->mPasses.push_back(pPass);
+        SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateRfld);
+        pMat->mPasses.push_back(std::move(pPass));
     }
     return true;
 }
 
 bool CMaterialLoader::SetupQuantizedKAlphaAdd(STevTracker& Tracker, CMaterial* pMat, uint8 Value)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
     pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
     pPass->SetKAlphaSel(KColorEighths[Value / 32]);
     pPass->SetAlphaInputs(kKonstAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
     pPass->SetColorOutput(kPrevReg);
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColorNull);
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
     return true;
 }
 
@@ -993,8 +993,8 @@ bool CMaterialLoader::SetupIncandecenceStage(STevTracker& Tracker, CMaterial* pM
             return false;
     }
 
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateInca);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateInca);
 
     pPass->SetKColorSel(kKonstOne);
     pPass->SetColorInputs(kZeroRGB, kKonstRGB, kTextureRGB, kPrevRGB);
@@ -1006,7 +1006,7 @@ bool CMaterialLoader::SetupIncandecenceStage(STevTracker& Tracker, CMaterial* pM
         pPass->SetTexSwapComp(3, IntermediateInca->GetSwapAlphaComp());
         pPass->SetKAlphaSel(KColorEighths[Intermediate.GetINT(EINT::BNIF) / 32]);
         pPass->SetAlphaInputs(kZeroAlpha, kTextureAlpha, kKonstAlpha, kPrevAlpha);
-        pMat->mPasses.push_back(pPass);
+        pMat->mPasses.push_back(std::move(pPass));
         if (bloi)
             SetupQuantizedKAlphaAdd(Tracker, pMat, bloi);
     }
@@ -1021,7 +1021,7 @@ bool CMaterialLoader::SetupIncandecenceStage(STevTracker& Tracker, CMaterial* pM
         {
             pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
         }
-        pMat->mPasses.push_back(pPass);
+        pMat->mPasses.push_back(std::move(pPass));
     }
     return true;
 }
@@ -1033,8 +1033,8 @@ bool CMaterialLoader::SetupIncandecenceStageNoBloom(STevTracker& Tracker, CMater
     if (!IntermediateInca)
         return false;
 
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateInca);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateInca);
 
     pPass->SetKColorSel(kKonstOne);
     pPass->SetColorInputs(kZeroRGB, kKonstRGB, kTextureRGB, kPrevRGB);
@@ -1042,7 +1042,7 @@ bool CMaterialLoader::SetupIncandecenceStageNoBloom(STevTracker& Tracker, CMater
     pPass->SetColorOutput(kPrevReg);
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColorNull);
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
 
     return true;
 }
@@ -1057,21 +1057,21 @@ bool CMaterialLoader::SetupStartingIncandecenceStage(STevTracker& Tracker, CMate
     {
         if (bloi)
         {
-            CMaterialPass* pPass = new CMaterialPass(pMat);
+            auto pPass = std::make_unique<CMaterialPass>(pMat);
             pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kZeroRGB);
             pPass->SetKAlphaSel(KColorEighths[bloi / 32]);
             pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kKonstAlpha);
             pPass->SetColorOutput(kPrevReg);
             pPass->SetAlphaOutput(kPrevReg);
             pPass->SetRasSel(kRasColorNull);
-            pMat->mPasses.push_back(pPass);
+            pMat->mPasses.push_back(std::move(pPass));
             return true;
         }
         return false;
     }
 
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateInca);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateInca);
 
     pPass->SetKColorSel(kKonstOne);
     pPass->SetColorInputs(kZeroRGB, kTextureRGB, kKonstRGB, kZeroRGB);
@@ -1106,7 +1106,7 @@ bool CMaterialLoader::SetupStartingIncandecenceStage(STevTracker& Tracker, CMate
     pPass->SetColorOutput(kPrevReg);
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColorNull);
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
     if (needsBloiAdd)
         SetupQuantizedKAlphaAdd(Tracker, pMat, bloi);
     return true;
@@ -1115,8 +1115,8 @@ bool CMaterialLoader::SetupStartingIncandecenceStage(STevTracker& Tracker, CMate
 void CMaterialLoader::SetupStartingIncandecenceDynamicKColorStage(STevTracker& Tracker, CMaterial* pMat,
                                                                   const SMP3IntermediateMaterial& Intermediate)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *Intermediate.GetPASS(EPASS::INCA));
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *Intermediate.GetPASS(EPASS::INCA));
 
     pPass->SetKColorSel(kKonstOne);
     pPass->SetKAlphaSel(kKonstOne);
@@ -1126,7 +1126,7 @@ void CMaterialLoader::SetupStartingIncandecenceDynamicKColorStage(STevTracker& T
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColorNull);
 
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
 }
 
 bool CMaterialLoader::SetupStaticBloomLightingStage(STevTracker& Tracker, CMaterial* pMat,
@@ -1135,8 +1135,8 @@ bool CMaterialLoader::SetupStaticBloomLightingStage(STevTracker& Tracker, CMater
     const auto& IntermediateBlol = Intermediate.GetPASS(EPASS::BLOL);
     if (!StaticLighting || !IntermediateBlol)
         return false;
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateBlol);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateBlol);
 
     pPass->SetTexSwapComp(3, IntermediateBlol->GetSwapAlphaComp());
     pPass->SetColorOutput(kPrevReg);
@@ -1145,7 +1145,7 @@ bool CMaterialLoader::SetupStaticBloomLightingStage(STevTracker& Tracker, CMater
     pPass->SetAlphaInputs(kZeroAlpha, kPrevAlpha, kTextureAlpha, kZeroAlpha);
     pPass->SetRasSel(kRasColorNull);
 
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
     return true;
 }
 
@@ -1153,14 +1153,14 @@ bool CMaterialLoader::SetupStaticBloomLightingA1Stages(STevTracker& Tracker, CMa
                                                        const SMP3IntermediateMaterial& Intermediate)
 {
     const auto& IntermediateBlol = Intermediate.GetPASS(EPASS::BLOL);
-    CMaterialPass* pPass = new CMaterialPass(pMat);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
 
     ETevAlphaInput argC = IntermediateBlol ? kTextureAlpha : kZeroAlpha;
     pPass->SetAlphaInputs(kZeroAlpha, kColor1Alpha, argC, kRasAlpha);
     pPass->SetAlphaOutput(kPrevReg);
     if (argC == kTextureAlpha) {
         pPass->SetTexSwapComp(3, IntermediateBlol->GetSwapAlphaComp());
-        SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateBlol);
+        SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateBlol);
         pPass->SetRasSel(kRasColor0A0);
     }
     else
@@ -1168,7 +1168,7 @@ bool CMaterialLoader::SetupStaticBloomLightingA1Stages(STevTracker& Tracker, CMa
         pPass->SetRasSel(kRasColor0A0);
     }
     Tracker.mStaticLightingAlphaSet = true;
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
     SetupStaticBloomDiffuseLightingStages(Tracker, pMat, Intermediate, true);
     return true;
 }
@@ -1191,8 +1191,8 @@ bool CMaterialLoader::SetupStaticBloomDiffuseLightingStages(STevTracker& Tracker
     }
     else
     {
-        CMaterialPass* pPass = new CMaterialPass(pMat);
-        SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateBlod);
+        auto pPass = std::make_unique<CMaterialPass>(pMat);
+        SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateBlod);
 
         pPass->SetTexSwapComp(3, IntermediateBlod->GetSwapAlphaComp());
         pPass->SetColorOutput(kPrevReg);
@@ -1224,14 +1224,14 @@ bool CMaterialLoader::SetupStaticBloomDiffuseLightingStages(STevTracker& Tracker
             pPass->SetAlphaInputs(kZeroAlpha, kPrevAlpha, kTextureAlpha, kZeroAlpha);
         }
         pPass->SetRasSel(argC == kRasAlpha ? kRasColor0A0 : kRasColorNull);
-        pMat->mPasses.push_back(pPass);
+        pMat->mPasses.push_back(std::move(pPass));
         ret = true;
     }
     if (useDynamicAlpha)
     {
         if (Intermediate.GetINT(EINT::BLOD) != 255)
         {
-            CMaterialPass* pPass = new CMaterialPass(pMat);
+            auto pPass = std::make_unique<CMaterialPass>(pMat);
 
             pPass->SetColorOutput(kPrevReg);
             pPass->SetAlphaOutput(kPrevReg);
@@ -1249,7 +1249,7 @@ bool CMaterialLoader::SetupStaticBloomDiffuseLightingStages(STevTracker& Tracker
                 pPass->SetRasSel(argB == kPrevAlpha ? kRasColor0A0 : kRasColorNull);
                 Tracker.mStaticLightingAlphaSet = true;
             }
-            pMat->mPasses.push_back(pPass);
+            pMat->mPasses.push_back(std::move(pPass));
             ret = true;
         }
         Tracker.mStaticDiffuseLightingAlphaSet = true;
@@ -1263,8 +1263,8 @@ bool CMaterialLoader::SetupStaticBloomIncandecenceLightingStage(STevTracker& Tra
     const auto& IntermediateBloi = Intermediate.GetPASS(EPASS::BLOI);
     if (!IntermediateBloi)
         return false;
-    CMaterialPass* pPass = new CMaterialPass(pMat);
-    SetMP3IntermediateIntoMaterialPass(pPass, *IntermediateBloi);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
+    SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateBloi);
 
     pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
     pPass->SetColorOutput(kPrevReg);
@@ -1273,7 +1273,7 @@ bool CMaterialLoader::SetupStaticBloomIncandecenceLightingStage(STevTracker& Tra
     pPass->SetTexSwapComp(3, IntermediateBloi->GetSwapAlphaComp());
     pPass->SetAlphaInputs(kTextureAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
 
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
     return true;
 }
 
@@ -1304,9 +1304,8 @@ void CMaterialLoader::SetupNoBloomAdditiveIncandecence(CMaterial* pMat, const SM
                                                        uint8 Alpha)
 {
     SetupNoBloomTransparent(pMat, Intermediate, Alpha);
-    CMaterial* pMatNext = new CMaterial(pMat->Version(), pMat->VtxDesc());
-    pMat->mpNextDrawPassMaterial = pMatNext;
-    pMat = pMatNext;
+    pMat->mpNextDrawPassMaterial = std::make_unique<CMaterial>(pMat->Version(), pMat->VtxDesc());
+    pMat = pMat->mpNextDrawPassMaterial.get();
     STevTracker Tracker;
     SetupStartingIncandecenceDynamicKColorStage(Tracker, pMat, Intermediate);
     pMat->mOptions.AssignFlag(EMaterialOption::DepthWrite, false);
@@ -1381,8 +1380,8 @@ void CMaterialLoader::SetupAdditiveIncandecenceOnly(CMaterial* pMat,
     pMat->mOptions.AssignFlag(EMaterialOption::Transparent, true);
 }
 
-void CMaterialLoader::SetupFullRenderTransparent(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate,
-                                                 uint8 Alpha)
+CMaterial* CMaterialLoader::SetupFullRenderTransparent(
+    CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate, uint8 Alpha)
 {
     STevTracker Tracker;
     bool StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, true);
@@ -1403,9 +1402,8 @@ void CMaterialLoader::SetupFullRenderTransparent(CMaterial* pMat, const SMP3Inte
     pMat->mOptions.AssignFlag(EMaterialOption::Transparent, true);
     pMat->mOptions.AssignFlag(EMaterialOption::AlphaWrite, false);
 
-    CMaterial* pMatNext = new CMaterial(pMat->Version(), pMat->VtxDesc());
-    pMat->mpNextDrawPassMaterial = pMatNext;
-    pMat = pMatNext;
+    pMat->mpNextDrawPassMaterial = std::make_unique<CMaterial>(pMat->Version(), pMat->VtxDesc());
+    pMat = pMat->mpNextDrawPassMaterial.get();
     Tracker = STevTracker();
     pMat->mOptions.AssignFlag(EMaterialOption::AlphaWrite, true);
     SetupTransparencyKAlphaMultiplyStage(Tracker, pMat, Intermediate, false, Alpha);
@@ -1415,9 +1413,8 @@ void CMaterialLoader::SetupFullRenderTransparent(CMaterial* pMat, const SMP3Inte
     pMat->mOptions.AssignFlag(EMaterialOption::Transparent, true);
     pMat->mOptions.AssignFlag(EMaterialOption::ColorWrite, false);
 
-    pMatNext = new CMaterial(pMat->Version(), pMat->VtxDesc());
-    pMat->mpNextDrawPassMaterial = pMatNext;
-    pMat = pMatNext;
+    pMat->mpNextDrawPassMaterial = std::make_unique<CMaterial>(pMat->Version(), pMat->VtxDesc());
+    pMat = pMat->mpNextDrawPassMaterial.get();
     Tracker = STevTracker();
     if (SetupStaticBloomLightingA1Stages(Tracker, pMat, Intermediate))
     {
@@ -1428,16 +1425,17 @@ void CMaterialLoader::SetupFullRenderTransparent(CMaterial* pMat, const SMP3Inte
         pMat->mOptions.AssignFlag(EMaterialOption::Transparent, true);
         pMat->mOptions.AssignFlag(EMaterialOption::ColorWrite, true);
     }
+
+    return pMat;
 }
 
 void CMaterialLoader::SetupFullRenderTransparentAdditiveIncandecence(CMaterial* pMat,
                                                                      const SMP3IntermediateMaterial& Intermediate,
                                                                      uint8 Alpha)
 {
-    SetupFullRenderTransparent(pMat, Intermediate, Alpha);
-    CMaterial* pMatNext = new CMaterial(pMat->Version(), pMat->VtxDesc());
-    pMat->mpNextDrawPassMaterial = pMatNext;
-    pMat = pMatNext;
+    pMat = SetupFullRenderTransparent(pMat, Intermediate, Alpha);
+    pMat->mpNextDrawPassMaterial = std::make_unique<CMaterial>(pMat->Version(), pMat->VtxDesc());
+    pMat = pMat->mpNextDrawPassMaterial.get();
 
     STevTracker Tracker;
     SetupStartingIncandecenceStage(Tracker, pMat, Intermediate);
@@ -1473,13 +1471,13 @@ void CMaterialLoader::SetupMaterialAlphaCompare(CMaterial* pMat, const SMP3Inter
 
 void CMaterialLoader::SetupSolidWhite(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
     pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kOneRGB);
     pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kZeroAlpha);
     pPass->SetColorOutput(kPrevReg);
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColorNull);
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
     pMat->mOptions.AssignFlag(EMaterialOption::DepthWrite, false);
     pMat->SetBlendMode(GL_ONE, GL_ZERO);
     pMat->mOptions.AssignFlag(EMaterialOption::Transparent, false);
@@ -1488,7 +1486,7 @@ void CMaterialLoader::SetupSolidWhite(CMaterial* pMat, const SMP3IntermediateMat
 
 void CMaterialLoader::SetupSolidKColorKAlpha(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate)
 {
-    CMaterialPass* pPass = new CMaterialPass(pMat);
+    auto pPass = std::make_unique<CMaterialPass>(pMat);
     pMat->SetKonst(Intermediate.GetCLR(ECLR::CLR), 0);
     pPass->SetKColorSel(kKonst0_RGB);
     pPass->SetKAlphaSel(kKonst0_A);
@@ -1497,7 +1495,7 @@ void CMaterialLoader::SetupSolidKColorKAlpha(CMaterial* pMat, const SMP3Intermed
     pPass->SetColorOutput(kPrevReg);
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColorNull);
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
     pMat->mOptions.AssignFlag(EMaterialOption::DepthWrite, false);
     pMat->mOptions.AssignFlag(EMaterialOption::Masked, false);
     pMat->SetBlendMode(GL_SRC_ALPHA, GL_ONE);
@@ -1543,24 +1541,24 @@ void CMaterialLoader::CreateCorruptionPasses(CMaterial* pMat, const SMP3Intermed
     }
 }
 
-CMaterial* CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
+std::unique_ptr<CMaterial> CMaterialLoader::LoadAssimpMaterial(const aiMaterial *pAiMat)
 {
     // todo: generate new material using import values.
-    CMaterial *pMat = new CMaterial(mVersion, EVertexAttribute::None);
+    auto pMat = std::make_unique<CMaterial>(mVersion, EVertexAttribute::None);
 
     aiString Name;
     pAiMat->Get(AI_MATKEY_NAME, Name);
     pMat->SetName(Name.C_Str());
 
     // Create generic custom pass that uses Konst color
-    CMaterialPass *pPass = new CMaterialPass(pMat);
+    auto pPass = std::make_unique<CMaterialPass>(pMat.get());
     pPass->SetColorInputs(kZeroRGB, kRasRGB, kKonstRGB, kZeroRGB);
     pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kKonstAlpha);
     pPass->SetKColorSel(kKonst0_RGB);
     pPass->SetKAlphaSel(kKonstOne);
     pPass->SetRasSel(kRasColor0A0);
     pMat->mKonstColors[0] = CColor::RandomLightColor(false);
-    pMat->mPasses.push_back(pPass);
+    pMat->mPasses.push_back(std::move(pPass));
 
     return pMat;
 }
@@ -1591,8 +1589,7 @@ CMaterialSet* CMaterialLoader::ImportAssimpMaterials(const aiScene *pScene, EGam
 
     for (uint32 iMat = 0; iMat < pScene->mNumMaterials; iMat++)
     {
-        CMaterial *pMat = Loader.LoadAssimpMaterial(pScene->mMaterials[iMat]);
-        pOut->mMaterials.push_back(pMat);
+        pOut->mMaterials.push_back(Loader.LoadAssimpMaterial(pScene->mMaterials[iMat]));
     }
 
     return pOut;

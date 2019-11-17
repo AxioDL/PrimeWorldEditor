@@ -32,9 +32,9 @@ CMaterialPass::~CMaterialPass()
 {
 }
 
-CMaterialPass* CMaterialPass::Clone(CMaterial *pParent)
+std::unique_ptr<CMaterialPass> CMaterialPass::Clone(CMaterial* pParent)
 {
-    CMaterialPass *pOut = new CMaterialPass(pParent);
+    std::unique_ptr<CMaterialPass> pOut = std::make_unique<CMaterialPass>(pParent);
     pOut->mPassType = mPassType;
     pOut->mSettings = mSettings;
 

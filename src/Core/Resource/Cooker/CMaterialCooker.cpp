@@ -40,7 +40,7 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
 
     for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
-        CMaterial *pMat = mpSet->mMaterials[iMat];
+        CMaterial *pMat = mpSet->mMaterials[iMat].get();
 
         uint32 NumPasses  = pMat->PassCount();
         for (uint32 iPass = 0; iPass < NumPasses; iPass++)
@@ -74,7 +74,7 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
 
     for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
-        mpMat = mpSet->mMaterials[iMat];
+        mpMat = mpSet->mMaterials[iMat].get();
         WriteMaterialPrime(rOut);
         MatEndOffsets[iMat] = rOut.Tell() - MatsStart;
     }
