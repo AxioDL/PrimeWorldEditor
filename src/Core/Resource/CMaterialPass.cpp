@@ -79,8 +79,8 @@ void CMaterialPass::HashParameters(CFNV1A& rHash)
         rHash.HashLong(mKColorSel);
         rHash.HashLong(mKAlphaSel);
         rHash.HashLong(mRasSel);
-        rHash.HashLong(mTevColorScale);
-        rHash.HashLong(mTevAlphaScale);
+        rHash.HashFloat(mTevColorScale);
+        rHash.HashFloat(mTevAlphaScale);
         rHash.HashLong(mTexCoordSource);
         rHash.HashLong((uint) mAnimMode);
         rHash.HashData(mAnimParams, sizeof(float) * 8);

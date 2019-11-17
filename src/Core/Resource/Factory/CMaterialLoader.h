@@ -8,6 +8,8 @@
 #include <Common/FileIO.h>
 #include <assimp/scene.h>
 
+#include <optional>
+
 enum class EMP3RenderConfig
 {
     NoBloomTransparent,

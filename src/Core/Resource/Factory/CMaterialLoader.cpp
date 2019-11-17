@@ -75,6 +75,7 @@ CMaterial* CMaterialLoader::ReadPrimeMaterial()
 
     // Flags
     pMat->mOptions = (mpFile->ReadLong() & (uint) EMaterialOption::AllMP1Settings);
+    pMat->mOptions.SetFlag(EMaterialOption::ColorWrite);
 
     // Textures
     uint32 NumTextures = mpFile->ReadLong();
