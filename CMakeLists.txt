@@ -16,7 +16,7 @@ endif()
 
 # Ensure submodules checked out
 if (NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/externals/LibCommon/CMakeLists.txt)
-    message(FATAL_ERROR "Please run 'git submodules update --init --recursive' to fetch submodules.")
+    message(FATAL_ERROR "Please run 'git submodule update --init --recursive' to fetch submodules.")
 endif()
 
 include(./dew.cmake)

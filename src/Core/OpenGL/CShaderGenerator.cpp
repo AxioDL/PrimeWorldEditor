@@ -366,6 +366,36 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
     return mpShader->CompileVertexSource(ShaderCode.str().c_str());
 }
 
+static TString GetColorInputExpression(const CMaterialPass* pPass, ETevColorInput iInput)
+{
+    if (iInput == ETevColorInput::kTextureRGB)
+    {
+        TString Ret("Tex.");
+        for (uint32 i = 0; i < 3; ++i)
+            Ret += pPass->TexSwapComp(i);
+        return Ret;
+    }
+    else if (iInput == ETevColorInput::kTextureAAA)
+    {
+        TString Ret("Tex.");
+        for (uint32 i = 0; i < 3; ++i)
+            Ret += pPass->TexSwapComp(3);
+        return Ret;
+    }
+    return gkTevColor[iInput];
+}
+
+static TString GetAlphaInputExpression(const CMaterialPass* pPass, ETevAlphaInput iInput)
+{
+    if (iInput == ETevAlphaInput::kTextureAlpha)
+    {
+        TString Ret("Tex.");
+        Ret += pPass->TexSwapComp(3);
+        return Ret;
+    }
+    return gkTevAlpha[iInput];
+}
+
 bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
 {
     std::stringstream ShaderCode;
@@ -391,7 +421,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
                << "\n"
                << "layout(std140) uniform PixelBlock {\n"
                << "    vec4 KonstColors[4];\n"
-               << "    vec4 TevColor;\n"
+               << "    vec4 TevColor[4];\n"
                << "    vec4 TintColor;\n"
                << "    float LightmapMultiplier;\n"
                << "};\n\n";
@@ -405,7 +435,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
     ShaderCode << "void main()\n"
                << "{\n"
                << "    vec4 TevInA = vec4(0, 0, 0, 0), TevInB = vec4(0, 0, 0, 0), TevInC = vec4(0, 0, 0, 0), TevInD = vec4(0, 0, 0, 0);\n"
-               << "    vec4 Prev = vec4(0, 0, 0, 0), C0 = TevColor, C1 = C0, C2 = C0;\n"
+               << "    vec4 Prev = TevColor[0], C0 = TevColor[1], C1 = TevColor[2], C2 = TevColor[3];\n"
                << "    vec4 Ras = vec4(0, 0, 0, 1), Tex = vec4(0, 0, 0, 0);\n"
                << "    vec4 Konst = vec4(1, 1, 1, 1);\n";
 
@@ -430,18 +460,13 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
         if (pPass->TexCoordSource() != 0xFF)
             ShaderCode << "    TevCoord = (Tex" << iPass << ".z == 0.0 ? Tex" << iPass << ".xy : Tex" << iPass << ".xy / Tex" << iPass << ".z);\n";
 
-        if (pPass->Texture() != nullptr)
+        if (pPass->Texture())
             ShaderCode << "    Tex = texture(Texture" << iPass << ", TevCoord)";
 
-        // A couple pass types require special swizzles to access different texture color channels as alpha
-        if ((PassType == "TRAN") || (PassType == "INCA") || (PassType == "BLOI"))
-            ShaderCode << ".rgbr";
-        else if (PassType == "BLOL")
-            ShaderCode << ".rgbg";
-
         // Apply lightmap multiplier
-        if ( (PassType == "DIFF") ||
-             (PassType == "CUST" && (rkMat.Options() & EMaterialOption::Lightmap) && iPass == 0) )
+        bool UseLightmapMultiplier = (PassType == "DIFF") ||
+                                     (PassType == "CUST" && (rkMat.Options() & EMaterialOption::Lightmap) && iPass == 0);
+        if (UseLightmapMultiplier && pPass->Texture())
             ShaderCode << " * LightmapMultiplier";
 
         ShaderCode << ";\n";
@@ -456,10 +481,13 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
             char TevChar = iInput + 0x41; // the current stage number represented as an ASCII letter; eg 0 is 'A'
 
             ShaderCode << "    TevIn" << TevChar << " = vec4("
-                       << gkTevColor[pPass->ColorInput(iInput) & 0xF]
+                       << GetColorInputExpression(pPass, ETevColorInput(pPass->ColorInput(iInput) & 0xF))
                        << ", "
-                       << gkTevAlpha[pPass->AlphaInput(iInput) & 0x7]
-                       << ");\n";
+                       << GetAlphaInputExpression(pPass, ETevAlphaInput(pPass->AlphaInput(iInput) & 0x7))
+                       << ")";
+            if (UseLightmapMultiplier && !pPass->Texture() && iInput == 1)
+                ShaderCode << " * LightmapMultiplier";
+            ShaderCode << ";\n";
         }
 
         ShaderCode << "    // RGB Combine\n"
@@ -467,8 +495,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
                    << gkTevRigid[pPass->ColorOutput()]
                    << ".rgb = ";
 
-        ShaderCode << "clamp(vec3(TevInD.rgb + ((1.0 - TevInC.rgb) * TevInA.rgb + TevInC.rgb * TevInB.rgb))";
-        if ((PassType == "CLR ") && (Lightmap)) ShaderCode << "* (2.0 - (1.0 - LightmapMultiplier))"; // Apply tevscale 2.0 on the color pass if lightmap is present. Scale so we don't apply if lightmaps are off.
+        ShaderCode << "clamp(vec3(TevInD.rgb + ((1.0 - TevInC.rgb) * TevInA.rgb + TevInC.rgb * TevInB.rgb)) * " << pPass->TevColorScale();
         ShaderCode << ", vec3(0, 0, 0), vec3(1.0, 1.0, 1.0));\n";
 
         ShaderCode << "    // Alpha Combine\n"
@@ -476,7 +503,7 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
                    << gkTevRigid[pPass->AlphaOutput()]
                    << ".a = ";
 
-        ShaderCode << "clamp(TevInD.a + ((1.0 - TevInC.a) * TevInA.a + TevInC.a * TevInB.a), 0.0, 1.0);\n\n";
+        ShaderCode << "clamp((TevInD.a + ((1.0 - TevInC.a) * TevInA.a + TevInC.a * TevInB.a)) * " << pPass->TevAlphaScale() << ", 0.0, 1.0);\n\n";
     }
 
     if (rkMat.Options() & EMaterialOption::Masked)

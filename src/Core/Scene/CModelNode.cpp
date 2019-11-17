@@ -66,7 +66,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
         CGraphics::UpdateLightBlock();
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
         CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
-        CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+        CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
     }
     else
     {
@@ -75,7 +75,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
         if (IsLightingEnabled)
         {
             CGraphics::sNumLights = 0;
-            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skBlack;
+            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentBlack;
             CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
             CGraphics::UpdateLightBlock();
         }
@@ -88,7 +88,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
         }
 
         float Mul = CGraphics::sWorldLightMultiplier;
-        CGraphics::sPixelBlock.TevColor = CColor(Mul,Mul,Mul);
+        CGraphics::sPixelBlock.SetAllTevColors(CColor(Mul,Mul,Mul));
     }
 
     CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);

@@ -268,7 +268,7 @@ void CResourceBrowser::CreateFilterCheckboxes()
             mTypeList << SResourceType { pType, pCheck };
         }
 
-        qSort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) -> bool {
+        std::sort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) -> bool {
             return rkLeft.pTypeInfo->TypeName().ToUpper() < rkRight.pTypeInfo->TypeName().ToUpper();
         });
 

@@ -257,7 +257,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
             // Sort in alphabetical order for MP3
             if (pProj->Game() >= EGame::Corruption)
             {
-                qSort(mWorldList.begin(), mWorldList.end(), [](const SWorldInfo& rkA, const SWorldInfo& rkB) -> bool {
+                std::sort(mWorldList.begin(), mWorldList.end(), [](const SWorldInfo& rkA, const SWorldInfo& rkB) -> bool {
                     return (rkA.WorldName.toUpper() < rkB.WorldName.toUpper());
                 });
             }
@@ -333,7 +333,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
             }
 
             // Sort FrontEnd world
-            qSort( pInfo->Areas.begin(), pInfo->Areas.end(), [](CResourceEntry *pA, CResourceEntry *pB) -> bool {
+            std::sort( pInfo->Areas.begin(), pInfo->Areas.end(), [](CResourceEntry *pA, CResourceEntry *pB) -> bool {
                 return pA->UppercaseName() < pB->UppercaseName();
             });
         }

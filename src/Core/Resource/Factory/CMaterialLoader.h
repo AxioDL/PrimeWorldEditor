@@ -8,6 +8,109 @@
 #include <Common/FileIO.h>
 #include <assimp/scene.h>
 
+enum class EMP3RenderConfig
+{
+    NoBloomTransparent,
+    NoBloomAdditiveIncandecence,
+    FullRenderOpaque,
+    OptimizedDiffuseLightingColorOpaque,
+    OptimizedDiffuseBloomLightingColorOpaque,
+    AdditiveIncandecenceOnly,
+    AdditiveBlendPremultiplyModColor,
+    FullRenderTransparent,
+    FullRenderTransparentAdditiveIncandecence,
+    MaterialAlphaCompare,
+    SolidWhite,
+    SolidKColor,
+    StaticAlphaCompare,
+    DynamicAlphaCompare,
+    RandomStaticAlpha,
+    SolidKColorKAlpha,
+    XRayAdditiveIncandecence,
+    XRayTransparent,
+    XRayOpaque
+};
+
+enum class EPASS
+{
+    DIFF,
+    RIML,
+    BLOL,
+    CLR,
+    TRAN,
+    INCA,
+    RFLV,
+    RFLD,
+    LRLD,
+    LURD,
+    BLOD,
+    BLOI,
+    XRAY,
+    TOON
+};
+
+enum class EINT
+{
+    OPAC,
+    BLOD,
+    BLOI,
+    BNIF,
+    XRBR
+};
+
+enum class ECLR
+{
+    CLR,
+    DIFB
+};
+
+// Material PASSes do not directly map as individual TEV stages (CMaterialPass).
+// Therefore, the material data chunks are stored in a random-access-friendly
+// container for procedural TEV stage generation.
+struct SMP3IntermediateMaterial
+{
+    FMP3MaterialOptions mOptions;
+
+    struct PASS
+    {
+        CFourCC mPassType;
+        TResPtr<CTexture> mpTexture = nullptr;
+        FPassSettings mSettings;
+        uint32 mUvSrc;
+        EUVAnimUVSource mUvSource = EUVAnimUVSource::UV;
+        EUVAnimMatrixConfig mMtxConfig = EUVAnimMatrixConfig::NoMtxNoPost;
+        EUVAnimMode mAnimMode = EUVAnimMode::NoUVAnim;
+        EUVConvolutedModeBType mAnimConvolutedModeBType;
+        float mAnimParams[8];
+
+        char GetSwapAlphaComp() const
+        {
+            switch (mSettings.ToInt32() & 0x3)
+            {
+            case 0: return 'r';
+            case 1: return 'g';
+            case 2: return 'b';
+            default: return 'a';
+            }
+        }
+    };
+    std::optional<PASS> mPASSes[14];
+    const std::optional<PASS>& GetPASS(EPASS pass) const { return mPASSes[int(pass)]; }
+
+    uint8 mINTs[5] = {255, 255, 0, 32, 255};
+    uint8 GetINT(EINT eint) const { return mINTs[int(eint)]; }
+
+    CColor mCLRs[2] = {CColor::skWhite, CColor::skWhite};
+    const CColor& GetCLR(ECLR clr) const { return mCLRs[int(clr)]; }
+};
+
+struct STevTracker
+{
+    uint8 mCurKColor = 0;
+    bool mStaticDiffuseLightingAlphaSet = false;
+    bool mStaticLightingAlphaSet = false;
+};
+
 class CMaterialLoader
 {
     // Material data
@@ -15,13 +118,10 @@ class CMaterialLoader
     IInputStream *mpFile;
     EGame mVersion;
     std::vector<TResPtr<CTexture>> mTextures;
-    bool mHasOPAC;
-    bool mHas0x400;
 
     CColor mCorruptionColors[4];
     uint8 mCorruptionInts[5];
     uint32 mCorruptionFlags;
-    std::vector<uint32> mPassOffsets;
 
     CMaterialLoader();
     ~CMaterialLoader();
@@ -33,7 +133,59 @@ class CMaterialLoader
 
     void ReadCorruptionMatSet();
     CMaterial* ReadCorruptionMaterial();
-    void CreateCorruptionPasses(CMaterial *pMat);
+    void SetMP3IntermediateIntoMaterialPass(CMaterialPass* pPass, const SMP3IntermediateMaterial::PASS& Intermediate);
+    void SelectBestCombinerConfig(EMP3RenderConfig& OutConfig, uint8& OutAlpha,
+                                  const SMP3IntermediateMaterial& Material, bool Bloom);
+
+    bool SetupStaticDiffuseLightingStage(STevTracker& Tracker, CMaterial* pMat,
+                                         const SMP3IntermediateMaterial& Intermediate, bool FullAlpha);
+    void SetupStaticDiffuseLightingNoBloomStage(STevTracker& Tracker, CMaterial* pMat,
+                                                const SMP3IntermediateMaterial& Intermediate);
+    void SetupStaticDiffuseLightingNoBLOLStage(STevTracker& Tracker, CMaterial* pMat,
+                                               const SMP3IntermediateMaterial& Intermediate);
+    void SetupColorTextureStage(STevTracker& Tracker, CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate,
+                                bool useStageAlpha, uint8 Alpha, bool StaticLighting);
+    void SetupColorTextureAlwaysStaticLightingStage(STevTracker& Tracker, CMaterial* pMat,
+                                                    const SMP3IntermediateMaterial& Intermediate);
+    void SetupColorKColorStage(STevTracker& Tracker, CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate,
+                               bool useStageAlpha, uint8 Alpha, bool StaticLighting);
+    bool SetupTransparencyStage(STevTracker& Tracker, CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    void SetupTransparencyKAlphaMultiplyStage(STevTracker& Tracker, CMaterial* pMat,
+                                              const SMP3IntermediateMaterial& Intermediate, bool multiplyPrevAlpha,
+                                              uint8 Alpha);
+    bool SetupReflectionAlphaStage(STevTracker& Tracker, CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    bool SetupReflectionStages(STevTracker& Tracker, CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate,
+                               ETevColorInput argD, bool StaticLighting);
+    bool SetupQuantizedKAlphaAdd(STevTracker& Tracker, CMaterial* pMat, uint8 Value);
+    bool SetupIncandecenceStage(STevTracker& Tracker, CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    bool SetupIncandecenceStageNoBloom(STevTracker& Tracker, CMaterial* pMat,
+                                       const SMP3IntermediateMaterial& Intermediate);
+    bool SetupStartingIncandecenceStage(STevTracker& Tracker, CMaterial* pMat,
+                                        const SMP3IntermediateMaterial& Intermediate);
+    void SetupStartingIncandecenceDynamicKColorStage(STevTracker& Tracker, CMaterial* pMat,
+                                                     const SMP3IntermediateMaterial& Intermediate);
+    bool SetupStaticBloomLightingStage(STevTracker& Tracker, CMaterial* pMat,
+                                       const SMP3IntermediateMaterial& Intermediate, bool StaticLighting);
+    bool SetupStaticBloomLightingA1Stages(STevTracker& Tracker, CMaterial* pMat,
+                                          const SMP3IntermediateMaterial& Intermediate);
+    bool SetupStaticBloomDiffuseLightingStages(STevTracker& Tracker, CMaterial* pMat,
+                                               const SMP3IntermediateMaterial& Intermediate, bool StaticLighting);
+    bool SetupStaticBloomIncandecenceLightingStage(STevTracker& Tracker, CMaterial* pMat,
+                                                   const SMP3IntermediateMaterial& Intermediate);
+    void SetupNoBloomTransparent(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate, uint8 Alpha);
+    void SetupNoBloomAdditiveIncandecence(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate, uint8 Alpha);
+    void SetupFullRenderOpaque(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    void SetupOptimizedDiffuseLightingColorOpaque(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    void SetupOptimizedDiffuseBloomLightingColorOpaque(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    void SetupAdditiveIncandecenceOnly(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    void SetupFullRenderTransparent(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate, uint8 Alpha);
+    void SetupFullRenderTransparentAdditiveIncandecence(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate,
+                                                        uint8 Alpha);
+    void SetupMaterialAlphaCompare(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    void SetupSolidWhite(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+    void SetupSolidKColorKAlpha(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate);
+
+    void CreateCorruptionPasses(CMaterial *pMat, const SMP3IntermediateMaterial& Intermediate, bool Bloom);
 
     CMaterial* LoadAssimpMaterial(const aiMaterial *pAiMat);
 

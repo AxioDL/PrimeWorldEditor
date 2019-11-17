@@ -79,7 +79,7 @@ void CGameArea::MergeTerrain()
         for (uint32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
         {
             SSurface *pSurf = pMdl->GetSurface(iSurf);
-            CMaterial *pMat = mpMaterialSet->MaterialByIndex(pSurf->MaterialID);
+            CMaterial *pMat = mpMaterialSet->MaterialByIndex(pSurf->MaterialID, false);
 
             bool NewMat = true;
             for (std::vector<CStaticModel*>::iterator it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); it++)

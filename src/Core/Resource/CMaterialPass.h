@@ -12,9 +12,10 @@ class CMaterial;
 
 enum class EPassSettings
 {
-    None                = 0x0,
-    EmissiveBloom       = 0x4,
-    InvertOpacityMap    = 0x10
+    None                    = 0x0,
+    BloomContribution       = 0x4,
+    ModulateIncandecenceMap = 0x8,
+    InvertOpacityMap        = 0x10
 };
 DECLARE_FLAGS_ENUMCLASS(EPassSettings, FPassSettings)
 
@@ -34,11 +35,14 @@ class CMaterialPass
     ETevKSel mKColorSel;
     ETevKSel mKAlphaSel;
     ETevRasSel mRasSel;
+    float mTevColorScale;
+    float mTevAlphaScale;
     uint32 mTexCoordSource; // Should maybe be an enum but worried about conflicts with EVertexDescriptionn
     TResPtr<CTexture> mpTexture;
     EUVAnimMode mAnimMode;
     EUVConvolutedModeBType mAnimConvolutedModeBType;
     float mAnimParams[8];
+    char mTexSwapComps[4];
     bool mEnabled;
 
 public:
@@ -58,10 +62,13 @@ public:
     void SetKColorSel(ETevKSel Sel);
     void SetKAlphaSel(ETevKSel Sel);
     void SetRasSel(ETevRasSel Sel);
+    void SetTevColorScale(float Scale);
+    void SetTevAlphaScale(float Scale);
     void SetTexCoordSource(uint32 Source);
     void SetTexture(CTexture *pTex);
     void SetAnimMode(EUVAnimMode Mode);
     void SetAnimParam(uint32 ParamIndex, float Value);
+    void SetTexSwapComp(uint32 Comp, char Value);
     void SetEnabled(bool Enabled);
 
     // Getters
@@ -74,10 +81,13 @@ public:
     inline ETevKSel KColorSel() const                       { return mKColorSel; }
     inline ETevKSel KAlphaSel() const                       { return mKAlphaSel; }
     inline ETevRasSel RasSel() const                        { return mRasSel; }
+    inline float TevColorScale() const                      { return mTevColorScale; }
+    inline float TevAlphaScale() const                      { return mTevAlphaScale; }
     inline uint32 TexCoordSource() const                    { return mTexCoordSource; }
     inline CTexture* Texture() const                        { return mpTexture; }
     inline EUVAnimMode AnimMode() const                     { return mAnimMode; }
     inline float AnimParam(uint32 ParamIndex) const         { return mAnimParams[ParamIndex]; }
+    inline char TexSwapComp(uint32 Comp) const              { return mTexSwapComps[Comp]; }
     inline bool IsEnabled() const                           { return mEnabled; }
 
     // Static

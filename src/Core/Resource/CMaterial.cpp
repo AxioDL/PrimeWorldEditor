@@ -17,7 +17,6 @@ CMaterial::CMaterial()
     : mpShader(nullptr)
     , mShaderStatus(EShaderStatus::NoShader)
     , mRecalcHash(true)
-    , mEnableBloom(false)
     , mVersion(EGame::Invalid)
     , mOptions(EMaterialOption::None)
     , mVtxDesc(EVertexAttribute::None)
@@ -27,16 +26,16 @@ CMaterial::CMaterial()
     , mEchoesUnknownA(0)
     , mEchoesUnknownB(0)
     , mpIndirectTexture(nullptr)
-{
-}
+    , mpNextDrawPassMaterial(nullptr)
+    , mpBloomMaterial(nullptr)
+{}
 
 CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
     : mpShader(nullptr)
     , mShaderStatus(EShaderStatus::NoShader)
     , mRecalcHash(true)
-    , mEnableBloom(Version == EGame::Corruption)
     , mVersion(Version)
-    , mOptions(EMaterialOption::DepthWrite)
+    , mOptions(EMaterialOption::DepthWrite | EMaterialOption::ColorWrite)
     , mVtxDesc(VtxDesc)
     , mBlendSrcFac(GL_ONE)
     , mBlendDstFac(GL_ZERO)
@@ -44,26 +43,17 @@ CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
     , mEchoesUnknownA(0)
     , mEchoesUnknownB(0)
     , mpIndirectTexture(nullptr)
-{
-    mpShader = nullptr;
-    mShaderStatus = EShaderStatus::NoShader;
-    mRecalcHash = true;
-    mEnableBloom = (Version == EGame::Corruption);
-    mVersion = Version;
-    mOptions = EMaterialOption::DepthWrite;
-    mVtxDesc = VtxDesc;
-    mBlendSrcFac = GL_ONE;
-    mBlendDstFac = GL_ZERO;
-    mLightingEnabled = true;
-    mEchoesUnknownA = 0;
-    mEchoesUnknownB = 0;
-    mpIndirectTexture = nullptr;
-}
+    , mpNextDrawPassMaterial(nullptr)
+    , mpBloomMaterial(nullptr)
+{}
 
 CMaterial::~CMaterial()
 {
     for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
         delete mPasses[iPass];
+
+    delete mpNextDrawPassMaterial;
+    delete mpBloomMaterial;
 
     ClearShader();
 }
@@ -72,12 +62,13 @@ CMaterial* CMaterial::Clone()
 {
     CMaterial *pOut = new CMaterial();
     pOut->mName = mName;
-    pOut->mEnableBloom = mEnableBloom;
     pOut->mVersion = mVersion;
     pOut->mOptions = mOptions;
     pOut->mVtxDesc = mVtxDesc;
     for (uint32 iKonst = 0; iKonst < 4; iKonst++)
         pOut->mKonstColors[iKonst] = mKonstColors[iKonst];
+    for (uint32 iTev = 0; iTev < 4; iTev++)
+        pOut->mTevColors[iTev] = mTevColors[iTev];
     pOut->mBlendSrcFac = mBlendSrcFac;
     pOut->mBlendDstFac = mBlendDstFac;
     pOut->mLightingEnabled = mLightingEnabled;
@@ -88,6 +79,12 @@ CMaterial* CMaterial::Clone()
     pOut->mPasses.resize(mPasses.size());
     for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
         pOut->mPasses[iPass] = mPasses[iPass]->Clone(pOut);
+
+    if (mpNextDrawPassMaterial)
+        pOut->mpNextDrawPassMaterial = mpNextDrawPassMaterial->Clone();
+
+    if (mpBloomMaterial)
+        pOut->mpBloomMaterial = mpBloomMaterial->Clone();
 
     return pOut;
 }
@@ -179,15 +176,12 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
             dstRGB = mBlendDstFac;
         }
 
-        // Set alpha blend equation
-        bool AlphaBlended = ((mBlendSrcFac == GL_SRC_ALPHA) && (mBlendDstFac == GL_ONE_MINUS_SRC_ALPHA));
-
-        if ((mEnableBloom) && (Options & ERenderOption::EnableBloom) && (!AlphaBlended)) {
-            srcAlpha = mBlendSrcFac;
-            dstAlpha = mBlendDstFac;
-        } else {
+        if (mOptions & EMaterialOption::ZeroDestAlpha) {
             srcAlpha = GL_ZERO;
             dstAlpha = GL_ZERO;
+        } else {
+            srcAlpha = mBlendSrcFac;
+            dstAlpha = mBlendDstFac;
         }
 
         glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
@@ -196,6 +190,11 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         for (uint32 iKonst = 0; iKonst < 4; iKonst++)
             CGraphics::sPixelBlock.Konst[iKonst] = mKonstColors[iKonst];
 
+        // Set TEV registers
+        if (mVersion >= EGame::Corruption)
+            for (uint32 iTev = 0; iTev < 4; iTev++)
+                CGraphics::sPixelBlock.TevColor[iTev] = mTevColors[iTev];
+
         // Set color channels
         // COLOR0_Amb is initialized by the node instead of by the material
         CGraphics::sVertexBlock.COLOR0_Mat = CColor::skWhite;
@@ -203,6 +202,11 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
         if ((mOptions & EMaterialOption::DepthWrite) || (Options & ERenderOption::NoAlpha)) glDepthMask(GL_TRUE);
         else glDepthMask(GL_FALSE);
+
+        // Set color/alpha write
+        GLboolean bColorWrite = mOptions.HasFlag(EMaterialOption::ColorWrite);
+        GLboolean bAlphaWrite = mOptions.HasFlag(EMaterialOption::AlphaWrite);
+        glColorMask(bColorWrite, bColorWrite, bColorWrite, bAlphaWrite);
 
         // Load uniforms
         for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
@@ -249,6 +253,7 @@ uint64 CMaterial::HashParameters()
         Hash.HashLong(mOptions);
         Hash.HashLong(mVtxDesc);
         Hash.HashData(mKonstColors, sizeof(CColor) * 4);
+        Hash.HashData(mTevColors, sizeof(CColor) * 4);
         Hash.HashLong(mBlendSrcFac);
         Hash.HashLong(mBlendDstFac);
         Hash.HashByte(mLightingEnabled);

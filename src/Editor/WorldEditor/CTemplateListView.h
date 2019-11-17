@@ -67,7 +67,7 @@ public:
             for (uint32 iTemp = 0; iTemp < mpGame->NumScriptTemplates(); iTemp++)
                 mTemplates << mpGame->TemplateByIndex(iTemp);
 
-            qSort(mTemplates.begin(), mTemplates.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
+            std::sort(mTemplates.begin(), mTemplates.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
                 return pLeft->Name() < pRight->Name();
             });
         }

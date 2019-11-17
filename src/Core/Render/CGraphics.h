@@ -56,9 +56,15 @@ public:
     struct SPixelBlock
     {
         CColor Konst[4];
-        CColor TevColor;
+        CColor TevColor[4];
         CColor TintColor;
         float LightmapMultiplier;
+        float Padding[3];
+
+        void SetAllTevColors(const CColor& color)
+        {
+            std::fill(std::begin(TevColor), std::end(TevColor), color);
+        }
     };
     static SPixelBlock sPixelBlock;
 

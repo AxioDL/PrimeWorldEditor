@@ -53,7 +53,7 @@ void CDeleteLinksCommand::undo()
     }
 
     // Add to senders
-    qSort(NewLinks.begin(), NewLinks.end(), [](SNewLink& rLinkA, SNewLink& rLinkB) { return rLinkA.pDelLink->SenderIndex < rLinkB.pDelLink->SenderIndex; });
+    std::sort(NewLinks.begin(), NewLinks.end(), [](SNewLink& rLinkA, SNewLink& rLinkB) { return rLinkA.pDelLink->SenderIndex < rLinkB.pDelLink->SenderIndex; });
 
     for (int iLink = 0; iLink < NewLinks.size(); iLink++)
     {
@@ -62,7 +62,7 @@ void CDeleteLinksCommand::undo()
     }
 
     // Add to receivers
-    qSort(NewLinks.begin(), NewLinks.end(), [](SNewLink& rLinkA, SNewLink& rLinkB) { return rLinkA.pDelLink->ReceiverIndex < rLinkB.pDelLink->ReceiverIndex; });
+    std::sort(NewLinks.begin(), NewLinks.end(), [](SNewLink& rLinkA, SNewLink& rLinkB) { return rLinkA.pDelLink->ReceiverIndex < rLinkB.pDelLink->ReceiverIndex; });
 
     for (int iLink = 0; iLink < NewLinks.size(); iLink++)
     {

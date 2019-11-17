@@ -347,7 +347,7 @@ void WInstancesTab::OnUnhideAll()
         It->SetVisible(true);
 
     // Unhide layers
-    QModelIndex LayersRoot = mpLayersModel->index(0, 0, QModelIndex()).child(0, 0);
+    QModelIndex LayersRoot = mpLayersModel->index(0, 0, mpLayersModel->index(0, 0, QModelIndex()));
 
     if (LayersRoot.isValid())
     {
@@ -360,7 +360,7 @@ void WInstancesTab::OnUnhideAll()
     }
 
     // Unhide types
-    QModelIndex TypesRoot = mpTypesModel->index(0, 0, QModelIndex()).child(0, 0);
+    QModelIndex TypesRoot = mpTypesModel->index(0, 0, mpTypesModel->index(0, 0, QModelIndex()));
 
     if (TypesRoot.isValid())
     {

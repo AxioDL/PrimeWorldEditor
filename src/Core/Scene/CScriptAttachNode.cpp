@@ -93,7 +93,7 @@ void CScriptAttachNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERe
     CGraphics::UpdateVertexBlock();
 
     CGraphics::sPixelBlock.TintColor = mpParent->TintColor(rkViewInfo);
-    CGraphics::sPixelBlock.TevColor = CColor::skWhite;
+    CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
     CGraphics::UpdatePixelBlock();
     DrawModelParts(Model(), Options, 0, Command);
 }

@@ -22,13 +22,13 @@ CGraphics::SLightBlock  CGraphics::sLightBlock;
 
 CGraphics::ELightingMode CGraphics::sLightMode;
 uint32 CGraphics::sNumLights;
-const CColor CGraphics::skDefaultAmbientColor = CColor(0.5f, 0.5f, 0.5f, 1.f);
+const CColor CGraphics::skDefaultAmbientColor = CColor(0.5f, 0.5f, 0.5f, 0.5f);
 CColor CGraphics::sAreaAmbientColor = CColor::skBlack;
 float CGraphics::sWorldLightMultiplier;
 CLight CGraphics::sDefaultDirectionalLights[3] = {
-    CLight::BuildDirectional(CVector3f(0), CVector3f   (0.f, -0.866025f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f)),
-    CLight::BuildDirectional(CVector3f(0), CVector3f(-0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f)),
-    CLight::BuildDirectional(CVector3f(0), CVector3f( 0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 1.f))
+    CLight::BuildDirectional(CVector3f(0), CVector3f   (0.f, -0.866025f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f)),
+    CLight::BuildDirectional(CVector3f(0), CVector3f(-0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f)),
+    CLight::BuildDirectional(CVector3f(0), CVector3f( 0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f))
 };
 
 // ************ FUNCTIONS ************
@@ -167,9 +167,11 @@ void CGraphics::SetDefaultLighting()
     sDefaultDirectionalLights[0].Load();
     sDefaultDirectionalLights[1].Load();
     sDefaultDirectionalLights[2].Load();
+    sNumLights = 0;
     UpdateLightBlock();
 
     sVertexBlock.COLOR0_Amb = CColor::skGray;
+    sVertexBlock.COLOR0_Amb.A = 0.5f;
     UpdateVertexBlock();
 }
 

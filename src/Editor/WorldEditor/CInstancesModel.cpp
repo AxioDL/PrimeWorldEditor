@@ -581,7 +581,7 @@ void CInstancesModel::GenerateList()
                 mTemplateList << pTemp;
         }
 
-        qSort(mTemplateList.begin(), mTemplateList.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
+        std::sort(mTemplateList.begin(), mTemplateList.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
             return (pLeft->Name() < pRight->Name());
         });
     }

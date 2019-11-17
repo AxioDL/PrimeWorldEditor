@@ -38,10 +38,13 @@ public:
         return mMaterials.size();
     }
 
-    CMaterial* MaterialByIndex(uint32 Index)
+    CMaterial* MaterialByIndex(uint32 Index, bool TryBloom)
     {
         if (Index >= NumMaterials()) return nullptr;
-        return mMaterials[Index];
+        CMaterial* Ret = mMaterials[Index];
+        if (TryBloom && Ret->GetBloomVersion())
+            return Ret->GetBloomVersion();
+        return Ret;
     }
 
     CMaterial* MaterialByName(const TString& rkName)
