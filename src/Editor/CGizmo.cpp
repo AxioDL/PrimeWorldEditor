@@ -281,7 +281,7 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
 
     // Calculate normalized cursor position
     QPoint CursorPos = QCursor::pos();
-    QRect Geom = QApplication::screenAt(CursorPos)->geometry();
+    QRect Geom = QApplication::desktop()->screenGeometry();
     CVector2f MouseCoords(
                 (((2.f * CursorPos.x()) / Geom.width()) - 1.f),
                 (1.f - ((2.f * CursorPos.y()) / Geom.height()))
@@ -618,8 +618,8 @@ void CGizmo::UpdateTransform()
 
 void CGizmo::WrapCursor()
 {
+    QRect Geom = QApplication::desktop()->screenGeometry();
     QPoint CursorPos = QCursor::pos();
-    QRect Geom = QApplication::screenAt(CursorPos)->geometry();
 
     // Horizontal
     if (CursorPos.x() == Geom.width() - 1)
