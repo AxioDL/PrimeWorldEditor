@@ -41,7 +41,8 @@ function(integrate_dew)
             message(FATAL_ERROR "Failed to install dew with pip: result: ${install_dew_result}.")
         endif()
         message(STATUS "Building dew dependencies")
-        execute_process(COMMAND "${Python3_EXECUTABLE}" -m dew update --build-type ${dew_cmake_prefix_suffix}
+        execute_process(COMMAND "${Python3_EXECUTABLE}" -m dew update --CC "${CMAKE_C_COMPILER}"
+                        --CXX "${CMAKE_CXX_COMPILER}" --build-type ${dew_cmake_prefix_suffix}
                         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
                         RESULT_VARIABLE dew_res)
         if(NOT dew_res EQUAL 0)
