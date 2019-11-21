@@ -1,0 +1,53 @@
+# Maintainer: Jack Andersen <jackoalan@gmail.com>
+
+pkgbase=pwe-git
+pkgname=$pkgbase
+pkgver=v1.2.5.r3.56ecceb9
+pkgrel=1
+pkgdesc='An editor for games by Retro Studios'
+arch=('x86_64')
+url='https://github.com/arukibree/PrimeWorldEditor'
+license=('MIT')
+depends=('qt5-base' 'zlib')
+makedepends=('clang' 'python' 'ninja')
+source=('git+https://github.com/AxioDL/PrimeWorldEditor.git'
+        'git+https://github.com/AxioDL/LibCommon.git'
+        'git+https://github.com/AxioDL/CodeGen.git')
+sha256sums=('SKIP' 'SKIP' 'SKIP')
+
+pkgver() {
+  cd PrimeWorldEditor
+
+  git describe | sed 's/-/.r/; s/-g/./'
+}
+
+prepare() {
+  if [[ -d build ]]; then
+    rm -rf build
+  fi
+  mkdir build
+  
+  ln -s $startdir/LibCommon $startdir/LibCommon.git
+  ln -s $startdir/CodeGen $startdir/CodeGen.git
+  
+  cd PrimeWorldEditor
+  git submodule init
+  git config submodule.LibCommon.url $srcdir/LibCommon
+  git submodule update
+  
+  cd externals/LibCommon
+  git submodule init
+  git config submodule.CodeGen.url $srcdir/CodeGen
+  git submodule update
+}
+
+build() {
+  cd build
+
+  cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX='/usr' ../PrimeWorldEditor
+  ninja
+}
+
+package() {
+  DESTDIR="${pkgdir}" ninja -C build install
+}
