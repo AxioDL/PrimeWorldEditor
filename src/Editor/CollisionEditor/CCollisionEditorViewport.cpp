@@ -37,5 +37,6 @@ void CCollisionEditorViewport::Paint()
 
 void CCollisionEditorViewport::OnResize()
 {
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 }

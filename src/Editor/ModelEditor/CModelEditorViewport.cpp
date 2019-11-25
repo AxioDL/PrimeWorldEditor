@@ -81,9 +81,12 @@ void CModelEditorViewport::Paint()
         CGraphics::UpdateMVPBlock();
         CGraphics::SetDefaultLighting();
         CGraphics::UpdateLightBlock(); // Note: vertex block is updated by the material
-        mpActiveMaterial->SetCurrent(ERenderOption::EnableUVScroll | ERenderOption::EnableBackfaceCull | ERenderOption::EnableOccluders);
 
-        CDrawUtil::DrawSphere(true);
+        for (CMaterial* passMat = mpActiveMaterial; passMat; passMat = passMat->GetNextDrawPass())
+        {
+            passMat->SetCurrent(ERenderOption::EnableUVScroll | ERenderOption::EnableBackfaceCull | ERenderOption::EnableOccluders);
+            CDrawUtil::DrawSphere(true);
+        }
     }
 
     else if (mMode == EDrawMode::DrawSquare)
@@ -100,9 +103,12 @@ void CModelEditorViewport::Paint()
         CGraphics::sMVPBlock.ProjectionMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();
 
-        mpActiveMaterial->SetCurrent(ERenderOption::EnableUVScroll | ERenderOption::EnableOccluders);
-        float Aspect = (float) width() / (float) height();
-        CDrawUtil::DrawSquare(CVector2f(0,1), CVector2f(1 * Aspect, 1), CVector2f(1 * Aspect, 0), CVector2f(0,0));
+        for (CMaterial* passMat = mpActiveMaterial; passMat; passMat = passMat->GetNextDrawPass())
+        {
+            passMat->SetCurrent(ERenderOption::EnableUVScroll | ERenderOption::EnableOccluders);
+            float Aspect = (float) width() / (float) height();
+            CDrawUtil::DrawSquare(CVector2f(0,1), CVector2f(1 * Aspect, 1), CVector2f(1 * Aspect, 0), CVector2f(0,0));
+        }
     }
 
     mpRenderer->EndFrame();

@@ -9,7 +9,7 @@
 #include <Common/Flags.h>
 #include <Common/TString.h>
 #include <map>
-#include <nod/nod.hpp>
+#include <nod/DiscBase.hpp>
 
 enum class EDiscType
 {

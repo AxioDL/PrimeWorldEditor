@@ -18,6 +18,13 @@ function(integrate_dew)
     endif()
 
     #
+    # Advise the user that setting the build type is necessary for debug dependencies.
+    #
+    if (NOT CMAKE_BUILD_TYPE)
+        message(WARNING "CMAKE_BUILD_TYPE is not set. Dew will build release dependencies by default.")
+    endif()
+
+    #
     # Acquaint CMake with dew prefix
     #
     if ("${CMAKE_BUILD_TYPE}" STREQUAL Debug)

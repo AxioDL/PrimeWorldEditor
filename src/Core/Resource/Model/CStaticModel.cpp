@@ -109,19 +109,34 @@ void CStaticModel::Draw(FRenderOptions Options)
 {
     if (!mBuffered) BufferGL();
 
-    if ((Options & ERenderOption::NoMaterialSetup) == 0) mpMaterial->SetCurrent(Options);
-
-    // Draw IBOs
     mVBO.Bind();
     glLineWidth(1.f);
 
-    for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+    auto DoDraw = [this]()
     {
-        CIndexBuffer *pIBO = &mIBOs[iIBO];
-        pIBO->Bind();
-        glDrawElements(pIBO->GetPrimitiveType(), pIBO->GetSize(), GL_UNSIGNED_SHORT, (void*) 0);
-        pIBO->Unbind();
-        gDrawCount++;
+        // Draw IBOs
+        for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+        {
+            CIndexBuffer *pIBO = &mIBOs[iIBO];
+            pIBO->Bind();
+            glDrawElements(pIBO->GetPrimitiveType(), pIBO->GetSize(), GL_UNSIGNED_SHORT, (void*) 0);
+            pIBO->Unbind();
+            gDrawCount++;
+        }
+    };
+
+    // Bind material
+    if ((Options & ERenderOption::NoMaterialSetup) == 0)
+    {
+        for (CMaterial* passMat = mpMaterial; passMat; passMat = passMat->GetNextDrawPass())
+        {
+            passMat->SetCurrent(Options);
+            DoDraw();
+        }
+    }
+    else
+    {
+        DoDraw();
     }
 
     mVBO.Unbind();
@@ -133,20 +148,36 @@ void CStaticModel::DrawSurface(FRenderOptions Options, uint32 Surface)
 
     mVBO.Bind();
     glLineWidth(1.f);
-    if ((Options & ERenderOption::NoMaterialSetup) == 0) mpMaterial->SetCurrent(Options);
 
-    for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+    auto DoDraw = [this, Surface]()
     {
-        // Since there is a shared IBO for every mesh, we need two things to draw a single one: an offset and a size
-        uint32 Offset = 0;
-        if (Surface > 0) Offset = mSurfaceEndOffsets[iIBO][Surface - 1];
-        uint32 Size = mSurfaceEndOffsets[iIBO][Surface] - Offset;
+        for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+        {
+            // Since there is a shared IBO for every mesh, we need two things to draw a single one: an offset and a size
+            uint32 Offset = 0;
+            if (Surface > 0) Offset = mSurfaceEndOffsets[iIBO][Surface - 1];
+            uint32 Size = mSurfaceEndOffsets[iIBO][Surface] - Offset;
 
-        if (!Size) continue; // The chosen submesh doesn't use this IBO
+            if (!Size) continue; // The chosen submesh doesn't use this IBO
 
-        // Now we have both, so we can draw
-        mIBOs[iIBO].DrawElements(Offset, Size);
-        gDrawCount++;
+            // Now we have both, so we can draw
+            mIBOs[iIBO].DrawElements(Offset, Size);
+            gDrawCount++;
+        }
+    };
+
+    // Bind material
+    if ((Options & ERenderOption::NoMaterialSetup) == 0)
+    {
+        for (CMaterial* passMat = mpMaterial; passMat; passMat = passMat->GetNextDrawPass())
+        {
+            passMat->SetCurrent(Options);
+            DoDraw();
+        }
+    }
+    else
+    {
+        DoDraw();
     }
 
     mVBO.Unbind();

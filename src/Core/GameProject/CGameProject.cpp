@@ -3,7 +3,8 @@
 #include "IUIRelay.h"
 #include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/Serialization/XML.h>
-#include <nod/nod.hpp>
+#include <nod/DiscGCN.hpp>
+#include <nod/DiscWii.hpp>
 
 #if NOD_UCS2
 #define TStringToNodString(string) ToWChar(string)

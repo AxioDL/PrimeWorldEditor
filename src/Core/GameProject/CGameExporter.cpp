@@ -12,6 +12,7 @@
 #include <Common/Serialization/CXMLWriter.h>
 
 #include <nod/nod.hpp>
+#include <nod/DiscBase.hpp>
 #include <tinyxml2.h>
 
 #define LOAD_PAKS 1
