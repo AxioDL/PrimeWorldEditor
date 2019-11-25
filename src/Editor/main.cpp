@@ -81,6 +81,12 @@ public:
     /** Main function */
     int Main(int argc, char *argv[])
     {
+        // Default OpenGL format
+        QSurfaceFormat glFormat;
+        glFormat.setVersion(3, 3);
+        glFormat.setProfile(QSurfaceFormat::CoreProfile);
+        QSurfaceFormat::setDefaultFormat(glFormat);
+
         // Create application
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -106,12 +112,6 @@ public:
         gpMouseDragCocoaEventFilter = &mouseDragCocoaEventFilter;
         qApp->installNativeEventFilter(gpMouseDragCocoaEventFilter);
 #endif
-
-        // Default OpenGL format
-        QSurfaceFormat glFormat;
-        glFormat.setVersion(3, 3);
-        glFormat.setProfile(QSurfaceFormat::CoreProfile);
-        QSurfaceFormat::setDefaultFormat(glFormat);
 
         // Init log
         bool Initialized = NLog::InitLog(LocateLogPath());
