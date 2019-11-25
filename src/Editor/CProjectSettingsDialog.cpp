@@ -157,7 +157,7 @@ void CProjectSettingsDialog::BuildISO()
 
         if (NeedsDiscMerge)
         {
-            FilterString += ";*.wbfs";
+            FilterString += ";*.wbfs;*.nfs";
             QString SourceIsoPath = UICommon::OpenFileDialog(this, "Select the original ISO", FilterString, DefaultPath);
 
             if (SourceIsoPath.isEmpty())

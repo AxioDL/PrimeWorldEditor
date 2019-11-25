@@ -458,7 +458,7 @@ void CWorldEditor::OpenRecentProject()
 
 void CWorldEditor::ExportGame()
 {
-    QString IsoPath = UICommon::OpenFileDialog(this, "Select ISO", "*.iso *.gcm *.tgc *.wbfs");
+    QString IsoPath = UICommon::OpenFileDialog(this, "Select ISO", "*.iso *.gcm *.tgc *.wbfs *.nfs");
     if (IsoPath.isEmpty()) return;
 
     QString ExportDir = UICommon::OpenDirDialog(this, "Select output export directory");
