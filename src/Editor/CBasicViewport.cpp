@@ -270,17 +270,23 @@ void CBasicViewport::ProcessInput()
 
     if (IsMouseInputActive())
     {
+        float XMovement, YMovement;
 #ifdef __APPLE__
         // QCursor::setPos only works on macOS when the user permits PWE
         // to control the computer via Universal Access.
         // As an alternative to relying on the delta of a warped mouse,
         // use the accumulated delta directly reported by AppKit.
-        float XMovement = gpMouseDragCocoaEventFilter->claimX() * 0.01f;
-        float YMovement = gpMouseDragCocoaEventFilter->claimY() * 0.01f;
-#else
-        float XMovement = (QCursor::pos().x() - mLastMousePos.x()) * 0.01f;
-        float YMovement = (QCursor::pos().y() - mLastMousePos.y()) * 0.01f;
+        if (!AXIsProcessTrusted())
+        {
+            XMovement = gpMouseDragCocoaEventFilter->claimX() * 0.01f;
+            YMovement = gpMouseDragCocoaEventFilter->claimY() * 0.01f;
+        }
+        else
 #endif
+        {
+            XMovement = (QCursor::pos().x() - mLastMousePos.x()) * 0.01f;
+            YMovement = (QCursor::pos().y() - mLastMousePos.y()) * 0.01f;
+        }
 
         if ((XMovement != 0) || (YMovement != 0))
         {
