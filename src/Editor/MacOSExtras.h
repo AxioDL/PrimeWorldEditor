@@ -3,6 +3,7 @@
 #ifdef __APPLE__
 
 #include <CoreGraphics/CGBase.h>
+extern "C" Boolean AXIsProcessTrusted(void);
 
 #include <QAbstractNativeEventFilter>
 #include <QString>
