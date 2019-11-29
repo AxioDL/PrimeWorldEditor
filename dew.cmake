@@ -7,8 +7,7 @@
 # It is encouraged to check this file into your project's VCS. Doing so will allow your cmake project to easily
 # integrate with Dew.
 #
-cmake_minimum_required(VERSION 3.3)
-cmake_policy(SET CMP0057 NEW) # IN_LIST operator
+cmake_minimum_required(VERSION 3.12)
 
 function(integrate_dew)
     #
