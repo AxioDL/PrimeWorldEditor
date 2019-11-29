@@ -7,7 +7,8 @@
 # It is encouraged to check this file into your project's VCS. Doing so will allow your cmake project to easily
 # integrate with Dew.
 #
-cmake_minimum_required(VERSION 3.2)
+cmake_minimum_required(VERSION 3.3)
+cmake_policy(SET CMP0057 NEW) # IN_LIST operator
 
 function(integrate_dew)
     #
@@ -73,33 +74,27 @@ function(integrate_dew)
     # Check if we have already added the dew directory to CMAKE_PREFIX_PATH
     #
     set(needs_new_prefix TRUE)
-    foreach (path ${CMAKE_PREFIX_PATH})
-        if (path STREQUAL "${dew_cmake_prefix_path}")
-            set(needs_new_prefix FALSE)
-            break()
-        endif()
-    endforeach()
+    if ("${dew_cmake_prefix_path}" IN_LIST CMAKE_PREFIX_PATH)
+        set(needs_new_prefix FALSE)
+    endif()
 
     #
     # Check if we have already added the dew cmake module directory to CMAKE_MODULE_PATH
     #
     set(needs_new_module_path TRUE)
-    foreach (path ${CMAKE_MODULE_PATH})
-        if (path STREQUAL "${dew_cmake_module_path}")
-            set(needs_new_module_path FALSE)
-            break()
-        endif()
-    endforeach()
+    if ("${dew_cmake_module_path}" IN_LIST CMAKE_MODULE_PATH)
+        set(needs_new_module_path FALSE)
+    endif()
 
     #
-    # Add dew directory to CMAKE_PREFIX_PATH if necesary
+    # Add dew directory to CMAKE_PREFIX_PATH if necessary
     #
     if ("${needs_new_prefix}")
         set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH} "${dew_cmake_prefix_path}" CACHE PATH "" FORCE)
     endif()
 
     #
-    # Add dew cmake module directory to CMAKE_MODULE_PATH if necesary
+    # Add dew cmake module directory to CMAKE_MODULE_PATH if necessary
     #
     if ("${needs_new_module_path}")
         set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${dew_cmake_module_path}" CACHE PATH "" FORCE)
