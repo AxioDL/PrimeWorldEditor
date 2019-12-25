@@ -49,11 +49,11 @@ bool CTexture::BufferGL()
     switch (mTexelFormat)
     {
         case ETexelFormat::Luminance:
-            GLFormat = GL_LUMINANCE;
+            GLFormat = GL_R;
             GLType = GL_UNSIGNED_BYTE;
             break;
         case ETexelFormat::LuminanceAlpha:
-            GLFormat = GL_LUMINANCE_ALPHA;
+            GLFormat = GL_RG;
             GLType = GL_UNSIGNED_BYTE;
             break;
         case ETexelFormat::RGB565:
@@ -103,6 +103,13 @@ bool CTexture::BufferGL()
 
     glTexParameteri(BindTarget, GL_TEXTURE_BASE_LEVEL, 0);
     glTexParameteri(BindTarget, GL_TEXTURE_MAX_LEVEL, mNumMipMaps - 1);
+
+    // Swizzling for luminance textures:
+    if (mTexelFormat == ETexelFormat::Luminance || mTexelFormat == ETexelFormat::LuminanceAlpha)
+    {
+        GLint SwizzleMask[] = {GL_RED, GL_RED, GL_RED, GLFormat == GL_RG ? GL_GREEN : GL_ONE};
+        glTexParameteriv(BindTarget, GL_TEXTURE_SWIZZLE_RGBA, SwizzleMask);
+    }
 
     // Linear filtering on mipmaps:
     glTexParameteri(BindTarget, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
