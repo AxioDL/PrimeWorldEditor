@@ -133,12 +133,13 @@ void WEditorProperties::OnSelectionModified()
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
         CInstanceID InstanceID = pScript->Instance()->InstanceID();
+        uint32_t LayerNum = pScript->Instance()->Layer()->AreaIndex();
         TString ObjectType = pScript->Template()->Name();
         mpInstanceInfoLabel->setText(QString("[%1] [%2]").
                                      arg( TO_QSTRING(ObjectType) ).
-                                     arg( TO_QSTRING(TString::HexString(InstanceID, 8, false)) ));
+                                     arg( TO_QSTRING(TString::HexString(InstanceID | (LayerNum << 26), 8, false)) ));
         mpInstanceInfoLabel->setToolTip(QString("[Layer: %1] [Area: %2] [ID: %3]").
-                                        arg( InstanceID.Layer() ).
+                                        arg( LayerNum ).
                                         arg( InstanceID.Area() ).
                                         arg( TO_QSTRING(TString::HexString(InstanceID.Id(), 4, false)) ));
 

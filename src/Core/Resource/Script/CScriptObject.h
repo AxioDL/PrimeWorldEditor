@@ -24,7 +24,6 @@ public:
     CInstanceID() = default;
     CInstanceID(uint32 id) : mId(id) {}
     CInstanceID& operator=(uint32 id) { mId = id; return *this; }
-    uint8 Layer() const { return uint8((mId >> 26u) & 0x3fu); }
     uint16 Area() const { return uint16((mId >> 16u) & 0x3ffu); }
     uint16 Id() const { return uint16(mId & 0xffffu); }
 };
