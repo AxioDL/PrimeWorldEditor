@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QToolBar>
+#include <QCloseEvent>
 
 IEditor::IEditor(QWidget* pParent)
     : QMainWindow(pParent)
