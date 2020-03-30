@@ -116,6 +116,9 @@ bool SetDolphinPath(QWidget* pParentWidget,
 /** Retrieves the user path to Dolphin. */
 QString GetDolphinPath();
 
+/** Prompt user to select dolphin binary. */
+QString AskForDolphinPath(QWidget* pParentWidget);
+
 /** Saves/retrieves the given quickplay settings to/from QSettings. */
 void SaveQuickplayParameters(const SQuickplayParameters& kParms);
 void LoadQuickplayParameters(SQuickplayParameters& Parms);

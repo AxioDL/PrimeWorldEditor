@@ -95,7 +95,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
         if (Path.isEmpty())
         {
             // Allow the user to select the Dolphin exe.
-            Path = UICommon::OpenFileDialog(pParentWidget, "Open Dolphin", "Dolphin");
+            Path = AskForDolphinPath(pParentWidget);
         }
 
         bool bGotDolphin = (!Path.isEmpty() && SetDolphinPath(pParentWidget, Path, true));
@@ -328,6 +328,19 @@ QString GetDolphinPath()
         }
     }
 
+    return Path;
+}
+
+QString AskForDolphinPath(QWidget* pParentWidget) {
+#if Q_OS_WIN
+    QString Path = UICommon::OpenFileDialog(pParentWidget, "Open Dolphin", "*.exe");
+#elif Q_OS_MACOS
+    QString Path = UICommon::OpenFileDialog(pParentWidget, "Open Dolphin", "*.app");
+    if (Path.endsWith(".app"))
+        Path += "/Contents/MacOS/Dolphin";
+#else
+    QString Path = UICommon::OpenFileDialog(pParentWidget, "Open Dolphin", {});
+#endif
     return Path;
 }
 

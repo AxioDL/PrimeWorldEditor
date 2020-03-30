@@ -74,7 +74,7 @@ CQuickplayPropertyEditor::~CQuickplayPropertyEditor()
 
 void CQuickplayPropertyEditor::BrowseForDolphin()
 {
-    QString Path = UICommon::OpenFileDialog(this, "Open Dolphin", "Dolphin");
+    QString Path = NDolphinIntegration::AskForDolphinPath(this);
 
     if (!Path.isEmpty())
     {
