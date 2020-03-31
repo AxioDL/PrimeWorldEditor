@@ -332,9 +332,9 @@ QString GetDolphinPath()
 }
 
 QString AskForDolphinPath(QWidget* pParentWidget) {
-#if Q_OS_WIN
+#if defined(Q_OS_WIN)
     QString Path = UICommon::OpenFileDialog(pParentWidget, "Open Dolphin", "*.exe");
-#elif Q_OS_MACOS
+#elif defined(Q_OS_MACOS)
     QString Path = UICommon::OpenFileDialog(pParentWidget, "Open Dolphin", "*.app");
     if (Path.endsWith(".app"))
         Path += "/Contents/MacOS/Dolphin";

@@ -3,6 +3,7 @@
 #include <QDesktopWidget>
 #include <QLineEdit>
 #include <QMouseEvent>
+#include <QScreen>
 
 WDraggableSpinBox::WDraggableSpinBox(QWidget *parent)
     : QDoubleSpinBox(parent)
@@ -66,7 +67,7 @@ void WDraggableSpinBox::mouseMoveEvent(QMouseEvent*)
         setValue(value() + DragAmount);
 
         // Wrap cursor
-        int ScreenHeight = QApplication::desktop()->screenGeometry().height();
+        int ScreenHeight = QApplication::primaryScreen()->geometry().height();
 
         if (CursorPos.y() == ScreenHeight - 1)
             QCursor::setPos(CursorPos.x(), 1);
