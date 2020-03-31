@@ -28,7 +28,7 @@ set -e
 apt update
 apt -y install build-essential software-properties-common python-software-properties
 add-apt-repository -y ppa:ubuntu-toolchain-r/test
-add-apt-repository -y ppa:jonathonf/python-3.6
+add-apt-repository -y ppa:deadsnakes/ppa
 add-apt-repository -y ppa:beineri/opt-qt-5.12.3-xenial
 apt update
 apt -y install g++-8 curl git ninja-build libclang-6.0-dev python3.6 python3-pip zlib1g-dev qt512tools qt512svg libglu1-mesa-dev
@@ -62,7 +62,7 @@ mkdir -p PrimeWorldEditor{-build,-appdir}
 pushd PrimeWorldEditor-build
 cmake -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=gcc-8 -DCMAKE_CXX_COMPILER=g++-8 \
               -DPWE_PUBLIC_RELEASE=On -DCMAKE_INSTALL_PREFIX=/PrimeWorldEditor-appdir/usr \
-              /PrimeWorldEditor
+              -DCMAKE_EXECUTE_PROCESS_COMMAND_ECHO=STDERR /PrimeWorldEditor
 ninja install
 popd
 
