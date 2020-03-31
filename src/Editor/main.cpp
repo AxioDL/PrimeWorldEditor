@@ -94,7 +94,7 @@ public:
 #endif
         QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
         CEditorApplication App(argc, argv);
-        App.setApplicationName( APP_NAME );
+        App.setApplicationName("PrimeWorldEditor");
         App.setApplicationVersion( APP_VERSION );
         App.setOrganizationName("Aruki");
         App.setWindowIcon(QIcon(":/icons/win/AppIcon.ico"));
