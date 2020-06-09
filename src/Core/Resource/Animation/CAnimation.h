@@ -17,9 +17,9 @@ class CAnimation : public CResource
     typedef std::vector<CQuaternion> TRotationChannel;
     typedef std::vector<CVector3f> TTranslationChannel;
 
-    float mDuration;
-    float mTickInterval;
-    uint32 mNumKeys;
+    float mDuration = 0.0f;
+    float mTickInterval = 0.0333333f;
+    uint32 mNumKeys = 0;
 
     std::vector<TScaleChannel> mScaleChannels;
     std::vector<TRotationChannel> mRotationChannels;
@@ -27,9 +27,9 @@ class CAnimation : public CResource
 
     struct SBoneChannelInfo
     {
-        uint8 ScaleChannelIdx;
-        uint8 RotationChannelIdx;
-        uint8 TranslationChannelIdx;
+        uint8 ScaleChannelIdx = 0xFF;
+        uint8 RotationChannelIdx = 0xFF;
+        uint8 TranslationChannelIdx = 0xFF;
     };
     SBoneChannelInfo mBoneInfo[100];
 
