@@ -33,8 +33,8 @@ void CAreaCooker::DetermineSectionNumbersPrime()
         break;
     }
 
-    for (uint32 iMesh = 0; iMesh < mpArea->mWorldModels.size(); iMesh++)
-        GeometrySections += mpArea->mWorldModels[iMesh]->GetSurfaceCount();
+    for (const auto& worldModel : mpArea->mWorldModels)
+        GeometrySections += worldModel->GetSurfaceCount();
 
     // Set section numbers
     uint32 SecNum = GeometrySections;
@@ -67,13 +67,16 @@ void CAreaCooker::DetermineSectionNumbersCorruption()
 {
     // Because we're copying these from the original file (because not all the numbers
     // are present in every file), we don't care about any of these except SCLY and SCGN.
-    for (uint32 iNum = 0; iNum < mpArea->mSectionNumbers.size(); iNum++)
+    for (const auto& num : mpArea->mSectionNumbers)
     {
-        CGameArea::SSectionNumber& rNum = mpArea->mSectionNumbers[iNum];
-        if      (rNum.SectionID == "SOBJ") mSCLYSecNum = rNum.Index;
-        else if (rNum.SectionID == "SGEN") mSCGNSecNum = rNum.Index;
-        else if (rNum.SectionID == "DEPS") mDepsSecNum = rNum.Index;
-        else if (rNum.SectionID == "RSOS") mModulesSecNum = rNum.Index;
+        if (num.SectionID == "SOBJ")
+            mSCLYSecNum = num.Index;
+        else if (num.SectionID == "SGEN")
+            mSCGNSecNum = num.Index;
+        else if (num.SectionID == "DEPS")
+            mDepsSecNum = num.Index;
+        else if (num.SectionID == "RSOS")
+            mModulesSecNum = num.Index;
     }
 }
 
@@ -110,8 +113,8 @@ void CAreaCooker::WritePrimeHeader(IOutputStream& rOut)
         rOut.WriteToBoundary(32, 0);
     }
 
-    for (uint32 iSec = 0; iSec < mSectionSizes.size(); iSec++)
-        rOut.WriteLong(mSectionSizes[iSec]);
+    for (const uint32 size : mSectionSizes)
+        rOut.WriteLong(size);
     rOut.WriteToBoundary(32, 0);
 
     if (mVersion >= EGame::Echoes)
@@ -130,33 +133,31 @@ void CAreaCooker::WriteCorruptionHeader(IOutputStream& rOut)
     rOut.WriteLong(mpArea->mSectionNumbers.size());
     rOut.WriteToBoundary(32, 0);
 
-    for (uint32 iSec = 0; iSec < mSectionSizes.size(); iSec++)
-        rOut.WriteLong(mSectionSizes[iSec]);
+    for (const uint32 size : mSectionSizes)
+        rOut.WriteLong(size);
 
     rOut.WriteToBoundary(32, 0);
 
     WriteCompressionHeader(rOut);
 
-    for (uint32 iNum = 0; iNum < mpArea->mSectionNumbers.size(); iNum++)
+    for (const auto& num : mpArea->mSectionNumbers)
     {
-        CGameArea::SSectionNumber& rNum = mpArea->mSectionNumbers[iNum];
-        rOut.WriteLong(rNum.SectionID.ToLong());
-        rOut.WriteLong(rNum.Index);
+        rOut.WriteLong(num.SectionID.ToLong());
+        rOut.WriteLong(num.Index);
     }
     rOut.WriteToBoundary(32, 0);
 }
 
 void CAreaCooker::WriteCompressionHeader(IOutputStream& rOut)
 {
-    for (uint32 iCmp = 0; iCmp < mCompressedBlocks.size(); iCmp++)
+    for (const auto& block : mCompressedBlocks)
     {
-        SCompressedBlock& rBlock = mCompressedBlocks[iCmp];
-        bool IsCompressed = (rBlock.CompressedSize != 0);
+        const bool IsCompressed = block.CompressedSize != 0;
 
-        rOut.WriteLong(IsCompressed ? rBlock.DecompressedSize + 0x120 : rBlock.DecompressedSize);
-        rOut.WriteLong(rBlock.DecompressedSize);
-        rOut.WriteLong(rBlock.CompressedSize);
-        rOut.WriteLong(rBlock.NumSections);
+        rOut.WriteLong(IsCompressed ? block.DecompressedSize + 0x120 : block.DecompressedSize);
+        rOut.WriteLong(block.DecompressedSize);
+        rOut.WriteLong(block.CompressedSize);
+        rOut.WriteLong(block.NumSections);
     }
 
     rOut.WriteToBoundary(32, 0);
@@ -255,18 +256,17 @@ void CAreaCooker::WriteDependencies(IOutputStream& rOut)
     // Write
     rOut.WriteLong(Dependencies.size());
 
-    for (auto Iter = Dependencies.begin(); Iter != Dependencies.end(); Iter++)
+    for (const auto& dependency : Dependencies)
     {
-        CAssetID ID = *Iter;
-        CResourceEntry *pEntry = gpResourceStore->FindEntry(ID);
-        ID.Write(rOut);
+        CResourceEntry *pEntry = gpResourceStore->FindEntry(dependency);
+        dependency.Write(rOut);
         pEntry->CookedExtension().Write(rOut);
     }
 
     rOut.WriteLong(LayerOffsets.size());
 
-    for (auto Iter = LayerOffsets.begin(); Iter != LayerOffsets.end(); Iter++)
-        rOut.WriteLong(*Iter);
+    for (const uint32 offset : LayerOffsets)
+        rOut.WriteLong(offset);
 
     FinishSection(false);
 }
@@ -283,13 +283,13 @@ void CAreaCooker::WriteModules(IOutputStream& rOut)
     // Write
     rOut.WriteLong(ModuleNames.size());
 
-    for (uint32 ModuleIdx = 0; ModuleIdx < ModuleNames.size(); ModuleIdx++)
-        rOut.WriteString( ModuleNames[ModuleIdx] );
+    for (const auto& name : ModuleNames)
+        rOut.WriteString(name);
 
     rOut.WriteLong(LayerOffsets.size());
 
-    for (uint32 OffsetIdx = 0; OffsetIdx < LayerOffsets.size(); OffsetIdx++)
-        rOut.WriteLong(LayerOffsets[OffsetIdx]);
+    for (const uint32 offset : LayerOffsets)
+        rOut.WriteLong(offset);
 
     FinishSection(false);
 }
