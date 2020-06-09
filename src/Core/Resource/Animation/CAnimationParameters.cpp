@@ -208,8 +208,14 @@ void CAnimationParameters::SetUnknown(uint32 Index, uint32 Value)
 {
     switch (Index)
     {
-    case 0: mAnimIndex = Value;
-    case 1: mUnknown2 = Value;
-    case 2: mUnknown3 = Value;
+    case 0:
+        mAnimIndex = Value;
+        break;
+    case 1:
+        mUnknown2 = Value;
+        break;
+    case 2:
+        mUnknown3 = Value;
+        break;
     }
 }
