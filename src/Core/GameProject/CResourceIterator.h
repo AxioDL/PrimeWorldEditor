@@ -27,7 +27,7 @@ public:
             if (mIter != mpkStore->mResourceEntries.end())
             {
                 mpCurEntry = mIter->second;
-                mIter++;
+                ++mIter;
             }
             else mpCurEntry = nullptr;
         }
