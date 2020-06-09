@@ -20,6 +20,8 @@ public:
         Next();
     }
 
+    virtual ~CResourceIterator() = default;
+
     virtual CResourceEntry* Next()
     {
         do
