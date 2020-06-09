@@ -81,7 +81,7 @@ public:
             Next();
     }
 
-    virtual CResourceEntry* Next()
+    CResourceEntry* Next() override
     {
         do {
             CResourceIterator::Next();
