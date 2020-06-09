@@ -37,7 +37,7 @@ class CAnimation : public CResource
 
 public:
     CAnimation(CResourceEntry *pEntry = 0);
-    CDependencyTree* BuildDependencyTree() const;
+    CDependencyTree* BuildDependencyTree() const override;
     void EvaluateTransform(float Time, uint32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const;
     bool HasTranslation(uint32 BoneID) const;
 
