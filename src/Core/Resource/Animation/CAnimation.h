@@ -41,10 +41,10 @@ public:
     void EvaluateTransform(float Time, uint32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const;
     bool HasTranslation(uint32 BoneID) const;
 
-    inline float Duration() const               { return mDuration; }
-    inline uint32 NumKeys() const               { return mNumKeys; }
-    inline float TickInterval() const           { return mTickInterval; }
-    inline CAnimEventData* EventData() const    { return mpEventData; }
+    float Duration() const               { return mDuration; }
+    uint32 NumKeys() const               { return mNumKeys; }
+    float TickInterval() const           { return mTickInterval; }
+    CAnimEventData* EventData() const    { return mpEventData; }
 };
 
 #endif // CANIMATION_H
