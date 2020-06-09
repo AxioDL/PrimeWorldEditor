@@ -8,13 +8,13 @@ class CModel;
 
 class CAnimationParameters
 {
-    EGame mGame;
+    EGame mGame = EGame::Prime;
     CAssetID mCharacterID;
 
-    uint32 mCharIndex;
-    uint32 mAnimIndex;
-    uint32 mUnknown2;
-    uint32 mUnknown3;
+    uint32 mCharIndex = 0;
+    uint32 mAnimIndex = 0;
+    uint32 mUnknown2 = 0;
+    uint32 mUnknown3 = 0;
 
 public:
     CAnimationParameters();
