@@ -13,9 +13,9 @@ class CAnimation : public CResource
     DECLARE_RESOURCE_TYPE(Animation)
     friend class CAnimationLoader;
 
-    typedef std::vector<CVector3f> TScaleChannel;
-    typedef std::vector<CQuaternion> TRotationChannel;
-    typedef std::vector<CVector3f> TTranslationChannel;
+    using TScaleChannel = std::vector<CVector3f>;
+    using TRotationChannel = std::vector<CQuaternion>;
+    using TTranslationChannel = std::vector<CVector3f>;
 
     float mDuration = 0.0f;
     float mTickInterval = 0.0333333f;
