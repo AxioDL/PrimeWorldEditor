@@ -6,6 +6,7 @@
 #include "Core/Resource/Animation/CAnimEventData.h"
 #include <Common/Math/CQuaternion.h>
 #include <Common/Math/CVector3f.h>
+#include <array>
 #include <vector>
 
 class CAnimation : public CResource
@@ -31,7 +32,7 @@ class CAnimation : public CResource
         uint8 RotationChannelIdx = 0xFF;
         uint8 TranslationChannelIdx = 0xFF;
     };
-    SBoneChannelInfo mBoneInfo[100];
+    std::array<SBoneChannelInfo, 100> mBoneInfo;
 
     TResPtr<CAnimEventData> mpEventData;
 
