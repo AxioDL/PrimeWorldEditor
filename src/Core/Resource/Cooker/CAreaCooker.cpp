@@ -6,23 +6,7 @@
 
 const bool gkForceDisableCompression = false;
 
-CAreaCooker::CAreaCooker()
-    : mGeometrySecNum(-1)
-    , mSCLYSecNum(-1)
-    , mSCGNSecNum(-1)
-    , mCollisionSecNum(-1)
-    , mUnknownSecNum(-1)
-    , mLightsSecNum(-1)
-    , mVISISecNum(-1)
-    , mPATHSecNum(-1)
-    , mAROTSecNum(-1)
-    , mFFFFSecNum(-1)
-    , mPTLASecNum(-1)
-    , mEGMCSecNum(-1)
-    , mDepsSecNum(-1)
-    , mModulesSecNum(-1)
-{
-}
+CAreaCooker::CAreaCooker() = default;
 
 void CAreaCooker::DetermineSectionNumbersPrime()
 {
