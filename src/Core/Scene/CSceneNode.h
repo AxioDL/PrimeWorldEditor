@@ -15,6 +15,7 @@
 #include <Common/Math/CTransform4f.h>
 #include <Common/Math/CVector3f.h>
 #include <Common/Math/ETransformSpace.h>
+#include <array>
 
 class CRenderer;
 class CScene;
@@ -97,7 +98,7 @@ protected:
 
     uint32 mLightLayerIndex = 0;
     uint32 mLightCount = 0;
-    CLight* mLights[8];
+    std::array<CLight*, 8> mLights{};
     CColor mAmbientColor;
 
 public:
