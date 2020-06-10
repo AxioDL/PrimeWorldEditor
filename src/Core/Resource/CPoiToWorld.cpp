@@ -5,25 +5,22 @@ CPoiToWorld::CPoiToWorld(CResourceEntry *pEntry /*= 0*/)
 {
 }
 
-CPoiToWorld::~CPoiToWorld()
-{
-    for (auto it = mMaps.begin(); it != mMaps.end(); it++)
-        delete *it;
-}
+CPoiToWorld::~CPoiToWorld() = default;
 
 void CPoiToWorld::AddPoi(uint32 PoiID)
 {
     // Check if this POI already exists
-    auto it = mPoiLookupMap.find(PoiID);
-
-    if (it == mPoiLookupMap.end())
+    const auto it = mPoiLookupMap.find(PoiID);
+    if (it != mPoiLookupMap.cend())
     {
-        SPoiMap *pMap = new SPoiMap();
-        pMap->PoiID = PoiID;
-
-        mMaps.push_back(pMap);
-        mPoiLookupMap[PoiID] = pMap;
+        return;
     }
+
+    auto pMap = std::make_unique<SPoiMap>();
+    pMap->PoiID = PoiID;
+
+    mPoiLookupMap.insert_or_assign(PoiID, pMap.get());
+    mMaps.push_back(std::move(pMap));
 }
 
 void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)

@@ -4,6 +4,7 @@
 #include "CResource.h"
 #include <list>
 #include <map>
+#include <memory>
 #include <vector>
 
 class CPoiToWorld : public CResource
@@ -18,29 +19,29 @@ public:
     };
 
 private:
-    std::vector<SPoiMap*> mMaps;
+    std::vector<std::unique_ptr<SPoiMap>> mMaps;
     std::map<uint32,SPoiMap*> mPoiLookupMap;
 
 public:
-    CPoiToWorld(CResourceEntry *pEntry = 0);
-    ~CPoiToWorld();
+    explicit CPoiToWorld(CResourceEntry *pEntry = nullptr);
+    ~CPoiToWorld() override;
 
     void AddPoi(uint32 PoiID);
     void AddPoiMeshMap(uint32 PoiID, uint32 ModelID);
     void RemovePoi(uint32 PoiID);
     void RemovePoiMeshMap(uint32 PoiID, uint32 ModelID);
 
-    inline uint32 NumMappedPOIs() const
+    uint32 NumMappedPOIs() const
     {
         return mMaps.size();
     }
 
-    inline const SPoiMap* MapByIndex(uint32 Index) const
+    const SPoiMap* MapByIndex(uint32 Index) const
     {
-        return mMaps[Index];
+        return mMaps[Index].get();
     }
 
-    inline const SPoiMap* MapByID(uint32 InstanceID) const
+    const SPoiMap* MapByID(uint32 InstanceID) const
     {
         auto it = mPoiLookupMap.find(InstanceID);
 
