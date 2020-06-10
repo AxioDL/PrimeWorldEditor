@@ -2,6 +2,9 @@
 #include "CResourceStore.h"
 #include <Common/FileUtil.h>
 
+constexpr char gkGameInfoDir[] = "resources/gameinfo";
+constexpr char gkGameInfoExt[] = "xml";
+
 bool CGameInfo::LoadGameInfo(EGame Game)
 {
     Game = RoundGame(Game);
@@ -85,4 +88,9 @@ TString CGameInfo::GetDefaultGameInfoPath(EGame Game)
 
     TString GameName = GetGameShortName(Game);
     return TString::Format("%s/%s/GameInfo%s.%s", *gDataDir, *gkGameInfoDir, *GameName, *gkGameInfoExt);
+}
+
+TString CGameInfo::GetExtension()
+{
+    return gkGameInfoExt;
 }
