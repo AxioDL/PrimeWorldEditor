@@ -1,5 +1,7 @@
 #include "CPoiToWorld.h"
 
+#include <algorithm>
+
 CPoiToWorld::CPoiToWorld(CResourceEntry *pEntry /*= 0*/)
     : CResource(pEntry)
 {
@@ -30,10 +32,11 @@ void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
     SPoiMap *pMap = mPoiLookupMap[PoiID];
 
     // Check whether this model ID is already mapped to this POI
-    for (auto it = pMap->ModelIDs.begin(); it != pMap->ModelIDs.end(); it++)
+    const bool exists = std::any_of(pMap->ModelIDs.cbegin(), pMap->ModelIDs.cend(),
+                                    [ModelID](const auto ID) { return ID == ModelID; });
+    if (exists)
     {
-        if (*it == ModelID)
-            return;
+        return;
     }
 
     // We didn't return, so this is a new mapping
@@ -42,7 +45,7 @@ void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
 
 void CPoiToWorld::RemovePoi(uint32 PoiID)
 {
-    for (auto it = mMaps.begin(); it != mMaps.end(); it++)
+    for (auto it = mMaps.begin(); it != mMaps.end(); ++it)
     {
         if ((*it)->PoiID == PoiID)
         {
@@ -55,19 +58,19 @@ void CPoiToWorld::RemovePoi(uint32 PoiID)
 
 void CPoiToWorld::RemovePoiMeshMap(uint32 PoiID, uint32 ModelID)
 {
-    auto MapIt = mPoiLookupMap.find(PoiID);
-
-    if (MapIt != mPoiLookupMap.end())
+    const auto MapIt = mPoiLookupMap.find(PoiID);
+    if (MapIt == mPoiLookupMap.end())
     {
-        SPoiMap *pMap = MapIt->second;
+        return;
+    }
 
-        for (auto ListIt = pMap->ModelIDs.begin(); ListIt != pMap->ModelIDs.end(); ListIt++)
+    SPoiMap *pMap = MapIt->second;
+    for (auto ListIt = pMap->ModelIDs.begin(); ListIt != pMap->ModelIDs.end(); ++ListIt)
+    {
+        if (*ListIt == ModelID)
         {
-            if (*ListIt == ModelID)
-            {
-                pMap->ModelIDs.erase(ListIt);
-                break;
-            }
+            pMap->ModelIDs.erase(ListIt);
+            break;
         }
     }
 }
