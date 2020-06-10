@@ -31,8 +31,8 @@ void OpenContainingFolder(QWidget* parent, const QString& pathIn)
     }
     if (explorer.isEmpty())
     {
-        QMessageBox::warning(parent, "Launching Windows Explorer Failed",
-                             "Could not find explorer.exe in path to launch Windows Explorer.");
+        QMessageBox::warning(parent, QObject::tr("Launching Windows Explorer Failed"),
+                             QObject::tr("Could not find explorer.exe in path to launch Windows Explorer."));
         return;
     }
     QStringList param;
@@ -60,7 +60,7 @@ void OpenContainingFolder(QWidget* parent, const QString& pathIn)
 
 bool OpenInExternalApplication(const QString& rkPath)
 {
-    return QDesktopServices::openUrl( QString("file:///") + QDir::toNativeSeparators(rkPath) );
+    return QDesktopServices::openUrl(QStringLiteral("file:///") + QDir::toNativeSeparators(rkPath));
 }
 
 }

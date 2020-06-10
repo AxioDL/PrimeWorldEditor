@@ -38,8 +38,8 @@ void CCollisionRenderSettingsDialog::SetupWidgets()
     EGame Game = mpEditor->CurrentGame();
 
     // Set widgets to match current render setting values
-    mpUi->HideMaskLineEdit->setText( "0x" + QString::number(rSettings.HideMask, 16).toUpper() );
-    mpUi->HighlightMaskLineEdit->setText( "0x" + QString::number(rSettings.HighlightMask, 16).toUpper() );
+    mpUi->HideMaskLineEdit->setText(QStringLiteral("0x") + QString::number(rSettings.HideMask, 16).toUpper());
+    mpUi->HighlightMaskLineEdit->setText(QStringLiteral("0x") + QString::number(rSettings.HighlightMask, 16).toUpper());
     mpUi->WireframeCheckBox->setChecked(rSettings.DrawWireframe);
     mpUi->SurfaceTypeCheckBox->setChecked(rSettings.TintWithSurfaceColor);
     mpUi->StandableTrisCheckBox->setChecked(rSettings.TintUnwalkableTris);

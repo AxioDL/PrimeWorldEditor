@@ -91,7 +91,7 @@ bool CEditorApplication::OpenProject(const QString& rkProjPath)
     // Load new project
     TString Path = TO_TSTRING(rkProjPath);
 
-    CProgressDialog Dialog("Opening " + TO_QSTRING(Path.GetFileName()), true, true, mpWorldEditor);
+    CProgressDialog Dialog(tr("Opening %1").arg(TO_QSTRING(Path.GetFileName())), true, true, mpWorldEditor);
     Dialog.DisallowCanceling();
     // Gross, but necessary until QtConcurrent supports move only types.
     QFuture<CGameProject*> Future = QtConcurrent::run([](const auto& path, auto* dialog) { return CGameProject::LoadProject(path, dialog).release(); }, Path, &Dialog);
@@ -106,7 +106,7 @@ bool CEditorApplication::OpenProject(const QString& rkProjPath)
     }
     else
     {
-        UICommon::ErrorMsg(mpWorldEditor, "Failed to open project!");
+        UICommon::ErrorMsg(mpWorldEditor, tr("Failed to open project!"));
         return false;
     }
 }
@@ -130,7 +130,7 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
 
         if (!pRes)
         {
-            UICommon::ErrorMsg(mpWorldEditor, "Failed to load resource!");
+            UICommon::ErrorMsg(mpWorldEditor, tr("Failed to load resource!"));
             return;
         }
 
@@ -197,7 +197,9 @@ void CEditorApplication::EditResource(CResourceEntry *pEntry)
                 mEditingMap[pEntry] = pEd;
         }
         else if (pEntry->ResourceType() != EResourceType::Area)
-            UICommon::InfoMsg(mpWorldEditor, "Unsupported Resource", "This resource type is currently unsupported for editing.");
+        {
+            UICommon::InfoMsg(mpWorldEditor, tr("Unsupported Resource"), tr("This resource type is currently unsupported for editing."));
+        }
     }
 }
 
@@ -231,7 +233,7 @@ bool CEditorApplication::CookPackageList(QList<CPackage*> PackageList)
 {
     if (!PackageList.isEmpty())
     {
-        CProgressDialog Dialog("Cooking package" + QString(PackageList.size() > 1  ? "s" : ""), false, true, mpWorldEditor);
+        CProgressDialog Dialog(tr("Cooking package%1").arg(QString(PackageList.size() > 1  ? "s" : "")), false, true, mpWorldEditor);
 
         QFuture<void> Future = QtConcurrent::run([&]()
         {
@@ -280,7 +282,7 @@ bool CEditorApplication::RebuildResourceDatabase()
         emit ActiveProjectChanged(nullptr);
 
         // Rebuild
-        CProgressDialog Dialog("Rebuilding resource database", true, false, mpWorldEditor);
+        CProgressDialog Dialog(tr("Rebuilding resource database"), true, false, mpWorldEditor);
         Dialog.SetOneShotTask("Rebuilding resource database");
         Dialog.DisallowCanceling();
 
@@ -293,7 +295,7 @@ bool CEditorApplication::RebuildResourceDatabase()
         mpActiveProject->TweakManager()->LoadTweaks();
         emit ActiveProjectChanged(mpActiveProject.get());
 
-        UICommon::InfoMsg(mpWorldEditor, "Success", "Resource database rebuilt successfully!");
+        UICommon::InfoMsg(mpWorldEditor, tr("Success"), tr("Resource database rebuilt successfully!"));
         return true;
     }
 

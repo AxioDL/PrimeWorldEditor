@@ -60,9 +60,9 @@ QVariant CInstancesModel::headerData(int Section, Qt::Orientation Orientation, i
     {
         switch (Section)
         {
-        case 0: return "Name";
-        case 1: return (mModelType == EInstanceModelType::Layers ? "Type" : "Layer");
-        case 2: return "Show";
+        case 0: return tr("Name");
+        case 1: return (mModelType == EInstanceModelType::Layers ? tr("Type") : tr("Layer"));
+        case 2: return tr("Show");
         }
     }
     return QVariant::Invalid;
@@ -271,8 +271,8 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
     {
         if (!mpScene) return QVariant::Invalid;
 
-        static QIcon Visible(":/icons/Show.svg");
-        static QIcon Invisible(":/icons/Hide.svg");
+        static QIcon Visible(QStringLiteral(":/icons/Show.svg"));
+        static QIcon Invisible(QStringLiteral(":/icons/Hide.svg"));
 
         // Show/Hide Node Types
         if (Type == EIndexType::NodeType)

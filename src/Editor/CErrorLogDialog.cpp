@@ -28,19 +28,19 @@ bool CErrorLogDialog::GatherErrors()
         QString Error = TO_QSTRING(*it);
         QString LineColor;
 
-        if (Error.startsWith("ERROR: "))
+        if (Error.startsWith(QStringLiteral("ERROR: ")))
             LineColor = "#ff0000";
-        else if (Error.startsWith("Warning: "))
+        else if (Error.startsWith(QStringLiteral("Warning: ")))
             LineColor = "#ff8000";
 
         QString FullLine = Error;
 
         if (!LineColor.isEmpty())
         {
-            FullLine.prepend(QString("<font color=\"%1\">").arg(LineColor));
-            FullLine.append("</font>");
+            FullLine.prepend(QStringLiteral("<font color=\"%1\">").arg(LineColor));
+            FullLine.append(QStringLiteral("</font>"));
         }
-        FullLine.append("<br />");
+        FullLine.append(QStringLiteral("<br />"));
 
         DialogString += FullLine;
     }

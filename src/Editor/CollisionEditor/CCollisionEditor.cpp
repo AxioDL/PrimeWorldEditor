@@ -28,7 +28,7 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
 
     // Add depth widgets to the toolbar
     mpUI->ToolBar->addSeparator();
-    mpUI->ToolBar->addWidget( new QLabel("OBBTree: ", this) );
+    mpUI->ToolBar->addWidget(new QLabel(tr("OBBTree: "), this));
 
     int MaxDepth = 0;
     for (uint MeshIdx = 0; MeshIdx < pCollisionMesh->NumMeshes(); MeshIdx++)
@@ -61,8 +61,8 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
             this,                       SLOT(OnOrbitToggled(bool)));
 
     // Update window title
-    QString WindowTitle = "%APP_FULL_NAME% - Collision Editor - %1[*]";
-    WindowTitle = WindowTitle.arg( TO_QSTRING(mpCollisionMesh->Entry()->CookedAssetPath(true).GetFileName()) );
+    const QString WindowTitle = tr("%APP_FULL_NAME% - Collision Editor - %1[*]")
+                                    .arg(TO_QSTRING(mpCollisionMesh->Entry()->CookedAssetPath(true).GetFileName()));
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 }
 

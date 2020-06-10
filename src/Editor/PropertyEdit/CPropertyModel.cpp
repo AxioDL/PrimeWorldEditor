@@ -215,8 +215,10 @@ QVariant CPropertyModel::headerData(int Section, Qt::Orientation Orientation, in
 {
     if (Orientation == Qt::Horizontal && Role == Qt::DisplayRole)
     {
-        if (Section == 0) return "Name";
-        if (Section == 1) return "Value";
+        if (Section == 0)
+            return tr("Name");
+        if (Section == 1)
+            return tr("Value");
     }
     return QVariant::Invalid;
 }
@@ -260,9 +262,12 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     if (rkIndex.column() == 0)
                     {
-                        if (rkIndex.row() == 0) return "AnimSet";
-                        if (rkIndex.row() == 1) return "Character";
-                        if (rkIndex.row() == 2) return "DefaultAnim";
+                        if (rkIndex.row() == 0)
+                            return tr("AnimSet");
+                        if (rkIndex.row() == 1)
+                            return tr("Character");
+                        if (rkIndex.row() == 2)
+                            return tr("DefaultAnim");
                     }
 
                     // For column 1, rows 0/1 have persistent editors so we only handle 2
@@ -274,8 +279,10 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     if (rkIndex.column() == 0)
                     {
-                        if (rkIndex.row() == 0) return "Character";
-                        if (rkIndex.row() == 1) return "DefaultAnim";
+                        if (rkIndex.row() == 0)
+                            return tr("Character");
+                        if (rkIndex.row() == 1)
+                            return tr("DefaultAnim");
                     }
 
                     // Same deal here, only handle row 1
@@ -287,9 +294,12 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     if (rkIndex.column() == 0)
                     {
-                        if (rkIndex.row() == 0) return "Character";
-                        else if (rkIndex.row() == 1) return "DefaultAnim";
-                        else return "Unknown" + QString::number(rkIndex.row() - 1);
+                        if (rkIndex.row() == 0)
+                            return tr("Character");
+                        if (rkIndex.row() == 1)
+                            return tr("DefaultAnim");
+
+                        return tr("Unknown%1").arg(rkIndex.row() - 1);
                     }
 
                     if (rkIndex.column() == 1 && rkIndex.row() > 0)
@@ -311,7 +321,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     // For direct array sub-properties, display the element index after the name
                     TString ElementName = pProp->Name();
-                    return QString("%1 %2").arg( TO_QSTRING(ElementName) ).arg(rkIndex.row() + 1);
+                    return QStringLiteral("%1 %2").arg( TO_QSTRING(ElementName) ).arg(rkIndex.row() + 1);
                 }
 
                 // Display property name for everything else
@@ -329,7 +339,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 case EPropertyType::Vector:
                 {
                     CVector3f Value = TPropCast<CVectorProperty>(pProp)->Value(pData);
-                    return TO_QSTRING("(" + Value.ToString() + ")");
+                    return TO_QSTRING('(' + Value.ToString() + ')');
                 }
 
                 // Display the AGSC/sound name for sounds
@@ -337,23 +347,24 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     CSoundProperty* pSound = TPropCast<CSoundProperty>(pProp);
                     uint32 SoundID = pSound->Value(pData);
-                    if (SoundID == -1) return "[None]";
+                    if (SoundID == UINT32_MAX)
+                        return tr("[None]");
 
                     SSoundInfo SoundInfo = mpProject->AudioManager()->GetSoundInfo(SoundID);
                     QString Out = QString::number(SoundID);
 
                     if (SoundInfo.DefineID == 0xFFFF)
-                        return Out + " [INVALID]";
+                        return tr("%1 [INVALID]").arg(Out);
 
                     // Always display define ID. Display sound name if we have one, otherwise display AGSC ID.
-                    Out += " [" + TO_QSTRING( TString::HexString(SoundInfo.DefineID, 4) );
-                    QString AudioGroupName = (SoundInfo.pAudioGroup ? TO_QSTRING(SoundInfo.pAudioGroup->Entry()->Name()) : "NO AUDIO GROUP");
+                    Out += QStringLiteral(" [") + TO_QSTRING(TString::HexString(SoundInfo.DefineID, 4));
+                    QString AudioGroupName = (SoundInfo.pAudioGroup ? TO_QSTRING(SoundInfo.pAudioGroup->Entry()->Name()) : QStringLiteral("NO AUDIO GROUP"));
                     QString Name = (!SoundInfo.Name.IsEmpty() ? TO_QSTRING(SoundInfo.Name) : AudioGroupName);
-                    Out += " " + Name + "]";
+                    Out += ' ' + Name + ']';
 
                     // If we have a sound name and this is a tooltip, add a second line with the AGSC name
                     if (Role == Qt::ToolTipRole && !SoundInfo.Name.IsEmpty())
-                        Out += "\n" + AudioGroupName;
+                        Out += '\n' + AudioGroupName;
 
                     return Out;
                 }
@@ -378,12 +389,12 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 case EPropertyType::Array:
                 {
                     uint32 Count = TPropCast<CArrayProperty>(pProp)->Value(pData);
-                    return QString("%1 element%2").arg(Count).arg(Count != 1 ? "s" : "");
+                    return tr("%1 element%2").arg(Count).arg(Count != 1 ? "s" : "");
                 }
 
                 // Display "[spline]" for splines (todo: proper support)
                 case EPropertyType::Spline:
-                    return "[spline]";
+                    return tr("[spline]");
 
                 // No display text on properties with persistent editors
                 case EPropertyType::Bool:
@@ -408,21 +419,22 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
             IProperty *pProp = PropertyForIndex(rkIndex, false);
             QString DisplayText = data(rkIndex, Qt::DisplayRole).toString();
             QString TypeName = pProp->HashableTypeName();
-            QString Text = QString("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(TypeName);
+            QString Text = QStringLiteral("<b>%1</b> <i>(%2)</i>").arg(DisplayText).arg(TypeName);
 
             // Add uncooked notification
             if (pProp->CookPreference() == ECookPreference::Never)
             {
-                Text.prepend("<i>[uncooked]</i>");
+                Text.prepend(QStringLiteral("<i>[uncooked]</i>"));
             }
 
             // Add description
             TString Desc = pProp->Description();
-            if (!Desc.IsEmpty()) Text += "<br/>" + TO_QSTRING(Desc);
+            if (!Desc.IsEmpty())
+                Text += QStringLiteral("<br/>") + TO_QSTRING(Desc);
 
             // Spline notification
             if (pProp->Type() == EPropertyType::Spline)
-                Text += "<br/><i>(NOTE: Spline properties are currently unsupported for editing)</i>";
+                Text += tr("<br/><i>(NOTE: Spline properties are currently unsupported for editing)</i>");
 
             return Text;
         }

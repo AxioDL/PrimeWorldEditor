@@ -155,7 +155,7 @@ void CWorldInfoSidebar::OnWorldTreeDoubleClicked(QModelIndex Index)
         }
         else
         {
-            UICommon::ErrorMsg(Editor(), "The MREA asset associated with this area doesn't exist!");
+            UICommon::ErrorMsg(Editor(), tr("The MREA asset associated with this area doesn't exist!"));
         }
     }
 }

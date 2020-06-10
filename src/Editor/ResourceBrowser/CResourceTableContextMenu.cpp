@@ -27,51 +27,51 @@ void CResourceTableContextMenu::InitMenu()
     if (mpClickedEntry)
     {
     #ifdef WIN32
-        const QString kOpenInExplorerString = "Show in Explorer";
+        const QString kOpenInExplorerString = tr("Show in Explorer");
     #elif defined(__APPLE__)
-        const QString kOpenInExplorerString = "Show in Finder";
+        const QString kOpenInExplorerString = tr("Show in Finder");
     #else
-        const QString kOpenInExplorerString = "Show in file manager";
+        const QString kOpenInExplorerString = tr("Show in file manager");
     #endif
 
-        addAction("Open", this, SLOT(Open()));
-        addAction("Open in External Application", this, SLOT(OpenInExternalApp()));
+        addAction(tr("Open"), this, SLOT(Open()));
+        addAction(tr("Open in External Application"), this, SLOT(OpenInExternalApp()));
         addAction(kOpenInExplorerString, this, SLOT(OpenInExplorer()));
         addSeparator();
     }
 
     if (mpClickedEntry || mpClickedDirectory)
     {
-        addAction("Rename", this, SLOT(Rename()));
+        addAction(tr("Rename"), this, SLOT(Rename()));
 
         if (mpModel->IsDisplayingAssetList())
         {
-            addAction("Select Folder", this, SLOT(SelectFolder()));
+            addAction(tr("Select Folder"), this, SLOT(SelectFolder()));
         }
 
         if (mpClickedEntry)
         {
-            addAction("Show Referencers", this, SLOT(ShowReferencers()));
-            addAction("Show Dependencies", this, SLOT(ShowDependencies()));
+            addAction(tr("Show Referencers"), this, SLOT(ShowReferencers()));
+            addAction(tr("Show Dependencies"), this, SLOT(ShowDependencies()));
         }
     }
 
     if (mpClickedEntry || mpClickedDirectory || !mSelectedIndexes.isEmpty())
     {
-        addAction("Delete", this, SLOT(Delete()));
+        addAction(tr("Delete"), this, SLOT(Delete()));
     }
 
     addSeparator();
 
     if (mpClickedEntry)
     {
-        addAction("Copy Name", this, SLOT(CopyName()));
-        addAction("Copy Path", this, SLOT(CopyPath()));
-        addAction("Copy ID", this, SLOT(CopyID()));
+        addAction(tr("Copy Name"), this, SLOT(CopyName()));
+        addAction(tr("Copy Path"), this, SLOT(CopyPath()));
+        addAction(tr("Copy ID"), this, SLOT(CopyID()));
         addSeparator();
     }
 
-    QMenu* pCreate = addMenu("Create...");
+    QMenu* pCreate = addMenu(tr("Create..."));
     mpBrowser->AddCreateAssetMenuActions(pCreate);
 
     // Asset-specific
@@ -80,7 +80,7 @@ void CResourceTableContextMenu::InitMenu()
         switch (mpClickedEntry->ResourceType())
         {
         case EResourceType::StringTable:
-            addAction("Create Scan", this, SLOT(CreateSCAN()));
+            addAction(tr("Create Scan"), this, SLOT(CreateSCAN()));
             break;
         default: break;
         }
@@ -180,7 +180,7 @@ void CResourceTableContextMenu::ShowReferencers()
     if (!mpModel->IsDisplayingUserEntryList())
         mpBrowser->SetInspectedEntry(mpClickedEntry);
 
-    QString ListDesc = QString("Referencers of \"%1\"").arg( TO_QSTRING(mpClickedEntry->CookedAssetPath().GetFileName()) );
+    QString ListDesc = tr("Referencers of \"%1\"").arg(TO_QSTRING(mpClickedEntry->CookedAssetPath().GetFileName()));
     mpModel->DisplayEntryList(EntryList, ListDesc);
     mpBrowser->ClearFilters();
 }
@@ -205,7 +205,7 @@ void CResourceTableContextMenu::ShowDependencies()
     if (!mpModel->IsDisplayingUserEntryList())
         mpBrowser->SetInspectedEntry(mpClickedEntry);
 
-    QString ListDesc = QString("Dependencies of \"%1\"").arg( TO_QSTRING(mpClickedEntry->CookedAssetPath().GetFileName()) );
+    QString ListDesc = tr("Dependencies of \"%1\"").arg(TO_QSTRING(mpClickedEntry->CookedAssetPath().GetFileName()));
     mpModel->DisplayEntryList(EntryList, ListDesc);
     mpBrowser->ClearFilters();
 }

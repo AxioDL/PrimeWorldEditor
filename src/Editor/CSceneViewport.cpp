@@ -175,40 +175,40 @@ void CSceneViewport::CreateContextMenu()
     mpContextMenu = new QMenu(this);
 
     // Main context menu
-    mpToggleSelectAction = new QAction("ToggleSelect", this);
+    mpToggleSelectAction = new QAction(tr("ToggleSelect"), this);
     connect(mpToggleSelectAction, SIGNAL(triggered()), this, SLOT(OnToggleSelect()));
 
     mpHideSelectionSeparator = new QAction(this);
     mpHideSelectionSeparator->setSeparator(true);
 
-    mpHideSelectionAction = new QAction("Hide selection", this);
+    mpHideSelectionAction = new QAction(tr("Hide selection"), this);
     connect(mpHideSelectionAction, SIGNAL(triggered()), this, SLOT(OnHideSelection()));
 
-    mpHideUnselectedAction = new QAction("Hide unselected", this);
+    mpHideUnselectedAction = new QAction(tr("Hide unselected"), this);
     connect(mpHideUnselectedAction, SIGNAL(triggered()), this, SLOT(OnHideUnselected()));
 
     mpHideHoverSeparator = new QAction(this);
     mpHideHoverSeparator->setSeparator(true);
 
-    mpHideHoverNodeAction = new QAction("HideNode", this);
+    mpHideHoverNodeAction = new QAction(tr("HideNode"), this);
     connect(mpHideHoverNodeAction, SIGNAL(triggered()), this, SLOT(OnHideNode()));
 
-    mpHideHoverTypeAction = new QAction("HideType", this);
+    mpHideHoverTypeAction = new QAction(tr("HideType"), this);
     connect(mpHideHoverTypeAction, SIGNAL(triggered()), this, SLOT(OnHideType()));
 
-    mpHideHoverLayerAction = new QAction("HideLayer", this);
+    mpHideHoverLayerAction = new QAction(tr("HideLayer"), this);
     connect(mpHideHoverLayerAction, SIGNAL(triggered()), this, SLOT(OnHideLayer()));
 
     mpUnhideSeparator = new QAction(this);
     mpUnhideSeparator->setSeparator(true);
 
-    mpUnhideAllAction = new QAction("Unhide all", this);
+    mpUnhideAllAction = new QAction(tr("Unhide all"), this);
     connect(mpUnhideAllAction, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
 
     mpPlayFromHereSeparator = new QAction(this);
     mpPlayFromHereSeparator->setSeparator(true);
 
-    mpPlayFromHereAction = new QAction("Play from here", this);
+    mpPlayFromHereAction = new QAction(tr("Play from here"), this);
     connect(mpPlayFromHereAction, SIGNAL(triggered()), this, SLOT(OnPlayFromHere()));
 
     QList<QAction*> Actions;
@@ -220,15 +220,15 @@ void CSceneViewport::CreateContextMenu()
     mpContextMenu->addActions(Actions);
 
     // Select Connected menu
-    mpSelectConnectedMenu = new QMenu("Select connected...", this);
+    mpSelectConnectedMenu = new QMenu(tr("Select connected..."), this);
 
-    mpSelectConnectedOutgoingAction = new QAction("...via outgoing links", this);
+    mpSelectConnectedOutgoingAction = new QAction(tr("...via outgoing links"), this);
     connect(mpSelectConnectedOutgoingAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
 
-    mpSelectConnectedIncomingAction = new QAction("...via incoming links", this);
+    mpSelectConnectedIncomingAction = new QAction(tr("...via incoming links"), this);
     connect(mpSelectConnectedIncomingAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
 
-    mpSelectConnectedAllAction = new QAction("...via all links", this);
+    mpSelectConnectedAllAction = new QAction(tr("...via all links"), this);
     connect(mpSelectConnectedAllAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
 
     QList<QAction*> SelectConnectedActions;
@@ -370,23 +370,23 @@ void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
         TString Name = IsScriptNode ? static_cast<CScriptNode*>(mpHoverNode)->Instance()->InstanceName() : mpHoverNode->Name();
 
         if (mpHoverNode->IsSelected())
-            mpToggleSelectAction->setText(QString("Deselect %1").arg(TO_QSTRING(Name)));
+            mpToggleSelectAction->setText(tr("Deselect %1").arg(TO_QSTRING(Name)));
         else
-            mpToggleSelectAction->setText(QString("Select %1").arg(TO_QSTRING(Name)));
+            mpToggleSelectAction->setText(tr("Select %1").arg(TO_QSTRING(Name)));
     }
 
     if (IsScriptNode)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpHoverNode);
         NodeName = pScript->Instance()->InstanceName();
-        mpHideHoverTypeAction->setText( QString("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->Name())) );
-        mpHideHoverLayerAction->setText( QString("Hide layer %1").arg(TO_QSTRING(pScript->Instance()->Layer()->Name())) );
+        mpHideHoverTypeAction->setText(tr("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->Name())));
+        mpHideHoverLayerAction->setText(tr("Hide layer %1").arg(TO_QSTRING(pScript->Instance()->Layer()->Name())));
     }
 
     else if (HasHoverNode)
         NodeName = mpHoverNode->Name();
 
-    mpHideHoverNodeAction->setText(QString("Hide %1").arg(TO_QSTRING(NodeName)));
+    mpHideHoverNodeAction->setText(tr("Hide %1").arg(TO_QSTRING(NodeName)));
 
     // Show menu
     mpMenuNode = mpHoverNode;
@@ -453,7 +453,7 @@ void CSceneViewport::OnSelectConnected()
         Nodes << mpScene->NodeForInstanceID(ID);
 
     bool ShouldClear = ((qApp->keyboardModifiers() & Qt::ControlModifier) == 0);
-    mpEditor->BatchSelectNodes(Nodes, ShouldClear, "Select Connected");
+    mpEditor->BatchSelectNodes(Nodes, ShouldClear, tr("Select Connected"));
 }
 
 void CSceneViewport::OnHideSelection()

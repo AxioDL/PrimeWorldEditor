@@ -25,8 +25,8 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     mpOutLinkModel = new CLinkModel(this);
     mpOutLinkModel->SetConnectionType(ELinkType::Outgoing);
 
-    mpAddFromViewportAction = new QAction("Choose from viewport", this);
-    mpAddFromListAction = new QAction("Choose from list", this);
+    mpAddFromViewportAction = new QAction(tr("Choose from viewport"), this);
+    mpAddFromListAction = new QAction(tr("Choose from list"), this);
     mpAddLinkMenu = new QMenu(this);
     mpAddLinkMenu->addAction(mpAddFromViewportAction);
     mpAddLinkMenu->addAction(mpAddFromListAction);

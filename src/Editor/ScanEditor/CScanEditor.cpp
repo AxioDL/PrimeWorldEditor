@@ -11,8 +11,8 @@ CScanEditor::CScanEditor(CScan* pScan, QWidget* pParent /*= 0*/)
     mpUI->ToolBar->addSeparator();
     AddUndoActions(mpUI->ToolBar);
 
-    QString WindowTitle = "%APP_FULL_NAME% - Scan Editor - %1[*]";
-    WindowTitle = WindowTitle.arg( TO_QSTRING(mpScan->Entry()->CookedAssetPath(true).GetFileName()) );
+    QString WindowTitle = tr("%APP_FULL_NAME% - Scan Editor - %1[*]")
+                              .arg(TO_QSTRING(mpScan->Entry()->CookedAssetPath(true).GetFileName()));
     SET_WINDOWTITLE_APPVARS(WindowTitle);
     
     connect( mpUI->ActionSave, SIGNAL(toggled(bool)), this, SLOT(Save()) );
