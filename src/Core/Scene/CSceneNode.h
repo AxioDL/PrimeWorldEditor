@@ -102,12 +102,12 @@ protected:
 
 public:
     explicit CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0);
-    virtual ~CSceneNode();
+    ~CSceneNode() override;
     virtual ENodeType NodeType() = 0;
     virtual void PostLoad() {}
     virtual void OnTransformed() {}
-    virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*rkViewInfo*/) {}
-    virtual void DrawSelection();
+    void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*rkViewInfo*/) override {}
+    void DrawSelection() override;
     virtual void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
     virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo) = 0;
     virtual bool AllowsTranslate() const { return true; }
@@ -179,7 +179,7 @@ public:
     void SetVisible(bool Visible)                   { mVisible = Visible; }
 
     // Static
-    inline static int NumNodes() { return smNumNodes; }
+    static int NumNodes() { return smNumNodes; }
     static CColor skSelectionTint;
 };
 
