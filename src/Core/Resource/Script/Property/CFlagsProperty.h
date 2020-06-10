@@ -10,19 +10,21 @@ class CFlagsProperty : public TSerializeableTypedProperty<uint32, EPropertyType:
     struct SBitFlag
     {
         TString Name;
-        uint32 Mask;
+        uint32 Mask = 0;
 
-        SBitFlag()
-            : Mask(0)
-        {}
-
+        SBitFlag() = default;
         SBitFlag(const TString& rkInName, uint32 InMask)
             : Name(rkInName), Mask(InMask)
         {}
 
-        bool operator==(const SBitFlag& rkOther) const
+        bool operator==(const SBitFlag& other) const
         {
-            return( Name == rkOther.Name && Mask == rkOther.Mask );
+            return Name == other.Name && Mask == other.Mask;
+        }
+
+        bool operator!=(const SBitFlag& other) const
+        {
+            return !operator==(other);
         }
 
         void Serialize(IArchive& rArc)
@@ -32,36 +34,35 @@ class CFlagsProperty : public TSerializeableTypedProperty<uint32, EPropertyType:
         }
     };
     std::vector<SBitFlag> mBitFlags;
-    uint32 mAllFlags;
+    uint32 mAllFlags = 0;
 
-    CFlagsProperty(EGame Game)
+    explicit CFlagsProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
-        , mAllFlags(0)
     {}
 
 public:
-    inline uint32 NumFlags() const
+    uint32 NumFlags() const
     {
         return mBitFlags.size();
     }
 
-    inline TString FlagName(uint32 Idx) const
+    TString FlagName(uint32 Idx) const
     {
         ASSERT(Idx >= 0 && Idx < mBitFlags.size());
         return mBitFlags[Idx].Name;
     }
 
-    inline uint32 FlagMask(uint32 Idx) const
+    uint32 FlagMask(uint32 Idx) const
     {
         ASSERT(Idx >= 0 && Idx < mBitFlags.size());
         return mBitFlags[Idx].Mask;
     }
 
-    virtual void Serialize(IArchive& rArc);
-    virtual void PostInitialize();
-    virtual void SerializeValue(void* pData, IArchive& rArc) const;
-    virtual void InitFromArchetype(IProperty* pOther);
-    virtual TString ValueAsString(void* pData) const;
+    void Serialize(IArchive& rArc) override;
+    void PostInitialize() override;
+    void SerializeValue(void* pData, IArchive& rArc) const override;
+    void InitFromArchetype(IProperty* pOther) override;
+    TString ValueAsString(void* pData) const override;
 
     /**
      * Checks whether there are any unrecognized bits toggled on in the property value.

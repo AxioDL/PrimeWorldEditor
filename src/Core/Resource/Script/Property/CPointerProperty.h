@@ -7,22 +7,22 @@ class CPointerProperty : public TTypedProperty<void*, EPropertyType::Pointer>
 {
     friend class IProperty;
 
-    CPointerProperty(EGame Game)
+    explicit CPointerProperty(EGame Game)
         : TTypedProperty(Game)
     {}
 
 public:
-    virtual bool IsPointerType() const
+    bool IsPointerType() const override
     {
         return true;
     }
 
-    virtual void* GetChildDataPointer(void* pPropertyData) const
+    void* GetChildDataPointer(void* pPropertyData) const override
     {
         return ValueRef(pPropertyData);
     }
 
-    virtual void SerializeValue(void* pData, IArchive& rArc) const
+    void SerializeValue(void* pData, IArchive& rArc) const override
     {
         // pointers are not serializable, this shouldn't happen
         ASSERT(false);

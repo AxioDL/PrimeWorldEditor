@@ -3,17 +3,17 @@
 
 #include "IProperty.h"
 
-class CSplineProperty : public TTypedProperty< std::vector<char>, EPropertyType::Spline >
+class CSplineProperty : public TTypedProperty<std::vector<char>, EPropertyType::Spline>
 {
     friend class IProperty;
 
 protected:
-    CSplineProperty(EGame Game)
+    explicit CSplineProperty(EGame Game)
         : TTypedProperty(Game)
     {}
 
 public:
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
         Arc << SerialParameter("Data", ValueRef(pData));
     }

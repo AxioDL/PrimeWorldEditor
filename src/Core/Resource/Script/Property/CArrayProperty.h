@@ -5,16 +5,19 @@
 
 struct SScriptArray
 {
-    int Count;
+    int Count = 0;
     std::vector<char> Array;
 
-    SScriptArray()
-        : Count(0)
-    {}
+    SScriptArray() = default;
 
-    inline bool operator==(const SScriptArray& rkOther) const
+    bool operator==(const SScriptArray& other) const
     {
-        return( Count == rkOther.Count && Array == rkOther.Array );
+        return Count == other.Count && Array == other.Array;
+    }
+
+    bool operator!=(const SScriptArray& other) const
+    {
+        return !operator==(other);
     }
 };
 
@@ -29,7 +32,7 @@ class CArrayProperty : public TTypedProperty<uint32, EPropertyType::Array>
      *  value and we respond by updating the allocated space, handling item destruction
      *  and construction, etc.
      */
-    IProperty* mpItemArchetype;
+    IProperty* mpItemArchetype = nullptr;
 
     /** Internal functions */
     SScriptArray& _GetInternalArray(void* pData) const
@@ -44,75 +47,74 @@ class CArrayProperty : public TTypedProperty<uint32, EPropertyType::Array>
     }
 
 protected:
-    CArrayProperty(EGame Game)
+    explicit CArrayProperty(EGame Game)
         : TTypedProperty(Game)
-        , mpItemArchetype(nullptr)
     {}
 
 public:
-    virtual ~CArrayProperty() { delete mpItemArchetype; }
+    ~CArrayProperty() override { delete mpItemArchetype; }
 
-    virtual uint32 DataSize() const
+    uint32 DataSize() const override
     {
         return sizeof(SScriptArray);
     }
 
-    virtual uint32 DataAlignment() const
+    uint32 DataAlignment() const override
     {
         return alignof(SScriptArray);
     }
 
-    virtual void Construct(void* pData) const
+    void Construct(void* pData) const override
     {
         new(ValuePtr(pData)) SScriptArray;
     }
 
-    virtual void Destruct(void* pData) const
+    void Destruct(void* pData) const override
     {
         RevertToDefault(pData);
         _GetInternalArray(pData).~SScriptArray();
     }
 
-    virtual bool MatchesDefault(void* pData) const
+    bool MatchesDefault(void* pData) const override
     {
         return ArrayCount(pData) == 0;
     }
 
-    virtual void RevertToDefault(void* pData) const
+    void RevertToDefault(void* pData) const override
     {
         Resize(pData, 0);
         ValueRef(pData) = 0;
     }
 
-    virtual bool CanHaveDefault() const
+    bool CanHaveDefault() const override
     {
         return true;
     }
 
-    virtual bool IsPointerType() const
+    bool IsPointerType() const override
     {
         return true;
     }
 
-    virtual void* GetChildDataPointer(void* pPropertyData) const
+    void* GetChildDataPointer(void* pPropertyData) const override
     {
         return _GetInternalArray(pPropertyData).Array.data();
     }
 
-    virtual void PropertyValueChanged(void* pPropertyData)
+    void PropertyValueChanged(void* pPropertyData) override
     {
         SScriptArray& rArray = _GetInternalArray(pPropertyData);
         rArray.Count = Math::Max(rArray.Count, 0);
         Resize(pPropertyData, rArray.Count);
     }
 
-    virtual void Serialize(IArchive& rArc)
+    void Serialize(IArchive& rArc) override
     {
         TTypedProperty::Serialize(rArc);
         rArc << SerialParameter("ItemArchetype", mpItemArchetype);
     }
 
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
         uint32 Count = ArrayCount(pData);
         Arc.SerializeArraySize(Count);
@@ -131,14 +133,14 @@ public:
         }
     }
 
-    virtual void InitFromArchetype(IProperty* pOther)
+    void InitFromArchetype(IProperty* pOther) override
     {
         TTypedProperty::InitFromArchetype(pOther);
         CArrayProperty* pOtherArray = static_cast<CArrayProperty*>(pOther);
         mpItemArchetype = IProperty::CreateCopy(pOtherArray->mpItemArchetype);
     }
 
-    virtual void PostInitialize()
+    void PostInitialize() override
     {
         TTypedProperty::PostInitialize();
         mpItemArchetype->Initialize(this, mpScriptTemplate, 0);

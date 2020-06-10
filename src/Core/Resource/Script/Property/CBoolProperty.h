@@ -3,22 +3,22 @@
 
 #include "IProperty.h"
 
-class CBoolProperty : public TSerializeableTypedProperty< bool, EPropertyType::Bool >
+class CBoolProperty : public TSerializeableTypedProperty<bool, EPropertyType::Bool>
 {
     friend class IProperty;
 
 protected:
-    CBoolProperty(EGame Game)
+    explicit CBoolProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
     {}
 
 public:
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
-        Arc.SerializePrimitive( ValueRef(pData), 0 );
+        Arc.SerializePrimitive(ValueRef(pData), 0);
     }
 
-    virtual TString ValueAsString(void* pData)
+    TString ValueAsString(void* pData) const override
     {
         return Value(pData) ? "true" : "false";
     }
