@@ -140,13 +140,9 @@ constexpr std::array gkTevRigid{
     "C2"sv,
 };
 
-CShaderGenerator::CShaderGenerator()
-{
-}
+CShaderGenerator::CShaderGenerator() = default;
 
-CShaderGenerator::~CShaderGenerator()
-{
-}
+CShaderGenerator::~CShaderGenerator() = default;
 
 bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
 {

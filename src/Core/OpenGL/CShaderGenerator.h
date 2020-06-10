@@ -22,7 +22,7 @@
  */
 class CShaderGenerator
 {
-    CShader *mpShader;
+    CShader *mpShader = nullptr;
 
     CShaderGenerator();
     ~CShaderGenerator();
