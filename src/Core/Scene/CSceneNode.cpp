@@ -13,21 +13,9 @@ uint32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);
 
 CSceneNode::CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent)
-    : mpScene(pScene)
+    : _mID(NodeID)
     , mpParent(pParent)
-    , _mID(NodeID)
-    , mPosition(CVector3f::skZero)
-    , mRotation(CQuaternion::skIdentity)
-    , mScale(CVector3f::skOne)
-    , _mTransformDirty(true)
-    , _mInheritsPosition(true)
-    , _mInheritsRotation(true)
-    , _mInheritsScale(true)
-    , mLightLayerIndex(0)
-    , mLightCount(0)
-    , mMouseHovering(false)
-    , mSelected(false)
-    , mVisible(true)
+    , mpScene(pScene)
 {
     smNumNodes++;
 

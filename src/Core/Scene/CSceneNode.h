@@ -71,11 +71,11 @@ class CSceneNode : public IRenderable
 private:
     mutable CTransform4f _mCachedTransform;
     mutable CAABox _mCachedAABox;
-    mutable bool _mTransformDirty;
+    mutable bool _mTransformDirty = true;
 
-    bool _mInheritsPosition;
-    bool _mInheritsRotation;
-    bool _mInheritsScale;
+    bool _mInheritsPosition = true;
+    bool _mInheritsRotation = true;
+    bool _mInheritsScale = true;
 
     uint32 _mID;
 
@@ -85,18 +85,18 @@ protected:
     CSceneNode *mpParent;
     CScene *mpScene;
 
-    CVector3f mPosition;
-    CQuaternion mRotation;
-    CVector3f mScale;
+    CVector3f mPosition{CVector3f::skZero};
+    CQuaternion mRotation{CQuaternion::skIdentity};
+    CVector3f mScale{CVector3f::skOne};
     CAABox mLocalAABox;
 
-    bool mMouseHovering;
-    bool mSelected;
-    bool mVisible;
+    bool mMouseHovering = false;
+    bool mSelected = false;
+    bool mVisible = true;
     std::list<CSceneNode*> mChildren;
 
-    uint32 mLightLayerIndex;
-    uint32 mLightCount;
+    uint32 mLightLayerIndex = 0;
+    uint32 mLightCount = 0;
     CLight* mLights[8];
     CColor mAmbientColor;
 
