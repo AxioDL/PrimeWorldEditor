@@ -64,7 +64,7 @@ void CAudioManager::ClearAssets()
     mSfxIdMap.clear();
 }
 
-SSoundInfo CAudioManager::GetSoundInfo(uint32 SoundID)
+SSoundInfo CAudioManager::GetSoundInfo(uint32 SoundID) const
 {
     SSoundInfo Out;
     Out.SoundID = SoundID;
@@ -74,7 +74,7 @@ SSoundInfo CAudioManager::GetSoundInfo(uint32 SoundID)
     if (Out.DefineID != 0xFFFF)
     {
         auto Iter = mSfxIdMap.find(Out.DefineID);
-        if (Iter != mSfxIdMap.end())
+        if (Iter != mSfxIdMap.cend())
             Out.pAudioGroup = Iter->second;
 
         if (mpProject->Game() >= EGame::EchoesDemo)
