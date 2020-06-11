@@ -43,13 +43,13 @@ public:
         delete mpDefaultTransition;
     }
 
-    CDependencyTree* BuildDependencyTree() const override
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
         // SAND normally has dependencies from meta-transitions and events
         // However, all of these can be character-specific. To simplify things, all SAND
         // dependencies are being added to the CHAR dependency tree instead. Therefore the
         // SAND dependency tree is left empty.
-        return new CDependencyTree();
+        return std::make_unique<CDependencyTree>();
     }
 
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const

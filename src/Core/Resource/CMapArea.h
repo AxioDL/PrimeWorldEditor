@@ -10,13 +10,13 @@ class CMapArea : public CResource
     CAssetID mNameString;
 
 public:
-    CMapArea(CResourceEntry *pEntry = nullptr)
+    explicit CMapArea(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
     {}
 
-    CDependencyTree* BuildDependencyTree() const override
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
-        auto *pTree = new CDependencyTree();
+        auto pTree = std::make_unique<CDependencyTree>();
         pTree->AddDependency(mNameString);
         return pTree;
     }

@@ -17,14 +17,14 @@ CWorld::~CWorld()
 {
 }
 
-CDependencyTree* CWorld::BuildDependencyTree() const
+std::unique_ptr<CDependencyTree> CWorld::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree();
+    auto pTree = std::make_unique<CDependencyTree>();
 
-    for (uint32 iArea = 0; iArea < mAreas.size(); iArea++)
+    for (const auto& area : mAreas)
     {
-        pTree->AddDependency(mAreas[iArea].AreaResID);
-        pTree->AddDependency(mAreas[iArea].pAreaName);
+        pTree->AddDependency(area.AreaResID);
+        pTree->AddDependency(area.pAreaName);
     }
     
     pTree->AddDependency(mpWorldName);

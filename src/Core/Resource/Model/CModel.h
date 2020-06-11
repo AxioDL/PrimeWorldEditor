@@ -25,7 +25,7 @@ public:
     CModel(CMaterialSet *pSet, bool OwnsMatSet);
     ~CModel();
 
-    CDependencyTree* BuildDependencyTree() const override;
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
     void BufferGL();
     void GenerateMaterialShaders();
     void ClearGLBuffer() override;

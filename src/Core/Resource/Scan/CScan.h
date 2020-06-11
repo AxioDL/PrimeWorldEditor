@@ -28,7 +28,7 @@ public:
     CBoolRef IsCriticalPropertyRef() const;
 
     /** CResource interface */
-    CDependencyTree* BuildDependencyTree() const override;
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
 };
 
 #endif // CSCAN_H

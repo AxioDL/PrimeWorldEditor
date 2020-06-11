@@ -21,10 +21,10 @@ public:
     {
     }
 
-    CDependencyTree* BuildDependencyTree() const override
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
-        auto *pTree = new CDependencyTree();
-        AddDependenciesToTree(pTree);
+        auto pTree = std::make_unique<CDependencyTree>();
+        AddDependenciesToTree(pTree.get());
         return pTree;
     }
 

@@ -16,9 +16,9 @@ public:
         : CResource(pEntry)
     {}
 
-    CDependencyTree* BuildDependencyTree() const override
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
-        auto *pTree = new CDependencyTree();
+        auto pTree = std::make_unique<CDependencyTree>();
 
         for (const auto& sample : mSamples)
             pTree->AddDependency(sample);

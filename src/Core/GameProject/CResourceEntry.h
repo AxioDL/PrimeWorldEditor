@@ -30,7 +30,7 @@ class CResourceEntry
     CResource *mpResource;
     CResTypeInfo *mpTypeInfo;
     CResourceStore *mpStore;
-    CDependencyTree *mpDependencies;
+    std::unique_ptr<CDependencyTree> mpDependencies;
     CAssetID mID;
     CVirtualDirectory *mpDirectory;
     TString mName;
@@ -100,7 +100,7 @@ public:
     CResource* Resource() const              { return mpResource; }
     CResTypeInfo* TypeInfo() const           { return mpTypeInfo; }
     CResourceStore* ResourceStore() const    { return mpStore; }
-    CDependencyTree* Dependencies() const    { return mpDependencies; }
+    CDependencyTree* Dependencies() const    { return mpDependencies.get(); }
     CAssetID ID() const                      { return mID; }
     CVirtualDirectory* Directory() const     { return mpDirectory; }
     TString DirectoryPath() const            { return mpDirectory->FullPath(); }

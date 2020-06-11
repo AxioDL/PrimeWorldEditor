@@ -23,16 +23,16 @@ CGameArea::~CGameArea()
         delete mScriptLayers[iSCLY];
 }
 
-CDependencyTree* CGameArea::BuildDependencyTree() const
+std::unique_ptr<CDependencyTree> CGameArea::BuildDependencyTree() const
 {
     // Base dependencies
-    CAreaDependencyTree *pTree = new CAreaDependencyTree();
+    auto pTree = std::make_unique<CAreaDependencyTree>();
 
     std::set<CAssetID> MatTextures;
     mpMaterialSet->GetUsedTextureIDs(MatTextures);
 
-    for (auto Iter = MatTextures.begin(); Iter != MatTextures.end(); Iter++)
-        pTree->AddDependency(*Iter);
+    for (const auto& id : MatTextures)
+        pTree->AddDependency(id);
 
     pTree->AddDependency(mPathID);
 
@@ -43,8 +43,8 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
     }
     
     // Extra deps
-    for (uint32 iDep = 0; iDep < mExtraAreaDeps.size(); iDep++)
-        pTree->AddDependency(mExtraAreaDeps[iDep]);
+    for (const auto& dep : mExtraAreaDeps)
+        pTree->AddDependency(dep);
 
     // Layer dependencies
     std::vector<CAssetID> DummyDeps;

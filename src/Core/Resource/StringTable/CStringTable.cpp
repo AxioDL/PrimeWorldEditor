@@ -254,19 +254,17 @@ void CStringTable::Serialize(IArchive& Arc)
 }
 
 /** Build the dependency tree for this resource */
-CDependencyTree* CStringTable::BuildDependencyTree() const
+std::unique_ptr<CDependencyTree> CStringTable::BuildDependencyTree() const
 {
     // STRGs can reference FONTs with the &font=; formatting tag and TXTRs with the &image=; tag
-    CDependencyTree* pTree = new CDependencyTree();
+    auto pTree = std::make_unique<CDependencyTree>();
     EIDLength IDLength = CAssetID::GameIDLength( Game() );
 
-    for (uint LanguageIdx = 0; LanguageIdx < mLanguages.size(); LanguageIdx++)
+    for (const SLanguageData& language : mLanguages)
     {
-        const SLanguageData& kLanguage = mLanguages[LanguageIdx];
-
-        for (uint StringIdx = 0; StringIdx < kLanguage.Strings.size(); StringIdx++)
+        for (const auto& stringData : language.Strings)
         {
-            const TString& kString = kLanguage.Strings[StringIdx].String;
+            const TString& kString = stringData.String;
 
             for (int TagIdx = kString.IndexOf('&'); TagIdx != -1; TagIdx = kString.IndexOf('&', TagIdx + 1))
             {
@@ -320,7 +318,7 @@ CDependencyTree* CStringTable::BuildDependencyTree() const
                     else if (ImageType == "B")
                         TexturesStart = 2;
 
-                    else if (ImageType.IsHexString(false, IDLength * 2))
+                    else if (ImageType.IsHexString(false, static_cast<int>(IDLength) * 2))
                         TexturesStart = 0;
 
                     else

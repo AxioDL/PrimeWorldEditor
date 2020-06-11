@@ -65,9 +65,9 @@ class CGameArea : public CResource
     std::vector< std::vector<CAssetID> > mExtraLayerDeps;
 
 public:
-    CGameArea(CResourceEntry *pEntry = nullptr);
+    explicit CGameArea(CResourceEntry *pEntry = nullptr);
     ~CGameArea();
-    CDependencyTree* BuildDependencyTree() const override;
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
 
     void AddWorldModel(CModel *pModel);
     void MergeTerrain();

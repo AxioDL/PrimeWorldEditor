@@ -9,9 +9,9 @@ CAnimation::CAnimation(CResourceEntry *pEntry /*= 0*/)
 {
 }
 
-CDependencyTree* CAnimation::BuildDependencyTree() const
+std::unique_ptr<CDependencyTree> CAnimation::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree();
+    auto pTree = std::make_unique<CDependencyTree>();
     pTree->AddDependency(mpEventData);
     return pTree;
 }

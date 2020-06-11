@@ -43,9 +43,9 @@ CBoolRef CScan::IsCriticalPropertyRef() const
 }
 
 /** CResource interface */
-CDependencyTree* CScan::BuildDependencyTree() const
+std::unique_ptr<CDependencyTree> CScan::BuildDependencyTree() const
 {
-    CDependencyTree* pTree = new CDependencyTree();
+    auto pTree = std::make_unique<CDependencyTree>();
     pTree->ParseProperties(Entry(), ScanData().Property(), ScanData().DataPointer());
     return pTree;
 }

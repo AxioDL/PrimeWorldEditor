@@ -90,7 +90,7 @@ public:
     explicit CWorld(CResourceEntry *pEntry = nullptr);
     ~CWorld();
 
-    CDependencyTree* BuildDependencyTree() const override;
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
     void SetAreaLayerInfo(CGameArea *pArea);
     TString InGameName() const;
     TString AreaInGameName(uint32 AreaIndex) const;

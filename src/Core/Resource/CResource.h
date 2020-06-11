@@ -10,6 +10,7 @@
 #include <Common/CFourCC.h>
 #include <Common/TString.h>
 #include <Common/Serialization/IArchive.h>
+#include <memory>
 
 // This macro creates functions that allow us to easily identify this resource type.
 // Must be included on every CResource subclass.
@@ -41,9 +42,9 @@ public:
     }
 
     virtual ~CResource() {}
-    virtual CDependencyTree* BuildDependencyTree() const    { return new CDependencyTree(); }
-    virtual void Serialize(IArchive& /*rArc*/)              {}
-    virtual void InitializeNewResource()                    {}
+    virtual std::unique_ptr<CDependencyTree> BuildDependencyTree() const { return std::make_unique<CDependencyTree>(); }
+    virtual void Serialize(IArchive& /*rArc*/) {}
+    virtual void InitializeNewResource()       {}
 
     CResourceEntry* Entry() const    { return mpEntry; }
     CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }

@@ -9,19 +9,19 @@ class CDependencyGroup : public CResource
     std::vector<CAssetID> mDependencies;
 
 public:
-    CDependencyGroup(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
+    explicit CDependencyGroup(CResourceEntry *pEntry = nullptr) : CResource(pEntry) {}
 
-    inline void Clear()                                     { mDependencies.clear(); }
-    inline uint32 NumDependencies() const                   { return mDependencies.size(); }
-    inline CAssetID DependencyByIndex(uint32 Index) const   { return mDependencies[Index]; }
+    void Clear()                                     { mDependencies.clear(); }
+    uint32 NumDependencies() const                   { return mDependencies.size(); }
+    CAssetID DependencyByIndex(uint32 Index) const   { return mDependencies[Index]; }
 
-    inline void AddDependency(const CAssetID& rkID)
+    void AddDependency(const CAssetID& rkID)
     {
         if (!HasDependency(rkID))
             mDependencies.push_back(rkID);
     }
 
-    inline void AddDependency(CResource *pRes)
+    void AddDependency(CResource *pRes)
     {
         if ( pRes && !HasDependency(pRes->ID()) )
             mDependencies.push_back(pRes->ID());
@@ -50,12 +50,12 @@ public:
         return false;
     }
 
-    CDependencyTree* BuildDependencyTree() const
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const
     {
-        CDependencyTree *pTree = new CDependencyTree();
+        auto pTree = std::make_unique<CDependencyTree>();
 
-        for (auto DepIt = mDependencies.begin(); DepIt != mDependencies.end(); DepIt++)
-            pTree->AddDependency(*DepIt);
+        for (const auto& dep : mDependencies)
+            pTree->AddDependency(dep);
 
         return pTree;
     }

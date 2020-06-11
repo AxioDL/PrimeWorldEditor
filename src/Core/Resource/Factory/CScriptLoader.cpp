@@ -164,7 +164,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rS
                 {
                     warnf("%s [0x%X]: Asset property \"%s\" (%s) has a reference to an illegal asset type: %s",
                           *rSCLY.GetSourceString(),
-                          rSCLY.Tell() - ID.Length(),
+                          rSCLY.Tell() - static_cast<uint32>(ID.Length()),
                           *pAsset->Name(),
                           *pAsset->IDString(true),
                           *pEntry->CookedExtension().ToString());

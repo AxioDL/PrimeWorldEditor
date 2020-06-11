@@ -59,9 +59,9 @@ class CFont : public CResource
 
 
 public:
-    CFont(CResourceEntry *pEntry = nullptr);
+    explicit CFont(CResourceEntry *pEntry = nullptr);
     ~CFont();
-    CDependencyTree* BuildDependencyTree() const override;
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
     CVector2f RenderString(const TString& rkString, CRenderer *pRenderer, float AspectRatio,
                            CVector2f Position = CVector2f(0,0),
                            CColor FillColor = CColor::skWhite, CColor StrokeColor = CColor::skBlack,

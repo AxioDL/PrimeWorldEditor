@@ -128,14 +128,14 @@ public:
         }
     }
 
-    CDependencyTree* BuildDependencyTree() const
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const
     {
-        CDependencyTree *pTree = new CDependencyTree();
+        auto pTree = std::make_unique<CDependencyTree>();
 
         // Character dependencies
-        for (uint32 iChar = 0; iChar < mCharacters.size(); iChar++)
+        for (const auto& character : mCharacters)
         {
-            CSetCharacterDependency *pCharTree = CSetCharacterDependency::BuildTree( mCharacters[iChar] );
+            CSetCharacterDependency *pCharTree = CSetCharacterDependency::BuildTree(character);
             ASSERT(pCharTree);
             pTree->AddChild(pCharTree);
         }
@@ -150,42 +150,38 @@ public:
                 pTree->AddChild(pAnimTree);
             }
         }
-
         else if (Game() <= EGame::Corruption)
         {
             const SSetCharacter& rkChar = mCharacters[0];
             std::set<CAnimPrimitive> PrimitiveSet;
 
             // Animations
-            for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+            for (auto& anim : mAnimations)
             {
-                const SAnimation& rkAnim = mAnimations[iAnim];
-                rkAnim.pMetaAnim->GetUniquePrimitives(PrimitiveSet);
+                anim.pMetaAnim->GetUniquePrimitives(PrimitiveSet);
             }
 
             CSourceAnimData *pAnimData = gpResourceStore->LoadResource<CSourceAnimData>(rkChar.AnimDataID);
             if (pAnimData)
-                pAnimData->AddTransitionDependencies(pTree);
+                pAnimData->AddTransitionDependencies(pTree.get());
 
-            for (auto Iter = PrimitiveSet.begin(); Iter != PrimitiveSet.end(); Iter++)
+            for (auto& prim : PrimitiveSet)
             {
-                const CAnimPrimitive& rkPrim = *Iter;
-                pTree->AddDependency(rkPrim.Animation());
+                pTree->AddDependency(prim.Animation());
             }
 
             // Event sounds
-            for (uint32 iSound = 0; iSound < rkChar.SoundEffects.size(); iSound++)
+            for (const auto& effect : rkChar.SoundEffects)
             {
-                pTree->AddDependency(rkChar.SoundEffects[iSound]);
+                pTree->AddDependency(effect);
             }
         }
-
         else
         {
             const SSetCharacter& rkChar = mCharacters[0];
 
-            for (uint32 iDep = 0; iDep < rkChar.DKDependencies.size(); iDep++)
-                pTree->AddDependency(rkChar.DKDependencies[iDep]);
+            for (const auto& dep : rkChar.DKDependencies)
+                pTree->AddDependency(dep);
         }
 
         return pTree;

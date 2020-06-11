@@ -92,7 +92,6 @@ CResourceEntry* CResourceEntry::BuildFromDirectory(CResourceStore *pStore, CResT
 CResourceEntry::~CResourceEntry()
 {
     if (mpResource) delete mpResource;
-    if (mpDependencies) delete mpDependencies;
 }
 
 bool CResourceEntry::LoadMetadata()
@@ -171,15 +170,11 @@ void CResourceEntry::SerializeEntryInfo(IArchive& rArc, bool MetadataOnly)
 
 void CResourceEntry::UpdateDependencies()
 {
-    if (mpDependencies)
-    {
-        delete mpDependencies;
-        mpDependencies = nullptr;
-    }
+    mpDependencies.reset();
 
     if (!mpTypeInfo->CanHaveDependencies())
     {
-        mpDependencies = new CDependencyTree();
+        mpDependencies = std::make_unique<CDependencyTree>();
         return;
     }
 
@@ -191,7 +186,7 @@ void CResourceEntry::UpdateDependencies()
     if (!mpResource)
     {
         errorf("Unable to update cached dependencies; failed to load resource");
-        mpDependencies = new CDependencyTree();
+        mpDependencies = std::make_unique<CDependencyTree>();
         return;
     }
 

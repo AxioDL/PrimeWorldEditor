@@ -37,8 +37,8 @@ class CAnimation : public CResource
     TResPtr<CAnimEventData> mpEventData;
 
 public:
-    CAnimation(CResourceEntry *pEntry = 0);
-    CDependencyTree* BuildDependencyTree() const override;
+    explicit CAnimation(CResourceEntry *pEntry = nullptr);
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
     void EvaluateTransform(float Time, uint32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const;
     bool HasTranslation(uint32 BoneID) const;
 

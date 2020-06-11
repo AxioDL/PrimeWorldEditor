@@ -30,19 +30,18 @@ CModel::~CModel()
 }
 
 
-CDependencyTree* CModel::BuildDependencyTree() const
+std::unique_ptr<CDependencyTree> CModel::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree();
+    auto pTree = std::make_unique<CDependencyTree>();
     std::set<CAssetID> TextureIDs;
 
-    for (uint32 iSet = 0; iSet < mMaterialSets.size(); iSet++)
+    for (CMaterialSet* set : mMaterialSets)
     {
-        CMaterialSet *pSet = mMaterialSets[iSet];
-        pSet->GetUsedTextureIDs(TextureIDs);
+        set->GetUsedTextureIDs(TextureIDs);
     }
 
-    for (auto Iter = TextureIDs.begin(); Iter != TextureIDs.end(); Iter++)
-        pTree->AddDependency(*Iter);
+    for (const auto& id : TextureIDs)
+        pTree->AddDependency(id);
 
     return pTree;
 }
