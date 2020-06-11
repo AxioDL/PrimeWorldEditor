@@ -2,6 +2,7 @@
 #define CAUDIOLOOKUPTABLE
 
 #include "CResource.h"
+#include <vector>
 
 class CAudioLookupTable : public CResource
 {
