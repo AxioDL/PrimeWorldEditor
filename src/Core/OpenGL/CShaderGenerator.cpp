@@ -6,7 +6,7 @@
 #include <string_view>
 #include <GL/glew.h>
 
-using std::string_view_literals::operator""sv;
+using namespace std::string_view_literals;
 
 constexpr std::array gkCoordSrc{
     "ModelSpacePos.xyz"sv,
