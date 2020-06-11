@@ -70,25 +70,25 @@ public:
     void SetOrbitDistance(float Distance);
 
     // Inline Accessors
-    inline CVector3f Position() const                       { UpdateTransform(); return mPosition; }
-    inline CVector3f Direction() const                      { UpdateTransform(); return mDirection; }
-    inline CVector3f UpVector() const                       { UpdateTransform(); return mUpVector; }
-    inline CVector3f RightVector() const                    { UpdateTransform(); return mRightVector; }
-    inline float Yaw() const                                { return mYaw; }
-    inline float Pitch() const                              { return mPitch; }
-    inline float FieldOfView() const                        { return 55.f; }
-    inline ECameraMoveMode MoveMode() const                 { return mMode; }
-    inline const CMatrix4f& ViewMatrix() const              { UpdateView(); return mViewMatrix; }
-    inline const CMatrix4f& ProjectionMatrix() const        { UpdateProjection(); return mProjectionMatrix; }
-    inline const CFrustumPlanes& FrustumPlanes() const      { UpdateFrustum(); return mFrustumPlanes; }
+    CVector3f Position() const                       { UpdateTransform(); return mPosition; }
+    CVector3f Direction() const                      { UpdateTransform(); return mDirection; }
+    CVector3f UpVector() const                       { UpdateTransform(); return mUpVector; }
+    CVector3f RightVector() const                    { UpdateTransform(); return mRightVector; }
+    float Yaw() const                                { return mYaw; }
+    float Pitch() const                              { return mPitch; }
+    float FieldOfView() const                        { return 55.f; }
+    ECameraMoveMode MoveMode() const                 { return mMode; }
+    const CMatrix4f& ViewMatrix() const              { UpdateView(); return mViewMatrix; }
+    const CMatrix4f& ProjectionMatrix() const        { UpdateProjection(); return mProjectionMatrix; }
+    const CFrustumPlanes& FrustumPlanes() const      { UpdateFrustum(); return mFrustumPlanes; }
 
-    inline void SetYaw(float Yaw)                   { mYaw = Yaw; mTransformDirty = true; }
-    inline void SetPitch(float Pitch)               { mPitch = Pitch; ValidatePitch(); mTransformDirty = true; }
-    inline void SetMoveSpeed(float MoveSpeed)       { mMoveSpeed = MoveSpeed; }
-    inline void SetLookSpeed(float LookSpeed)       { mLookSpeed = LookSpeed; }
-    inline void SetAspectRatio(float AspectRatio)   { mAspectRatio = AspectRatio; mProjectionDirty = true; mFrustumPlanesDirty = true; }
+    void SetYaw(float Yaw)                   { mYaw = Yaw; mTransformDirty = true; }
+    void SetPitch(float Pitch)               { mPitch = Pitch; ValidatePitch(); mTransformDirty = true; }
+    void SetMoveSpeed(float MoveSpeed)       { mMoveSpeed = MoveSpeed; }
+    void SetLookSpeed(float LookSpeed)       { mLookSpeed = LookSpeed; }
+    void SetAspectRatio(float AspectRatio)   { mAspectRatio = AspectRatio; mProjectionDirty = true; mFrustumPlanesDirty = true; }
 
-    inline void ResetOrbit()                        { SetOrbit(CVector3f::skZero, 5.f); }
+    void ResetOrbit()                        { SetOrbit(CVector3f::skZero, 5.f); }
 
     // Private
 private:
