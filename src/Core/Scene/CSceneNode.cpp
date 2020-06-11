@@ -13,21 +13,9 @@ uint32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);
 
 CSceneNode::CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent)
-    : mpScene(pScene)
+    : _mID(NodeID)
     , mpParent(pParent)
-    , _mID(NodeID)
-    , mPosition(CVector3f::skZero)
-    , mRotation(CQuaternion::skIdentity)
-    , mScale(CVector3f::skOne)
-    , _mTransformDirty(true)
-    , _mInheritsPosition(true)
-    , _mInheritsRotation(true)
-    , _mInheritsScale(true)
-    , mLightLayerIndex(0)
-    , mLightCount(0)
-    , mMouseHovering(false)
-    , mSelected(false)
-    , mVisible(true)
+    , mpScene(pScene)
 {
     smNumNodes++;
 
@@ -38,8 +26,7 @@ CSceneNode::CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent)
 CSceneNode::~CSceneNode()
 {
     smNumNodes--;
-    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-        delete (*it);
+    DeleteChildren();
 }
 
 // ************ VIRTUAL ************
@@ -81,8 +68,8 @@ void CSceneNode::OnLoadFinished()
 {
     PostLoad();
 
-    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-        (*it)->OnLoadFinished();
+    for (auto* child : mChildren)
+        child->OnLoadFinished();
 }
 
 void CSceneNode::Unparent()
@@ -97,7 +84,7 @@ void CSceneNode::Unparent()
 
 void CSceneNode::RemoveChild(CSceneNode *pChild)
 {
-    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
+    for (auto it = mChildren.begin(); it != mChildren.end(); ++it)
     {
         if (*it == pChild)
         {
@@ -109,8 +96,8 @@ void CSceneNode::RemoveChild(CSceneNode *pChild)
 
 void CSceneNode::DeleteChildren()
 {
-    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-        delete *it;
+    for (auto* child : mChildren)
+        delete child;
 
     mChildren.clear();
 }
@@ -329,8 +316,8 @@ void CSceneNode::ForceRecalculateTransform() const
     // If so, the children will already be marked
     if (!_mTransformDirty)
     {
-        for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-            (*it)->MarkTransformChanged();
+        for (auto* child : mChildren)
+            child->MarkTransformChanged();
     }
     _mTransformDirty = false;
 }
@@ -339,8 +326,8 @@ void CSceneNode::MarkTransformChanged() const
 {
     if (!_mTransformDirty)
     {
-        for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-            (*it)->MarkTransformChanged();
+        for (auto* child : mChildren)
+            child->MarkTransformChanged();
     }
 
     _mTransformDirty = true;
@@ -367,7 +354,7 @@ CVector3f CSceneNode::AbsolutePosition() const
 {
     CVector3f ret = mPosition;
 
-    if ((mpParent) && (InheritsPosition()))
+    if (mpParent != nullptr && InheritsPosition())
         ret += mpParent->AbsolutePosition();
 
     return ret;
@@ -377,7 +364,7 @@ CQuaternion CSceneNode::AbsoluteRotation() const
 {
     CQuaternion ret = mRotation;
 
-    if ((mpParent) && (InheritsRotation()))
+    if (mpParent != nullptr && InheritsRotation())
         ret *= mpParent->AbsoluteRotation();
 
     return ret;
@@ -387,7 +374,7 @@ CVector3f CSceneNode::AbsoluteScale() const
 {
     CVector3f ret = mScale;
 
-    if ((mpParent) && (InheritsScale()))
+    if (mpParent != nullptr && InheritsScale())
         ret *= mpParent->AbsoluteScale();
 
     return ret;
