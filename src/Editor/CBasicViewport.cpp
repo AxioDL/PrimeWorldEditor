@@ -216,18 +216,18 @@ void CBasicViewport::SetCursorVisible(bool Visible)
         setCursor(Qt::BlankCursor);
 }
 
-bool CBasicViewport::IsCursorVisible()
+bool CBasicViewport::IsCursorVisible() const
 {
     return mCursorVisible;
 }
 
-bool CBasicViewport::IsMouseInputActive()
+bool CBasicViewport::IsMouseInputActive() const
 {
     static const FMouseInputs skMoveButtons = EMouseInput::MiddleButton | EMouseInput::RightButton;
     return ((mButtonsPressed & skMoveButtons) != 0);
 }
 
-bool CBasicViewport::IsKeyboardInputActive()
+bool CBasicViewport::IsKeyboardInputActive() const
 {
     static const FKeyInputs skMoveKeys = EKeyInput::Q | EKeyInput::W | EKeyInput::E |
                                          EKeyInput::A | EKeyInput::S | EKeyInput::D;
@@ -239,13 +239,18 @@ CCamera& CBasicViewport::Camera()
     return mCamera;
 }
 
-CRay CBasicViewport::CastRay()
+const CCamera& CBasicViewport::Camera() const
+{
+    return mCamera;
+}
+
+CRay CBasicViewport::CastRay() const
 {
     CVector2f MouseCoords = MouseDeviceCoordinates();
     return mCamera.CastRay(MouseCoords);
 }
 
-CVector2f CBasicViewport::MouseDeviceCoordinates()
+CVector2f CBasicViewport::MouseDeviceCoordinates() const
 {
     QPoint MousePos = mapFromGlobal(QCursor::pos());
 

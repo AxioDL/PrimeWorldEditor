@@ -36,33 +36,35 @@ protected:
     FKeyInputs mKeysPressed;
 
 public:
-    explicit CBasicViewport(QWidget *pParent = 0);
-    ~CBasicViewport();
-    void initializeGL();
-    void paintGL();
-    void resizeGL(int Width, int Height);
-    void mousePressEvent(QMouseEvent *pEvent);
-    void mouseReleaseEvent(QMouseEvent *pEvent);
-    void mouseMoveEvent(QMouseEvent *pEvent);
-    void wheelEvent(QWheelEvent *pEvent);
-    virtual void keyPressEvent(QKeyEvent *pEvent);
-    virtual void keyReleaseEvent(QKeyEvent *pEvent);
-    void focusOutEvent(QFocusEvent *pEvent);
-    void contextMenuEvent(QContextMenuEvent *pEvent);
+    explicit CBasicViewport(QWidget *pParent = nullptr);
+    ~CBasicViewport() override;
+    void initializeGL() override;
+    void paintGL() override;
+    void resizeGL(int Width, int Height) override;
+    void mousePressEvent(QMouseEvent *pEvent) override;
+    void mouseReleaseEvent(QMouseEvent *pEvent) override;
+    void mouseMoveEvent(QMouseEvent *pEvent) override;
+    void wheelEvent(QWheelEvent *pEvent) override;
+    void keyPressEvent(QKeyEvent *pEvent) override;
+    void keyReleaseEvent(QKeyEvent *pEvent) override;
+    void focusOutEvent(QFocusEvent *pEvent) override;
+    void contextMenuEvent(QContextMenuEvent *pEvent) override;
 
     void SetShowFlag(EShowFlag Flag, bool Visible);
     void SetGameMode(bool Enabled);
     void SetCursorState(const QCursor& rkCursor);
     void SetCursorVisible(bool Visible);
-    bool IsCursorVisible();
-    bool IsMouseInputActive();
-    bool IsKeyboardInputActive();
+    bool IsCursorVisible() const;
+    bool IsMouseInputActive() const;
+    bool IsKeyboardInputActive() const;
     CCamera& Camera();
-    CRay CastRay();
-    CVector2f MouseDeviceCoordinates();
+    const CCamera& Camera() const;
+    CRay CastRay() const;
+    CVector2f MouseDeviceCoordinates() const;
     double LastRenderDuration();
 
-    inline SCollisionRenderSettings& CollisionRenderSettings()  { return mViewInfo.CollisionSettings; }
+    SCollisionRenderSettings& CollisionRenderSettings()  { return mViewInfo.CollisionSettings; }
+    const SCollisionRenderSettings& CollisionRenderSettings() const { return mViewInfo.CollisionSettings; }
 public slots:
     void ProcessInput();
     void Render();
