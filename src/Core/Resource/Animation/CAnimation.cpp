@@ -6,16 +6,7 @@
 
 CAnimation::CAnimation(CResourceEntry *pEntry /*= 0*/)
     : CResource(pEntry)
-    , mDuration(0.f)
-    , mTickInterval(0.0333333f)
-    , mNumKeys(0)
 {
-    for (uint32 iBone = 0; iBone < 100; iBone++)
-    {
-        mBoneInfo[iBone].TranslationChannelIdx = 0xFF;
-        mBoneInfo[iBone].RotationChannelIdx = 0xFF;
-        mBoneInfo[iBone].ScaleChannelIdx = 0xFF;
-    }
 }
 
 CDependencyTree* CAnimation::BuildDependencyTree() const

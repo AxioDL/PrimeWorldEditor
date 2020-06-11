@@ -6,6 +6,7 @@
 #include "Core/Resource/Animation/CAnimEventData.h"
 #include <Common/Math/CQuaternion.h>
 #include <Common/Math/CVector3f.h>
+#include <array>
 #include <vector>
 
 class CAnimation : public CResource
@@ -13,13 +14,13 @@ class CAnimation : public CResource
     DECLARE_RESOURCE_TYPE(Animation)
     friend class CAnimationLoader;
 
-    typedef std::vector<CVector3f> TScaleChannel;
-    typedef std::vector<CQuaternion> TRotationChannel;
-    typedef std::vector<CVector3f> TTranslationChannel;
+    using TScaleChannel = std::vector<CVector3f>;
+    using TRotationChannel = std::vector<CQuaternion>;
+    using TTranslationChannel = std::vector<CVector3f>;
 
-    float mDuration;
-    float mTickInterval;
-    uint32 mNumKeys;
+    float mDuration = 0.0f;
+    float mTickInterval = 0.0333333f;
+    uint32 mNumKeys = 0;
 
     std::vector<TScaleChannel> mScaleChannels;
     std::vector<TRotationChannel> mRotationChannels;
@@ -27,24 +28,24 @@ class CAnimation : public CResource
 
     struct SBoneChannelInfo
     {
-        uint8 ScaleChannelIdx;
-        uint8 RotationChannelIdx;
-        uint8 TranslationChannelIdx;
+        uint8 ScaleChannelIdx = 0xFF;
+        uint8 RotationChannelIdx = 0xFF;
+        uint8 TranslationChannelIdx = 0xFF;
     };
-    SBoneChannelInfo mBoneInfo[100];
+    std::array<SBoneChannelInfo, 100> mBoneInfo;
 
     TResPtr<CAnimEventData> mpEventData;
 
 public:
     CAnimation(CResourceEntry *pEntry = 0);
-    CDependencyTree* BuildDependencyTree() const;
+    CDependencyTree* BuildDependencyTree() const override;
     void EvaluateTransform(float Time, uint32 BoneID, CVector3f *pOutTranslation, CQuaternion *pOutRotation, CVector3f *pOutScale) const;
     bool HasTranslation(uint32 BoneID) const;
 
-    inline float Duration() const               { return mDuration; }
-    inline uint32 NumKeys() const               { return mNumKeys; }
-    inline float TickInterval() const           { return mTickInterval; }
-    inline CAnimEventData* EventData() const    { return mpEventData; }
+    float Duration() const               { return mDuration; }
+    uint32 NumKeys() const               { return mNumKeys; }
+    float TickInterval() const           { return mTickInterval; }
+    CAnimEventData* EventData() const    { return mpEventData; }
 };
 
 #endif // CANIMATION_H
