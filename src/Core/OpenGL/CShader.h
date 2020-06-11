@@ -6,22 +6,22 @@
 
 class CShader
 {
-    bool mVertexShaderExists;
-    bool mPixelShaderExists;
-    bool mProgramExists;
-    GLuint mVertexShader;
-    GLuint mPixelShader;
-    GLuint mProgram;
+    bool mVertexShaderExists = false;
+    bool mPixelShaderExists = false;
+    bool mProgramExists = false;
+    GLuint mVertexShader = 0;
+    GLuint mPixelShader = 0;
+    GLuint mProgram = 0;
 
-    GLuint mMVPBlockIndex;
-    GLuint mVertexBlockIndex;
-    GLuint mPixelBlockIndex;
-    GLuint mLightBlockIndex;
-    GLuint mBoneTransformBlockIndex;
+    GLuint mMVPBlockIndex = 0;
+    GLuint mVertexBlockIndex = 0;
+    GLuint mPixelBlockIndex = 0;
+    GLuint mLightBlockIndex = 0;
+    GLuint mBoneTransformBlockIndex = 0;
 
     // Cached uniform locations
-    GLint mTextureUniforms[8];
-    GLint mNumLightsUniform;
+    GLint mTextureUniforms[8] = {};
+    GLint mNumLightsUniform = 0;
 
     static int smNumShaders;
     static CShader* spCurrentShader;

@@ -16,17 +16,11 @@ int CShader::smNumShaders = 0;
 
 CShader::CShader()
 {
-    mVertexShaderExists = false;
-    mPixelShaderExists = false;
-    mProgramExists = false;
     smNumShaders++;
 }
 
 CShader::CShader(const char *pkVertexSource, const char *pkPixelSource)
 {
-    mVertexShaderExists = false;
-    mPixelShaderExists = false;
-    mProgramExists = false;
     smNumShaders++;
 
     CompileVertexSource(pkVertexSource);
