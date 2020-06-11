@@ -23,21 +23,20 @@ public:
 
     CDependencyTree* BuildDependencyTree() const override
     {
-        CDependencyTree *pTree = new CDependencyTree();
+        auto *pTree = new CDependencyTree();
         AddDependenciesToTree(pTree);
         return pTree;
     }
 
     void AddDependenciesToTree(CDependencyTree *pTree) const
     {
-        for (uint32 iEvt = 0; iEvt < mEvents.size(); iEvt++)
+        for (const SEvent& event : mEvents)
         {
-            const SEvent& rkEvent = mEvents[iEvt];
-            CAssetID ID = rkEvent.mAssetRef;
+            CAssetID ID = event.mAssetRef;
 
             if (ID.IsValid() && !pTree->HasDependency(ID))
             {
-                CAnimEventDependency *pDep = new CAnimEventDependency(ID, rkEvent.mCharacterIndex);
+                auto *pDep = new CAnimEventDependency(ID, event.mCharacterIndex);
                 pTree->AddChild(pDep);
             }
         }
