@@ -30,19 +30,19 @@ public:
     void SetActiveChar(uint32 CharIndex);
     void SetActiveAnim(uint32 AnimIndex);
 
-    inline CAnimSet* Character() const      { return mpCharacter; }
-    inline uint32 ActiveCharIndex() const   { return mActiveCharSet; }
-    inline uint32 ActiveAnimIndex() const   { return mActiveAnim; }
-    inline CAnimation* CurrentAnim() const  { return (mAnimated && mpCharacter ? mpCharacter->FindAnimationAsset(mActiveAnim) : nullptr); }
-    inline bool IsAnimated() const          { return (mAnimated && CurrentAnim() != nullptr); }
+    CAnimSet* Character() const      { return mpCharacter; }
+    uint32 ActiveCharIndex() const   { return mActiveCharSet; }
+    uint32 ActiveAnimIndex() const   { return mActiveAnim; }
+    CAnimation* CurrentAnim() const  { return (mAnimated && mpCharacter ? mpCharacter->FindAnimationAsset(mActiveAnim) : nullptr); }
+    bool IsAnimated() const          { return (mAnimated && CurrentAnim() != nullptr); }
 
     void SetAnimated(bool Animated)     { mAnimated = Animated; SetDirty(); }
     void SetAnimTime(float Time)        { mAnimTime = Time; ConditionalSetDirty(); }
 
 protected:
-    inline bool IsDirty()               { return mTransformDataDirty; }
-    inline void SetDirty()              { mTransformDataDirty = true; }
-    inline void ConditionalSetDirty()   { if (IsAnimated()) SetDirty(); }
+    bool IsDirty() const         { return mTransformDataDirty; }
+    void SetDirty()              { mTransformDataDirty = true; }
+    void ConditionalSetDirty()   { if (IsAnimated()) SetDirty(); }
     void UpdateTransformData();
 };
 
