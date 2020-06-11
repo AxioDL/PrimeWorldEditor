@@ -12,7 +12,7 @@ class CAudioMacro : public CResource
     std::vector<CAssetID> mSamples;
 
 public:
-    CAudioMacro(CResourceEntry *pEntry = 0)
+    explicit CAudioMacro(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
     {}
 
