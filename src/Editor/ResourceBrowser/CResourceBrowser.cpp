@@ -849,10 +849,10 @@ void CResourceBrowser::FindAssetByID()
                 StringAssetID = StringAssetID.ChopFront(2);
 
             // Find the resource entry
-            if ( (IDLength == k32Bit && StringAssetID.Length() == 8) ||
-                 (IDLength == k64Bit && StringAssetID.Length() == 16) )
+            if ((IDLength == EIDLength::k32Bit && StringAssetID.Length() == 8) ||
+                (IDLength == EIDLength::k64Bit && StringAssetID.Length() == 16))
             {
-                CAssetID ID = (IDLength == k32Bit ? StringAssetID.ToInt32(16) : StringAssetID.ToInt64(16));
+                CAssetID ID = (IDLength == EIDLength::k32Bit ? StringAssetID.ToInt32(16) : StringAssetID.ToInt64(16));
                 CResourceEntry *pEntry = mpStore->FindEntry(ID);
                 WasValid = true;
 

@@ -387,7 +387,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         for (uint32 iRes = 0; iRes < NumResources; iRes++)
         {
             Pak.Seek(0x8, SEEK_CUR);
-            OldListSet.insert( CAssetID(Pak, k32Bit) );
+            OldListSet.insert(CAssetID(Pak, EIDLength::k32Bit));
             Pak.Seek(0x8, SEEK_CUR);
         }
     }
@@ -411,7 +411,7 @@ void CPackage::CompareOriginalAssetList(const std::list<CAssetID>& rkNewList)
         for (uint32 iRes = 0; iRes < NumResources; iRes++)
         {
             Pak.Seek(0x8, SEEK_CUR);
-            OldListSet.insert( CAssetID(Pak, k64Bit) );
+            OldListSet.insert(CAssetID(Pak, EIDLength::k64Bit));
             Pak.Seek(0x8, SEEK_CUR);
         }
     }

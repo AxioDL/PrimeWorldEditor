@@ -24,13 +24,13 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
     {
         SOverlayModel Overlay;
         Overlay.Type = (EOverlayType) rCHAR.ReadLong();
-        Overlay.ModelID = CAssetID(rCHAR, k64Bit);
-        Overlay.SkinID = CAssetID(rCHAR, k64Bit);
+        Overlay.ModelID = CAssetID(rCHAR, EIDLength::k64Bit);
+        Overlay.SkinID = CAssetID(rCHAR, EIDLength::k64Bit);
         rChar.OverlayModels.push_back(Overlay);
     }
 
     rChar.pSkeleton = gpResourceStore->LoadResource<CSkeleton>(rCHAR.ReadLongLong());
-    rChar.AnimDataID = CAssetID(rCHAR, k64Bit);
+    rChar.AnimDataID = CAssetID(rCHAR, EIDLength::k64Bit);
 
     // PAS Database
     LoadPASDatabase(rCHAR);
@@ -88,7 +88,7 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 
     for (uint32 SoundIdx = 0; SoundIdx < NumSounds; SoundIdx++)
     {
-        CAssetID SoundID(rCHAR, k64Bit);
+        const CAssetID SoundID(rCHAR, EIDLength::k64Bit);
         rChar.SoundEffects.push_back(SoundID);
     }
 
@@ -581,7 +581,7 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
             {
                 rANCS.ReadString();
                 rANCS.Seek(0x4, SEEK_CUR);
-                CAssetID ParticleID(rANCS, k32Bit);
+                CAssetID ParticleID(rANCS, EIDLength::k32Bit);
                 if (ParticleID.IsValid()) pChar->EffectParticles.push_back(ParticleID);
 
                 if (Loader.mGame == EGame::Prime) rANCS.ReadString();
@@ -592,8 +592,8 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 
         SOverlayModel Overlay;
         Overlay.Type = EOverlayType::Frozen;
-        Overlay.ModelID = CAssetID(rANCS, k32Bit);
-        Overlay.SkinID = CAssetID(rANCS, k32Bit);
+        Overlay.ModelID = CAssetID(rANCS, EIDLength::k32Bit);
+        Overlay.SkinID = CAssetID(rANCS, EIDLength::k32Bit);
         pChar->OverlayModels.push_back(Overlay);
 
         uint32 AnimIndexCount = rANCS.ReadLong();
@@ -664,8 +664,8 @@ CSourceAnimData* CAnimSetLoader::LoadSAND(IInputStream& rSAND, CResourceEntry *p
         ASSERT(UnkByte == 0);
 
         CSourceAnimData::STransition Transition;
-        Transition.AnimA = CAssetID(rSAND, k64Bit);
-        Transition.AnimB = CAssetID(rSAND, k64Bit);
+        Transition.AnimA = CAssetID(rSAND, EIDLength::k64Bit);
+        Transition.AnimB = CAssetID(rSAND, EIDLength::k64Bit);
         Transition.pTransition = gMetaTransFactory.LoadFromStream(rSAND, pEntry->Game());
         pData->mTransitions.push_back(Transition);
     }
@@ -679,7 +679,7 @@ CSourceAnimData* CAnimSetLoader::LoadSAND(IInputStream& rSAND, CResourceEntry *p
         ASSERT(UnkByte == 0);
 
         CSourceAnimData::SHalfTransition HalfTrans;
-        HalfTrans.Anim = CAssetID(rSAND, k64Bit);
+        HalfTrans.Anim = CAssetID(rSAND, EIDLength::k64Bit);
         HalfTrans.pTransition = gMetaTransFactory.LoadFromStream(rSAND, pEntry->Game());
         pData->mHalfTransitions.push_back(HalfTrans);
     }
