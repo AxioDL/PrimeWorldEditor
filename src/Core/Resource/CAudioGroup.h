@@ -10,20 +10,19 @@ class CAudioGroup : public CResource
     friend class CAudioGroupLoader;
 
     TString mGroupName;
-    uint32 mGroupID;
+    uint32 mGroupID = UINT32_MAX;
     std::vector<uint16> mDefineIDs;
 
 public:
-    CAudioGroup(CResourceEntry *pEntry = 0)
+    explicit CAudioGroup(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
-        , mGroupID(-1)
     {}
 
     // Accessors
-    inline TString GroupName() const                        { return mGroupName; }
-    inline uint32 GroupID() const                           { return mGroupID; }
-    inline uint32 NumSoundDefineIDs() const                 { return mDefineIDs.size(); }
-    inline uint16 SoundDefineIDByIndex(uint32 Index) const  { return mDefineIDs[Index]; }
+    TString GroupName() const                        { return mGroupName; }
+    uint32 GroupID() const                           { return mGroupID; }
+    uint32 NumSoundDefineIDs() const                 { return mDefineIDs.size(); }
+    uint16 SoundDefineIDByIndex(uint32 Index) const  { return mDefineIDs[Index]; }
 };
 
 #endif // CAUDIOGROUP
