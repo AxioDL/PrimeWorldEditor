@@ -25,10 +25,10 @@ public:
     void Unbind();
     void DrawElements();
     void DrawElements(uint Offset, uint Size);
-    bool IsBuffered();
+    bool IsBuffered() const;
 
-    uint GetSize();
-    GLenum GetPrimitiveType();
+    uint GetSize() const;
+    GLenum GetPrimitiveType() const;
     void SetPrimitiveType(GLenum Type);
 
     void TrianglesToStrips(uint16 *pIndices, uint Count);

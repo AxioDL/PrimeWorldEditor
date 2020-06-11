@@ -79,17 +79,17 @@ void CIndexBuffer::DrawElements(uint Offset, uint Size)
     Unbind();
 }
 
-bool CIndexBuffer::IsBuffered()
+bool CIndexBuffer::IsBuffered() const
 {
     return mBuffered;
 }
 
-uint CIndexBuffer::GetSize()
+uint CIndexBuffer::GetSize() const
 {
     return mIndices.size();
 }
 
-GLenum CIndexBuffer::GetPrimitiveType()
+GLenum CIndexBuffer::GetPrimitiveType() const
 {
     return mPrimitiveType;
 }
