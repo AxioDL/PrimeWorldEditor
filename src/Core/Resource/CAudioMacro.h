@@ -18,10 +18,10 @@ public:
 
     CDependencyTree* BuildDependencyTree() const override
     {
-        CDependencyTree *pTree = new CDependencyTree();
+        auto *pTree = new CDependencyTree();
 
-        for (uint32 iSamp = 0; iSamp < mSamples.size(); iSamp++)
-            pTree->AddDependency(mSamples[iSamp]);
+        for (const auto& sample : mSamples)
+            pTree->AddDependency(sample);
 
         return pTree;
     }
