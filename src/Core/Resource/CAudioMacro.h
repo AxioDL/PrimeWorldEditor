@@ -16,7 +16,7 @@ public:
         : CResource(pEntry)
     {}
 
-    virtual CDependencyTree* BuildDependencyTree() const
+    CDependencyTree* BuildDependencyTree() const override
     {
         CDependencyTree *pTree = new CDependencyTree();
 
