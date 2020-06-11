@@ -24,29 +24,29 @@ class CMaterialPass
     friend class CMaterialLoader;
     friend class CMaterialCooker;
 
-    CMaterial *mpParentMat;
-    CFourCC mPassType;
-    FPassSettings mSettings;
+    CMaterial *mpParentMat = nullptr;
+    CFourCC mPassType{"CUST"};
+    FPassSettings mSettings{EPassSettings::None};
 
-    ETevColorInput mColorInputs[4];
-    ETevAlphaInput mAlphaInputs[4];
-    ETevOutput mColorOutput;
-    ETevOutput mAlphaOutput;
-    ETevKSel mKColorSel;
-    ETevKSel mKAlphaSel;
-    ETevRasSel mRasSel;
-    float mTevColorScale;
-    float mTevAlphaScale;
-    uint32 mTexCoordSource; // Should maybe be an enum but worried about conflicts with EVertexDescriptionn
-    TResPtr<CTexture> mpTexture;
-    EUVAnimMode mAnimMode;
-    EUVConvolutedModeBType mAnimConvolutedModeBType;
-    float mAnimParams[8];
-    char mTexSwapComps[4];
-    bool mEnabled;
+    ETevColorInput mColorInputs[4] = {kZeroRGB, kZeroRGB, kZeroRGB, kZeroRGB};
+    ETevAlphaInput mAlphaInputs[4] = {kZeroAlpha, kZeroAlpha, kZeroAlpha, kZeroAlpha};
+    ETevOutput mColorOutput{kPrevReg};
+    ETevOutput mAlphaOutput{kPrevReg};
+    ETevKSel mKColorSel{kKonstOne};
+    ETevKSel mKAlphaSel{kKonstOne};
+    ETevRasSel mRasSel{kRasColorNull};
+    float mTevColorScale = 1.0f;
+    float mTevAlphaScale = 1.0f;
+    uint32 mTexCoordSource = 0xFF; // Should maybe be an enum but worried about conflicts with EVertexDescriptionn
+    TResPtr<CTexture> mpTexture{nullptr};
+    EUVAnimMode mAnimMode{EUVAnimMode::NoUVAnim};
+    EUVConvolutedModeBType mAnimConvolutedModeBType{};
+    float mAnimParams[8] = {};
+    char mTexSwapComps[4] = {'r', 'g', 'b', 'a'};
+    bool mEnabled = true;
 
 public:
-    CMaterialPass(CMaterial *pParent);
+    explicit CMaterialPass(CMaterial *pParent);
     ~CMaterialPass();
     std::unique_ptr<CMaterialPass> Clone(CMaterial *pParent);
     void HashParameters(CFNV1A& rHash);

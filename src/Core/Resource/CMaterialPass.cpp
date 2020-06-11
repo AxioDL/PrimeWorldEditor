@@ -4,33 +4,11 @@
 #include <Common/CTimer.h>
 
 CMaterialPass::CMaterialPass(CMaterial *pParent)
-    : mPassType("CUST")
-    , mSettings(EPassSettings::None)
-    , mpTexture(nullptr)
-    , mEnabled(true)
-    , mpParentMat(pParent)
-    , mColorOutput(kPrevReg)
-    , mAlphaOutput(kPrevReg)
-    , mKColorSel(kKonstOne)
-    , mKAlphaSel(kKonstOne)
-    , mRasSel(kRasColorNull)
-    , mTevColorScale(1.f)
-    , mTevAlphaScale(1.f)
-    , mTexCoordSource(0xFF)
-    , mAnimMode(EUVAnimMode::NoUVAnim)
-    , mTexSwapComps{'r', 'g', 'b', 'a'}
+    : mpParentMat(pParent)
 {
-    for (uint32 iParam = 0; iParam < 4; iParam++)
-    {
-        mColorInputs[iParam] = kZeroRGB;
-        mAlphaInputs[iParam] = kZeroAlpha;
-        mAnimParams[iParam] = 0.f;
-    }
 }
 
-CMaterialPass::~CMaterialPass()
-{
-}
+CMaterialPass::~CMaterialPass() = default;
 
 std::unique_ptr<CMaterialPass> CMaterialPass::Clone(CMaterial* pParent)
 {
