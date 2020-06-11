@@ -30,7 +30,7 @@ public:
     void LoadAssets();
     void ClearAssets();
     SSoundInfo GetSoundInfo(uint32 SoundID) const;
-    void LogSoundInfo(uint32 SoundID);
+    void LogSoundInfo(uint32 SoundID) const;
 };
 
 #endif // CAUDIOMANAGER

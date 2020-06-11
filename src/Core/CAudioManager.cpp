@@ -84,18 +84,18 @@ SSoundInfo CAudioManager::GetSoundInfo(uint32 SoundID) const
     return Out;
 }
 
-void CAudioManager::LogSoundInfo(uint32 SoundID)
+void CAudioManager::LogSoundInfo(uint32 SoundID) const
 {
-    SSoundInfo SoundInfo = GetSoundInfo(SoundID);
+    const SSoundInfo SoundInfo = GetSoundInfo(SoundID);
 
-    if (SoundInfo.DefineID != 0xFFFF)
-    {
-        if (mpProject->Game() >= EGame::EchoesDemo)
-            debugf("Sound Name:  %s", *SoundInfo.Name);
+    if (SoundInfo.DefineID == 0xFFFF)
+        return;
 
-        debugf("Sound ID:    0x%04x", SoundInfo.SoundID);
-        debugf("Define ID:   0x%04x", SoundInfo.DefineID);
-        debugf("Audio Group: %s", *SoundInfo.pAudioGroup->Entry()->Name());
-        debugf("");
-    }
+    if (mpProject->Game() >= EGame::EchoesDemo)
+        debugf("Sound Name:  %s", *SoundInfo.Name);
+
+    debugf("Sound ID:    0x%04x", SoundInfo.SoundID);
+    debugf("Define ID:   0x%04x", SoundInfo.DefineID);
+    debugf("Audio Group: %s", *SoundInfo.pAudioGroup->Entry()->Name());
+    debugf("");
 }
