@@ -772,7 +772,7 @@ void CModelEditorWindow::ConvertToDDS()
 
     TString TexFilename = TO_TSTRING(Input);
     CFileInStream InTextureFile(TexFilename, EEndian::LittleEndian);
-    CTexture *pTex = CTextureDecoder::LoadTXTR( InTextureFile, nullptr );
+    auto pTex = CTextureDecoder::LoadTXTR( InTextureFile, nullptr );
 
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
     CFileOutStream Out(OutName, EEndian::LittleEndian);
@@ -784,8 +784,6 @@ void CModelEditorWindow::ConvertToDDS()
         if (!Success) QMessageBox::warning(this, "Error", "Couldn't write output DDS!");
         else QMessageBox::information(this, "Success", "Successfully converted to DDS!");
     }
-
-    delete pTex;
 }
 
 void CModelEditorWindow::ConvertToTXTR()
@@ -795,7 +793,7 @@ void CModelEditorWindow::ConvertToTXTR()
 
     TString TexFilename = TO_TSTRING(Input);
     CFileInStream InTextureFile = CFileInStream(TexFilename, EEndian::LittleEndian);
-    CTexture *pTex = CTextureDecoder::LoadDDS(InTextureFile, nullptr);
+    auto pTex = CTextureDecoder::LoadDDS(InTextureFile, nullptr);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
 
     if ((pTex->TexelFormat() != ETexelFormat::DXT1) || (pTex->NumMipMaps() > 1))
@@ -808,7 +806,7 @@ void CModelEditorWindow::ConvertToTXTR()
 
         else
         {
-            CTextureEncoder::EncodeTXTR(Out, pTex, ETexelFormat::GX_CMPR);
+            CTextureEncoder::EncodeTXTR(Out, pTex.get(), ETexelFormat::GX_CMPR);
             QMessageBox::information(this, "Success", "Successfully converted to TXTR!");
         }
     }

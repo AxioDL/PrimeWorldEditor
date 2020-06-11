@@ -42,9 +42,9 @@ CTextureDecoder::~CTextureDecoder()
 {
 }
 
-CTexture* CTextureDecoder::CreateTexture()
+std::unique_ptr<CTexture> CTextureDecoder::CreateTexture()
 {
-    CTexture *pTex = new CTexture(mpEntry);
+    auto pTex = std::make_unique<CTexture>(mpEntry);
     pTex->mSourceTexelFormat = mTexelFormat;
     pTex->mWidth = mWidth;
     pTex->mHeight = mHeight;
@@ -91,7 +91,7 @@ CTexture* CTextureDecoder::CreateTexture()
 }
 
 // ************ STATIC ************
-CTexture* CTextureDecoder::LoadTXTR(IInputStream& rTXTR, CResourceEntry *pEntry)
+std::unique_ptr<CTexture> CTextureDecoder::LoadTXTR(IInputStream& rTXTR, CResourceEntry *pEntry)
 {
     CTextureDecoder Decoder;
     Decoder.mpEntry = pEntry;
@@ -100,19 +100,19 @@ CTexture* CTextureDecoder::LoadTXTR(IInputStream& rTXTR, CResourceEntry *pEntry)
     return Decoder.CreateTexture();
 }
 
-CTexture* CTextureDecoder::DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEntry)
+std::unique_ptr<CTexture> CTextureDecoder::DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEntry)
 {
     CTextureDecoder Decoder;
     Decoder.mpEntry = pEntry;
     Decoder.ReadTXTR(rTXTR);
     Decoder.FullDecodeGXTexture(rTXTR);
 
-    CTexture *pTexture = Decoder.CreateTexture();
+    auto pTexture = Decoder.CreateTexture();
     pTexture->mTexelFormat = ETexelFormat::RGBA8;
     return pTexture;
 }
 
-CTexture* CTextureDecoder::LoadDDS(IInputStream& rDDS, CResourceEntry *pEntry)
+std::unique_ptr<CTexture> CTextureDecoder::LoadDDS(IInputStream& rDDS, CResourceEntry *pEntry)
 {
     CTextureDecoder Decoder;
     Decoder.mpEntry = pEntry;

@@ -130,13 +130,16 @@ void CAnimEventLoader::LoadSoundEvent(IInputStream& rEVNT)
 }
 
 // ************ STATIC ************
-CAnimEventData* CAnimEventLoader::LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry)
+std::unique_ptr<CAnimEventData> CAnimEventLoader::LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry)
 {
+    auto ptr = std::make_unique<CAnimEventData>(pEntry);
+
     CAnimEventLoader Loader;
-    Loader.mpEventData = new CAnimEventData(pEntry);
+    Loader.mpEventData = ptr.get();
     Loader.mGame = EGame::Prime;
     Loader.LoadEvents(rEVNT);
-    return Loader.mpEventData;
+
+    return ptr;
 }
 
 CAnimEventData* CAnimEventLoader::LoadAnimSetEvents(IInputStream& rANCS)

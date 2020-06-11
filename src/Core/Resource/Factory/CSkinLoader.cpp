@@ -2,10 +2,10 @@
 #include <Common/Macros.h>
 
 // ************ STATIC ************
-CSkin* CSkinLoader::LoadCSKR(IInputStream& rCSKR, CResourceEntry *pEntry)
+std::unique_ptr<CSkin> CSkinLoader::LoadCSKR(IInputStream& rCSKR, CResourceEntry *pEntry)
 {
     if (!rCSKR.IsValid()) return nullptr;
-    CSkin *pSkin = new CSkin(pEntry);
+    auto pSkin = std::make_unique<CSkin>(pEntry);
 
     // We don't support MP3/DKCR CSKR yet
     if (rCSKR.PeekLong() == FOURCC('SKIN'))

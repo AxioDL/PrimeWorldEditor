@@ -276,7 +276,7 @@ void CWorldLoader::GenerateEditorData()
     }
 }
 
-CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
+std::unique_ptr<CWorld> CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
 {
     if (!rMLVL.IsValid()) return nullptr;
 
@@ -296,8 +296,10 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
     }
 
     // Filestream is valid, magic+version are valid; everything seems good!
+    auto ptr = std::make_unique<CWorld>(pEntry);
+
     CWorldLoader Loader;
-    Loader.mpWorld = new CWorld(pEntry);
+    Loader.mpWorld = ptr.get();
     Loader.mVersion = Version;
 
     if (Version != EGame::DKCReturns)
@@ -306,7 +308,7 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
         Loader.LoadReturnsMLVL(rMLVL);
 
     Loader.GenerateEditorData();
-    return Loader.mpWorld;
+    return ptr;
 }
 
 EGame CWorldLoader::GetFormatVersion(uint32 Version)

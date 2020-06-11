@@ -3,6 +3,7 @@
 
 #include "Core/Resource/Animation/CAnimEventData.h"
 #include "Core/Resource/TResPtr.h"
+#include <memory>
 
 class CAnimEventLoader
 {
@@ -18,7 +19,7 @@ class CAnimEventLoader
     void LoadSoundEvent(IInputStream& rEVNT);
 
 public:
-    static CAnimEventData* LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry);
+    static std::unique_ptr<CAnimEventData> LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry);
     static CAnimEventData* LoadAnimSetEvents(IInputStream& rANCS);
     static CAnimEventData* LoadCorruptionCharacterEventSet(IInputStream& rCHAR);
 };

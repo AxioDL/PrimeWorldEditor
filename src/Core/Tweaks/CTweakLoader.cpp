@@ -2,7 +2,7 @@
 #include "Core/Resource/Factory/CScriptLoader.h"
 #include "Core/Resource/Script/NGameList.h"
 
-CTweakData* CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
+std::unique_ptr<CTweakData> CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
 {
     // Find the correct template based on the asset ID.
     static const std::unordered_map<uint, const char*> skIdToTemplateName =
@@ -24,26 +24,25 @@ CTweakData* CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
         { 0xF1ED8FD7, "TweakPlayerControls", }
     };
 
-    auto Find = skIdToTemplateName.find( pEntry->ID().ToLong() );
-    ASSERT( Find != skIdToTemplateName.end() );
+    auto Find = skIdToTemplateName.find(pEntry->ID().ToLong());
+    ASSERT(Find != skIdToTemplateName.end());
     const char* pkTemplateName = Find->second;
 
     // Fetch template
-    CGameTemplate* pGameTemplate = NGameList::GetGameTemplate( pEntry->Game() );
-    ASSERT( pGameTemplate != nullptr );
+    CGameTemplate* pGameTemplate = NGameList::GetGameTemplate(pEntry->Game());
+    ASSERT(pGameTemplate != nullptr);
 
     CScriptTemplate* pTweakTemplate = pGameTemplate->FindMiscTemplate(pkTemplateName);
-    ASSERT( pTweakTemplate != nullptr );
+    ASSERT(pTweakTemplate != nullptr);
 
     // Load tweak data
-    CTweakData* pTweakData = new CTweakData(pTweakTemplate, pEntry->ID().ToLong(), pEntry);
-    CScriptLoader::LoadStructData( CTWK, pTweakData->TweakData() );
+    auto pTweakData = std::make_unique<CTweakData>(pTweakTemplate, pEntry->ID().ToLong(), pEntry);
+    CScriptLoader::LoadStructData(CTWK, pTweakData->TweakData());
 
     // Verify
     if (!CTWK.EoF() && CTWK.PeekShort() != -1)
     {
         errorf("%s: unread property data, tweak template may be malformed (%d bytes left)", *CTWK.GetSourceString(), CTWK.Size() - CTWK.Tell());
-        delete pTweakData;
         return nullptr;
     }
 

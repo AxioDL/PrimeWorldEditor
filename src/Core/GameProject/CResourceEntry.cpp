@@ -89,10 +89,7 @@ CResourceEntry* CResourceEntry::BuildFromDirectory(CResourceStore *pStore, CResT
     return pEntry;
 }
 
-CResourceEntry::~CResourceEntry()
-{
-    if (mpResource) delete mpResource;
-}
+CResourceEntry::~CResourceEntry() = default;
 
 bool CResourceEntry::LoadMetadata()
 {
@@ -386,7 +383,8 @@ bool CResourceEntry::Cook()
 CResource* CResourceEntry::Load()
 {
     // If the asset is already loaded then just return it immediately
-    if (mpResource) return mpResource;
+    if (mpResource)
+        return mpResource.get();
 
     // Always try to load raw version as the raw version contains extra editor-only data.
     // If there is no raw version (which will be the case for resource types that don't
@@ -406,8 +404,7 @@ CResource* CResourceEntry::Load()
             if (!Reader.IsValid())
             {
                 errorf("Failed to load raw resource; falling back on cooked. Raw path: %s", *RawAssetPath());
-                delete mpResource;
-                mpResource = nullptr;
+                mpResource.reset();
             }
 
             else
@@ -419,7 +416,7 @@ CResource* CResourceEntry::Load()
         }
 
         if (mpResource)
-            return mpResource;
+            return mpResource.get();
     }
 
     ASSERT(!mpResource);
@@ -446,8 +443,11 @@ CResource* CResourceEntry::Load()
 CResource* CResourceEntry::LoadCooked(IInputStream& rInput)
 {
     // Overload to allow for load from an arbitrary input stream.
-    if (mpResource) return mpResource;
-    if (!rInput.IsValid()) return nullptr;
+    if (mpResource)
+        return mpResource.get();
+
+    if (!rInput.IsValid())
+        return nullptr;
 
     // Set gpResourceStore to ensure the correct resource store is accessed by loader functions
     CResourceStore *pOldStore = gpResourceStore;
@@ -458,15 +458,14 @@ CResource* CResourceEntry::LoadCooked(IInputStream& rInput)
         mpStore->TrackLoadedResource(this);
 
     gpResourceStore = pOldStore;
-    return mpResource;
+    return mpResource.get();
 }
 
 bool CResourceEntry::Unload()
 {
     ASSERT(mpResource != nullptr);
     ASSERT(!mpResource->IsReferenced());
-    delete mpResource;
-    mpResource = nullptr;
+    mpResource.reset();
     return true;
 }
 

@@ -5,9 +5,9 @@
 
 CAnimSetLoader::CAnimSetLoader() = default;
 
-CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
+void CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 {
-    pSet->mCharacters.emplace_back( SSetCharacter() );;
+    pSet->mCharacters.emplace_back(SSetCharacter());
     SSetCharacter& rChar = pSet->mCharacters.back();
 
     // Character Header
@@ -91,10 +91,9 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
     }
 
     ProcessPrimitives();
-    return pSet;
 }
 
-CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
+void CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 {
     rCHAR.Skip(0x14);
     uint8 Flag = rCHAR.ReadByte();
@@ -149,7 +148,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 
     // The only other thing we care about right now is the dependency list. If this file doesn't have a dependency list, exit out.
     if ((Flag & 0x10) == 0)
-        return pSet;
+        return;
 
     // Anim ID Map
     if (Flag & 0x20)
@@ -183,7 +182,7 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
                 break;
             default:
                 errorf("%s [0x%X]: Invalid transition type: %d", *rCHAR.GetSourceString(), rCHAR.Tell() - 2, Type);
-                return pSet;
+                return;
             }
         }
 
@@ -234,7 +233,6 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     }
 
     ProcessPrimitives();
-    return pSet;
 }
 
 void CAnimSetLoader::LoadPASDatabase(IInputStream& rPAS4)
@@ -511,7 +509,7 @@ void CAnimSetLoader::ProcessPrimitives()
 }
 
 // ************ STATIC ************
-CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
+std::unique_ptr<CAnimSet> CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 {
     if (!rANCS.IsValid()) return nullptr;
 
@@ -522,8 +520,10 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
         return nullptr;
     }
 
+    auto ptr = std::make_unique<CAnimSet>(pEntry);
+
     CAnimSetLoader Loader;
-    Loader.pSet = new CAnimSet(pEntry);
+    Loader.pSet = ptr.get();
     Loader.mGame = pEntry->Game();
 
     uint32 NodeCount = rANCS.ReadLong();
@@ -615,40 +615,50 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
     Loader.LoadAnimationSet(rANCS);
     Loader.ProcessPrimitives();
 
-    return Loader.pSet;
+    return ptr;
 }
 
-CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry)
+std::unique_ptr<CAnimSet> CAnimSetLoader::LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry)
 {
-    if (!rCHAR.IsValid()) return nullptr;
+    if (!rCHAR.IsValid())
+        return nullptr;
 
     CAnimSetLoader Loader;
     uint8 Check = rCHAR.ReadByte();
 
     if (Check == 0x5 || Check == 0x3)
     {
+        auto ptr = std::make_unique<CAnimSet>(pEntry);
+
         Loader.mGame = EGame::Corruption;
-        Loader.pSet = new CAnimSet(pEntry);
-        return Loader.LoadCorruptionCHAR(rCHAR);
+        Loader.pSet = ptr.get();
+        Loader.LoadCorruptionCHAR(rCHAR);
+
+        return ptr;
     }
 
     if (Check == 0x59)
     {
+        auto ptr = std::make_unique<CAnimSet>(pEntry);
+
         Loader.mGame = EGame::DKCReturns;
-        Loader.pSet = new CAnimSet(pEntry);
-        return Loader.LoadReturnsCHAR(rCHAR);
+        Loader.pSet = ptr.get();
+        Loader.LoadReturnsCHAR(rCHAR);
+
+        return ptr;
     }
 
     errorf("%s: CHAR has invalid first byte: 0x%02X", *rCHAR.GetSourceString(), Check);
     return nullptr;
 }
 
-CSourceAnimData* CAnimSetLoader::LoadSAND(IInputStream& rSAND, CResourceEntry *pEntry)
+std::unique_ptr<CSourceAnimData> CAnimSetLoader::LoadSAND(IInputStream& rSAND, CResourceEntry *pEntry)
 {
-    if (!rSAND.IsValid()) return nullptr;
+    if (!rSAND.IsValid())
+        return nullptr;
 
     // We only care about the transitions right now
-    CSourceAnimData *pData = new CSourceAnimData(pEntry);
+    auto pData = std::make_unique<CSourceAnimData>(pEntry);
 
     uint16 Unknown = rSAND.ReadShort(); // probably version
     ASSERT(Unknown == 0);

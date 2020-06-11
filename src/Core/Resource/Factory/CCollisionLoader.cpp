@@ -220,12 +220,14 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
     return pOut;
 }
 
-CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEntry *pEntry)
+std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEntry *pEntry)
 {
     if (!rDCLN.IsValid()) return nullptr;
 
+    auto ptr = std::make_unique<CCollisionMeshGroup>(pEntry);
+
     CCollisionLoader Loader;
-    Loader.mpGroup = new CCollisionMeshGroup(pEntry);
+    Loader.mpGroup = ptr.get();
 
     uint32 NumMeshes = rDCLN.ReadLong();
 
@@ -269,7 +271,8 @@ CCollisionMeshGroup* CCollisionLoader::LoadDCLN(IInputStream& rDCLN, CResourceEn
         CCollidableOBBTree* pOBBTree = static_cast<CCollidableOBBTree*>(Loader.mpMesh);
         pOBBTree->mpOBBTree = std::unique_ptr<SOBBTreeNode>( Loader.ParseOBBNode(rDCLN) );
     }
-    return Loader.mpGroup;
+
+    return ptr;
 }
 
 EGame CCollisionLoader::GetFormatVersion(uint32 Version)

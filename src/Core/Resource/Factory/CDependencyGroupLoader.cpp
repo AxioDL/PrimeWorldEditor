@@ -32,14 +32,15 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, uint32 DepCount)
     return Game;
 }
 
-CDependencyGroup* CDependencyGroupLoader::LoadDGRP(IInputStream& rDGRP, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CDependencyGroupLoader::LoadDGRP(IInputStream& rDGRP, CResourceEntry *pEntry)
 {
-    if (!rDGRP.IsValid()) return nullptr;
+    if (!rDGRP.IsValid())
+        return nullptr;
 
     uint32 NumDependencies = rDGRP.ReadLong();
     EGame Game = VersionTest(rDGRP, NumDependencies);
 
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
 
     for (uint32 iDep = 0; iDep < NumDependencies; iDep++)
     {

@@ -384,7 +384,7 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
 }
 
 // ************ STATIC ************
-CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
+std::unique_ptr<CModel> CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
 {
     CModelLoader Loader;
 
@@ -438,7 +438,6 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
             rCMDL.Seek(0x14, SEEK_CUR); // no clue what any of this is!
         }
     }
-
     else
     {
         errorf("%s: Invalid CMDL magic: 0x%08X", *rCMDL.GetSourceString(), Magic);
@@ -454,8 +453,8 @@ CModel* CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry)
         return nullptr;
     }
 
-    CModel *pModel = new CModel(pEntry);
-    Loader.mpModel = pModel;
+    auto pModel = std::make_unique<CModel>(pEntry);
+    Loader.mpModel = pModel.get();
     Loader.mpSectionMgr = new CSectionMgrIn(BlockCount, &rCMDL);
     rCMDL.SeekToBoundary(32);
     Loader.mpSectionMgr->Init();

@@ -463,11 +463,11 @@ CQuaternion CAnimationLoader::DequantizeRotation(bool Sign, int16 X, int16 Y, in
 }
 
 // ************ STATIC ************
-CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry)
+std::unique_ptr<CAnimation> CAnimationLoader::LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry)
 {
     // MP3/DKCR unsupported
     if (pEntry->Game() > EGame::Echoes)
-        return new CAnimation(pEntry);
+        return std::make_unique<CAnimation>(pEntry);
 
     uint32 CompressionType = rANIM.ReadLong();
 
@@ -477,8 +477,10 @@ CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM, CResourceEntry *pEnt
         return nullptr;
     }
 
+    auto ptr = std::make_unique<CAnimation>(pEntry);
+
     CAnimationLoader Loader;
-    Loader.mpAnim = new CAnimation(pEntry);
+    Loader.mpAnim = ptr.get();
     Loader.mGame = pEntry->Game();
     Loader.mpInput = &rANIM;
 
@@ -487,5 +489,5 @@ CAnimation* CAnimationLoader::LoadANIM(IInputStream& rANIM, CResourceEntry *pEnt
     else
         Loader.ReadCompressedANIM();
 
-    return Loader.mpAnim;
+    return ptr;
 }

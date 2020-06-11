@@ -1,8 +1,8 @@
 #include "CPoiToWorldLoader.h"
 
-CPoiToWorld* CPoiToWorldLoader::LoadEGMC(IInputStream& rEGMC, CResourceEntry *pEntry)
+std::unique_ptr<CPoiToWorld> CPoiToWorldLoader::LoadEGMC(IInputStream& rEGMC, CResourceEntry *pEntry)
 {
-    CPoiToWorld *pOut = new CPoiToWorld(pEntry);
+    auto pOut = std::make_unique<CPoiToWorld>(pEntry);
     uint32 NumMappings = rEGMC.ReadLong();
 
     for (uint32 iMap = 0; iMap < NumMappings; iMap++)

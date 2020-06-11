@@ -211,9 +211,10 @@ void CStringLoader::LoadNameTable(IInputStream& STRG)
 }
 
 // ************ STATIC ************
-CStringTable* CStringLoader::LoadSTRG(IInputStream& STRG, CResourceEntry* pEntry)
+std::unique_ptr<CStringTable> CStringLoader::LoadSTRG(IInputStream& STRG, CResourceEntry* pEntry)
 {
-    if (!STRG.IsValid()) return nullptr;
+    if (!STRG.IsValid())
+        return nullptr;
 
     // Verify that this is a valid STRG
     uint Magic = STRG.ReadLong();
@@ -250,15 +251,16 @@ CStringTable* CStringLoader::LoadSTRG(IInputStream& STRG, CResourceEntry* pEntry
     }
 
     // Valid; now we create the loader and call the function that reads the rest of the file
+    auto ptr = std::make_unique<CStringTable>(pEntry);
     CStringLoader Loader;
-    Loader.mpStringTable = new CStringTable(pEntry);
+    Loader.mpStringTable = ptr.get();
     Loader.mVersion = Version;
 
     if (Version == EGame::PrimeDemo)        Loader.LoadPrimeDemoSTRG(STRG);
     else if (Version < EGame::Corruption)   Loader.LoadPrimeSTRG(STRG);
     else                                    Loader.LoadCorruptionSTRG(STRG);
 
-    return Loader.mpStringTable;
+    return ptr;
 }
 
 EGame CStringLoader::GetFormatVersion(uint32 Version)

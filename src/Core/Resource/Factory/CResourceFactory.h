@@ -32,85 +32,85 @@ class CResourceFactory
     CResourceFactory() {}
 
 public:
-    static CResource* CreateResource(CResourceEntry *pEntry)
+    static std::unique_ptr<CResource> CreateResource(CResourceEntry *pEntry)
     {
         switch (pEntry->ResourceType())
         {
-        case EResourceType::Animation:            return new CAnimation(pEntry);
-        case EResourceType::AnimEventData:        return new CAnimEventData(pEntry);
-        case EResourceType::AnimSet:              return new CAnimSet(pEntry);
-        case EResourceType::Area:                 return new CGameArea(pEntry);
-        case EResourceType::AudioMacro:           return new CAudioMacro(pEntry);
-        case EResourceType::AudioGroup:           return new CAudioGroup(pEntry);
-        case EResourceType::AudioLookupTable:     return new CAudioLookupTable(pEntry);
-        case EResourceType::Character:            return new CAnimSet(pEntry);
-        case EResourceType::DynamicCollision:     return new CCollisionMeshGroup(pEntry);
-        case EResourceType::DependencyGroup:      return new CDependencyGroup(pEntry);
-        case EResourceType::Font:                 return new CFont(pEntry);
-        case EResourceType::MapArea:              return new CMapArea(pEntry);
-        case EResourceType::Model:                return new CModel(pEntry);
-        case EResourceType::Scan:                 return new CScan(pEntry);
-        case EResourceType::Skeleton:             return new CSkeleton(pEntry);
-        case EResourceType::Skin:                 return new CSkin(pEntry);
-        case EResourceType::SourceAnimData:       return new CSourceAnimData(pEntry);
-        case EResourceType::StaticGeometryMap:    return new CPoiToWorld(pEntry);
-        case EResourceType::StringList:           return new CStringList(pEntry);
-        case EResourceType::StringTable:          return new CStringTable(pEntry);
-        case EResourceType::Texture:              return new CTexture(pEntry);
-        case EResourceType::World:                return new CWorld(pEntry);
+        case EResourceType::Animation:            return std::make_unique<CAnimation>(pEntry);
+        case EResourceType::AnimEventData:        return std::make_unique<CAnimEventData>(pEntry);
+        case EResourceType::AnimSet:              return std::make_unique<CAnimSet>(pEntry);
+        case EResourceType::Area:                 return std::make_unique<CGameArea>(pEntry);
+        case EResourceType::AudioMacro:           return std::make_unique<CAudioMacro>(pEntry);
+        case EResourceType::AudioGroup:           return std::make_unique<CAudioGroup>(pEntry);
+        case EResourceType::AudioLookupTable:     return std::make_unique<CAudioLookupTable>(pEntry);
+        case EResourceType::Character:            return std::make_unique<CAnimSet>(pEntry);
+        case EResourceType::DynamicCollision:     return std::make_unique<CCollisionMeshGroup>(pEntry);
+        case EResourceType::DependencyGroup:      return std::make_unique<CDependencyGroup>(pEntry);
+        case EResourceType::Font:                 return std::make_unique<CFont>(pEntry);
+        case EResourceType::MapArea:              return std::make_unique<CMapArea>(pEntry);
+        case EResourceType::Model:                return std::make_unique<CModel>(pEntry);
+        case EResourceType::Scan:                 return std::make_unique<CScan>(pEntry);
+        case EResourceType::Skeleton:             return std::make_unique<CSkeleton>(pEntry);
+        case EResourceType::Skin:                 return std::make_unique<CSkin>(pEntry);
+        case EResourceType::SourceAnimData:       return std::make_unique<CSourceAnimData>(pEntry);
+        case EResourceType::StaticGeometryMap:    return std::make_unique<CPoiToWorld>(pEntry);
+        case EResourceType::StringList:           return std::make_unique<CStringList>(pEntry);
+        case EResourceType::StringTable:          return std::make_unique<CStringTable>(pEntry);
+        case EResourceType::Texture:              return std::make_unique<CTexture>(pEntry);
+        case EResourceType::World:                return std::make_unique<CWorld>(pEntry);
         default:                                  return nullptr; // should it return a CResource instead?
         }
     }
 
-    static CResource* LoadCookedResource(CResourceEntry *pEntry, IInputStream& rInput)
+    static std::unique_ptr<CResource> LoadCookedResource(CResourceEntry *pEntry, IInputStream& rInput)
     {
         // Warning: It is the caller's responsibility to check if the required resource is already in memory before calling this function.
-        if (!rInput.IsValid()) return nullptr;
-        CResource *pRes = nullptr;
+        if (!rInput.IsValid())
+            return nullptr;
 
         switch (pEntry->ResourceType())
         {
-        case EResourceType::Animation:            pRes = CAnimationLoader::LoadANIM(rInput, pEntry);          break;
-        case EResourceType::AnimEventData:        pRes = CAnimEventLoader::LoadEVNT(rInput, pEntry);          break;
-        case EResourceType::AnimSet:              pRes = CAnimSetLoader::LoadANCS(rInput, pEntry);            break;
-        case EResourceType::Area:                 pRes = CAreaLoader::LoadMREA(rInput, pEntry);               break;
-        case EResourceType::AudioMacro:           pRes = CUnsupportedFormatLoader::LoadCAUD(rInput, pEntry);  break;
-        case EResourceType::AudioGroup:           pRes = CAudioGroupLoader::LoadAGSC(rInput, pEntry);         break;
-        case EResourceType::AudioLookupTable:     pRes = CAudioGroupLoader::LoadATBL(rInput, pEntry);         break;
-        case EResourceType::BinaryData:           pRes = CUnsupportedFormatLoader::LoadDUMB(rInput, pEntry);  break;
-        case EResourceType::Character:            pRes = CAnimSetLoader::LoadCHAR(rInput, pEntry);            break;
-        case EResourceType::DependencyGroup:      pRes = CDependencyGroupLoader::LoadDGRP(rInput, pEntry);    break;
-        case EResourceType::DynamicCollision:     pRes = CCollisionLoader::LoadDCLN(rInput, pEntry);          break;
-        case EResourceType::Font:                 pRes = CFontLoader::LoadFONT(rInput, pEntry);               break;
-        case EResourceType::GuiFrame:             pRes = CUnsupportedFormatLoader::LoadFRME(rInput, pEntry);  break;
-        case EResourceType::HintSystem:           pRes = CUnsupportedFormatLoader::LoadHINT(rInput, pEntry);  break;
-        case EResourceType::MapArea:              pRes = CUnsupportedFormatLoader::LoadMAPA(rInput, pEntry);  break;
-        case EResourceType::MapWorld:             pRes = CUnsupportedFormatLoader::LoadMAPW(rInput, pEntry);  break;
-        case EResourceType::MapUniverse:          pRes = CUnsupportedFormatLoader::LoadMAPU(rInput, pEntry);  break;
-        case EResourceType::Midi:                 pRes = CUnsupportedFormatLoader::LoadCSNG(rInput, pEntry);  break;
-        case EResourceType::Model:                pRes = CModelLoader::LoadCMDL(rInput, pEntry);              break;
-        case EResourceType::RuleSet:              pRes = CUnsupportedFormatLoader::LoadRULE(rInput, pEntry);  break;
-        case EResourceType::Scan:                 pRes = CScanLoader::LoadSCAN(rInput, pEntry);               break;
-        case EResourceType::Skeleton:             pRes = CSkeletonLoader::LoadCINF(rInput, pEntry);           break;
-        case EResourceType::Skin:                 pRes = CSkinLoader::LoadCSKR(rInput, pEntry);               break;
-        case EResourceType::SourceAnimData:       pRes = CAnimSetLoader::LoadSAND(rInput, pEntry);            break;
-        case EResourceType::StateMachine2:        pRes = CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);  break;
-        case EResourceType::StaticGeometryMap:    pRes = CPoiToWorldLoader::LoadEGMC(rInput, pEntry);         break;
-        case EResourceType::StringList:           pRes = CAudioGroupLoader::LoadSTLC(rInput, pEntry);         break;
-        case EResourceType::StringTable:          pRes = CStringLoader::LoadSTRG(rInput, pEntry);             break;
-        case EResourceType::Texture:              pRes = CTextureDecoder::LoadTXTR(rInput, pEntry);           break;
-        case EResourceType::Tweaks:               pRes = CTweakLoader::LoadCTWK(rInput, pEntry);              break;
-        case EResourceType::World:                pRes = CWorldLoader::LoadMLVL(rInput, pEntry);              break;
+        case EResourceType::Animation:            return CAnimationLoader::LoadANIM(rInput, pEntry);
+        case EResourceType::AnimEventData:        return CAnimEventLoader::LoadEVNT(rInput, pEntry);
+        case EResourceType::AnimSet:              return CAnimSetLoader::LoadANCS(rInput, pEntry);
+        case EResourceType::Area:                 return CAreaLoader::LoadMREA(rInput, pEntry);
+        case EResourceType::AudioMacro:           return CUnsupportedFormatLoader::LoadCAUD(rInput, pEntry);
+        case EResourceType::AudioGroup:           return CAudioGroupLoader::LoadAGSC(rInput, pEntry);
+        case EResourceType::AudioLookupTable:     return CAudioGroupLoader::LoadATBL(rInput, pEntry);
+        case EResourceType::BinaryData:           return CUnsupportedFormatLoader::LoadDUMB(rInput, pEntry);
+        case EResourceType::Character:            return CAnimSetLoader::LoadCHAR(rInput, pEntry);
+        case EResourceType::DependencyGroup:      return CDependencyGroupLoader::LoadDGRP(rInput, pEntry);
+        case EResourceType::DynamicCollision:     return CCollisionLoader::LoadDCLN(rInput, pEntry);
+        case EResourceType::Font:                 return CFontLoader::LoadFONT(rInput, pEntry);
+        case EResourceType::GuiFrame:             return CUnsupportedFormatLoader::LoadFRME(rInput, pEntry);
+        case EResourceType::HintSystem:           return CUnsupportedFormatLoader::LoadHINT(rInput, pEntry);
+        case EResourceType::MapArea:              return CUnsupportedFormatLoader::LoadMAPA(rInput, pEntry);
+        case EResourceType::MapWorld:             return CUnsupportedFormatLoader::LoadMAPW(rInput, pEntry);
+        case EResourceType::MapUniverse:          return CUnsupportedFormatLoader::LoadMAPU(rInput, pEntry);
+        case EResourceType::Midi:                 return CUnsupportedFormatLoader::LoadCSNG(rInput, pEntry);
+        case EResourceType::Model:                return CModelLoader::LoadCMDL(rInput, pEntry);
+        case EResourceType::RuleSet:              return CUnsupportedFormatLoader::LoadRULE(rInput, pEntry);
+        case EResourceType::Scan:                 return CScanLoader::LoadSCAN(rInput, pEntry);
+        case EResourceType::Skeleton:             return CSkeletonLoader::LoadCINF(rInput, pEntry);
+        case EResourceType::Skin:                 return CSkinLoader::LoadCSKR(rInput, pEntry);
+        case EResourceType::SourceAnimData:       return CAnimSetLoader::LoadSAND(rInput, pEntry);
+        case EResourceType::StateMachine2:        return CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);
+        case EResourceType::StaticGeometryMap:    return CPoiToWorldLoader::LoadEGMC(rInput, pEntry);
+        case EResourceType::StringList:           return CAudioGroupLoader::LoadSTLC(rInput, pEntry);
+        case EResourceType::StringTable:          return CStringLoader::LoadSTRG(rInput, pEntry);
+        case EResourceType::Texture:              return CTextureDecoder::LoadTXTR(rInput, pEntry);
+        case EResourceType::Tweaks:               return CTweakLoader::LoadCTWK(rInput, pEntry);
+        case EResourceType::World:                return CWorldLoader::LoadMLVL(rInput, pEntry);
 
         case EResourceType::StateMachine:
             // AFSM currently unsupported
             if (pEntry->Game() <= EGame::Echoes)
-                pRes = new CDependencyGroup(pEntry);
-            else if (pEntry->Game() <= EGame::Corruption)
-                pRes = CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);
-            else if (pEntry->Game() == EGame::DKCReturns)
-                pRes = CUnsupportedFormatLoader::LoadFSMC(rInput, pEntry);
-            break;
+                return std::make_unique<CDependencyGroup>(pEntry);
+            if (pEntry->Game() <= EGame::Corruption)
+                return CUnsupportedFormatLoader::LoadFSM2(rInput, pEntry);
+            if (pEntry->Game() == EGame::DKCReturns)
+                return CUnsupportedFormatLoader::LoadFSMC(rInput, pEntry);
+            return nullptr;
 
         case EResourceType::BurstFireData:
         case EResourceType::Particle:
@@ -123,15 +123,11 @@ public:
         case EResourceType::ParticleCollisionResponse:
         case EResourceType::ParticleTransform:
         case EResourceType::UserEvaluatorData:
-            pRes = CUnsupportedParticleLoader::LoadParticle(rInput, pEntry);
-            break;
+            return CUnsupportedParticleLoader::LoadParticle(rInput, pEntry);
 
         default:
-            pRes = new CResource(pEntry);
-            break;
+            return std::make_unique<CResource>(pEntry);
         }
-
-        return pRes;
     }
 };
 

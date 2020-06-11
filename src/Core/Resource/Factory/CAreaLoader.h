@@ -7,6 +7,7 @@
 #include "Core/Resource/Script/CLink.h"
 #include <Common/EGame.h>
 #include <Common/FileIO.h>
+#include <memory>
 
 class CAreaLoader
 {
@@ -81,7 +82,7 @@ class CAreaLoader
     void SetUpObjects(CScriptLayer *pGenLayer);
 
 public:
-    static CGameArea* LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry);
+    static std::unique_ptr<CGameArea> LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry);
     static EGame GetFormatVersion(uint32 Version);
 };
 

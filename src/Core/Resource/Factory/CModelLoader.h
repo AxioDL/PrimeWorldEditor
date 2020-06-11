@@ -11,6 +11,8 @@
 
 #include <assimp/scene.h>
 
+#include <memory>
+
 enum class EModelLoaderFlag
 {
     None                    = 0x0,
@@ -24,8 +26,6 @@ DECLARE_FLAGS_ENUMCLASS(EModelLoaderFlag, FModelLoaderFlags)
 
 class CModelLoader
 {
-public:
-
 private:
     TResPtr<CModel> mpModel;
     std::vector<CMaterialSet*> mMaterials;
@@ -58,7 +58,7 @@ private:
     SSurface* LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet);
 
 public:
-    static CModel* LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry);
+    static std::unique_ptr<CModel> LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry);
     static CModel* LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version);
     static CModel* LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, uint32 HeaderSecNum, uint32 GPUSecNum, EGame Version);
     static void BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels);

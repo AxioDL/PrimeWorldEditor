@@ -843,7 +843,7 @@ void CResourceBrowser::FindAssetByID()
         EIDLength IDLength = CAssetID::GameIDLength(Game);
         bool WasValid = false;
 
-        if (StringAssetID.IsHexString(false, IDLength * 2))
+        if (StringAssetID.IsHexString(false, static_cast<int>(IDLength) * 2))
         {
             if (StringAssetID.StartsWith("0x", false))
                 StringAssetID = StringAssetID.ChopFront(2);

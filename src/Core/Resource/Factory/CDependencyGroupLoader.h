@@ -3,6 +3,7 @@
 
 #include "Core/Resource/CDependencyGroup.h"
 #include <Common/EGame.h>
+#include <memory>
 
 class CDependencyGroupLoader
 {
@@ -10,7 +11,7 @@ class CDependencyGroupLoader
     static EGame VersionTest(IInputStream& rDGRP, uint32 DepCount);
 
 public:
-    static CDependencyGroup* LoadDGRP(IInputStream& rDGRP, CResourceEntry *pEntry);
+    static std::unique_ptr<CDependencyGroup> LoadDGRP(IInputStream& rDGRP, CResourceEntry *pEntry);
 };
 
 #endif // CDEPENDENCYGROUPLOADER_H

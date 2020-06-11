@@ -38,7 +38,7 @@ void CUnsupportedFormatLoader::PerformCheating(IInputStream& rFile, EGame Game, 
     }
 }
 
-CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry)
+std::unique_ptr<CAudioMacro> CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry)
 {
     uint32 Magic = rCAUD.ReadLong();
     ASSERT(Magic == FOURCC('CAUD'));
@@ -50,7 +50,7 @@ CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEn
                   EGame::Invalid);
     ASSERT(Game != EGame::Invalid && Game == pEntry->Game());
 
-    CAudioMacro *pMacro = new CAudioMacro(pEntry);
+    auto pMacro = std::make_unique<CAudioMacro>(pEntry);
     pMacro->mMacroName = rCAUD.ReadString();
 
     // DKCR is missing the sample data size value, and the bulk of the format isn't well understood, unfortunately
@@ -90,39 +90,39 @@ CAudioMacro* CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEn
     return pMacro;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadCSNG(IInputStream& rCSNG, CResourceEntry *pEntry)
 {
     uint32 Magic = rCSNG.ReadLong();
     ASSERT(Magic == 0x2);
     rCSNG.Seek(0x8, SEEK_CUR);
 
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
     pGroup->AddDependency(rCSNG.ReadLong());
     return pGroup;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadDUMB(IInputStream& rDUMB, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadDUMB(IInputStream& rDUMB, CResourceEntry *pEntry)
 {
     // Check for HIER, which needs special handling
     if (rDUMB.PeekLong() == FOURCC('HIER'))
         return LoadHIER(rDUMB, pEntry);
 
     // Load other DUMB file. DUMB files don't have a set format - they're different between different files
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
 
     std::list<CAssetID> DepList;
     PerformCheating(rDUMB, pEntry->Game(), DepList);
 
-    for (auto Iter = DepList.begin(); Iter != DepList.end(); Iter++)
-        pGroup->AddDependency(*Iter);
+    for (const auto& dep : DepList)
+        pGroup->AddDependency(dep);
 
     return pGroup;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResourceEntry *pEntry)
 {
     uint32 Version = rFRME.ReadLong();
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
 
     // Prime 1
     if (Version == 0 || Version == 1)
@@ -232,7 +232,6 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             rFRME.Seek(0x42, SEEK_CUR);
         }
     }
-
     // MP2/MP3/DKCR are much easier... dependency list right at the beginning of the file
     else if (Version == 4 || Version == 5 || Version == 0xD || Version == 0xE || Version == 0x10)
     {
@@ -249,23 +248,21 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFRME(IInputStream& rFRME, CResou
             pGroup->AddDependency( CAssetID(rFRME, Game) );
         }
     }
-
     else
     {
         errorf("Unrecognized FRME version: %d", Version);
-        delete pGroup;
         return nullptr;
     }
 
     return pGroup;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResourceEntry *pEntry)
 {
     uint32 Magic = rFSM2.ReadLong();
     ASSERT(Magic == FOURCC('FSM2'));
 
-    CDependencyGroup *pOut = new CDependencyGroup(pEntry);
+    auto pOut = std::make_unique<CDependencyGroup>(pEntry);
     uint32 Version = rFSM2.ReadLong();
     uint32 NumStates = rFSM2.ReadLong();
     uint32 NumUnkA = rFSM2.ReadLong();
@@ -333,29 +330,29 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResou
     return pOut;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadFSMC(IInputStream& rFSMC, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFSMC(IInputStream& rFSMC, CResourceEntry *pEntry)
 {
     CFourCC Magic = rFSMC.ReadLong();
     ASSERT(Magic == FOURCC('FSMC'));
 
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
 
     std::list<CAssetID> AssetList;
     PerformCheating(rFSMC, pEntry->Game(), AssetList);
 
-    for (auto Iter = AssetList.begin(); Iter != AssetList.end(); Iter++)
-        pGroup->AddDependency(*Iter);
+    for (const auto& asset : AssetList)
+        pGroup->AddDependency(asset);
 
     return pGroup;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResourceEntry *pEntry)
 {
     CFourCC Magic = rHIER.ReadLong();
     ASSERT(Magic == "HIER");
 
     uint32 NumNodes = rHIER.ReadLong();
-    CDependencyGroup *pOut = new CDependencyGroup(pEntry);
+    auto pOut = std::make_unique<CDependencyGroup>(pEntry);
 
     // Note: For some reason this file still exists in MP3 and it's identical to MP2, including with 32-bit asset IDs.
     // Obviously we can't read 32-bit asset IDs in MP3, so this file should just be ignored.
@@ -373,7 +370,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResou
     return pOut;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResourceEntry *pEntry)
 {
     uint32 Magic = rHINT.ReadLong();
     ASSERT(Magic == 0x00BADBAD);
@@ -392,7 +389,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
     }
 
     // Read main file
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
     uint32 NumHints = rHINT.ReadLong();
 
     for (uint32 iHint = 0; iHint < NumHints; iHint++)
@@ -427,9 +424,10 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadHINT(IInputStream& rHINT, CResou
     return pGroup;
 }
 
-CMapArea* CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMAPA*/, CResourceEntry *pEntry)
+std::unique_ptr<CMapArea> CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMAPA*/, CResourceEntry *pEntry)
 {
-    TResPtr<CMapArea> pMap = new CMapArea(pEntry);
+    auto ptr = std::make_unique<CMapArea>(pEntry);
+    TResPtr<CMapArea> pMap = ptr.get();
 
     // We don't actually read the file. Just fetch the name string so we can build the dependency tree.
     CAssetID MapAreaID = pMap->ID();
@@ -474,10 +472,10 @@ CMapArea* CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMAPA*/, CResourceE
     }
 
     pMap->Entry()->ResourceStore()->DestroyUnreferencedResources();
-    return pMap;
+    return ptr;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResourceEntry *pEntry)
 {
     uint32 Magic = rMAPW.ReadLong();
     ASSERT(Magic == 0xDEADF00D);
@@ -494,7 +492,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResou
     rMAPW.Seek(AreasStart, SEEK_SET);
 
     // Read MAPA IDs
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
 
     for (uint32 iArea = 0; iArea < NumAreas; iArea++)
         pGroup->AddDependency(CAssetID(rMAPW, IDLength));
@@ -502,7 +500,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadMAPW(IInputStream& rMAPW, CResou
     return pGroup;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadMAPU(IInputStream& rMAPU, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadMAPU(IInputStream& rMAPU, CResourceEntry *pEntry)
 {
     uint32 Magic = rMAPU.ReadLong();
     ASSERT(Magic == 0xABCDEF01);
@@ -510,7 +508,7 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadMAPU(IInputStream& rMAPU, CResou
     uint32 Version = rMAPU.ReadLong();
     ASSERT(Version == 0x1);
 
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
     pGroup->AddDependency(rMAPU.ReadLong());
 
     // Read worlds
@@ -529,13 +527,13 @@ CDependencyGroup* CUnsupportedFormatLoader::LoadMAPU(IInputStream& rMAPU, CResou
     return pGroup;
 }
 
-CDependencyGroup* CUnsupportedFormatLoader::LoadRULE(IInputStream& rRULE, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadRULE(IInputStream& rRULE, CResourceEntry *pEntry)
 {
     // RULE files can contain a reference to another RULE file, but has no other dependencies.
     const uint32 Magic = rRULE.ReadLong();
     ASSERT(Magic == FOURCC('RULE'));
 
-    CDependencyGroup *pGroup = new CDependencyGroup(pEntry);
+    auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
     rRULE.Seek(0x1, SEEK_CUR);
 
     // Version test

@@ -27,7 +27,7 @@ DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 
 class CResourceEntry
 {
-    CResource *mpResource;
+    std::unique_ptr<CResource> mpResource;
     CResTypeInfo *mpTypeInfo;
     CResourceStore *mpStore;
     std::unique_ptr<CDependencyTree> mpDependencies;
@@ -97,7 +97,7 @@ public:
     bool IsLoaded() const                    { return mpResource != nullptr; }
     bool IsCategorized() const               { return mpDirectory && !mpDirectory->FullPath().CaseInsensitiveCompare( mpStore->DefaultResourceDirPath() ); }
     bool IsNamed() const                     { return mName != mID.ToString(); }
-    CResource* Resource() const              { return mpResource; }
+    CResource* Resource() const              { return mpResource.get(); }
     CResTypeInfo* TypeInfo() const           { return mpTypeInfo; }
     CResourceStore* ResourceStore() const    { return mpStore; }
     CDependencyTree* Dependencies() const    { return mpDependencies.get(); }

@@ -1,12 +1,12 @@
 #include "CAudioGroupLoader.h"
 
-CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pEntry)
+std::unique_ptr<CAudioGroup> CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pEntry)
 {
     // For now we only load sound define IDs and the group ID!
     // Version check
     uint32 Check = rAGSC.PeekLong();
     EGame Game = (Check == 0x1 ? EGame::Echoes : EGame::Prime);
-    CAudioGroup *pOut = new CAudioGroup(pEntry);
+    auto pOut = std::make_unique<CAudioGroup>(pEntry);
 
     // Read header, navigate to Proj chunk
     if (Game == EGame::Prime)
@@ -60,9 +60,9 @@ CAudioGroup* CAudioGroupLoader::LoadAGSC(IInputStream& rAGSC, CResourceEntry *pE
     return pOut;
 }
 
-CAudioLookupTable* CAudioGroupLoader::LoadATBL(IInputStream& rATBL, CResourceEntry *pEntry)
+std::unique_ptr<CAudioLookupTable> CAudioGroupLoader::LoadATBL(IInputStream& rATBL, CResourceEntry *pEntry)
 {
-    CAudioLookupTable *pOut = new CAudioLookupTable(pEntry);
+    auto pOut = std::make_unique<CAudioLookupTable>(pEntry);
     uint32 NumMacroIDs = rATBL.ReadLong();
 
     for (uint32 iMacro = 0; iMacro < NumMacroIDs; iMacro++)
@@ -71,9 +71,9 @@ CAudioLookupTable* CAudioGroupLoader::LoadATBL(IInputStream& rATBL, CResourceEnt
     return pOut;
 }
 
-CStringList* CAudioGroupLoader::LoadSTLC(IInputStream& rSTLC, CResourceEntry *pEntry)
+std::unique_ptr<CStringList> CAudioGroupLoader::LoadSTLC(IInputStream& rSTLC, CResourceEntry *pEntry)
 {
-    CStringList *pOut = new CStringList(pEntry);
+    auto pOut = std::make_unique<CStringList>(pEntry);
     uint32 NumStrings = rSTLC.ReadLong();
     pOut->mStringList.reserve(NumStrings);
 

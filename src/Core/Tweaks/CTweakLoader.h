@@ -2,6 +2,7 @@
 #define CTWEAKLOADER_H
 
 #include "CTweakData.h"
+#include <memory>
 
 /** Class responsible for loading tweak data */
 class CTweakLoader
@@ -11,7 +12,7 @@ class CTweakLoader
 
 public:
     /** Loader entry point */
-    static CTweakData* LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry);
+    static std::unique_ptr<CTweakData> LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry);
     static void LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakData*>& OutTweaks);
 };
 

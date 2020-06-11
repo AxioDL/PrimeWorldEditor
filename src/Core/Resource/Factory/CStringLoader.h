@@ -5,6 +5,7 @@
 #include "Core/Resource/TResPtr.h"
 #include "Core/Resource/StringTable/CStringTable.h"
 #include <Common/EGame.h>
+#include <memory>
 
 class CStringLoader
 {
@@ -18,7 +19,7 @@ class CStringLoader
     void LoadNameTable(IInputStream& STRG);
 
 public:
-    static CStringTable* LoadSTRG(IInputStream& STRG, CResourceEntry* pEntry);
+    static std::unique_ptr<CStringTable> LoadSTRG(IInputStream& STRG, CResourceEntry* pEntry);
     static EGame GetFormatVersion(uint Version);
 };
 

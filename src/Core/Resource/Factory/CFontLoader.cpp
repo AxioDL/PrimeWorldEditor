@@ -6,7 +6,7 @@ CFontLoader::CFontLoader()
 {
 }
 
-CFont* CFontLoader::LoadFont(IInputStream& rFONT)
+void CFontLoader::LoadFont(IInputStream& rFONT)
 {
     // If I seek past a value without reading it, then it's because I don't know what it is
     mpFont->mUnknown = rFONT.ReadLong();
@@ -72,13 +72,12 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
         Pair.Adjust = rFONT.ReadLong();
         mpFont->mKerningTable.push_back(Pair);
     }
-
-    return mpFont;
 }
 
-CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
+std::unique_ptr<CFont> CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
 {
-    if (!rFONT.IsValid()) return nullptr;
+    if (!rFONT.IsValid())
+        return nullptr;
 
     CFourCC Magic(rFONT);
     if (Magic != FOURCC('FONT'))
@@ -95,10 +94,14 @@ CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
         return nullptr;
     }
 
+    auto ptr = std::make_unique<CFont>(pEntry);
+
     CFontLoader Loader;
-    Loader.mpFont = new CFont(pEntry);
+    Loader.mpFont = ptr.get();
     Loader.mVersion = Version;
-    return Loader.LoadFont(rFONT);
+    Loader.LoadFont(rFONT);
+
+    return ptr;
 }
 
 EGame CFontLoader::GetFormatVersion(uint32 Version)

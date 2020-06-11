@@ -97,7 +97,7 @@ public:
 
                 if (mCompareBitLength > 0)
                 {
-                    uint32 IDBitLength = pEntry->ID().Length() * 8;
+                    const auto IDBitLength = static_cast<uint32>(pEntry->ID().Length()) * 8;
 
                     if (mCompareBitLength <= IDBitLength)
                     {

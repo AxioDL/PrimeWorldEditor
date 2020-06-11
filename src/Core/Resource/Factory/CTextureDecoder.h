@@ -5,8 +5,9 @@
 #include "Core/Resource/ETexelFormat.h"
 #include <Common/BasicTypes.h>
 #include <Common/CColor.h>
-
 #include <Common/FileIO.h>
+
+#include <memory>
 
 class CTextureDecoder
 {
@@ -36,7 +37,7 @@ class CTextureDecoder
     // Private Functions
     CTextureDecoder();
     ~CTextureDecoder();
-    CTexture* CreateTexture();
+    std::unique_ptr<CTexture> CreateTexture();
 
     // Read
     void ReadTXTR(IInputStream& rTXTR);
@@ -78,9 +79,9 @@ class CTextureDecoder
 
     // Static
 public:
-    static CTexture* LoadTXTR(IInputStream& rTXTR, CResourceEntry *pEntry);
-    static CTexture* LoadDDS(IInputStream& rDDS, CResourceEntry *pEntry);
-    static CTexture* DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEntry);
+    static std::unique_ptr<CTexture> LoadTXTR(IInputStream& rTXTR, CResourceEntry *pEntry);
+    static std::unique_ptr<CTexture> LoadDDS(IInputStream& rDDS, CResourceEntry *pEntry);
+    static std::unique_ptr<CTexture> DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEntry);
     static CTexture* DoFullDecode(CTexture *pTexture);
 
     // Utility

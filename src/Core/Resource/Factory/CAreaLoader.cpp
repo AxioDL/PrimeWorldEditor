@@ -727,7 +727,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
 }
 
 // ************ STATIC ************
-CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
+std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
 {
     CAreaLoader Loader;
 
@@ -741,8 +741,10 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
         return nullptr;
     }
 
+    auto ptr = std::make_unique<CGameArea>(pEntry);
+
     // Header
-    Loader.mpArea = new CGameArea(pEntry);
+    Loader.mpArea = ptr.get();
     uint32 Version = MREA.ReadLong();
     Loader.mVersion = GetFormatVersion(Version);
     Loader.mpMREA = &MREA;
@@ -812,7 +814,7 @@ CGameArea* CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
 
     // Cleanup
     delete Loader.mpSectionMgr;
-    return Loader.mpArea;
+    return ptr;
 }
 
 EGame CAreaLoader::GetFormatVersion(uint32 Version)

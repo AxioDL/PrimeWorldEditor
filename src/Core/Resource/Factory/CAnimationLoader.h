@@ -4,6 +4,7 @@
 #include "Core/Resource/TResPtr.h"
 #include "Core/Resource/Animation/CAnimation.h"
 #include <Common/EGame.h>
+#include <memory>
 
 class CAnimationLoader
 {
@@ -41,7 +42,7 @@ class CAnimationLoader
     CQuaternion DequantizeRotation(bool Sign, int16 X, int16 Y, int16 Z);
 
 public:
-    static CAnimation* LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry);
+    static std::unique_ptr<CAnimation> LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry);
 };
 
 #endif // CANIMATIONLOADER_H
