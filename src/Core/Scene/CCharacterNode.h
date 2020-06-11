@@ -17,13 +17,13 @@ class CCharacterNode : public CSceneNode
     mutable bool mTransformDataDirty;
 
 public:
-    explicit CCharacterNode(CScene *pScene, uint32 NodeID, CAnimSet *pChar = 0, CSceneNode *pParent = 0);
+    explicit CCharacterNode(CScene *pScene, uint32 NodeID, CAnimSet *pChar = nullptr, CSceneNode *pParent = nullptr);
 
-    virtual ENodeType NodeType();
-    virtual void PostLoad();
-    virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    virtual void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo);
+    ENodeType NodeType() override;
+    void PostLoad() override;
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo) override;
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo) override;
+    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo) override;
 
     CVector3f BonePosition(uint32 BoneID);
     void SetCharSet(CAnimSet *pChar);
