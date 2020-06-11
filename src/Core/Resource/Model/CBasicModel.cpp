@@ -2,13 +2,8 @@
 #include <iostream>
 #include <list>
 
-CBasicModel::CBasicModel(CResourceEntry *pEntry /*= 0*/)
+CBasicModel::CBasicModel(CResourceEntry *pEntry)
     : CResource(pEntry)
-    , mVertexCount(0)
-    , mTriangleCount(0)
-    , mBuffered(false)
-    , mHasOwnMaterials(false)
-    , mHasOwnSurfaces(false)
 {
 }
 
@@ -19,32 +14,32 @@ CBasicModel::~CBasicModel()
             delete mSurfaces[iSurf];
 }
 
-uint32 CBasicModel::GetVertexCount()
+uint32 CBasicModel::GetVertexCount() const
 {
     return mVertexCount;
 }
 
-uint32 CBasicModel::GetTriangleCount()
+uint32 CBasicModel::GetTriangleCount() const
 {
     return mTriangleCount;
 }
 
-CAABox CBasicModel::AABox()
+CAABox CBasicModel::AABox() const
 {
     return mAABox;
 }
 
-bool CBasicModel::IsBuffered()
+bool CBasicModel::IsBuffered() const
 {
     return mBuffered;
 }
 
-uint32 CBasicModel::GetSurfaceCount()
+uint32 CBasicModel::GetSurfaceCount() const
 {
     return mSurfaces.size();
 }
 
-CAABox CBasicModel::GetSurfaceAABox(uint32 Surface)
+CAABox CBasicModel::GetSurfaceAABox(uint32 Surface) const
 {
     return mSurfaces[Surface]->AABox;
 }
