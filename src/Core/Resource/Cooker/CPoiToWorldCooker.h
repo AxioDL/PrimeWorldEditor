@@ -6,7 +6,8 @@
 
 class CPoiToWorldCooker
 {
-    CPoiToWorldCooker() {}
+    CPoiToWorldCooker() = default;
+
 public:
     static bool CookEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut);
 };

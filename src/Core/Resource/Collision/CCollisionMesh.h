@@ -21,22 +21,22 @@ public:
     virtual void BuildRenderData();
 
     /** Accessors */
-    inline CAABox Bounds() const
+    CAABox Bounds() const
     {
         return mAABox;
     }
 
-    inline const SCollisionIndexData& GetIndexData() const
+    const SCollisionIndexData& GetIndexData() const
     {
         return mIndexData;
     }
 
-    inline const CCollisionRenderData& GetRenderData() const
+    const CCollisionRenderData& GetRenderData() const
     {
         return mRenderData;
     }
 
-    inline CCollisionRenderData& GetRenderData()
+    CCollisionRenderData& GetRenderData()
     {
         return mRenderData;
     }

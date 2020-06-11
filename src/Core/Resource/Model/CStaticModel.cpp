@@ -5,8 +5,6 @@
 
 CStaticModel::CStaticModel()
     : CBasicModel(nullptr)
-    , mpMaterial(nullptr)
-    , mTransparent(false)
 {
 }
 
@@ -17,9 +15,7 @@ CStaticModel::CStaticModel(CMaterial *pMat)
 {
 }
 
-CStaticModel::~CStaticModel()
-{
-}
+CStaticModel::~CStaticModel() = default;
 
 void CStaticModel::AddSurface(SSurface *pSurface)
 {
@@ -213,12 +209,12 @@ void CStaticModel::SetMaterial(CMaterial *pMat)
     mTransparent = pMat->Options().HasFlag(EMaterialOption::Transparent);
 }
 
-bool CStaticModel::IsTransparent()
+bool CStaticModel::IsTransparent() const
 {
     return mTransparent;
 }
 
-bool CStaticModel::IsOccluder()
+bool CStaticModel::IsOccluder() const
 {
     return mpMaterial->Options().HasFlag(EMaterialOption::Occluder);
 }

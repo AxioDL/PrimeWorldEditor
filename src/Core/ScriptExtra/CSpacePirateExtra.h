@@ -25,8 +25,8 @@ class CSpacePirateExtra : public CScriptExtra
     TEnumRef<EVulnerabilityTypeMP1> mPlasmaVulnerability;
 
 public:
-    explicit CSpacePirateExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
-    CColor TevColor();
+    explicit CSpacePirateExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr);
+    CColor TevColor() override;
 };
 
 #endif // CSPACEPIRATEEXTRA_H

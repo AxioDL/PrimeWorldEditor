@@ -1,34 +1,16 @@
 #include "CTexture.h"
 #include <cmath>
 
-CTexture::CTexture(CResourceEntry *pEntry /*= 0*/)
+CTexture::CTexture(CResourceEntry *pEntry)
     : CResource(pEntry)
-    , mTexelFormat(ETexelFormat::RGBA8)
-    , mSourceTexelFormat(ETexelFormat::RGBA8)
-    , mWidth(0)
-    , mHeight(0)
-    , mNumMipMaps(0)
-    , mLinearSize(0)
-    , mEnableMultisampling(false)
-    , mBufferExists(false)
-    , mpImgDataBuffer(nullptr)
-    , mImgDataSize(0)
-    , mGLBufferExists(false)
 {
 }
 
 CTexture::CTexture(uint32 Width, uint32 Height)
-    : mTexelFormat(ETexelFormat::RGBA8)
-    , mSourceTexelFormat(ETexelFormat::RGBA8)
-    , mWidth((uint16) Width)
-    , mHeight((uint16) Height)
+    : mWidth(static_cast<uint16>(Width))
+    , mHeight(static_cast<uint16>(Height))
     , mNumMipMaps(1)
     , mLinearSize(Width * Height * 4)
-    , mEnableMultisampling(false)
-    , mBufferExists(false)
-    , mpImgDataBuffer(nullptr)
-    , mImgDataSize(0)
-    , mGLBufferExists(false)
 {
 }
 

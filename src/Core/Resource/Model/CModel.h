@@ -21,14 +21,14 @@ class CModel : public CBasicModel
     bool mHasOwnMaterials;
     
 public:
-    CModel(CResourceEntry *pEntry = 0);
+    explicit CModel(CResourceEntry *pEntry = nullptr);
     CModel(CMaterialSet *pSet, bool OwnsMatSet);
     ~CModel();
 
-    CDependencyTree* BuildDependencyTree() const;
+    CDependencyTree* BuildDependencyTree() const override;
     void BufferGL();
     void GenerateMaterialShaders();
-    void ClearGLBuffer();
+    void ClearGLBuffer() override;
     void Draw(FRenderOptions Options, uint32 MatSet);
     void DrawSurface(FRenderOptions Options, uint32 Surface, uint32 MatSet);
     void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::skWhite);
@@ -43,7 +43,7 @@ public:
     bool IsSurfaceTransparent(uint32 Surface, uint32 MatSet);
     bool IsLightmapped() const;
 
-    inline bool IsSkinned() const       { return (mpSkin != nullptr); }
+    bool IsSkinned() const       { return (mpSkin != nullptr); }
 
 private:
     CIndexBuffer* InternalGetIBO(uint32 Surface, EPrimitiveType Primitive);

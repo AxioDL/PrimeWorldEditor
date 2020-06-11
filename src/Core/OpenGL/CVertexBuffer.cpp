@@ -3,7 +3,6 @@
 
 CVertexBuffer::CVertexBuffer()
 {
-    mBuffered = false;
     SetVertexDesc(EVertexAttribute::Position | EVertexAttribute::Normal |
                   EVertexAttribute::Tex0 | EVertexAttribute::Tex1 |
                   EVertexAttribute::Tex2 | EVertexAttribute::Tex3 |
@@ -216,12 +215,12 @@ void CVertexBuffer::Unbind()
     glBindVertexArray(0);
 }
 
-bool CVertexBuffer::IsBuffered()
+bool CVertexBuffer::IsBuffered() const
 {
     return mBuffered;
 }
 
-FVertexDescription CVertexBuffer::VertexDesc()
+FVertexDescription CVertexBuffer::VertexDesc() const
 {
     return mVtxDesc;
 }
@@ -238,7 +237,7 @@ void CVertexBuffer::SetSkin(CSkin *pSkin)
     mpSkin = pSkin;
 }
 
-uint32 CVertexBuffer::Size()
+uint32 CVertexBuffer::Size() const
 {
     return mPositions.size();
 }

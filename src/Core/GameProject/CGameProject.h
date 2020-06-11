@@ -82,34 +82,34 @@ public:
     static CGameProject* LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress);
 
     // Directory Handling
-    inline TString ProjectRoot() const                      { return mProjectRoot; }
-    inline TString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName, false) + ".prj"; }
-    inline TString HiddenFilesDir() const                   { return mProjectRoot + ".project/"; }
-    inline TString DiscDir(bool Relative) const             { return Relative ? "Disc/" : mProjectRoot + "Disc/"; }
-    inline TString PackagesDir(bool Relative) const         { return Relative ? "Packages/" : mProjectRoot + "Packages/"; }
-    inline TString ResourcesDir(bool Relative) const        { return Relative ? "Resources/" : mProjectRoot + "Resources/"; }
+    TString ProjectRoot() const                      { return mProjectRoot; }
+    TString ProjectPath() const                      { return mProjectRoot + FileUtil::SanitizeName(mProjectName, false) + ".prj"; }
+    TString HiddenFilesDir() const                   { return mProjectRoot + ".project/"; }
+    TString DiscDir(bool Relative) const             { return Relative ? "Disc/" : mProjectRoot + "Disc/"; }
+    TString PackagesDir(bool Relative) const         { return Relative ? "Packages/" : mProjectRoot + "Packages/"; }
+    TString ResourcesDir(bool Relative) const        { return Relative ? "Resources/" : mProjectRoot + "Resources/"; }
 
     // Disc Filesystem Management
-    inline TString DiscFilesystemRoot(bool Relative) const  { return DiscDir(Relative) + (IsWiiBuild() ? "DATA/" : "") + "files/"; }
+    TString DiscFilesystemRoot(bool Relative) const  { return DiscDir(Relative) + (IsWiiBuild() ? "DATA/" : "") + "files/"; }
 
     // Accessors
-    inline void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
+    void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
 
-    inline TString Name() const                         { return mProjectName; }
-    inline uint32 NumPackages() const                   { return mPackages.size(); }
-    inline CPackage* PackageByIndex(uint32 Index) const { return mPackages[Index]; }
-    inline void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
-    inline CResourceStore* ResourceStore() const        { return mpResourceStore.get(); }
-    inline CGameInfo* GameInfo() const                  { return mpGameInfo.get(); }
-    inline CAudioManager* AudioManager() const          { return mpAudioManager.get(); }
-    inline CTweakManager* TweakManager() const          { return mpTweakManager.get(); }
-    inline EGame Game() const                           { return mGame; }
-    inline ERegion Region() const                       { return mRegion; }
-    inline TString GameID() const                       { return mGameID; }
-    inline float BuildVersion() const                   { return mBuildVersion; }
-    inline bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
-    inline bool IsTrilogy() const                       { return mGame <= EGame::Corruption && mBuildVersion >= 3.593f; }
-    inline bool IsWiiDeAsobu() const                    { return mGame <= EGame::Corruption && mBuildVersion >= 3.570f && mBuildVersion < 3.593f; }
+    TString Name() const                         { return mProjectName; }
+    uint32 NumPackages() const                   { return mPackages.size(); }
+    CPackage* PackageByIndex(uint32 Index) const { return mPackages[Index]; }
+    void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
+    CResourceStore* ResourceStore() const        { return mpResourceStore.get(); }
+    CGameInfo* GameInfo() const                  { return mpGameInfo.get(); }
+    CAudioManager* AudioManager() const          { return mpAudioManager.get(); }
+    CTweakManager* TweakManager() const          { return mpTweakManager.get(); }
+    EGame Game() const                           { return mGame; }
+    ERegion Region() const                       { return mRegion; }
+    TString GameID() const                       { return mGameID; }
+    float BuildVersion() const                   { return mBuildVersion; }
+    bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
+    bool IsTrilogy() const                       { return mGame <= EGame::Corruption && mBuildVersion >= 3.593f; }
+    bool IsWiiDeAsobu() const                    { return mGame <= EGame::Corruption && mBuildVersion >= 3.570f && mBuildVersion < 3.593f; }
 };
 
 #endif // CGAMEPROJECT_H

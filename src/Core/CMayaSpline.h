@@ -22,21 +22,21 @@ public:
 
 class CMayaSpline
 {
-    uint mPreInfinity; // 0x00
-    uint mPostInfinity; // 0x04
+    uint mPreInfinity = 0; // 0x00
+    uint mPostInfinity = 0; // 0x04
     std::vector<CMayaSplineKnot> mKnots; // 0x08, 0x0C, 0x10
-    uint mClampMode; // 0x14 - clamp mode
-    float mMinAmplitude; // 0x18
-    float mMaxAmplitude; // 0x1C
+    uint mClampMode = 0; // 0x14 - clamp mode
+    float mMinAmplitude = 0.0f; // 0x18
+    float mMaxAmplitude = 0.0f; // 0x1C
 
-    mutable int mCachedKnotIndex; // 0x20
-    mutable int mUnknown1; // 0x24
-    mutable uint8 mDirtyFlags; // 0x28
-    mutable float mCachedMinTime; // 0x2C
-    mutable float mCachedHermiteCoefficients[4]; // 0x30, 0x34, 0x38, 0x3C
+    mutable int mCachedKnotIndex = 0; // 0x20
+    mutable int mUnknown1 = 0; // 0x24
+    mutable uint8 mDirtyFlags = 0; // 0x28
+    mutable float mCachedMinTime = 0.0f; // 0x2C
+    mutable float mCachedHermiteCoefficients[4] = {}; // 0x30, 0x34, 0x38, 0x3C
 
 public:
-    CMayaSpline() {}
+    CMayaSpline() = default;
     uint GetKnotCount() const;
     const std::vector<CMayaSplineKnot>& GetKnots() const;
     float GetMinTime() const;

@@ -19,11 +19,11 @@ class CVertexBuffer
     std::vector<CVector2f> mTexCoords[8];   // Vectors of texture coordinates
     std::vector<TBoneIndices> mBoneIndices; // Vectors of bone indices
     std::vector<TBoneWeights> mBoneWeights; // Vectors of bone weights
-    bool mBuffered;                         // Bool value that indicates whether the attributes have been buffered.
+    bool mBuffered = false;                 // Bool value that indicates whether the attributes have been buffered.
 
 public:
     CVertexBuffer();
-    CVertexBuffer(FVertexDescription Desc);
+    explicit CVertexBuffer(FVertexDescription Desc);
     ~CVertexBuffer();
     uint16 AddVertex(const CVertex& rkVtx);
     uint16 AddIfUnique(const CVertex& rkVtx, uint16 Start);
@@ -32,11 +32,11 @@ public:
     void Buffer();
     void Bind();
     void Unbind();
-    bool IsBuffered();
-    FVertexDescription VertexDesc();
+    bool IsBuffered() const;
+    FVertexDescription VertexDesc() const;
     void SetVertexDesc(FVertexDescription Desc);
     void SetSkin(CSkin *pSkin);
-    uint32 Size();
+    uint32 Size() const;
     GLuint CreateVAO();
 };
 

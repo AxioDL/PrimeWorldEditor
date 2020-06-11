@@ -6,25 +6,17 @@
 
 class CRenderbuffer
 {
-    GLuint mRenderbuffer;
-    uint mWidth, mHeight;
-    bool mEnableMultisampling;
-    bool mInitialized;
+    GLuint mRenderbuffer = 0;
+    uint mWidth = 0;
+    uint mHeight = 0;
+    bool mEnableMultisampling = false;
+    bool mInitialized = false;
 
 public:
-    CRenderbuffer()
-        : mWidth(0)
-        , mHeight(0)
-        , mEnableMultisampling(false)
-        , mInitialized(false)
-    {
-    }
-
+    CRenderbuffer() = default;
     CRenderbuffer(uint Width, uint Height)
         : mWidth(Width)
         , mHeight(Height)
-        , mEnableMultisampling(false)
-        , mInitialized(false)
     {
     }
 
@@ -41,7 +33,7 @@ public:
         InitStorage();
     }
 
-    inline void Resize(uint Width, uint Height)
+    void Resize(uint Width, uint Height)
     {
         mWidth = Width;
         mHeight = Height;
@@ -50,23 +42,23 @@ public:
             InitStorage();
     }
 
-    inline void Bind()
+    void Bind()
     {
         if (!mInitialized) Init();
         glBindRenderbuffer(GL_RENDERBUFFER, mRenderbuffer);
     }
 
-    inline void Unbind()
+    void Unbind()
     {
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }
 
-    inline GLuint BufferID()
+    GLuint BufferID() const
     {
         return mRenderbuffer;
     }
 
-    inline void SetMultisamplingEnabled(bool Enable)
+    void SetMultisamplingEnabled(bool Enable)
     {
         if (mEnableMultisampling != Enable)
         {

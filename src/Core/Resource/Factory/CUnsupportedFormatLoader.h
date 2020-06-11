@@ -9,8 +9,8 @@
 // This is needed so we have access to the full dependency list of all resource types.
 class CUnsupportedFormatLoader
 {
-    CDependencyGroup *mpGroup;
-    CUnsupportedFormatLoader() {}
+    CDependencyGroup *mpGroup = nullptr;
+    CUnsupportedFormatLoader() = default;
 
     static void PerformCheating(IInputStream& rFile, EGame Game, std::list<CAssetID>& rAssetList);
 

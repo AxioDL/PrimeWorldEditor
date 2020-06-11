@@ -59,17 +59,17 @@ class CFont : public CResource
 
 
 public:
-    CFont(CResourceEntry *pEntry = 0);
+    CFont(CResourceEntry *pEntry = nullptr);
     ~CFont();
-    CDependencyTree* BuildDependencyTree() const;
+    CDependencyTree* BuildDependencyTree() const override;
     CVector2f RenderString(const TString& rkString, CRenderer *pRenderer, float AspectRatio,
                            CVector2f Position = CVector2f(0,0),
                            CColor FillColor = CColor::skWhite, CColor StrokeColor = CColor::skBlack,
                            uint32 FontSize = CFONT_DEFAULT_SIZE);
 
     // Accessors
-    inline TString FontName() const         { return mFontName; }
-    inline CTexture* Texture() const   { return mpFontTexture; }
+    TString FontName() const    { return mFontName; }
+    CTexture* Texture() const   { return mpFontTexture; }
 private:
     static void InitBuffers();
     static void ShutdownBuffers();

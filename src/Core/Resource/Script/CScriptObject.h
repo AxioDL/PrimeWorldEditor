@@ -20,13 +20,13 @@ class CInstanceID
 {
     uint32 mId = 0;
 public:
-    operator uint32() const { return mId; }
-    CInstanceID() = default;
-    CInstanceID(uint32 id) : mId(id) {}
-    CInstanceID& operator=(uint32 id) { mId = id; return *this; }
-    uint8 Layer() const { return uint8((mId >> 26u) & 0x3fu); }
-    uint16 Area() const { return uint16((mId >> 16u) & 0x3ffu); }
-    uint16 Id() const { return uint16(mId & 0xffffu); }
+    constexpr operator uint32() const { return mId; }
+    constexpr CInstanceID() = default;
+    constexpr CInstanceID(uint32 id) : mId(id) {}
+    constexpr CInstanceID& operator=(uint32 id) { mId = id; return *this; }
+    [[nodiscard]] constexpr uint8 Layer() const { return uint8((mId >> 26u) & 0x3fu); }
+    [[nodiscard]] constexpr uint16 Area() const { return uint16((mId >> 16u) & 0x3ffu); }
+    [[nodiscard]] constexpr uint16 Id() const { return uint16(mId & 0xffffu); }
 };
 
 class CScriptObject
@@ -37,7 +37,7 @@ class CScriptObject
     CScriptTemplate *mpTemplate;
     CGameArea *mpArea;
     CScriptLayer *mpLayer;
-    uint32 mVersion;
+    uint32 mVersion = 0;
 
     CInstanceID mInstanceID;
     std::vector<CLink*> mOutLinks;
@@ -53,15 +53,15 @@ class CScriptObject
 
     TResPtr<CResource> mpDisplayAsset;
     TResPtr<CCollisionMeshGroup> mpCollision;
-    uint32 mActiveCharIndex;
-    uint32 mActiveAnimIndex;
-    bool mHasInGameModel;
+    uint32 mActiveCharIndex = 0;
+    uint32 mActiveAnimIndex = 0;
+    bool mHasInGameModel = false;
 
-    EVolumeShape mVolumeShape;
-    float mVolumeScale;
+    EVolumeShape mVolumeShape{};
+    float mVolumeScale = 0.0f;
 
     // Recursion guard
-    mutable bool mIsCheckingNearVisibleActivation;
+    mutable bool mIsCheckingNearVisibleActivation = false;
 
 public:
     CScriptObject(uint32 InstanceID, CGameArea *pArea, CScriptLayer *pLayer, CScriptTemplate *pTemplate);

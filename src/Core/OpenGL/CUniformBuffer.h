@@ -17,7 +17,7 @@ public:
         SetBufferSize(0);
     }
 
-    CUniformBuffer(uint Size)
+    explicit CUniformBuffer(uint Size)
     {
         glGenBuffers(1, &mUniformBuffer);
         SetBufferSize(Size);
@@ -65,7 +65,7 @@ public:
         InitializeBuffer();
     }
 
-    uint GetBufferSize()
+    uint GetBufferSize() const
     {
         return mBufferSize;
     }

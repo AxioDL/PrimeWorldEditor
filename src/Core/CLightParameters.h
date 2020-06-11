@@ -35,12 +35,12 @@ public:
         }
     }
 
-    inline int LightLayerIndex() const
+    int LightLayerIndex() const
     {
         return mLightLayer.IsValid() ? mLightLayer.Get() : 0;
     }
 
-    inline EWorldLightingOptions WorldLightingOptions() const
+    EWorldLightingOptions WorldLightingOptions() const
     {
         return mWorldLightingOptions.IsValid() ? mWorldLightingOptions.Get() : eNormalLighting;
     }

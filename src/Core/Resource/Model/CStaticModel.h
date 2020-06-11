@@ -10,14 +10,14 @@
  * IBOs. This allows for a significantly reduced number of draw calls. */
 class CStaticModel : public CBasicModel
 {
-    CMaterial *mpMaterial;
+    CMaterial *mpMaterial = nullptr;
     std::vector<CIndexBuffer> mIBOs;
     std::vector<std::vector<uint32>> mSurfaceEndOffsets;
-    bool mTransparent;
+    bool mTransparent = false;
 
 public:
     CStaticModel();
-    CStaticModel(CMaterial *pMat);
+    explicit CStaticModel(CMaterial *pMat);
     ~CStaticModel();
     void AddSurface(SSurface *pSurface);
 
@@ -30,8 +30,8 @@ public:
 
     CMaterial* GetMaterial();
     void SetMaterial(CMaterial *pMat);
-    bool IsTransparent();
-    bool IsOccluder();
+    bool IsTransparent() const;
+    bool IsOccluder() const;
 
 private:
     CIndexBuffer* InternalGetIBO(EPrimitiveType Primitive);

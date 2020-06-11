@@ -8,10 +8,10 @@
 
 class CStringLoader
 {
-    CStringTable *mpStringTable;
-    EGame mVersion;
+    CStringTable *mpStringTable = nullptr;
+    EGame mVersion{};
 
-    CStringLoader() {}
+    CStringLoader() = default;
     void LoadPrimeDemoSTRG(IInputStream& STRG);
     void LoadPrimeSTRG(IInputStream& STRG);
     void LoadCorruptionSTRG(IInputStream& STRG);

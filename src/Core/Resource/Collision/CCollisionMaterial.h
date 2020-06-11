@@ -59,7 +59,7 @@ public:
     bool IsFloor() const;
     bool IsUnstandable(EGame Game) const;
 
-    inline uint64 RawFlags() const { return mRawFlags; }
+    uint64 RawFlags() const { return mRawFlags; }
 };
 
 #endif // CCOLLISIONMATERIAL

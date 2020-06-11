@@ -87,17 +87,17 @@ class CWorld : public CResource
     std::vector<SArea> mAreas;
 
 public:
-    CWorld(CResourceEntry *pEntry = 0);
+    explicit CWorld(CResourceEntry *pEntry = nullptr);
     ~CWorld();
 
-    CDependencyTree* BuildDependencyTree() const;
+    CDependencyTree* BuildDependencyTree() const override;
     void SetAreaLayerInfo(CGameArea *pArea);
     TString InGameName() const;
     TString AreaInGameName(uint32 AreaIndex) const;
     uint32 AreaIndex(CAssetID AreaID) const;
 
     // Serialization
-    virtual void Serialize(IArchive& rArc);
+    void Serialize(IArchive& rArc) override;
     friend void Serialize(IArchive& rArc, STimeAttackData& rTimeAttackData);
     friend void Serialize(IArchive& rArc, SMemoryRelay& rMemRelay);
     friend void Serialize(IArchive& rArc, SArea& rArea);
@@ -107,23 +107,23 @@ public:
     friend void Serialize(IArchive& rArc, SAudioGrp& rAudioGrp);
 
     // Accessors
-    inline TString Name() const                 { return mName; }
-    inline CStringTable* NameString() const     { return mpWorldName; }
-    inline CStringTable* DarkNameString() const { return mpDarkWorldName; }
-    inline CResource* SaveWorld() const         { return mpSaveWorld; }
-    inline CModel* DefaultSkybox() const        { return mpDefaultSkybox; }
-    inline CResource* MapWorld() const          { return mpMapWorld; }
+    TString Name() const                 { return mName; }
+    CStringTable* NameString() const     { return mpWorldName; }
+    CStringTable* DarkNameString() const { return mpDarkWorldName; }
+    CResource* SaveWorld() const         { return mpSaveWorld; }
+    CModel* DefaultSkybox() const        { return mpDefaultSkybox; }
+    CResource* MapWorld() const          { return mpMapWorld; }
 
-    inline uint32 NumAreas() const                                              { return mAreas.size(); }
-    inline CAssetID AreaResourceID(uint32 AreaIndex) const                      { return mAreas[AreaIndex].AreaResID; }
-    inline uint32 AreaAttachedCount(uint32 AreaIndex) const                     { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
-    inline uint32 AreaAttachedID(uint32 AreaIndex, uint32 AttachedIndex) const  { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
-    inline TString AreaInternalName(uint32 AreaIndex) const                     { return mAreas[AreaIndex].InternalName; }
-    inline CStringTable* AreaName(uint32 AreaIndex) const                       { return mAreas[AreaIndex].pAreaName; }
-    inline bool DoesAreaAllowPakDuplicates(uint32 AreaIndex) const              { return mAreas[AreaIndex].AllowPakDuplicates; }
+    uint32 NumAreas() const                                              { return mAreas.size(); }
+    CAssetID AreaResourceID(uint32 AreaIndex) const                      { return mAreas[AreaIndex].AreaResID; }
+    uint32 AreaAttachedCount(uint32 AreaIndex) const                     { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
+    uint32 AreaAttachedID(uint32 AreaIndex, uint32 AttachedIndex) const  { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
+    TString AreaInternalName(uint32 AreaIndex) const                     { return mAreas[AreaIndex].InternalName; }
+    CStringTable* AreaName(uint32 AreaIndex) const                       { return mAreas[AreaIndex].pAreaName; }
+    bool DoesAreaAllowPakDuplicates(uint32 AreaIndex) const              { return mAreas[AreaIndex].AllowPakDuplicates; }
 
-    inline void SetName(const TString& rkName)                              { mName = rkName; }
-    inline void SetAreaAllowsPakDuplicates(uint32 AreaIndex, bool Allow)    { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
+    void SetName(const TString& rkName)                              { mName = rkName; }
+    void SetAreaAllowsPakDuplicates(uint32 AreaIndex, bool Allow)    { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
 };
 
 #endif // CWORLD_H

@@ -10,13 +10,13 @@ class CMapArea : public CResource
     CAssetID mNameString;
 
 public:
-    CMapArea(CResourceEntry *pEntry = 0)
+    CMapArea(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
     {}
 
-    CDependencyTree* BuildDependencyTree() const
+    CDependencyTree* BuildDependencyTree() const override
     {
-        CDependencyTree *pTree = new CDependencyTree();
+        auto *pTree = new CDependencyTree();
         pTree->AddDependency(mNameString);
         return pTree;
     }

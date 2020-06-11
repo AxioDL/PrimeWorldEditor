@@ -27,8 +27,8 @@ extern CMetaTransFactory gMetaTransFactory;
 class IMetaTransition
 {
 public:
-    IMetaTransition() {}
-    virtual ~IMetaTransition() {}
+    IMetaTransition() = default;
+    virtual ~IMetaTransition() = default;
     virtual EMetaTransType Type() const = 0;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const = 0;
 };
@@ -41,8 +41,8 @@ class CMetaTransMetaAnim : public IMetaTransition
 public:
     CMetaTransMetaAnim(IInputStream& rInput, EGame Game);
     ~CMetaTransMetaAnim();
-    virtual EMetaTransType Type() const;
-    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+    EMetaTransType Type() const override;
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
 
 // CMetaTransTrans
@@ -57,8 +57,8 @@ class CMetaTransTrans : public IMetaTransition
 
 public:
     CMetaTransTrans(EMetaTransType Type, IInputStream& rInput, EGame Game);
-    virtual EMetaTransType Type() const;
-    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+    EMetaTransType Type() const override;
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
 
 // CMetaTransSnap
@@ -66,8 +66,8 @@ class CMetaTransSnap : public IMetaTransition
 {
 public:
     CMetaTransSnap(IInputStream& rInput, EGame Game);
-    virtual EMetaTransType Type() const;
-    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+    EMetaTransType Type() const override;
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
 
 // CMetaTransType4
@@ -75,8 +75,8 @@ class CMetaTransType4 : public IMetaTransition
 {
 public:
     CMetaTransType4(IInputStream& rInput, EGame Game);
-    virtual EMetaTransType Type() const;
-    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+    EMetaTransType Type() const override;
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
 
 #endif // IMETATRANSITION_H

@@ -9,7 +9,7 @@
 class CWorldLoader
 {
     TResPtr<CWorld> mpWorld;
-    EGame mVersion;
+    EGame mVersion{};
 
     CWorldLoader();
     void LoadPrimeMLVL(IInputStream& rMLVL);

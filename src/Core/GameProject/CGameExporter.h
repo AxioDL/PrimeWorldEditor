@@ -78,7 +78,7 @@ public:
     void LoadResource(const CAssetID& rkID, std::vector<uint8>& rBuffer);
     bool ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot);
 
-    inline TString ProjectPath() const  { return mProjectPath; }
+    TString ProjectPath() const  { return mProjectPath; }
 
 protected:
     bool ExtractDiscData();
@@ -91,7 +91,7 @@ protected:
     TString MakeWorldName(CAssetID WorldID);
 
     // Convenience Functions
-    inline SResourceInstance* FindResourceInstance(const CAssetID& rkID)
+    SResourceInstance* FindResourceInstance(const CAssetID& rkID)
     {
         uint64 IntegralID = rkID.ToLongLong();
         auto Found = mResourceMap.find(IntegralID);

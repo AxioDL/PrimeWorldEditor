@@ -7,10 +7,7 @@ CScriptObject::CScriptObject(uint32 InstanceID, CGameArea *pArea, CScriptLayer *
     : mpTemplate(pTemplate)
     , mpArea(pArea)
     , mpLayer(pLayer)
-    , mVersion(0)
     , mInstanceID(InstanceID)
-    , mHasInGameModel(false)
-    , mIsCheckingNearVisibleActivation(false)
 {
     mpTemplate->AddObject(this);
 

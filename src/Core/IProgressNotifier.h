@@ -7,14 +7,12 @@
 class IProgressNotifier
 {
     TString mTaskName;
-    int mTaskIndex;
-    int mTaskCount;
+    int mTaskIndex = 0;
+    int mTaskCount = 1;
 
 public:
-    IProgressNotifier()
-        : mTaskIndex(0)
-        , mTaskCount(1)
-    {}
+    IProgressNotifier() = default;
+    virtual ~IProgressNotifier() = default;
 
     void SetNumTasks(int NumTasks)
     {
@@ -67,9 +65,9 @@ protected:
 class CNullProgressNotifier : public IProgressNotifier
 {
 public:
-    bool ShouldCancel() const { return false; }
+    bool ShouldCancel() const override{ return false; }
 protected:
-    void UpdateProgress(const TString&, const TString&, float) {}
+    void UpdateProgress(const TString&, const TString&, float) override {}
 };
 extern CNullProgressNotifier *gpNullProgress;
 

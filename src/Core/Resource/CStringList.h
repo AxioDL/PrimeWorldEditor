@@ -10,16 +10,16 @@ class CStringList : public CResource
     std::vector<TString> mStringList;
 
 public:
-    CStringList(CResourceEntry *pEntry = 0)
+    explicit CStringList(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
     {}
 
-    inline uint32 NumStrings() const
+    uint32 NumStrings() const
     {
         return mStringList.size();
     }
 
-    inline TString StringByIndex(uint32 Index) const
+    TString StringByIndex(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < mStringList.size());
         return mStringList[Index];

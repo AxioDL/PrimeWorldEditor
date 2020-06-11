@@ -30,20 +30,20 @@ private:
     float mCachedRayDistance;
 
 public:
-    explicit CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
+    explicit CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr);
     ~CDamageableTriggerExtra();
     void CreateMaterial();
     void UpdatePlaneTransform();
     ERenderSide RenderSideForDirection(const CVector3f& rkDir);
     ERenderSide TransformRenderSide(ERenderSide Side);
-    void OnTransformed();
-    void PropertyModified(IProperty* pProperty);
-    bool ShouldDrawNormalAssets();
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
-    void DrawSelection();
-    void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
-    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 ComponentIndex, const SViewInfo& rkViewInfo);
+    void OnTransformed() override;
+    void PropertyModified(IProperty* pProperty) override;
+    bool ShouldDrawNormalAssets() override;
+    void AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo) override;
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo) override;
+    void DrawSelection() override;
+    void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo) override;
+    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 ComponentIndex, const SViewInfo& rkViewInfo) override;
 };
 
 #endif // CDAMAGEABLETRIGGEREXTRA_H

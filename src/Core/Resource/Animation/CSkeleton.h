@@ -14,12 +14,11 @@ class CBone;
 
 struct SBoneTransformInfo
 {
-    CVector3f Position;
-    CQuaternion Rotation;
-    CVector3f Scale;
+    CVector3f Position{CVector3f::skZero};
+    CQuaternion Rotation{CQuaternion::skIdentity};
+    CVector3f Scale{CVector3f::skOne};
 
-    SBoneTransformInfo()
-        : Position(CVector3f::skZero), Rotation(CQuaternion::skIdentity), Scale(CVector3f::skOne) {}
+    SBoneTransformInfo() = default;
 };
 
 class CSkeleton : public CResource
@@ -33,8 +32,8 @@ class CSkeleton : public CResource
     static const float skSphereRadius;
 
 public:
-    CSkeleton(CResourceEntry *pEntry = 0);
-    ~CSkeleton();
+    explicit CSkeleton(CResourceEntry *pEntry = nullptr);
+    ~CSkeleton() override;
     void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
     CBone* BoneByID(uint32 BoneID) const;
     CBone* BoneByName(const TString& rkBoneName) const;
@@ -43,8 +42,8 @@ public:
     void Draw(FRenderOptions Options, const CBoneTransformData *pkData);
     std::pair<int32,float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData);
 
-    inline uint32 NumBones() const  { return mBones.size(); }
-    inline CBone* RootBone() const  { return mpRootBone; }
+    uint32 NumBones() const  { return mBones.size(); }
+    CBone* RootBone() const  { return mpRootBone; }
 };
 
 class CBone

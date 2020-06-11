@@ -126,34 +126,34 @@ public:
     void SetNumPasses(uint32 NumPasses);
 
     // Accessors
-    inline TString Name() const                         { return mName; }
-    inline EGame Version() const                        { return mVersion; }
-    inline FMaterialOptions Options() const             { return mOptions; }
-    inline FVertexDescription VtxDesc() const           { return mVtxDesc; }
-    inline GLenum BlendSrcFac() const                   { return mBlendSrcFac; }
-    inline GLenum BlendDstFac() const                   { return mBlendDstFac; }
-    inline CColor Konst(uint32 KIndex) const            { return mKonstColors[KIndex]; }
-    inline CColor TevColor(ETevOutput Out) const        { return mTevColors[int(Out)]; }
-    inline CTexture* IndTexture() const                 { return mpIndirectTexture; }
-    inline bool IsLightingEnabled() const               { return mLightingEnabled; }
-    inline uint32 EchoesUnknownA() const                { return mEchoesUnknownA; }
-    inline uint32 EchoesUnknownB() const                { return mEchoesUnknownB; }
-    inline uint32 PassCount() const                     { return mPasses.size(); }
-    inline CMaterialPass* Pass(uint32 PassIndex) const  { return mPasses[PassIndex].get(); }
-    inline CMaterial* GetNextDrawPass() const           { return mpNextDrawPassMaterial.get(); }
-    inline CMaterial* GetBloomVersion() const           { return mpBloomMaterial.get(); }
+    TString Name() const                         { return mName; }
+    EGame Version() const                        { return mVersion; }
+    FMaterialOptions Options() const             { return mOptions; }
+    FVertexDescription VtxDesc() const           { return mVtxDesc; }
+    GLenum BlendSrcFac() const                   { return mBlendSrcFac; }
+    GLenum BlendDstFac() const                   { return mBlendDstFac; }
+    CColor Konst(uint32 KIndex) const            { return mKonstColors[KIndex]; }
+    CColor TevColor(ETevOutput Out) const        { return mTevColors[int(Out)]; }
+    CTexture* IndTexture() const                 { return mpIndirectTexture; }
+    bool IsLightingEnabled() const               { return mLightingEnabled; }
+    uint32 EchoesUnknownA() const                { return mEchoesUnknownA; }
+    uint32 EchoesUnknownB() const                { return mEchoesUnknownB; }
+    uint32 PassCount() const                     { return mPasses.size(); }
+    CMaterialPass* Pass(uint32 PassIndex) const  { return mPasses[PassIndex].get(); }
+    CMaterial* GetNextDrawPass() const           { return mpNextDrawPassMaterial.get(); }
+    CMaterial* GetBloomVersion() const           { return mpBloomMaterial.get(); }
 
-    inline void SetName(const TString& rkName)                 { mName = rkName; }
-    inline void SetOptions(FMaterialOptions Options)           { mOptions = Options; Update(); }
-    inline void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; Update(); }
-    inline void SetBlendMode(GLenum SrcFac, GLenum DstFac)     { mBlendSrcFac = SrcFac; mBlendDstFac = DstFac; mRecalcHash = true; }
-    inline void SetKonst(const CColor& Konst, uint32 KIndex)   { mKonstColors[KIndex] = Konst; Update(); }
-    inline void SetTevColor(const CColor& Color, ETevOutput Out) { mTevColors[int(Out)] = Color; }
-    inline void SetIndTexture(CTexture *pTex)                  { mpIndirectTexture = pTex; }
-    inline void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; Update(); }
+    void SetName(const TString& rkName)                 { mName = rkName; }
+    void SetOptions(FMaterialOptions Options)           { mOptions = Options; Update(); }
+    void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; Update(); }
+    void SetBlendMode(GLenum SrcFac, GLenum DstFac)     { mBlendSrcFac = SrcFac; mBlendDstFac = DstFac; mRecalcHash = true; }
+    void SetKonst(const CColor& Konst, uint32 KIndex)   { mKonstColors[KIndex] = Konst; Update(); }
+    void SetTevColor(const CColor& Color, ETevOutput Out) { mTevColors[int(Out)] = Color; }
+    void SetIndTexture(CTexture *pTex)                  { mpIndirectTexture = pTex; }
+    void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; Update(); }
 
     // Static
-    inline static void KillCachedMaterial() { sCurrentMaterial = 0; }
+    static void KillCachedMaterial() { sCurrentMaterial = 0; }
 };
 
 #endif // MATERIAL_H

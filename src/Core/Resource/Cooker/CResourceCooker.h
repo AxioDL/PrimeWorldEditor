@@ -14,7 +14,7 @@
 
 class CResourceCooker
 {
-    CResourceCooker() {}
+    CResourceCooker() = default;
 
 public:
     static bool CookResource(CResourceEntry *pEntry, IOutputStream& rOutput)

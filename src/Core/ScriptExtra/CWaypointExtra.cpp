@@ -6,8 +6,6 @@
 
 CWaypointExtra::CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
-    , mColor(CColor::skBlack)
-    , mLinksBuilt(false)
 {
     CheckColor();
 }

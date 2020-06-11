@@ -20,7 +20,7 @@ class CScan : public CResource
     std::vector<uint8> mPropertyData;
 
 public:
-    CScan(CResourceEntry* pEntry = 0);
+    explicit CScan(CResourceEntry* pEntry = nullptr);
     CStructRef ScanData() const;
 
     /** Convenience property accessors */
@@ -28,7 +28,7 @@ public:
     CBoolRef IsCriticalPropertyRef() const;
 
     /** CResource interface */
-    virtual CDependencyTree* BuildDependencyTree() const override;
+    CDependencyTree* BuildDependencyTree() const override;
 };
 
 #endif // CSCAN_H

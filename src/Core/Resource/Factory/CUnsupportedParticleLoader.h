@@ -7,8 +7,8 @@
 // Used for finding dependencies. Split from CUnsupportedFormatLoader for being too big.
 class CUnsupportedParticleLoader
 {
-    CDependencyGroup *mpGroup;
-    CUnsupportedParticleLoader() {}
+    CDependencyGroup *mpGroup = nullptr;
+    CUnsupportedParticleLoader() = default;
 
     // Format-Specific Parameter Loading
     bool ParseParticleParameter(IInputStream& rPART);

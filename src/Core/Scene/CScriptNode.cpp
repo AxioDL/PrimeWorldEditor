@@ -13,11 +13,7 @@
 
 CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CScriptObject *pInstance)
     : CSceneNode(pScene, NodeID, pParent)
-    , mGameModeVisibility(EGameModeVisibility::Untested)
-    , mpVolumePreviewNode(nullptr)
-    , mHasVolumePreview(false)
     , mpInstance(pInstance)
-    , mpExtra(nullptr)
 {
     ASSERT(pInstance);
 

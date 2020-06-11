@@ -41,7 +41,7 @@ class CResourceEntry
     mutable TString mCachedUppercaseName; // This is used to speed up case-insensitive sorting and filtering.
 
     // Private constructor
-    CResourceEntry(CResourceStore *pStore);
+    explicit CResourceEntry(CResourceStore *pStore);
 
 public:
     static CResourceEntry* CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
@@ -86,27 +86,27 @@ public:
     void ClearFlag(EResEntryFlag Flag);
 
     // Accessors
-    inline void SetFlagEnabled(EResEntryFlag Flag, bool Enabled)    { Enabled ? SetFlag(Flag) : ClearFlag(Flag); }
+    void SetFlagEnabled(EResEntryFlag Flag, bool Enabled)    { Enabled ? SetFlag(Flag) : ClearFlag(Flag); }
 
-    inline void SetDirty()                          { SetFlag(EResEntryFlag::NeedsRecook); }
-    inline void SetHidden(bool Hidden)              { SetFlagEnabled(EResEntryFlag::Hidden, Hidden); }
-    inline bool HasFlag(EResEntryFlag Flag) const   { return mFlags.HasFlag(Flag); }
-    inline bool IsHidden() const                    { return HasFlag(EResEntryFlag::Hidden); }
-    inline bool IsMarkedForDeletion() const         { return HasFlag(EResEntryFlag::MarkedForDeletion); }
+    void SetDirty()                          { SetFlag(EResEntryFlag::NeedsRecook); }
+    void SetHidden(bool Hidden)              { SetFlagEnabled(EResEntryFlag::Hidden, Hidden); }
+    bool HasFlag(EResEntryFlag Flag) const   { return mFlags.HasFlag(Flag); }
+    bool IsHidden() const                    { return HasFlag(EResEntryFlag::Hidden); }
+    bool IsMarkedForDeletion() const         { return HasFlag(EResEntryFlag::MarkedForDeletion); }
 
-    inline bool IsLoaded() const                    { return mpResource != nullptr; }
-    inline bool IsCategorized() const               { return mpDirectory && !mpDirectory->FullPath().CaseInsensitiveCompare( mpStore->DefaultResourceDirPath() ); }
-    inline bool IsNamed() const                     { return mName != mID.ToString(); }
-    inline CResource* Resource() const              { return mpResource; }
-    inline CResTypeInfo* TypeInfo() const           { return mpTypeInfo; }
-    inline CResourceStore* ResourceStore() const    { return mpStore; }
-    inline CDependencyTree* Dependencies() const    { return mpDependencies; }
-    inline CAssetID ID() const                      { return mID; }
-    inline CVirtualDirectory* Directory() const     { return mpDirectory; }
-    inline TString DirectoryPath() const            { return mpDirectory->FullPath(); }
-    inline TString Name() const                     { return mName; }
-    inline const TString& UppercaseName() const     { return mCachedUppercaseName; }
-    inline EResourceType ResourceType() const       { return mpTypeInfo->Type(); }
+    bool IsLoaded() const                    { return mpResource != nullptr; }
+    bool IsCategorized() const               { return mpDirectory && !mpDirectory->FullPath().CaseInsensitiveCompare( mpStore->DefaultResourceDirPath() ); }
+    bool IsNamed() const                     { return mName != mID.ToString(); }
+    CResource* Resource() const              { return mpResource; }
+    CResTypeInfo* TypeInfo() const           { return mpTypeInfo; }
+    CResourceStore* ResourceStore() const    { return mpStore; }
+    CDependencyTree* Dependencies() const    { return mpDependencies; }
+    CAssetID ID() const                      { return mID; }
+    CVirtualDirectory* Directory() const     { return mpDirectory; }
+    TString DirectoryPath() const            { return mpDirectory->FullPath(); }
+    TString Name() const                     { return mName; }
+    const TString& UppercaseName() const     { return mCachedUppercaseName; }
+    EResourceType ResourceType() const       { return mpTypeInfo->Type(); }
 
 protected:
     CResource* InternalLoad(IInputStream& rInput);

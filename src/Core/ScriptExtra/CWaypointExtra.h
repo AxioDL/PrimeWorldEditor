@@ -8,8 +8,8 @@
 class CWaypointExtra : public CScriptExtra
 {
     // Draw waypoint paths formed by script connections
-    CColor mColor;
-    bool mLinksBuilt;
+    CColor mColor{CColor::skBlack};
+    bool mLinksBuilt = false;
     std::list<CSplinePathExtra*> mPaths;
 
     struct SWaypointLink
@@ -20,7 +20,7 @@ class CWaypointExtra : public CScriptExtra
     std::vector<SWaypointLink> mLinks;
 
 public:
-    explicit CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
+    explicit CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr);
     ~CWaypointExtra();
     void CheckColor();
     void AddToSplinePath(CSplinePathExtra *pPath);

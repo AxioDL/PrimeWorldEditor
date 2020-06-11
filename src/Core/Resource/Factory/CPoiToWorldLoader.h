@@ -8,7 +8,7 @@ class CPoiToWorldLoader
 {
     TResPtr<CPoiToWorld> mpPoiToWorld;
 
-    CPoiToWorldLoader() {}
+    CPoiToWorldLoader() = default;
 
 public:
     static CPoiToWorld* LoadEGMC(IInputStream& rEGMC, CResourceEntry *pEntry);

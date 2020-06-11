@@ -11,15 +11,13 @@ class CScriptLayer
 {
     CGameArea *mpArea;
     TString mLayerName;
-    bool mActive;
-    bool mVisible;
+    bool mActive = true;
+    bool mVisible = true;
     std::vector<CScriptObject*> mInstances;
 public:
     CScriptLayer(CGameArea *pArea)
         : mpArea(pArea)
         , mLayerName("New Layer")
-        , mActive(true)
-        , mVisible(true)
     {
     }
 
@@ -78,14 +76,14 @@ public:
     }
 
     // Accessors
-    inline CGameArea* Area() const      { return mpArea; }
-    inline TString Name() const         { return mLayerName; }
-    inline bool IsActive() const        { return mActive; }
-    inline bool IsVisible() const       { return mVisible; }
-    inline uint32 NumInstances() const  { return mInstances.size(); }
-    inline CScriptObject* InstanceByIndex(uint32 Index) const { return mInstances[Index]; }
+    CGameArea* Area() const      { return mpArea; }
+    TString Name() const         { return mLayerName; }
+    bool IsActive() const        { return mActive; }
+    bool IsVisible() const       { return mVisible; }
+    uint32 NumInstances() const  { return mInstances.size(); }
+    CScriptObject* InstanceByIndex(uint32 Index) const { return mInstances[Index]; }
 
-    inline CScriptObject* InstanceByID(uint32 ID) const
+    CScriptObject* InstanceByID(uint32 ID) const
     {
         for (auto it = mInstances.begin(); it != mInstances.end(); it++)
         {
@@ -96,11 +94,11 @@ public:
         return nullptr;
     }
 
-    inline void SetName(const TString& rkName)  { mLayerName = rkName; }
-    inline void SetActive(bool Active)          { mActive = Active; }
-    inline void SetVisible(bool Visible)        { mVisible = Visible; }
+    void SetName(const TString& rkName)  { mLayerName = rkName; }
+    void SetActive(bool Active)          { mActive = Active; }
+    void SetVisible(bool Visible)        { mVisible = Visible; }
 
-    inline uint32 AreaIndex() const
+    uint32 AreaIndex() const
     {
         for (uint32 iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
         {

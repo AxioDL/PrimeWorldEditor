@@ -21,23 +21,23 @@ public:
             delete *it;
     }
 
-    inline uint32 NumMeshes() const                         { return mMeshes.size(); }
-    inline CCollisionMesh* MeshByIndex(uint32 Index) const  { return mMeshes[Index]; }
-    inline void AddMesh(CCollisionMesh *pMesh)              { mMeshes.push_back(pMesh); }
+    uint32 NumMeshes() const                         { return mMeshes.size(); }
+    CCollisionMesh* MeshByIndex(uint32 Index) const  { return mMeshes[Index]; }
+    void AddMesh(CCollisionMesh *pMesh)              { mMeshes.push_back(pMesh); }
 
-    inline void BuildRenderData()
+    void BuildRenderData()
     {
         for (auto It = mMeshes.begin(); It != mMeshes.end(); It++)
             (*It)->BuildRenderData();
     }
 
-    inline void Draw()
+    void Draw()
     {
         for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
             (*it)->GetRenderData().Render(false);
     }
 
-    inline void DrawWireframe()
+    void DrawWireframe()
     {
         for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
             (*it)->GetRenderData().Render(true);

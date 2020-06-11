@@ -47,7 +47,7 @@ public:
     static CShader* CurrentShader();
     static void KillCachedShader();
 
-    inline static int NumShaders() { return smNumShaders; }
+    static int NumShaders() { return smNumShaders; }
 
 private:
     void CacheCommonUniforms();

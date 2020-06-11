@@ -6,7 +6,7 @@
 /** Cooker class for writing game-compatible SCAN assets */
 class CScanCooker
 {
-    CScanCooker() {}
+    CScanCooker() = default;
 
 public:
     static bool CookSCAN(CScan* pScan, IOutputStream& SCAN);

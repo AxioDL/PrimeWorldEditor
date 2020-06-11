@@ -13,7 +13,7 @@ class CScriptExtra;
 class CScriptNode : public CSceneNode
 {
     CScriptObject *mpInstance;
-    CScriptExtra *mpExtra;
+    CScriptExtra *mpExtra = nullptr;
 
     TResPtr<CResource> mpDisplayAsset;
     uint32 mCharIndex;
@@ -21,34 +21,37 @@ class CScriptNode : public CSceneNode
     CCollisionNode *mpCollisionNode;
     std::vector<CScriptAttachNode*> mAttachments;
 
-    bool mHasValidPosition;
-    bool mHasVolumePreview;
-    CModelNode *mpVolumePreviewNode;
+    bool mHasValidPosition = false;
+    bool mHasVolumePreview = false;
+    CModelNode *mpVolumePreviewNode = nullptr;
 
     std::unique_ptr<CLightParameters> mpLightParameters;
 
 public:
     enum class EGameModeVisibility
     {
-        Visible, NotVisible, Untested
-    } mGameModeVisibility;
+        Visible,
+        NotVisible,
+        Untested,
+    };
+    EGameModeVisibility mGameModeVisibility{EGameModeVisibility::Untested};
 
-    CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0, CScriptObject *pObject = 0);
-    ENodeType NodeType();
-    void PostLoad();
-    void OnTransformed();
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
-    void DrawSelection();
-    void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
-    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo);
-    bool AllowsRotate() const;
-    bool AllowsScale() const;
-    bool IsVisible() const;
-    CColor TintColor(const SViewInfo& rkViewInfo) const;
-    CColor WireframeColor() const;
-    CStructRef GetProperties() const;
-    void PropertyModified(IProperty* pProp);
+    CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = nullptr, CScriptObject *pObject = nullptr);
+    ENodeType NodeType() override;
+    void PostLoad() override;
+    void OnTransformed() override;
+    void AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo) override;
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo) override;
+    void DrawSelection() override;
+    void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo) override;
+    SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo) override;
+    bool AllowsRotate() const override;
+    bool AllowsScale() const override;
+    bool IsVisible() const override;
+    CColor TintColor(const SViewInfo& rkViewInfo) const override;
+    CColor WireframeColor() const override;
+    CStructRef GetProperties() const override;
+    void PropertyModified(IProperty* pProp) override;
 
     void LinksModified();
     void UpdatePreviewVolume();
@@ -69,9 +72,9 @@ public:
     CTexture* ActiveBillboard() const;
     bool UsesModel() const;
 
-    inline uint32 NumAttachments() const                        { return mAttachments.size(); }
-    inline CScriptAttachNode* Attachment(uint32 Index) const    { return mAttachments[Index]; }
-    inline CResource* DisplayAsset() const                      { return mpDisplayAsset; }
+    uint32 NumAttachments() const                        { return mAttachments.size(); }
+    CScriptAttachNode* Attachment(uint32 Index) const    { return mAttachments[Index]; }
+    CResource* DisplayAsset() const                      { return mpDisplayAsset; }
 
 protected:
     void SetDisplayAsset(CResource *pRes);

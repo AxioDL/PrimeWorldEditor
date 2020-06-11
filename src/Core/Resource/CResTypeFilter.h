@@ -7,11 +7,11 @@
 
 class CResTypeFilter
 {
-    EGame mGame;
+    EGame mGame = EGame::Invalid;
     std::set<EResourceType> mAcceptedTypes;
 
 public:
-    CResTypeFilter() : mGame(EGame::Invalid) { }
+    CResTypeFilter() = default;
     CResTypeFilter(EGame Game, const TString& rkTypeList) { FromString(Game, rkTypeList); }
 
     void SetAcceptedTypes(EGame Game, const TStringList& rkTypes)
@@ -53,22 +53,22 @@ public:
         rArc << SerialParameter("AcceptedTypes", mAcceptedTypes, SH_Proxy);
     }
 
-    inline bool Accepts(EResourceType Type) const
+    bool Accepts(EResourceType Type) const
     {
         return mAcceptedTypes.find(Type) != mAcceptedTypes.end();
     }
 
-    inline bool Accepts(CResTypeInfo *pType) const
+    bool Accepts(CResTypeInfo *pType) const
     {
         return pType && Accepts(pType->Type());
     }
 
-    inline bool Accepts(CResourceEntry *pEntry) const
+    bool Accepts(CResourceEntry *pEntry) const
     {
         return pEntry && Accepts(pEntry->ResourceType());
     }
 
-    inline bool Accepts(const CResTypeFilter& rkFilter) const
+    bool Accepts(const CResTypeFilter& rkFilter) const
     {
         for (auto Iter = mAcceptedTypes.begin(); Iter != mAcceptedTypes.end(); Iter++)
         {
@@ -79,12 +79,12 @@ public:
         return false;
     }
 
-    inline bool operator==(const CResTypeFilter& rkOther) const
+    bool operator==(const CResTypeFilter& rkOther) const
     {
         return mAcceptedTypes == rkOther.mAcceptedTypes;
     }
 
-    inline bool operator!=(const CResTypeFilter& rkOther) const
+    bool operator!=(const CResTypeFilter& rkOther) const
     {
         return !(*this == rkOther);
     }

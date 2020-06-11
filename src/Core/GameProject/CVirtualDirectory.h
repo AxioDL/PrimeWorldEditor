@@ -19,7 +19,7 @@ class CVirtualDirectory
     std::vector<CResourceEntry*> mResources;
 
 public:
-    CVirtualDirectory(CResourceStore *pStore);
+    explicit CVirtualDirectory(CResourceStore *pStore);
     CVirtualDirectory(const TString& rkName, CResourceStore *pStore);
     CVirtualDirectory(CVirtualDirectory *pParent, const TString& rkName, CResourceStore *pStore);
     ~CVirtualDirectory();
@@ -48,14 +48,14 @@ public:
     static bool IsValidDirectoryPath(TString Path);
 
     // Accessors
-    inline CVirtualDirectory* Parent() const    { return mpParent; }
-    inline bool IsRoot() const                  { return !mpParent; }
-    inline TString Name() const                 { return mName; }
+    CVirtualDirectory* Parent() const    { return mpParent; }
+    bool IsRoot() const                  { return !mpParent; }
+    TString Name() const                 { return mName; }
 
-    inline uint32 NumSubdirectories() const                         { return mSubdirectories.size(); }
-    inline CVirtualDirectory* SubdirectoryByIndex(uint32 Index)     { return mSubdirectories[Index]; }
-    inline uint32 NumResources() const                              { return mResources.size(); }
-    inline CResourceEntry* ResourceByIndex(uint32 Index)            { return mResources[Index]; }
+    uint32 NumSubdirectories() const                         { return mSubdirectories.size(); }
+    CVirtualDirectory* SubdirectoryByIndex(uint32 Index)     { return mSubdirectories[Index]; }
+    uint32 NumResources() const                              { return mResources.size(); }
+    CResourceEntry* ResourceByIndex(uint32 Index)            { return mResources[Index]; }
 };
 
 #endif // CVIRTUALDIRECTORY

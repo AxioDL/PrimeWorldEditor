@@ -14,16 +14,7 @@
 
 /** IProperty */
 IProperty::IProperty(EGame Game)
-    : mpParent( nullptr )
-    , mpPointerParent( nullptr )
-    , mpArchetype( nullptr )
-    , mGame( Game )
-    , mpScriptTemplate( nullptr )
-    , mOffset( -1 )
-    , mID( -1 )
-    , mCookPreference( ECookPreference::Default )
-    , mMinVersion( 0.0f )
-    , mMaxVersion( FLT_MAX )
+    : mGame(Game)
 {}
 
 void IProperty::_ClearChildren()

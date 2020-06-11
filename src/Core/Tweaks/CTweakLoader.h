@@ -7,7 +7,7 @@
 class CTweakLoader
 {
     /** Private constructor */
-    CTweakLoader() {}
+    CTweakLoader() = default;
 
 public:
     /** Loader entry point */

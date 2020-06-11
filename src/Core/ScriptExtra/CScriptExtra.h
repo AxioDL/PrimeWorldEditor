@@ -26,7 +26,7 @@ protected:
     EGame mGame;
 
 public:
-    explicit CScriptExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0)
+    explicit CScriptExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr)
         : CSceneNode(pScene, -1, pParent)
         , mpScriptNode(pParent)
         , mpInstance(pInstance)
@@ -34,20 +34,20 @@ public:
     {
     }
 
-    virtual ~CScriptExtra()                 {}
-    inline CScriptObject* Instance() const  { return mpInstance; }
-    inline EGame Game() const               { return mGame; }
+    virtual ~CScriptExtra() = default;
+    CScriptObject* Instance() const  { return mpInstance; }
+    EGame Game() const               { return mGame; }
 
     // Default implementations for CSceneNode
-    virtual ENodeType NodeType() { return ENodeType::ScriptExtra; }
-    virtual void RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, const SViewInfo& /*rkViewInfo*/) {}
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& /*rkRay*/, uint32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
+    ENodeType NodeType() override { return ENodeType::ScriptExtra; }
+    void RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, const SViewInfo& /*rkViewInfo*/) override {}
+    SRayIntersection RayNodeIntersectTest(const CRay& /*rkRay*/, uint32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/) override
     {
         SRayIntersection out;
         out.Hit = false;
         return out;
     }
-    virtual CColor WireframeColor() const { return mpParent->WireframeColor(); }
+    CColor WireframeColor() const override { return mpParent->WireframeColor(); }
 
     // Virtual CScriptExtra functions
     virtual void InstanceTransformed() {}

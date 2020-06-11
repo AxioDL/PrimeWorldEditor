@@ -32,11 +32,11 @@ class CResource
     DECLARE_RESOURCE_TYPE(Resource)
 
     CResourceEntry *mpEntry;
-    int mRefCount;
+    int mRefCount = 0;
 
 public:
-    CResource(CResourceEntry *pEntry = 0)
-        : mpEntry(pEntry), mRefCount(0)
+    explicit CResource(CResourceEntry *pEntry = nullptr)
+        : mpEntry(pEntry)
     {
     }
 
@@ -44,17 +44,17 @@ public:
     virtual CDependencyTree* BuildDependencyTree() const    { return new CDependencyTree(); }
     virtual void Serialize(IArchive& /*rArc*/)              {}
     virtual void InitializeNewResource()                    {}
-    
-    inline CResourceEntry* Entry() const    { return mpEntry; }
-    inline CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }
-    inline EResourceType Type() const       { return mpEntry->TypeInfo()->Type(); }
-    inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
-    inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
-    inline CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
-    inline EGame Game() const               { return mpEntry ? mpEntry->Game() : EGame::Invalid; }
-    inline bool IsReferenced() const        { return mRefCount > 0; }
-    inline void Lock()                      { mRefCount++; }
-    inline void Release()                   { mRefCount--; }
+
+    CResourceEntry* Entry() const    { return mpEntry; }
+    CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }
+    EResourceType Type() const       { return mpEntry->TypeInfo()->Type(); }
+    TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
+    TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
+    CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
+    EGame Game() const               { return mpEntry ? mpEntry->Game() : EGame::Invalid; }
+    bool IsReferenced() const        { return mRefCount > 0; }
+    void Lock()                      { mRefCount++; }
+    void Release()                   { mRefCount--; }
 };
 
 #endif // CRESOURCE_H

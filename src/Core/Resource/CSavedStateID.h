@@ -21,13 +21,13 @@ public:
         m[1] = Part2;
     }
 
-    CSavedStateID(IInputStream& rInput)
+    explicit CSavedStateID(IInputStream& rInput)
     {
         m[0] = rInput.ReadLongLong();
         m[1] = rInput.ReadLongLong();
     }
 
-    TString ToString()
+    TString ToString() const
     {
         uint32 Part1 = (m[0] >> 32) & 0xFFFFFFFF;
         uint32 Part2 = (m[0] >> 16) & 0x0000FFFF;
@@ -61,17 +61,17 @@ public:
     }
 
     // Operators
-    inline bool operator==(const CSavedStateID& rkOther)
+    bool operator==(const CSavedStateID& rkOther) const
     {
         return (m[0] == rkOther.m[0] && m[1] == rkOther.m[1]);
     }
 
-    inline bool operator!=(const CSavedStateID& rkOther)
+    bool operator!=(const CSavedStateID& rkOther) const
     {
         return !(*this == rkOther);
     }
 
-    inline bool operator<(const CSavedStateID& rkOther)
+    bool operator<(const CSavedStateID& rkOther) const
     {
         return (m[0] == rkOther.m[0] ? m[1] < rkOther.m[1] : m[0] < rkOther.m[0]);
     }

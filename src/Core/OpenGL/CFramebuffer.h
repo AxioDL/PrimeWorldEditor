@@ -28,7 +28,7 @@ public:
     void SetMultisamplingEnabled(bool Enable);
 
     // Accessors
-    inline CTexture* Texture() const    { return mpTexture; }
+    CTexture* Texture() const    { return mpTexture; }
 
     // Static
     static void BindDefaultFramebuffer(GLenum Target = GL_FRAMEBUFFER);

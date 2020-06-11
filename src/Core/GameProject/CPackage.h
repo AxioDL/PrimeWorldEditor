@@ -34,24 +34,22 @@ struct SNamedResource
 
 class CPackage
 {
-    CGameProject *mpProject;
+    CGameProject *mpProject = nullptr;
     TString mPakName;
     TString mPakPath;
     std::vector<SNamedResource> mResources;
-    bool mNeedsRecook;
+    bool mNeedsRecook = false;
 
     // Cached dependency list; used to figure out if a given resource is in this package
-    mutable bool mCacheDirty;
+    mutable bool mCacheDirty = false;
     mutable std::set<CAssetID> mCachedDependencies;
 
 public:
-    CPackage() {}
-
+    CPackage() = default;
     CPackage(CGameProject *pProj, const TString& rkName, const TString& rkPath)
         : mpProject(pProj)
         , mPakName(rkName)
         , mPakPath(rkPath)
-        , mNeedsRecook(false)
         , mCacheDirty(true)
     {}
 
@@ -70,14 +68,14 @@ public:
     TString CookedPackagePath(bool Relative) const;
 
     // Accessors
-    inline TString Name() const                                         { return mPakName; }
-    inline TString Path() const                                         { return mPakPath; }
-    inline CGameProject* Project() const                                { return mpProject; }
-    inline uint32 NumNamedResources() const                             { return mResources.size(); }
-    inline const SNamedResource& NamedResourceByIndex(uint32 Idx) const { return mResources[Idx]; }
-    inline bool NeedsRecook() const                                     { return mNeedsRecook; }
+    TString Name() const                                         { return mPakName; }
+    TString Path() const                                         { return mPakPath; }
+    CGameProject* Project() const                                { return mpProject; }
+    uint32 NumNamedResources() const                             { return mResources.size(); }
+    const SNamedResource& NamedResourceByIndex(uint32 Idx) const { return mResources[Idx]; }
+    bool NeedsRecook() const                                     { return mNeedsRecook; }
 
-    inline void SetPakName(TString NewName) { mPakName = NewName; }
+    void SetPakName(TString NewName) { mPakName = std::move(NewName); }
 };
 
 #endif // CPACKAGE

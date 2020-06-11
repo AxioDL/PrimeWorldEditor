@@ -13,7 +13,7 @@ class COpeningBanner
     bool mWii;
 
 public:
-    COpeningBanner(CGameProject *pProj);
+    explicit COpeningBanner(CGameProject *pProj);
     TString EnglishGameName() const;
     void SetEnglishGameName(const TString& rkName);
     void Save();

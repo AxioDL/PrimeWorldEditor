@@ -80,17 +80,17 @@ private:
     std::vector<SEditorAsset> mAssets;
     std::vector<SAttachment> mAttachments;
 
-    ERotationType mRotationType;
-    EScaleType mScaleType;
-    float mPreviewScale;
+    ERotationType mRotationType{ERotationType::RotationEnabled};
+    EScaleType mScaleType{EScaleType::ScaleEnabled};
+    float mPreviewScale = 1.0f;
 
     // Preview Volume
-    EVolumeShape mVolumeShape;
-    float mVolumeScale;
+    EVolumeShape mVolumeShape{EVolumeShape::NoShape};
+    float mVolumeScale = 1.0f;
     TIDString mVolumeConditionIDString;
 
     TString mSourceFile;
-    uint32 mObjectID;
+    uint32 mObjectID = 0;
 
     // Editor Properties
     TIDString mNameIDString;
@@ -103,12 +103,12 @@ private:
     CGameTemplate* mpGame;
     std::list<CScriptObject*> mObjectList;
 
-    CStringProperty* mpNameProperty;
-    CVectorProperty* mpPositionProperty;
-    CVectorProperty* mpRotationProperty;
-    CVectorProperty* mpScaleProperty;
-    CBoolProperty* mpActiveProperty;
-    CStructProperty* mpLightParametersProperty;
+    CStringProperty* mpNameProperty = nullptr;
+    CVectorProperty* mpPositionProperty = nullptr;
+    CVectorProperty* mpRotationProperty = nullptr;
+    CVectorProperty* mpScaleProperty = nullptr;
+    CBoolProperty* mpActiveProperty = nullptr;
+    CStructProperty* mpLightParametersProperty = nullptr;
 
     struct SVolumeCondition {
         uint32 Value;
@@ -123,14 +123,14 @@ private:
         }
     };
     std::vector<SVolumeCondition> mVolumeConditions;
-    bool mVisible;
-    bool mDirty;
+    bool mVisible = true;
+    bool mDirty = false;
 
 public:
     // Default constructor. Don't use. This is only here so the serializer doesn't complain
     CScriptTemplate() { ASSERT(false); }
     // Old constructor
-    CScriptTemplate(CGameTemplate *pGame);
+    explicit CScriptTemplate(CGameTemplate *pGame);
     // New constructor
     CScriptTemplate(CGameTemplate* pGame, uint32 ObjectID, const TString& kFilePath);
     ~CScriptTemplate();
@@ -145,29 +145,29 @@ public:
     CCollisionMeshGroup* FindCollision(void* pPropertyData);
 
     // Accessors
-    inline CGameTemplate* GameTemplate() const              { return mpGame; }
-    inline TString Name() const                             { return mpProperties->Name(); }
-    inline ERotationType RotationType() const               { return mRotationType; }
-    inline EScaleType ScaleType() const                     { return mScaleType; }
-    inline float PreviewScale() const                       { return mPreviewScale; }
-    inline uint32 ObjectID() const                          { return mObjectID; }
-    inline bool IsVisible() const                           { return mVisible; }
-    inline TString SourceFile() const                       { return mSourceFile; }
-    inline CStructProperty* Properties() const              { return mpProperties.get(); }
-    inline uint32 NumAttachments() const                    { return mAttachments.size(); }
+    CGameTemplate* GameTemplate() const              { return mpGame; }
+    TString Name() const                             { return mpProperties->Name(); }
+    ERotationType RotationType() const               { return mRotationType; }
+    EScaleType ScaleType() const                     { return mScaleType; }
+    float PreviewScale() const                       { return mPreviewScale; }
+    uint32 ObjectID() const                          { return mObjectID; }
+    bool IsVisible() const                           { return mVisible; }
+    TString SourceFile() const                       { return mSourceFile; }
+    CStructProperty* Properties() const              { return mpProperties.get(); }
+    uint32 NumAttachments() const                    { return mAttachments.size(); }
     const SAttachment& Attachment(uint32 Index) const       { return mAttachments[Index]; }
     const std::vector<TString>& RequiredModules() const     { return mModules; }
 
-    inline CStringProperty* NameProperty() const                { return mpNameProperty; }
-    inline CVectorProperty* PositionProperty() const            { return mpPositionProperty; }
-    inline CVectorProperty* RotationProperty() const            { return mpRotationProperty; }
-    inline CVectorProperty* ScaleProperty() const               { return mpScaleProperty; }
-    inline CBoolProperty* ActiveProperty() const                { return mpActiveProperty; }
-    inline CStructProperty* LightParametersProperty() const     { return mpLightParametersProperty; }
+    CStringProperty* NameProperty() const                { return mpNameProperty; }
+    CVectorProperty* PositionProperty() const            { return mpPositionProperty; }
+    CVectorProperty* RotationProperty() const            { return mpRotationProperty; }
+    CVectorProperty* ScaleProperty() const               { return mpScaleProperty; }
+    CBoolProperty* ActiveProperty() const                { return mpActiveProperty; }
+    CStructProperty* LightParametersProperty() const     { return mpLightParametersProperty; }
 
-    inline void SetVisible(bool Visible)    { mVisible = Visible; }
-    inline void MarkDirty()                 { mDirty = true; }
-    inline bool IsDirty() const             { return mDirty || mpProperties->IsDirty(); }
+    void SetVisible(bool Visible)    { mVisible = Visible; }
+    void MarkDirty()                 { mDirty = true; }
+    bool IsDirty() const             { return mDirty || mpProperties->IsDirty(); }
 
     // Object Tracking
     uint32 NumObjects() const;

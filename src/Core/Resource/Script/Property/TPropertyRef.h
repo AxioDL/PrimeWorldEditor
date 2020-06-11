@@ -27,15 +27,13 @@ template<class PropertyClass, typename ValueType = typename PropertyClass::Value
 class TPropertyRef
 {
     /** Property data being referenced */
-    void*                   mpPropertyData;
+    void*                   mpPropertyData = nullptr;
 
     /** Property being referenced */
-    PropertyClass*          mpProperty;
+    PropertyClass*          mpProperty = nullptr;
 
 public:
-    TPropertyRef()
-        : mpPropertyData(nullptr), mpProperty(nullptr)
-    {}
+    TPropertyRef() = default;
 
     explicit TPropertyRef(void* pInData, IProperty* pInProperty)
         : mpPropertyData(pInData), mpProperty( TPropCast<PropertyClass>(pInProperty) )
@@ -48,19 +46,19 @@ public:
     }
 
     /** Accessors */
-    inline void* DataPointer() const            { return mpPropertyData; }
-    inline PropertyClass* Property() const      { return mpProperty; }
-    inline ValueType Get() const                { return IsValid() ? *((ValueType*) mpProperty->RawValuePtr( mpPropertyData )) : ValueType(); }
-    inline void Set(const ValueType& kIn) const { if (IsValid()) *((ValueType*) mpProperty->RawValuePtr( mpPropertyData )) = kIn; }
-    inline bool IsValid() const                 { return mpPropertyData != nullptr && mpProperty != nullptr; }
+    void* DataPointer() const            { return mpPropertyData; }
+    PropertyClass* Property() const      { return mpProperty; }
+    ValueType Get() const                { return IsValid() ? *((ValueType*) mpProperty->RawValuePtr( mpPropertyData )) : ValueType(); }
+    void Set(const ValueType& kIn) const { if (IsValid()) *((ValueType*) mpProperty->RawValuePtr( mpPropertyData )) = kIn; }
+    bool IsValid() const                 { return mpPropertyData != nullptr && mpProperty != nullptr; }
 
     /** Inline operators */
-    inline operator ValueType() const
+    operator ValueType() const
     {
         return Get();
     }
 
-    inline bool operator==(IProperty* pProperty) const
+    bool operator==(IProperty* pProperty) const
     {
         return mpProperty == pProperty;
     }
@@ -72,25 +70,25 @@ public:
 };
 
 /** Convenience typedefs */
-typedef TPropertyRef<CBoolProperty>         CBoolRef;
-typedef TPropertyRef<CByteProperty>         CByteRef;
-typedef TPropertyRef<CShortProperty>        CShortRef;
-typedef TPropertyRef<CIntProperty>          CIntRef;
-typedef TPropertyRef<CFloatProperty>        CFloatRef;
-typedef TPropertyRef<CFlagsProperty>        CFlagsRef;
-typedef TPropertyRef<CStringProperty>       CStringRef;
-typedef TPropertyRef<CVectorProperty>       CVectorRef;
-typedef TPropertyRef<CColorProperty>        CColorRef;
-typedef TPropertyRef<CAssetProperty>        CAssetRef;
-typedef TPropertyRef<CSoundProperty>        CSoundRef;
-typedef TPropertyRef<CAnimationProperty>    CAnimationRef;
-typedef TPropertyRef<CAnimationSetProperty> CAnimationSetRef;
-typedef TPropertyRef<CSequenceProperty>     CSequenceRef;
-typedef TPropertyRef<CSplineProperty>       CSplineRef;
-typedef TPropertyRef<CGuidProperty>         CGuidRef;
-typedef TPropertyRef<CPointerProperty>      CPointerRef;
-typedef TPropertyRef<CStructProperty>       CStructRef;
-typedef TPropertyRef<CArrayProperty>        CArrayRef;
+using CAnimationRef = TPropertyRef<CAnimationProperty>;
+using CAnimationSetRef = TPropertyRef<CAnimationSetProperty>;
+using CArrayRef = TPropertyRef<CArrayProperty>;
+using CAssetRef = TPropertyRef<CAssetProperty>;
+using CBoolRef = TPropertyRef<CBoolProperty>;
+using CByteRef = TPropertyRef<CByteProperty>;
+using CColorRef = TPropertyRef<CColorProperty>;
+using CFlagsRef = TPropertyRef<CFlagsProperty>;
+using CFloatRef = TPropertyRef<CFloatProperty>;
+using CGuidRef = TPropertyRef<CGuidProperty>;
+using CIntRef = TPropertyRef<CIntProperty>;
+using CPointerRef = TPropertyRef<CPointerProperty>;
+using CSequenceRef = TPropertyRef<CSequenceProperty>;
+using CShortRef = TPropertyRef<CShortProperty>;
+using CSoundRef = TPropertyRef<CSoundProperty>;
+using CSplineRef = TPropertyRef<CSplineProperty>;
+using CStringRef = TPropertyRef<CStringProperty>;
+using CStructRef = TPropertyRef<CStructProperty>;
+using CVectorRef = TPropertyRef<CVectorProperty>;
 
 /** Special version for enums */
 template<typename ValueType>

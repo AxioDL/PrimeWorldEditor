@@ -8,7 +8,7 @@ class CScanLoader
 {
     TResPtr<CScan> mpScan;
 
-    CScanLoader() {}
+    CScanLoader() = default;
     CScan* LoadScanMP1(IInputStream& SCAN,  CResourceEntry* pEntry);
     CScan* LoadScanMP2(IInputStream& SCAN,  CResourceEntry* pEntry);
 

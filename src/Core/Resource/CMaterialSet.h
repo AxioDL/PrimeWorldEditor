@@ -14,9 +14,8 @@ class CMaterialSet
     std::vector<std::unique_ptr<CMaterial>> mMaterials;
 
 public:
-    CMaterialSet() {}
-
-    ~CMaterialSet() {}
+    CMaterialSet() = default;
+    ~CMaterialSet() = default;
 
     CMaterialSet* Clone()
     {
@@ -29,7 +28,7 @@ public:
         return pOut;
     }
 
-    uint32 NumMaterials()
+    uint32 NumMaterials() const
     {
         return mMaterials.size();
     }

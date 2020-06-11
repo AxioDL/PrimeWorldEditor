@@ -5,45 +5,19 @@
 #include "Core/Resource/Animation/CAnimSet.h"
 #include <Common/Log.h>
 
-#include <iostream>
 #include <string>
 
 // Old constructor
 CScriptTemplate::CScriptTemplate(CGameTemplate *pGame)
     : mpGame(pGame)
-    , mpProperties(nullptr)
-    , mVisible(true)
-    , mDirty(false)
-    , mpNameProperty(nullptr)
-    , mpPositionProperty(nullptr)
-    , mpRotationProperty(nullptr)
-    , mpScaleProperty(nullptr)
-    , mpActiveProperty(nullptr)
-    , mpLightParametersProperty(nullptr)
-    , mPreviewScale(1.f)
-    , mVolumeShape(EVolumeShape::NoShape)
-    , mVolumeScale(1.f)
 {
 }
 
 // New constructor
 CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, uint32 InObjectID, const TString& kInFilePath)
-    : mRotationType(ERotationType::RotationEnabled)
-    , mScaleType(EScaleType::ScaleEnabled)
-    , mPreviewScale(1.f)
-    , mVolumeShape(EVolumeShape::NoShape)
-    , mVolumeScale(1.f)
-    , mSourceFile(kInFilePath)
+    : mSourceFile(kInFilePath)
     , mObjectID(InObjectID)
     , mpGame(pInGame)
-    , mpNameProperty(nullptr)
-    , mpPositionProperty(nullptr)
-    , mpRotationProperty(nullptr)
-    , mpScaleProperty(nullptr)
-    , mpActiveProperty(nullptr)
-    , mpLightParametersProperty(nullptr)
-    , mVisible(true)
-    , mDirty(false)
 {
     // Load
     CXMLReader Reader(kInFilePath);
@@ -62,9 +36,7 @@ CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, uint32 InObjectID, cons
     if (!mLightParametersIDString.IsEmpty())    mpLightParametersProperty = TPropCast<CStructProperty>( mpProperties->ChildByIDString(mLightParametersIDString) );
 }
 
-CScriptTemplate::~CScriptTemplate()
-{
-}
+CScriptTemplate::~CScriptTemplate() = default;
 
 void CScriptTemplate::Serialize(IArchive& Arc)
 {

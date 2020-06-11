@@ -1,10 +1,7 @@
 #include "CTextureEncoder.h"
 #include <Common/Log.h>
 
-CTextureEncoder::CTextureEncoder()
-    : mpTexture(nullptr)
-{
-}
+CTextureEncoder::CTextureEncoder() = default;
 
 void CTextureEncoder::WriteTXTR(IOutputStream& rTXTR)
 {

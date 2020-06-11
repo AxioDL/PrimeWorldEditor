@@ -43,17 +43,17 @@ public:
         }
     }
 
-    inline CScriptTemplate* TweakTemplate() const
+    CScriptTemplate* TweakTemplate() const
     {
         return mpTemplate;
     }
 
-    inline uint32 TweakID() const
+    uint32 TweakID() const
     {
         return mTweakID;
     }
 
-    inline CStructRef TweakData() const
+    CStructRef TweakData() const
     {
         return CStructRef((void*) mTweakData.data(), mpTemplate->Properties());
     }

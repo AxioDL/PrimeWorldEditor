@@ -27,7 +27,7 @@ class CSourceAnimData : public CResource
     IMetaTransition *mpDefaultTransition;
 
 public:
-    CSourceAnimData(CResourceEntry *pEntry = 0)
+    explicit CSourceAnimData(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
         , mpDefaultTransition(nullptr)
     {}
@@ -43,7 +43,7 @@ public:
         delete mpDefaultTransition;
     }
 
-    CDependencyTree* BuildDependencyTree() const
+    CDependencyTree* BuildDependencyTree() const override
     {
         // SAND normally has dependencies from meta-transitions and events
         // However, all of these can be character-specific. To simplify things, all SAND

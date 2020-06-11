@@ -8,9 +8,9 @@
 class CSkeletonLoader
 {
     TResPtr<CSkeleton> mpSkeleton;
-    EGame mVersion;
+    EGame mVersion{};
 
-    CSkeletonLoader() {}
+    CSkeletonLoader() = default;
     void SetLocalBoneCoords(CBone *pBone);
     void CalculateBoneInverseBindMatrices();
 

@@ -23,7 +23,7 @@ class CSkin : public CResource
     std::vector<SVertGroup> mVertGroups;
 
 public:
-    CSkin(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
+    explicit CSkin(CResourceEntry *pEntry = nullptr) : CResource(pEntry) {}
 
     const SVertexWeights& WeightsForVertex(uint32 VertIdx)
     {

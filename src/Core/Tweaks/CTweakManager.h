@@ -16,7 +16,7 @@ class CTweakManager
     TString mStandardFilePath;
 
 public:
-    CTweakManager(CGameProject* pInProject);
+    explicit CTweakManager(CGameProject* pInProject);
     ~CTweakManager();
     void LoadTweaks();
     bool SaveTweaks();

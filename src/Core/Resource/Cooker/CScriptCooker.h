@@ -14,7 +14,7 @@ class CScriptCooker
     bool mWriteGeneratedSeparately;
 
 public:
-    CScriptCooker(EGame Game, bool WriteGeneratedObjectsSeparately = true)
+    explicit CScriptCooker(EGame Game, bool WriteGeneratedObjectsSeparately = true)
         : mGame(Game)
         , mWriteGeneratedSeparately(WriteGeneratedObjectsSeparately && mGame >= EGame::EchoesDemo)
     {}

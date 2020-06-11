@@ -6,8 +6,8 @@
 #include <Common/Math/CVector3f.h>
 #include <array>
 
-typedef std::array<uint8, 4>    TBoneIndices;
-typedef std::array<float, 4>    TBoneWeights;
+using TBoneIndices = std::array<uint8, 4>;
+using TBoneWeights = std::array<float, 4>;
 
 class CVertex
 {
@@ -24,12 +24,11 @@ public:
 
     CVertex() {}
 
-    CVertex(const CVector3f& rPos)
+    CVertex(const CVector3f& rPos) : Position{rPos}
     {
-        Position = rPos;
     }
 
-    bool operator==(const CVertex& rkOther) {
+    bool operator==(const CVertex& rkOther) const {
         return ((Position == rkOther.Position) &&
                 (Normal == rkOther.Normal) &&
                 (Color[0] == rkOther.Color[0]) &&
@@ -44,6 +43,11 @@ public:
                 (Tex[7] == rkOther.Tex[7]) &&
                 (BoneIndices == rkOther.BoneIndices) &&
                 (BoneWeights == rkOther.BoneWeights));
+    }
+
+    bool operator!=(const CVertex& other) const
+    {
+        return !operator==(other);
     }
 };
 

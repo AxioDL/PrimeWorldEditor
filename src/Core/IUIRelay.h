@@ -6,6 +6,7 @@
 class IUIRelay
 {
 public:
+    virtual ~IUIRelay() = default;
     virtual void ShowMessageBox(const TString& rkInfoBoxTitle, const TString& rkMessage) = 0;
     virtual void ShowMessageBoxAsync(const TString& rkInfoBoxTitle, const TString& rkMessage) = 0;
     virtual bool AskYesNoQuestion(const TString& rkInfoBoxTitle, const TString& rkQuestion) = 0;

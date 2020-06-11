@@ -7,7 +7,7 @@
 class CTweakCooker
 {
     /** Private constructor */
-    CTweakCooker() {}
+    CTweakCooker() = default;
 
 public:
     /** Cooker entry point */

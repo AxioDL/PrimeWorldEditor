@@ -72,23 +72,23 @@ public:
     void SetEnabled(bool Enabled);
 
     // Getters
-    inline CFourCC Type() const                             { return mPassType; }
-    inline TString NamedType() const                        { return PassTypeName(mPassType); }
-    inline ETevColorInput ColorInput(uint32 Input) const    { return mColorInputs[Input]; }
-    inline ETevAlphaInput AlphaInput(uint32 Input) const    { return mAlphaInputs[Input]; }
-    inline ETevOutput ColorOutput() const                   { return mColorOutput; }
-    inline ETevOutput AlphaOutput() const                   { return mAlphaOutput; }
-    inline ETevKSel KColorSel() const                       { return mKColorSel; }
-    inline ETevKSel KAlphaSel() const                       { return mKAlphaSel; }
-    inline ETevRasSel RasSel() const                        { return mRasSel; }
-    inline float TevColorScale() const                      { return mTevColorScale; }
-    inline float TevAlphaScale() const                      { return mTevAlphaScale; }
-    inline uint32 TexCoordSource() const                    { return mTexCoordSource; }
-    inline CTexture* Texture() const                        { return mpTexture; }
-    inline EUVAnimMode AnimMode() const                     { return mAnimMode; }
-    inline float AnimParam(uint32 ParamIndex) const         { return mAnimParams[ParamIndex]; }
-    inline char TexSwapComp(uint32 Comp) const              { return mTexSwapComps[Comp]; }
-    inline bool IsEnabled() const                           { return mEnabled; }
+    CFourCC Type() const                             { return mPassType; }
+    TString NamedType() const                        { return PassTypeName(mPassType); }
+    ETevColorInput ColorInput(uint32 Input) const    { return mColorInputs[Input]; }
+    ETevAlphaInput AlphaInput(uint32 Input) const    { return mAlphaInputs[Input]; }
+    ETevOutput ColorOutput() const                   { return mColorOutput; }
+    ETevOutput AlphaOutput() const                   { return mAlphaOutput; }
+    ETevKSel KColorSel() const                       { return mKColorSel; }
+    ETevKSel KAlphaSel() const                       { return mKAlphaSel; }
+    ETevRasSel RasSel() const                        { return mRasSel; }
+    float TevColorScale() const                      { return mTevColorScale; }
+    float TevAlphaScale() const                      { return mTevAlphaScale; }
+    uint32 TexCoordSource() const                    { return mTexCoordSource; }
+    CTexture* Texture() const                        { return mpTexture; }
+    EUVAnimMode AnimMode() const                     { return mAnimMode; }
+    float AnimParam(uint32 ParamIndex) const         { return mAnimParams[ParamIndex]; }
+    char TexSwapComp(uint32 Comp) const              { return mTexSwapComps[Comp]; }
+    bool IsEnabled() const                           { return mEnabled; }
 
     // Static
     static TString PassTypeName(CFourCC Type);
