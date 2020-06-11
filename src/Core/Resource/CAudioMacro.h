@@ -27,9 +27,9 @@ public:
     }
 
     // Accessors
-    inline TString MacroName() const                    { return mMacroName; }
-    inline uint32 NumSamples() const                    { return mSamples.size(); }
-    inline CAssetID SampleByIndex(uint32 Index) const   { return mSamples[Index]; }
+    TString MacroName() const                    { return mMacroName; }
+    uint32 NumSamples() const                    { return mSamples.size(); }
+    CAssetID SampleByIndex(uint32 Index) const   { return mSamples[Index]; }
 };
 
 #endif // CAUDIOMACRO_H
