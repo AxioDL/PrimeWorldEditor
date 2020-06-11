@@ -240,7 +240,7 @@ uint64 CMaterial::HashParameters()
 {
     if (mRecalcHash)
     {
-        CFNV1A Hash(CFNV1A::k64Bit);
+        CFNV1A Hash(CFNV1A::EHashLength::k64Bit);
 
         Hash.HashLong((int) mVersion);
         Hash.HashLong(mOptions);
