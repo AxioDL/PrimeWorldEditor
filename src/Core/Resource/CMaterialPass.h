@@ -7,6 +7,7 @@
 #include "Core/Render/FRenderOptions.h"
 #include <Common/CFourCC.h>
 #include <Common/Hash/CFNV1A.h>
+#include <array>
 
 class CMaterial;
 
@@ -28,8 +29,8 @@ class CMaterialPass
     CFourCC mPassType{"CUST"};
     FPassSettings mSettings{EPassSettings::None};
 
-    ETevColorInput mColorInputs[4] = {kZeroRGB, kZeroRGB, kZeroRGB, kZeroRGB};
-    ETevAlphaInput mAlphaInputs[4] = {kZeroAlpha, kZeroAlpha, kZeroAlpha, kZeroAlpha};
+    std::array<ETevColorInput, 4> mColorInputs{kZeroRGB, kZeroRGB, kZeroRGB, kZeroRGB};
+    std::array<ETevAlphaInput, 4> mAlphaInputs{kZeroAlpha, kZeroAlpha, kZeroAlpha, kZeroAlpha};
     ETevOutput mColorOutput{kPrevReg};
     ETevOutput mAlphaOutput{kPrevReg};
     ETevKSel mKColorSel{kKonstOne};
@@ -41,14 +42,14 @@ class CMaterialPass
     TResPtr<CTexture> mpTexture{nullptr};
     EUVAnimMode mAnimMode{EUVAnimMode::NoUVAnim};
     EUVConvolutedModeBType mAnimConvolutedModeBType{};
-    float mAnimParams[8] = {};
-    char mTexSwapComps[4] = {'r', 'g', 'b', 'a'};
+    std::array<float, 8> mAnimParams{};
+    std::array<char, 4> mTexSwapComps{'r', 'g', 'b', 'a'};
     bool mEnabled = true;
 
 public:
     explicit CMaterialPass(CMaterial *pParent);
     ~CMaterialPass();
-    std::unique_ptr<CMaterialPass> Clone(CMaterial *pParent);
+    std::unique_ptr<CMaterialPass> Clone(CMaterial *pParent) const;
     void HashParameters(CFNV1A& rHash);
     void LoadTexture(uint32 PassIndex);
     void SetAnimCurrent(FRenderOptions Options, uint32 PassIndex);

@@ -10,18 +10,14 @@ CMaterialPass::CMaterialPass(CMaterial *pParent)
 
 CMaterialPass::~CMaterialPass() = default;
 
-std::unique_ptr<CMaterialPass> CMaterialPass::Clone(CMaterial* pParent)
+std::unique_ptr<CMaterialPass> CMaterialPass::Clone(CMaterial* pParent) const
 {
-    std::unique_ptr<CMaterialPass> pOut = std::make_unique<CMaterialPass>(pParent);
+    auto pOut = std::make_unique<CMaterialPass>(pParent);
+
     pOut->mPassType = mPassType;
     pOut->mSettings = mSettings;
-
-    for (uint32 iIn = 0; iIn < 4; iIn++)
-    {
-        pOut->mColorInputs[iIn] = mColorInputs[iIn];
-        pOut->mAlphaInputs[iIn] = mAlphaInputs[iIn];
-    }
-
+    pOut->mColorInputs = mColorInputs;
+    pOut->mAlphaInputs = mAlphaInputs;
     pOut->mColorOutput = mColorOutput;
     pOut->mAlphaOutput = mAlphaOutput;
     pOut->mKColorSel = mKColorSel;
@@ -32,13 +28,8 @@ std::unique_ptr<CMaterialPass> CMaterialPass::Clone(CMaterial* pParent)
     pOut->mTexCoordSource = mTexCoordSource;
     pOut->mpTexture = mpTexture;
     pOut->mAnimMode = mAnimMode;
-
-    for (uint32 iParam = 0; iParam < 8; iParam++)
-        pOut->mAnimParams[iParam] = mAnimParams[iParam];
-
-    for (uint32 iComp = 0; iComp < 4; iComp++)
-        pOut->mTexSwapComps[iComp] = mTexSwapComps[iComp];
-
+    pOut->mAnimParams = mAnimParams;
+    pOut->mTexSwapComps = mTexSwapComps;
     pOut->mEnabled = mEnabled;
 
     return pOut;
@@ -46,25 +37,25 @@ std::unique_ptr<CMaterialPass> CMaterialPass::Clone(CMaterial* pParent)
 
 void CMaterialPass::HashParameters(CFNV1A& rHash)
 {
-    if (mEnabled)
-    {
-        rHash.HashLong(mPassType.ToLong());
-        rHash.HashLong(mSettings);
-        rHash.HashData(&mColorInputs[0], sizeof(ETevColorInput) * 4);
-        rHash.HashData(&mAlphaInputs[0], sizeof(ETevAlphaInput) * 4);
-        rHash.HashLong(mColorOutput);
-        rHash.HashLong(mAlphaOutput);
-        rHash.HashLong(mKColorSel);
-        rHash.HashLong(mKAlphaSel);
-        rHash.HashLong(mRasSel);
-        rHash.HashFloat(mTevColorScale);
-        rHash.HashFloat(mTevAlphaScale);
-        rHash.HashLong(mTexCoordSource);
-        rHash.HashLong((uint) mAnimMode);
-        rHash.HashData(mAnimParams, sizeof(float) * 8);
-        rHash.HashData(mTexSwapComps, sizeof(char) * 4);
-        rHash.HashByte(mEnabled);
-    }
+    if (!mEnabled)
+        return;
+
+    rHash.HashLong(mPassType.ToLong());
+    rHash.HashLong(mSettings);
+    rHash.HashData(mColorInputs.data(), sizeof(mColorInputs));
+    rHash.HashData(mAlphaInputs.data(), sizeof(mAlphaInputs));
+    rHash.HashLong(mColorOutput);
+    rHash.HashLong(mAlphaOutput);
+    rHash.HashLong(mKColorSel);
+    rHash.HashLong(mKAlphaSel);
+    rHash.HashLong(mRasSel);
+    rHash.HashFloat(mTevColorScale);
+    rHash.HashFloat(mTevAlphaScale);
+    rHash.HashLong(mTexCoordSource);
+    rHash.HashLong(static_cast<uint>(mAnimMode));
+    rHash.HashData(mAnimParams.data(), sizeof(mAnimParams));
+    rHash.HashData(mTexSwapComps.data(), sizeof(mTexSwapComps));
+    rHash.HashByte(mEnabled);
 }
 
 void CMaterialPass::LoadTexture(uint32 PassIndex)
