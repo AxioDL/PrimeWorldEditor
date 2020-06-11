@@ -3,9 +3,7 @@
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
-CAnimSetLoader::CAnimSetLoader()
-{
-}
+CAnimSetLoader::CAnimSetLoader() = default;
 
 CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 {

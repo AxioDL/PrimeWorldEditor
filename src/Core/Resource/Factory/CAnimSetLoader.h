@@ -8,7 +8,7 @@
 class CAnimSetLoader
 {
     TResPtr<CAnimSet> pSet;
-    EGame mGame;
+    EGame mGame{};
 
     CAnimSetLoader();
     CAnimSet* LoadCorruptionCHAR(IInputStream& rCHAR);
