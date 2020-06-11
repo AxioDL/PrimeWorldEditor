@@ -16,12 +16,12 @@ class CAnimEventData : public CResource
     std::vector<SEvent> mEvents;
 
 public:
-    CAnimEventData(CResourceEntry *pEntry = 0)
+    explicit CAnimEventData(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
     {
     }
 
-    CDependencyTree* BuildDependencyTree() const
+    CDependencyTree* BuildDependencyTree() const override
     {
         CDependencyTree *pTree = new CDependencyTree();
         AddDependenciesToTree(pTree);
@@ -43,11 +43,11 @@ public:
         }
     }
 
-    inline uint32 NumEvents() const                             { return mEvents.size(); }
-    inline uint32 EventCharacterIndex(uint32 EventIdx) const    { return mEvents[EventIdx].mCharacterIndex; }
-    inline CAssetID EventAssetRef(uint32 EventIdx) const        { return mEvents[EventIdx].mAssetRef; }
+    uint32 NumEvents() const                             { return mEvents.size(); }
+    uint32 EventCharacterIndex(uint32 EventIdx) const    { return mEvents[EventIdx].mCharacterIndex; }
+    CAssetID EventAssetRef(uint32 EventIdx) const        { return mEvents[EventIdx].mAssetRef; }
 
-    inline void AddEvent(uint32 CharIdx, CAssetID AssetID)      { mEvents.push_back( SEvent { CharIdx, AssetID } ); }
+    void AddEvent(uint32 CharIdx, CAssetID AssetID)      { mEvents.push_back(SEvent{CharIdx, AssetID}); }
 };
 
 #endif // CANIMEVENTDATA
