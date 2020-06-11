@@ -8,9 +8,6 @@
 #include <map>
 #include <memory>
 
-const TString gkAssetMapPath = "resources/gameinfo/AssetNameMap";
-const TString gkAssetMapExt = "xml";
-
 class CAssetNameMap
 {
     struct SAssetNameInfo
@@ -66,8 +63,8 @@ public:
     static TString DefaultNameMapPath(EIDLength IDLength);
     static TString DefaultNameMapPath(EGame Game);
 
-    inline bool IsValid() const                 { return mIsValid; }
-    inline static TString GetExtension()        { return gkAssetMapExt; }
+    bool IsValid() const { return mIsValid; }
+    static TString GetExtension();
 };
 
 #endif // CASSETNAMEMAP

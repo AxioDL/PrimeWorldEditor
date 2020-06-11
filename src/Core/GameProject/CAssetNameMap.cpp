@@ -1,5 +1,8 @@
 #include "CAssetNameMap.h"
 
+constexpr char gkAssetMapPath[] = "resources/gameinfo/AssetNameMap";
+constexpr char gkAssetMapExt[] = "xml";
+
 bool CAssetNameMap::LoadAssetNames(TString Path /*= ""*/)
 {
     if (Path.IsEmpty())
@@ -194,11 +197,16 @@ void CAssetNameMap::PostLoadValidate()
 TString CAssetNameMap::DefaultNameMapPath(EIDLength IDLength)
 {
     ASSERT(IDLength != kInvalidIDLength);
-    TString Suffix = (IDLength == EIDLength::k32Bit ? "32" : "64");
-    return gDataDir + gkAssetMapPath + Suffix + "." + gkAssetMapExt;
+    const char* const Suffix = (IDLength == EIDLength::k32Bit ? "32" : "64");
+    return gDataDir + gkAssetMapPath + Suffix + '.' + gkAssetMapExt;
 }
 
 TString CAssetNameMap::DefaultNameMapPath(EGame Game)
 {
     return DefaultNameMapPath( CAssetID::GameIDLength(Game) );
+}
+
+TString CAssetNameMap::GetExtension()
+{
+    return gkAssetMapExt;
 }
