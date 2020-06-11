@@ -14,9 +14,11 @@ public:
         : CResource(pEntry)
     {}
 
-    uint16 FindSoundDefineID(uint32 SoundID)
+    uint16 FindSoundDefineID(uint32 SoundID) const
     {
-        if (SoundID >= mDefineIDs.size()) return -1;
+        if (SoundID >= mDefineIDs.size()) 
+            return UINT16_MAX;
+
         return mDefineIDs[SoundID];
     }
 };
