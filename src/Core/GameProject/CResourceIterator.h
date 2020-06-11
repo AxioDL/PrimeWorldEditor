@@ -20,6 +20,8 @@ public:
         Next();
     }
 
+    virtual ~CResourceIterator() = default;
+
     virtual CResourceEntry* Next()
     {
         do
@@ -27,7 +29,7 @@ public:
             if (mIter != mpkStore->mResourceEntries.end())
             {
                 mpCurEntry = mIter->second;
-                mIter++;
+                ++mIter;
             }
             else mpCurEntry = nullptr;
         }
@@ -36,33 +38,33 @@ public:
         return mpCurEntry;
     }
 
-    inline bool DoneIterating() const
+    bool DoneIterating() const
     {
         return mpCurEntry == nullptr;
     }
 
-    inline operator bool() const
+    explicit operator bool() const
     {
         return !DoneIterating();
     }
 
-    inline CResourceEntry* operator*() const
+    CResourceEntry* operator*() const
     {
         return mpCurEntry;
     }
 
-    inline CResourceEntry* operator->() const
+    CResourceEntry* operator->() const
     {
         return mpCurEntry;
     }
 
-    inline CResourceIterator& operator++()
+    CResourceIterator& operator++()
     {
         Next();
         return *this;
     }
 
-    inline CResourceIterator operator++(int)
+    CResourceIterator operator++(int)
     {
         CResourceIterator Copy = *this;
         Next();
@@ -81,7 +83,7 @@ public:
             Next();
     }
 
-    virtual CResourceEntry* Next()
+    CResourceEntry* Next() override
     {
         do {
             CResourceIterator::Next();
