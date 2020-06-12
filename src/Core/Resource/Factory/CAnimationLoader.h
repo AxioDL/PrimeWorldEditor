@@ -4,36 +4,37 @@
 #include "Core/Resource/TResPtr.h"
 #include "Core/Resource/Animation/CAnimation.h"
 #include <Common/EGame.h>
+#include <array>
 #include <memory>
 
 class CAnimationLoader
 {
     TResPtr<CAnimation> mpAnim;
-    IInputStream *mpInput;
-    EGame mGame;
+    IInputStream *mpInput = nullptr;
+    EGame mGame{};
 
     // Compression data
     std::vector<bool> mKeyFlags;
-    float mTranslationMultiplier;
-    uint32 mRotationDivisor;
-    float mScaleMultiplier;
+    float mTranslationMultiplier = 0.0f;
+    uint32 mRotationDivisor = 0;
+    float mScaleMultiplier = 0.0f;
 
     struct SCompressedChannel
     {
         uint32 BoneID;
         uint16 NumRotationKeys;
-        int16 Rotation[3];
-        uint8 RotationBits[3];
+        std::array<int16, 3> Rotation;
+        std::array<uint8, 3> RotationBits;
         uint16 NumTranslationKeys;
-        int16 Translation[3];
-        uint8 TranslationBits[3];
+        std::array<int16, 3> Translation;
+        std::array<uint8, 3> TranslationBits;
         uint16 NumScaleKeys;
-        int16 Scale[3];
-        uint8 ScaleBits[3];
+        std::array<int16, 3> Scale;
+        std::array<uint8, 3> ScaleBits;
     };
     std::vector<SCompressedChannel> mCompressedChannels;
 
-    CAnimationLoader() {}
+    CAnimationLoader() = default;
     bool UncompressedCheckEchoes();
     EGame UncompressedCheckVersion();
     void ReadUncompressedANIM();
