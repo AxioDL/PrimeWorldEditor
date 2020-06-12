@@ -4,17 +4,17 @@
 #include "IProperty.h"
 #include "CFloatProperty.h"
 
-class CColorProperty : public TSerializeableTypedProperty< CColor, EPropertyType::Color >
+class CColorProperty : public TSerializeableTypedProperty<CColor, EPropertyType::Color>
 {
     friend class IProperty;
 
 protected:
-    CColorProperty(EGame Game)
+    explicit CColorProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
     {}
 
 public:
-    virtual void PostInitialize()
+    void PostInitialize() override
     {
         CreateIntrinsic(EPropertyType::Float, this, mOffset + 0,  "R");
         CreateIntrinsic(EPropertyType::Float, this, mOffset + 4,  "G");
@@ -23,7 +23,7 @@ public:
         TPropCast<CFloatProperty>( mChildren.back() )->SetDefaultValue(1.0f);
     }
 
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
         ValueRef(pData).Serialize(Arc);
     }

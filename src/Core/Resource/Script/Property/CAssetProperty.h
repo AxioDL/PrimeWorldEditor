@@ -11,44 +11,44 @@ class CAssetProperty : public TSerializeableTypedProperty<CAssetID, EPropertyTyp
     CResTypeFilter mTypeFilter;
 
 protected:
-    CAssetProperty(EGame Game)
+    explicit CAssetProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
     {
         mDefaultValue = CAssetID::InvalidID( mGame );
     }
 
 public:
-    virtual void Serialize(IArchive& rArc)
+    void Serialize(IArchive& rArc) override
     {
         TSerializeableTypedProperty::Serialize(rArc);
         CAssetProperty* pArchetype = static_cast<CAssetProperty*>(mpArchetype);
         rArc << SerialParameter("TypeFilter", mTypeFilter, pArchetype ? SH_Optional : 0, pArchetype ? pArchetype->mTypeFilter : CResTypeFilter());
     }
 
-    virtual bool ShouldSerialize() const
+    bool ShouldSerialize() const override
     {
         CAssetProperty* pArchetype = static_cast<CAssetProperty*>(mpArchetype);
         return TSerializeableTypedProperty::ShouldSerialize() ||
                 mTypeFilter != pArchetype->mTypeFilter;
     }
 
-    virtual void InitFromArchetype(IProperty* pOther)
+    void InitFromArchetype(IProperty* pOther) override
     {
         TTypedProperty::InitFromArchetype(pOther);
         mTypeFilter = static_cast<CAssetProperty*>(pOther)->mTypeFilter;
     }
 
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
         Arc.SerializePrimitive( ValueRef(pData), 0 );
     }
 
-    virtual TString ValueAsString(void* pData) const
+    TString ValueAsString(void* pData) const override
     {
         return Value(pData).ToString();
     }
 
-    virtual CAssetID GetSerializationDefaultValue()
+    CAssetID GetSerializationDefaultValue() override
     {
         return CAssetID::InvalidID(Game());
     }

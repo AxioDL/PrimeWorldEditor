@@ -9,30 +9,30 @@ class CStructProperty : public IProperty
 
 public:
     // Must be a valid type for TPropertyRef
-    typedef void* ValueType;
+    using ValueType = void*;
 
 protected:
-    CStructProperty(EGame Game)
+    explicit CStructProperty(EGame Game)
         : IProperty(Game)
     {}
 
 public:
-    virtual EPropertyType Type() const;
-    virtual void PostInitialize();
-    virtual uint32 DataSize() const;
-    virtual uint32 DataAlignment() const;
-    virtual void Construct(void* pData) const;
-    virtual void Destruct(void* pData) const;
-    virtual bool MatchesDefault(void* pData) const;
-    virtual void RevertToDefault(void* pData) const;
-    virtual void SetDefaultFromData(void* pData);
-    virtual const char* HashableTypeName() const;
-    virtual void Serialize(IArchive& rArc);
-    virtual void SerializeValue(void* pData, IArchive& Arc) const;
-    virtual void InitFromArchetype(IProperty* pOther);
-    virtual bool ShouldSerialize() const;
+    EPropertyType Type() const override;
+    void PostInitialize() override;
+    uint32 DataSize() const override;
+    uint32 DataAlignment() const override;
+    void Construct(void* pData) const override;
+    void Destruct(void* pData) const override;
+    bool MatchesDefault(void* pData) const override;
+    void RevertToDefault(void* pData) const override;
+    void SetDefaultFromData(void* pData) override;
+    const char* HashableTypeName() const override;
+    void Serialize(IArchive& rArc) override;
+    void SerializeValue(void* pData, IArchive& Arc) const override;
+    void InitFromArchetype(IProperty* pOther) override;
+    bool ShouldSerialize() const override;
 
-    inline static EPropertyType StaticType() { return EPropertyType::Struct; }
+    static EPropertyType StaticType() { return EPropertyType::Struct; }
 };
 
 #endif

@@ -3,24 +3,24 @@
 
 #include "IProperty.h"
 
-class CIntProperty : public TNumericalProperty< int32, EPropertyType::Int >
+class CIntProperty : public TNumericalProperty<int32, EPropertyType::Int>
 {
     friend class IProperty;
 
 protected:
-    CIntProperty(EGame Game)
+    explicit CIntProperty(EGame Game)
         : TNumericalProperty(Game)
     {}
 
 public:
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
-        Arc.SerializePrimitive( ValueRef(pData), 0 );
+        Arc.SerializePrimitive(ValueRef(pData), 0);
     }
 
-    virtual TString ValueAsString(void* pData) const
+    TString ValueAsString(void* pData) const override
     {
-        return TString::FromInt32( Value(pData), 0, 10 );
+        return TString::FromInt32(Value(pData), 0, 10);
     }
 };
 
