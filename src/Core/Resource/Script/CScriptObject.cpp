@@ -108,7 +108,8 @@ void CScriptObject::SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex)
 
 uint32 CScriptObject::LayerIndex() const
 {
-    if (!mpLayer) return -1;
+    if (!mpLayer)
+        return UINT32_MAX;
 
     for (uint32 iInst = 0; iInst < mpLayer->NumInstances(); iInst++)
     {
@@ -116,7 +117,7 @@ uint32 CScriptObject::LayerIndex() const
             return iInst;
     }
 
-    return -1;
+    return UINT32_MAX;
 }
 
 bool CScriptObject::HasNearVisibleActivation() const
@@ -127,20 +128,20 @@ bool CScriptObject::HasNearVisibleActivation() const
      * instance has a "Near Visible" activation, which is typically done via a trigger that activates the object on
      * InternalState04/05/06 (usually through a relay). */
     std::list<CScriptObject*> Relays;
-    bool IsRelay = (ObjectTypeID() == 0x53524C59);
+    const bool IsRelay = ObjectTypeID() == 0x53524C59;
 
-    if (mIsCheckingNearVisibleActivation) return false;
+    if (mIsCheckingNearVisibleActivation)
+        return false;
+
     mIsCheckingNearVisibleActivation = true;
 
-    for (uint32 iLink = 0; iLink < mInLinks.size(); iLink++)
+    for (const auto* pLink : mInLinks)
     {
-        CLink *pLink = mInLinks[iLink];
-
         // Check for trigger activation
         if (pLink->State() == FOURCC('IS04') || pLink->State() == FOURCC('IS05') || pLink->State() == FOURCC('IS06'))
         {
-            if ( (!IsRelay && pLink->Message() == FOURCC('ACTV')) ||
-                 (IsRelay  && pLink->Message() == FOURCC('ACTN')) )
+            if ((!IsRelay && pLink->Message() == FOURCC('ACTV')) ||
+                (IsRelay  && pLink->Message() == FOURCC('ACTN')))
             {
                 CScriptObject *pObj = pLink->Sender();
 
@@ -167,25 +168,26 @@ bool CScriptObject::HasNearVisibleActivation() const
     }
 
     // Check whether any of the relays have a near visible activation
-    for (auto it = Relays.begin(); it != Relays.end(); it++)
+    const bool nearVisible = std::any_of(Relays.cbegin(), Relays.cend(),
+                                         [](const auto* relay) { return relay->HasNearVisibleActivation(); });
+    if (nearVisible)
     {
-        if ((*it)->HasNearVisibleActivation())
-        {
-            mIsCheckingNearVisibleActivation = false;
-            return true;
-        }
+        mIsCheckingNearVisibleActivation = false;
+        return true;
     }
 
     mIsCheckingNearVisibleActivation = false;
     return false;
 }
 
-void CScriptObject::AddLink(ELinkType Type, CLink *pLink, uint32 Index /*= -1*/)
+void CScriptObject::AddLink(ELinkType Type, CLink *pLink, uint32 Index)
 {
     std::vector<CLink*> *pLinkVec = (Type == ELinkType::Incoming ? &mInLinks : &mOutLinks);
 
-    if (Index == -1 || Index == pLinkVec->size())
+    if (Index == UINT32_MAX || Index == pLinkVec->size())
+    {
         pLinkVec->push_back(pLink);
+    }
     else
     {
         auto it = pLinkVec->begin();

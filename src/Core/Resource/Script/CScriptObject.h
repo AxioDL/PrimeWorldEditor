@@ -73,11 +73,11 @@ public:
     void EvaluateCollisionModel();
     void EvaluateVolume();
     bool IsEditorProperty(IProperty *pProp);
-    void SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex = -1);
+    void SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex = UINT32_MAX);
     uint32 LayerIndex() const;
     bool HasNearVisibleActivation() const;
 
-    void AddLink(ELinkType Type, CLink *pLink, uint32 Index = -1);
+    void AddLink(ELinkType Type, CLink *pLink, uint32 Index = UINT32_MAX);
     void RemoveLink(ELinkType Type, CLink *pLink);
     void BreakAllLinks();
 
