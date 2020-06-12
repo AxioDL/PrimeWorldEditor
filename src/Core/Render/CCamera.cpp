@@ -23,11 +23,11 @@ CCamera::CCamera()
 // don't actually use this constructor, it's unfinished and won't work properly
 CCamera::CCamera(CVector3f Position, CVector3f /*Target*/)
     : mMode(ECameraMoveMode::Free)
-    , mMoveSpeed(1.f)
-    , mLookSpeed(1.f)
     , mPosition(Position)
     , mYaw(-Math::skHalfPi)
     , mPitch(0.f)
+    , mMoveSpeed(1.f)
+    , mLookSpeed(1.f)
 {
 }
 
