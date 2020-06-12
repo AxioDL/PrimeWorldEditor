@@ -9,6 +9,7 @@
 #include <Common/Flags.h>
 #include <Common/TString.h>
 #include <map>
+#include <memory>
 #include <nod/DiscBase.hpp>
 
 enum class EDiscType
@@ -21,7 +22,7 @@ enum class EDiscType
 class CGameExporter
 {
     // Project Data
-    CGameProject *mpProject;
+    std::unique_ptr<CGameProject> mpProject;
     TString mProjectPath;
     CResourceStore *mpStore;
     EGame mGame;

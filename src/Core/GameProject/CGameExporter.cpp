@@ -94,7 +94,7 @@ bool CGameExporter::Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAs
 
     // Export finished!
     mProjectPath = mpProject->ProjectPath();
-    delete mpProject;
+    mpProject.reset();
     if (pOldStore) gpResourceStore = pOldStore;
     return !mpProgress->ShouldCancel();
 }
@@ -280,7 +280,7 @@ void CGameExporter::LoadPaks()
         }
 
         TString RelPakPath = FileUtil::MakeRelative(PakPath.GetFileDirectory(), mpProject->DiscFilesystemRoot(false));
-        CPackage *pPackage = new CPackage(mpProject, PakPath.GetFileName(false), RelPakPath);
+        auto pPackage = std::make_unique<CPackage>(mpProject.get(), PakPath.GetFileName(false), RelPakPath);
 
         // MP1-MP3Proto
         if (mGame < EGame::Corruption)
@@ -327,12 +327,14 @@ void CGameExporter::LoadPaks()
                         mAreaDuplicateMap[ResID] = AreaHasDuplicates;
                         AreaHasDuplicates = false;
                     }
-
                     else if (!AreaHasDuplicates && PakResourceSet.find(ResID) != PakResourceSet.end())
+                    {
                         AreaHasDuplicates = true;
-
+                    }
                     else
+                    {
                         PakResourceSet.insert(ResID);
+                    }
                 }
             }
         }
@@ -423,11 +425,12 @@ void CGameExporter::LoadPaks()
         }
 
         // Add package to project and save
-        mpProject->AddPackage(pPackage);
 #if SAVE_PACKAGE_DEFINITIONS
-        bool SaveSuccess = pPackage->Save();
+        [[maybe_unused]] const bool SaveSuccess = pPackage->Save();
         ASSERT(SaveSuccess);
 #endif
+
+        mpProject->AddPackage(std::move(pPackage));
     }
 #endif
 }

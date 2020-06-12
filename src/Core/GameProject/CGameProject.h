@@ -13,6 +13,7 @@
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
 #include <Common/FileIO/CFileLock.h>
+#include <memory>
 
 namespace nod { class DiscWii; }
 
@@ -23,41 +24,30 @@ enum class EProjectVersion
     // Add new versions before this line
 
     Max,
-    Current = EProjectVersion::Max - 1
+    Current = Max - 1
 };
 
 class CGameProject
 {
-    TString mProjectName;
-    EGame mGame;
-    ERegion mRegion;
-    TString mGameID;
-    float mBuildVersion;
+    TString mProjectName{"Unnamed Project"};
+    EGame mGame{EGame::Invalid};
+    ERegion mRegion{ERegion::Unknown};
+    TString mGameID{"000000"};
+    float mBuildVersion = 0.f;
 
     TString mProjectRoot;
-    std::vector<CPackage*> mPackages;
+    std::vector<std::unique_ptr<CPackage>> mPackages;
     std::unique_ptr<CResourceStore> mpResourceStore;
-    std::unique_ptr<CGameInfo> mpGameInfo;
-    std::unique_ptr<CAudioManager> mpAudioManager;
-    std::unique_ptr<CTweakManager> mpTweakManager;
+    std::unique_ptr<CGameInfo> mpGameInfo = std::make_unique<CGameInfo>();
+    std::unique_ptr<CAudioManager> mpAudioManager = std::make_unique<CAudioManager>(this);
+    std::unique_ptr<CTweakManager> mpTweakManager = std::make_unique<CTweakManager>(this);
 
     // Keep file handle open for the .prj file to prevent users from opening the same project
     // in multiple instances of PWE
     CFileLock mProjFileLock;
 
     // Private Constructor
-    CGameProject()
-        : mProjectName("Unnamed Project")
-        , mGame(EGame::Invalid)
-        , mRegion(ERegion::Unknown)
-        , mGameID("000000")
-        , mBuildVersion(0.f)
-        , mpResourceStore(nullptr)
-    {
-        mpGameInfo = std::make_unique<CGameInfo>();
-        mpAudioManager = std::make_unique<CAudioManager>(this);
-        mpTweakManager = std::make_unique<CTweakManager>(this);
-    }
+    CGameProject() = default;
 
 public:
     ~CGameProject();
@@ -71,7 +61,7 @@ public:
     CPackage* FindPackage(const TString& rkName) const;
 
     // Static
-    static CGameProject* CreateProjectForExport(
+    static std::unique_ptr<CGameProject> CreateProjectForExport(
             const TString& rkProjRootDir,
             EGame Game,
             ERegion Region,
@@ -79,7 +69,7 @@ public:
             float BuildVer
         );
 
-    static CGameProject* LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress);
+    static std::unique_ptr<CGameProject> LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress);
 
     // Directory Handling
     TString ProjectRoot() const                      { return mProjectRoot; }
@@ -93,23 +83,23 @@ public:
     TString DiscFilesystemRoot(bool Relative) const  { return DiscDir(Relative) + (IsWiiBuild() ? "DATA/" : "") + "files/"; }
 
     // Accessors
-    void SetProjectName(const TString& rkName)   { mProjectName = rkName; }
+    void SetProjectName(const TString& rkName) { mProjectName = rkName; }
 
-    TString Name() const                         { return mProjectName; }
-    uint32 NumPackages() const                   { return mPackages.size(); }
-    CPackage* PackageByIndex(uint32 Index) const { return mPackages[Index]; }
-    void AddPackage(CPackage *pPackage)          { mPackages.push_back(pPackage); }
-    CResourceStore* ResourceStore() const        { return mpResourceStore.get(); }
-    CGameInfo* GameInfo() const                  { return mpGameInfo.get(); }
-    CAudioManager* AudioManager() const          { return mpAudioManager.get(); }
-    CTweakManager* TweakManager() const          { return mpTweakManager.get(); }
-    EGame Game() const                           { return mGame; }
-    ERegion Region() const                       { return mRegion; }
-    TString GameID() const                       { return mGameID; }
-    float BuildVersion() const                   { return mBuildVersion; }
-    bool IsWiiBuild() const                      { return mBuildVersion >= 3.f; }
-    bool IsTrilogy() const                       { return mGame <= EGame::Corruption && mBuildVersion >= 3.593f; }
-    bool IsWiiDeAsobu() const                    { return mGame <= EGame::Corruption && mBuildVersion >= 3.570f && mBuildVersion < 3.593f; }
+    TString Name() const                                 { return mProjectName; }
+    uint32 NumPackages() const                           { return mPackages.size(); }
+    CPackage* PackageByIndex(uint32 Index) const         { return mPackages[Index].get(); }
+    void AddPackage(std::unique_ptr<CPackage>&& package) { mPackages.push_back(std::move(package)); }
+    CResourceStore* ResourceStore() const                { return mpResourceStore.get(); }
+    CGameInfo* GameInfo() const                          { return mpGameInfo.get(); }
+    CAudioManager* AudioManager() const                  { return mpAudioManager.get(); }
+    CTweakManager* TweakManager() const                  { return mpTweakManager.get(); }
+    EGame Game() const                                   { return mGame; }
+    ERegion Region() const                               { return mRegion; }
+    TString GameID() const                               { return mGameID; }
+    float BuildVersion() const                           { return mBuildVersion; }
+    bool IsWiiBuild() const                              { return mBuildVersion >= 3.f; }
+    bool IsTrilogy() const                               { return mGame <= EGame::Corruption && mBuildVersion >= 3.593f; }
+    bool IsWiiDeAsobu() const                            { return mGame <= EGame::Corruption && mBuildVersion >= 3.570f && mBuildVersion < 3.593f; }
 };
 
 #endif // CGAMEPROJECT_H

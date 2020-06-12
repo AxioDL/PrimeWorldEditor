@@ -14,16 +14,13 @@
 
 CGameProject::~CGameProject()
 {
-    if (mpResourceStore)
-    {
-        ASSERT(!mpResourceStore->IsCacheDirty());
+    if (!mpResourceStore)
+        return;
 
-        if (gpResourceStore == mpResourceStore.get())
-            gpResourceStore = nullptr;
-    }
+    ASSERT(!mpResourceStore->IsCacheDirty());
 
-    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
-        delete mPackages[iPkg];
+    if (gpResourceStore == mpResourceStore.get())
+        gpResourceStore = nullptr;
 }
 
 bool CGameProject::Save()
@@ -60,15 +57,14 @@ bool CGameProject::Serialize(IArchive& rArc)
     {
         ASSERT(mPackages.empty());
 
-        for (uint32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
+        for (const TString& packagePath : PackageList)
         {
-            const TString& rkPackagePath = PackageList[iPkg];
-            TString PackageName = rkPackagePath.GetFileName(false);
-            TString PackageDir = rkPackagePath.GetFileDirectory();
+            TString PackageName = packagePath.GetFileName(false);
+            TString PackageDir = packagePath.GetFileDirectory();
 
-            CPackage *pPackage = new CPackage(this, PackageName, PackageDir);
-            bool PackageLoadSuccess = pPackage->Load();
-            mPackages.push_back(pPackage);
+            auto pPackage = std::make_unique<CPackage>(this, PackageName, PackageDir);
+            const bool PackageLoadSuccess = pPackage->Load();
+            mPackages.push_back(std::move(pPackage));
 
             if (!PackageLoadSuccess)
             {
@@ -126,10 +122,8 @@ bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso
 
 void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
 {
-    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (const auto& pPkg : mPackages)
     {
-        CPackage *pPkg = mPackages[iPkg];
-
         // Little workaround to fix some of Retro's paks having worlds listed in the wrong order...
         // Construct a sorted list of worlds in this package
         std::list<const SNamedResource*> PackageWorlds;
@@ -147,23 +141,20 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
         });
 
         // Add sorted worlds to the output world list
-        for (auto Iter = PackageWorlds.begin(); Iter != PackageWorlds.end(); Iter++)
+        for (const auto* res : PackageWorlds)
         {
-            const SNamedResource *pkRes = *Iter;
-            rOut.push_back(pkRes->ID);
+            rOut.push_back(res->ID);
         }
     }
 }
 
 CAssetID CGameProject::FindNamedResource(const TString& rkName) const
 {
-    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (const auto& pkg : mPackages)
     {
-        CPackage *pPkg = mPackages[iPkg];
-
-        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (uint32 iRes = 0; iRes < pkg->NumNamedResources(); iRes++)
         {
-            const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
+            const SNamedResource& rkRes = pkg->NamedResourceByIndex(iRes);
 
             if (rkRes.Name == rkName)
                 return rkRes.ID;
@@ -175,20 +166,18 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
 
 CPackage* CGameProject::FindPackage(const TString& rkName) const
 {
-    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (const auto& pPackage : mPackages)
     {
-        CPackage *pPackage = mPackages[iPkg];
-
         if (pPackage->Name() == rkName)
         {
-            return pPackage;
+            return pPackage.get();
         }
     }
 
     return nullptr;
 }
 
-CGameProject* CGameProject::CreateProjectForExport(
+std::unique_ptr<CGameProject> CGameProject::CreateProjectForExport(
         const TString& rkProjRootDir,
         EGame Game,
         ERegion Region,
@@ -196,7 +185,7 @@ CGameProject* CGameProject::CreateProjectForExport(
         float BuildVer
         )
 {
-    CGameProject *pProj = new CGameProject;
+    auto pProj = std::unique_ptr<CGameProject>(new CGameProject());
     pProj->mGame = Game;
     pProj->mRegion = Region;
     pProj->mGameID = rkGameID;
@@ -204,15 +193,15 @@ CGameProject* CGameProject::CreateProjectForExport(
 
     pProj->mProjectRoot = rkProjRootDir;
     pProj->mProjectRoot.Replace("\\", "/");
-    pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
+    pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj.get());
     pProj->mpGameInfo->LoadGameInfo(Game);
     return pProj;
 }
 
-CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress)
+std::unique_ptr<CGameProject> CGameProject::LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress)
 {
     // Init project
-    CGameProject *pProj = new CGameProject;
+    auto pProj = std::unique_ptr<CGameProject>(new CGameProject());
     pProj->mProjectRoot = rkProjPath.GetFileDirectory();
     pProj->mProjectRoot.Replace("\\", "/");
 
@@ -228,7 +217,6 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
 
     if (!Reader.IsValid())
     {
-        delete pProj;
         return nullptr;
     }
 
@@ -238,7 +226,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
     {
         // Load resource database
         pProgress->Report("Loading resource database");
-        pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
+        pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj.get());
         LoadSuccess = pProj->mpResourceStore->LoadDatabaseCache();
 
         // Removed database validation step. We used to do this on project load to make sure all data was correct, but this takes a long
@@ -270,7 +258,6 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
 
     if (!LoadSuccess)
     {
-        delete pProj;
         return nullptr;
     }
 

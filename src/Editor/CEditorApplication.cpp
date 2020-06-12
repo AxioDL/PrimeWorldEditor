@@ -77,11 +77,8 @@ bool CEditorApplication::CloseProject()
     NDolphinIntegration::KillQuickplay();
 
     // Emit before actually deleting the project to allow editor references to clean up
-    CGameProject *pOldProj = mpActiveProject;
-    mpActiveProject = nullptr;
+    auto pOldProj = std::move(mpActiveProject);
     emit ActiveProjectChanged(nullptr);
-    delete pOldProj;
-
     return true;
 }
 
@@ -96,14 +93,15 @@ bool CEditorApplication::OpenProject(const QString& rkProjPath)
 
     CProgressDialog Dialog("Opening " + TO_QSTRING(Path.GetFileName()), true, true, mpWorldEditor);
     Dialog.DisallowCanceling();
-    QFuture<CGameProject*> Future = QtConcurrent::run(&CGameProject::LoadProject, Path, &Dialog);
-    mpActiveProject = Dialog.WaitForResults(Future);
+    // Gross, but necessary until QtConcurrent supports move only types.
+    QFuture<CGameProject*> Future = QtConcurrent::run([](const auto& path, auto* dialog) { return CGameProject::LoadProject(path, dialog).release(); }, Path, &Dialog);
+    mpActiveProject = std::unique_ptr<CGameProject>(Dialog.WaitForResults(Future));
     Dialog.close();
 
     if (mpActiveProject)
     {
         gpResourceStore = mpActiveProject->ResourceStore();
-        emit ActiveProjectChanged(mpActiveProject);
+        emit ActiveProjectChanged(mpActiveProject.get());
         return true;
     }
     else
@@ -277,9 +275,8 @@ bool CEditorApplication::RebuildResourceDatabase()
     if (mpActiveProject && CloseAllEditors())
     {
         // Fake-close the project, but keep it in memory so we can modify the resource store
-        CGameProject *pProj = mpActiveProject;
+        auto pProj = std::move(mpActiveProject);
         mpActiveProject->TweakManager()->ClearTweaks();
-        mpActiveProject = nullptr;
         emit ActiveProjectChanged(nullptr);
 
         // Rebuild
@@ -292,9 +289,9 @@ bool CEditorApplication::RebuildResourceDatabase()
         Dialog.close();
 
         // Set project to active again
-        mpActiveProject = pProj;
+        mpActiveProject = std::move(pProj);
         mpActiveProject->TweakManager()->LoadTweaks();
-        emit ActiveProjectChanged(pProj);
+        emit ActiveProjectChanged(mpActiveProject.get());
 
         UICommon::InfoMsg(mpWorldEditor, "Success", "Resource database rebuilt successfully!");
         return true;
