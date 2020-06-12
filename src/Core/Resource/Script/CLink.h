@@ -69,7 +69,7 @@ class CLink
     uint32 mReceiverID = UINT32_MAX;
 
 public:
-    CLink(CGameArea *pArea)
+    explicit CLink(CGameArea *pArea)
         : mpArea(pArea)
     {}
 
