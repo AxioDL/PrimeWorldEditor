@@ -204,9 +204,11 @@ std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadAreaCollision(IInputS
         return nullptr;
     }
 
+    auto mesh = std::make_unique<CCollisionMesh>();
+
     CCollisionLoader Loader;
     Loader.mVersion = GetFormatVersion(rMREA.ReadLong());
-    Loader.mpMesh = new CCollisionMesh;
+    Loader.mpMesh = mesh.get();
 
     // Octree - structure is known, but not coding this right now
     Loader.mpMesh->mAABox = CAABox(rMREA);
@@ -218,7 +220,7 @@ std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadAreaCollision(IInputS
     Loader.LoadCollisionIndices(rMREA, Loader.mpMesh->mIndexData);
 
     auto pOut = std::make_unique<CCollisionMeshGroup>();
-    pOut->AddMesh(Loader.mpMesh);
+    pOut->AddMesh(std::move(mesh));
     return pOut;
 }
 
@@ -243,9 +245,9 @@ std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadDCLN(IInputStream& rD
             return nullptr;
         }
 
+        auto mesh = std::make_unique<CCollidableOBBTree>();
         Loader.mVersion = GetFormatVersion(rDCLN.ReadLong());
-
-        Loader.mpMesh = new CCollidableOBBTree;
+        Loader.mpMesh = mesh.get();
 
         if (Loader.mVersion == EGame::DKCReturns)
             Loader.mpMesh->mAABox = CAABox(rDCLN);
@@ -253,7 +255,7 @@ std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadDCLN(IInputStream& rD
         // Read indices and return
         rDCLN.Seek(0x4, SEEK_CUR);
         Loader.LoadCollisionIndices(rDCLN, Loader.mpMesh->mIndexData);
-        Loader.mpGroup->AddMesh(Loader.mpMesh);
+        Loader.mpGroup->AddMesh(std::move(mesh));
 
         // Build bounding box
         if (Loader.mVersion != EGame::DKCReturns)
