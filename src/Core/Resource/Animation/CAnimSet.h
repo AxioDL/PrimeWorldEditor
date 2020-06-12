@@ -96,36 +96,35 @@ class CAnimSet : public CResource
     std::vector<CAnimPrimitive> mAnimPrimitives;
     std::vector<SAnimation> mAnimations;
     std::vector<STransition> mTransitions;
-    IMetaTransition *mpDefaultTransition;
+    IMetaTransition *mpDefaultTransition = nullptr;
     std::vector<SAdditiveAnim> mAdditiveAnims;
-    float mDefaultAdditiveFadeIn;
-    float mDefaultAdditiveFadeOut;
+    float mDefaultAdditiveFadeIn = 0.0f;
+    float mDefaultAdditiveFadeOut = 0.0f;
     std::vector<SHalfTransition> mHalfTransitions;
     std::vector<std::unique_ptr<CAnimEventData>> mAnimEvents; // note: these are for MP2, where event data isn't a standalone resource; these are owned by the animset
 
 public:
-    CAnimSet(CResourceEntry *pEntry = 0)
+    explicit CAnimSet(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
-        , mpDefaultTransition(nullptr)
     {}
 
     ~CAnimSet()
     {
-        for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
-            delete mAnimations[iAnim].pMetaAnim;
+        for (auto& anim : mAnimations)
+            delete anim.pMetaAnim;
 
-        for (uint32 iTrans = 0; iTrans < mTransitions.size(); iTrans++)
-            delete mTransitions[iTrans].pMetaTrans;
+        for (auto& trans : mTransitions)
+            delete trans.pMetaTrans;
 
-        for (uint32 iHalf = 0; iHalf < mHalfTransitions.size(); iHalf++)
-            delete mHalfTransitions[iHalf].pMetaTrans;
+        for (auto& half : mHalfTransitions)
+            delete half.pMetaTrans;
 
         delete mpDefaultTransition;
 
         // For MP2, anim events need to be cleaned up manually
-        for (uint32 iEvent = 0; iEvent < mAnimEvents.size(); iEvent++)
+        for ([[maybe_unused]] const auto& event : mAnimEvents)
         {
-            ASSERT(mAnimEvents[iEvent] && !mAnimEvents[iEvent]->Entry());
+            ASSERT(event != nullptr && !event->Entry());
         }
     }
 
@@ -206,16 +205,16 @@ public:
     }
 
     // Accessors
-    inline uint32 NumCharacters() const        { return mCharacters.size(); }
-    inline uint32 NumAnimations() const        { return mAnimations.size(); }
+    uint32 NumCharacters() const        { return mCharacters.size(); }
+    uint32 NumAnimations() const        { return mAnimations.size(); }
 
-    inline const SSetCharacter* Character(uint32 Index) const
+    const SSetCharacter* Character(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < NumCharacters());
         return &mCharacters[Index];
     }
 
-    inline const SAnimation* Animation(uint32 Index) const
+    const SAnimation* Animation(uint32 Index) const
     {
         ASSERT(Index >= 0 && Index < NumAnimations());
         return &mAnimations[Index];
