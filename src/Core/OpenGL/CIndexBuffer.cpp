@@ -1,13 +1,9 @@
 #include "CIndexBuffer.h"
 
-CIndexBuffer::CIndexBuffer()
-    : mBuffered(false)
-{
-}
+CIndexBuffer::CIndexBuffer() = default;
 
 CIndexBuffer::CIndexBuffer(GLenum Type)
     : mPrimitiveType(Type)
-    , mBuffered(false)
 {
 }
 

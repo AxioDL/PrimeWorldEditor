@@ -7,10 +7,10 @@
 
 class CIndexBuffer
 {
-    GLuint mIndexBuffer;
+    GLuint mIndexBuffer = 0;
     std::vector<uint16> mIndices;
-    GLenum mPrimitiveType;
-    bool mBuffered;
+    GLenum mPrimitiveType{};
+    bool mBuffered = false;
 
 public:
     CIndexBuffer();
