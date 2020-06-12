@@ -1,5 +1,6 @@
 #include "CStructProperty.h"
 #include "Core/Resource/Script/CGameTemplate.h"
+#include <algorithm>
 
 EPropertyType CStructProperty::Type() const
 {
@@ -35,45 +36,39 @@ uint32 CStructProperty::DataAlignment() const
 
 void CStructProperty::Construct(void* pData) const
 {
-    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (auto* child : mChildren)
     {
-        mChildren[ChildIdx]->Construct(pData);
+        child->Construct(pData);
     }
 }
 
 void CStructProperty::Destruct(void* pData) const
 {
-    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (auto* child : mChildren)
     {
-        mChildren[ChildIdx]->Destruct(pData);
+        child->Destruct(pData);
     }
 }
 
 bool CStructProperty::MatchesDefault(void* pData) const
 {
-    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
-    {
-        if (!mChildren[ChildIdx]->MatchesDefault(pData))
-        {
-            return false;
-        }
-    }
-    return true;
+    return std::any_of(mChildren.cbegin(), mChildren.cend(),
+                       [pData](const auto* child) { return child->MatchesDefault(pData); });
 }
 
 void CStructProperty::RevertToDefault(void* pData) const
 {
-    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (auto* child : mChildren)
     {
-        mChildren[ChildIdx]->RevertToDefault(pData);
+        child->RevertToDefault(pData);
     }
 }
 
 void CStructProperty::SetDefaultFromData(void* pData)
 {
-    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (auto* child : mChildren)
     {
-        mChildren[ChildIdx]->SetDefaultFromData(pData);
+        child->SetDefaultFromData(pData);
     }
 }
 
@@ -142,11 +137,11 @@ void CStructProperty::Serialize(IArchive& rArc)
             // Check if any properties need to override parameters from their archetype.
             std::vector<IProperty*> PropertiesToSerialize;
 
-            for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+            for (auto* child : mChildren)
             {
-                if (mChildren[ChildIdx]->ShouldSerialize())
+                if (child->ShouldSerialize())
                 {
-                    PropertiesToSerialize.push_back(mChildren[ChildIdx]);
+                    PropertiesToSerialize.push_back(child);
                 }
             }
 
@@ -166,11 +161,11 @@ void CStructProperty::Serialize(IArchive& rArc)
 
 void CStructProperty::SerializeValue(void* pData, IArchive& Arc) const
 {
-    for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (auto* child : mChildren)
     {
         if (Arc.ParamBegin("Property", 0))
         {
-            mChildren[ChildIdx]->SerializeValue(pData, Arc);
+            child->SerializeValue(pData, Arc);
             Arc.ParamEnd();
         }
     }
@@ -187,7 +182,7 @@ void CStructProperty::InitFromArchetype(IProperty* pOther)
     for (uint32 ChildIdx = 0; ChildIdx < pOther->NumChildren(); ChildIdx++)
     {
         IProperty* pChild = CreateCopy( pOther->ChildByIndex(ChildIdx) );
-        mChildren.push_back( pChild );
+        mChildren.push_back(pChild);
     }
 }
 
@@ -196,11 +191,6 @@ bool CStructProperty::ShouldSerialize() const
     if (IProperty::ShouldSerialize())
         return true;
 
-    for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
-    {
-        if (mChildren[ChildIdx]->ShouldSerialize())
-            return true;
-    }
-
-    return false;
+    return std::any_of(mChildren.cbegin(), mChildren.cend(),
+                       [](const auto* child) { return child->ShouldSerialize(); });
 }
