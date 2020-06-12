@@ -231,16 +231,15 @@ std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadDCLN(IInputStream& rD
     CCollisionLoader Loader;
     Loader.mpGroup = ptr.get();
 
-    uint32 NumMeshes = rDCLN.ReadLong();
+    const uint32 NumMeshes = rDCLN.ReadLong();
 
     for (uint32 MeshIdx = 0; MeshIdx < NumMeshes; MeshIdx++)
     {
-        uint32 DeafBabe = rDCLN.ReadLong();
+        const uint32 DeafBabe = rDCLN.ReadLong();
 
         if (DeafBabe != 0xDEAFBABE)
         {
             errorf("%s [0x%X]: Invalid collision magic: 0x%08X", *rDCLN.GetSourceString(), rDCLN.Tell() - 4, DeafBabe);
-            delete Loader.mpGroup;
             return nullptr;
         }
 
@@ -261,11 +260,9 @@ std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadDCLN(IInputStream& rD
         {
             Loader.mpMesh->mAABox = CAABox::skInfinite;
 
-            for (uint i=0; i<Loader.mpMesh->mIndexData.Vertices.size(); i++)
+            for (const auto& vert : Loader.mpMesh->mIndexData.Vertices)
             {
-                Loader.mpMesh->mAABox.ExpandBounds(
-                    Loader.mpMesh->mIndexData.Vertices[i]
-                );
+                Loader.mpMesh->mAABox.ExpandBounds(vert);
             }
         }
 
