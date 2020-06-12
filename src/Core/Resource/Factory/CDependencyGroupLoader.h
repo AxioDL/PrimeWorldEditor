@@ -7,7 +7,7 @@
 
 class CDependencyGroupLoader
 {
-    CDependencyGroupLoader() {}
+    CDependencyGroupLoader() = default;
     static EGame VersionTest(IInputStream& rDGRP, uint32 DepCount);
 
 public:
