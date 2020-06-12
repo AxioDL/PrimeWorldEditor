@@ -20,8 +20,8 @@ class CAnimEventLoader
 
 public:
     static std::unique_ptr<CAnimEventData> LoadEVNT(IInputStream& rEVNT, CResourceEntry *pEntry);
-    static CAnimEventData* LoadAnimSetEvents(IInputStream& rANCS);
-    static CAnimEventData* LoadCorruptionCharacterEventSet(IInputStream& rCHAR);
+    static std::unique_ptr<CAnimEventData> LoadAnimSetEvents(IInputStream& rANCS);
+    static std::unique_ptr<CAnimEventData> LoadCorruptionCharacterEventSet(IInputStream& rCHAR);
 };
 
 #endif // CANIMEVENTLOADER_H

@@ -41,8 +41,7 @@ void CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 
     for (uint32 iSet = 0; iSet < NumEventSets; iSet++)
     {
-        CAnimEventData *pEvents = CAnimEventLoader::LoadCorruptionCharacterEventSet(rCHAR);
-        pSet->mAnimEvents.push_back(pEvents);
+        pSet->mAnimEvents.push_back(CAnimEventLoader::LoadCorruptionCharacterEventSet(rCHAR));
     }
 
     // Animations
@@ -383,8 +382,7 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
 
         for (uint32 iEvent = 0; iEvent < EventDataCount; iEvent++)
         {
-            CAnimEventData *pData = CAnimEventLoader::LoadAnimSetEvents(rANCS);
-            pSet->mAnimEvents.push_back(pData);
+            pSet->mAnimEvents.push_back(CAnimEventLoader::LoadAnimSetEvents(rANCS));
         }
     }
 }

@@ -142,19 +142,24 @@ std::unique_ptr<CAnimEventData> CAnimEventLoader::LoadEVNT(IInputStream& rEVNT, 
     return ptr;
 }
 
-CAnimEventData* CAnimEventLoader::LoadAnimSetEvents(IInputStream& rANCS)
+std::unique_ptr<CAnimEventData> CAnimEventLoader::LoadAnimSetEvents(IInputStream& rANCS)
 {
+    auto ptr = std::make_unique<CAnimEventData>();
+
     CAnimEventLoader Loader;
-    Loader.mpEventData = new CAnimEventData();
+    Loader.mpEventData = ptr.get();
     Loader.mGame = EGame::Echoes;
     Loader.LoadEvents(rANCS);
-    return Loader.mpEventData;
+
+    return ptr;
 }
 
-CAnimEventData* CAnimEventLoader::LoadCorruptionCharacterEventSet(IInputStream& rCHAR)
+std::unique_ptr<CAnimEventData> CAnimEventLoader::LoadCorruptionCharacterEventSet(IInputStream& rCHAR)
 {
+    auto ptr = std::make_unique<CAnimEventData>();
+
     CAnimEventLoader Loader;
-    Loader.mpEventData = new CAnimEventData();
+    Loader.mpEventData = ptr.get();
     Loader.mGame = EGame::Corruption;
 
     // Read event set header
@@ -179,5 +184,5 @@ CAnimEventData* CAnimEventLoader::LoadCorruptionCharacterEventSet(IInputStream& 
         Loader.LoadSoundEvent(rCHAR);
     }
 
-    return Loader.mpEventData;
+    return ptr;
 }

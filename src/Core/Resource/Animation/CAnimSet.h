@@ -14,6 +14,8 @@
 #include "Core/Resource/Model/CModel.h"
 #include <Common/BasicTypes.h>
 
+#include <memory>
+#include <set>
 #include <vector>
 
 // Animation structures
@@ -99,7 +101,7 @@ class CAnimSet : public CResource
     float mDefaultAdditiveFadeIn;
     float mDefaultAdditiveFadeOut;
     std::vector<SHalfTransition> mHalfTransitions;
-    std::vector<CAnimEventData*> mAnimEvents; // note: these are for MP2, where event data isn't a standalone resource; these are owned by the animset
+    std::vector<std::unique_ptr<CAnimEventData>> mAnimEvents; // note: these are for MP2, where event data isn't a standalone resource; these are owned by the animset
 
 public:
     CAnimSet(CResourceEntry *pEntry = 0)
@@ -124,7 +126,6 @@ public:
         for (uint32 iEvent = 0; iEvent < mAnimEvents.size(); iEvent++)
         {
             ASSERT(mAnimEvents[iEvent] && !mAnimEvents[iEvent]->Entry());
-            delete mAnimEvents[iEvent];
         }
     }
 
@@ -232,7 +233,7 @@ public:
 
         else
         {
-            return (Index < mAnimEvents.size() ? mAnimEvents[Index] : nullptr);
+            return (Index < mAnimEvents.size() ? mAnimEvents[Index].get() : nullptr);
         }
     }
 };
