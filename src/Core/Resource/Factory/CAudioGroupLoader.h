@@ -8,7 +8,7 @@
 
 class CAudioGroupLoader
 {
-    CAudioGroupLoader() {}
+    CAudioGroupLoader() = default;
 
 public:
     static std::unique_ptr<CAudioGroup> LoadAGSC(IInputStream& rAGSC, CResourceEntry *pEntry);
