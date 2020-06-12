@@ -23,31 +23,31 @@ CCollisionMesh::CCollisionOctree::SLeaf* CCollisionLoader::ParseOctreeLeaf(IInpu
 }
 #endif
 
-SOBBTreeNode* CCollisionLoader::ParseOBBNode(IInputStream& DCLN)
+std::unique_ptr<SOBBTreeNode> CCollisionLoader::ParseOBBNode(IInputStream& DCLN) const
 {
-    SOBBTreeNode* pOut = nullptr;
+    std::unique_ptr<SOBBTreeNode> pOut;
 
-    CTransform4f Transform(DCLN);
-    CVector3f Radius(DCLN);
-    bool IsLeaf = DCLN.ReadBool();
+    const CTransform4f Transform(DCLN);
+    const CVector3f Radius(DCLN);
+    const bool IsLeaf = DCLN.ReadBool();
 
     if (IsLeaf)
     {
-        SOBBTreeLeaf* pLeaf = new SOBBTreeLeaf;
-        uint NumTris = DCLN.ReadLong();
+        auto pLeaf = std::make_unique<SOBBTreeLeaf>();
+        const uint NumTris = DCLN.ReadLong();
         pLeaf->TriangleIndices.resize(NumTris);
 
-        for (uint i=0; i<NumTris; i++)
+        for (uint i = 0; i < NumTris; i++)
             pLeaf->TriangleIndices[i] = DCLN.ReadShort();
 
-        pOut = pLeaf;
+        pOut = std::move(pLeaf);
     }
     else
     {
-        SOBBTreeBranch* pBranch = new SOBBTreeBranch;
-        pBranch->pLeft = std::unique_ptr<SOBBTreeNode>( ParseOBBNode(DCLN) );
-        pBranch->pRight = std::unique_ptr<SOBBTreeNode>( ParseOBBNode(DCLN) );
-        pOut = pBranch;
+        auto pBranch = std::make_unique<SOBBTreeBranch>();
+        pBranch->pLeft = ParseOBBNode(DCLN);
+        pBranch->pRight = ParseOBBNode(DCLN);
+        pOut = std::move(pBranch);
     }
 
     pOut->Transform = Transform;
@@ -271,7 +271,7 @@ std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadDCLN(IInputStream& rD
 
         // Parse OBB tree
         CCollidableOBBTree* pOBBTree = static_cast<CCollidableOBBTree*>(Loader.mpMesh);
-        pOBBTree->mpOBBTree = std::unique_ptr<SOBBTreeNode>( Loader.ParseOBBNode(rDCLN) );
+        pOBBTree->mpOBBTree = Loader.ParseOBBNode(rDCLN);
     }
 
     return ptr;

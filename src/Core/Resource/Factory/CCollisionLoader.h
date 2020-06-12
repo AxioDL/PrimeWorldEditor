@@ -6,6 +6,8 @@
 #include "Core/Resource/Collision/CCollidableOBBTree.h"
 #include <Common/EGame.h>
 
+#include <memory>
+
 class CCollisionLoader
 {
     TResPtr<CCollisionMeshGroup> mpGroup;
@@ -20,9 +22,9 @@ class CCollisionLoader
     CCollisionMesh::CCollisionOctree::SLeaf* ParseOctreeLeaf(IInputStream& rSrc);
 #endif
 
-    SOBBTreeNode*   ParseOBBNode(IInputStream& DCLN);
-    void            LoadCollisionMaterial(IInputStream& Src, CCollisionMaterial& OutMaterial);
-    void            LoadCollisionIndices(IInputStream& File, SCollisionIndexData& OutData);
+    std::unique_ptr<SOBBTreeNode> ParseOBBNode(IInputStream& DCLN) const;
+    void LoadCollisionMaterial(IInputStream& Src, CCollisionMaterial& OutMaterial);
+    void LoadCollisionIndices(IInputStream& File, SCollisionIndexData& OutData);
 
 public:
     static std::unique_ptr<CCollisionMeshGroup> LoadAreaCollision(IInputStream& rMREA);
