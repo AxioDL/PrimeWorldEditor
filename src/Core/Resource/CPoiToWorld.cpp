@@ -1,29 +1,28 @@
 #include "CPoiToWorld.h"
 
+#include <algorithm>
+
 CPoiToWorld::CPoiToWorld(CResourceEntry *pEntry /*= 0*/)
     : CResource(pEntry)
 {
 }
 
-CPoiToWorld::~CPoiToWorld()
-{
-    for (auto it = mMaps.begin(); it != mMaps.end(); it++)
-        delete *it;
-}
+CPoiToWorld::~CPoiToWorld() = default;
 
 void CPoiToWorld::AddPoi(uint32 PoiID)
 {
     // Check if this POI already exists
-    auto it = mPoiLookupMap.find(PoiID);
-
-    if (it == mPoiLookupMap.end())
+    const auto it = mPoiLookupMap.find(PoiID);
+    if (it != mPoiLookupMap.cend())
     {
-        SPoiMap *pMap = new SPoiMap();
-        pMap->PoiID = PoiID;
-
-        mMaps.push_back(pMap);
-        mPoiLookupMap[PoiID] = pMap;
+        return;
     }
+
+    auto pMap = std::make_unique<SPoiMap>();
+    pMap->PoiID = PoiID;
+
+    mPoiLookupMap.insert_or_assign(PoiID, pMap.get());
+    mMaps.push_back(std::move(pMap));
 }
 
 void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
@@ -33,10 +32,11 @@ void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
     SPoiMap *pMap = mPoiLookupMap[PoiID];
 
     // Check whether this model ID is already mapped to this POI
-    for (auto it = pMap->ModelIDs.begin(); it != pMap->ModelIDs.end(); it++)
+    const bool exists = std::any_of(pMap->ModelIDs.cbegin(), pMap->ModelIDs.cend(),
+                                    [ModelID](const auto ID) { return ID == ModelID; });
+    if (exists)
     {
-        if (*it == ModelID)
-            return;
+        return;
     }
 
     // We didn't return, so this is a new mapping
@@ -45,7 +45,7 @@ void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
 
 void CPoiToWorld::RemovePoi(uint32 PoiID)
 {
-    for (auto it = mMaps.begin(); it != mMaps.end(); it++)
+    for (auto it = mMaps.begin(); it != mMaps.end(); ++it)
     {
         if ((*it)->PoiID == PoiID)
         {
@@ -58,19 +58,19 @@ void CPoiToWorld::RemovePoi(uint32 PoiID)
 
 void CPoiToWorld::RemovePoiMeshMap(uint32 PoiID, uint32 ModelID)
 {
-    auto MapIt = mPoiLookupMap.find(PoiID);
-
-    if (MapIt != mPoiLookupMap.end())
+    const auto MapIt = mPoiLookupMap.find(PoiID);
+    if (MapIt == mPoiLookupMap.end())
     {
-        SPoiMap *pMap = MapIt->second;
+        return;
+    }
 
-        for (auto ListIt = pMap->ModelIDs.begin(); ListIt != pMap->ModelIDs.end(); ListIt++)
+    SPoiMap *pMap = MapIt->second;
+    for (auto ListIt = pMap->ModelIDs.begin(); ListIt != pMap->ModelIDs.end(); ++ListIt)
+    {
+        if (*ListIt == ModelID)
         {
-            if (*ListIt == ModelID)
-            {
-                pMap->ModelIDs.erase(ListIt);
-                break;
-            }
+            pMap->ModelIDs.erase(ListIt);
+            break;
         }
     }
 }
