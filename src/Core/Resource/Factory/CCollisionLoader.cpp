@@ -132,59 +132,59 @@ void CCollisionLoader::LoadCollisionMaterial(IInputStream& Src, CCollisionMateri
 void CCollisionLoader::LoadCollisionIndices(IInputStream& File, SCollisionIndexData& OutData)
 {
     // Materials
-    uint NumMaterials = File.ReadLong();
-    OutData.Materials.resize( NumMaterials );
+    const uint NumMaterials = File.ReadLong();
+    OutData.Materials.resize(NumMaterials);
 
-    for (uint i=0; i<NumMaterials; i++)
+    for (auto& material : OutData.Materials)
     {
-        LoadCollisionMaterial(File, OutData.Materials[i]);
+        LoadCollisionMaterial(File, material);
     }
 
     // Property indices for vertices/edges/triangles
-    uint VertexMaterialCount = File.ReadLong();
+    const uint32 VertexMaterialCount = File.ReadLong();
     OutData.VertexMaterialIndices.resize(VertexMaterialCount);
     File.ReadBytes(OutData.VertexMaterialIndices.data(), VertexMaterialCount);
 
-    uint32 EdgeMaterialCount = File.ReadLong();
+    const uint32 EdgeMaterialCount = File.ReadLong();
     OutData.EdgeMaterialIndices.resize(EdgeMaterialCount);
     File.ReadBytes(OutData.EdgeMaterialIndices.data(), EdgeMaterialCount);
 
-    uint32 TriMaterialCount = File.ReadLong();
+    const uint32 TriMaterialCount = File.ReadLong();
     OutData.TriangleMaterialIndices.resize(TriMaterialCount);
     File.ReadBytes(OutData.TriangleMaterialIndices.data(), TriMaterialCount);
 
     // Edges
-    uint NumEdges = File.ReadLong();
-    OutData.EdgeIndices.resize( NumEdges * 2 );
+    const uint32 NumEdges = File.ReadLong();
+    OutData.EdgeIndices.resize(NumEdges * 2);
 
-    for (uint i=0; i<OutData.EdgeIndices.size(); i++)
+    for (auto& edge : OutData.EdgeIndices)
     {
-        OutData.EdgeIndices[i] = File.ReadShort();
+        edge = File.ReadShort();
     }
 
     // Triangles
-    uint NumTris = File.ReadLong();
-    OutData.TriangleIndices.resize( NumTris );
+    const uint32 NumTris = File.ReadLong();
+    OutData.TriangleIndices.resize(NumTris);
 
-    for (uint i=0; i<NumTris; i++)
+    for (auto& triangle : OutData.TriangleIndices)
     {
-        OutData.TriangleIndices[i] = File.ReadShort();
+        triangle = File.ReadShort();
     }
 
     // Echoes introduces a new data chunk; don't know what it is yet, skipping for now
     if (mVersion >= EGame::Echoes)
     {
-        uint UnknownCount = File.ReadLong();
+        const uint32 UnknownCount = File.ReadLong();
         File.Skip(UnknownCount * 2);
     }
 
     // Vertices
-    uint NumVertices = File.ReadLong();
+    const uint32 NumVertices = File.ReadLong();
     OutData.Vertices.resize(NumVertices);
 
-    for (uint32 i=0; i<NumVertices; i++)
+    for (auto& vert : OutData.Vertices)
     {
-        OutData.Vertices[i].Read(File);
+        vert.Read(File);
     }
 }
 
