@@ -12,7 +12,7 @@ class CResourceStore;
 
 class CVirtualDirectory
 {
-    CVirtualDirectory *mpParent;
+    CVirtualDirectory *mpParent = nullptr;
     CResourceStore *mpStore;
     TString mName;
     std::vector<CVirtualDirectory*> mSubdirectories;

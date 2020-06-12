@@ -5,17 +5,17 @@
 #include <algorithm>
 
 CVirtualDirectory::CVirtualDirectory(CResourceStore *pStore)
-    : mpParent(nullptr), mpStore(pStore)
+    : mpStore(pStore)
 {}
 
 CVirtualDirectory::CVirtualDirectory(const TString& rkName, CResourceStore *pStore)
-    : mpParent(nullptr), mName(rkName), mpStore(pStore)
+    : mpStore(pStore), mName(rkName)
 {
     ASSERT(!mName.IsEmpty() && FileUtil::IsValidName(mName, true));
 }
 
 CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, const TString& rkName, CResourceStore *pStore)
-    : mpParent(pParent), mName(rkName), mpStore(pStore)
+    : mpParent(pParent), mpStore(pStore), mName(rkName)
 {
     ASSERT(!mName.IsEmpty() && FileUtil::IsValidName(mName, true));
 }
