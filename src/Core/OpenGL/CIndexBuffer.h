@@ -14,7 +14,7 @@ class CIndexBuffer
 
 public:
     CIndexBuffer();
-    CIndexBuffer(GLenum Type);
+    explicit CIndexBuffer(GLenum Type);
     ~CIndexBuffer();
     void AddIndex(uint16 Index);
     void AddIndices(uint16 *pIndices, uint Count);
