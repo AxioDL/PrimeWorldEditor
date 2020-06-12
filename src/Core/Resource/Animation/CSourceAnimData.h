@@ -4,6 +4,8 @@
 #include "Core/Resource/CResource.h"
 #include "IMetaTransition.h"
 
+#include <memory>
+
 class CSourceAnimData : public CResource
 {
     DECLARE_RESOURCE_TYPE(SourceAnimData)
@@ -13,35 +15,25 @@ class CSourceAnimData : public CResource
     {
         CAssetID AnimA;
         CAssetID AnimB;
-        IMetaTransition *pTransition;
+        std::unique_ptr<IMetaTransition> pTransition;
     };
 
     struct SHalfTransition
     {
         CAssetID Anim;
-        IMetaTransition *pTransition;
+        std::unique_ptr<IMetaTransition> pTransition;
     };
 
     std::vector<STransition> mTransitions;
     std::vector<SHalfTransition> mHalfTransitions;
-    IMetaTransition *mpDefaultTransition;
+    std::unique_ptr<IMetaTransition> mpDefaultTransition;
 
 public:
     explicit CSourceAnimData(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
-        , mpDefaultTransition(nullptr)
     {}
 
-    ~CSourceAnimData()
-    {
-        for (uint32 TransIdx = 0; TransIdx < mTransitions.size(); TransIdx++)
-            delete mTransitions[TransIdx].pTransition;
-
-        for (uint32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
-            delete mHalfTransitions[HalfIdx].pTransition;
-
-        delete mpDefaultTransition;
-    }
+    ~CSourceAnimData() = default;
 
     std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
@@ -74,16 +66,16 @@ public:
             // Find all relevant primitives
             std::set<CAnimPrimitive> PrimSet;
 
-            if (UsedTransitions.find(mpDefaultTransition) == UsedTransitions.end())
+            if (UsedTransitions.find(mpDefaultTransition.get()) == UsedTransitions.end())
             {
                 mpDefaultTransition->GetUniquePrimitives(PrimSet);
-                UsedTransitions.insert(mpDefaultTransition);
+                UsedTransitions.insert(mpDefaultTransition.get());
             }
 
             for (uint32 TransitionIdx = 0; TransitionIdx < mTransitions.size(); TransitionIdx++)
             {
                 const STransition& rkTransition = mTransitions[TransitionIdx];
-                IMetaTransition *pTransition = rkTransition.pTransition;
+                IMetaTransition *pTransition = rkTransition.pTransition.get();
 
                 if ( pTree->HasDependency(rkTransition.AnimA) &&
                      pTree->HasDependency(rkTransition.AnimB) &&
@@ -97,7 +89,7 @@ public:
             for (uint32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
             {
                 const SHalfTransition& rkHalfTrans = mHalfTransitions[HalfIdx];
-                IMetaTransition *pTransition = rkHalfTrans.pTransition;
+                IMetaTransition *pTransition = rkHalfTrans.pTransition.get();
 
                 if ( pTree->HasDependency(rkHalfTrans.Anim) &&
                      UsedTransitions.find(pTransition) == UsedTransitions.end() )

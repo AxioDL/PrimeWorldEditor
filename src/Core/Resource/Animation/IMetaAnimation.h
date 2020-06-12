@@ -18,7 +18,7 @@ enum class EMetaAnimType
 class CMetaAnimFactory
 {
 public:
-    class IMetaAnimation* LoadFromStream(IInputStream& rInput, EGame Game);
+    std::unique_ptr<class IMetaAnimation> LoadFromStream(IInputStream& rInput, EGame Game) const;
 };
 extern CMetaAnimFactory gMetaAnimFactory;
 
@@ -65,7 +65,7 @@ public:
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const = 0;
 
     // Static
-    static IMetaAnimation* LoadFromStream(IInputStream& rInput, EGame Game);
+    static std::unique_ptr<IMetaAnimation> LoadFromStream(IInputStream& rInput, EGame Game);
 };
 
 // CMetaAnimPlay - plays an animation
@@ -93,8 +93,8 @@ class CMetaAnimBlend : public IMetaAnimation
 {
 protected:
     EMetaAnimType mType;
-    IMetaAnimation *mpMetaAnimA;
-    IMetaAnimation *mpMetaAnimB;
+    std::unique_ptr<IMetaAnimation> mpMetaAnimA;
+    std::unique_ptr<IMetaAnimation> mpMetaAnimB;
     float mUnknownA;
     bool mUnknownB;
 
@@ -105,8 +105,8 @@ public:
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 
     // Accessors
-    IMetaAnimation* BlendAnimationA() const  { return mpMetaAnimA; }
-    IMetaAnimation* BlendAnimationB() const  { return mpMetaAnimB; }
+    IMetaAnimation* BlendAnimationA() const  { return mpMetaAnimA.get(); }
+    IMetaAnimation* BlendAnimationB() const  { return mpMetaAnimB.get(); }
     float UnknownA() const                   { return mUnknownA; }
     bool UnknownB() const                    { return mUnknownB; }
 };
@@ -114,7 +114,7 @@ public:
 // SAnimProbabilityPair - structure used by CMetaAnimationRandom to associate an animation with a probability value
 struct SAnimProbabilityPair
 {
-    IMetaAnimation *pAnim;
+    std::unique_ptr<IMetaAnimation> pAnim;
     uint32 Probability;
 };
 
@@ -135,7 +135,7 @@ public:
 class CMetaAnimSequence : public IMetaAnimation
 {
 protected:
-    std::vector<IMetaAnimation*> mAnimations;
+    std::vector<std::unique_ptr<IMetaAnimation>> mAnimations;
 
 public:
     CMetaAnimSequence(IInputStream& rInput, EGame Game);

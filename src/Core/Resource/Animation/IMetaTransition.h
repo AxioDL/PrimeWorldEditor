@@ -2,9 +2,13 @@
 #define IMETATRANSITION_H
 
 #include "IMetaAnimation.h"
+#include <memory>
+#include <set>
 
+class IInputStream;
 class IMetaAnimation;
 class IMetaTransition;
+enum class EGame;
 
 enum class EMetaTransType
 {
@@ -19,7 +23,7 @@ enum class EMetaTransType
 class CMetaTransFactory
 {
 public:
-    class IMetaTransition* LoadFromStream(IInputStream& rInput, EGame Game);
+    std::unique_ptr<IMetaTransition> LoadFromStream(IInputStream& rInput, EGame Game) const;
 };
 extern CMetaTransFactory gMetaTransFactory;
 
@@ -36,7 +40,7 @@ public:
 // CMetaTransMetaAnim
 class CMetaTransMetaAnim : public IMetaTransition
 {
-    IMetaAnimation *mpAnim;
+    std::unique_ptr<IMetaAnimation> mpAnim;
 
 public:
     CMetaTransMetaAnim(IInputStream& rInput, EGame Game);

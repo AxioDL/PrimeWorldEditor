@@ -3,27 +3,27 @@
 // ************ CMetaAnimFactory ************
 CMetaAnimFactory gMetaAnimFactory;
 
-IMetaAnimation* CMetaAnimFactory::LoadFromStream(IInputStream& rInput, EGame Game)
+std::unique_ptr<IMetaAnimation> CMetaAnimFactory::LoadFromStream(IInputStream& rInput, EGame Game) const
 {
-    EMetaAnimType Type = (EMetaAnimType) rInput.ReadLong();
+    const auto Type = static_cast<EMetaAnimType>(rInput.ReadLong());
 
     switch (Type)
     {
     case EMetaAnimType::Play:
-        return new CMetaAnimPlay(rInput, Game);
+        return std::make_unique<CMetaAnimPlay>(rInput, Game);
 
     case EMetaAnimType::Blend:
     case EMetaAnimType::PhaseBlend:
-        return new CMetaAnimBlend(Type, rInput, Game);
+        return std::make_unique<CMetaAnimBlend>(Type, rInput, Game);
 
     case EMetaAnimType::Random:
-        return new CMetaAnimRandom(rInput, Game);
+        return std::make_unique<CMetaAnimRandom>(rInput, Game);
 
     case EMetaAnimType::Sequence:
-        return new CMetaAnimSequence(rInput, Game);
+        return std::make_unique<CMetaAnimSequence>(rInput, Game);
 
     default:
-        errorf("Unrecognized meta-animation type: %d", Type);
+        errorf("Unrecognized meta-animation type: %d", static_cast<int>(Type));
         return nullptr;
     }
 }
@@ -64,11 +64,7 @@ CMetaAnimBlend::CMetaAnimBlend(EMetaAnimType Type, IInputStream& rInput, EGame G
     mUnknownB = rInput.ReadBool();
 }
 
-CMetaAnimBlend::~CMetaAnimBlend()
-{
-    delete mpMetaAnimA;
-    delete mpMetaAnimB;
-}
+CMetaAnimBlend::~CMetaAnimBlend() = default;
 
 EMetaAnimType CMetaAnimBlend::Type() const
 {
@@ -84,7 +80,7 @@ void CMetaAnimBlend::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) con
 // ************ CMetaAnimRandom ************
 CMetaAnimRandom::CMetaAnimRandom(IInputStream& rInput, EGame Game)
 {
-    uint32 NumPairs = rInput.ReadLong();
+    const uint32 NumPairs = rInput.ReadLong();
     mProbabilityPairs.reserve(NumPairs);
 
     for (uint32 iAnim = 0; iAnim < NumPairs; iAnim++)
@@ -92,15 +88,11 @@ CMetaAnimRandom::CMetaAnimRandom(IInputStream& rInput, EGame Game)
         SAnimProbabilityPair Pair;
         Pair.pAnim = gMetaAnimFactory.LoadFromStream(rInput, Game);
         Pair.Probability = rInput.ReadLong();
-        mProbabilityPairs.push_back(Pair);
+        mProbabilityPairs.push_back(std::move(Pair));
     }
 }
 
-CMetaAnimRandom::~CMetaAnimRandom()
-{
-    for (uint32 iPair = 0; iPair < mProbabilityPairs.size(); iPair++)
-        delete mProbabilityPairs[iPair].pAnim;
-}
+CMetaAnimRandom::~CMetaAnimRandom() = default;
 
 EMetaAnimType CMetaAnimRandom::Type() const
 {
@@ -109,28 +101,23 @@ EMetaAnimType CMetaAnimRandom::Type() const
 
 void CMetaAnimRandom::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
 {
-    for (uint32 iPair = 0; iPair < mProbabilityPairs.size(); iPair++)
-        mProbabilityPairs[iPair].pAnim->GetUniquePrimitives(rPrimSet);
+    for (auto& pair : mProbabilityPairs)
+        pair.pAnim->GetUniquePrimitives(rPrimSet);
 }
 
 // ************ CMetaAnimSequence ************
 CMetaAnimSequence::CMetaAnimSequence(IInputStream& rInput, EGame Game)
 {
-    uint32 NumAnims = rInput.ReadLong();
+    const uint32 NumAnims = rInput.ReadLong();
     mAnimations.reserve(NumAnims);
 
     for (uint32 iAnim = 0; iAnim < NumAnims; iAnim++)
     {
-        IMetaAnimation *pAnim = gMetaAnimFactory.LoadFromStream(rInput, Game);
-        mAnimations.push_back(pAnim);
+        mAnimations.push_back(gMetaAnimFactory.LoadFromStream(rInput, Game));
     }
 }
 
-CMetaAnimSequence::~CMetaAnimSequence()
-{
-    for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
-        delete mAnimations[iAnim];
-}
+CMetaAnimSequence::~CMetaAnimSequence() = default;
 
 EMetaAnimType CMetaAnimSequence::Type() const
 {
@@ -139,6 +126,6 @@ EMetaAnimType CMetaAnimSequence::Type() const
 
 void CMetaAnimSequence::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
 {
-    for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
-        mAnimations[iAnim]->GetUniquePrimitives(rPrimSet);
+    for (auto& anim : mAnimations)
+        anim->GetUniquePrimitives(rPrimSet);
 }

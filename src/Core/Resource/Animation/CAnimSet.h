@@ -29,7 +29,7 @@ struct SAdditiveAnim
 struct SAnimation
 {
     TString Name;
-    IMetaAnimation *pMetaAnim;
+    std::unique_ptr<IMetaAnimation> pMetaAnim;
 };
 
 struct STransition
@@ -37,13 +37,13 @@ struct STransition
     uint32 Unknown;
     uint32 AnimIdA;
     uint32 AnimIdB;
-    IMetaTransition *pMetaTrans;
+    std::unique_ptr<IMetaTransition> pMetaTrans;
 };
 
 struct SHalfTransition
 {
     uint32 AnimID;
-    IMetaTransition *pMetaTrans;
+    std::unique_ptr<IMetaTransition> pMetaTrans;
 };
 
 // Character structures
@@ -96,7 +96,7 @@ class CAnimSet : public CResource
     std::vector<CAnimPrimitive> mAnimPrimitives;
     std::vector<SAnimation> mAnimations;
     std::vector<STransition> mTransitions;
-    IMetaTransition *mpDefaultTransition = nullptr;
+    std::unique_ptr<IMetaTransition> mpDefaultTransition;
     std::vector<SAdditiveAnim> mAdditiveAnims;
     float mDefaultAdditiveFadeIn = 0.0f;
     float mDefaultAdditiveFadeOut = 0.0f;
@@ -110,17 +110,6 @@ public:
 
     ~CAnimSet()
     {
-        for (auto& anim : mAnimations)
-            delete anim.pMetaAnim;
-
-        for (auto& trans : mTransitions)
-            delete trans.pMetaTrans;
-
-        for (auto& half : mHalfTransitions)
-            delete half.pMetaTrans;
-
-        delete mpDefaultTransition;
-
         // For MP2, anim events need to be cleaned up manually
         for ([[maybe_unused]] const auto& event : mAnimEvents)
         {

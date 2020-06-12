@@ -52,7 +52,7 @@ void CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
         SAnimation Anim;
         Anim.Name = rCHAR.ReadString();
         Anim.pMetaAnim = gMetaAnimFactory.LoadFromStream(rCHAR, mGame);
-        pSet->mAnimations.push_back(Anim);
+        pSet->mAnimations.push_back(std::move(Anim));
     }
 
     // Animation Bounds
@@ -141,8 +141,8 @@ void CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
         // small hack - create a meta-anim for it so we can generate asset names for the ANIM files correctly
         SAnimation Anim;
         Anim.Name = AnimName;
-        Anim.pMetaAnim = new CMetaAnimPlay( CAnimPrimitive(AnimID, AnimIdx, AnimName), 0.f, 0 );
-        pSet->mAnimations.push_back(Anim);
+        Anim.pMetaAnim = std::make_unique<CMetaAnimPlay>(CAnimPrimitive(AnimID, AnimIdx, AnimName), 0.f, 0);
+        pSet->mAnimations.push_back(std::move(Anim));
     }
 
     // The only other thing we care about right now is the dependency list. If this file doesn't have a dependency list, exit out.
@@ -322,7 +322,7 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
         SAnimation Anim;
         Anim.Name = rANCS.ReadString();
         Anim.pMetaAnim = gMetaAnimFactory.LoadFromStream(rANCS, mGame);
-        pSet->mAnimations.push_back(Anim);
+        pSet->mAnimations.push_back(std::move(Anim));
     }
 
     // Transitions
@@ -336,7 +336,7 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
         Trans.AnimIdA = rANCS.ReadLong();
         Trans.AnimIdB = rANCS.ReadLong();
         Trans.pMetaTrans = gMetaTransFactory.LoadFromStream(rANCS, mGame);
-        pSet->mTransitions.push_back(Trans);
+        pSet->mTransitions.push_back(std::move(Trans));
     }
 
     pSet->mpDefaultTransition = gMetaTransFactory.LoadFromStream(rANCS, mGame);
@@ -351,7 +351,7 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
         Anim.AnimID = rANCS.ReadLong();
         Anim.FadeInTime = rANCS.ReadFloat();
         Anim.FadeOutTime = rANCS.ReadFloat();
-        pSet->mAdditiveAnims.push_back(Anim);
+        pSet->mAdditiveAnims.push_back(std::move(Anim));
     }
 
     pSet->mDefaultAdditiveFadeIn = rANCS.ReadFloat();
@@ -368,7 +368,7 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
             SHalfTransition Trans;
             Trans.AnimID = rANCS.ReadLong();
             Trans.pMetaTrans = gMetaTransFactory.LoadFromStream(rANCS, mGame);
-            pSet->mHalfTransitions.push_back(Trans);
+            pSet->mHalfTransitions.push_back(std::move(Trans));
         }
     }
 
@@ -673,7 +673,7 @@ std::unique_ptr<CSourceAnimData> CAnimSetLoader::LoadSAND(IInputStream& rSAND, C
         Transition.AnimA = CAssetID(rSAND, EIDLength::k64Bit);
         Transition.AnimB = CAssetID(rSAND, EIDLength::k64Bit);
         Transition.pTransition = gMetaTransFactory.LoadFromStream(rSAND, pEntry->Game());
-        pData->mTransitions.push_back(Transition);
+        pData->mTransitions.push_back(std::move(Transition));
     }
 
     // Half Transitions
@@ -687,7 +687,7 @@ std::unique_ptr<CSourceAnimData> CAnimSetLoader::LoadSAND(IInputStream& rSAND, C
         CSourceAnimData::SHalfTransition HalfTrans;
         HalfTrans.Anim = CAssetID(rSAND, EIDLength::k64Bit);
         HalfTrans.pTransition = gMetaTransFactory.LoadFromStream(rSAND, pEntry->Game());
-        pData->mHalfTransitions.push_back(HalfTrans);
+        pData->mHalfTransitions.push_back(std::move(HalfTrans));
     }
 
     // Default Transition
