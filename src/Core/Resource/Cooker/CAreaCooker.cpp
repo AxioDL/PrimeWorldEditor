@@ -191,7 +191,7 @@ void CAreaCooker::WritePrimeSCLY(IOutputStream& rOut)
     for (uint32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
     {
         uint32 LayerStart = rOut.Tell();
-        ScriptCooker.WriteLayer(rOut, mpArea->mScriptLayers[LayerIdx]);
+        ScriptCooker.WriteLayer(rOut, mpArea->mScriptLayers[LayerIdx].get());
 
         // Pad the layer to 32 bytes
         uint32 LayerSize = rOut.Tell() - LayerStart;
@@ -233,7 +233,7 @@ void CAreaCooker::WriteEchoesSCLY(IOutputStream& rOut)
         rOut.WriteFourCC( FOURCC('SCLY') );
         rOut.WriteByte(1);
         rOut.WriteLong(LayerIdx);
-        ScriptCooker.WriteLayer(rOut, mpArea->mScriptLayers[LayerIdx]);
+        ScriptCooker.WriteLayer(rOut, mpArea->mScriptLayers[LayerIdx].get());
         FinishSection(true);
     }
 

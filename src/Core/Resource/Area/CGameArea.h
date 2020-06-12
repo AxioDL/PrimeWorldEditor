@@ -12,7 +12,9 @@
 #include <Common/Math/CQuaternion.h>
 #include <Common/Math/CTransform4f.h>
 
+#include <memory>
 #include <unordered_map>
+#include <vector>
 
 class CScriptLayer;
 class CScriptObject;
@@ -45,10 +47,10 @@ class CGameArea : public CResource
 
     // Geometry
     CMaterialSet *mpMaterialSet;
-    std::vector<CModel*> mWorldModels; // TerrainModels is the original version of each model; this is currently mainly used in the POI map editor
-    std::vector<CStaticModel*> mStaticWorldModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
+    std::vector<std::unique_ptr<CModel>> mWorldModels; // TerrainModels is the original version of each model; this is currently mainly used in the POI map editor
+    std::vector<std::unique_ptr<CStaticModel>> mStaticWorldModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
     // Script
-    std::vector<CScriptLayer*> mScriptLayers;
+    std::vector<std::unique_ptr<CScriptLayer>> mScriptLayers;
     std::unordered_map<uint32, CScriptObject*> mObjectMap;
     // Collision
     std::unique_ptr<CCollisionMeshGroup> mpCollision;
@@ -69,7 +71,7 @@ public:
     ~CGameArea();
     std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
 
-    void AddWorldModel(CModel *pModel);
+    void AddWorldModel(std::unique_ptr<CModel>&& pModel);
     void MergeTerrain();
     void ClearTerrain();
     void ClearScriptLayers();
@@ -91,11 +93,11 @@ public:
     CMaterialSet* Materials() const                              { return mpMaterialSet; }
     uint32 NumWorldModels() const                                { return mWorldModels.size(); }
     uint32 NumStaticModels() const                               { return mStaticWorldModels.size(); }
-    CModel* TerrainModel(uint32 iMdl) const                      { return mWorldModels[iMdl]; }
-    CStaticModel* StaticModel(uint32 iMdl) const                 { return mStaticWorldModels[iMdl]; }
+    CModel* TerrainModel(uint32 iMdl) const                      { return mWorldModels[iMdl].get(); }
+    CStaticModel* StaticModel(uint32 iMdl) const                 { return mStaticWorldModels[iMdl].get(); }
     CCollisionMeshGroup* Collision() const                       { return mpCollision.get(); }
     uint32 NumScriptLayers() const                               { return mScriptLayers.size(); }
-    CScriptLayer* ScriptLayer(uint32 Index) const                { return mScriptLayers[Index]; }
+    CScriptLayer* ScriptLayer(uint32 Index) const                { return mScriptLayers[Index].get(); }
     uint32 NumLightLayers() const                                { return mLightLayers.size(); }
     uint32 NumLights(uint32 LayerIndex) const                    { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
     CLight* Light(uint32 LayerIndex, uint32 LightIndex)          { return &mLightLayers[LayerIndex][LightIndex]; }

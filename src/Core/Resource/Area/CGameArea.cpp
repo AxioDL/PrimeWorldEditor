@@ -18,9 +18,6 @@ CGameArea::CGameArea(CResourceEntry *pEntry /*= 0*/)
 CGameArea::~CGameArea()
 {
     ClearTerrain();
-
-    for (uint32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
-        delete mScriptLayers[iSCLY];
 }
 
 std::unique_ptr<CDependencyTree> CGameArea::BuildDependencyTree() const
@@ -52,18 +49,19 @@ std::unique_ptr<CDependencyTree> CGameArea::BuildDependencyTree() const
     for (uint32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)
     {
         const std::vector<CAssetID>& rkExtras = (mExtraLayerDeps.size() > iLayer ? mExtraLayerDeps[iLayer] : DummyDeps);
-        pTree->AddScriptLayer(mScriptLayers[iLayer], rkExtras);
+        pTree->AddScriptLayer(mScriptLayers[iLayer].get(), rkExtras);
     }
 
     return pTree;
 }
 
-void CGameArea::AddWorldModel(CModel *pModel)
+void CGameArea::AddWorldModel(std::unique_ptr<CModel>&& pModel)
 {
-    mWorldModels.push_back(pModel);
     mVertexCount += pModel->GetVertexCount();
     mTriangleCount += pModel->GetTriangleCount();
     mAABox.ExpandBounds(pModel->AABox());
+
+    mWorldModels.push_back(std::move(pModel));
 }
 
 void CGameArea::MergeTerrain()
@@ -73,7 +71,7 @@ void CGameArea::MergeTerrain()
     // Nothing really complicated here - iterate through every terrain submesh, add each to a static model
     for (uint32 iMdl = 0; iMdl < mWorldModels.size(); iMdl++)
     {
-        CModel *pMdl = mWorldModels[iMdl];
+        auto& pMdl = mWorldModels[iMdl];
         uint32 SubmeshCount = pMdl->GetSurfaceCount();
 
         for (uint32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
@@ -82,7 +80,7 @@ void CGameArea::MergeTerrain()
             CMaterial *pMat = mpMaterialSet->MaterialByIndex(pSurf->MaterialID, false);
 
             bool NewMat = true;
-            for (std::vector<CStaticModel*>::iterator it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); it++)
+            for (auto it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); it++)
             {
                 if ((*it)->GetMaterial() == pMat)
                 {
@@ -91,10 +89,10 @@ void CGameArea::MergeTerrain()
                     // (particularly with multi-layered transparent meshes)
                     // so we need to at least try to maintain it.
                     // This is maybe not the most efficient way to do this, but it works.
-                    CStaticModel *pStatic = *it;
+                    auto pStatic = std::move(*it);
                     pStatic->AddSurface(pSurf);
                     mStaticWorldModels.erase(it);
-                    mStaticWorldModels.push_back(pStatic);
+                    mStaticWorldModels.push_back(std::move(pStatic));
                     NewMat = false;
                     break;
                 }
@@ -102,9 +100,9 @@ void CGameArea::MergeTerrain()
 
             if (NewMat)
             {
-                CStaticModel *pStatic = new CStaticModel(pMat);
+                auto pStatic = std::make_unique<CStaticModel>(pMat);
                 pStatic->AddSurface(pSurf);
-                mStaticWorldModels.push_back(pStatic);
+                mStaticWorldModels.push_back(std::move(pStatic));
             }
         }
     }
@@ -112,15 +110,11 @@ void CGameArea::MergeTerrain()
 
 void CGameArea::ClearTerrain()
 {
-    for (uint32 iModel = 0; iModel < mWorldModels.size(); iModel++)
-        delete mWorldModels[iModel];
     mWorldModels.clear();
-
-    for (uint32 iStatic = 0; iStatic < mStaticWorldModels.size(); iStatic++)
-        delete mStaticWorldModels[iStatic];
     mStaticWorldModels.clear();
 
-    if (mpMaterialSet) delete mpMaterialSet;
+    if (mpMaterialSet)
+        delete mpMaterialSet;
 
     mVertexCount = 0;
     mTriangleCount = 0;
@@ -130,8 +124,6 @@ void CGameArea::ClearTerrain()
 
 void CGameArea::ClearScriptLayers()
 {
-    for (auto it = mScriptLayers.begin(); it != mScriptLayers.end(); it++)
-        delete *it;
     mScriptLayers.clear();
 }
 

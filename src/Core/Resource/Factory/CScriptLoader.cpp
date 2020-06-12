@@ -338,14 +338,16 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
     return mpObj;
 }
 
-CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
+std::unique_ptr<CScriptLayer> CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
 {
     uint32 LayerStart = rSCLY.Tell();
 
     rSCLY.Seek(0x1, SEEK_CUR); // One unknown byte at the start of each layer
     uint32 NumObjects = rSCLY.ReadLong();
 
-    mpLayer = new CScriptLayer(mpArea);
+    auto layer = std::make_unique<CScriptLayer>(mpArea);
+
+    mpLayer = layer.get();
     mpLayer->Reserve(NumObjects);
 
     for (uint32 ObjectIndex = 0; ObjectIndex < NumObjects; ObjectIndex++)
@@ -358,7 +360,8 @@ CScriptLayer* CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
     // Layer sizes are always a multiple of 32 - skip end padding before returning
     uint32 Remaining = 32 - ((rSCLY.Tell() - LayerStart) & 0x1F);
     rSCLY.Seek(Remaining, SEEK_CUR);
-    return mpLayer;
+
+    return layer;
 }
 
 void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
@@ -444,12 +447,14 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
     return mpObj;
 }
 
-CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& rSCLY)
+std::unique_ptr<CScriptLayer> CScriptLoader::LoadLayerMP2(IInputStream& rSCLY)
 {
     rSCLY.Seek(0x1, SEEK_CUR); // Skipping version. todo: verify this?
     uint32 NumObjects = rSCLY.ReadLong();
 
-    mpLayer = new CScriptLayer(mpArea);
+    auto layer = std::make_unique<CScriptLayer>(mpArea);
+
+    mpLayer = layer.get();
     mpLayer->Reserve(NumObjects);
 
     for (uint32 ObjectIdx = 0; ObjectIdx < NumObjects; ObjectIdx++)
@@ -459,13 +464,14 @@ CScriptLayer* CScriptLoader::LoadLayerMP2(IInputStream& rSCLY)
             mpLayer->AddInstance(pObject);
     }
 
-    return mpLayer;
+    return layer;
 }
 
 // ************ STATIC ************
-CScriptLayer* CScriptLoader::LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EGame Version)
+std::unique_ptr<CScriptLayer> CScriptLoader::LoadLayer(IInputStream& rSCLY, CGameArea *pArea, EGame Version)
 {
-    if (!rSCLY.IsValid()) return nullptr;
+    if (!rSCLY.IsValid())
+        return nullptr;
 
     CScriptLoader Loader;
     Loader.mVersion = Version;

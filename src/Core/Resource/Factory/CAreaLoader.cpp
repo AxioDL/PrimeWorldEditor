@@ -75,20 +75,18 @@ void CAreaLoader::ReadGeometryPrime()
     mpSectionMgr->ToNextSection();
 
     // Geometry
-    std::vector<CModel*> FileModels;
+    std::vector<std::unique_ptr<CModel>> FileModels;
 
     for (uint32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
-        CModel *pModel = CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, mVersion);
-        FileModels.push_back(pModel);
-
         if (mVersion <= EGame::Prime)
-            mpArea->AddWorldModel(pModel);
-
-        // For Echoes+, load surface mesh IDs, then skip to the start of the next mesh
-        else
         {
-            uint16 NumSurfaces = mpMREA->ReadShort();
+            mpArea->AddWorldModel(CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, mVersion));
+        }
+        else // For Echoes+, load surface mesh IDs, then skip to the start of the next mesh
+        {
+            auto& pModel = FileModels.emplace_back(CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, mVersion));
+            const uint16 NumSurfaces = mpMREA->ReadShort();
 
             for (uint32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
             {
@@ -104,11 +102,11 @@ void CAreaLoader::ReadGeometryPrime()
     // Split meshes
     if (mVersion >= EGame::EchoesDemo)
     {
-        std::vector<CModel*> SplitModels;
+        std::vector<std::unique_ptr<CModel>> SplitModels;
         CModelLoader::BuildWorldMeshes(FileModels, SplitModels, true);
 
-        for (uint32 iMdl = 0; iMdl < SplitModels.size(); iMdl++)
-            mpArea->AddWorldModel(SplitModels[iMdl]);
+        for (auto& model : SplitModels)
+            mpArea->AddWorldModel(std::move(model));
     }
 
     mpArea->MergeTerrain();
@@ -144,7 +142,7 @@ void CAreaLoader::ReadSCLYPrime()
     }
 
     // SCGN
-    CScriptLayer *pGenLayer = nullptr;
+    std::unique_ptr<CScriptLayer> pGenLayer;
 
     if (mVersion >= EGame::EchoesDemo)
     {
@@ -152,8 +150,9 @@ void CAreaLoader::ReadSCLYPrime()
         CFourCC SCGN = mpMREA->ReadFourCC();
 
         if (SCGN != FOURCC('SCGN'))
+        {
             errorf("%s [0x%X]: Invalid SCGN magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, *SCGN.ToString());
-
+        }
         else
         {
             mpMREA->Seek(0x1, SEEK_CUR);
@@ -161,8 +160,7 @@ void CAreaLoader::ReadSCLYPrime()
         }
     }
 
-    SetUpObjects(pGenLayer);
-    delete pGenLayer;
+    SetUpObjects(pGenLayer.get());
 }
 
 void CAreaLoader::ReadLightsPrime()
@@ -316,9 +314,8 @@ void CAreaLoader::ReadSCLYEchoes()
     }
 
     mpMREA->Seek(0x1, SEEK_CUR); // Skipping unknown
-    CScriptLayer *pGeneratedLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
-    SetUpObjects(pGeneratedLayer);
-    delete pGeneratedLayer;
+    const auto pGeneratedLayer = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
+    SetUpObjects(pGeneratedLayer.get());
 }
 
 // ************ CORRUPTION ************
@@ -381,14 +378,13 @@ void CAreaLoader::ReadGeometryCorruption()
     mpSectionMgr->ToNextSection();
 
     // Geometry
-    std::vector<CModel*> FileModels;
+    std::vector<std::unique_ptr<CModel>> FileModels;
     uint32 CurWOBJSection = 1;
     uint32 CurGPUSection = mGPUBlockNum;
 
     for (uint32 iMesh = 0; iMesh < mNumMeshes; iMesh++)
     {
-        CModel *pWorldModel = CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, CurWOBJSection, CurGPUSection, mVersion);
-        FileModels.push_back(pWorldModel);
+        auto& pWorldModel = FileModels.emplace_back(CModelLoader::LoadCorruptionWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, CurWOBJSection, CurGPUSection, mVersion));
 
         CurWOBJSection += 4;
         CurGPUSection = mpSectionMgr->CurrentSection();
@@ -404,11 +400,11 @@ void CAreaLoader::ReadGeometryCorruption()
         }
     }
 
-    std::vector<CModel*> SplitModels;
+    std::vector<std::unique_ptr<CModel>> SplitModels;
     CModelLoader::BuildWorldMeshes(FileModels, SplitModels, true);
 
-    for (uint32 iMdl = 0; iMdl < SplitModels.size(); iMdl++)
-        mpArea->AddWorldModel(SplitModels[iMdl]);
+    for (auto& model : SplitModels)
+        mpArea->AddWorldModel(std::move(model));
 
     mpArea->MergeTerrain();
 }
@@ -648,7 +644,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
     // Create instance map
     for (uint32 LayerIdx = 0; LayerIdx < mpArea->NumScriptLayers(); LayerIdx++)
     {
-        CScriptLayer *pLayer = mpArea->mScriptLayers[LayerIdx];
+        auto& pLayer = mpArea->mScriptLayers[LayerIdx];
 
         for (uint32 InstIdx = 0; InstIdx < pLayer->NumInstances(); InstIdx++)
         {

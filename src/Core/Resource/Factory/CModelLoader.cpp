@@ -494,7 +494,7 @@ std::unique_ptr<CModel> CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEnt
     return pModel;
 }
 
-CModel* CModelLoader::LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version)
+std::unique_ptr<CModel> CModelLoader::LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version)
 {
     CModelLoader Loader;
     Loader.mpSectionMgr = &rBlockMgr;
@@ -508,7 +508,7 @@ CModel* CModelLoader::LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockM
     Loader.LoadAttribArrays(rMREA);
     Loader.LoadSurfaceOffsets(rMREA);
 
-    CModel *pModel = new CModel();
+    auto pModel = std::make_unique<CModel>();
     pModel->mMaterialSets.resize(1);
     pModel->mMaterialSets[0] = &rMatSet;
     pModel->mHasOwnMaterials = false;
@@ -527,7 +527,7 @@ CModel* CModelLoader::LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockM
     return pModel;
 }
 
-CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, uint32 HeaderSecNum, uint32 GPUSecNum, EGame Version)
+std::unique_ptr<CModel> CModelLoader::LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, uint32 HeaderSecNum, uint32 GPUSecNum, EGame Version)
 {
     CModelLoader Loader;
     Loader.mpSectionMgr = &rBlockMgr;
@@ -535,7 +535,8 @@ CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrI
     Loader.mFlags = EModelLoaderFlag::HalfPrecisionNormals;
     Loader.mMaterials.resize(1);
     Loader.mMaterials[0] = &rMatSet;
-    if (Version == EGame::DKCReturns) Loader.mFlags |= EModelLoaderFlag::LightmapUVs;
+    if (Version == EGame::DKCReturns)
+        Loader.mFlags |= EModelLoaderFlag::LightmapUVs;
 
     // Corruption/DKCR MREAs split the mesh header and surface offsets away from the actual geometry data so I need two section numbers to read it
     rBlockMgr.ToSection(HeaderSecNum);
@@ -544,7 +545,7 @@ CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrI
     rBlockMgr.ToSection(GPUSecNum);
     Loader.LoadAttribArrays(rMREA);
 
-    CModel *pModel = new CModel();
+    auto pModel = std::make_unique<CModel>();
     pModel->mMaterialSets.resize(1);
     pModel->mMaterialSets[0] = &rMatSet;
     pModel->mHasOwnMaterials = false;
@@ -563,14 +564,14 @@ CModel* CModelLoader::LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrI
     return pModel;
 }
 
-void CModelLoader::BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels)
+void CModelLoader::BuildWorldMeshes(std::vector<std::unique_ptr<CModel>>& rkIn, std::vector<std::unique_ptr<CModel>>& rOut, bool DeleteInputModels)
 {
     // This function takes the gigantic models with all surfaces combined from MP2/3/DKCR and splits the surfaces to reform the original uncombined meshes.
     std::map<uint32, CModel*> OutputMap;
 
     for (uint32 iMdl = 0; iMdl < rkIn.size(); iMdl++)
     {
-        CModel *pModel = rkIn[iMdl];
+        auto& pModel = rkIn[iMdl];
         pModel->mHasOwnSurfaces = false;
         pModel->mHasOwnMaterials = false;
 
@@ -583,7 +584,7 @@ void CModelLoader::BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vecto
             // No model for this ID; create one!
             if (Iter == OutputMap.end())
             {
-                CModel *pOutMdl = new CModel();
+                auto pOutMdl = std::make_unique<CModel>();
                 pOutMdl->mMaterialSets.resize(1);
                 pOutMdl->mMaterialSets[0] = pModel->mMaterialSets[0];
                 pOutMdl->mHasOwnMaterials = false;
@@ -593,12 +594,10 @@ void CModelLoader::BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vecto
                 pOutMdl->mTriangleCount = pSurf->TriangleCount;
                 pOutMdl->mAABox.ExpandBounds(pSurf->AABox);
 
-                OutputMap[ID] = pOutMdl;
-                rOut.push_back(pOutMdl);
+                OutputMap.insert_or_assign(ID, pOutMdl.get());
+                rOut.push_back(std::move(pOutMdl));
             }
-
-            // Existing model; add this surface to it
-            else
+            else // Existing model; add this surface to it
             {
                 CModel *pOutMdl = Iter->second;
                 pOutMdl->mSurfaces.push_back(pSurf);
@@ -610,7 +609,7 @@ void CModelLoader::BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vecto
 
         // Done with this model, should we delete it?
         if (DeleteInputModels)
-            delete pModel;
+            pModel.reset();
     }
 }
 
