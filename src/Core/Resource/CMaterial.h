@@ -83,8 +83,8 @@ private:
     EGame mVersion;
     FMaterialOptions mOptions;           // See the EMaterialOption enum above
     FVertexDescription mVtxDesc;         // Descriptor of vertex attributes used by this material
-    CColor mKonstColors[4];              // Konst color values for TEV
-    CColor mTevColors[4];                // Initial TEV color register values (for MP3 materials only)
+    std::array<CColor, 4> mKonstColors;  // Konst color values for TEV
+    std::array<CColor, 4> mTevColors;    // Initial TEV color register values (for MP3 materials only)
     GLenum mBlendSrcFac;                 // Source blend factor
     GLenum mBlendDstFac;                 // Dest blend factor
     bool mLightingEnabled;               // Color channel control flags; indicate whether lighting is enabled

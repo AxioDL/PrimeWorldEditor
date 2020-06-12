@@ -9,6 +9,7 @@
 #include <Common/Math/CMatrix4f.h>
 #include <Common/Math/CVector3f.h>
 #include <Common/Math/CVector4f.h>
+#include <array>
 
 /**
  * todo: this entire thing needs to be further abstracted, other classes shouldn't
@@ -43,8 +44,8 @@ public:
     // SVertexBlock
     struct SVertexBlock
     {
-        CMatrix4f TexMatrices[10];
-        CMatrix4f PostMatrices[20];
+        std::array<CMatrix4f, 10> TexMatrices;
+        std::array<CMatrix4f, 20> PostMatrices;
         CColor COLOR0_Amb;
         CColor COLOR0_Mat;
         CColor COLOR1_Amb;
@@ -55,15 +56,15 @@ public:
     // SPixelBlock
     struct SPixelBlock
     {
-        CColor Konst[4];
-        CColor TevColor[4];
+        std::array<CColor, 4> Konst;
+        std::array<CColor, 4> TevColor;
         CColor TintColor;
         float LightmapMultiplier;
-        float Padding[3];
+        std::array<float, 3> Padding;
 
         void SetAllTevColors(const CColor& color)
         {
-            std::fill(std::begin(TevColor), std::end(TevColor), color);
+            TevColor.fill(color);
         }
     };
     static SPixelBlock sPixelBlock;
@@ -79,7 +80,7 @@ public:
             CVector4f DistAtten;
             CVector4f AngleAtten;
         };
-        SGXLight Lights[8];
+        std::array<SGXLight, 8> Lights;
     };
     static SLightBlock sLightBlock;
 
@@ -90,7 +91,7 @@ public:
     static constexpr CColor skDefaultAmbientColor{0.5f, 0.5f, 0.5f, 0.0f};
     static CColor sAreaAmbientColor;
     static float sWorldLightMultiplier;
-    static CLight sDefaultDirectionalLights[3];
+    static std::array<CLight, 3> sDefaultDirectionalLights;
 
     // Functions
     static void Initialize();

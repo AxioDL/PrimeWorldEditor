@@ -24,11 +24,11 @@ CGraphics::ELightingMode CGraphics::sLightMode;
 uint32 CGraphics::sNumLights;
 CColor CGraphics::sAreaAmbientColor = CColor::skTransparentBlack;
 float CGraphics::sWorldLightMultiplier;
-CLight CGraphics::sDefaultDirectionalLights[3] = {
-    CLight::BuildDirectional(CVector3f(0), CVector3f   (0.f, -0.866025f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f)),
-    CLight::BuildDirectional(CVector3f(0), CVector3f(-0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f)),
-    CLight::BuildDirectional(CVector3f(0), CVector3f( 0.75f,  0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f))
-};
+std::array<CLight, 3> CGraphics::sDefaultDirectionalLights{{
+    CLight::BuildDirectional(CVector3f(0), CVector3f(0.f, -0.866025f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f)),
+    CLight::BuildDirectional(CVector3f(0), CVector3f(-0.75f, 0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f)),
+    CLight::BuildDirectional(CVector3f(0), CVector3f(0.75f, 0.433013f, -0.5f), CColor(0.3f, 0.3f, 0.3f, 0.3f)),
+}};
 
 // ************ FUNCTIONS ************
 void CGraphics::Initialize()

@@ -181,13 +181,13 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
 
         // Set konst inputs
-        for (uint32 iKonst = 0; iKonst < 4; iKonst++)
-            CGraphics::sPixelBlock.Konst[iKonst] = mKonstColors[iKonst];
+        CGraphics::sPixelBlock.Konst = mKonstColors;
 
         // Set TEV registers
         if (mVersion >= EGame::Corruption)
-            for (uint32 iTev = 0; iTev < 4; iTev++)
-                CGraphics::sPixelBlock.TevColor[iTev] = mTevColors[iTev];
+        {
+            CGraphics::sPixelBlock.TevColor = mTevColors;
+        }
 
         // Set color channels
         // COLOR0_Amb,Mat is initialized by the node instead of by the material
@@ -242,21 +242,21 @@ uint64 CMaterial::HashParameters()
     {
         CFNV1A Hash(CFNV1A::EHashLength::k64Bit);
 
-        Hash.HashLong((int) mVersion);
+        Hash.HashLong(static_cast<int>(mVersion));
         Hash.HashLong(mOptions);
         Hash.HashLong(mVtxDesc);
-        Hash.HashData(mKonstColors, sizeof(CColor) * 4);
-        Hash.HashData(mTevColors, sizeof(CColor) * 4);
+        Hash.HashData(mKonstColors.data(), sizeof(mKonstColors));
+        Hash.HashData(mTevColors.data(), sizeof(mTevColors));
         Hash.HashLong(mBlendSrcFac);
         Hash.HashLong(mBlendDstFac);
         Hash.HashByte(mLightingEnabled);
         Hash.HashLong(mEchoesUnknownA);
         Hash.HashLong(mEchoesUnknownB);
 
-        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
-            mPasses[iPass]->HashParameters(Hash);
+        for (auto& pass : mPasses)
+            pass->HashParameters(Hash);
 
-        uint64 NewHash = Hash.GetHash64();
+        const uint64 NewHash = Hash.GetHash64();
 
         if (mParametersHash != NewHash)
             ClearShader();
