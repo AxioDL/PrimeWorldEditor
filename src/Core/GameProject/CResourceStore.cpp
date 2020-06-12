@@ -20,9 +20,6 @@ CResourceStore *gpEditorStore = nullptr;
 
 // Constructor for editor store
 CResourceStore::CResourceStore(const TString& rkDatabasePath)
-    : mpProj(nullptr)
-    , mGame(EGame::Prime)
-    , mDatabaseCacheDirty(false)
 {
     mpDatabaseRoot = new CVirtualDirectory(this);
     mDatabasePath = FileUtil::MakeAbsolute(rkDatabasePath.GetFileDirectory());
@@ -32,10 +29,7 @@ CResourceStore::CResourceStore(const TString& rkDatabasePath)
 
 // Main constructor for game projects and game exporter
 CResourceStore::CResourceStore(CGameProject *pProject)
-    : mpProj(nullptr)
-    , mGame(EGame::Invalid)
-    , mpDatabaseRoot(nullptr)
-    , mDatabaseCacheDirty(false)
+    : mGame(EGame::Invalid)
 {
     SetProject(pProject);
 }

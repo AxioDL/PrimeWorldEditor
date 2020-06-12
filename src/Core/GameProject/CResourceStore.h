@@ -27,16 +27,16 @@ class CResourceStore
 {
     friend class CResourceIterator;
 
-    CGameProject *mpProj;
-    EGame mGame;
-    CVirtualDirectory *mpDatabaseRoot;
+    CGameProject *mpProj = nullptr;
+    EGame mGame{EGame::Prime};
+    CVirtualDirectory *mpDatabaseRoot = nullptr;
     std::map<CAssetID, CResourceEntry*> mResourceEntries;
     std::map<CAssetID, CResourceEntry*> mLoadedResources;
-    bool mDatabaseCacheDirty;
+    bool mDatabaseCacheDirty = false;
 
     // Directory paths
     TString mDatabasePath;
-    bool mDatabasePathExists;
+    bool mDatabasePathExists = false;
 
 public:
     explicit CResourceStore(const TString& rkDatabasePath);
