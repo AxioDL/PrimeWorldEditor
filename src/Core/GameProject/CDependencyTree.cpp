@@ -9,11 +9,7 @@
 #include <array>
 
 // ************ IDependencyNode ************
-IDependencyNode::~IDependencyNode()
-{
-    for (uint32 iChild = 0; iChild < mChildren.size(); iChild++)
-        delete mChildren[iChild];
-}
+IDependencyNode::~IDependencyNode() = default;
 
 bool IDependencyNode::HasDependency(const CAssetID& id) const
 {
@@ -51,8 +47,7 @@ void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructPrope
 
                 if (Info.pAudioGroup)
                 {
-                    CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), Info.pAudioGroup->ID());
-                    mChildren.push_back(pDep);
+                    mChildren.push_back(std::make_unique<CPropertyDependency>(pProp->IDString(true), Info.pAudioGroup->ID()));
                 }
             }
         }
@@ -63,8 +58,7 @@ void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructPrope
 
             if (ID.IsValid())
             {
-                CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), ID);
-                mChildren.push_back(pDep);
+                mChildren.push_back(std::make_unique<CPropertyDependency>(pProp->IDString(true), ID));
             }
         }
 
@@ -78,13 +72,11 @@ void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructPrope
                 // Character sets are removed starting in MP3, so we only need char property dependencies in Echoes and earlier
                 if (pProperties->Game() <= EGame::Echoes)
                 {
-                    CCharPropertyDependency *pDep = new CCharPropertyDependency(pProp->IDString(true), ID, Params.CharacterIndex());
-                    mChildren.push_back(pDep);
+                    mChildren.push_back(std::make_unique<CCharPropertyDependency>(pProp->IDString(true), ID, Params.CharacterIndex()));
                 }
                 else
                 {
-                    CPropertyDependency *pDep = new CPropertyDependency(pProp->IDString(true), ID);
-                    mChildren.push_back(pDep);
+                    mChildren.push_back(std::make_unique<CPropertyDependency>(pProp->IDString(true), ID));
                 }
             }
         }
@@ -120,22 +112,25 @@ void CDependencyTree::Serialize(IArchive& rArc)
     rArc << SerialParameter("Children", mChildren);
 }
 
-void CDependencyTree::AddChild(IDependencyNode *pNode)
+void CDependencyTree::AddChild(std::unique_ptr<IDependencyNode>&& pNode)
 {
     ASSERT(pNode);
-    mChildren.push_back(pNode);
+    mChildren.push_back(std::move(pNode));
 }
 
 void CDependencyTree::AddDependency(const CAssetID& rkID, bool AvoidDuplicates /*= true*/)
 {
-    if (!rkID.IsValid() || (AvoidDuplicates && HasDependency(rkID))) return;
-    CResourceDependency *pDepend = new CResourceDependency(rkID);
-    mChildren.push_back(pDepend);
+    if (!rkID.IsValid() || (AvoidDuplicates && HasDependency(rkID)))
+        return;
+
+    mChildren.push_back(std::make_unique<CResourceDependency>(rkID));
 }
 
 void CDependencyTree::AddDependency(CResource *pRes, bool AvoidDuplicates /*= true*/)
 {
-    if (!pRes) return;
+    if (!pRes)
+        return;
+
     AddDependency(pRes->ID(), AvoidDuplicates);
 }
 
@@ -146,8 +141,7 @@ void CDependencyTree::AddCharacterDependency(const CAnimationParameters& rkAnimP
     if (!pSet || rkAnimParams.CharacterIndex() == UINT32_MAX)
         return;
 
-    CCharPropertyDependency *pChar = new CCharPropertyDependency("NULL", pSet->ID(), rkAnimParams.CharacterIndex());
-    mChildren.push_back(pChar);
+    mChildren.push_back(std::make_unique<CCharPropertyDependency>("NULL", pSet->ID(), rkAnimParams.CharacterIndex()));
 }
 
 // ************ CResourceDependency ************
@@ -208,9 +202,9 @@ void CScriptInstanceDependency::Serialize(IArchive& rArc)
 }
 
 // Static
-CScriptInstanceDependency* CScriptInstanceDependency::BuildTree(CScriptObject *pInstance)
+std::unique_ptr<CScriptInstanceDependency> CScriptInstanceDependency::BuildTree(CScriptObject *pInstance)
 {
-    CScriptInstanceDependency *pInst = new CScriptInstanceDependency();
+    auto pInst = std::make_unique<CScriptInstanceDependency>();
     pInst->mObjectType = pInstance->ObjectTypeID();
     pInst->ParseProperties(pInstance->Area()->Entry(), pInstance->Template()->Properties(), pInstance->PropertyData());
     return pInst;
@@ -228,9 +222,9 @@ void CSetCharacterDependency::Serialize(IArchive& rArc)
          << SerialParameter("Children", mChildren);
 }
 
-CSetCharacterDependency* CSetCharacterDependency::BuildTree(const SSetCharacter& rkChar)
+std::unique_ptr<CSetCharacterDependency> CSetCharacterDependency::BuildTree(const SSetCharacter& rkChar)
 {
-    CSetCharacterDependency *pTree = new CSetCharacterDependency(rkChar.ID);
+    auto pTree = std::make_unique<CSetCharacterDependency>(rkChar.ID);
     pTree->AddDependency(rkChar.pModel);
     pTree->AddDependency(rkChar.pSkeleton);
     pTree->AddDependency(rkChar.pSkin);
@@ -271,9 +265,9 @@ void CSetAnimationDependency::Serialize(IArchive& rArc)
          << SerialParameter("Children", mChildren);
 }
 
-CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOwnerSet, uint32 AnimIndex)
+std::unique_ptr<CSetAnimationDependency> CSetAnimationDependency::BuildTree(const CAnimSet *pkOwnerSet, uint32 AnimIndex)
 {
-    CSetAnimationDependency *pTree = new CSetAnimationDependency;
+    auto pTree = std::make_unique<CSetAnimationDependency>();
     const SAnimation *pkAnim = pkOwnerSet->Animation(AnimIndex);
 
     // Find relevant character indices
@@ -281,7 +275,7 @@ CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOw
     {
         const SSetCharacter *pkChar = pkOwnerSet->Character(iChar);
 
-        if ( pkChar->UsedAnimationIndices.find(AnimIndex) != pkChar->UsedAnimationIndices.end() )
+        if (pkChar->UsedAnimationIndices.find(AnimIndex) != pkChar->UsedAnimationIndices.end())
             pTree->mCharacterIndices.insert(iChar);
     }
 
@@ -297,7 +291,7 @@ CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOw
         {
             CAnimEventData *pEvents = pkOwnerSet->AnimationEventData(prim.ID());
             ASSERT(pEvents && !pEvents->Entry());
-            pEvents->AddDependenciesToTree(pTree);
+            pEvents->AddDependenciesToTree(pTree.get());
         }
     }
 
@@ -330,23 +324,23 @@ void CAreaDependencyTree::Serialize(IArchive& rArc)
 
 void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector<CAssetID>& rkExtraDeps)
 {
-    if (!pLayer) return;
+    if (!pLayer)
+        return;
+
     mLayerOffsets.push_back(mChildren.size());
     std::set<CAssetID> UsedIDs;
 
     for (uint32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
-        CScriptInstanceDependency *pTree = CScriptInstanceDependency::BuildTree( pLayer->InstanceByIndex(iInst) );
+        auto pTree = CScriptInstanceDependency::BuildTree( pLayer->InstanceByIndex(iInst) );
         ASSERT(pTree != nullptr);
 
         // Note: MP2+ need to track all instances (not just instances with dependencies) to be able to build the layer module list
         if (pTree->NumChildren() > 0 || pLayer->Area()->Game() >= EGame::EchoesDemo)
         {
-            mChildren.push_back(pTree);
             pTree->GetAllResourceReferences(UsedIDs);
+            mChildren.push_back(std::move(pTree));
         }
-        else
-            delete pTree;
     }
 
     for (uint32 iDep = 0; iDep < rkExtraDeps.size(); iDep++)
@@ -372,10 +366,11 @@ void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>
 
         for (uint32 iInst = StartIdx; iInst < EndIdx; iInst++)
         {
-            IDependencyNode *pNode = mChildren[iInst];
-            if (pNode->Type() != EDependencyNodeType::ScriptInstance) continue;
+            auto& pNode = mChildren[iInst];
+            if (pNode->Type() != EDependencyNodeType::ScriptInstance)
+                continue;
 
-            CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(pNode);
+            const auto *pInst = static_cast<CScriptInstanceDependency*>(pNode.get());
             uint32 ObjType = pInst->ObjectType();
 
             if (UsedObjectTypes.find(ObjType) == UsedObjectTypes.end())

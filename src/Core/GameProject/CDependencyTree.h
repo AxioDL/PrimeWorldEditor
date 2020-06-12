@@ -5,6 +5,7 @@
 #include <Common/CAssetID.h>
 #include <Common/FileIO.h>
 #include <Common/Macros.h>
+#include <memory>
 
 class CScriptLayer;
 class CScriptObject;
@@ -31,7 +32,7 @@ enum class EDependencyNodeType
 class IDependencyNode
 {
 protected:
-    std::vector<IDependencyNode*> mChildren;
+    std::vector<std::unique_ptr<IDependencyNode>> mChildren;
 
 public:
     virtual ~IDependencyNode();
@@ -45,8 +46,8 @@ public:
     static IDependencyNode* ArchiveConstructor(EDependencyNodeType Type);
 
     // Accessors
-    uint NumChildren() const                         { return mChildren.size(); }
-    IDependencyNode* ChildByIndex(uint Index) const  { return mChildren[Index]; }
+    uint32 NumChildren() const                         { return mChildren.size(); }
+    IDependencyNode* ChildByIndex(uint32 Index) const  { return mChildren[Index].get(); }
 };
 
 // Basic dependency tree; this class is sufficient for most resource types.
@@ -58,7 +59,7 @@ public:
     EDependencyNodeType Type() const override;
     void Serialize(IArchive& rArc) override;
 
-    void AddChild(IDependencyNode *pNode);
+    void AddChild(std::unique_ptr<IDependencyNode>&& pNode);
     void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
     void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
     void AddCharacterDependency(const CAnimationParameters& rkAnimParams);
@@ -72,7 +73,7 @@ protected:
 
 public:
     CResourceDependency() = default;
-    CResourceDependency(const CAssetID& rkID) : mID(rkID) {}
+    explicit CResourceDependency(const CAssetID& rkID) : mID(rkID) {}
 
     EDependencyNodeType Type() const override;
     void Serialize(IArchive& rArc) override;
@@ -139,7 +140,7 @@ public:
     uint ObjectType() const       { return mObjectType; }
 
     // Static
-    static CScriptInstanceDependency* BuildTree(CScriptObject *pInstance);
+    static std::unique_ptr<CScriptInstanceDependency> BuildTree(CScriptObject *pInstance);
 };
 
 // Node representing an animset character. Indicates what index the character is within the animset.
@@ -159,7 +160,7 @@ public:
     uint32 CharSetIndex() const { return mCharSetIndex; }
 
     // Static
-    static CSetCharacterDependency* BuildTree(const SSetCharacter& rkChar);
+    static std::unique_ptr<CSetCharacterDependency> BuildTree(const SSetCharacter& rkChar);
 };
 
 // Node representing a character animation. Indicates which character indices use this animation.
@@ -179,7 +180,7 @@ public:
     bool IsUsedByAnyCharacter() const            { return !mCharacterIndices.empty(); }
 
     // Static
-    static CSetAnimationDependency* BuildTree(const CAnimSet *pkOwnerSet, uint32 AnimIndex);
+    static std::unique_ptr<CSetAnimationDependency> BuildTree(const CAnimSet *pkOwnerSet, uint32 AnimIndex);
 };
 
 // Node representing an animation event. Indicates which character index uses this event.

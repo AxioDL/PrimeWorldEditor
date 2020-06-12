@@ -2,6 +2,8 @@
 #define CANIMEVENTDATA
 
 #include "Core/Resource/CResource.h"
+#include <memory>
+#include <vector>
 
 class CAnimEventData : public CResource
 {
@@ -36,8 +38,7 @@ public:
 
             if (ID.IsValid() && !pTree->HasDependency(ID))
             {
-                auto *pDep = new CAnimEventDependency(ID, event.mCharacterIndex);
-                pTree->AddChild(pDep);
+                pTree->AddChild(std::make_unique<CAnimEventDependency>(ID, event.mCharacterIndex));
             }
         }
     }

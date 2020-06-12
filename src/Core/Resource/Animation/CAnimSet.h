@@ -124,9 +124,9 @@ public:
         // Character dependencies
         for (const auto& character : mCharacters)
         {
-            CSetCharacterDependency *pCharTree = CSetCharacterDependency::BuildTree(character);
+            auto pCharTree = CSetCharacterDependency::BuildTree(character);
             ASSERT(pCharTree);
-            pTree->AddChild(pCharTree);
+            pTree->AddChild(std::move(pCharTree));
         }
 
         // Animation dependencies
@@ -134,9 +134,9 @@ public:
         {
             for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
             {
-                CSetAnimationDependency *pAnimTree = CSetAnimationDependency::BuildTree(this, iAnim);
+                auto pAnimTree = CSetAnimationDependency::BuildTree(this, iAnim);
                 ASSERT(pAnimTree);
-                pTree->AddChild(pAnimTree);
+                pTree->AddChild(std::move(pAnimTree));
             }
         }
         else if (Game() <= EGame::Corruption)
