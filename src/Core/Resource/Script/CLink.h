@@ -81,25 +81,31 @@ public:
         , mReceiverID(ReceiverID)
     {}
 
-    void SetSender(uint32 NewSenderID, uint32 Index = -1)
+    void SetSender(uint32 NewSenderID, uint32 Index = UINT32_MAX)
     {
-        uint32 OldSenderID = mSenderID;
+        const uint32 OldSenderID = mSenderID;
         CScriptObject *pOldSender = mpArea->InstanceByID(OldSenderID);
         CScriptObject *pNewSender = mpArea->InstanceByID(NewSenderID);
 
         mSenderID = NewSenderID;
-        if (pOldSender) pOldSender->RemoveLink(ELinkType::Outgoing, this);
+
+        if (pOldSender)
+            pOldSender->RemoveLink(ELinkType::Outgoing, this);
+
         pNewSender->AddLink(ELinkType::Outgoing, this, Index);
     }
 
-    void SetReceiver(uint32 NewReceiverID, uint32 Index = -1)
+    void SetReceiver(uint32 NewReceiverID, uint32 Index = UINT32_MAX)
     {
-        uint32 OldReceiverID = mSenderID;
+        const uint32 OldReceiverID = mSenderID;
         CScriptObject *pOldReceiver = mpArea->InstanceByID(OldReceiverID);
         CScriptObject *pNewReceiver = mpArea->InstanceByID(NewReceiverID);
 
         mReceiverID = NewReceiverID;
-        if (pOldReceiver) pOldReceiver->RemoveLink(ELinkType::Incoming, this);
+
+        if (pOldReceiver)
+            pOldReceiver->RemoveLink(ELinkType::Incoming, this);
+
         pNewReceiver->AddLink(ELinkType::Incoming, this, Index);
     }
 
@@ -116,7 +122,7 @@ public:
             }
         }
 
-        return -1;
+        return UINT32_MAX;
     }
 
     uint32 ReceiverIndex() const
@@ -132,7 +138,7 @@ public:
             }
         }
 
-        return -1;
+        return UINT32_MAX;
     }
 
     // Operators
