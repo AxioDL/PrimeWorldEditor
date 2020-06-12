@@ -22,7 +22,6 @@ CGraphics::SLightBlock  CGraphics::sLightBlock;
 
 CGraphics::ELightingMode CGraphics::sLightMode;
 uint32 CGraphics::sNumLights;
-const CColor CGraphics::skDefaultAmbientColor = CColor(0.5f, 0.5f, 0.5f, 0.0f);
 CColor CGraphics::sAreaAmbientColor = CColor::skTransparentBlack;
 float CGraphics::sWorldLightMultiplier;
 CLight CGraphics::sDefaultDirectionalLights[3] = {

@@ -87,7 +87,7 @@ public:
     enum class ELightingMode { None, Basic, World };
     static ELightingMode sLightMode;
     static uint32 sNumLights;
-    static const CColor skDefaultAmbientColor;
+    static constexpr CColor skDefaultAmbientColor{0.5f, 0.5f, 0.5f, 0.0f};
     static CColor sAreaAmbientColor;
     static float sWorldLightMultiplier;
     static CLight sDefaultDirectionalLights[3];
