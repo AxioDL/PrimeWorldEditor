@@ -5,6 +5,8 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Resource/Script/CScriptObject.h"
 #include "Core/Resource/Script/NGameList.h"
+#include <algorithm>
+#include <array>
 
 // ************ IDependencyNode ************
 IDependencyNode::~IDependencyNode()
@@ -13,21 +15,16 @@ IDependencyNode::~IDependencyNode()
         delete mChildren[iChild];
 }
 
-bool IDependencyNode::HasDependency(const CAssetID& rkID) const
+bool IDependencyNode::HasDependency(const CAssetID& id) const
 {
-    for (uint32 iChild = 0; iChild < mChildren.size(); iChild++)
-    {
-        if (mChildren[iChild]->HasDependency(rkID))
-            return true;
-    }
-
-    return false;
+    return std::any_of(mChildren.cbegin(), mChildren.cend(),
+                       [&id](const auto& entry) { return entry->HasDependency(id); });
 }
 
 void IDependencyNode::GetAllResourceReferences(std::set<CAssetID>& rOutSet) const
 {
-    for (uint32 iChild = 0; iChild < mChildren.size(); iChild++)
-        mChildren[iChild]->GetAllResourceReferences(rOutSet);
+    for (const auto& child : mChildren)
+        child->GetAllResourceReferences(rOutSet);
 }
 
 void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructProperty* pProperties, void* pData)
@@ -47,7 +44,7 @@ void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructPrope
         {
             uint32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pData);
 
-            if (SoundID != -1)
+            if (SoundID != UINT32_MAX)
             {
                 CGameProject* pProj = pParentEntry->Project();
                 SSoundInfo Info = pProj->AudioManager()->GetSoundInfo(SoundID);
@@ -146,7 +143,9 @@ void CDependencyTree::AddCharacterDependency(const CAnimationParameters& rkAnimP
 {
     // This is for formats other than MREA that use AnimationParameters (such as SCAN).
     CAnimSet *pSet = rkAnimParams.AnimSet();
-    if (!pSet || rkAnimParams.CharacterIndex() == -1) return;
+    if (!pSet || rkAnimParams.CharacterIndex() == UINT32_MAX)
+        return;
+
     CCharPropertyDependency *pChar = new CCharPropertyDependency("NULL", pSet->ID(), rkAnimParams.CharacterIndex());
     mChildren.push_back(pChar);
 }
@@ -238,27 +237,25 @@ CSetCharacterDependency* CSetCharacterDependency::BuildTree(const SSetCharacter&
     pTree->AddDependency(rkChar.AnimDataID);
     pTree->AddDependency(rkChar.CollisionPrimitivesID);
 
-    const std::vector<CAssetID> *pkParticleVectors[5] = {
+    const std::array<const std::vector<CAssetID>*, 5> particleVectors{
         &rkChar.GenericParticles, &rkChar.ElectricParticles,
         &rkChar.SwooshParticles, &rkChar.SpawnParticles,
         &rkChar.EffectParticles
     };
 
-    for (uint32 iVec = 0; iVec < 5; iVec++)
+    for (const auto& vec : particleVectors)
     {
-        for (uint32 iPart = 0; iPart < pkParticleVectors[iVec]->size(); iPart++)
-            pTree->AddDependency(pkParticleVectors[iVec]->at(iPart));
+        for (uint32 iPart = 0; iPart < vec->size(); iPart++)
+            pTree->AddDependency(vec->at(iPart));
     }
 
-    for (uint32 iOverlay = 0; iOverlay < rkChar.OverlayModels.size(); iOverlay++)
+    for (const SOverlayModel& overlay : rkChar.OverlayModels)
     {
-        const SOverlayModel& rkOverlay = rkChar.OverlayModels[iOverlay];
-        pTree->AddDependency(rkOverlay.ModelID);
-        pTree->AddDependency(rkOverlay.SkinID);
+        pTree->AddDependency(overlay.ModelID);
+        pTree->AddDependency(overlay.SkinID);
     }
 
     pTree->AddDependency(rkChar.SpatialPrimitives);
-
     return pTree;
 }
 
@@ -292,14 +289,13 @@ CSetAnimationDependency* CSetAnimationDependency::BuildTree(const CAnimSet *pkOw
     std::set<CAnimPrimitive> UsedPrimitives;
     pkAnim->pMetaAnim->GetUniquePrimitives(UsedPrimitives);
 
-    for (auto Iter = UsedPrimitives.begin(); Iter != UsedPrimitives.end(); Iter++)
+    for (const CAnimPrimitive& prim : UsedPrimitives)
     {
-        const CAnimPrimitive& rkPrim = *Iter;
-        pTree->AddDependency(rkPrim.Animation());
+        pTree->AddDependency(prim.Animation());
 
         if (pkOwnerSet->Game() >= EGame::EchoesDemo)
         {
-            CAnimEventData *pEvents = pkOwnerSet->AnimationEventData(rkPrim.ID());
+            CAnimEventData *pEvents = pkOwnerSet->AnimationEventData(prim.ID());
             ASSERT(pEvents && !pEvents->Entry());
             pEvents->AddDependenciesToTree(pTree);
         }

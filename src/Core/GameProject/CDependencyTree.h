@@ -38,7 +38,7 @@ public:
     virtual EDependencyNodeType Type() const = 0;
     virtual void Serialize(IArchive& rArc) = 0;
     virtual void GetAllResourceReferences(std::set<CAssetID>& rOutSet) const;
-    virtual bool HasDependency(const CAssetID& rkID) const;
+    virtual bool HasDependency(const CAssetID& id) const;
     void ParseProperties(CResourceEntry* pParentEntry, CStructProperty* pProperties, void* pData);
 
     // Serialization constructor
