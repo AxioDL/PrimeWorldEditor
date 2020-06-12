@@ -8,9 +8,9 @@
 class CAnimEventLoader
 {
     TResPtr<CAnimEventData> mpEventData;
-    EGame mGame;
+    EGame mGame{};
 
-    CAnimEventLoader() {}
+    CAnimEventLoader() = default;
     void LoadEvents(IInputStream& rEVNT);
     int32 LoadEventBase(IInputStream& rEVNT);
     void LoadLoopEvent(IInputStream& rEVNT);
