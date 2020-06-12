@@ -25,7 +25,7 @@ class CCollisionLoader
     void            LoadCollisionIndices(IInputStream& File, SCollisionIndexData& OutData);
 
 public:
-    static CCollisionMeshGroup* LoadAreaCollision(IInputStream& rMREA);
+    static std::unique_ptr<CCollisionMeshGroup> LoadAreaCollision(IInputStream& rMREA);
     static std::unique_ptr<CCollisionMeshGroup> LoadDCLN(IInputStream& rDCLN, CResourceEntry *pEntry);
     static EGame                GetFormatVersion(uint32 Version);
 };

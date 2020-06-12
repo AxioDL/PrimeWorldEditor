@@ -189,9 +189,11 @@ void CCollisionLoader::LoadCollisionIndices(IInputStream& File, SCollisionIndexD
 }
 
 // ************ STATIC ************
-CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
+std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
 {
-    if (!rMREA.IsValid()) return nullptr;
+    if (!rMREA.IsValid())
+        return nullptr;
+
     rMREA.Skip(0x8); // Skipping unknown value + collion section size
 
     // Validate magic
@@ -215,7 +217,7 @@ CCollisionMeshGroup* CCollisionLoader::LoadAreaCollision(IInputStream& rMREA)
     // Read collision indices and return
     Loader.LoadCollisionIndices(rMREA, Loader.mpMesh->mIndexData);
 
-    CCollisionMeshGroup* pOut = new CCollisionMeshGroup();
+    auto pOut = std::make_unique<CCollisionMeshGroup>();
     pOut->AddMesh(Loader.mpMesh);
     return pOut;
 }
