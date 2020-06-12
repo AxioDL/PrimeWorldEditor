@@ -8,6 +8,7 @@
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
 #include <map>
+#include <memory>
 #include <set>
 
 class CGameExporter;
@@ -30,7 +31,7 @@ class CResourceStore
     CGameProject *mpProj = nullptr;
     EGame mGame{EGame::Prime};
     CVirtualDirectory *mpDatabaseRoot = nullptr;
-    std::map<CAssetID, CResourceEntry*> mResourceEntries;
+    std::map<CAssetID, std::unique_ptr<CResourceEntry>> mResourceEntries;
     std::map<CAssetID, CResourceEntry*> mLoadedResources;
     bool mDatabaseCacheDirty = false;
 

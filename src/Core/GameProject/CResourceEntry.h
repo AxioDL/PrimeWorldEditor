@@ -8,10 +8,12 @@
 #include <Common/CAssetID.h>
 #include <Common/CFourCC.h>
 #include <Common/Flags.h>
+#include <memory>
 
-class CResource;
-class CGameProject;
 class CDependencyTree;
+class CGameProject;
+class CResource;
+class IInputStream;
 
 enum class EResEntryFlag
 {
@@ -28,28 +30,28 @@ DECLARE_FLAGS(EResEntryFlag, FResEntryFlags)
 class CResourceEntry
 {
     std::unique_ptr<CResource> mpResource;
-    CResTypeInfo *mpTypeInfo;
+    CResTypeInfo *mpTypeInfo = nullptr;
     CResourceStore *mpStore;
     std::unique_ptr<CDependencyTree> mpDependencies;
     CAssetID mID;
-    CVirtualDirectory *mpDirectory;
+    CVirtualDirectory *mpDirectory = nullptr;
     TString mName;
     FResEntryFlags mFlags;
 
-    mutable bool mMetadataDirty;
-    mutable uint64 mCachedSize;
+    mutable bool mMetadataDirty = false;
+    mutable uint64 mCachedSize = UINT64_MAX;
     mutable TString mCachedUppercaseName; // This is used to speed up case-insensitive sorting and filtering.
 
     // Private constructor
     explicit CResourceEntry(CResourceStore *pStore);
 
 public:
-    static CResourceEntry* CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
-                                             const TString& rkDir, const TString& rkName,
-                                             EResourceType Type, bool ExistingResource = false);
-    static CResourceEntry* BuildFromArchive(CResourceStore *pStore, IArchive& rArc);
-    static CResourceEntry* BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
-                                              const TString& rkDirPath, const TString& rkName);
+    static std::unique_ptr<CResourceEntry> CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
+                                                             const TString& rkDir, const TString& rkName,
+                                                             EResourceType Type, bool ExistingResource = false);
+    static std::unique_ptr<CResourceEntry> BuildFromArchive(CResourceStore *pStore, IArchive& rArc);
+    static std::unique_ptr<CResourceEntry> BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
+                                                              const TString& rkDirPath, const TString& rkName);
     ~CResourceEntry();
 
     bool LoadMetadata();

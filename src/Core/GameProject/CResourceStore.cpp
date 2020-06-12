@@ -38,9 +38,6 @@ CResourceStore::~CResourceStore()
 {
     CloseProject();
     DestroyUnreferencedResources();
-
-    for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
-        delete It->second;
 }
 
 void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rOutList)
@@ -69,11 +66,9 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
         {
             // Make sure deleted resources aren't included in the count.
             // We can't use CResourceIterator because it skips MarkedForDeletion resources.
-            for (auto Iter = mResourceEntries.begin(); Iter != mResourceEntries.end(); Iter++)
+            for (const auto& entry : mResourceEntries)
             {
-                CResourceEntry* pEntry = Iter->second;
-
-                if (pEntry->IsMarkedForDeletion())
+                if (entry.second->IsMarkedForDeletion())
                 {
                     ResourceCount--;
                 }
@@ -88,9 +83,9 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
             {
                 if (rArc.ParamBegin("Resource", 0))
                 {
-                    CResourceEntry *pEntry = CResourceEntry::BuildFromArchive(this, rArc);
-                    ASSERT( FindEntry(pEntry->ID()) == nullptr );
-                    mResourceEntries[pEntry->ID()] = pEntry;
+                    auto pEntry = CResourceEntry::BuildFromArchive(this, rArc);
+                    ASSERT(FindEntry(pEntry->ID()) == nullptr);
+                    mResourceEntries.insert_or_assign(pEntry->ID(), std::move(pEntry));
                     rArc.ParamEnd();
                 }
             }
@@ -236,13 +231,7 @@ void CResourceStore::CloseProject()
     }
 
     // Delete all entries from old project
-    auto It = mResourceEntries.begin();
-
-    while (It != mResourceEntries.end())
-    {
-        delete It->second;
-        It = mResourceEntries.erase(It);
-    }
+    mResourceEntries.clear();
 
     // Clear deleted files from previous runs
     TString DeletedPath = DeletedResourcePath();
@@ -304,12 +293,12 @@ CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
     {
         auto Found = mResourceEntries.find(rkID);
 
-        if (Found != mResourceEntries.end())
+        if (Found != mResourceEntries.cend())
         {
-            CResourceEntry* pEntry = Found->second;
+            auto& pEntry = Found->second;
 
             if (!pEntry->IsMarkedForDeletion())
-                return pEntry;
+                return pEntry.get();
         }
     }
 
@@ -346,8 +335,6 @@ void CResourceStore::ClearDatabase()
     }
 
     // Clear out existing resource entries and directories
-    for (auto Iter = mResourceEntries.begin(); Iter != mResourceEntries.end(); Iter++)
-        delete Iter->second;
     mResourceEntries.clear();
 
     delete mpDatabaseRoot;
@@ -389,18 +376,19 @@ bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
             }
 
             // Create resource entry
-            CResourceEntry *pEntry = CResourceEntry::BuildFromDirectory(this, pTypeInfo, DirPath, ResName);
+            auto pEntry = CResourceEntry::BuildFromDirectory(this, pTypeInfo, DirPath, ResName);
 
             // Validate the entry
-            CAssetID ID = pEntry->ID();
-            ASSERT( mResourceEntries.find(ID) == mResourceEntries.end() );
-            ASSERT( ID.Length() == CAssetID::GameIDLength(mGame) );
+            const CAssetID ID = pEntry->ID();
+            ASSERT(mResourceEntries.find(ID) == mResourceEntries.cend());
+            ASSERT(ID.Length() == CAssetID::GameIDLength(mGame));
 
-            mResourceEntries[ID] = pEntry;
+            mResourceEntries.insert_or_assign(ID, std::move(pEntry));
         }
-
         else if (FileUtil::IsDirectory(Path))
+        {
             CreateVirtualDirectory(RelPath);
+        }
     }
 
     // Generate new cache file
@@ -448,30 +436,34 @@ CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourc
     CResourceEntry *pEntry = FindEntry(rkID);
 
     if (pEntry)
+    {
         errorf("Attempted to register resource that's already tracked in the database: %s / %s / %s", *rkID.ToString(), *rkDir, *rkName);
-
+    }
     else
     {
         // Validate directory
         if (IsValidResourcePath(rkDir, rkName))
         {
-            pEntry = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type, ExistingResource);
-            mResourceEntries[rkID] = pEntry;
+            auto res = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type, ExistingResource);
+            auto resPtr = res.get();
+
+            mResourceEntries.insert_or_assign(rkID, std::move(res));
             mDatabaseCacheDirty = true;
 
-            if (pEntry->IsLoaded())
+            if (resPtr->IsLoaded())
             {
-                TrackLoadedResource(pEntry);
+                TrackLoadedResource(resPtr);
             }
 
             if (!ExistingResource)
             {
-                debugf("CREATED NEW RESOURCE: [%s] %s", *rkID.ToString(), *pEntry->CookedAssetPath());
+                debugf("CREATED NEW RESOURCE: [%s] %s", *rkID.ToString(), *resPtr->CookedAssetPath());
             }
+
+            return resPtr;
         }
 
-        else
-            errorf("Invalid resource path, failed to register: %s%s", *rkDir, *rkName);
+        errorf("Invalid resource path, failed to register: %s%s", *rkDir, *rkName);
     }
 
     return pEntry;
@@ -479,19 +471,18 @@ CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourc
 
 CResource* CResourceStore::LoadResource(const CAssetID& rkID)
 {
-    if (!rkID.IsValid()) return nullptr;
+    if (!rkID.IsValid())
+        return nullptr;
 
     CResourceEntry *pEntry = FindEntry(rkID);
-
-    if (pEntry)
-        return pEntry->Load();
-
-    else
+    if (!pEntry)
     {
         // Resource doesn't seem to exist
         warnf("Can't find requested resource with ID \"%s\"", *rkID.ToString());
         return nullptr;
     }
+
+    return pEntry->Load();
 }
 
 CResource* CResourceStore::LoadResource(const CAssetID& rkID, EResourceType Type)
@@ -515,8 +506,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, EResourceType Type
         }
     }
 
-    else
-        return nullptr;
+    return nullptr;
 }
 
 CResource* CResourceStore::LoadResource(const TString& rkPath)
@@ -544,7 +534,7 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
         return pEntry->Load();
     }
 
-    else return nullptr;
+    return nullptr;
 }
 
 void CResourceStore::TrackLoadedResource(CResourceEntry *pEntry)
@@ -573,8 +563,10 @@ void CResourceStore::DestroyUnreferencedResources()
                 It = mLoadedResources.erase(It);
                 NumDeleted++;
             }
-
-            else It++;
+            else
+            {
+                ++It;
+            }
         }
     } while (NumDeleted > 0);
 }

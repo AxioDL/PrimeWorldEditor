@@ -11,23 +11,17 @@
 #include <Common/Serialization/CXMLWriter.h>
 
 CResourceEntry::CResourceEntry(CResourceStore *pStore)
-    : mpResource(nullptr)
-    , mpTypeInfo(nullptr)
-    , mpStore(pStore)
-    , mpDependencies(nullptr)
-    , mID( CAssetID::InvalidID(pStore->Game()) )
-    , mpDirectory(nullptr)
-    , mMetadataDirty(false)
-    , mCachedSize(-1)
+    : mpStore(pStore)
+    , mID(CAssetID::InvalidID(pStore->Game()))
 {}
 
 // Static constructors
-CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
-                                                    const TString& rkDir, const TString& rkName,
-                                                    EResourceType Type, bool ExistingResource /*= false*/)
+std::unique_ptr<CResourceEntry> CResourceEntry::CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
+                                                                  const TString& rkDir, const TString& rkName,
+                                                                  EResourceType Type, bool ExistingResource)
 {
     // Initialize all entry info with the input data.
-    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    auto pEntry = std::unique_ptr<CResourceEntry>(new CResourceEntry(pStore));
     pEntry->mID = rkID;
     pEntry->mName = rkName;
     pEntry->mCachedUppercaseName = rkName.ToUpper();
@@ -37,7 +31,7 @@ CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const 
 
     pEntry->mpDirectory = pStore->GetVirtualDirectory(rkDir, true);
     ASSERT(pEntry->mpDirectory);
-    pEntry->mpDirectory->AddChild("", pEntry);
+    pEntry->mpDirectory->AddChild("", pEntry.get());
 
     pEntry->mMetadataDirty = true;
 
@@ -45,7 +39,7 @@ CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const 
     // then instantiate the new resource data so it can be saved as soon as possible.
     if (!ExistingResource)
     {
-        pEntry->mpResource = CResourceFactory::CreateResource(pEntry);
+        pEntry->mpResource = CResourceFactory::CreateResource(pEntry.get());
 
         if (pEntry->mpResource)
         {
@@ -56,30 +50,30 @@ CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const 
     return pEntry;
 }
 
-CResourceEntry* CResourceEntry::BuildFromArchive(CResourceStore *pStore, IArchive& rArc)
+std::unique_ptr<CResourceEntry> CResourceEntry::BuildFromArchive(CResourceStore *pStore, IArchive& rArc)
 {
     // Load all entry info from the archive.
-    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    auto pEntry = std::unique_ptr<CResourceEntry>(new CResourceEntry(pStore));
     pEntry->SerializeEntryInfo(rArc, false);
     ASSERT(pEntry->mpTypeInfo);
     ASSERT(pEntry->mpDirectory);
     return pEntry;
 }
 
-CResourceEntry* CResourceEntry::BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
-                                                   const TString& rkDirPath, const TString& rkName)
+std::unique_ptr<CResourceEntry> CResourceEntry::BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
+                                                                   const TString& rkDirPath, const TString& rkName)
 {
     // Initialize as much entry info as possible from the input data, then load the rest from the metadata file.
     ASSERT(pTypeInfo);
 
-    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    auto pEntry = std::unique_ptr<CResourceEntry>(new CResourceEntry(pStore));
     pEntry->mpTypeInfo = pTypeInfo;
     pEntry->mName = rkName;
     pEntry->mCachedUppercaseName = rkName.ToUpper();
 
     pEntry->mpDirectory = pStore->GetVirtualDirectory(rkDirPath, true);
     ASSERT(pEntry->mpDirectory);
-    pEntry->mpDirectory->AddChild("", pEntry);
+    pEntry->mpDirectory->AddChild("", pEntry.get());
 
     // Make sure we're valid, then load the remaining data from the metadata file
     ASSERT(pEntry->HasCookedVersion() || pEntry->HasRawVersion());
