@@ -67,10 +67,10 @@ using SPropertyTemplatePath = TTemplatePath<IProperty>;
 /** CGameTemplate - Per-game template data */
 class CGameTemplate
 {
-    EGame mGame;
+    EGame mGame{};
     TString mSourceFile;
-    bool mFullyLoaded;
-    bool mDirty;
+    bool mFullyLoaded = false;
+    bool mDirty = false;
 
     /** Template arrays */
     std::map<SObjId,  SScriptTemplatePath>    mScriptTemplates;

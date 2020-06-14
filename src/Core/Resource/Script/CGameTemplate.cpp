@@ -3,11 +3,7 @@
 #include "Core/Resource/Factory/CWorldLoader.h"
 #include <Common/Log.h>
 
-CGameTemplate::CGameTemplate()
-    : mFullyLoaded(false)
-    , mDirty(false)
-{
-}
+CGameTemplate::CGameTemplate() = default;
 
 void CGameTemplate::Serialize(IArchive& Arc)
 {
