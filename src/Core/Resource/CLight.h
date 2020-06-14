@@ -39,7 +39,7 @@ private:
     // Data Manipulation
     float CalculateRadius() const;
     float CalculateIntensity() const;
-    CVector3f CalculateSpotAngleAtten();
+    CVector3f CalculateSpotAngleAtten() const;
 
 public:
     // Accessors

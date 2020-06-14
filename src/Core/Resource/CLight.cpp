@@ -82,13 +82,14 @@ float CLight::CalculateIntensity() const
 }
 
 // As is this one... partly
-CVector3f CLight::CalculateSpotAngleAtten()
+CVector3f CLight::CalculateSpotAngleAtten() const
 {
-    if (mType != ELightType::Spot) return CVector3f(1.f, 0.f, 0.f);
+    if (mType != ELightType::Spot)
+        return CVector3f(1.f, 0.f, 0.f);
 
-    float RadianCutoff = mSpotCutoff * (3.1415927f / 180.f);
-    float RadianCosine = cosf(RadianCutoff);
-    float InvCosine = 1.f - RadianCosine;
+    const float RadianCutoff = mSpotCutoff * (3.1415927f / 180.f);
+    const float RadianCosine = cosf(RadianCutoff);
+    const float InvCosine = 1.f - RadianCosine;
 
     return CVector3f(0.f, -RadianCosine / InvCosine, 1.f / InvCosine);
 }
