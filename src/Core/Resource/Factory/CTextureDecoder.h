@@ -69,7 +69,6 @@ class CTextureDecoder
     CColor DecodePixelC8(uint8 Byte, IInputStream& rPaletteStream);
     CColor DecodePixelRGB565(uint16 Short);
     CColor DecodePixelRGB5A3(uint16 Short);
-    CColor DecodePixelRGBA8(IInputStream& rSrc, IOutputStream& rDst);
     void DecodeSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst, uint16 Width);
 
     void DecodeBlockBC1(IInputStream& rSrc, IOutputStream& rDst, uint32 Width);
