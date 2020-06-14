@@ -1,10 +1,7 @@
 #include "CFontLoader.h"
 #include <Common/Log.h>
-#include <iostream>
 
-CFontLoader::CFontLoader()
-{
-}
+CFontLoader::CFontLoader() = default;
 
 void CFontLoader::LoadFont(IInputStream& rFONT)
 {

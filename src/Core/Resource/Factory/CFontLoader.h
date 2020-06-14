@@ -9,7 +9,7 @@
 class CFontLoader
 {
     TResPtr<CFont> mpFont;
-    EGame mVersion;
+    EGame mVersion{};
 
     CFontLoader();
     void LoadFont(IInputStream& rFONT);
