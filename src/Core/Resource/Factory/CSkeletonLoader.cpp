@@ -17,10 +17,9 @@ void CSkeletonLoader::SetLocalBoneCoords(CBone *pBone)
 
 void CSkeletonLoader::CalculateBoneInverseBindMatrices()
 {
-    for (uint32 iBone = 0; iBone < mpSkeleton->mBones.size(); iBone++)
+    for (CBone* bone : mpSkeleton->mBones)
     {
-        CBone *pBone = mpSkeleton->mBones[iBone];
-        pBone->mInvBind = CTransform4f::TranslationMatrix(-pBone->Position());
+        bone->mInvBind = CTransform4f::TranslationMatrix(-bone->Position());
     }
 }
 
@@ -37,7 +36,7 @@ std::unique_ptr<CSkeleton> CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResou
     if (rCINF.PeekLong() == 0x9E220006)
         return ptr;
 
-    uint32 NumBones = rCINF.ReadLong();
+    const uint32 NumBones = rCINF.ReadLong();
     ptr->mBones.reserve(NumBones);
 
     // Read bones
@@ -63,7 +62,7 @@ std::unique_ptr<CSkeleton> CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResou
         // know) has at least two bones so the linked bone count will never be 0.
         if (Game == EGame::Invalid)
         {
-            uint32 Check = rCINF.PeekLong();
+            const uint32 Check = rCINF.PeekLong();
             Game = ((Check > 100 || Check == 0) ? EGame::Echoes : EGame::Prime);
         }
         if (Game >= EGame::Echoes)
@@ -72,7 +71,7 @@ std::unique_ptr<CSkeleton> CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResou
             pBone->mLocalRotation = CQuaternion(rCINF);
         }
 
-        uint32 NumLinkedBones = rCINF.ReadLong();
+        const uint32 NumLinkedBones = rCINF.ReadLong();
         ASSERT(NumLinkedBones != 0);
 
         for (uint32 iLink = 0; iLink < NumLinkedBones; iLink++)
@@ -92,15 +91,14 @@ std::unique_ptr<CSkeleton> CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResou
 
         pBone->mpParent = ptr->BoneByID(rInfo.ParentID);
 
-        for (uint32 iChild = 0; iChild < rInfo.ChildIDs.size(); iChild++)
+        for (const auto childID : rInfo.ChildIDs)
         {
-            uint32 ChildID = rInfo.ChildIDs[iChild];
-            CBone *pChild = ptr->BoneByID(ChildID);
+            CBone *pChild = ptr->BoneByID(childID);
 
             if (pChild)
                 pBone->mChildren.push_back(pChild);
             else
-                errorf("%s: Bone %d has invalid child ID: %d", *rCINF.GetSourceString(), pBone->mID, ChildID);
+                errorf("%s: Bone %u has invalid child ID: %u", *rCINF.GetSourceString(), pBone->mID, childID);
         }
 
         if (!pBone->mpParent)
@@ -116,18 +114,18 @@ std::unique_ptr<CSkeleton> CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResou
     Loader.CalculateBoneInverseBindMatrices();
 
     // Skip bone ID array
-    uint32 NumBoneIDs = rCINF.ReadLong();
+    const uint32 NumBoneIDs = rCINF.ReadLong();
     rCINF.Seek(NumBoneIDs * 4, SEEK_CUR);
 
     // Read bone names
-    uint32 NumBoneNames = rCINF.ReadLong();
+    const uint32 NumBoneNames = rCINF.ReadLong();
 
     for (uint32 iName = 0; iName < NumBoneNames; iName++)
     {
         TString Name = rCINF.ReadString();
-        uint32 BoneID = rCINF.ReadLong();
+        const uint32 BoneID = rCINF.ReadLong();
 
-        ptr->BoneByID(BoneID)->mName = Name;
+        ptr->BoneByID(BoneID)->mName = std::move(Name);
     }
 
     return ptr;
