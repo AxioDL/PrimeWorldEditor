@@ -19,7 +19,7 @@ enum class EShowFlag : uint32
 };
 DECLARE_FLAGS_ENUMCLASS(EShowFlag, FShowFlags)
 
-extern const FShowFlags gkGameModeShowFlags;
+constexpr inline FShowFlags gkGameModeShowFlags{EShowFlag::MergedWorld | EShowFlag::ObjectGeometry | EShowFlag::Sky};
 
 #endif // FSHOWFLAGS
 
