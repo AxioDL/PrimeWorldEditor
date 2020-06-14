@@ -4,16 +4,14 @@
 #include "Core/Render/CRenderer.h"
 
 std::optional<CDynamicVertexBuffer> CFont::smGlyphVertices;
-        CIndexBuffer CFont::smGlyphIndices;
-                bool CFont::smBuffersInitialized = false;
+CIndexBuffer CFont::smGlyphIndices;
+bool CFont::smBuffersInitialized = false;
 
-CFont::CFont(CResourceEntry *pEntry /*= 0*/) : CResource(pEntry)
+CFont::CFont(CResourceEntry *pEntry) : CResource(pEntry)
 {
 }
 
-CFont::~CFont()
-{
-}
+CFont::~CFont() = default;
 
 inline float PtsToFloat(int32 Pt)
 {

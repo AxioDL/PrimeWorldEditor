@@ -12,6 +12,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 #define CFONT_DEFAULT_SIZE -1
 
@@ -25,14 +26,14 @@ class CFont : public CResource
     static CIndexBuffer smGlyphIndices; // This is the index buffer used to draw glyphs. It uses a triangle strip.
     static bool smBuffersInitialized;   // This bool indicates whether the vertex/index buffer have been initialized. Checked at the start of RenderString().
 
-    uint32 mUnknown;                    // Value at offset 0x8. Not sure what this is. Including for experimentation purposes.
-    uint32 mLineHeight;                 // Height of each line, in points
-    uint32 mLineMargin;                 // Gap between lines, in points - this is added to the line height
-    uint32 mVerticalOffset;             // In points. This is used to reposition glyphs after the per-glyph vertical offset is applied
-    uint32 mDefaultSize;                // In points.
+    uint32 mUnknown = 0;                // Value at offset 0x8. Not sure what this is. Including for experimentation purposes.
+    uint32 mLineHeight = 0;             // Height of each line, in points
+    uint32 mLineMargin = 0;             // Gap between lines, in points - this is added to the line height
+    uint32 mVerticalOffset = 0;         // In points. This is used to reposition glyphs after the per-glyph vertical offset is applied
+    uint32 mDefaultSize = 0;            // In points.
     TString mFontName;                  // Self-explanatory
     TResPtr<CTexture> mpFontTexture;    // The texture used by this font
-    uint32 mTextureFormat;              // Indicates which layers on the texture are for what - multiple glyph layers or fill/stroke
+    uint32 mTextureFormat = 0;          // Indicates which layers on the texture are for what - multiple glyph layers or fill/stroke
 
     struct SGlyph
     {
