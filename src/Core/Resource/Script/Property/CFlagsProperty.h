@@ -68,7 +68,7 @@ public:
      * Checks whether there are any unrecognized bits toggled on in the property value.
      * Returns the mask of any invalid bits. If all bits are valid, returns 0.
      */
-    uint32 HasValidValue(void* pPropertyData);
+    uint32 HasValidValue(void* pPropertyData) const;
 };
 
 #endif // CFLAGSPROPERTY_H
