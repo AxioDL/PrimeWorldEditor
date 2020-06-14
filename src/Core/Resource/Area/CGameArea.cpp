@@ -2,16 +2,8 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Render/CRenderer.h"
 
-CGameArea::CGameArea(CResourceEntry *pEntry /*= 0*/)
+CGameArea::CGameArea(CResourceEntry *pEntry)
     : CResource(pEntry)
-    , mWorldIndex(-1)
-    , mVertexCount(0)
-    , mTriangleCount(0)
-    , mTerrainMerged(false)
-    , mOriginalWorldMeshCount(0)
-    , mUsesCompression(false)
-    , mpMaterialSet(nullptr)
-    , mpCollision(nullptr)
 {
 }
 

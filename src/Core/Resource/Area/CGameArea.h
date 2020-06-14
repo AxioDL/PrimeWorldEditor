@@ -26,17 +26,17 @@ class CGameArea : public CResource
     friend class CAreaLoader;
     friend class CAreaCooker;
 
-    uint32 mWorldIndex;
-    uint32 mVertexCount;
-    uint32 mTriangleCount;
-    bool mTerrainMerged;
+    uint32 mWorldIndex = UINT32_MAX;
+    uint32 mVertexCount = 0;
+    uint32 mTriangleCount = 0;
+    bool mTerrainMerged = false;
     CTransform4f mTransform;
     CAABox mAABox;
 
     // Data saved from the original file to help on recook
     std::vector<std::vector<uint8>> mSectionDataBuffers;
-    uint32 mOriginalWorldMeshCount;
-    bool mUsesCompression;
+    uint32 mOriginalWorldMeshCount = 0;
+    bool mUsesCompression = false;
 
     struct SSectionNumber
     {
@@ -46,7 +46,7 @@ class CGameArea : public CResource
     std::vector<SSectionNumber> mSectionNumbers;
 
     // Geometry
-    CMaterialSet *mpMaterialSet;
+    CMaterialSet *mpMaterialSet = nullptr;
     std::vector<std::unique_ptr<CModel>> mWorldModels; // TerrainModels is the original version of each model; this is currently mainly used in the POI map editor
     std::vector<std::unique_ptr<CStaticModel>> mStaticWorldModels; // StaticTerrainModels is the merged terrain for faster rendering in the world editor
     // Script
