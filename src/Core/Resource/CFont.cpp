@@ -130,7 +130,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
         // Draw stroke
         if (mTextureFormat == 1 || mTextureFormat == 3 || mTextureFormat == 8)
         {
-            uint8 StrokeLayer;
+            uint8 StrokeLayer = 0;
             if (mTextureFormat == 1)
                 StrokeLayer = 1;
             else if (mTextureFormat == 3)
