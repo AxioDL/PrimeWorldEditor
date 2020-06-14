@@ -83,14 +83,6 @@ public:
     static std::unique_ptr<CTexture> LoadDDS(IInputStream& rDDS, CResourceEntry *pEntry);
     static std::unique_ptr<CTexture> DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEntry);
     static CTexture* DoFullDecode(CTexture *pTexture);
-
-    // Utility
-    static uint8 Extend3to8(uint8 In);
-    static uint8 Extend4to8(uint8 In);
-    static uint8 Extend5to8(uint8 In);
-    static uint8 Extend6to8(uint8 In);
-    static uint32 CalculateShiftForMask(uint32 BitMask);
-    static uint32 CalculateMaskBitCount(uint32 BitMask);
 };
 
 #endif // CTEXTUREDECODER_H

@@ -1,46 +1,156 @@
 #include "CTextureDecoder.h"
 #include <Common/Log.h>
 #include <Common/CColor.h>
+#include <array>
 
 // A cleanup is warranted at some point. Trying to support both partial + full decode ended up really messy.
-
+namespace
+{
 // Number of pixels * this = number of bytes
-static const float gskPixelsToBytes[] = {
-    2.f, 2.f, 2.f, 2.f, 4.f, 4.f, 0.f, 2.f, 4.f, 4.f, 0.5f
+constexpr std::array gskPixelsToBytes{
+    2.f,
+    2.f,
+    2.f,
+    2.f,
+    4.f,
+    4.f,
+    0.f,
+    2.f,
+    4.f,
+    4.f,
+    0.5f,
 };
 
 // Bits per pixel for each GX texture format
-static const uint32 gskSourceBpp[] = {
-    4, 8, 8, 16, 4, 8, 16, 16, 16, 32, 4
+constexpr std::array gskSourceBpp{
+    4U,
+    8U,
+    8U,
+    16U,
+    4U,
+    8U,
+    16U,
+    16U,
+    16U,
+    32U,
+    4U,
 };
 
 // Bits per pixel for each GX texture format when decoded
-static const uint32 gskOutputBpp[] = {
-    16, 16, 16, 16, 16, 16, 16, 16, 32, 32, 4
+constexpr std::array gskOutputBpp{
+    16U,
+    16U,
+    16U,
+    16U,
+    16U,
+    16U,
+    16U,
+    16U,
+    32U,
+    32U,
+    4U,
 };
 
 // Size of one pixel in output data in bytes
-static const uint32 gskOutputPixelStride[] = {
-    2, 2, 2, 2, 2, 2, 2, 2, 4, 4, 8
+constexpr std::array gskOutputPixelStride{
+    2U,
+    2U,
+    2U,
+    2U,
+    2U,
+    2U,
+    2U,
+    2U,
+    4U,
+    4U,
+    8U,
 };
 
 // Block width for each GX texture format
-static const uint32 gskBlockWidth[] = {
-    8, 8, 8, 4, 8, 8, 4, 4, 4, 4, 2
+constexpr std::array gskBlockWidth{
+    8U,
+    8U,
+    8U,
+    4U,
+    8U,
+    8U,
+    4U,
+    4U,
+    4U,
+    4U,
+    2U,
 };
 
 // Block height for each GX texture format
-static const uint32 gskBlockHeight[] = {
-    8, 4, 4, 4, 8, 4, 4, 4, 4, 4, 2
+constexpr std::array gskBlockHeight{
+    8U,
+    4U,
+    4U,
+    4U,
+    8U,
+    4U,
+    4U,
+    4U,
+    4U,
+    4U,
+    2U,
 };
+
+constexpr uint8 Extend3to8(uint8 In)
+{
+    In &= 0x7;
+    return (In << 5) | (In << 2) | (In >> 1);
+}
+
+constexpr uint8 Extend4to8(uint8 In)
+{
+    In &= 0xF;
+    return (In << 4) | In;
+}
+
+constexpr uint8 Extend5to8(uint8 In)
+{
+    In &= 0x1F;
+    return (In << 3) | (In >> 2);
+}
+
+constexpr uint8 Extend6to8(uint8 In)
+{
+    In &= 0x3F;
+    return (In << 2) | (In >> 4);
+}
+
+constexpr uint32 CalculateShiftForMask(uint32 BitMask)
+{
+    uint32 Shift = 32;
+
+    while (BitMask)
+    {
+        BitMask <<= 1;
+        Shift--;
+    }
+    return Shift;
+}
+
+constexpr uint32 CalculateMaskBitCount(uint32 BitMask)
+{
+    uint32 Count = 0;
+
+    while (BitMask)
+    {
+        if (BitMask & 0x1)
+            Count++;
+        BitMask >>= 1;
+    }
+    return Count;
+}
+} // Anonymous namespace
 
 CTextureDecoder::CTextureDecoder()
 {
 }
 
-CTextureDecoder::~CTextureDecoder()
-{
-}
+CTextureDecoder::~CTextureDecoder() = default;
 
 std::unique_ptr<CTexture> CTextureDecoder::CreateTexture()
 {
@@ -847,53 +957,4 @@ void CTextureDecoder::DecodeBlockBC3(IInputStream& rSrc, IOutputStream& rDst, ui
 CColor CTextureDecoder::DecodeDDSPixel(IInputStream& /*rDDS*/)
 {
     return CColor::skWhite;
-}
-
-// ************ UTILITY ************
-uint8 CTextureDecoder::Extend3to8(uint8 In)
-{
-    In &= 0x7;
-    return (In << 5) | (In << 2) | (In >> 1);
-}
-
-uint8 CTextureDecoder::Extend4to8(uint8 In)
-{
-    In &= 0xF;
-    return (In << 4) | In;
-}
-
-uint8 CTextureDecoder::Extend5to8(uint8 In)
-{
-    In &= 0x1F;
-    return (In << 3) | (In >> 2);
-}
-
-uint8 CTextureDecoder::Extend6to8(uint8 In)
-{
-    In &= 0x3F;
-    return (In << 2) | (In >> 4);
-}
-
-uint32 CTextureDecoder::CalculateShiftForMask(uint32 BitMask)
-{
-    uint32 Shift = 32;
-
-    while (BitMask)
-    {
-        BitMask <<= 1;
-        Shift--;
-    }
-    return Shift;
-}
-
-uint32 CTextureDecoder::CalculateMaskBitCount(uint32 BitMask)
-{
-    uint32 Count = 0;
-
-    while (BitMask)
-    {
-        if (BitMask & 0x1) Count++;
-        BitMask >>= 1;
-    }
-    return Count;
 }
