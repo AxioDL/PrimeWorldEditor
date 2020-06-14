@@ -128,7 +128,7 @@ class CMaterialLoader
 
     CMaterialLoader();
     ~CMaterialLoader();
-    FVertexDescription ConvertToVertexDescription(uint32 VertexFlags);
+    static FVertexDescription ConvertToVertexDescription(uint32 VertexFlags);
 
     // Load Functions
     void ReadPrimeMatSet();
