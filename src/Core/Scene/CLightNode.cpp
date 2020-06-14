@@ -138,12 +138,7 @@ void CLightNode::PropertyModified(IProperty* pProperty)
         SetPosition( mpLight->Position() );
 }
 
-CLight* CLightNode::Light()
-{
-    return mpLight;
-}
-
-CVector2f CLightNode::BillboardScale()
+CVector2f CLightNode::BillboardScale() const
 {
     return AbsoluteScale().XZ() * 0.75f;
 }

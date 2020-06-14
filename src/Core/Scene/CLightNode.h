@@ -18,8 +18,9 @@ public:
     CStructRef GetProperties() const override;
     void PropertyModified(IProperty* pProperty) override;
     bool AllowsRotate() const override { return false; }
-    CLight* Light();
-    CVector2f BillboardScale();
+    CLight* Light() { return mpLight; }
+    const CLight* Light() const { return mpLight; }
+    CVector2f BillboardScale() const;
 
 protected:
     void CalculateTransform(CTransform4f& rOut) const override;
