@@ -9,12 +9,13 @@
 #include "Core/OpenGL/CIndexBuffer.h"
 #include <Common/BasicTypes.h>
 
+#include <array>
 #include <optional>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
-#define CFONT_DEFAULT_SIZE -1
+#define CFONT_DEFAULT_SIZE UINT32_MAX
 
 class CRenderer;
 
@@ -37,16 +38,16 @@ class CFont : public CResource
 
     struct SGlyph
     {
-        uint16 Character;          // The UTF-16 character that this glyph corresponds to
-        CVector2f TexCoords[4];    // The format only lists the min/max X/Y values; tracking absolute coordinates in memory is faster
-        int32 LeftPadding;         // The amount of padding applied left of this glyph, in points
-        int32 RightPadding;        // The amount of padding applied right of this glyph, in points
-        uint32 Width;              // The width of the glyph, in points
-        uint32 Height;             // The height of the glyph, in points
-        uint32 PrintAdvance;       // How far the print head advances horizontally after printing this glyph, in points
-        uint32 BaseOffset;         // Vertical offset for this glyph, in points; the font-wide offset is added to this
-        uint32 KerningIndex;       // Index into the kerning table of the first kerning pair for this glyph. -1 if no pairs.
-        uint8 RGBAChannel;         // Fonts can store multiple glyphs in the same space on different RGBA channels. This value corresponds to R, G, B, or A.
+        uint16 Character;                   // The UTF-16 character that this glyph corresponds to
+        std::array<CVector2f, 4> TexCoords; // The format only lists the min/max X/Y values; tracking absolute coordinates in memory is faster
+        int32 LeftPadding;                  // The amount of padding applied left of this glyph, in points
+        int32 RightPadding;                 // The amount of padding applied right of this glyph, in points
+        uint32 Width;                       // The width of the glyph, in points
+        uint32 Height;                      // The height of the glyph, in points
+        uint32 PrintAdvance;                // How far the print head advances horizontally after printing this glyph, in points
+        uint32 BaseOffset;                  // Vertical offset for this glyph, in points; the font-wide offset is added to this
+        uint32 KerningIndex;                // Index into the kerning table of the first kerning pair for this glyph. -1 if no pairs.
+        uint8 RGBAChannel;                  // Fonts can store multiple glyphs in the same space on different RGBA channels. This value corresponds to R, G, B, or A.
     };
     std::unordered_map<uint16, SGlyph> mGlyphs;
 
@@ -54,7 +55,7 @@ class CFont : public CResource
     {
         uint16 CharacterA;    // Left character
         uint16 CharacterB;    // Right character
-        int32 Adjust;        // The horizontal offset to apply to CharacterB if this pair is encountered, in points
+        int32 Adjust;         // The horizontal offset to apply to CharacterB if this pair is encountered, in points
     };
     std::vector<SKerningPair> mKerningTable; // The kerning table should be laid out in alphabetical order for the indices to work properly
 

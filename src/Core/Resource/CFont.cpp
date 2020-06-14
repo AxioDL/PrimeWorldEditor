@@ -31,32 +31,35 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
                               CVector2f /*Position*/, CColor FillColor, CColor StrokeColor, uint32 FontSize)
 {
     // WIP
-    if (!smBuffersInitialized) InitBuffers();
+    if (!smBuffersInitialized)
+        InitBuffers();
 
     // Shader setup
     CShader *pTextShader = CDrawUtil::GetTextShader();
     pTextShader->SetCurrent();
 
-    GLuint ModelMtxLoc = pTextShader->GetUniformLocation("ModelMtx");
-    GLuint ColorLoc = pTextShader->GetUniformLocation("FontColor");
-    GLuint LayerLoc = pTextShader->GetUniformLocation("RGBALayer");
+    const GLuint ModelMtxLoc = pTextShader->GetUniformLocation("ModelMtx");
+    const GLuint ColorLoc = pTextShader->GetUniformLocation("FontColor");
+    const GLuint LayerLoc = pTextShader->GetUniformLocation("RGBALayer");
     mpFontTexture->Bind(0);
     smGlyphVertices->Bind();
     glDisable(GL_DEPTH_TEST);
 
     // Initialize some more stuff before we start the character loop
     CVector2f PrintHead(-1.f, 1.f);
-    CTransform4f PtScale = CTransform4f::ScaleMatrix(PtsToFloat(1));
+    const CTransform4f PtScale = CTransform4f::ScaleMatrix(PtsToFloat(1));
     SGlyph *pPrevGlyph = nullptr;
 
     float Scale;
-    if (FontSize == CFONT_DEFAULT_SIZE) Scale = 1.f;
-    else Scale = (float) FontSize / (mDefaultSize != 0 ? mDefaultSize : 18);
+    if (FontSize == CFONT_DEFAULT_SIZE)
+        Scale = 1.f;
+    else
+        Scale = static_cast<float>(FontSize) / (mDefaultSize != 0 ? mDefaultSize : 18);
 
     for (uint32 iChar = 0; iChar < rkString.Length(); iChar++)
     {
         // Get character, check for newline
-        char Char = rkString[iChar];
+        const char Char = rkString[iChar];
 
         if (Char == '\n')
         {
@@ -68,7 +71,8 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
 
         // Get glyph
         auto iGlyph = mGlyphs.find(Char);
-        if (iGlyph == mGlyphs.end()) continue;
+        if (iGlyph == mGlyphs.end())
+            continue;
         SGlyph *pGlyph = &iGlyph->second;
 
         // Apply left padding and kerning
@@ -76,7 +80,7 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
 
         if (pPrevGlyph)
         {
-            if (pPrevGlyph->KerningIndex != -1)
+            if (pPrevGlyph->KerningIndex != UINT32_MAX)
             {
                 for (uint32 iKern = pPrevGlyph->KerningIndex; iKern < mKerningTable.size(); iKern++)
                 {
@@ -99,22 +103,24 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
             if (Char == ' ') continue;
         }
 
-        float XTrans = PrintHead.X;
-        float YTrans = PrintHead.Y + ((PtsToFloat(pGlyph->BaseOffset * 2) - PtsToFloat(mVerticalOffset * 2)) * Scale);
+        const float XTrans = PrintHead.X;
+        const float YTrans = PrintHead.Y + ((PtsToFloat(pGlyph->BaseOffset * 2) - PtsToFloat(mVerticalOffset * 2)) * Scale);
 
         CTransform4f GlyphTransform = PtScale;
-        GlyphTransform.Scale(CVector3f((float) pGlyph->Width / 2, (float) pGlyph->Height, 1.f));
+        GlyphTransform.Scale(CVector3f(static_cast<float>(pGlyph->Width) / 2, static_cast<float>(pGlyph->Height), 1.f));
         GlyphTransform.Scale(Scale);
         GlyphTransform.Translate(CVector3f(XTrans, YTrans, 0.f));
 
         // Get glyph layer
         uint8 GlyphLayer = pGlyph->RGBAChannel;
-        if (mTextureFormat == 3) GlyphLayer *= 2;
-        else if (mTextureFormat == 8) GlyphLayer = 3;
+        if (mTextureFormat == 3)
+            GlyphLayer *= 2;
+        else if (mTextureFormat == 8)
+            GlyphLayer = 3;
 
         // Load shader uniforms, buffer texture
         glUniformMatrix4fv(ModelMtxLoc, 1, GL_FALSE, (GLfloat*) &GlyphTransform);
-        smGlyphVertices->BufferAttrib(EVertexAttribute::Tex0, &pGlyph->TexCoords);
+        smGlyphVertices->BufferAttrib(EVertexAttribute::Tex0, pGlyph->TexCoords.data());
 
         // Draw fill
         glUniform1i(LayerLoc, GlyphLayer);
@@ -122,12 +128,15 @@ CVector2f CFont::RenderString(const TString& rkString, CRenderer* /*pRenderer*/,
         smGlyphIndices.DrawElements();
 
         // Draw stroke
-        if ((mTextureFormat == 1) || (mTextureFormat == 3) || (mTextureFormat == 8))
+        if (mTextureFormat == 1 || mTextureFormat == 3 || mTextureFormat == 8)
         {
             uint8 StrokeLayer;
-            if (mTextureFormat == 1) StrokeLayer = 1;
-            else if (mTextureFormat == 3) StrokeLayer = GlyphLayer + 1;
-            else if (mTextureFormat == 8) StrokeLayer = GlyphLayer - 2;
+            if (mTextureFormat == 1)
+                StrokeLayer = 1;
+            else if (mTextureFormat == 3)
+                StrokeLayer = GlyphLayer + 1;
+            else if (mTextureFormat == 8)
+                StrokeLayer = GlyphLayer - 2;
 
             glUniform1i(LayerLoc, StrokeLayer);
             glUniform4fv(ColorLoc, 1, &StrokeColor.R);
@@ -150,21 +159,21 @@ void CFont::InitBuffers()
     smGlyphVertices->SetActiveAttribs(EVertexAttribute::Position | EVertexAttribute::Tex0);
     smGlyphVertices->SetVertexCount(4);
 
-    CVector3f Vertices[4] = {
+    static constexpr std::array Vertices{
         CVector3f( 0.f,  0.f, 0.f),
         CVector3f( 2.f,  0.f, 0.f),
         CVector3f( 0.f, -2.f, 0.f),
         CVector3f( 2.f, -2.f, 0.f)
     };
-    smGlyphVertices->BufferAttrib(EVertexAttribute::Position, Vertices);
+    smGlyphVertices->BufferAttrib(EVertexAttribute::Position, Vertices.data());
 
-    CVector2f TexCoords[4] = {
+    static constexpr std::array TexCoords{
         CVector2f(0.f, 0.f),
         CVector2f(1.f, 0.f),
         CVector2f(0.f, 1.f),
         CVector2f(1.f, 1.f)
     };
-    smGlyphVertices->BufferAttrib(EVertexAttribute::Tex0, TexCoords);
+    smGlyphVertices->BufferAttrib(EVertexAttribute::Tex0, TexCoords.data());
 
     smGlyphIndices.Reserve(4);
     smGlyphIndices.AddIndex(0);
