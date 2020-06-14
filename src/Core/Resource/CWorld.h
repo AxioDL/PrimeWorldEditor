@@ -21,7 +21,7 @@ class CWorld : public CResource
     TResPtr<CResource>    mpSaveWorld;
     TResPtr<CModel>       mpDefaultSkybox;
     TResPtr<CResource>    mpMapWorld;
-    uint32 mTempleKeyWorldIndex;
+    uint32 mTempleKeyWorldIndex = 0;
 
     struct STimeAttackData
     {
@@ -31,7 +31,8 @@ class CWorld : public CResource
         float SilverTime;
         float GoldTime;
         float ShinyGoldTime;
-    } mTimeAttackData;
+    };
+    STimeAttackData mTimeAttackData{};
 
     struct SAudioGrp
     {

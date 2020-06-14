@@ -2,20 +2,12 @@
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 
-CWorld::CWorld(CResourceEntry *pEntry /*= 0*/)
+CWorld::CWorld(CResourceEntry *pEntry)
     : CResource(pEntry)
-    , mpWorldName(nullptr)
-    , mpDarkWorldName(nullptr)
-    , mpSaveWorld(nullptr)
-    , mpDefaultSkybox(nullptr)
-    , mpMapWorld(nullptr)
-    , mTempleKeyWorldIndex(0)
 {
 }
 
-CWorld::~CWorld()
-{
-}
+CWorld::~CWorld() = default;
 
 std::unique_ptr<CDependencyTree> CWorld::BuildDependencyTree() const
 {
