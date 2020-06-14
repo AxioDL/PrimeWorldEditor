@@ -4,17 +4,11 @@
 #include <cmath>
 #include <float.h>
 
-#define CLIGHT_NO_RADIUS 0x40
-#define CLIGHT_NO_INTENSITY 0x80
+constexpr uint32_t CLIGHT_NO_RADIUS = 0x40;
+constexpr uint32_t CLIGHT_NO_INTENSITY = 0x80;
 
 CLight::CLight()
-    : mPosition(skDefaultLightPos)
-    , mDirection(skDefaultLightDir)
-    , mDistAttenCoefficients(0.f, 1.f, 0.f)
-    , mAngleAttenCoefficients(0.f, 1.f, 0.f)
-    , mCachedRadius(0.f)
-    , mCachedIntensity(0.f)
-    , mDirtyFlags(CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY)
+    : mDirtyFlags(CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY)
 {
 }
 
@@ -289,7 +283,3 @@ CLight CLight::BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDirec
     pLight.mAngleAttenCoefficients.Z = AngleAttenC * AngleAttenC;
     return pLight;
 }
-
-// ************ CONSTANTS ************
-const CVector3f CLight::skDefaultLightPos(0.f, 0.f, 0.f);
-const CVector3f CLight::skDefaultLightDir(0.f,-1.f, 0.f);

@@ -19,17 +19,17 @@ enum class ELightType
 
 class CLight
 {
-    ELightType mType;
-    uint32 mLayerIndex;
-    CVector3f mPosition;
-    CVector3f mDirection;
+    ELightType mType{};
+    uint32 mLayerIndex = 0;
+    CVector3f mPosition{skDefaultLightPos};
+    CVector3f mDirection{skDefaultLightDir};
     CColor mColor;
-    float mSpotCutoff;
-    CVector3f mDistAttenCoefficients;
-    CVector3f mAngleAttenCoefficients;
+    float mSpotCutoff = 0.0f;
+    CVector3f mDistAttenCoefficients{0.f, 1.f, 0.f};
+    CVector3f mAngleAttenCoefficients{0.f, 1.f, 0.f};
 
-    mutable float mCachedRadius;
-    mutable float mCachedIntensity;
+    mutable float mCachedRadius = 0.0f;
+    mutable float mCachedIntensity = 0.0f;
     mutable uint8 mDirtyFlags;
 
 public:
@@ -77,8 +77,8 @@ public:
                               float AngleAttenA, float AngleAttenB, float AngleAttenC);
 
     // Constants
-    static const CVector3f skDefaultLightPos;
-    static const CVector3f skDefaultLightDir;
+    static constexpr CVector3f skDefaultLightPos{0.f, 0.f, 0.f};
+    static constexpr CVector3f skDefaultLightDir{0.f, -1.f, 0.f};
 };
 
 #endif // CLIGHT_H
