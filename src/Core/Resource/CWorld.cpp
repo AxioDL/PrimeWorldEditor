@@ -43,7 +43,9 @@ void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 
     for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
     {
-        if (AreaInfo.Layers.size() <= iLyr) break;
+        if (AreaInfo.Layers.size() <= iLyr)
+            break;
+
         CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
         SArea::SLayer& rLayerInfo = AreaInfo.Layers[iLyr];
 
@@ -78,7 +80,7 @@ uint32 CWorld::AreaIndex(CAssetID AreaID) const
             return AreaIdx;
     }
 
-    return -1;
+    return UINT32_MAX;
 }
 
 // ************ SERIALIZATION ************
