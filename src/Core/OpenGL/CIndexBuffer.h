@@ -14,26 +14,26 @@ class CIndexBuffer
 
 public:
     CIndexBuffer();
-    explicit CIndexBuffer(GLenum Type);
+    explicit CIndexBuffer(GLenum type);
     ~CIndexBuffer();
-    void AddIndex(uint16 Index);
-    void AddIndices(uint16 *pIndices, uint Count);
-    void Reserve(uint Size);
+    void AddIndex(uint16 index);
+    void AddIndices(uint16 *indices, size_t count);
+    void Reserve(size_t size);
     void Clear();
     void Buffer();
     void Bind();
     void Unbind();
     void DrawElements();
-    void DrawElements(uint Offset, uint Size);
+    void DrawElements(uint offset, uint size);
     bool IsBuffered() const;
 
     uint GetSize() const;
     GLenum GetPrimitiveType() const;
-    void SetPrimitiveType(GLenum Type);
+    void SetPrimitiveType(GLenum type);
 
-    void TrianglesToStrips(uint16 *pIndices, uint Count);
-    void FansToStrips(uint16 *pIndices, uint Count);
-    void QuadsToStrips(uint16 *pIndices, uint Count);
+    void TrianglesToStrips(uint16 *indices, size_t count);
+    void FansToStrips(uint16 *indices, size_t count);
+    void QuadsToStrips(uint16 *indices, size_t count);
 };
 
 #endif // CINDEXBUFFER_H
