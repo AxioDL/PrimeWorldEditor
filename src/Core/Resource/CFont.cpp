@@ -13,7 +13,7 @@ CFont::CFont(CResourceEntry *pEntry) : CResource(pEntry)
 
 CFont::~CFont() = default;
 
-inline float PtsToFloat(int32 Pt)
+static constexpr float PtsToFloat(int32 Pt)
 {
     // This is a bit of an arbitrary number but it works
     // 1 / (1280 / 1.333333f / 2)
