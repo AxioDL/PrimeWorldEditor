@@ -8,6 +8,7 @@
 #include <Common/TString.h>
 #include <Common/Math/CRay.h>
 #include <Common/Math/CVector3f.h>
+#include <memory>
 
 class CBoneTransformData;
 class CBone;
@@ -26,21 +27,21 @@ class CSkeleton : public CResource
     DECLARE_RESOURCE_TYPE(Skeleton)
     friend class CSkeletonLoader;
 
-    CBone *mpRootBone;
-    std::vector<CBone*> mBones;
+    CBone *mpRootBone = nullptr;
+    std::vector<std::unique_ptr<CBone>> mBones;
 
-    static const float skSphereRadius;
+    static constexpr float skSphereRadius = 0.025f;
 
 public:
     explicit CSkeleton(CResourceEntry *pEntry = nullptr);
     ~CSkeleton() override;
     void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
     CBone* BoneByID(uint32 BoneID) const;
-    CBone* BoneByName(const TString& rkBoneName) const;
+    CBone* BoneByName(const TString& name) const;
     uint32 MaxBoneID() const;
 
     void Draw(FRenderOptions Options, const CBoneTransformData *pkData);
-    std::pair<int32,float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData);
+    std::pair<int32, float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData) const;
 
     uint32 NumBones() const  { return mBones.size(); }
     CBone* RootBone() const  { return mpRootBone; }
@@ -51,38 +52,38 @@ class CBone
     friend class CSkeletonLoader;
 
     CSkeleton *mpSkeleton;
-    CBone *mpParent;
+    CBone *mpParent = nullptr;
     std::vector<CBone*> mChildren;
-    uint32 mID;
+    uint32 mID = 0;
     CVector3f mPosition;
     CVector3f mLocalPosition;
     CQuaternion mRotation;
     CQuaternion mLocalRotation;
     TString mName;
     CTransform4f mInvBind;
-    bool mSelected;
+    bool mSelected = false;
 
 public:
-    CBone(CSkeleton *pSkel);
+    explicit CBone(CSkeleton *pSkel);
     void UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo& rkParentTransform, CAnimation *pAnim, float Time, bool AnchorRoot);
     CVector3f TransformedPosition(const CBoneTransformData& rkData) const;
     CQuaternion TransformedRotation(const CBoneTransformData& rkData) const;
     bool IsRoot() const;
 
     // Accessors
-    inline CSkeleton* Skeleton() const                  { return mpSkeleton; }
-    inline CBone* Parent() const                        { return mpParent; }
-    inline uint32 NumChildren() const                   { return mChildren.size(); }
-    inline CBone* ChildByIndex(uint32 Index) const      { return mChildren[Index]; }
-    inline uint32 ID() const                            { return mID; }
-    inline CVector3f Position() const                   { return mPosition; }
-    inline CVector3f LocalPosition() const              { return mLocalPosition; }
-    inline CQuaternion Rotation() const                 { return mRotation; }
-    inline CQuaternion LocalRotation() const            { return mLocalRotation; }
-    inline TString Name() const                         { return mName; }
-    inline bool IsSelected() const                      { return mSelected; }
+    CSkeleton* Skeleton() const                  { return mpSkeleton; }
+    CBone* Parent() const                        { return mpParent; }
+    uint32 NumChildren() const                   { return mChildren.size(); }
+    CBone* ChildByIndex(uint32 Index) const      { return mChildren[Index]; }
+    uint32 ID() const                            { return mID; }
+    CVector3f Position() const                   { return mPosition; }
+    CVector3f LocalPosition() const              { return mLocalPosition; }
+    CQuaternion Rotation() const                 { return mRotation; }
+    CQuaternion LocalRotation() const            { return mLocalRotation; }
+    TString Name() const                         { return mName; }
+    bool IsSelected() const                      { return mSelected; }
 
-    inline void SetSelected(bool Selected)              { mSelected = Selected; }
+    void SetSelected(bool Selected)              { mSelected = Selected; }
 };
 
 #endif // CSKELETON_H

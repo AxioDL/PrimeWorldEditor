@@ -17,7 +17,7 @@ void CSkeletonLoader::SetLocalBoneCoords(CBone *pBone)
 
 void CSkeletonLoader::CalculateBoneInverseBindMatrices()
 {
-    for (CBone* bone : mpSkeleton->mBones)
+    for (auto& bone : mpSkeleton->mBones)
     {
         bone->mInvBind = CTransform4f::TranslationMatrix(-bone->Position());
     }
@@ -49,8 +49,7 @@ std::unique_ptr<CSkeleton> CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResou
 
     for (uint32 iBone = 0; iBone < NumBones; iBone++)
     {
-        CBone *pBone = new CBone(ptr.get());
-        ptr->mBones.push_back(pBone);
+        auto& pBone = ptr->mBones.emplace_back(std::make_unique<CBone>(ptr.get()));
 
         pBone->mID = rCINF.ReadLong();
         BoneInfo[iBone].ParentID = rCINF.ReadLong();
@@ -86,7 +85,7 @@ std::unique_ptr<CSkeleton> CSkeletonLoader::LoadCINF(IInputStream& rCINF, CResou
     // Fill in bone info
     for (uint32 iBone = 0; iBone < NumBones; iBone++)
     {
-        CBone *pBone = ptr->mBones[iBone];
+        CBone *pBone = ptr->mBones[iBone].get();
         SBoneInfo& rInfo = BoneInfo[iBone];
 
         pBone->mpParent = ptr->BoneByID(rInfo.ParentID);
