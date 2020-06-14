@@ -5,14 +5,9 @@
 #include <iostream>
 #include <iomanip>
 
-CMaterialLoader::CMaterialLoader()
-    : mCorruptionFlags(0)
-{
-}
+CMaterialLoader::CMaterialLoader() = default;
 
-CMaterialLoader::~CMaterialLoader()
-{
-}
+CMaterialLoader::~CMaterialLoader() = default;
 
 FVertexDescription CMaterialLoader::ConvertToVertexDescription(uint32 VertexFlags)
 {
