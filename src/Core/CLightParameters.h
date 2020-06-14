@@ -4,12 +4,12 @@
 #include "Core/Resource/Area/CGameArea.h"
 #include "Core/Resource/Script/Property/Properties.h"
 
-enum EWorldLightingOptions
+enum class EWorldLightingOptions
 {
-    eUnknown1 = 0,
-    eNormalLighting = 1,
-    eUnknown2 = 2,
-    eDisableWorldLighting = 3
+    Unknown1,
+    NormalLighting,
+    Unknown2,
+    DisableWorldLighting,
 };
 
 class CLightParameters
@@ -42,7 +42,7 @@ public:
 
     EWorldLightingOptions WorldLightingOptions() const
     {
-        return mWorldLightingOptions.IsValid() ? mWorldLightingOptions.Get() : eNormalLighting;
+        return mWorldLightingOptions.IsValid() ? mWorldLightingOptions.Get() : EWorldLightingOptions::NormalLighting;
     }
 };
 

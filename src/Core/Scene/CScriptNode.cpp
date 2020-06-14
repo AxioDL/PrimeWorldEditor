@@ -171,9 +171,9 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
     // Draw model
     if (UsesModel())
     {
-        EWorldLightingOptions LightingOptions = (mpLightParameters ? mpLightParameters->WorldLightingOptions() : eNormalLighting);
+        const auto LightingOptions = (mpLightParameters ? mpLightParameters->WorldLightingOptions() : EWorldLightingOptions::NormalLighting);
 
-        if (CGraphics::sLightMode == CGraphics::ELightingMode::World && LightingOptions == eDisableWorldLighting)
+        if (CGraphics::sLightMode == CGraphics::ELightingMode::World && LightingOptions == EWorldLightingOptions::DisableWorldLighting)
         {
             CGraphics::sNumLights = 0;
             CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentBlack;
