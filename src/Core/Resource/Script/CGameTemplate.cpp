@@ -159,7 +159,7 @@ CScriptTemplate* CGameTemplate::TemplateByIndex(uint32 Index)
     return (std::next(it, Index))->second.pTemplate.get();
 }
 
-SState CGameTemplate::StateByID(uint32 StateID)
+SState CGameTemplate::StateByID(uint32 StateID) const
 {
     const auto iter = mStates.find(StateID);
 
@@ -169,19 +169,19 @@ SState CGameTemplate::StateByID(uint32 StateID)
     return SState(iter->first, iter->second);
 }
 
-SState CGameTemplate::StateByID(const CFourCC& State)
+SState CGameTemplate::StateByID(const CFourCC& State) const
 {
     return StateByID(State.ToLong());
 }
 
-SState CGameTemplate::StateByIndex(uint32 Index)
+SState CGameTemplate::StateByIndex(uint32 Index) const
 {
     auto Iter = mStates.begin();
     Iter = std::next(Iter, Index);
     return SState(Iter->first, Iter->second);
 }
 
-SMessage CGameTemplate::MessageByID(uint32 MessageID)
+SMessage CGameTemplate::MessageByID(uint32 MessageID) const
 {
     const auto iter = mMessages.find(MessageID);
 
@@ -191,12 +191,12 @@ SMessage CGameTemplate::MessageByID(uint32 MessageID)
     return SMessage(iter->first, iter->second);
 }
 
-SMessage CGameTemplate::MessageByID(const CFourCC& MessageID)
+SMessage CGameTemplate::MessageByID(const CFourCC& MessageID) const
 {
     return MessageByID(MessageID.ToLong());
 }
 
-SMessage CGameTemplate::MessageByIndex(uint32 Index)
+SMessage CGameTemplate::MessageByIndex(uint32 Index) const
 {
     auto Iter = mMessages.begin();
     Iter = std::next(Iter, Index);
@@ -225,7 +225,7 @@ IProperty* CGameTemplate::FindPropertyArchetype(const TString& kTypeName)
     return Path.pTemplate.get();
 }
 
-TString CGameTemplate::GetPropertyArchetypeFilePath(const TString& kTypeName)
+TString CGameTemplate::GetPropertyArchetypeFilePath(const TString& kTypeName) const
 {
     const auto it = mPropertyTemplates.find(kTypeName);
     ASSERT(it != mPropertyTemplates.cend());
