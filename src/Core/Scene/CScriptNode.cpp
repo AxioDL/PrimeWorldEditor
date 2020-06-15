@@ -354,7 +354,8 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
     if (UsesModel())
     {
         CModel *pModel = ActiveModel();
-        if (!pModel) pModel = CDrawUtil::GetCubeModel();
+        if (!pModel)
+            pModel = CDrawUtil::GetCubeModel();
 
         CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
         std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
@@ -367,9 +368,10 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
             CVector3f WorldHitPoint = Transform() * HitPoint;
             Out.Distance = Math::Distance(rkRay.Origin(), WorldHitPoint);
         }
-
         else
+        {
             Out.Hit = false;
+        }
     }
 
     // Billboard test
@@ -403,8 +405,9 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
                 float TexelAlpha = ActiveBillboard()->ReadTexelAlpha(TexCoord);
 
                 if (TexelAlpha < 0.25f)
+                {
                     Out.Hit = false;
-
+                }
                 else
                 {
                     // It's opaque... we have a hit!
@@ -412,13 +415,15 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
                     Out.Distance = PlaneTest.second;
                 }
             }
-
             else
+            {
                 Out.Hit = false;
+            }
         }
-
         else
+        {
             Out.Hit = false;
+        }
     }
 
     return Out;

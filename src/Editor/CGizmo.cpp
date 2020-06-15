@@ -163,7 +163,7 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
             bool Hit = false;
             float Dist;
 
-            for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+            for (size_t iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
             {
                 // Skip surface/box check - since we use lines the boxes might be too small
                 SSurface *pSurf = pModel->GetSurface(iSurf);
@@ -171,7 +171,7 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
 
                 if (SurfCheck.first)
                 {
-                    if ((!Hit) || (SurfCheck.second < Dist))
+                    if (!Hit || SurfCheck.second < Dist)
                         Dist = SurfCheck.second;
 
                     Hit = true;

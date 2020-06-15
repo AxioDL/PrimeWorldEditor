@@ -86,9 +86,9 @@ void CAreaLoader::ReadGeometryPrime()
         else // For Echoes+, load surface mesh IDs, then skip to the start of the next mesh
         {
             auto& pModel = FileModels.emplace_back(CModelLoader::LoadWorldModel(*mpMREA, *mpSectionMgr, *mpArea->mpMaterialSet, mVersion));
-            const uint16 NumSurfaces = mpMREA->ReadShort();
+            const size_t NumSurfaces = mpMREA->ReadShort();
 
-            for (uint32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
+            for (size_t iSurf = 0; iSurf < NumSurfaces; iSurf++)
             {
                 mpMREA->Seek(0x2, SEEK_CUR);
                 pModel->GetSurface(iSurf)->MeshID = mpMREA->ReadShort();
@@ -391,9 +391,9 @@ void CAreaLoader::ReadGeometryCorruption()
 
         // Load surface mesh IDs
         mpSectionMgr->ToSection(CurWOBJSection -  2);
-        uint16 NumSurfaces = mpMREA->ReadShort();
+        const size_t NumSurfaces = mpMREA->ReadShort();
 
-        for (uint32 iSurf = 0; iSurf < NumSurfaces; iSurf++)
+        for (size_t iSurf = 0; iSurf < NumSurfaces; iSurf++)
         {
             mpMREA->Seek(0x2, SEEK_CUR);
             pWorldModel->GetSurface(iSurf)->MeshID = mpMREA->ReadShort();

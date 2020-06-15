@@ -152,9 +152,10 @@ SRayIntersection CModelNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Asse
         CVector3f WorldHitPoint = Transform() * HitPoint;
         Out.Distance = Math::Distance(rkRay.Origin(), WorldHitPoint);
     }
-
     else
+    {
         Out.Hit = false;
+    }
 
     return Out;
 }

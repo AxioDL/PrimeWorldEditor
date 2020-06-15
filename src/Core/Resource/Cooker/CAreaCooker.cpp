@@ -15,7 +15,7 @@ void CAreaCooker::DetermineSectionNumbersPrime()
     // Determine how many sections are taken up by geometry...
     // Each world mesh has 7-9 sections (depending on game) plus one section per surface.
     uint32 GeometrySections = 0;
-    uint32 OriginalMeshCount = mpArea->mOriginalWorldMeshCount;
+    const uint32 OriginalMeshCount = mpArea->mOriginalWorldMeshCount;
 
     switch (mVersion)
     {
@@ -38,8 +38,10 @@ void CAreaCooker::DetermineSectionNumbersPrime()
 
     // Set section numbers
     uint32 SecNum = GeometrySections;
-    if (mVersion <= EGame::Prime) mAROTSecNum = SecNum++;
-    if (mVersion >= EGame::EchoesDemo) mFFFFSecNum = SecNum++;
+    if (mVersion <= EGame::Prime)
+        mAROTSecNum = SecNum++;
+    if (mVersion >= EGame::EchoesDemo)
+        mFFFFSecNum = SecNum++;
 
     if (mVersion >= EGame::EchoesDemo)
     {
@@ -48,7 +50,9 @@ void CAreaCooker::DetermineSectionNumbersPrime()
         mSCGNSecNum = SecNum++;
     }
     else
+    {
         mSCLYSecNum = SecNum++;
+    }
 
     mCollisionSecNum = SecNum++;
     mUnknownSecNum = SecNum++;

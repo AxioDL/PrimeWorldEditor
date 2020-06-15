@@ -24,13 +24,13 @@ public:
     explicit CBasicModel(CResourceEntry *pEntry = nullptr);
     ~CBasicModel();
 
-    uint32 GetVertexCount() const;
-    uint32 GetTriangleCount() const;
+    size_t GetVertexCount() const;
+    size_t GetTriangleCount() const;
     CAABox AABox() const;
     bool IsBuffered() const;
-    uint32 GetSurfaceCount() const;
-    CAABox GetSurfaceAABox(uint32 Surface) const;
-    SSurface* GetSurface(uint32 Surface);
+    size_t GetSurfaceCount() const;
+    CAABox GetSurfaceAABox(size_t Surface) const;
+    SSurface* GetSurface(size_t Surface);
     virtual void ClearGLBuffer() = 0;
 };
 

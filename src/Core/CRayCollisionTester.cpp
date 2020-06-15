@@ -24,10 +24,10 @@ void CRayCollisionTester::AddNodeModel(CSceneNode *pNode, CBasicModel *pModel)
     // Check each of the model's surfaces and queue them for further testing if they hit
     for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
     {
-        std::pair<bool,float> SurfResult = pModel->GetSurfaceAABox(iSurf).Transformed(pNode->Transform()).IntersectsRay(mRay);
+        const auto [intersects, distance] = pModel->GetSurfaceAABox(iSurf).Transformed(pNode->Transform()).IntersectsRay(mRay);
 
-        if (SurfResult.first)
-            AddNode(pNode, iSurf, SurfResult.second);
+        if (intersects)
+            AddNode(pNode, iSurf, distance);
     }
 }
 

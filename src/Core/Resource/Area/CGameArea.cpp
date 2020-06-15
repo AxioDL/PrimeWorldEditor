@@ -61,18 +61,17 @@ void CGameArea::MergeTerrain()
     if (mTerrainMerged) return;
 
     // Nothing really complicated here - iterate through every terrain submesh, add each to a static model
-    for (uint32 iMdl = 0; iMdl < mWorldModels.size(); iMdl++)
+    for (auto& pMdl : mWorldModels)
     {
-        auto& pMdl = mWorldModels[iMdl];
-        uint32 SubmeshCount = pMdl->GetSurfaceCount();
+        const size_t SubmeshCount = pMdl->GetSurfaceCount();
 
-        for (uint32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
+        for (size_t iSurf = 0; iSurf < SubmeshCount; iSurf++)
         {
             SSurface *pSurf = pMdl->GetSurface(iSurf);
             CMaterial *pMat = mpMaterialSet->MaterialByIndex(pSurf->MaterialID, false);
 
             bool NewMat = true;
-            for (auto it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); it++)
+            for (auto it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); ++it)
             {
                 if ((*it)->GetMaterial() == pMat)
                 {

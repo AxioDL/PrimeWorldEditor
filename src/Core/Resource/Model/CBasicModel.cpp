@@ -1,6 +1,4 @@
 #include "CBasicModel.h"
-#include <iostream>
-#include <list>
 
 CBasicModel::CBasicModel(CResourceEntry *pEntry)
     : CResource(pEntry)
@@ -14,12 +12,12 @@ CBasicModel::~CBasicModel()
             delete mSurfaces[iSurf];
 }
 
-uint32 CBasicModel::GetVertexCount() const
+size_t CBasicModel::GetVertexCount() const
 {
     return mVertexCount;
 }
 
-uint32 CBasicModel::GetTriangleCount() const
+size_t CBasicModel::GetTriangleCount() const
 {
     return mTriangleCount;
 }
@@ -34,17 +32,17 @@ bool CBasicModel::IsBuffered() const
     return mBuffered;
 }
 
-uint32 CBasicModel::GetSurfaceCount() const
+size_t CBasicModel::GetSurfaceCount() const
 {
     return mSurfaces.size();
 }
 
-CAABox CBasicModel::GetSurfaceAABox(uint32 Surface) const
+CAABox CBasicModel::GetSurfaceAABox(size_t Surface) const
 {
     return mSurfaces[Surface]->AABox;
 }
 
-SSurface* CBasicModel::GetSurface(uint32 Surface)
+SSurface* CBasicModel::GetSurface(size_t Surface)
 {
     return mSurfaces[Surface];
 }
