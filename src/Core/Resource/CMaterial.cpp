@@ -59,10 +59,8 @@ std::unique_ptr<CMaterial> CMaterial::Clone()
     pOut->mVersion = mVersion;
     pOut->mOptions = mOptions;
     pOut->mVtxDesc = mVtxDesc;
-    for (uint32 iKonst = 0; iKonst < 4; iKonst++)
-        pOut->mKonstColors[iKonst] = mKonstColors[iKonst];
-    for (uint32 iTev = 0; iTev < 4; iTev++)
-        pOut->mTevColors[iTev] = mTevColors[iTev];
+    pOut->mKonstColors = mKonstColors;
+    pOut->mTevColors = mTevColors;
     pOut->mBlendSrcFac = mBlendSrcFac;
     pOut->mBlendDstFac = mBlendDstFac;
     pOut->mLightingEnabled = mLightingEnabled;
