@@ -143,7 +143,7 @@ public:
     CMaterial* GetNextDrawPass() const           { return mpNextDrawPassMaterial.get(); }
     CMaterial* GetBloomVersion() const           { return mpBloomMaterial.get(); }
 
-    void SetName(const TString& rkName)                 { mName = rkName; }
+    void SetName(TString rkName)                        { mName = std::move(rkName); }
     void SetOptions(FMaterialOptions Options)           { mOptions = Options; Update(); }
     void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; Update(); }
     void SetBlendMode(GLenum SrcFac, GLenum DstFac)     { mBlendSrcFac = SrcFac; mBlendDstFac = DstFac; mRecalcHash = true; }
