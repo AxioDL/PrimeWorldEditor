@@ -126,7 +126,7 @@ void CLight::SetColor(const CColor& rkColor)
 void CLight::SetSpotCutoff(float Cutoff)
 {
     mSpotCutoff = Cutoff * 0.5f;
-    CalculateSpotAngleAtten();
+    mAngleAttenCoefficients = CalculateSpotAngleAtten();
 }
 
 void CLight::SetDistAtten(float DistCoefA, float DistCoefB, float DistCoefC)
