@@ -17,9 +17,9 @@ public:
     CMaterialSet() = default;
     ~CMaterialSet() = default;
 
-    CMaterialSet* Clone()
+    std::unique_ptr<CMaterialSet> Clone()
     {
-        CMaterialSet *pOut = new CMaterialSet();
+        auto pOut = std::make_unique<CMaterialSet>();
 
         pOut->mMaterials.resize(mMaterials.size());
         for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
