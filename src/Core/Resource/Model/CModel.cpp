@@ -321,6 +321,5 @@ CIndexBuffer* CModel::InternalGetIBO(size_t Surface, EPrimitiveType Primitive)
             return &pIBOs[iIBO];
     }
 
-    pIBOs.emplace_back(CIndexBuffer(Type));
-    return &pIBOs.back();
+    return &pIBOs.emplace_back(Type);
 }
