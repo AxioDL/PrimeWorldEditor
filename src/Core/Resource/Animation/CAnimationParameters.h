@@ -18,8 +18,12 @@ class CAnimationParameters
 
 public:
     CAnimationParameters();
-    CAnimationParameters(EGame Game);
-    CAnimationParameters(IInputStream& rSCLY, EGame Game);
+    explicit CAnimationParameters(EGame Game);
+    explicit CAnimationParameters(IInputStream& rSCLY, EGame Game);
+
+    CAnimationParameters(const CAnimationParameters&) = default;
+    CAnimationParameters& operator=(const CAnimationParameters& rkOther) = default;
+
     void Write(IOutputStream& rSCLY);
     void Serialize(IArchive& rArc);
 
@@ -53,18 +57,6 @@ public:
     uint32 Unknown(uint32 Index);
     void SetResource(const CAssetID& rkID);
     void SetUnknown(uint32 Index, uint32 Value);
-
-    // Operators
-    CAnimationParameters& operator=(const CAnimationParameters& rkOther)
-    {
-        mGame = rkOther.mGame;
-        mCharacterID = rkOther.mCharacterID;
-        mCharIndex = rkOther.mCharIndex;
-        mAnimIndex = rkOther.mAnimIndex;
-        mUnknown2 = rkOther.mUnknown2;
-        mUnknown3 = rkOther.mUnknown3;
-        return *this;
-    }
 
     bool operator==(const CAnimationParameters& rkOther) const
     {
