@@ -52,7 +52,7 @@ public:
     std::unique_ptr<CMaterialPass> Clone(CMaterial *pParent) const;
     void HashParameters(CFNV1A& rHash);
     void LoadTexture(uint32 PassIndex);
-    void SetAnimCurrent(FRenderOptions Options, uint32 PassIndex);
+    void SetAnimCurrent(FRenderOptions Options, size_t PassIndex);
 
     // Setters
     void SetType(CFourCC Type);
@@ -68,15 +68,15 @@ public:
     void SetTexCoordSource(uint32 Source);
     void SetTexture(CTexture *pTex);
     void SetAnimMode(EUVAnimMode Mode);
-    void SetAnimParam(uint32 ParamIndex, float Value);
-    void SetTexSwapComp(uint32 Comp, char Value);
+    void SetAnimParam(size_t ParamIndex, float Value);
+    void SetTexSwapComp(size_t Comp, char Value);
     void SetEnabled(bool Enabled);
 
     // Getters
     CFourCC Type() const                             { return mPassType; }
     TString NamedType() const                        { return PassTypeName(mPassType); }
-    ETevColorInput ColorInput(uint32 Input) const    { return mColorInputs[Input]; }
-    ETevAlphaInput AlphaInput(uint32 Input) const    { return mAlphaInputs[Input]; }
+    ETevColorInput ColorInput(size_t Input) const    { return mColorInputs[Input]; }
+    ETevAlphaInput AlphaInput(size_t Input) const    { return mAlphaInputs[Input]; }
     ETevOutput ColorOutput() const                   { return mColorOutput; }
     ETevOutput AlphaOutput() const                   { return mAlphaOutput; }
     ETevKSel KColorSel() const                       { return mKColorSel; }
@@ -87,8 +87,8 @@ public:
     uint32 TexCoordSource() const                    { return mTexCoordSource; }
     CTexture* Texture() const                        { return mpTexture; }
     EUVAnimMode AnimMode() const                     { return mAnimMode; }
-    float AnimParam(uint32 ParamIndex) const         { return mAnimParams[ParamIndex]; }
-    char TexSwapComp(uint32 Comp) const              { return mTexSwapComps[Comp]; }
+    float AnimParam(size_t ParamIndex) const         { return mAnimParams[ParamIndex]; }
+    char TexSwapComp(size_t Comp) const              { return mTexSwapComps[Comp]; }
     bool IsEnabled() const                           { return mEnabled; }
 
     // Static

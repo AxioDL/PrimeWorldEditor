@@ -64,7 +64,7 @@ void CMaterialPass::LoadTexture(uint32 PassIndex)
         mpTexture->Bind(PassIndex);
 }
 
-void CMaterialPass::SetAnimCurrent(FRenderOptions Options, uint32 PassIndex)
+void CMaterialPass::SetAnimCurrent(FRenderOptions Options, size_t PassIndex)
 {
     if (mAnimMode == EUVAnimMode::NoUVAnim) return;
 
@@ -304,12 +304,12 @@ void CMaterialPass::SetAnimMode(EUVAnimMode Mode)
     mpParentMat->Update();
 }
 
-void CMaterialPass::SetAnimParam(uint32 ParamIndex, float Value)
+void CMaterialPass::SetAnimParam(size_t ParamIndex, float Value)
 {
     mAnimParams[ParamIndex] = Value;
 }
 
-void CMaterialPass::SetTexSwapComp(uint32 Comp, char Value)
+void CMaterialPass::SetTexSwapComp(size_t Comp, char Value)
 {
     mTexSwapComps[Comp] = Value;
 }
