@@ -28,15 +28,15 @@ public:
     TString GetCurrentCharacterName(int32 NodeIndex = -1);
 
     // Accessors
-    inline EGame Version() const            { return mGame; }
-    inline CAssetID ID() const              { return mCharacterID; }
-    inline CAnimSet* AnimSet() const        { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID); }
-    inline uint32 CharacterIndex() const    { return mCharIndex; }
-    inline uint32 AnimIndex() const         { return mAnimIndex; }
-    inline void SetCharIndex(uint32 Index)  { mCharIndex = Index; }
-    inline void SetAnimIndex(uint32 Index)  { mAnimIndex = Index; }
+    EGame Version() const            { return mGame; }
+    CAssetID ID() const              { return mCharacterID; }
+    CAnimSet* AnimSet() const        { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID); }
+    uint32 CharacterIndex() const    { return mCharIndex; }
+    uint32 AnimIndex() const         { return mAnimIndex; }
+    void SetCharIndex(uint32 Index)  { mCharIndex = Index; }
+    void SetAnimIndex(uint32 Index)  { mAnimIndex = Index; }
 
-    inline void SetGame(EGame Game)
+    void SetGame(EGame Game)
     {
         mGame = Game;
 
@@ -55,7 +55,7 @@ public:
     void SetUnknown(uint32 Index, uint32 Value);
 
     // Operators
-    inline CAnimationParameters& operator=(const CAnimationParameters& rkOther)
+    CAnimationParameters& operator=(const CAnimationParameters& rkOther)
     {
         mGame = rkOther.mGame;
         mCharacterID = rkOther.mCharacterID;
@@ -66,14 +66,14 @@ public:
         return *this;
     }
 
-    inline bool operator==(const CAnimationParameters& rkOther) const
+    bool operator==(const CAnimationParameters& rkOther) const
     {
-        return ( (mGame == rkOther.mGame) &&
-                 (mCharacterID == rkOther.mCharacterID) &&
-                 (mCharIndex == rkOther.mCharIndex) &&
-                 (mAnimIndex == rkOther.mAnimIndex) &&
-                 (mUnknown2 == rkOther.mUnknown2) &&
-                 (mUnknown3 == rkOther.mUnknown3) );
+        return mGame == rkOther.mGame &&
+               mCharacterID == rkOther.mCharacterID &&
+               mCharIndex == rkOther.mCharIndex &&
+               mAnimIndex == rkOther.mAnimIndex &&
+               mUnknown2 == rkOther.mUnknown2 &&
+               mUnknown3 == rkOther.mUnknown3;
     }
 };
 
