@@ -102,7 +102,7 @@ protected:
     CColor mAmbientColor;
 
 public:
-    explicit CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0);
+    explicit CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = nullptr);
     ~CSceneNode() override;
     virtual ENodeType NodeType() = 0;
     virtual void PostLoad() {}
