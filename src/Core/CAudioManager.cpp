@@ -19,37 +19,35 @@ void CAudioManager::LoadAssets()
     // Load/sort all audio groups
     for (TResourceIterator<EResourceType::AudioGroup> It(mpProject->ResourceStore()); It; ++It)
     {
-        CAudioGroup *pGroup = (CAudioGroup*) It->Load();
-        if (pGroup) mAudioGroups.push_back(pGroup);
+        if (auto* pGroup = static_cast<CAudioGroup*>(It->Load()))
+            mAudioGroups.push_back(pGroup);
     }
 
-    std::sort(mAudioGroups.begin(), mAudioGroups.end(), [](CAudioGroup *pLeft, CAudioGroup *pRight) -> bool {
+    std::sort(mAudioGroups.begin(), mAudioGroups.end(), [](const CAudioGroup *pLeft, const CAudioGroup *pRight) {
         return pLeft->GroupID() < pRight->GroupID();
     });
 
     // Create SFX Define ID -> AGSC map
-    for (uint iGrp = 0; iGrp < mAudioGroups.size(); iGrp++)
+    for (CAudioGroup* group : mAudioGroups)
     {
-        CAudioGroup *pGroup = mAudioGroups[iGrp];
-
-        for (uint iSnd = 0; iSnd < pGroup->NumSoundDefineIDs(); iSnd++)
+        for (uint32 iSnd = 0; iSnd < group->NumSoundDefineIDs(); iSnd++)
         {
-            uint16 DefineID = pGroup->SoundDefineIDByIndex(iSnd);
-            ASSERT(mSfxIdMap.find(DefineID) == mSfxIdMap.end());
-            mSfxIdMap[DefineID] = pGroup;
+            const uint16 DefineID = group->SoundDefineIDByIndex(iSnd);
+            ASSERT(mSfxIdMap.find(DefineID) == mSfxIdMap.cend());
+            mSfxIdMap.insert_or_assign(DefineID, group);
         }
     }
 
     // Load audio lookup table + sfx name list
-    TString AudioLookupName = (mpProject->Game() < EGame::EchoesDemo ? "sound_lookup" : "sound_lookup_ATBL");
-    CAssetID AudioLookupID = mpProject->FindNamedResource(AudioLookupName);
+    const TString AudioLookupName = (mpProject->Game() < EGame::EchoesDemo ? "sound_lookup" : "sound_lookup_ATBL");
+    const CAssetID AudioLookupID = mpProject->FindNamedResource(AudioLookupName);
 
     if (AudioLookupID.IsValid())
         mpAudioLookupTable = mpProject->ResourceStore()->LoadResource<CAudioLookupTable>(AudioLookupID);
 
     if (mpProject->Game() >= EGame::EchoesDemo)
     {
-        CAssetID SfxNameListID = mpProject->FindNamedResource("audio_name_lookup_STLC");
+        const CAssetID SfxNameListID = mpProject->FindNamedResource("audio_name_lookup_STLC");
 
         if (SfxNameListID.IsValid())
             mpSfxNameList = mpProject->ResourceStore()->LoadResource<CStringList>(SfxNameListID);
@@ -73,7 +71,7 @@ SSoundInfo CAudioManager::GetSoundInfo(uint32 SoundID) const
 
     if (Out.DefineID != 0xFFFF)
     {
-        auto Iter = mSfxIdMap.find(Out.DefineID);
+        const auto Iter = mSfxIdMap.find(Out.DefineID);
         if (Iter != mSfxIdMap.cend())
             Out.pAudioGroup = Iter->second;
 
