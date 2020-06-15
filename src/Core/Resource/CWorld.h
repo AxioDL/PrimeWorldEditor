@@ -123,7 +123,7 @@ public:
     CStringTable* AreaName(uint32 AreaIndex) const                       { return mAreas[AreaIndex].pAreaName; }
     bool DoesAreaAllowPakDuplicates(uint32 AreaIndex) const              { return mAreas[AreaIndex].AllowPakDuplicates; }
 
-    void SetName(const TString& rkName)                              { mName = rkName; }
+    void SetName(TString rkName)                                     { mName = std::move(rkName); }
     void SetAreaAllowsPakDuplicates(uint32 AreaIndex, bool Allow)    { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
 };
 
