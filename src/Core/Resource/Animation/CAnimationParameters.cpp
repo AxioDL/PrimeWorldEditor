@@ -2,33 +2,16 @@
 #include "CAnimSet.h"
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
-#include <iostream>
 
-CAnimationParameters::CAnimationParameters()
-    : mGame(EGame::Prime)
-    , mCharIndex(0)
-    , mAnimIndex(0)
-    , mUnknown2(0)
-    , mUnknown3(0)
-{
-}
+CAnimationParameters::CAnimationParameters() = default;
 
 CAnimationParameters::CAnimationParameters(EGame Game)
-    : mGame(Game)
-    , mCharacterID( CAssetID::InvalidID(Game) )
-    , mCharIndex(0)
-    , mAnimIndex(0)
-    , mUnknown2(0)
-    , mUnknown3(0)
+    : mGame(Game), mCharacterID(CAssetID::InvalidID(Game))
 {
 }
 
 CAnimationParameters::CAnimationParameters(IInputStream& rSCLY, EGame Game)
     : mGame(Game)
-    , mCharIndex(0)
-    , mAnimIndex(0)
-    , mUnknown2(0)
-    , mUnknown3(0)
 {
     if (Game <= EGame::Echoes)
     {
@@ -225,8 +208,14 @@ void CAnimationParameters::SetUnknown(uint32 Index, uint32 Value)
 {
     switch (Index)
     {
-    case 0: mAnimIndex = Value;
-    case 1: mUnknown2 = Value;
-    case 2: mUnknown3 = Value;
+    case 0:
+        mAnimIndex = Value;
+        break;
+    case 1:
+        mUnknown2 = Value;
+        break;
+    case 2:
+        mUnknown3 = Value;
+        break;
     }
 }
