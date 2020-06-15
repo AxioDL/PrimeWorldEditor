@@ -272,15 +272,15 @@ void CMaterial::Update()
     mShaderStatus = EShaderStatus::NoShader;
 }
 
-void CMaterial::SetNumPasses(uint32 NumPasses)
+void CMaterial::SetNumPasses(size_t NumPasses)
 {
-    uint32 OldCount = mPasses.size();
+    const size_t OldCount = mPasses.size();
     mPasses.resize(NumPasses);
 
     if (NumPasses > OldCount)
     {
-        for (uint32 iPass = OldCount; iPass < NumPasses; iPass++)
-            mPasses[iPass] = std::make_unique<CMaterialPass>(this);
+        for (size_t i = OldCount; i < NumPasses; i++)
+            mPasses[i] = std::make_unique<CMaterialPass>(this);
     }
 
     mRecalcHash = true;

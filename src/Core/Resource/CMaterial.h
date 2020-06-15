@@ -123,7 +123,7 @@ public:
     bool SetCurrent(FRenderOptions Options);
     uint64 HashParameters();
     void Update();
-    void SetNumPasses(uint32 NumPasses);
+    void SetNumPasses(size_t NumPasses);
 
     // Accessors
     TString Name() const                         { return mName; }
@@ -132,14 +132,14 @@ public:
     FVertexDescription VtxDesc() const           { return mVtxDesc; }
     GLenum BlendSrcFac() const                   { return mBlendSrcFac; }
     GLenum BlendDstFac() const                   { return mBlendDstFac; }
-    CColor Konst(uint32 KIndex) const            { return mKonstColors[KIndex]; }
-    CColor TevColor(ETevOutput Out) const        { return mTevColors[int(Out)]; }
+    CColor Konst(size_t KIndex) const            { return mKonstColors[KIndex]; }
+    CColor TevColor(ETevOutput Out) const        { return mTevColors[static_cast<size_t>(Out)]; }
     CTexture* IndTexture() const                 { return mpIndirectTexture; }
     bool IsLightingEnabled() const               { return mLightingEnabled; }
     uint32 EchoesUnknownA() const                { return mEchoesUnknownA; }
     uint32 EchoesUnknownB() const                { return mEchoesUnknownB; }
     uint32 PassCount() const                     { return mPasses.size(); }
-    CMaterialPass* Pass(uint32 PassIndex) const  { return mPasses[PassIndex].get(); }
+    CMaterialPass* Pass(size_t PassIndex) const  { return mPasses[PassIndex].get(); }
     CMaterial* GetNextDrawPass() const           { return mpNextDrawPassMaterial.get(); }
     CMaterial* GetBloomVersion() const           { return mpBloomMaterial.get(); }
 
@@ -147,8 +147,8 @@ public:
     void SetOptions(FMaterialOptions Options)           { mOptions = Options; Update(); }
     void SetVertexDescription(FVertexDescription Desc)  { mVtxDesc = Desc; Update(); }
     void SetBlendMode(GLenum SrcFac, GLenum DstFac)     { mBlendSrcFac = SrcFac; mBlendDstFac = DstFac; mRecalcHash = true; }
-    void SetKonst(const CColor& Konst, uint32 KIndex)   { mKonstColors[KIndex] = Konst; Update(); }
-    void SetTevColor(const CColor& Color, ETevOutput Out) { mTevColors[int(Out)] = Color; }
+    void SetKonst(const CColor& Konst, size_t KIndex)   { mKonstColors[KIndex] = Konst; Update(); }
+    void SetTevColor(const CColor& Color, ETevOutput Out) { mTevColors[static_cast<size_t>(Out)] = Color; }
     void SetIndTexture(CTexture *pTex)                  { mpIndirectTexture = pTex; }
     void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; Update(); }
 
