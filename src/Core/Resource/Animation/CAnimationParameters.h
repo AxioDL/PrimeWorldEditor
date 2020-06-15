@@ -22,7 +22,7 @@ public:
     explicit CAnimationParameters(IInputStream& rSCLY, EGame Game);
 
     CAnimationParameters(const CAnimationParameters&) = default;
-    CAnimationParameters& operator=(const CAnimationParameters& rkOther) = default;
+    CAnimationParameters& operator=(const CAnimationParameters&) = default;
 
     void Write(IOutputStream& rSCLY);
     void Serialize(IArchive& rArc);
@@ -58,14 +58,18 @@ public:
     void SetResource(const CAssetID& rkID);
     void SetUnknown(uint32 Index, uint32 Value);
 
-    bool operator==(const CAnimationParameters& rkOther) const
+    bool operator==(const CAnimationParameters& other) const
     {
-        return mGame == rkOther.mGame &&
-               mCharacterID == rkOther.mCharacterID &&
-               mCharIndex == rkOther.mCharIndex &&
-               mAnimIndex == rkOther.mAnimIndex &&
-               mUnknown2 == rkOther.mUnknown2 &&
-               mUnknown3 == rkOther.mUnknown3;
+        return mGame == other.mGame &&
+               mCharacterID == other.mCharacterID &&
+               mCharIndex == other.mCharIndex &&
+               mAnimIndex == other.mAnimIndex &&
+               mUnknown2 == other.mUnknown2 &&
+               mUnknown3 == other.mUnknown3;
+    }
+    bool operator!=(const CAnimationParameters& other) const
+    {
+        return !operator==(other);
     }
 };
 
