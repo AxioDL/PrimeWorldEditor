@@ -203,13 +203,14 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
     CGraphics::UpdateLightBlock();
 }
 
-void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32 MatSet)
+void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, size_t MatSet)
 {
     ASSERT(pModel);
 
     if (!pModel->HasTransparency(MatSet))
+    {
         pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
-
+    }
     else
     {
         pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawOpaqueParts);
@@ -217,22 +218,23 @@ void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32
     }
 }
 
-void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, uint32 MatSet, ERenderCommand RenderCommand)
+void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, size_t MatSet, ERenderCommand RenderCommand)
 {
     // Common rendering functionality
     if (RenderCommand == ERenderCommand::DrawMesh)
+    {
         pModel->Draw(Options, MatSet);
-
+    }
     else
     {
-        bool DrawOpaque = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawOpaqueParts);
-        bool DrawTransparent = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawTransparentParts);
+        const bool DrawOpaque = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawOpaqueParts);
+        const bool DrawTransparent = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawTransparentParts);
 
-        for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+        for (size_t iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
         {
-            bool ShouldRender = ( (DrawOpaque && DrawTransparent) ||
-                                  (DrawOpaque && !pModel->IsSurfaceTransparent(iSurf, MatSet)) ||
-                                  (DrawTransparent && pModel->IsSurfaceTransparent(iSurf, MatSet)) );
+            const bool ShouldRender = (DrawOpaque && DrawTransparent) ||
+                                      (DrawOpaque && !pModel->IsSurfaceTransparent(iSurf, MatSet)) ||
+                                      (DrawTransparent && pModel->IsSurfaceTransparent(iSurf, MatSet));
 
             if (ShouldRender)
                 pModel->DrawSurface(Options, iSurf, MatSet);

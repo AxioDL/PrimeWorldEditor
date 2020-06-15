@@ -166,17 +166,17 @@ void GenerateAssetNames(CGameProject *pProj)
             ApplyGeneratedName(pSkyEntry, WorldDir + "sky/cooked/", WorldName + "_sky");
 
             // Move sky textures
-            for (uint32 iSet = 0; iSet < pSkyModel->GetMatSetCount(); iSet++)
+            for (size_t iSet = 0; iSet < pSkyModel->GetMatSetCount(); iSet++)
             {
                 CMaterialSet *pSet = pSkyModel->GetMatSet(iSet);
 
-                for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+                for (size_t mat = 0; mat < pSet->NumMaterials(); mat++)
                 {
-                    CMaterial *pMat = pSet->MaterialByIndex(iMat, true);
+                    CMaterial *pMat = pSet->MaterialByIndex(mat, true);
 
-                    for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+                    for (size_t pass = 0; pass < pMat->PassCount(); pass++)
                     {
-                        CMaterialPass *pPass = pMat->Pass(iPass);
+                        CMaterialPass *pPass = pMat->Pass(pass);
 
                         if (pPass->Texture())
                             ApplyGeneratedName(pPass->Texture()->Entry(), WorldDir + "sky/sourceimages/", pPass->Texture()->Entry()->Name());
@@ -237,12 +237,12 @@ void GenerateAssetNames(CGameProject *pProj)
             uint32 LightmapNum = 0;
             CMaterialSet *pMaterials = pArea->Materials();
 
-            for (uint32 iMat = 0; iMat < pMaterials->NumMaterials(); iMat++)
+            for (size_t iMat = 0; iMat < pMaterials->NumMaterials(); iMat++)
             {
                 CMaterial *pMat = pMaterials->MaterialByIndex(iMat, true);
                 bool FoundLightmap = false;
 
-                for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+                for (size_t iPass = 0; iPass < pMat->PassCount(); iPass++)
                 {
                     CMaterialPass *pPass = pMat->Pass(iPass);
 
@@ -407,30 +407,31 @@ void GenerateAssetNames(CGameProject *pProj)
     for (TResourceIterator<EResourceType::Model> It(pStore); It; ++It)
     {
         CModel *pModel = (CModel*) It->Load();
-        uint32 LightmapNum = 0;
+        size_t LightmapNum = 0;
 
-        for (uint32 iSet = 0; iSet < pModel->GetMatSetCount(); iSet++)
+        for (size_t iSet = 0; iSet < pModel->GetMatSetCount(); iSet++)
         {
             CMaterialSet *pSet = pModel->GetMatSet(iSet);
 
-            for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+            for (size_t iMat = 0; iMat < pSet->NumMaterials(); iMat++)
             {
                 CMaterial *pMat = pSet->MaterialByIndex(iMat, true);
 
-                for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+                for (size_t iPass = 0; iPass < pMat->PassCount(); iPass++)
                 {
                     CMaterialPass *pPass = pMat->Pass(iPass);
 
-                    bool IsLightmap = ( (pMat->Version() <= EGame::Echoes && pMat->Options().HasFlag(EMaterialOption::Lightmap) && iPass == 0) ||
-                                        (pMat->Version() >= EGame::CorruptionProto && pPass->Type() == "DIFF") );
+                    const bool IsLightmap = (pMat->Version() <= EGame::Echoes && pMat->Options().HasFlag(EMaterialOption::Lightmap) && iPass == 0) ||
+                                            (pMat->Version() >= EGame::CorruptionProto && pPass->Type() == "DIFF");
 
                     if (IsLightmap)
                     {
                         CTexture *pLightmapTex = pPass->Texture();
                         CResourceEntry *pTexEntry = pLightmapTex->Entry();
-                        if (pTexEntry->IsNamed() || pTexEntry->IsCategorized()) continue;
+                        if (pTexEntry->IsNamed() || pTexEntry->IsCategorized())
+                            continue;
 
-                        TString TexName = TString::Format("%s_lightmap%d", *It->Name(), LightmapNum);
+                        TString TexName = TString::Format("%s_lightmap%zu", *It->Name(), LightmapNum);
                         ApplyGeneratedName(pTexEntry, pModel->Entry()->DirectoryPath(), TexName);
                         pTexEntry->SetHidden(true);
                         LightmapNum++;

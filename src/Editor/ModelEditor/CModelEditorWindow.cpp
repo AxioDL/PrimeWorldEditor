@@ -195,9 +195,9 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     ui->MatSelectionComboBox->blockSignals(true);
     ui->MatSelectionComboBox->clear();
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
     {
-        TString MatName = pModel->GetMaterialByIndex(0, iMat)->Name();
+        const TString MatName = pModel->GetMaterialByIndex(0, iMat)->Name();
         ui->MatSelectionComboBox->addItem(TO_QSTRING(MatName));
     }
 
@@ -215,12 +215,14 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
 
 void CModelEditorWindow::SetActiveMaterial(int MatIndex)
 {
-    if (!mpCurrentModel) return;
+    if (!mpCurrentModel)
+        return;
 
-    uint32 SetIndex = ui->SetSelectionComboBox->currentIndex();
+    const auto SetIndex = static_cast<uint32>(ui->SetSelectionComboBox->currentIndex());
     mpCurrentMat = mpCurrentModel->GetMaterialByIndex(SetIndex, MatIndex);
     ui->Viewport->SetActiveMaterial(mpCurrentMat);
-    if (!mpCurrentMat) return;
+    if (!mpCurrentMat)
+        return;
 
     // Set up UI
     FMaterialOptions Settings = mpCurrentMat->Options();

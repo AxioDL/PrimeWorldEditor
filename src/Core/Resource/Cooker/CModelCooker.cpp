@@ -20,30 +20,31 @@ void CModelCooker::GenerateSurfaceData()
     // Get vertex attributes
     mVtxAttribs = EVertexAttribute::None;
 
-    for (uint32 iMat = 0; iMat < mpModel->GetMatCount(); iMat++)
+    for (size_t iMat = 0; iMat < mpModel->GetMatCount(); iMat++)
     {
         CMaterial *pMat = mpModel->GetMaterialByIndex(0, iMat);
         mVtxAttribs |= pMat->VtxDesc();
     }
 
     // Get vertices
-    uint32 MaxIndex = 0;
+    size_t MaxIndex = 0;
 
-    for (uint32 iSurf = 0; iSurf < mNumSurfaces; iSurf++)
+    for (size_t iSurf = 0; iSurf < mNumSurfaces; iSurf++)
     {
-        uint32 NumPrimitives = mpModel->mSurfaces[iSurf]->Primitives.size();
+        const size_t NumPrimitives = mpModel->mSurfaces[iSurf]->Primitives.size();
 
-        for (uint32 iPrim = 0; iPrim < NumPrimitives; iPrim++)
+        for (size_t iPrim = 0; iPrim < NumPrimitives; iPrim++)
         {
-            SSurface::SPrimitive *pPrim = &mpModel->mSurfaces[iSurf]->Primitives[iPrim];
-            uint32 NumVerts = pPrim->Vertices.size();
+            const SSurface::SPrimitive *pPrim = &mpModel->mSurfaces[iSurf]->Primitives[iPrim];
+            const size_t NumVerts = pPrim->Vertices.size();
 
-            for (uint32 iVtx = 0; iVtx < NumVerts; iVtx++)
+            for (size_t iVtx = 0; iVtx < NumVerts; iVtx++)
             {
-                uint32 VertIndex = pPrim->Vertices[iVtx].ArrayPosition;
+                const uint32 VertIndex = pPrim->Vertices[iVtx].ArrayPosition;
                 mVertices[VertIndex] = pPrim->Vertices[iVtx];
 
-                if (VertIndex > MaxIndex) MaxIndex = VertIndex;
+                if (VertIndex > MaxIndex)
+                    MaxIndex = VertIndex;
             }
         }
     }
@@ -142,7 +143,7 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
     uint32 SurfacesStart = rOut.Tell();
     std::vector<uint32> SurfaceEndOffsets(mNumSurfaces);
 
-    for (uint32 iSurf = 0; iSurf < mNumSurfaces; iSurf++)
+    for (size_t iSurf = 0; iSurf < mNumSurfaces; iSurf++)
     {
         SSurface *pSurface = mpModel->GetSurface(iSurf);
 

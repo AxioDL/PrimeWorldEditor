@@ -128,8 +128,8 @@ public:
     void LoadModelMatrix();
     void BuildLightList(CGameArea *pArea);
     void LoadLights(const SViewInfo& rkViewInfo);
-    void AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32 MatSet);
-    void DrawModelParts(CModel *pModel, FRenderOptions Options, uint32 MatSet, ERenderCommand RenderCommand);
+    void AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, size_t MatSet);
+    void DrawModelParts(CModel *pModel, FRenderOptions Options, size_t MatSet, ERenderCommand RenderCommand);
     void DrawBoundingBox() const;
     void DrawRotationArrow() const;
 

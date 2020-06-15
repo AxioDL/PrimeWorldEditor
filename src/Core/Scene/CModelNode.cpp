@@ -57,8 +57,11 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
 
 void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
-    if (!mpModel) return;
-    if (mForceAlphaOn) Options = (FRenderOptions) (Options & ~ERenderOption::NoAlpha);
+    if (!mpModel)
+        return;
+
+    if (mForceAlphaOn)
+        Options = static_cast<FRenderOptions>(Options & ~ERenderOption::NoAlpha);
 
     if (!mWorldModel)
     {
@@ -71,7 +74,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
     }
     else
     {
-        bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::ELightingMode::World || rkViewInfo.GameMode;
+        const bool IsLightingEnabled = CGraphics::sLightMode == CGraphics::ELightingMode::World || rkViewInfo.GameMode;
 
         if (IsLightingEnabled)
         {
@@ -80,7 +83,6 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
             CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
             CGraphics::UpdateLightBlock();
         }
-
         else
         {
             LoadLights(rkViewInfo);
@@ -90,7 +92,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
 
         CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
 
-        float Mul = CGraphics::sWorldLightMultiplier;
+        const float Mul = CGraphics::sWorldLightMultiplier;
         CGraphics::sPixelBlock.SetAllTevColors(CColor(Mul,Mul,Mul));
     }
 

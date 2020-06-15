@@ -53,9 +53,9 @@ void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
         CModel *pModel = pPart->pModel;
 
         // Determine whether to use the mat set for regular (0) or highlight (1)
-        FAxes PartAxes = pPart->ModelAxes;
-        bool IsHighlighted = (PartAxes != EAxis::None) && ((mSelectedAxes & PartAxes) == pPart->ModelAxes);
-        uint32 SetID = (IsHighlighted ? 1 : 0);
+        const FAxes PartAxes = pPart->ModelAxes;
+        const bool IsHighlighted = (PartAxes != EAxis::None) && ((mSelectedAxes & PartAxes) == pPart->ModelAxes);
+        const size_t SetID = (IsHighlighted ? 1 : 0);
 
         // Add to renderer...
         pRenderer->AddMesh(this, iPart, pModel->AABox().Transformed(mTransform), pModel->HasTransparency(SetID), ERenderCommand::DrawMesh, EDepthGroup::Foreground);
