@@ -169,7 +169,7 @@ public:
     bool InheritsScale() const              { return _mInheritsScale; }
 
     // Setters
-    void SetName(const TString& rkName)             { mName = rkName; }
+    void SetName(TString rkName)                    { mName = std::move(rkName); }
     void SetPosition(const CVector3f& rkPosition)   { mPosition = rkPosition; MarkTransformChanged(); }
     void SetRotation(const CQuaternion& rkRotation) { mRotation = rkRotation; MarkTransformChanged(); }
     void SetRotation(const CVector3f& rkRotEuler)   { mRotation = CQuaternion::FromEuler(rkRotEuler); MarkTransformChanged(); }
