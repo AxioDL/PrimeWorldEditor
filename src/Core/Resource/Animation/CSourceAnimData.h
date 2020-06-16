@@ -46,11 +46,11 @@ public:
 
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
     {
-        for (uint32 TransIdx = 0; TransIdx < mTransitions.size(); TransIdx++)
-            mTransitions[TransIdx].pTransition->GetUniquePrimitives(rPrimSet);
+        for (const auto& transition : mTransitions)
+            transition.pTransition->GetUniquePrimitives(rPrimSet);
 
-        for (uint32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
-            mHalfTransitions[HalfIdx].pTransition->GetUniquePrimitives(rPrimSet);
+        for (const auto& halfTrans : mHalfTransitions)
+            halfTrans.pTransition->GetUniquePrimitives(rPrimSet);
 
         if (mpDefaultTransition)
             mpDefaultTransition->GetUniquePrimitives(rPrimSet);
@@ -66,33 +66,31 @@ public:
             // Find all relevant primitives
             std::set<CAnimPrimitive> PrimSet;
 
-            if (UsedTransitions.find(mpDefaultTransition.get()) == UsedTransitions.end())
+            if (UsedTransitions.find(mpDefaultTransition.get()) == UsedTransitions.cend())
             {
                 mpDefaultTransition->GetUniquePrimitives(PrimSet);
                 UsedTransitions.insert(mpDefaultTransition.get());
             }
 
-            for (uint32 TransitionIdx = 0; TransitionIdx < mTransitions.size(); TransitionIdx++)
+            for (const STransition& transition : mTransitions)
             {
-                const STransition& rkTransition = mTransitions[TransitionIdx];
-                IMetaTransition *pTransition = rkTransition.pTransition.get();
+                IMetaTransition *pTransition = transition.pTransition.get();
 
-                if ( pTree->HasDependency(rkTransition.AnimA) &&
-                     pTree->HasDependency(rkTransition.AnimB) &&
-                     UsedTransitions.find(pTransition) == UsedTransitions.end() )
+                if (pTree->HasDependency(transition.AnimA) &&
+                    pTree->HasDependency(transition.AnimB) &&
+                    UsedTransitions.find(pTransition) == UsedTransitions.cend())
                 {
                     pTransition->GetUniquePrimitives(PrimSet);
                     UsedTransitions.insert(pTransition);
                 }
             }
 
-            for (uint32 HalfIdx = 0; HalfIdx < mHalfTransitions.size(); HalfIdx++)
+            for (const SHalfTransition& halfTrans : mHalfTransitions)
             {
-                const SHalfTransition& rkHalfTrans = mHalfTransitions[HalfIdx];
-                IMetaTransition *pTransition = rkHalfTrans.pTransition.get();
+                IMetaTransition *pTransition = halfTrans.pTransition.get();
 
-                if ( pTree->HasDependency(rkHalfTrans.Anim) &&
-                     UsedTransitions.find(pTransition) == UsedTransitions.end() )
+                if (pTree->HasDependency(halfTrans.Anim) &&
+                    UsedTransitions.find(pTransition) == UsedTransitions.cend())
                 {
                     pTransition->GetUniquePrimitives(PrimSet);
                     UsedTransitions.insert(pTransition);
@@ -104,8 +102,8 @@ public:
                 break;
 
             // Add all transition primitives to the tree
-            for (auto Iter = PrimSet.begin(); Iter != PrimSet.end(); Iter++)
-                pTree->AddDependency(Iter->Animation());
+            for (auto& primitive : PrimSet)
+                pTree->AddDependency(primitive.Animation());
         }
     }
 };
