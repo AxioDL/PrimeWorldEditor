@@ -22,11 +22,11 @@ public:
         : mpStore(pStore)
     {}
 
-    bool IsCharacterUsed(const CAssetID& rkID, uint32 CharacterIndex) const;
+    bool IsCharacterUsed(const CAssetID& rkID, size_t CharacterIndex) const;
     bool IsAnimationUsed(const CAssetID& rkID, CSetAnimationDependency *pAnim) const;
     void FindUsagesForAsset(CResourceEntry *pEntry);
     void FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntry);
-    void FindUsagesForArea(CWorld *pWorld, uint32 AreaIndex);
+    void FindUsagesForArea(CWorld *pWorld, size_t AreaIndex);
     void FindUsagesForLayer(CResourceEntry *pAreaEntry, uint32 LayerIndex);
     void Clear();
     void DebugPrintContents();

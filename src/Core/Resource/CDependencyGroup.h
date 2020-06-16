@@ -13,7 +13,7 @@ public:
 
     void Clear()                                     { mDependencies.clear(); }
     uint32 NumDependencies() const                   { return mDependencies.size(); }
-    CAssetID DependencyByIndex(uint32 Index) const   { return mDependencies[Index]; }
+    CAssetID DependencyByIndex(size_t Index) const   { return mDependencies[Index]; }
 
     void AddDependency(const CAssetID& rkID)
     {

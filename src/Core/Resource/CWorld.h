@@ -115,16 +115,16 @@ public:
     CModel* DefaultSkybox() const        { return mpDefaultSkybox; }
     CResource* MapWorld() const          { return mpMapWorld; }
 
-    uint32 NumAreas() const                                              { return mAreas.size(); }
-    CAssetID AreaResourceID(uint32 AreaIndex) const                      { return mAreas[AreaIndex].AreaResID; }
-    uint32 AreaAttachedCount(uint32 AreaIndex) const                     { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
-    uint32 AreaAttachedID(uint32 AreaIndex, uint32 AttachedIndex) const  { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
-    TString AreaInternalName(uint32 AreaIndex) const                     { return mAreas[AreaIndex].InternalName; }
-    CStringTable* AreaName(uint32 AreaIndex) const                       { return mAreas[AreaIndex].pAreaName; }
-    bool DoesAreaAllowPakDuplicates(uint32 AreaIndex) const              { return mAreas[AreaIndex].AllowPakDuplicates; }
+    size_t NumAreas() const                                              { return mAreas.size(); }
+    CAssetID AreaResourceID(size_t AreaIndex) const                      { return mAreas[AreaIndex].AreaResID; }
+    uint32 AreaAttachedCount(size_t AreaIndex) const                     { return mAreas[AreaIndex].AttachedAreaIDs.size(); }
+    uint32 AreaAttachedID(size_t AreaIndex, size_t AttachedIndex) const  { return mAreas[AreaIndex].AttachedAreaIDs[AttachedIndex]; }
+    TString AreaInternalName(size_t AreaIndex) const                     { return mAreas[AreaIndex].InternalName; }
+    CStringTable* AreaName(size_t AreaIndex) const                       { return mAreas[AreaIndex].pAreaName; }
+    bool DoesAreaAllowPakDuplicates(size_t AreaIndex) const              { return mAreas[AreaIndex].AllowPakDuplicates; }
 
     void SetName(TString rkName)                                     { mName = std::move(rkName); }
-    void SetAreaAllowsPakDuplicates(uint32 AreaIndex, bool Allow)    { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
+    void SetAreaAllowsPakDuplicates(size_t AreaIndex, bool Allow)    { mAreas[AreaIndex].AllowPakDuplicates = Allow; }
 };
 
 #endif // CWORLD_H

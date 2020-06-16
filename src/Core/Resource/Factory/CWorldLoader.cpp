@@ -263,16 +263,16 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
 
 void CWorldLoader::GenerateEditorData()
 {
-    CGameInfo *pGameInfo = mpWorld->Entry()->ResourceStore()->Project()->GameInfo();
+    const CGameInfo *pGameInfo = mpWorld->Entry()->ResourceStore()->Project()->GameInfo();
 
-    if (mVersion <= EGame::Prime)
+    if (mVersion > EGame::Prime)
+        return;
+
+    for (size_t iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
     {
-        for (uint32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
-        {
-            CWorld::SArea& rArea = mpWorld->mAreas[iArea];
-            rArea.InternalName = pGameInfo->GetAreaName(rArea.AreaResID);
-            ASSERT(!rArea.InternalName.IsEmpty());
-        }
+        CWorld::SArea& rArea = mpWorld->mAreas[iArea];
+        rArea.InternalName = pGameInfo->GetAreaName(rArea.AreaResID);
+        ASSERT(!rArea.InternalName.IsEmpty());
     }
 }
 

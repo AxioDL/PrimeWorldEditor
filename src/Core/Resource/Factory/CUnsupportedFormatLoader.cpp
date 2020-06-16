@@ -434,13 +434,13 @@ std::unique_ptr<CMapArea> CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMA
 
     // Find a MapWorld that contains this MapArea
     CAssetID MapWorldID;
-    uint32 WorldIndex = -1;
+    size_t WorldIndex = SIZE_MAX;
 
     for (TResourceIterator<EResourceType::MapWorld> It; It; ++It)
     {
         CDependencyGroup *pGroup = (CDependencyGroup*) It->Load();
 
-        for (uint32 AreaIdx = 0; AreaIdx < pGroup->NumDependencies(); AreaIdx++)
+        for (size_t AreaIdx = 0; AreaIdx < pGroup->NumDependencies(); AreaIdx++)
         {
             if (pGroup->DependencyByIndex(AreaIdx) == MapAreaID)
             {
@@ -450,12 +450,12 @@ std::unique_ptr<CMapArea> CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMA
             }
         }
 
-        if (WorldIndex != -1)
+        if (WorldIndex != SIZE_MAX)
             break;
     }
 
     // Find a world that contains this MapWorld
-    if (WorldIndex != -1)
+    if (WorldIndex != SIZE_MAX)
     {
         for (TResourceIterator<EResourceType::World> It; It; ++It)
         {

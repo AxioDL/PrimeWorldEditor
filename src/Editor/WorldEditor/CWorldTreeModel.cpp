@@ -241,7 +241,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
                         Info.pWorld = pWorld;
 
                         // Add areas
-                        for (uint32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+                        for (size_t iArea = 0; iArea < pWorld->NumAreas(); iArea++)
                         {
                             CAssetID AreaID = pWorld->AreaResourceID(iArea);
                             CResourceEntry *pAreaEntry = pWorld->Entry()->ResourceStore()->FindEntry(AreaID);

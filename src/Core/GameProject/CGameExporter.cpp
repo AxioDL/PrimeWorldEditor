@@ -580,12 +580,12 @@ void CGameExporter::ExportResourceEditorData()
                 CWorld *pWorld = (CWorld*) It->Load();
 
                 // Set area duplicate flags
-                for (uint32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+                for (size_t iArea = 0; iArea < pWorld->NumAreas(); iArea++)
                 {
                     CAssetID AreaID = pWorld->AreaResourceID(iArea);
                     auto Find = mAreaDuplicateMap.find(AreaID);
 
-                    if (Find != mAreaDuplicateMap.end())
+                    if (Find != mAreaDuplicateMap.cend())
                         pWorld->SetAreaAllowsPakDuplicates(iArea, Find->second);
                 }
 

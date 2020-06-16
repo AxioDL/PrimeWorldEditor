@@ -198,7 +198,7 @@ void GenerateAssetNames(CGameProject *pProj)
         }
 
         // Areas
-        for (uint32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+        for (size_t iArea = 0; iArea < pWorld->NumAreas(); iArea++)
         {
             // Determine area name
             TString AreaName = pWorld->AreaInternalName(iArea);
@@ -209,7 +209,9 @@ void GenerateAssetNames(CGameProject *pProj)
 
             // Rename area stuff
             CResourceEntry *pAreaEntry = pStore->FindEntry(AreaID);
-            if (!pAreaEntry) continue; // Some DKCR worlds reference areas that don't exist
+            // Some DKCR worlds reference areas that don't exist
+            if (!pAreaEntry)
+                continue;
             ApplyGeneratedName(pAreaEntry, WorldMasterDir, AreaName);
 
             CStringTable *pAreaNameTable = pWorld->AreaName(iArea);

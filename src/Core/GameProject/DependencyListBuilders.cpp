@@ -1,15 +1,20 @@
 #include "DependencyListBuilders.h"
 
 // ************ CCharacterUsageMap ************
-bool CCharacterUsageMap::IsCharacterUsed(const CAssetID& rkID, uint32 CharacterIndex) const
+bool CCharacterUsageMap::IsCharacterUsed(const CAssetID& rkID, size_t CharacterIndex) const
 {
-    if (mpStore->Game() >= EGame::CorruptionProto) return true;
-    auto Find = mUsageMap.find(rkID);
-    if (Find == mUsageMap.end()) return false;
+    if (mpStore->Game() >= EGame::CorruptionProto)
+        return true;
+
+    const auto Find = mUsageMap.find(rkID);
+    if (Find == mUsageMap.cend())
+        return false;
 
     const std::vector<bool>& rkUsageList = Find->second;
-    if (CharacterIndex >= rkUsageList.size()) return false;
-    else return rkUsageList[CharacterIndex];
+    if (CharacterIndex >= rkUsageList.size())
+        return false;
+
+    return rkUsageList[CharacterIndex];
 }
 
 bool CCharacterUsageMap::IsAnimationUsed(const CAssetID& rkID, CSetAnimationDependency *pAnim) const
@@ -37,7 +42,7 @@ void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntr
 {
     ASSERT(pEntry->ResourceType() == EResourceType::Area);
 
-    for (uint32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+    for (size_t iArea = 0; iArea < pWorld->NumAreas(); iArea++)
     {
         if (pWorld->AreaResourceID(iArea) == pEntry->ID())
         {
@@ -47,17 +52,19 @@ void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntr
     }
 }
 
-void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, uint32 AreaIndex)
+void CCharacterUsageMap::FindUsagesForArea(CWorld *pWorld, size_t AreaIndex)
 {
     // We only need to search forward from this area to other areas that both use the same character(s) + have duplicates enabled
     Clear();
 
-    for (uint32 iArea = AreaIndex; iArea < pWorld->NumAreas(); iArea++)
+    for (size_t iArea = AreaIndex; iArea < pWorld->NumAreas(); iArea++)
     {
-        if (!mIsInitialArea && mStillLookingIDs.empty()) break;
+        if (!mIsInitialArea && mStillLookingIDs.empty())
+            break;
+
         mCurrentAreaAllowsDupes = pWorld->DoesAreaAllowPakDuplicates(iArea);
 
-        CAssetID AreaID = pWorld->AreaResourceID(iArea);
+        const CAssetID AreaID = pWorld->AreaResourceID(iArea);
         CResourceEntry *pEntry = mpStore->FindEntry(AreaID);
         ASSERT(pEntry && pEntry->ResourceType() == EResourceType::Area);
 
@@ -241,7 +248,7 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
 
         if (mEnableDuplicates)
         {
-            for (uint32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
+            for (size_t iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
             {
                 if (mpWorld->AreaResourceID(iArea) == rkID)
                 {
@@ -272,50 +279,50 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
 
 void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut)
 {
-    if (!pNode) return;
-    EDependencyNodeType Type = pNode->Type();
+    if (!pNode)
+        return;
+
+    const EDependencyNodeType Type = pNode->Type();
     bool ParseChildren = false;
 
     // Straight resource dependencies should just be added to the tree directly
     if (Type == EDependencyNodeType::Resource || Type == EDependencyNodeType::ScriptProperty || Type == EDependencyNodeType::CharacterProperty)
     {
-        CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
+        const auto *pDep = static_cast<CResourceDependency*>(pNode);
         AddDependency(pCurEntry, pDep->ID(), rOut);
     }
-
     // Anim events should be added if either they apply to characters, or their character index is used
     else if (Type == EDependencyNodeType::AnimEvent)
     {
-        CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pNode);
-        uint32 CharIndex = pDep->CharIndex();
+        const auto *pDep = static_cast<CAnimEventDependency*>(pNode);
+        const uint32 CharIndex = pDep->CharIndex();
 
-        if (CharIndex == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
+        if (CharIndex == UINT32_MAX || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
             AddDependency(pCurEntry, pDep->ID(), rOut);
     }
-
     // Set characters should only be added if their character index is used
     else if (Type == EDependencyNodeType::SetCharacter)
     {
-        CSetCharacterDependency *pChar = static_cast<CSetCharacterDependency*>(pNode);
+        const auto *pChar = static_cast<CSetCharacterDependency*>(pNode);
         ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->CharSetIndex()) || mIsPlayerActor;
     }
-
     // Set animations should only be added if they're being used by at least one used character
     else if (Type == EDependencyNodeType::SetAnimation)
     {
-        CSetAnimationDependency *pAnim = static_cast<CSetAnimationDependency*>(pNode);
+        auto *pAnim = static_cast<CSetAnimationDependency*>(pNode);
         ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim) || (mIsPlayerActor && pAnim->IsUsedByAnyCharacter());
     }
-
     else
+    {
         ParseChildren = true;
+    }
 
     // Analyze this node's children
     if (ParseChildren)
     {
         if (Type == EDependencyNodeType::ScriptInstance)
         {
-            uint32 ObjType = static_cast<CScriptInstanceDependency*>(pNode)->ObjectType();
+            const uint32 ObjType = static_cast<CScriptInstanceDependency*>(pNode)->ObjectType();
             mIsPlayerActor = (ObjType == 0x4C || ObjType == FOURCC('PLAC'));
         }
 
@@ -351,22 +358,22 @@ void CPackageDependencyListBuilder::FindUniversalAreaAssets()
                     if (pUniverseWorld)
                     {
                         // Area IDs
-                        for (uint32 AreaIdx = 0; AreaIdx < pUniverseWorld->NumAreas(); AreaIdx++)
+                        for (size_t AreaIdx = 0; AreaIdx < pUniverseWorld->NumAreas(); AreaIdx++)
                         {
-                            CAssetID AreaID = pUniverseWorld->AreaResourceID(AreaIdx);
+                            const CAssetID AreaID = pUniverseWorld->AreaResourceID(AreaIdx);
 
                             if (AreaID.IsValid())
                                 mUniversalAreaAssets.insert(AreaID);
                         }
 
                         // Map IDs
-                        CDependencyGroup *pMapWorld = (CDependencyGroup*) pUniverseWorld->MapWorld();
+                        auto *pMapWorld = static_cast<CDependencyGroup*>(pUniverseWorld->MapWorld());
 
                         if (pMapWorld)
                         {
-                            for (uint32 DepIdx = 0; DepIdx < pMapWorld->NumDependencies(); DepIdx++)
+                            for (size_t DepIdx = 0; DepIdx < pMapWorld->NumDependencies(); DepIdx++)
                             {
-                                CAssetID DepID = pMapWorld->DependencyByIndex(DepIdx);
+                                const CAssetID DepID = pMapWorld->DependencyByIndex(DepIdx);
 
                                 if (DepID.IsValid())
                                     mUniversalAreaAssets.insert(DepID);
@@ -515,43 +522,43 @@ void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<C
 
 void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntry, IDependencyNode *pNode, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut)
 {
-    if (!pNode) return;
-    EDependencyNodeType Type = pNode->Type();
+    if (!pNode)
+        return;
+
+    const EDependencyNodeType Type = pNode->Type();
     bool ParseChildren = false;
 
     if (Type == EDependencyNodeType::Resource || Type == EDependencyNodeType::ScriptProperty || Type == EDependencyNodeType::CharacterProperty)
     {
-        CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
+        const auto* pDep = static_cast<CResourceDependency*>(pNode);
         AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
     }
-
     else if (Type == EDependencyNodeType::AnimEvent)
     {
-        CAnimEventDependency *pDep = static_cast<CAnimEventDependency*>(pNode);
-        uint32 CharIndex = pDep->CharIndex();
+        const auto* pDep = static_cast<CAnimEventDependency*>(pNode);
+        const uint32 CharIndex = pDep->CharIndex();
 
-        if (CharIndex == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
+        if (CharIndex == UINT32_MAX || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
             AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
     }
-
     else if (Type == EDependencyNodeType::SetCharacter)
     {
         // Note: For MP1/2 PlayerActor, always treat as if Empty Suit is the only used one
         const uint32 kEmptySuitIndex = (mGame >= EGame::EchoesDemo ? 3 : 5);
 
-        CSetCharacterDependency *pChar = static_cast<CSetCharacterDependency*>(pNode);
-        uint32 SetIndex = pChar->CharSetIndex();
+        const auto *pChar = static_cast<CSetCharacterDependency*>(pNode);
+        const uint32 SetIndex = pChar->CharSetIndex();
         ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->CharSetIndex()) || (mIsPlayerActor && SetIndex == kEmptySuitIndex);
     }
-
     else if (Type == EDependencyNodeType::SetAnimation)
     {
-        CSetAnimationDependency *pAnim = static_cast<CSetAnimationDependency*>(pNode);
+        auto *pAnim = static_cast<CSetAnimationDependency*>(pNode);
         ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim) || (mIsPlayerActor && pAnim->IsUsedByAnyCharacter());
     }
-
     else
+    {
         ParseChildren = true;
+    }
 
     if (ParseChildren)
     {
@@ -598,39 +605,39 @@ void CAssetDependencyListBuilder::AddDependency(const CAssetID& kID, std::vector
 
 void CAssetDependencyListBuilder::EvaluateDependencyNode(CResourceEntry* pCurEntry, IDependencyNode* pNode, std::vector<CAssetID>& Out)
 {
-    if (!pNode) return;
-    EDependencyNodeType Type = pNode->Type();
+    if (!pNode)
+        return;
+
+    const EDependencyNodeType Type = pNode->Type();
     bool ParseChildren = false;
 
     if (Type == EDependencyNodeType::Resource || Type == EDependencyNodeType::ScriptProperty || Type == EDependencyNodeType::CharacterProperty)
     {
-        CResourceDependency* pDep = static_cast<CResourceDependency*>(pNode);
+        const auto* pDep = static_cast<CResourceDependency*>(pNode);
         AddDependency(pDep->ID(), Out);
     }
-
     else if (Type == EDependencyNodeType::AnimEvent)
     {
-        CAnimEventDependency* pDep = static_cast<CAnimEventDependency*>(pNode);
-        uint32 CharIndex = pDep->CharIndex();
+        const auto* pDep = static_cast<CAnimEventDependency*>(pNode);
+        const uint32 CharIndex = pDep->CharIndex();
 
-        if (CharIndex == -1 || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
+        if (CharIndex == UINT32_MAX || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
             AddDependency(pDep->ID(), Out);
     }
-
     else if (Type == EDependencyNodeType::SetCharacter)
     {
-        CSetCharacterDependency* pChar = static_cast<CSetCharacterDependency*>(pNode);
+        const auto* pChar = static_cast<CSetCharacterDependency*>(pNode);
         ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->CharSetIndex());
     }
-
     else if (Type == EDependencyNodeType::SetAnimation)
     {
-        CSetAnimationDependency* pAnim = static_cast<CSetAnimationDependency*>(pNode);
+        auto* pAnim = static_cast<CSetAnimationDependency*>(pNode);
         ParseChildren = mCharacterUsageMap.IsAnimationUsed(mCurrentAnimSetID, pAnim);
     }
-
     else
+    {
         ParseChildren = true;
+    }
 
     if (ParseChildren)
     {
