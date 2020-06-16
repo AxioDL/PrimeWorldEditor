@@ -5,6 +5,7 @@
 #include "CTexture.h"
 #include <Common/EGame.h>
 #include <Common/FileIO/IInputStream.h>
+#include <algorithm>
 
 class CMaterialSet
 {
@@ -47,13 +48,13 @@ public:
 
     CMaterial* MaterialByName(const TString& rkName)
     {
-        for (auto it = mMaterials.begin(); it != mMaterials.end(); it++)
-        {
-            if ((*it)->Name() == rkName)
-                return it->get();
-        }
+        const auto iter = std::find_if(mMaterials.begin(), mMaterials.end(),
+                                       [&rkName](const auto& entry) { return entry->Name() == rkName; });
 
-        return nullptr;
+        if (iter == mMaterials.cend())
+            return nullptr;
+
+        return iter->get();
     }
 
     uint32 MaterialIndexByName(const TString& rkName)
