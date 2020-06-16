@@ -1,6 +1,8 @@
 #include "CCollisionRenderData.h"
 #include <Core/Render/CDrawUtil.h>
 #include <algorithm>
+#include <array>
+#include <vector>
 
 /** Build from collision data */
 void CCollisionRenderData::BuildRenderData(const SCollisionIndexData& kIndexData)
@@ -21,10 +23,10 @@ void CCollisionRenderData::BuildRenderData(const SCollisionIndexData& kIndexData
 
     // Build list of triangle indices sorted by material index
     // Apparently some collision meshes have more triangle indices than actual triangles
-    uint NumTris = Math::Min(kIndexData.TriangleIndices.size() / 3, kIndexData.TriangleMaterialIndices.size());
-    std::vector<uint16> SortedTris(NumTris, 0);
+    const uint NumTris = std::min(kIndexData.TriangleIndices.size() / 3, kIndexData.TriangleMaterialIndices.size());
+    std::vector<uint16> SortedTris(NumTris);
 
-    for (uint16 i=0; i<SortedTris.size(); i++)
+    for (uint16 i = 0; i < SortedTris.size(); i++)
     {
         SortedTris[i] = i;
     }
@@ -39,31 +41,30 @@ void CCollisionRenderData::BuildRenderData(const SCollisionIndexData& kIndexData
     mMaterialIndexOffsets.reserve(kIndexData.Materials.size());
     uint8 CurrentMatIdx = 0xFF;
 
-    for (uint i=0; i < SortedTris.size(); i++)
+    for (const size_t TriIdx : SortedTris)
     {
-        uint TriIdx = SortedTris[i];
-        uint8 MaterialIdx = kIndexData.TriangleMaterialIndices[TriIdx];
+        const uint8 MaterialIdx = kIndexData.TriangleMaterialIndices[TriIdx];
         const CCollisionMaterial& kMaterial = kIndexData.Materials[MaterialIdx];
 
         if (MaterialIdx != CurrentMatIdx)
         {
             // Note some collision materials have no geometry associated with them as
             // some materials are exclusively used with edges/vertices.
-            ASSERT( CurrentMatIdx < MaterialIdx || CurrentMatIdx == 0xFF );
+            ASSERT(CurrentMatIdx < MaterialIdx || CurrentMatIdx == 0xFF);
 
             while (CurrentMatIdx != MaterialIdx)
             {
-                mMaterialIndexOffsets.push_back( mIndexBuffer.GetSize() );
+                mMaterialIndexOffsets.push_back(mIndexBuffer.GetSize());
                 CurrentMatIdx++;
             }
         }
 
-        uint16 LineA = kIndexData.TriangleIndices[ (TriIdx*3)+0 ];
-        uint16 LineB = kIndexData.TriangleIndices[ (TriIdx*3)+1 ];
-        uint16 LineAVertA = kIndexData.EdgeIndices[ (LineA*2)+0 ];
-        uint16 LineAVertB = kIndexData.EdgeIndices[ (LineA*2)+1 ];
-        uint16 LineBVertA = kIndexData.EdgeIndices[ (LineB*2)+0 ];
-        uint16 LineBVertB = kIndexData.EdgeIndices[ (LineB*2)+1 ];
+        const size_t LineA = kIndexData.TriangleIndices[(TriIdx * 3) + 0];
+        const size_t LineB = kIndexData.TriangleIndices[(TriIdx * 3) + 1];
+        const uint16 LineAVertA = kIndexData.EdgeIndices[(LineA * 2) + 0];
+        const uint16 LineAVertB = kIndexData.EdgeIndices[(LineA * 2) + 1];
+        const uint16 LineBVertA = kIndexData.EdgeIndices[(LineB * 2) + 0];
+        const uint16 LineBVertB = kIndexData.EdgeIndices[(LineB * 2) + 1];
         uint16 VertIdx0 = LineAVertA;
         uint16 VertIdx1 = LineAVertB;
         uint16 VertIdx2 = (LineBVertA != LineAVertA && LineBVertA != LineAVertB ? LineBVertA : LineBVertB);
@@ -71,21 +72,19 @@ void CCollisionRenderData::BuildRenderData(const SCollisionIndexData& kIndexData
         // Reverse vertex order if material indicates tri is flipped
         if (kMaterial & eCF_FlippedTri)
         {
-            uint16 Tmp = VertIdx0;
-            VertIdx0 = VertIdx2;
-            VertIdx2 = Tmp;
+            std::swap(VertIdx0, VertIdx2);
         }
 
         // Generate vertex data
         const CVector3f& kVert0 = kIndexData.Vertices[VertIdx0];
         const CVector3f& kVert1 = kIndexData.Vertices[VertIdx1];
         const CVector3f& kVert2 = kIndexData.Vertices[VertIdx2];
-        CVector3f V0toV1 = (kVert1 - kVert0);
-        CVector3f V0toV2 = (kVert2 - kVert0);
-        CVector3f TriNormal = V0toV1.Cross(V0toV2).Normalized();
-        uint16 Index0 = mVertexBuffer.Size();
-        uint16 Index1 = Index0 + 1;
-        uint16 Index2 = Index1 + 1;
+        const CVector3f V0toV1 = (kVert1 - kVert0);
+        const CVector3f V0toV2 = (kVert2 - kVert0);
+        const CVector3f TriNormal = V0toV1.Cross(V0toV2).Normalized();
+        const uint16 Index0 = static_cast<uint16>(mVertexBuffer.Size());
+        const uint16 Index1 = Index0 + 1;
+        const uint16 Index2 = Index1 + 1;
 
         CVertex Vtx;
         Vtx.Normal = TriNormal;
@@ -168,7 +167,7 @@ void CCollisionRenderData::BuildBoundingHierarchyRenderData(const SOBBTreeNode* 
                     pkNode->Transform * CTransform4f::ScaleMatrix(pkNode->Radii);
 
             // Transform a 1x1x1 unit cube using the transform...
-            static const CVector3f skUnitCubeVertices[] = {
+            static constexpr std::array skUnitCubeVertices{
                 CVector3f(-1, -1, -1),
                 CVector3f(-1, -1,  1),
                 CVector3f(-1,  1, -1),
@@ -179,14 +178,14 @@ void CCollisionRenderData::BuildBoundingHierarchyRenderData(const SOBBTreeNode* 
                 CVector3f( 1,  1,  1)
             };
 
-            for (uint i=0; i<8; i++)
+            for (const auto& vert : skUnitCubeVertices)
             {
-                CVector3f Transformed = CombinedTransform * skUnitCubeVertices[i];
-                mBoundingVertexBuffer.AddVertex( CVertex(Transformed) );
+                const CVector3f Transformed = CombinedTransform * vert;
+                mBoundingVertexBuffer.AddVertex(CVertex(Transformed));
             }
 
             // Add corresponding indices
-            static const uint16 skUnitCubeWireIndices[24] = {
+            static constexpr std::array<uint16, 24> skUnitCubeWireIndices{
                 0, 1,
                 1, 3,
                 3, 2,
@@ -200,10 +199,11 @@ void CCollisionRenderData::BuildBoundingHierarchyRenderData(const SOBBTreeNode* 
                 2, 6,
                 3, 7
             };
-            uint FirstIndex = mBoundingVertexBuffer.Size() - 8;
-            for (uint i=0; i<24; i++)
+
+            const size_t FirstIndex = mBoundingVertexBuffer.Size() - 8;
+            for (const uint16 index : skUnitCubeWireIndices)
             {
-                mBoundingIndexBuffer.AddIndex(skUnitCubeWireIndices[i] + FirstIndex);
+                mBoundingIndexBuffer.AddIndex(static_cast<uint16>(index + FirstIndex));
             }
         }
     }

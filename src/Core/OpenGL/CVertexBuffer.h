@@ -37,7 +37,7 @@ public:
     FVertexDescription VertexDesc() const;
     void SetVertexDesc(FVertexDescription Desc);
     void SetSkin(CSkin *pSkin);
-    uint32 Size() const;
+    size_t Size() const;
     GLuint CreateVAO();
 };
 

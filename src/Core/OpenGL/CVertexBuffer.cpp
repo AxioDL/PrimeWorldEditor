@@ -270,7 +270,7 @@ void CVertexBuffer::SetSkin(CSkin *pSkin)
     mpSkin = pSkin;
 }
 
-uint32 CVertexBuffer::Size() const
+size_t CVertexBuffer::Size() const
 {
     return mPositions.size();
 }
