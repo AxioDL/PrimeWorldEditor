@@ -35,10 +35,10 @@ public:
     bool CompileVertexSource(const char* pkSource);
     bool CompilePixelSource(const char* pkSource);
     bool LinkShaders();
-    bool IsValidProgram();
-    GLuint GetProgramID();
-    GLuint GetUniformLocation(const char* pkUniform);
-    GLuint GetUniformBlockIndex(const char* pkUniformBlock);
+    bool IsValidProgram() const;
+    GLuint GetProgramID() const;
+    GLuint GetUniformLocation(const char* pkUniform) const;
+    GLuint GetUniformBlockIndex(const char* pkUniformBlock) const;
     void UniformBlockBinding(GLuint BlockIndex, GLuint BlockBinding);
     void SetTextureUniforms(uint32 NumTextures);
     void SetNumLights(uint32 NumLights);

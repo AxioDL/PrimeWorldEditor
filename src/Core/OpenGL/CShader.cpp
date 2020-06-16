@@ -160,22 +160,22 @@ bool CShader::LinkShaders()
     return true;
 }
 
-bool CShader::IsValidProgram()
+bool CShader::IsValidProgram() const
 {
     return mProgramExists;
 }
 
-GLuint CShader::GetProgramID()
+GLuint CShader::GetProgramID() const
 {
     return mProgram;
 }
 
-GLuint CShader::GetUniformLocation(const char* pkUniform)
+GLuint CShader::GetUniformLocation(const char* pkUniform) const
 {
     return glGetUniformLocation(mProgram, pkUniform);
 }
 
-GLuint CShader::GetUniformBlockIndex(const char* pkUniformBlock)
+GLuint CShader::GetUniformBlockIndex(const char* pkUniformBlock) const
 {
     return glGetUniformBlockIndex(mProgram, pkUniformBlock);
 }
