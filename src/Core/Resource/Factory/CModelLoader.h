@@ -35,22 +35,22 @@ class CModelLoader
 private:
     TResPtr<CModel> mpModel;
     std::vector<CMaterialSet*> mMaterials;
-    CSectionMgrIn *mpSectionMgr;
+    CSectionMgrIn *mpSectionMgr = nullptr;
     CAABox mAABox;
-    EGame mVersion;
+    EGame mVersion{};
 
-    uint32 mNumVertices;
+    uint32 mNumVertices = 0;
     std::vector<CVector3f> mPositions;
     std::vector<CVector3f> mNormals;
     std::vector<CColor> mColors;
     std::vector<CVector2f> mTex0;
     std::vector<CVector2f> mTex1;
-    bool mSurfaceUsingTex1;
+    bool mSurfaceUsingTex1 = false;
 
-    uint32 mSurfaceCount;
+    uint32 mSurfaceCount = 0;
     std::vector<uint32> mSurfaceOffsets;
 
-    FModelLoaderFlags mFlags;
+    FModelLoaderFlags mFlags{EModelLoaderFlag::None};
 
     CModelLoader();
     ~CModelLoader();
