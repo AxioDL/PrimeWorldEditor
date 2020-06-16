@@ -46,13 +46,13 @@ class CDrawUtil
     static inline TResPtr<CModel> mpWireSphereModel;
 
     // Shaders
-    static inline CShader *mpColorShader = nullptr;
-    static inline CShader *mpColorShaderLighting = nullptr;
-    static inline CShader *mpBillboardShader = nullptr;
-    static inline CShader *mpLightBillboardShader = nullptr;
-    static inline CShader *mpTextureShader = nullptr;
-    static inline CShader *mpCollisionShader = nullptr;
-    static inline CShader *mpTextShader = nullptr;
+    static inline std::unique_ptr<CShader> mpColorShader;
+    static inline std::unique_ptr<CShader> mpColorShaderLighting;
+    static inline std::unique_ptr<CShader> mpBillboardShader;
+    static inline std::unique_ptr<CShader> mpLightBillboardShader;
+    static inline std::unique_ptr<CShader> mpTextureShader;
+    static inline std::unique_ptr<CShader> mpCollisionShader;
+    static inline std::unique_ptr<CShader> mpTextShader;
 
     // Textures
     static inline TResPtr<CTexture> mpCheckerTexture;

@@ -318,7 +318,7 @@ void CDrawUtil::UseCollisionShader(bool IsFloor, bool IsUnstandable, const CColo
 CShader* CDrawUtil::GetTextShader()
 {
     Init();
-    return mpTextShader;
+    return mpTextShader.get();
 }
 
 void CDrawUtil::LoadCheckerboardTexture(uint32 GLTextureUnit)
@@ -553,18 +553,18 @@ void CDrawUtil::InitTextures()
 
 void CDrawUtil::Shutdown()
 {
-    if (mDrawUtilInitialized)
-    {
-        debugf("Shutting down");
-        mGridVertices = std::nullopt;
-        mSquareVertices = std::nullopt;
-        mLineVertices = std::nullopt;
-        mWireCubeVertices = std::nullopt;
-        delete mpColorShader;
-        delete mpColorShaderLighting;
-        delete mpTextureShader;
-        delete mpCollisionShader;
-        delete mpTextShader;
-        mDrawUtilInitialized = false;
-    }
+    if (!mDrawUtilInitialized)
+        return;
+
+    debugf("Shutting down");
+    mGridVertices.reset();
+    mSquareVertices.reset();
+    mLineVertices.reset();
+    mWireCubeVertices.reset();
+    mpColorShader.reset();
+    mpColorShaderLighting.reset();
+    mpTextureShader.reset();
+    mpCollisionShader.reset();
+    mpTextShader.reset();
+    mDrawUtilInitialized = false;
 }

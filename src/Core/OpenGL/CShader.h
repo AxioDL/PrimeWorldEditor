@@ -3,6 +3,8 @@
 
 #include <Common/TString.h>
 #include <GL/glew.h>
+#include <array>
+#include <memory>
 
 class CShader
 {
@@ -20,11 +22,11 @@ class CShader
     GLuint mBoneTransformBlockIndex = 0;
 
     // Cached uniform locations
-    GLint mTextureUniforms[8] = {};
+    std::array<GLint, 8> mTextureUniforms{};
     GLint mNumLightsUniform = 0;
 
-    static int smNumShaders;
-    static CShader* spCurrentShader;
+    static inline int smNumShaders = 0;
+    static inline CShader* spCurrentShader = nullptr;
 
 public:
     CShader();
@@ -43,7 +45,7 @@ public:
     void SetCurrent();
 
     // Static
-    static CShader* FromResourceFile(const TString& rkShaderName);
+    static std::unique_ptr<CShader> FromResourceFile(const TString& rkShaderName);
     static CShader* CurrentShader();
     static void KillCachedShader();
 

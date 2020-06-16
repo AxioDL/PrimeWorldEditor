@@ -5,14 +5,10 @@
 #include <Common/TString.h>
 
 #include <fstream>
-#include <sstream>
 
-bool gDebugDumpShaders = false;
-uint64 gFailedCompileCount = 0;
-uint64 gSuccessfulCompileCount = 0;
-
-CShader* CShader::spCurrentShader = nullptr;
-int CShader::smNumShaders = 0;
+static bool gDebugDumpShaders = false;
+static uint64 gFailedCompileCount = 0;
+static uint64 gSuccessfulCompileCount = 0;
 
 CShader::CShader()
 {
@@ -30,18 +26,25 @@ CShader::CShader(const char *pkVertexSource, const char *pkPixelSource)
 
 CShader::~CShader()
 {
-    if (mVertexShaderExists) glDeleteShader(mVertexShader);
-    if (mPixelShaderExists)  glDeleteShader(mPixelShader);
-    if (mProgramExists)      glDeleteProgram(mProgram);
+    if (mVertexShaderExists)
+        glDeleteShader(mVertexShader);
 
-    if (spCurrentShader == this) spCurrentShader = 0;
+    if (mPixelShaderExists)
+        glDeleteShader(mPixelShader);
+
+    if (mProgramExists)
+        glDeleteProgram(mProgram);
+
+    if (spCurrentShader == this)
+        spCurrentShader = nullptr;
+
     smNumShaders--;
 }
 
 bool CShader::CompileVertexSource(const char* pkSource)
 {
     mVertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(mVertexShader, 1, (const GLchar**) &pkSource, NULL);
+    glShaderSource(mVertexShader, 1, (const GLchar**) &pkSource, nullptr);
     glCompileShader(mVertexShader);
 
     // Shader should be compiled - check for errors
@@ -76,7 +79,7 @@ bool CShader::CompileVertexSource(const char* pkSource)
 bool CShader::CompilePixelSource(const char* pkSource)
 {
     mPixelShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(mPixelShader, 1, (const GLchar**) &pkSource, NULL);
+    glShaderSource(mPixelShader, 1, (const GLchar**) &pkSource, nullptr);
     glCompileShader(mPixelShader);
 
     // Shader should be compiled - check for errors
@@ -110,7 +113,8 @@ bool CShader::CompilePixelSource(const char* pkSource)
 
 bool CShader::LinkShaders()
 {
-    if ((!mVertexShaderExists) || (!mPixelShaderExists)) return false;
+    if (!mVertexShaderExists || !mPixelShaderExists)
+        return false;
 
     mProgram = glCreateProgram();
     glAttachShader(mProgram, mVertexShader);
@@ -133,17 +137,12 @@ bool CShader::LinkShaders()
 
         GLint LogLen;
         glGetProgramiv(mProgram, GL_INFO_LOG_LENGTH, &LogLen);
-        GLchar *pInfoLog = new GLchar[LogLen];
-        glGetProgramInfoLog(mProgram, LogLen, NULL, pInfoLog);
+        auto pInfoLog = std::unique_ptr<GLchar[]>(new GLchar[LogLen]);
+        glGetProgramInfoLog(mProgram, LogLen, nullptr, pInfoLog.get());
 
-        std::ofstream LinkOut;
-        LinkOut.open(*Out);
-
+        std::ofstream LinkOut(*Out);
         if (LogLen > 0)
-            LinkOut << pInfoLog;
-
-        LinkOut.close();
-        delete[] pInfoLog;
+            LinkOut << pInfoLog.get();
 
         gFailedCompileCount++;
         glDeleteProgram(mProgram);
@@ -214,7 +213,7 @@ void CShader::SetCurrent()
 }
 
 // ************ STATIC ************
-CShader* CShader::FromResourceFile(const TString& rkShaderName)
+std::unique_ptr<CShader> CShader::FromResourceFile(const TString& rkShaderName)
 {
     TString VertexShaderFilename = gDataDir + "resources/shaders/" + rkShaderName + ".vs";
     TString PixelShaderFilename = gDataDir + "resources/shaders/" + rkShaderName + ".ps";
@@ -227,7 +226,7 @@ CShader* CShader::FromResourceFile(const TString& rkShaderName)
     if (VertexShaderText.IsEmpty() || PixelShaderText.IsEmpty())
         return nullptr;
 
-    CShader *pShader = new CShader();
+    auto pShader = std::make_unique<CShader>();
     pShader->CompileVertexSource(*VertexShaderText);
     pShader->CompilePixelSource(*PixelShaderText);
     pShader->LinkShaders();
@@ -241,7 +240,7 @@ CShader* CShader::CurrentShader()
 
 void CShader::KillCachedShader()
 {
-    spCurrentShader = 0;
+    spCurrentShader = nullptr;
 }
 
 // ************ PRIVATE ************
@@ -258,26 +257,20 @@ void CShader::CacheCommonUniforms()
 
 void CShader::DumpShaderSource(GLuint Shader, const TString& rkOut)
 {
-    GLint SourceLen;
+    GLint SourceLen = 0;
     glGetShaderiv(Shader, GL_SHADER_SOURCE_LENGTH, &SourceLen);
-    GLchar *Source = new GLchar[SourceLen];
-    glGetShaderSource(Shader, SourceLen, NULL, Source);
+    auto Source = std::unique_ptr<GLchar[]>(new GLchar[SourceLen]);
+    glGetShaderSource(Shader, SourceLen, nullptr, Source.get());
 
-    GLint LogLen;
+    GLint LogLen = 0;
     glGetShaderiv(Shader, GL_INFO_LOG_LENGTH, &LogLen);
-    GLchar *pInfoLog = new GLchar[LogLen];
-    glGetShaderInfoLog(Shader, LogLen, NULL, pInfoLog);
+    auto pInfoLog = std::unique_ptr<GLchar[]>(new GLchar[LogLen]);
+    glGetShaderInfoLog(Shader, LogLen, nullptr, pInfoLog.get());
 
-    std::ofstream ShaderOut;
-    ShaderOut.open(*rkOut);
+    std::ofstream ShaderOut(*rkOut);
 
     if (SourceLen > 0)
-        ShaderOut << Source;
+        ShaderOut << Source.get();
     if (LogLen > 0)
-        ShaderOut << pInfoLog;
-
-    ShaderOut.close();
-
-    delete[] Source;
-    delete[] pInfoLog;
+        ShaderOut << pInfoLog.get();
 }
