@@ -16,26 +16,25 @@ CStringListModel::CStringListModel(CStringEditor* pInEditor)
 /** Change the preview language display */
 void CStringListModel::SetPreviewLanguage(ELanguage InLanguage)
 {
-    if (mStringPreviewLanguage != InLanguage)
-    {
-        mStringPreviewLanguage = InLanguage;
+    if (mStringPreviewLanguage == InLanguage)
+        return;
 
-        // Emit data changed for user role for the full range of strings
-        int NumStrings = mpStringTable ? mpStringTable->NumStrings() : 0;
+    mStringPreviewLanguage = InLanguage;
 
-        if (NumStrings)
-        {
-            QVector<int> Roles;
-            Roles << Qt::UserRole;
-            emit dataChanged( index(0), index(NumStrings-1), Roles );
-        }
-    }
+    // Emit data changed for user role for the full range of strings
+    const int NumStrings = mpStringTable ? static_cast<int>(mpStringTable->NumStrings()) : 0;
+    if (NumStrings == 0)
+        return;
+
+    QVector<int> Roles;
+    Roles << Qt::UserRole;
+    emit dataChanged(index(0), index(NumStrings - 1), Roles);
 }
 
 /** QAbstractListModel interface */
 int CStringListModel::rowCount(const QModelIndex& kParent) const
 {
-    return mpStringTable ? mpStringTable->NumStrings() : 0;
+    return mpStringTable ? static_cast<int>(mpStringTable->NumStrings()) : 0;
 }
 
 QVariant CStringListModel::data(const QModelIndex& kIndex, int Role) const
@@ -45,7 +44,7 @@ QVariant CStringListModel::data(const QModelIndex& kIndex, int Role) const
         return QVariant::Invalid;
     }
 
-    int StringIndex = kIndex.row();
+    const auto StringIndex = static_cast<size_t>(kIndex.row());
 
     // display/tooltip role: return the string name
     if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
@@ -131,13 +130,13 @@ bool CStringListModel::dropMimeData(const QMimeData* pkData, Qt::DropAction Acti
             }
             // If the user placed the string at the end of the list, then the index we receive
             // will be out of range, so cap it to a valid index.
-            else if (Row >= (int) mpStringTable->NumStrings())
+            else if (Row >= static_cast<int>(mpStringTable->NumStrings()))
             {
-                Row = mpStringTable->NumStrings() - 1;
+                Row = static_cast<int>(mpStringTable->NumStrings()) - 1;
             }
             // If the string is being moved further down the list, then account for the fact that
             // the rest of the strings below it will be bumped up.
-            else if (Row > (int) pkStringMimeData->StringIndex())
+            else if (Row > static_cast<int>(pkStringMimeData->StringIndex()))
             {
                 Row--;
             }

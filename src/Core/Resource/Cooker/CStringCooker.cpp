@@ -4,131 +4,131 @@
 
 void CStringCooker::WritePrimeDemoSTRG(IOutputStream& STRG)
 {
-    uint StartOffset = STRG.Tell();
-    uint NumStrings = mpStringTable->NumStrings();
+    const uint32 StartOffset = STRG.Tell();
+    const size_t NumStrings = mpStringTable->NumStrings();
 
     // Start writing the file...
     STRG.WriteLong(0); // Dummy file size
-    uint TableStart = STRG.Tell();
+    const uint32 TableStart = STRG.Tell();
     STRG.WriteLong(NumStrings);
 
     // Dummy string offsets
-    for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
+    for (size_t StringIdx = 0; StringIdx < NumStrings; StringIdx++)
         STRG.WriteLong(0);
 
     // Write strings
-    std::vector<uint> StringOffsets(NumStrings);
+    std::vector<uint32> StringOffsets(NumStrings);
 
-    for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
+    for (size_t StringIdx = 0; StringIdx < NumStrings; StringIdx++)
     {
         StringOffsets[StringIdx] = STRG.Tell() - TableStart;
-        STRG.Write16String( mpStringTable->GetString(ELanguage::English, StringIdx).ToUTF16() );
+        STRG.Write16String(mpStringTable->GetString(ELanguage::English, StringIdx).ToUTF16());
     }
 
     // Fill in offsets
-    uint FileSize = STRG.Tell() - StartOffset;
+    const uint32 FileSize = STRG.Tell() - StartOffset;
     STRG.GoTo(StartOffset);
     STRG.WriteLong(FileSize);
     STRG.Skip(4);
 
-    for (uint StringIdx = 0; StringIdx < NumStrings; StringIdx++)
-        STRG.WriteLong( StringOffsets[StringIdx] );
+    for (size_t StringIdx = 0; StringIdx < NumStrings; StringIdx++)
+        STRG.WriteLong(StringOffsets[StringIdx]);
 }
 
 void CStringCooker::WritePrimeSTRG(IOutputStream& STRG)
 {
     // Magic/Version
-    STRG.WriteLong( 0x87654321 );
-    STRG.WriteLong( mpStringTable->Game() >= EGame::EchoesDemo ? 1 : 0 );
-    STRG.WriteLong( mpStringTable->NumLanguages() );
-    STRG.WriteLong( mpStringTable->NumStrings() );
+    STRG.WriteLong(0x87654321);
+    STRG.WriteLong(mpStringTable->Game() >= EGame::EchoesDemo ? 1 : 0);
+    STRG.WriteLong(static_cast<int>(mpStringTable->NumLanguages()));
+    STRG.WriteLong(static_cast<int>(mpStringTable->NumStrings()));
 
     // Language info
-    uint LanguagesStart = STRG.Tell();
+    const uint LanguagesStart = STRG.Tell();
 
-    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+    for (size_t i = 0; i < mpStringTable->NumLanguages(); i++)
     {
-        const CStringTable::SLanguageData& kLanguage = mpStringTable->mLanguages[LanguageIdx];
-        STRG.WriteLong( (uint) kLanguage.Language );
-        STRG.WriteLong( 0 ); // Dummy offset
+        const CStringTable::SLanguageData& kLanguage = mpStringTable->mLanguages[i];
+        STRG.WriteLong(static_cast<int>(kLanguage.Language));
+        STRG.WriteLong(0); // Dummy offset
 
-        if ( mpStringTable->Game() >= EGame::EchoesDemo )
+        if (mpStringTable->Game() >= EGame::EchoesDemo)
         {
-            STRG.WriteLong( 0 ); // Dummy size
+            STRG.WriteLong(0); // Dummy size
         }
     }
 
     // Name Table
-    if ( mpStringTable->Game() >= EGame::EchoesDemo )
+    if (mpStringTable->Game() >= EGame::EchoesDemo)
     {
         WriteNameTable(STRG);
     }
 
     // Strings
-    uint StringDataStart = STRG.Tell();
-    std::vector<uint> LanguageOffsets( mpStringTable->NumLanguages() );
-    std::vector<uint> LanguageSizes( mpStringTable->NumLanguages() );
+    const uint32 StringDataStart = STRG.Tell();
+    std::vector<uint32> LanguageOffsets(mpStringTable->NumLanguages());
+    std::vector<uint32> LanguageSizes(mpStringTable->NumLanguages());
 
-    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+    for (size_t LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
         const CStringTable::SLanguageData& kLanguage = mpStringTable->mLanguages[LanguageIdx];
 
-        uint LanguageStart = STRG.Tell();
+        const uint32 LanguageStart = STRG.Tell();
         LanguageOffsets[LanguageIdx] = LanguageStart - StringDataStart;
 
-        if ( mpStringTable->Game() == EGame::Prime )
+        if (mpStringTable->Game() == EGame::Prime)
         {
-            STRG.WriteLong( 0 ); // Dummy size
+            STRG.WriteLong(0); // Dummy size
         }
 
         // Fill dummy string offsets
-        uint StringOffsetBase = STRG.Tell();
+        const uint32 StringOffsetBase = STRG.Tell();
 
-        for (uint StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
+        for (size_t StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
         {
-            STRG.WriteLong( 0 );
+            STRG.WriteLong(0);
         }
 
         // Write strings
-        std::vector<uint> StringOffsets( mpStringTable->NumStrings() );
+        std::vector<uint32> StringOffsets(mpStringTable->NumStrings());
 
-        for (uint StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
+        for (size_t i = 0; i < mpStringTable->NumStrings(); i++)
         {
-            StringOffsets[StringIdx] = STRG.Tell() - StringOffsetBase;
-            STRG.Write16String( kLanguage.Strings[StringIdx].String.ToUTF16() );
+            StringOffsets[i] = STRG.Tell() - StringOffsetBase;
+            STRG.Write16String(kLanguage.Strings[i].String.ToUTF16());
         }
 
         // Go back and fill in size/offsets
-        uint LanguageEnd = STRG.Tell();
+        const uint32 LanguageEnd = STRG.Tell();
         LanguageSizes[LanguageIdx] = LanguageEnd - StringOffsetBase;
         STRG.GoTo(LanguageStart);
 
-        if ( mpStringTable->Game() == EGame::Prime )
+        if (mpStringTable->Game() == EGame::Prime)
         {
-            STRG.WriteLong( LanguageSizes[LanguageIdx] );
+            STRG.WriteLong(LanguageSizes[LanguageIdx]);
         }
 
-        for (uint StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
+        for (size_t i = 0; i < mpStringTable->NumStrings(); i++)
         {
-            STRG.WriteLong( StringOffsets[StringIdx] );
+            STRG.WriteLong(StringOffsets[i]);
         }
 
         STRG.GoTo(LanguageEnd);
     }
 
-    uint STRGEnd = STRG.Tell();
+    const uint32 STRGEnd = STRG.Tell();
 
     // Fill in missing language data
     STRG.GoTo(LanguagesStart);
 
-    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+    for (size_t i = 0; i < mpStringTable->NumLanguages(); i++)
     {
         STRG.Skip(4); // Skip language ID
-        STRG.WriteLong( LanguageOffsets[LanguageIdx] );
+        STRG.WriteLong(LanguageOffsets[i]);
 
-        if ( mpStringTable->Game() >= EGame::EchoesDemo )
+        if (mpStringTable->Game() >= EGame::EchoesDemo)
         {
-            STRG.WriteLong( LanguageSizes[LanguageIdx] );
+            STRG.WriteLong(LanguageSizes[i]);
         }
     }
 
@@ -138,10 +138,10 @@ void CStringCooker::WritePrimeSTRG(IOutputStream& STRG)
 void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
 {
     // Magic/Version
-    STRG.WriteLong( 0x87654321 );
-    STRG.WriteLong( 3 );
-    STRG.WriteLong( mpStringTable->NumLanguages() );
-    STRG.WriteLong( mpStringTable->NumStrings() );
+    STRG.WriteLong(0x87654321);
+    STRG.WriteLong(3);
+    STRG.WriteLong(mpStringTable->NumLanguages());
+    STRG.WriteLong(mpStringTable->NumStrings());
 
     // Name Table
     WriteNameTable(STRG);
@@ -153,50 +153,50 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
     {
         ELanguage Language;
         std::vector<uint> StringOffsets;
-        uint TotalSize;
+        uint32 TotalSize;
     };
     std::vector<SCookedLanguageData> CookedLanguageData( mpStringTable->NumLanguages() );
-    int EnglishIdx = -1;
+    size_t EnglishIdx = UINT32_MAX;
 
-    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+    for (size_t LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
         const CStringTable::SLanguageData& kLanguageData = mpStringTable->mLanguages[LanguageIdx];
 
         SCookedLanguageData& CookedData = CookedLanguageData[LanguageIdx];
         CookedData.Language = kLanguageData.Language;
-        CookedData.StringOffsets.resize( mpStringTable->NumStrings() );
+        CookedData.StringOffsets.resize(mpStringTable->NumStrings());
         CookedData.TotalSize = 0;
 
         if (CookedData.Language == ELanguage::English)
         {
-            EnglishIdx = (int) LanguageIdx;
+            EnglishIdx = LanguageIdx;
         }
     }
 
     // Language IDs
-    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+    for (size_t LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
-        STRG.WriteLong( (uint) CookedLanguageData[LanguageIdx].Language );
+        STRG.WriteLong(static_cast<int>(CookedLanguageData[LanguageIdx].Language));
     }
 
     // Language Info
-    uint LanguageInfoStart = STRG.Tell();
+    const uint32 LanguageInfoStart = STRG.Tell();
 
-    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+    for (size_t LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
         // Fill language size/offsets with dummy data...
-        STRG.WriteLong( 0 );
+        STRG.WriteLong(0);
 
-        for (uint StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
-            STRG.WriteLong( 0 );
+        for (size_t StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
+            STRG.WriteLong(0);
     }
 
     // Strings
-    uint StringsStart = STRG.Tell();
+    const uint32 StringsStart = STRG.Tell();
 
-    for (uint StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
+    for (size_t StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
     {
-        for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+        for (size_t LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
         {
             const CStringTable::SLanguageData& kLanguageData = mpStringTable->mLanguages[LanguageIdx];
             const CStringTable::SStringData& kStringData = kLanguageData.Strings[StringIdx];
@@ -208,8 +208,8 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
             {
                 CookedData.StringOffsets[StringIdx] = STRG.Tell() - StringsStart;
                 CookedData.TotalSize += kStringData.String.Size() + 1; // +1 for terminating zero
-                STRG.WriteLong( kStringData.String.Size() + 1 );
-                STRG.WriteString( kStringData.String );
+                STRG.WriteLong(kStringData.String.Size() + 1);
+                STRG.WriteString(kStringData.String);
             }
             else
             {
@@ -219,18 +219,18 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
         }
     }
 
-    uint STRGEnd = STRG.Tell();
+    const uint32 STRGEnd = STRG.Tell();
 
     // Fill in missing language data
     STRG.GoTo(LanguageInfoStart);
 
-    for (uint LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
+    for (size_t LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
         const SCookedLanguageData& kCookedData = CookedLanguageData[LanguageIdx];
-        STRG.WriteLong( kCookedData.TotalSize );
+        STRG.WriteLong(kCookedData.TotalSize);
 
-        for (uint StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
-            STRG.WriteLong( kCookedData.StringOffsets[StringIdx] );
+        for (size_t StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
+            STRG.WriteLong(kCookedData.StringOffsets[StringIdx]);
     }
 
     STRG.GoTo(STRGEnd);
@@ -241,13 +241,13 @@ void CStringCooker::WriteNameTable(IOutputStream& STRG)
     // Build a list of name entries to put in the map
     struct SNameEntry
     {
-        uint Offset;
-        uint Index;
+        uint32 Offset;
+        uint32 Index;
         TString Name;
     };
     std::vector<SNameEntry> NameEntries;
 
-    for (uint StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
+    for (uint32 StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
     {
         SNameEntry Entry;
         Entry.Offset = 0;
@@ -256,46 +256,46 @@ void CStringCooker::WriteNameTable(IOutputStream& STRG)
 
         if (!Entry.Name.IsEmpty())
         {
-            NameEntries.push_back(Entry);
+            NameEntries.push_back(std::move(Entry));
         }
     }
 
-    std::stable_sort( NameEntries.begin(), NameEntries.end(), [](const SNameEntry& kLHS, const SNameEntry& kRHS) -> bool {
+    std::stable_sort(NameEntries.begin(), NameEntries.end(), [](const SNameEntry& kLHS, const SNameEntry& kRHS) {
         return kLHS.Name < kRHS.Name;
     });
 
     // Write out name entries
-    uint NameTableStart = STRG.Tell();
-    STRG.WriteLong( NameEntries.size() );
-    STRG.WriteLong( 0 ); // Dummy name table size
-    uint NameTableOffsetsStart = STRG.Tell();
+    const uint32 NameTableStart = STRG.Tell();
+    STRG.WriteLong(NameEntries.size());
+    STRG.WriteLong(0); // Dummy name table size
+    const uint32 NameTableOffsetsStart = STRG.Tell();
 
-    for (uint NameIdx = 0; NameIdx < NameEntries.size(); NameIdx++)
+    for (size_t NameIdx = 0; NameIdx < NameEntries.size(); NameIdx++)
     {
-        STRG.WriteLong( 0 ); // Dummy name offset
-        STRG.WriteLong( NameEntries[NameIdx].Index );
+        STRG.WriteLong(0); // Dummy name offset
+        STRG.WriteLong(NameEntries[NameIdx].Index);
     }
 
     // Write out names
-    std::vector<uint> NameOffsets( NameEntries.size() );
+    std::vector<uint32> NameOffsets(NameEntries.size());
 
-    for (uint NameIdx = 0; NameIdx < NameEntries.size(); NameIdx++)
+    for (size_t NameIdx = 0; NameIdx < NameEntries.size(); NameIdx++)
     {
         NameOffsets[NameIdx] = STRG.Tell() - NameTableOffsetsStart;
-        STRG.WriteString( NameEntries[NameIdx].Name );
+        STRG.WriteString(NameEntries[NameIdx].Name);
     }
 
     // Fill out sizes and offsets
-    uint NameTableEnd = STRG.Tell();
-    uint NameTableSize = NameTableEnd - NameTableOffsetsStart;
+    const uint32 NameTableEnd = STRG.Tell();
+    const uint32 NameTableSize = NameTableEnd - NameTableOffsetsStart;
 
     STRG.GoTo(NameTableStart);
     STRG.Skip(4);
     STRG.WriteLong(NameTableSize);
 
-    for (uint NameIdx = 0; NameIdx < NameEntries.size(); NameIdx++)
+    for (const uint32 offset : NameOffsets)
     {
-        STRG.WriteLong( NameOffsets[NameIdx] );
+        STRG.WriteLong(offset);
         STRG.Skip(4);
     }
 

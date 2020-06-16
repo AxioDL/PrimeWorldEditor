@@ -589,12 +589,14 @@ void GenerateAssetNames(CGameProject *pProj)
 
     for (TResourceIterator<EResourceType::StringTable> It(pStore); It; ++It)
     {
-        if (It->IsNamed()) continue;
-        CStringTable *pString = (CStringTable*) It->Load();
+        if (It->IsNamed())
+            continue;
+
+        auto *pString = static_cast<CStringTable*>(It->Load());
         TString String;
 
-        for (uint32 iStr = 0; iStr < pString->NumStrings() && String.IsEmpty(); iStr++)
-            String = CStringTable::StripFormatting( pString->GetString(ELanguage::English, iStr) ).Trimmed();
+        for (size_t iStr = 0; iStr < pString->NumStrings() && String.IsEmpty(); iStr++)
+            String = CStringTable::StripFormatting(pString->GetString(ELanguage::English, iStr)).Trimmed();
 
         if (!String.IsEmpty())
         {

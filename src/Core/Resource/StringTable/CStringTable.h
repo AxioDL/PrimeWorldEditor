@@ -53,34 +53,34 @@ public:
     explicit CStringTable(CResourceEntry *pEntry = nullptr) : CResource(pEntry) {}
 
     /** Returns the number of languages in the table */
-    uint NumLanguages() const    { return mLanguages.size(); }
+    size_t NumLanguages() const    { return mLanguages.size(); }
 
     /** Returns the number of strings in the table */
-    uint NumStrings() const      { return mLanguages.empty() ? 0 : mLanguages[0].Strings.size(); }
+    size_t NumStrings() const      { return mLanguages.empty() ? 0 : mLanguages[0].Strings.size(); }
 
     /** Returns languages used by index */
-    ELanguage LanguageByIndex(uint Index) const  { return mLanguages.size() > Index ? mLanguages[Index].Language : ELanguage::Invalid; }
+    ELanguage LanguageByIndex(size_t Index) const { return mLanguages.size() > Index ? mLanguages[Index].Language : ELanguage::Invalid; }
 
     /** Returns the string name by string index. May be blank if the string at the requested index is unnamed */
-    TString StringNameByIndex(uint Index) const  { return mStringNames.size() > Index ? mStringNames[Index] : ""; }
+    TString StringNameByIndex(size_t Index) const { return mStringNames.size() > Index ? mStringNames[Index] : ""; }
 
     /** Returns a string given a language/index pair */
-    TString GetString(ELanguage Language, uint StringIndex) const;
+    TString GetString(ELanguage Language, size_t StringIndex) const;
 
     /** Updates a string for a given language */
-    void SetString(ELanguage Language, uint StringIndex, const TString& kNewString);
+    void SetString(ELanguage Language, size_t StringIndex, TString kNewString);
 
     /** Updates a string name */
-    void SetStringName(uint StringIndex, const TString& kNewName);
+    void SetStringName(size_t StringIndex, TString kNewName);
 
     /** Move string to another position in the table */
-    void MoveString(uint StringIndex, uint NewIndex);
+    void MoveString(size_t StringIndex, size_t NewIndex);
 
     /** Add a new string to the table */
-    void AddString(uint AtIndex);
+    void AddString(size_t AtIndex);
 
     /** Remove a string from the table */
-    void RemoveString(uint StringIndex);
+    void RemoveString(size_t StringIndex);
 
     /** Initialize new resource data */
     void InitializeNewResource() override;
