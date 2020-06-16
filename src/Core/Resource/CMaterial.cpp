@@ -6,7 +6,6 @@
 #include "Core/OpenGL/CShaderGenerator.h"
 #include <Common/Hash/CFNV1A.h>
 
-#include <iostream>
 #include <GL/glew.h>
 
 uint64 CMaterial::sCurrentMaterial = 0;
@@ -191,31 +190,33 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         // COLOR0_Amb,Mat is initialized by the node instead of by the material
 
         // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
-        if ((mOptions & EMaterialOption::DepthWrite) || (Options & ERenderOption::NoAlpha)) glDepthMask(GL_TRUE);
-        else glDepthMask(GL_FALSE);
+        if ((mOptions & EMaterialOption::DepthWrite) || (Options & ERenderOption::NoAlpha))
+            glDepthMask(GL_TRUE);
+        else
+            glDepthMask(GL_FALSE);
 
         // Set color/alpha write
-        GLboolean bColorWrite = mOptions.HasFlag(EMaterialOption::ColorWrite);
-        GLboolean bAlphaWrite = mOptions.HasFlag(EMaterialOption::AlphaWrite);
+        const GLboolean bColorWrite = mOptions.HasFlag(EMaterialOption::ColorWrite);
+        const GLboolean bAlphaWrite = mOptions.HasFlag(EMaterialOption::AlphaWrite);
         glColorMask(bColorWrite, bColorWrite, bColorWrite, bAlphaWrite);
 
         // Load uniforms
-        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
+        for (size_t iPass = 0; iPass < mPasses.size(); iPass++)
             mPasses[iPass]->SetAnimCurrent(Options, iPass);
 
         sCurrentMaterial = HashParameters();
     }
-
-    // If the passes are otherwise the same, update UV anims that use the model matrix
-    else
+    else // If the passes are otherwise the same, update UV anims that use the model matrix
     {
-        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
+        for (size_t iPass = 0; iPass < mPasses.size(); iPass++)
         {
-            EUVAnimMode mode = mPasses[iPass]->AnimMode();
+            const EUVAnimMode mode = mPasses[iPass]->AnimMode();
 
-            if ((mode == EUVAnimMode::InverseMV) || (mode == EUVAnimMode::InverseMVTranslated) ||
-                (mode == EUVAnimMode::ModelMatrix) || (mode == EUVAnimMode::SimpleMode))
+            if (mode == EUVAnimMode::InverseMV || mode == EUVAnimMode::InverseMVTranslated ||
+                mode == EUVAnimMode::ModelMatrix || mode == EUVAnimMode::SimpleMode)
+            {
                 mPasses[iPass]->SetAnimCurrent(Options, iPass);
+            }
         }
     }
 
