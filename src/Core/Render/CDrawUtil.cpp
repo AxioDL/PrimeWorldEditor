@@ -3,42 +3,6 @@
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 #include <Common/Math/CTransform4f.h>
-#include <iostream>
-
-// ************ MEMBER INITIALIZATION ************
-std::optional<CVertexBuffer> CDrawUtil::mGridVertices;
-CIndexBuffer CDrawUtil::mGridIndices;
-
-std::optional<CDynamicVertexBuffer> CDrawUtil::mSquareVertices;
-CIndexBuffer CDrawUtil::mSquareIndices;
-
-std::optional<CDynamicVertexBuffer> CDrawUtil::mLineVertices;
-CIndexBuffer CDrawUtil::mLineIndices;
-
-TResPtr<CModel> CDrawUtil::mpCubeModel;
-
-std::optional<CVertexBuffer> CDrawUtil::mWireCubeVertices;
-CIndexBuffer CDrawUtil::mWireCubeIndices;
-
-TResPtr<CModel> CDrawUtil::mpSphereModel;
-TResPtr<CModel> CDrawUtil::mpDoubleSidedSphereModel;
-
-TResPtr<CModel> CDrawUtil::mpWireSphereModel;
-
-CShader *CDrawUtil::mpColorShader;
-CShader *CDrawUtil::mpColorShaderLighting;
-CShader *CDrawUtil::mpBillboardShader;
-CShader *CDrawUtil::mpLightBillboardShader;
-CShader *CDrawUtil::mpTextureShader;
-CShader *CDrawUtil::mpCollisionShader;
-CShader *CDrawUtil::mpTextShader;
-
-TResPtr<CTexture> CDrawUtil::mpCheckerTexture;
-
-TResPtr<CTexture> CDrawUtil::mpLightTextures[4];
-TResPtr<CTexture> CDrawUtil::mpLightMasks[4];
-
-bool CDrawUtil::mDrawUtilInitialized = false;
 
 // ************ PUBLIC ************
 void CDrawUtil::DrawGrid(CColor LineColor, CColor BoldLineColor)
@@ -366,13 +330,13 @@ void CDrawUtil::LoadCheckerboardTexture(uint32 GLTextureUnit)
 CTexture* CDrawUtil::GetLightTexture(ELightType Type)
 {
     Init();
-    return mpLightTextures[(int) Type];
+    return mpLightTextures[static_cast<size_t>(Type)];
 }
 
 CTexture* CDrawUtil::GetLightMask(ELightType Type)
 {
     Init();
-    return mpLightMasks[(int) Type];
+    return mpLightMasks[static_cast<size_t>(Type)];
 }
 
 CModel* CDrawUtil::GetCubeModel()
@@ -453,37 +417,37 @@ void CDrawUtil::InitSquare()
                                       EVertexAttribute::Tex4 |
                                       EVertexAttribute::Tex5 |
                                       EVertexAttribute::Tex6 |
-                                      EVertexAttribute::Tex7 );
+                                      EVertexAttribute::Tex7);
     mSquareVertices->SetVertexCount(4);
 
-    CVector3f SquareVertices[] = {
+    static constexpr std::array SquareVertices{
         CVector3f(-1.f,  1.f, 0.f),
         CVector3f( 1.f,  1.f, 0.f),
         CVector3f( 1.f, -1.f, 0.f),
         CVector3f(-1.f, -1.f, 0.f)
     };
 
-    CVector3f SquareNormals[] = {
+    static constexpr std::array SquareNormals{
         CVector3f(0.f, 0.f, 1.f),
         CVector3f(0.f, 0.f, 1.f),
         CVector3f(0.f, 0.f, 1.f),
         CVector3f(0.f, 0.f, 1.f)
     };
 
-    CVector2f SquareTexCoords[] = {
+    static constexpr std::array SquareTexCoords{
         CVector2f(0.f, 1.f),
         CVector2f(1.f, 1.f),
         CVector2f(1.f, 0.f),
         CVector2f(0.f, 0.f)
     };
 
-    mSquareVertices->BufferAttrib(EVertexAttribute::Position, SquareVertices);
-    mSquareVertices->BufferAttrib(EVertexAttribute::Normal, SquareNormals);
+    mSquareVertices->BufferAttrib(EVertexAttribute::Position, SquareVertices.data());
+    mSquareVertices->BufferAttrib(EVertexAttribute::Normal, SquareNormals.data());
 
     for (uint32 iTex = 0; iTex < 8; iTex++)
     {
-        EVertexAttribute Attrib = (EVertexAttribute) (EVertexAttribute::Tex0 << iTex);
-        mSquareVertices->BufferAttrib(Attrib, SquareTexCoords);
+        const auto Attrib = static_cast<EVertexAttribute>(EVertexAttribute::Tex0 << iTex);
+        mSquareVertices->BufferAttrib(Attrib, SquareTexCoords.data());
     }
 
     mSquareIndices.Reserve(4);
@@ -528,7 +492,7 @@ void CDrawUtil::InitWireCube()
     mWireCubeVertices->AddVertex(CVector3f( 0.5f,  0.5f,  0.5f));
     mWireCubeVertices->AddVertex(CVector3f(-0.5f,  0.5f,  0.5f));
 
-    uint16 Indices[] = {
+    static constexpr std::array<uint16, 24> Indices{
         0, 1,
         1, 2,
         2, 3,
@@ -542,7 +506,7 @@ void CDrawUtil::InitWireCube()
         2, 6,
         3, 5
     };
-    mWireCubeIndices.AddIndices(Indices, sizeof(Indices) / sizeof(uint16));
+    mWireCubeIndices.AddIndices(Indices.data(), Indices.size());
     mWireCubeIndices.SetPrimitiveType(GL_LINES);
 }
 

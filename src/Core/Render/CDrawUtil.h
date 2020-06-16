@@ -7,6 +7,7 @@
 #include "Core/Resource/Model/CModel.h"
 #include "Core/Resource/CLight.h"
 
+#include <array>
 #include <optional>
 
 /**
@@ -19,48 +20,48 @@
 class CDrawUtil
 {
     // 7x7 Grid
-    static std::optional<CVertexBuffer> mGridVertices;
-    static CIndexBuffer mGridIndices;
+    static inline std::optional<CVertexBuffer> mGridVertices;
+    static inline CIndexBuffer mGridIndices;
 
     // Square
-    static std::optional<CDynamicVertexBuffer> mSquareVertices;
-    static CIndexBuffer mSquareIndices;
+    static inline std::optional<CDynamicVertexBuffer> mSquareVertices;
+    static inline CIndexBuffer mSquareIndices;
 
     // Line
-    static std::optional<CDynamicVertexBuffer> mLineVertices;
-    static CIndexBuffer mLineIndices;
+    static inline std::optional<CDynamicVertexBuffer> mLineVertices;
+    static inline CIndexBuffer mLineIndices;
 
     // Cube
-    static TResPtr<CModel> mpCubeModel;
+    static inline TResPtr<CModel> mpCubeModel;
 
     // Wire Cube
-    static std::optional<CVertexBuffer> mWireCubeVertices;
-    static CIndexBuffer mWireCubeIndices;
+    static inline std::optional<CVertexBuffer> mWireCubeVertices;
+    static inline CIndexBuffer mWireCubeIndices;
 
     // Sphere
-    static TResPtr<CModel> mpSphereModel;
-    static TResPtr<CModel> mpDoubleSidedSphereModel;
+    static inline TResPtr<CModel> mpSphereModel;
+    static inline TResPtr<CModel> mpDoubleSidedSphereModel;
 
     // Wire Sphere
-    static TResPtr<CModel> mpWireSphereModel;
+    static inline TResPtr<CModel> mpWireSphereModel;
 
     // Shaders
-    static CShader *mpColorShader;
-    static CShader *mpColorShaderLighting;
-    static CShader *mpBillboardShader;
-    static CShader *mpLightBillboardShader;
-    static CShader *mpTextureShader;
-    static CShader *mpCollisionShader;
-    static CShader *mpTextShader;
+    static inline CShader *mpColorShader = nullptr;
+    static inline CShader *mpColorShaderLighting = nullptr;
+    static inline CShader *mpBillboardShader = nullptr;
+    static inline CShader *mpLightBillboardShader = nullptr;
+    static inline CShader *mpTextureShader = nullptr;
+    static inline CShader *mpCollisionShader = nullptr;
+    static inline CShader *mpTextShader = nullptr;
 
     // Textures
-    static TResPtr<CTexture> mpCheckerTexture;
+    static inline TResPtr<CTexture> mpCheckerTexture;
 
-    static TResPtr<CTexture> mpLightTextures[4];
-    static TResPtr<CTexture> mpLightMasks[4];
+    static inline std::array<TResPtr<CTexture>, 4> mpLightTextures;
+    static inline std::array<TResPtr<CTexture>, 4> mpLightMasks;
 
     // Have all the above members been initialized?
-    static bool mDrawUtilInitialized;
+    static inline bool mDrawUtilInitialized = false;
 
 public:
     static void DrawGrid(CColor LineColor, CColor BoldLineColor);

@@ -17,7 +17,7 @@ public:
     explicit CIndexBuffer(GLenum type);
     ~CIndexBuffer();
     void AddIndex(uint16 index);
-    void AddIndices(uint16 *indices, size_t count);
+    void AddIndices(const uint16 *indices, size_t count);
     void Reserve(size_t size);
     void Clear();
     void Buffer();

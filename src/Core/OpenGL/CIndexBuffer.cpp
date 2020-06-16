@@ -18,7 +18,7 @@ void CIndexBuffer::AddIndex(uint16 index)
     mIndices.push_back(index);
 }
 
-void CIndexBuffer::AddIndices(uint16 *indices, size_t count)
+void CIndexBuffer::AddIndices(const uint16 *indices, size_t count)
 {
     Reserve(count);
     for (size_t i = 0; i < count; i++)
