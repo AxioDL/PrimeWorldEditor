@@ -133,7 +133,7 @@ uint16 CVertexBuffer::AddIfUnique(const CVertex& rkVtx, uint16 Start)
     return AddVertex(rkVtx);
 }
 
-void CVertexBuffer::Reserve(uint16 Size)
+void CVertexBuffer::Reserve(size_t Size)
 {
     const size_t ReserveSize = mPositions.size() + Size;
 

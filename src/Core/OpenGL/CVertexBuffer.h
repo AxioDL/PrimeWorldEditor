@@ -28,7 +28,7 @@ public:
     ~CVertexBuffer();
     uint16 AddVertex(const CVertex& rkVtx);
     uint16 AddIfUnique(const CVertex& rkVtx, uint16 Start);
-    void Reserve(uint16 Size);
+    void Reserve(size_t Size);
     void Clear();
     void Buffer();
     void Bind();

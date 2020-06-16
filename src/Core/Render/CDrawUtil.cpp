@@ -410,16 +410,18 @@ void CDrawUtil::InitGrid()
 
     const int kGridSize = 501; // must be odd
     const float kGridSpacing = 1.f;
-    int MinIdx = (kGridSize - 1) / -2;
-    int MaxIdx = (kGridSize - 1) / 2;
+    const int MinIdx = (kGridSize - 1) / -2;
+    const int MaxIdx = (kGridSize - 1) / 2;
 
     mGridVertices.emplace();
     mGridVertices->SetVertexDesc(EVertexAttribute::Position);
-    mGridVertices->Reserve(kGridSize * 4);
+    mGridVertices->Reserve(static_cast<size_t>(kGridSize * 4));
 
      for (int32 i = MinIdx; i <= MaxIdx; i++)
      {
-         if (i == 0) continue;
+         if (i == 0)
+             continue;
+
          mGridVertices->AddVertex(CVector3f(MinIdx * kGridSpacing, i * kGridSpacing, 0.0f));
          mGridVertices->AddVertex(CVector3f(MaxIdx * kGridSpacing, i * kGridSpacing, 0.0f));
          mGridVertices->AddVertex(CVector3f(i * kGridSpacing, MinIdx * kGridSpacing, 0.0f));
@@ -431,9 +433,10 @@ void CDrawUtil::InitGrid()
      mGridVertices->AddVertex(CVector3f(0, MinIdx * kGridSpacing, 0.0f));
      mGridVertices->AddVertex(CVector3f(0, MaxIdx * kGridSpacing, 0.0f));
 
-     int NumIndices = kGridSize * 4;
+     const auto NumIndices = static_cast<size_t>(kGridSize * 4);
      mGridIndices.Reserve(NumIndices);
-     for (uint16 i = 0; i < NumIndices; i++) mGridIndices.AddIndex(i);
+     for (uint16 i = 0; i < NumIndices; i++)
+         mGridIndices.AddIndex(i);
      mGridIndices.SetPrimitiveType(GL_LINES);
 }
 
