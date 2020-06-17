@@ -20,10 +20,10 @@ class CTweakData : public CResource
     std::vector<uint8> mTweakData;
 
 public:
-    CTweakData(CScriptTemplate* pTemplate, uint TweakID, CResourceEntry* pEntry = 0)
-        : mpTemplate(pTemplate)
+    CTweakData(CScriptTemplate* pTemplate, uint TweakID, CResourceEntry* pEntry = nullptr)
+        : CResource(pEntry)
+        , mpTemplate(pTemplate)
         , mTweakID(TweakID)
-        , CResource(pEntry)
     {
         CStructProperty* pProperties = pTemplate->Properties();
         mTweakData.resize(pProperties->DataSize());
