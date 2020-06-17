@@ -131,7 +131,7 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkDat
         }
 
         // Draw child links
-        for (uint32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
+        for (size_t iChild = 0; iChild < pBone->NumChildren(); iChild++)
         {
             const CBone *pChild = pBone->ChildByIndex(iChild);
             const CVector3f ChildPos = pkData ? pChild->TransformedPosition(*pkData) : pChild->Position();

@@ -20,8 +20,8 @@ QModelIndex CSkeletonHierarchyModel::index(int Row, int Column, const QModelInde
             return QModelIndex();
     }
 
-    CBone *pBone = (CBone*) rkParent.internalPointer();
-    if (Row < (int) pBone->NumChildren())
+    auto *pBone = static_cast<CBone*>(rkParent.internalPointer());
+    if (Row < static_cast<int>(pBone->NumChildren()))
         return createIndex(Row, Column, pBone->ChildByIndex(Row));
     else
         return QModelIndex();
@@ -29,7 +29,7 @@ QModelIndex CSkeletonHierarchyModel::index(int Row, int Column, const QModelInde
 
 QModelIndex CSkeletonHierarchyModel::parent(const QModelIndex& rkChild) const
 {
-    CBone *pBone = (CBone*) rkChild.internalPointer();
+    auto *pBone = static_cast<CBone*>(rkChild.internalPointer());
 
     if (pBone->Parent())
     {
@@ -40,10 +40,10 @@ QModelIndex CSkeletonHierarchyModel::parent(const QModelIndex& rkChild) const
         {
             CBone *pGrandparent = pParent->Parent();
 
-            for (uint32 iChild = 0; iChild < pGrandparent->NumChildren(); iChild++)
+            for (size_t iChild = 0; iChild < pGrandparent->NumChildren(); iChild++)
             {
                 if (pGrandparent->ChildByIndex(iChild) == pParent)
-                    return createIndex(iChild, 0, pParent);
+                    return createIndex(static_cast<int>(iChild), 0, pParent);
             }
         }
 
@@ -55,9 +55,11 @@ QModelIndex CSkeletonHierarchyModel::parent(const QModelIndex& rkChild) const
 
 int CSkeletonHierarchyModel::rowCount(const QModelIndex& rkParent) const
 {
-    if (!mpSkeleton) return 0;
-    CBone *pBone = (CBone*) rkParent.internalPointer();
-    return (pBone ? pBone->NumChildren() : 1);
+    if (!mpSkeleton)
+        return 0;
+
+    auto *pBone = static_cast<CBone*>(rkParent.internalPointer());
+    return pBone ? static_cast<int>(pBone->NumChildren()) : 1;
 }
 
 int CSkeletonHierarchyModel::columnCount(const QModelIndex& /*rkParent*/) const
@@ -84,14 +86,15 @@ CBone* CSkeletonHierarchyModel::BoneForIndex(const QModelIndex& rkIndex) const
 QModelIndex CSkeletonHierarchyModel::IndexForBone(CBone *pBone) const
 {
     CBone *pParent = pBone->Parent();
-    if (!pParent) return index(0, 0, QModelIndex());
+    if (!pParent)
+        return index(0, 0, QModelIndex());
 
-    QModelIndex ParentIndex = IndexForBone(pParent);
+    const QModelIndex ParentIndex = IndexForBone(pParent);
 
-    for (uint32 iChild = 0; iChild < pParent->NumChildren(); iChild++)
+    for (size_t iChild = 0; iChild < pParent->NumChildren(); iChild++)
     {
        if (pParent->ChildByIndex(iChild) == pBone)
-           return index(iChild, 0, ParentIndex);
+           return index(static_cast<int>(iChild), 0, ParentIndex);
     }
 
     return QModelIndex();

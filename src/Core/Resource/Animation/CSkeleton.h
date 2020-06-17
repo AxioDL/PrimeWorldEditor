@@ -73,8 +73,8 @@ public:
     // Accessors
     CSkeleton* Skeleton() const                  { return mpSkeleton; }
     CBone* Parent() const                        { return mpParent; }
-    uint32 NumChildren() const                   { return mChildren.size(); }
-    CBone* ChildByIndex(uint32 Index) const      { return mChildren[Index]; }
+    size_t NumChildren() const                   { return mChildren.size(); }
+    CBone* ChildByIndex(size_t Index) const      { return mChildren[Index]; }
     uint32 ID() const                            { return mID; }
     CVector3f Position() const                   { return mPosition; }
     CVector3f LocalPosition() const              { return mLocalPosition; }

@@ -6,7 +6,7 @@
 
 void CSkeletonLoader::SetLocalBoneCoords(CBone *pBone)
 {
-    for (uint32 iChild = 0; iChild < pBone->NumChildren(); iChild++)
+    for (size_t iChild = 0; iChild < pBone->NumChildren(); iChild++)
         SetLocalBoneCoords(pBone->ChildByIndex(iChild));
 
     if (pBone->mpParent)
