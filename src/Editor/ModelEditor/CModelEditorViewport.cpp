@@ -11,7 +11,7 @@ CModelEditorViewport::CModelEditorViewport(QWidget *pParent)
     mpRenderer = new CRenderer();
     qreal pixelRatio = devicePixelRatioF();
     mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
-    mpRenderer->SetClearColor(CColor::skBlack);
+    mpRenderer->SetClearColor(CColor::Black());
     mpRenderer->ToggleGrid(true);
 
     mViewInfo.pRenderer = mpRenderer;

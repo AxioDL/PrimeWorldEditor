@@ -8,7 +8,7 @@
 class CWaypointExtra : public CScriptExtra
 {
     // Draw waypoint paths formed by script connections
-    CColor mColor{CColor::skBlack};
+    CColor mColor{CColor::Black()};
     bool mLinksBuilt = false;
     std::list<CSplinePathExtra*> mPaths;
 

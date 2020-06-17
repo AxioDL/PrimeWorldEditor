@@ -9,9 +9,9 @@ CModelNode::CModelNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CMode
     , mWorldModel(false)
     , mForceAlphaOn(false)
     , mEnableScanOverlay(false)
-    , mTintColor(CColor::skWhite)
+    , mTintColor(CColor::White())
 {
-    mScale = CVector3f::skOne;
+    mScale = CVector3f::One();
     SetModel(pModel);
 }
 
@@ -68,9 +68,9 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
         CGraphics::SetDefaultLighting();
         CGraphics::UpdateLightBlock();
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
-        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+        CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
         CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
-        CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
+        CGraphics::sPixelBlock.SetAllTevColors(CColor::White());
     }
     else
     {
@@ -79,7 +79,7 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
         if (IsLightingEnabled)
         {
             CGraphics::sNumLights = 0;
-            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentBlack;
+            CGraphics::sVertexBlock.COLOR0_Amb = CColor::TransparentBlack();
             CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
             CGraphics::UpdateLightBlock();
         }
@@ -87,10 +87,10 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
         {
             LoadLights(rkViewInfo);
             if (CGraphics::sLightMode == CGraphics::ELightingMode::None)
-                CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentWhite;
+                CGraphics::sVertexBlock.COLOR0_Amb = CColor::TransparentWhite();
         }
 
-        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+        CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
 
         const float Mul = CGraphics::sWorldLightMultiplier;
         CGraphics::sPixelBlock.SetAllTevColors(CColor(Mul,Mul,Mul));

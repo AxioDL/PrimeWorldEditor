@@ -9,7 +9,7 @@ CStaticNode::CStaticNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CSt
     , mpModel(pModel)
 {
     mLocalAABox = mpModel->AABox();
-    mScale = CVector3f::skOne;
+    mScale = CVector3f::One();
     SetName("Static Node");
 }
 
@@ -68,8 +68,8 @@ void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderComman
     if (IsLightingEnabled)
     {
         CGraphics::sNumLights = 0;
-        CGraphics::sVertexBlock.COLOR0_Amb = UseWhiteAmbient ? CColor::skTransparentWhite : CColor::skTransparentBlack;
-        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skBlack;
+        CGraphics::sVertexBlock.COLOR0_Amb = UseWhiteAmbient ? CColor::TransparentWhite() : CColor::TransparentBlack();
+        CGraphics::sVertexBlock.COLOR0_Mat = CColor::Black();
         CGraphics::sPixelBlock.LightmapMultiplier = 1.0f;
         CGraphics::UpdateLightBlock();
     }
@@ -78,8 +78,8 @@ void CStaticNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderComman
     {
         LoadLights(rkViewInfo);
         if (CGraphics::sLightMode == CGraphics::ELightingMode::None || UseWhiteAmbient)
-            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentWhite;
-        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skWhite;
+            CGraphics::sVertexBlock.COLOR0_Amb = CColor::TransparentWhite();
+        CGraphics::sVertexBlock.COLOR0_Mat = CColor::White();
     }
 
     float Mul = CGraphics::sWorldLightMultiplier;

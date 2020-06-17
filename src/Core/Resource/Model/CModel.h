@@ -31,7 +31,7 @@ public:
     void ClearGLBuffer() override;
     void Draw(FRenderOptions Options, size_t MatSet);
     void DrawSurface(FRenderOptions Options, size_t Surface, size_t MatSet);
-    void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::skWhite);
+    void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::White());
     void SetSkin(CSkin *pSkin);
 
     size_t GetMatSetCount() const;

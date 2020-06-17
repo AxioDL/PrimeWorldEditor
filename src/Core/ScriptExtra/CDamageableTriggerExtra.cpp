@@ -123,7 +123,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     }
 
     if (mRenderSide == ERenderSide::NoRender)
-        mLocalAABox = CAABox::skZero;
+        mLocalAABox = CAABox::Zero();
     else
         mLocalAABox = CAABox(CVector3f(-1.f, -1.f, 0.f), CVector3f(1.f, 1.f, 0.f));
 

@@ -117,7 +117,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
     else
         LoadSurfaceHeaderDKCR(rModel, pSurf);
 
-    const bool HasAABB = (pSurf->AABox != CAABox::skInfinite);
+    const bool HasAABB = pSurf->AABox != CAABox::Infinite();
     CMaterial *pMat = mMaterials[0]->MaterialByIndex(pSurf->MaterialID, false);
 
     // Primitive table
@@ -250,7 +250,7 @@ void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& rModel, SSurface *pSurf)
     }
     else
     {
-        pSurf->AABox = CAABox::skInfinite;
+        pSurf->AABox = CAABox::Infinite();
     }
 
     rModel.Seek(ExtraSize, SEEK_CUR);
@@ -273,7 +273,7 @@ void CModelLoader::LoadSurfaceHeaderDKCR(IInputStream& rModel, SSurface *pSurf)
     }
     else
     {
-        pSurf->AABox = CAABox::skInfinite;
+        pSurf->AABox = CAABox::Infinite();
     }
 
     rModel.Seek(ExtraSize, SEEK_CUR);
@@ -326,8 +326,8 @@ SSurface* CModelLoader::LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet)
             rPrim.Type = EPrimitiveType::Triangles;
 
         // Generate bounding box, center point, and reflection projection
-        pSurf->CenterPoint = CVector3f::skZero;
-        pSurf->ReflectionDirection = CVector3f::skZero;
+        pSurf->CenterPoint = CVector3f::Zero();
+        pSurf->ReflectionDirection = CVector3f::Zero();
 
         for (size_t iVtx = 0; iVtx < pkMesh->mNumVertices; iVtx++)
         {

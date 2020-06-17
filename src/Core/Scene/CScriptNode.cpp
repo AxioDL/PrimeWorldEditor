@@ -176,8 +176,8 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
         if (CGraphics::sLightMode == CGraphics::ELightingMode::World && LightingOptions == EWorldLightingOptions::DisableWorldLighting)
         {
             CGraphics::sNumLights = 0;
-            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentBlack;
-            CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+            CGraphics::sVertexBlock.COLOR0_Amb = CColor::TransparentBlack();
+            CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
             CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
             CGraphics::UpdateLightBlock();
         }
@@ -189,7 +189,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
             {
                 CGraphics::SetDefaultLighting();
                 CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
-                CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+                CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
             }
 
             else
@@ -205,8 +205,10 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
         {
             if (pModel->IsSkinned()) CGraphics::LoadIdentityBoneTransforms();
 
-            if (mpExtra) CGraphics::sPixelBlock.SetAllTevColors(mpExtra->TevColor());
-            else CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
+            if (mpExtra)
+                CGraphics::sPixelBlock.SetAllTevColors(mpExtra->TevColor());
+            else
+                CGraphics::sPixelBlock.SetAllTevColors(CColor::White());
 
             CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
             CGraphics::UpdatePixelBlock();
@@ -220,7 +222,7 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
             glDepthMask(GL_TRUE);
             CGraphics::UpdateVertexBlock();
             CGraphics::UpdatePixelBlock();
-            CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(rkViewInfo));
+            CDrawUtil::DrawShadedCube(CColor::TransparentPurple() * TintColor(rkViewInfo));
         }
     }
 
@@ -254,7 +256,7 @@ void CScriptNode::DrawSelection()
         CGraphics::sMVPBlock.ModelMatrix = Transform;
         CGraphics::UpdateMVPBlock();
 
-        CGraphics::sPixelBlock.TintColor = CColor::skWhite;
+        CGraphics::sPixelBlock.TintColor = CColor::White();
         CGraphics::UpdatePixelBlock();
 
         DrawRotationArrow();
@@ -270,14 +272,16 @@ void CScriptNode::DrawSelection()
             // Don't draw in links if the other object is selected.
             CLink *pLink = mpInstance->Link(ELinkType::Incoming, iIn);
             CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->SenderID());
-            if (pLinkNode && !pLinkNode->IsSelected()) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentRed);
+            if (pLinkNode && !pLinkNode->IsSelected())
+                CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::TransparentRed());
         }
 
         for (uint32 iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
         {
             CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iOut);
             CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
-            if (pLinkNode) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentGreen);
+            if (pLinkNode)
+                CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::TransparentGreen());
         }
     }
 }
@@ -594,7 +598,7 @@ void CScriptNode::GeneratePosition()
         // For two or more links, average out the position of the connected objects.
         else if (NumLinks >= 2)
         {
-            CVector3f NewPos = CVector3f::skZero;
+            CVector3f NewPos = CVector3f::Zero();
 
             for (uint32 iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
             {
@@ -631,7 +635,6 @@ void CScriptNode::TestGameModeVisibility()
     // Don't render if we don't have an ingame model, or if this is the Prime series and the instance is not active.
     if ((Template()->Game() < EGame::DKCReturns && !mpInstance->IsActive()) || !mpInstance->HasInGameModel())
         mGameModeVisibility = EGameModeVisibility::NotVisible;
-
     // If this is Returns, only render if the instance is active OR if it has a near visible activation.
     else
         mGameModeVisibility = (mpInstance->IsActive() || mpInstance->HasNearVisibleActivation()) ? EGameModeVisibility::Visible : EGameModeVisibility::NotVisible;
@@ -663,7 +666,7 @@ CModel* CScriptNode::ActiveModel() const
     {
         if (mpDisplayAsset->Type() == EResourceType::Model)
             return static_cast<CModel*>(mpDisplayAsset.RawPointer());
-        else if (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character)
+        if (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character)
             return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer())->Character(mCharIndex)->pModel;
     }
 
@@ -674,15 +677,18 @@ CAnimSet* CScriptNode::ActiveAnimSet() const
 {
     if (mpDisplayAsset && (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character))
         return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer());
-    else
-        return nullptr;
+
+    return nullptr;
 }
 
 CSkeleton* CScriptNode::ActiveSkeleton() const
 {
     CAnimSet *pSet = ActiveAnimSet();
-    if (pSet) return pSet->Character(mCharIndex)->pSkeleton;
-    else return nullptr;
+
+    if (pSet)
+        return pSet->Character(mCharIndex)->pSkeleton;
+
+    return nullptr;
 }
 
 CAnimation* CScriptNode::ActiveAnimation() const
@@ -712,7 +718,7 @@ bool CScriptNode::HasPreviewVolume() const
 CAABox CScriptNode::PreviewVolumeAABox() const
 {
     if (!mHasVolumePreview)
-        return CAABox::skZero;
+        return CAABox::Zero();
     else
         return mpVolumePreviewNode->AABox();
 }
@@ -752,7 +758,7 @@ void CScriptNode::SetDisplayAsset(CResource *pRes)
     mAnimIndex = (IsAnimSet ? mpInstance->ActiveAnimIndex() : -1);
 
     CModel *pModel = ActiveModel();
-    mLocalAABox = (pModel ? pModel->AABox() : CAABox::skOne);
+    mLocalAABox = (pModel ? pModel->AABox() : CAABox::One());
     MarkTransformChanged();
 
     for (uint32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
@@ -768,7 +774,7 @@ void CScriptNode::CalculateTransform(CTransform4f& rOut) const
 
     if (pTemp->ScaleType() != CScriptTemplate::EScaleType::ScaleDisabled)
     {
-        CVector3f Scale = (HasPreviewVolume() ? CVector3f::skOne : AbsoluteScale());
+        CVector3f Scale = (HasPreviewVolume() ? CVector3f::One() : AbsoluteScale());
         rOut.Scale(Scale * pTemp->PreviewScale());
     }
 

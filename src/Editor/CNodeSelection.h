@@ -86,7 +86,7 @@ public:
     {
         if (mBoundsDirty)
         {
-            mCachedBounds = CAABox::skInfinite;
+            mCachedBounds = CAABox::Infinite();
 
             foreach (CSceneNode *pNode, mSelectedNodes)
             {

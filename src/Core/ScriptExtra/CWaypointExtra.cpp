@@ -37,11 +37,9 @@ void CWaypointExtra::CheckColor()
             mColor = pMat->Konst(0);
         }
     }
-
-    // Use preset color (DKCR)
-    else
+    else // Use preset color (DKCR)
     {
-        mColor = CColor::skCyan;
+        mColor = CColor::Cyan();
     }
 
     mColor.A = 0;
@@ -141,7 +139,7 @@ void CWaypointExtra::OnTransformed()
     for (uint32 iLink = 0; iLink < mLinks.size(); iLink++)
     {
         SWaypointLink& rLink = mLinks[iLink];
-        rLink.LineAABB = CAABox::skInfinite;
+        rLink.LineAABB = CAABox::Infinite();
         rLink.LineAABB.ExpandBounds(AbsolutePosition());
         rLink.LineAABB.ExpandBounds(rLink.pWaypoint->AbsolutePosition());
     }
@@ -183,5 +181,5 @@ void CWaypointExtra::Draw(FRenderOptions /*Options*/, int ComponentIndex, ERende
 
 CColor CWaypointExtra::TevColor()
 {
-    return (mGame < EGame::DKCReturns ? CColor::skWhite : mColor);
+    return (mGame < EGame::DKCReturns ? CColor::White() : mColor);
 }

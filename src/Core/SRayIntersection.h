@@ -10,7 +10,7 @@ struct SRayIntersection
 {
     bool Hit = false;
     float Distance = 0.0f;
-    CVector3f HitPoint{CVector3f::skZero};
+    CVector3f HitPoint{CVector3f::Zero()};
     CSceneNode *pNode = nullptr;
     uint ComponentIndex = UINT32_MAX;
 

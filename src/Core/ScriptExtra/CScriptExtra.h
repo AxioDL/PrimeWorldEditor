@@ -56,7 +56,7 @@ public:
     virtual void LinksModified() {}
     virtual bool ShouldDrawNormalAssets() { return true; }
     virtual bool ShouldDrawVolume() { return true; }
-    virtual CColor TevColor() { return CColor::skWhite; }
+    virtual CColor TevColor() { return CColor::White(); }
     virtual void ModifyTintColor(CColor& /*Color*/) {}
 
     // Create Script Extra

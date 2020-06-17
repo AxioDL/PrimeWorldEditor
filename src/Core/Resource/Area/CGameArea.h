@@ -79,9 +79,9 @@ public:
     CScriptObject* InstanceByID(uint32 InstanceID);
     uint32 FindUnusedInstanceID() const;
     CScriptObject* SpawnInstance(CScriptTemplate *pTemplate, CScriptLayer *pLayer,
-                                 const CVector3f& rkPosition = CVector3f::skZero,
-                                 const CQuaternion& rkRotation = CQuaternion::skIdentity,
-                                 const CVector3f& rkScale = CVector3f::skOne,
+                                 const CVector3f& rkPosition = CVector3f::Zero(),
+                                 const CQuaternion& rkRotation = CQuaternion::Identity(),
+                                 const CVector3f& rkScale = CVector3f::One(),
                                  uint32 SuggestedID = -1, uint32 SuggestedLayerIndex = -1);
     void AddInstanceToArea(CScriptObject *pInstance);
     void DeleteInstance(CScriptObject *pInstance);

@@ -66,8 +66,7 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
             CColor Tint = BaseTint;
 
             if (rkViewInfo.CollisionSettings.HighlightMask != 0 && (kMat.RawFlags() & rkViewInfo.CollisionSettings.HighlightMask) == rkViewInfo.CollisionSettings.HighlightMask)
-                Tint *= CColor::skRed;
-
+                Tint *= CColor::Red();
             else if (Game != EGame::DKCReturns && rkViewInfo.CollisionSettings.TintWithSurfaceColor)
                 Tint *= kMat.SurfaceColor(Game);
 
@@ -103,7 +102,7 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     {
         if (Parent() && Parent()->NodeType() == ENodeType::Root && Game != EGame::DKCReturns)
         {
-            CDrawUtil::DrawWireCube( mpCollision->MeshByIndex(0)->Bounds(), CColor::skRed );
+            CDrawUtil::DrawWireCube(mpCollision->MeshByIndex(0)->Bounds(), CColor::Red());
         }
     }
 }
@@ -130,7 +129,7 @@ void CCollisionNode::SetCollision(CCollisionMeshGroup *pCollision)
         mpCollision->BuildRenderData();
 
         // Update bounds
-        mLocalAABox = CAABox::skInfinite;
+        mLocalAABox = CAABox::Infinite();
 
         for (uint MeshIdx = 0; MeshIdx < pCollision->NumMeshes(); MeshIdx++)
         {

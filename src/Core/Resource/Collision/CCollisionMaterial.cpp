@@ -68,9 +68,9 @@ const std::unordered_map<ECollisionFlag, CColor> gkTypeToColor = {
 };
 CColor CCollisionMaterial::SurfaceColor(EGame Game) const
 {
-    ECollisionFlag SurfType = SurfaceType(Game);
-    auto FindColor = gkTypeToColor.find(SurfType);
-    return (FindColor == gkTypeToColor.end() ? CColor::skWhite : FindColor->second);
+    const ECollisionFlag SurfType = SurfaceType(Game);
+    const auto FindColor = gkTypeToColor.find(SurfType);
+    return (FindColor == gkTypeToColor.end() ? CColor::White() : FindColor->second);
 }
 
 bool CCollisionMaterial::IsFloor() const

@@ -30,9 +30,8 @@ void CDoorExtra::PropertyModified(IProperty* pProperty)
 
         if (mpShieldModel)
             mLocalAABox = mpShieldModel->AABox();
-
         else
-            mLocalAABox = CAABox::skInfinite;
+            mLocalAABox = CAABox::Infinite();
 
         MarkTransformChanged();
     }
@@ -46,10 +45,10 @@ void CDoorExtra::PropertyModified(IProperty* pProperty)
     {
         // The Echoes demo doesn't have the shield color property. The color is
         // always cyan if the door is unlocked and always white if the door is locked.
-        mShieldColor = CColor::skWhite;
+        mShieldColor = CColor::White();
 
         if (!mDisabledProp)
-            mShieldColor = CColor::skCyan;
+            mShieldColor = CColor::Cyan();
     }
 }
 
@@ -79,7 +78,7 @@ void CDoorExtra::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCom
     CColor Tint = mpParent->TintColor(rkViewInfo) * mShieldColor;
 
     CGraphics::sPixelBlock.TintColor = Tint;
-    CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
+    CGraphics::sPixelBlock.SetAllTevColors(CColor::White());
     CGraphics::UpdatePixelBlock();
     DrawModelParts(mpShieldModel, Options, 0, Command);
 }

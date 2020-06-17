@@ -86,9 +86,9 @@ protected:
     CSceneNode *mpParent;
     CScene *mpScene;
 
-    CVector3f mPosition{CVector3f::skZero};
-    CQuaternion mRotation{CQuaternion::skIdentity};
-    CVector3f mScale{CVector3f::skOne};
+    CVector3f mPosition{CVector3f::Zero()};
+    CQuaternion mRotation{CQuaternion::Identity()};
+    CVector3f mScale{CVector3f::One()};
     CAABox mLocalAABox;
 
     bool mMouseHovering = false;

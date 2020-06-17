@@ -2,7 +2,7 @@
 
 WVectorEditor::WVectorEditor(QWidget *pParent)
     : QWidget(pParent)
-    , mValue(CVector3f::skZero)
+    , mValue(CVector3f::Zero())
     , mEditing(false)
 {
     SetupUI();

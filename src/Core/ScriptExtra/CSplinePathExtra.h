@@ -17,7 +17,7 @@ class CSplinePathExtra : public CScriptExtra
 public:
     explicit CSplinePathExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent = nullptr);
     ~CSplinePathExtra() override { ClearWaypoints(); }
-    CColor PathColor() const { return mPathColor.IsValid() ? mPathColor.Get() : CColor::skBlack; }
+    CColor PathColor() const { return mPathColor.IsValid() ? mPathColor.Get() : CColor::Black(); }
 
     void PostLoad() override;
     void PropertyModified(IProperty* pProperty) override;

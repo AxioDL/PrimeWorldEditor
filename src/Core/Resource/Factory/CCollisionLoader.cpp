@@ -260,7 +260,7 @@ std::unique_ptr<CCollisionMeshGroup> CCollisionLoader::LoadDCLN(IInputStream& rD
         // Build bounding box
         if (Loader.mVersion != EGame::DKCReturns)
         {
-            Loader.mpMesh->mAABox = CAABox::skInfinite;
+            Loader.mpMesh->mAABox = CAABox::Infinite();
 
             for (const auto& vert : Loader.mpMesh->mIndexData.Vertices)
             {

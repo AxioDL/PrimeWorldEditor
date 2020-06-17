@@ -818,7 +818,7 @@ CColor CTextureDecoder::DecodePixelC4(uint8 Byte, uint8 WhichPixel, IInputStream
     if (mPaletteFormat == EGXPaletteFormat::RGB5A3)
         return DecodePixelIA8(rPaletteStream.ReadShort());
 
-    return CColor::skTransparentBlack;
+    return CColor::TransparentBlack();
 }
 
 CColor CTextureDecoder::DecodePixelC8(uint8 Byte, IInputStream& rPaletteStream)
@@ -834,7 +834,7 @@ CColor CTextureDecoder::DecodePixelC8(uint8 Byte, IInputStream& rPaletteStream)
     if (mPaletteFormat == EGXPaletteFormat::RGB5A3)
         return DecodePixelIA8(rPaletteStream.ReadShort());
 
-    return CColor::skTransparentBlack;
+    return CColor::TransparentBlack();
 }
 
 CColor CTextureDecoder::DecodePixelRGB565(uint16 Short)
@@ -882,7 +882,7 @@ void CTextureDecoder::DecodeSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst
     else
     {
         Palettes[2] = (Palettes[0] * 0.5f) + (Palettes[1] * 0.5f);
-        Palettes[3] = CColor::skTransparentBlack;
+        Palettes[3] = CColor::TransparentBlack();
     }
 
     for (uint32 iBlockY = 0; iBlockY < 4; iBlockY++)
@@ -921,7 +921,7 @@ void CTextureDecoder::DecodeBlockBC1(IInputStream& rSrc, IOutputStream& rDst, ui
     else
     {
         Palettes[2] = (Palettes[0] * 0.5f) + (Palettes[1] * 0.5f);
-        Palettes[3] = CColor::skTransparentBlack;
+        Palettes[3] = CColor::TransparentBlack();
     }
 
     for (uint32 iBlockY = 0; iBlockY < 4; iBlockY++)
@@ -958,7 +958,7 @@ void CTextureDecoder::DecodeBlockBC2(IInputStream& rSrc, IOutputStream& rDst, ui
     else
     {
         CPalettes[2] = (CPalettes[0] * 0.5f) + (CPalettes[1] * 0.5f);
-        CPalettes[3] = CColor::skTransparentBlack;
+        CPalettes[3] = CColor::TransparentBlack();
     }
 
     for (uint32 iBlockY = 0; iBlockY < 4; iBlockY++)
@@ -995,7 +995,7 @@ void CTextureDecoder::DecodeBlockBC3(IInputStream& rSrc, IOutputStream& rDst, ui
     else
     {
         Palettes[2] = (Palettes[0] * 0.5f) + (Palettes[1] * 0.5f);
-        Palettes[3] = CColor::skTransparentBlack;
+        Palettes[3] = CColor::TransparentBlack();
     }
 
     for (uint32 iBlockY = 0; iBlockY < 4; iBlockY++)
@@ -1016,5 +1016,5 @@ void CTextureDecoder::DecodeBlockBC3(IInputStream& rSrc, IOutputStream& rDst, ui
 
 CColor CTextureDecoder::DecodeDDSPixel(IInputStream& /*rDDS*/)
 {
-    return CColor::skWhite;
+    return CColor::White();
 }

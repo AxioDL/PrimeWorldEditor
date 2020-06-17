@@ -93,9 +93,9 @@ public:
     CLink* Link(ELinkType Type, uint32 Index) const                 { return (Type == ELinkType::Incoming ? mInLinks[Index] : mOutLinks[Index]); }
     void* PropertyData() const                                      { return (void*) mPropertyData.data(); }
 
-    CVector3f Position() const                  { return mPosition.IsValid() ? mPosition.Get() : CVector3f::skZero; }
-    CVector3f Rotation() const                  { return mRotation.IsValid() ? mRotation.Get() : CVector3f::skZero; }
-    CVector3f Scale() const                     { return mScale.IsValid() ? mScale.Get() : CVector3f::skOne; }
+    CVector3f Position() const                  { return mPosition.IsValid() ? mPosition.Get() : CVector3f::Zero(); }
+    CVector3f Rotation() const                  { return mRotation.IsValid() ? mRotation.Get() : CVector3f::Zero(); }
+    CVector3f Scale() const                     { return mScale.IsValid() ? mScale.Get() : CVector3f::One(); }
     TString InstanceName() const                { return mInstanceName.IsValid() ? mInstanceName.Get() : ""; }
     bool IsActive() const                       { return mActive.IsValid() ? mActive.Get() : false; }
     bool HasInGameModel() const                 { return mHasInGameModel; }

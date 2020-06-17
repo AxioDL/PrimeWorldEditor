@@ -33,7 +33,7 @@ public:
     void SetWorldModel(bool World)                   { mWorldModel = World; }
     void ForceAlphaEnabled(bool Enable)              { mForceAlphaOn = Enable; }
     void SetTintColor(const CColor& rkTintColor)     { mTintColor = rkTintColor; }
-    void ClearTintColor()                            { mTintColor = CColor::skWhite; }
+    void ClearTintColor()                            { mTintColor = CColor::White(); }
     void SetScanOverlayEnabled(bool Enable)          { mEnableScanOverlay = Enable; }
     void SetScanOverlayColor(const CColor& rkColor)  { mScanOverlayColor = rkColor; }
     CModel* Model() const                            { return mpModel; }

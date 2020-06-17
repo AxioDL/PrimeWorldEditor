@@ -103,7 +103,7 @@ struct SMP3IntermediateMaterial
     std::array<uint8, 5> mINTs{255, 255, 0, 32, 255};
     uint8 GetINT(EINT eint) const { return mINTs[static_cast<size_t>(eint)]; }
 
-    std::array<CColor, 2> mCLRs{CColor::skWhite, CColor::skWhite};
+    std::array<CColor, 2> mCLRs{CColor::White(), CColor::White()};
     const CColor& GetCLR(ECLR clr) const { return mCLRs[static_cast<size_t>(clr)]; }
 };
 

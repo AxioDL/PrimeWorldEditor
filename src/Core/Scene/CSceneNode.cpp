@@ -33,7 +33,7 @@ CSceneNode::~CSceneNode()
 void CSceneNode::DrawSelection()
 {
     // Default implementation for virtual function
-    CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
+    CDrawUtil::DrawWireCube(AABox(), CColor::White());
 }
 
 void CSceneNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
@@ -54,13 +54,13 @@ bool CSceneNode::IsVisible() const
 CColor CSceneNode::TintColor(const SViewInfo& rkViewInfo) const
 {
     // Default implementation for virtual function
-    return (IsSelected() && !rkViewInfo.GameMode ? skSelectionTint : CColor::skWhite);
+    return (IsSelected() && !rkViewInfo.GameMode ? skSelectionTint : CColor::White());
 }
 
 CColor CSceneNode::WireframeColor() const
 {
     // Default implementation for virtual function
-    return CColor::skWhite;
+    return CColor::White();
 }
 
 // ************ MAIN FUNCTIONALITY ************
@@ -119,7 +119,7 @@ void CSceneNode::LoadModelMatrix()
 void CSceneNode::BuildLightList(CGameArea *pArea)
 {
     mLightCount = 0;
-    mAmbientColor = CColor::skTransparentBlack;
+    mAmbientColor = CColor::TransparentBlack();
 
     uint32 Index = mLightLayerIndex;
     if ((pArea->NumLightLayers() <= Index) || (pArea->NumLights(Index) == 0)) Index = 0;
@@ -139,7 +139,8 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
 
     // Default ambient color to white if there are no lights on the selected layer
     uint32 NumLights = pArea->NumLights(Index);
-    if (NumLights == 0) mAmbientColor = CColor::skTransparentWhite;
+    if (NumLights == 0)
+        mAmbientColor = CColor::TransparentWhite();
 
     for (uint32 iLight = 0; iLight < NumLights; iLight++)
     {
@@ -147,16 +148,16 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
 
         // Ambient lights should only be present one per layer; need to check how the game deals with multiple ambients
         if (pLight->Type() == ELightType::LocalAmbient)
-            mAmbientColor = pLight->Color();
-
-        // Other lights will be used depending which are closest to the node
-        else
         {
-            bool IsInRange = AABox().IntersectsSphere(pLight->Position(), pLight->GetRadius());
+            mAmbientColor = pLight->Color();
+        }
+        else // Other lights will be used depending which are closest to the node
+        {
+            const bool IsInRange = AABox().IntersectsSphere(pLight->Position(), pLight->GetRadius());
 
             if (IsInRange)
             {
-                float Dist = mPosition.Distance(pLight->Position());
+                const float Dist = mPosition.Distance(pLight->Position());
                 LightEntries.push_back(SLightEntry(pLight, Dist));
             }
         }
@@ -179,7 +180,7 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
     {
     case CGraphics::ELightingMode::None:
         // No lighting: full white ambient, no dynamic lights
-        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentWhite;
+        CGraphics::sVertexBlock.COLOR0_Amb = CColor::TransparentWhite();
         break;
 
     case CGraphics::ELightingMode::Basic:
@@ -197,7 +198,7 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
         break;
     }
 
-    CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+    CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
 
     CGraphics::sPixelBlock.LightmapMultiplier = (Mode == CGraphics::ELightingMode::World ? 1.f : 0.f);
     CGraphics::UpdateLightBlock();
@@ -244,7 +245,7 @@ void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, size_t M
 
 void CSceneNode::DrawBoundingBox() const
 {
-    CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
+    CDrawUtil::DrawWireCube(AABox(), CColor::White());
 }
 
 void CSceneNode::DrawRotationArrow() const

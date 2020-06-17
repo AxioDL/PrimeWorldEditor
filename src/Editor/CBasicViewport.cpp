@@ -341,7 +341,7 @@ void CBasicViewport::DrawAxes()
     CGraphics::UpdateMVPBlock();
 
     glLineWidth(1.f);
-    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(1,0,0), CColor::skRed);   // X
-    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(0,1,0), CColor::skGreen); // Y
-    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(0,0,1), CColor::skBlue);  // Z
+    CDrawUtil::DrawLine(CVector3f::Zero(), CVector3f(1,0,0), CColor::Red());   // X
+    CDrawUtil::DrawLine(CVector3f::Zero(), CVector3f(0,1,0), CColor::Green()); // Y
+    CDrawUtil::DrawLine(CVector3f::Zero(), CVector3f(0,0,1), CColor::Blue());  // Z
 }

@@ -88,7 +88,7 @@ public:
     void SetLookSpeed(float LookSpeed)       { mLookSpeed = LookSpeed; }
     void SetAspectRatio(float AspectRatio)   { mAspectRatio = AspectRatio; mProjectionDirty = true; mFrustumPlanesDirty = true; }
 
-    void ResetOrbit()                        { SetOrbit(CVector3f::skZero, 5.f); }
+    void ResetOrbit()                        { SetOrbit(CVector3f::Zero(), 5.f); }
 
     // Private
 private:

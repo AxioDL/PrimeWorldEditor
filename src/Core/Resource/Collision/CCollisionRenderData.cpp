@@ -225,7 +225,7 @@ void CCollisionRenderData::Render(bool Wireframe, int MaterialIndex /*= -1*/)
     //@todo get these ugly OpenGL calls outta here
     if (Wireframe)
     {
-        CDrawUtil::UseColorShader(CColor::skBlack);
+        CDrawUtil::UseColorShader(CColor::Black());
         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     }
 
@@ -252,7 +252,7 @@ void CCollisionRenderData::Render(bool Wireframe, int MaterialIndex /*= -1*/)
 void CCollisionRenderData::RenderBoundingHierarchy(int MaxDepthLevel /*= -1*/)
 {
     mBoundingVertexBuffer.Bind();
-    CDrawUtil::UseColorShader(CColor::skBlue);
+    CDrawUtil::UseColorShader(CColor::Blue());
     glLineWidth(1.f);
     uint FirstIndex = mBoundingDepthOffsets[0];
     uint LastIndex = (MaxDepthLevel > 0 ?

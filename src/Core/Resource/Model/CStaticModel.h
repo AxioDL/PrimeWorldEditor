@@ -26,7 +26,7 @@ public:
     void ClearGLBuffer();
     void Draw(FRenderOptions Options);
     void DrawSurface(FRenderOptions Options, uint32 Surface);
-    void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::skWhite);
+    void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::White());
 
     CMaterial* GetMaterial();
     void SetMaterial(CMaterial *pMat);

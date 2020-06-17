@@ -115,12 +115,16 @@ void CRenderer::SetViewportSize(uint32 Width, uint32 Height)
 // ************ RENDER ************
 void CRenderer::RenderBuckets(const SViewInfo& rkViewInfo)
 {
-    if (!mInitialized) Init();
+    if (!mInitialized)
+        Init();
+
     mSceneFramebuffer.Bind();
 
     // Set backface culling
-    if (mOptions & ERenderOption::EnableBackfaceCull) glEnable(GL_CULL_FACE);
-    else glDisable(GL_CULL_FACE);
+    if (mOptions & ERenderOption::EnableBackfaceCull)
+        glEnable(GL_CULL_FACE);
+    else
+        glDisable(GL_CULL_FACE);
 
     // Render scene to texture
     glDepthRange(0.f, 1.f);
@@ -146,21 +150,36 @@ void CRenderer::RenderBuckets(const SViewInfo& rkViewInfo)
 void CRenderer::RenderBloom()
 {
     // Check to ensure bloom is enabled. Also don't render bloom in unlit mode.
-    if (mBloomMode == EBloomMode::NoBloom || CGraphics::sLightMode != CGraphics::ELightingMode::World) return;
+    if (mBloomMode == EBloomMode::NoBloom || CGraphics::sLightMode != CGraphics::ELightingMode::World)
+        return;
 
     // Setup
-    static const float skHOffset[6] = { -0.008595f, -0.005470f, -0.002345f,
-                                         0.002345f,  0.005470f,  0.008595f };
+    static constexpr float skHOffset[6] = {
+        -0.008595f,
+        -0.005470f,
+        -0.002345f,
+        0.002345f,
+        0.005470f,
+        0.008595f,
+    };
 
-    static const float skVOffset[6] = { -0.012275f, -0.007815f, -0.003350f,
-                                         0.003350f,  0.007815f,  0.012275f };
+    static constexpr float skVOffset[6] = {
+        -0.012275f,
+        -0.007815f,
+        -0.003350f,
+        0.003350f,
+        0.007815f,
+        0.012275f,
+    };
 
-    static const CColor skTintColors[6] = { CColor::Integral(17, 17, 17),
-                                            CColor::Integral(53, 53, 53),
-                                            CColor::Integral(89, 89, 89),
-                                            CColor::Integral(89, 89, 89),
-                                            CColor::Integral(53, 53, 53),
-                                            CColor::Integral(17, 17, 17) };
+    static constexpr CColor skTintColors[6] = {
+        CColor::Integral(17, 17, 17),
+        CColor::Integral(53, 53, 53),
+        CColor::Integral(89, 89, 89),
+        CColor::Integral(89, 89, 89),
+        CColor::Integral(53, 53, 53),
+        CColor::Integral(17, 17, 17),
+    };
 
     uint32 BloomWidth  = (mBloomMode == EBloomMode::Bloom ? mBloomWidth  : mViewportWidth);
     uint32 BloomHeight = (mBloomMode == EBloomMode::Bloom ? mBloomHeight : mViewportHeight);
@@ -195,7 +214,7 @@ void CRenderer::RenderBloom()
     mBloomFramebuffers[1].Resize(BloomWidth, BloomHeight);
     mBloomFramebuffers[1].Bind();
 
-    CDrawUtil::UseTextureShader(CColor::skGray);
+    CDrawUtil::UseTextureShader(CColor::Gray());
     glBlendFunc(GL_ONE, GL_ZERO);
     mBloomFramebuffers[0].Texture()->Bind(0);
     CDrawUtil::DrawSquare();
@@ -215,7 +234,7 @@ void CRenderer::RenderBloom()
     mBloomFramebuffers[2].Bind();
     glClear(GL_COLOR_BUFFER_BIT);
 
-    CDrawUtil::UseTextureShader(CColor::skGray);
+    CDrawUtil::UseTextureShader(CColor::Gray());
     glBlendFunc(GL_ONE, GL_ZERO);
     mBloomFramebuffers[1].Texture()->Bind(0);
     CDrawUtil::DrawSquare();
@@ -247,7 +266,7 @@ void CRenderer::RenderBloom()
     {
         // Bloom maps are in the framebuffer alpha channel.
         // White * dst alpha = bloom map colors
-        CDrawUtil::UseColorShader(CColor::skWhite);
+        CDrawUtil::UseColorShader(CColor::White());
         glBlendFunc(GL_DST_ALPHA, GL_ZERO);
         CDrawUtil::DrawSquare();
     }
@@ -269,10 +288,10 @@ void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo)
     glEnable(GL_CULL_FACE);
 
     CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
-    CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentWhite;
-    CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
-    CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
-    CGraphics::sPixelBlock.TintColor = CColor::skWhite;
+    CGraphics::sVertexBlock.COLOR0_Amb = CColor::TransparentWhite();
+    CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
+    CGraphics::sPixelBlock.SetAllTevColors(CColor::White());
+    CGraphics::sPixelBlock.TintColor = CColor::White();
     CGraphics::sNumLights = 0;
     CGraphics::UpdateVertexBlock();
     CGraphics::UpdatePixelBlock();

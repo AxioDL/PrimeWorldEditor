@@ -36,7 +36,7 @@ void CRenderBucket::CSubBucket::Sort(const CCamera* pkCamera, bool DebugVisualiz
         {
             SRenderablePtr *pPtr = &mRenderables[iPtr];
             CVector3f Point = pPtr->AABox.ClosestPointAlongVector(pkCamera->Direction());
-            CDrawUtil::DrawWireCube(pPtr->AABox, CColor::skWhite);
+            CDrawUtil::DrawWireCube(pPtr->AABox, CColor::White());
 
             CVector3f Dist = Point - pkCamera->Position();
             float Dot = Dist.Dot(pkCamera->Direction());

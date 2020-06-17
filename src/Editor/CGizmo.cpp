@@ -19,17 +19,17 @@ CGizmo::CGizmo()
     , mHasTransformed(false)
     , mWrapOffset(0.f)
     , mEnableCursorWrap(true)
-    , mPosition(CVector3f::skZero)
-    , mRotation(CQuaternion::skIdentity)
-    , mLocalRotation(CQuaternion::skIdentity)
-    , mScale(CVector3f::skOne)
+    , mPosition(CVector3f::Zero())
+    , mRotation(CQuaternion::Identity())
+    , mLocalRotation(CQuaternion::Identity())
+    , mScale(CVector3f::One())
     , mFlipScaleX(false)
     , mFlipScaleY(false)
     , mFlipScaleZ(false)
-    , mDeltaTranslation(CVector3f::skZero)
-    , mDeltaRotation(CQuaternion::skIdentity)
-    , mDeltaScale(CVector3f::skOne)
-    , mTotalScale(CVector3f::skOne)
+    , mDeltaTranslation(CVector3f::Zero())
+    , mDeltaRotation(CQuaternion::Identity())
+    , mDeltaScale(CVector3f::One())
+    , mTotalScale(CVector3f::One())
     , mSetOffset(false)
 {
     LoadModels();
@@ -80,7 +80,7 @@ void CGizmo::Draw(FRenderOptions /*Options*/, int ComponentIndex, ERenderCommand
     CGraphics::UpdateMVPBlock();
 
     // Clear tint color
-    CGraphics::sPixelBlock.TintColor = CColor::skWhite;
+    CGraphics::sPixelBlock.TintColor = CColor::White();
     CGraphics::UpdatePixelBlock();
 
     // Choose material set
@@ -98,7 +98,8 @@ void CGizmo::IncrementSize()
     static const float skMaxSize = powf(skIncAmount, 4);
 
     mGizmoSize *= skIncAmount;
-    if (mGizmoSize > skMaxSize) mGizmoSize = skMaxSize;
+    if (mGizmoSize > skMaxSize)
+        mGizmoSize = skMaxSize;
 }
 
 void CGizmo::DecrementSize()
@@ -107,7 +108,8 @@ void CGizmo::DecrementSize()
     static const float skMinSize = powf(skDecAmount, 4);
 
     mGizmoSize *= skDecAmount;
-    if (mGizmoSize < skMinSize) mGizmoSize = skMinSize;
+    if (mGizmoSize < skMinSize)
+        mGizmoSize = skMinSize;
 }
 
 void CGizmo::UpdateForCamera(const CCamera& rkCamera)
@@ -118,13 +120,13 @@ void CGizmo::UpdateForCamera(const CCamera& rkCamera)
     mFlipScaleY = (mRotation.YAxis().Dot(CameraToGizmo) >= 0.f);
     mFlipScaleZ = (mRotation.ZAxis().Dot(CameraToGizmo) >= 0.f);
 
-    if ((!mIsTransforming) || (mMode != EGizmoMode::Translate))
+    if (!mIsTransforming || mMode != EGizmoMode::Translate)
         mCameraDist = mPosition.Distance(CamPos);
 
     // todo: make this cleaner...
     CVector3f BillDir = (CamPos - mPosition).Normalized();
-    CVector3f Axis = CVector3f::skForward.Cross(BillDir);
-    float Angle = acosf(CVector3f::skForward.Dot(BillDir));
+    CVector3f Axis = CVector3f::Forward().Cross(BillDir);
+    float Angle = acosf(CVector3f::Forward().Dot(BillDir));
     mBillboardRotation = CQuaternion::FromAxisAngle(Angle, Axis);
 }
 
@@ -155,8 +157,8 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
 
         // Ray/Model AABox test - allow buffer room because lines are small
         CAABox AABox = pModel->AABox();
-        AABox.ExpandBy(CVector3f::skOne);
-        bool ModelBoxCheck = Math::RayBoxIntersection(rPartRay, AABox).first;
+        AABox.ExpandBy(CVector3f::One());
+        const bool ModelBoxCheck = Math::RayBoxIntersection(rPartRay, AABox).first;
 
         if (ModelBoxCheck)
         {
@@ -198,16 +200,15 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
     }
 
     // Otherwise, we have at least one hit - sort results and set selected axes
-    Results.sort([](const SResult& rkLeft, SResult& rkRight) -> bool
-            {
-                return (rkLeft.Dist < rkRight.Dist);
-            });
+    Results.sort([](const SResult& rkLeft, SResult& rkRight) {
+        return rkLeft.Dist < rkRight.Dist;
+    });
 
     CRay& rPartRay = (pPart->IsBillboard ? BillRay : LocalRay);
     mSelectedAxes = Results.front().pPart->ModelAxes;
     mHitPoint = mTransform * rPartRay.PointOnRay(Results.front().Dist);
 
-    return (mSelectedAxes != EAxis::None);
+    return mSelectedAxes != EAxis::None;
 }
 
 uint32 CGizmo::NumSelectedAxes()
@@ -229,25 +230,27 @@ void CGizmo::StartTransform()
 {
     mIsTransforming = true;
     mHasTransformed = false;
-    mWrapOffset = CVector2f::skZero;
+    mWrapOffset = CVector2f::Zero();
     mSetOffset = false;
-    mTotalTranslation = CVector3f::skZero;
-    mTotalRotation = CVector3f::skZero;
-    mCurrentRotation = CQuaternion::skIdentity;
-    mTotalScale = CVector3f::skOne;
+    mTotalTranslation = CVector3f::Zero();
+    mTotalRotation = CVector3f::Zero();
+    mCurrentRotation = CQuaternion::Identity();
+    mTotalScale = CVector3f::One();
 
     // Set rotation direction
     if (mMode == EGizmoMode::Rotate)
     {
         CVector3f Axis;
-        if (mSelectedAxes & EAxis::X) Axis = mRotation.XAxis();
-        else if (mSelectedAxes & EAxis::Y) Axis = mRotation.YAxis();
-        else Axis = mRotation.ZAxis();
+        if (mSelectedAxes & EAxis::X)
+            Axis = mRotation.XAxis();
+        else if (mSelectedAxes & EAxis::Y)
+            Axis = mRotation.YAxis();
+        else
+            Axis = mRotation.ZAxis();
 
-        CVector3f GizmoToHit = (mHitPoint - mPosition).Normalized();
+        const CVector3f GizmoToHit = (mHitPoint - mPosition).Normalized();
         mMoveDir = Axis.Cross(GizmoToHit);
     }
-
     // Set scale direction
     else if (mMode == EGizmoMode::Scale)
     {
@@ -257,16 +260,18 @@ void CGizmo::StartTransform()
             // One axis; direction = selected axis
             if (NumSelectedAxes() == 1)
             {
-                if (mSelectedAxes & EAxis::X)      mMoveDir = mRotation.XAxis();
-                else if (mSelectedAxes & EAxis::Y) mMoveDir = mRotation.YAxis();
-                else                               mMoveDir = mRotation.ZAxis();
+                if (mSelectedAxes & EAxis::X)
+                    mMoveDir = mRotation.XAxis();
+                else if (mSelectedAxes & EAxis::Y)
+                    mMoveDir = mRotation.YAxis();
+                else
+                    mMoveDir = mRotation.ZAxis();
             }
-
             // Two axes; interpolate between the two selected axes
             else if (NumSelectedAxes() == 2)
             {
-                CVector3f AxisA = (mSelectedAxes & EAxis::X ? mRotation.XAxis() : mRotation.YAxis());
-                CVector3f AxisB = (mSelectedAxes & EAxis::Z ? mRotation.ZAxis() : mRotation.YAxis());
+                const CVector3f AxisA = (mSelectedAxes & EAxis::X ? mRotation.XAxis() : mRotation.YAxis());
+                const CVector3f AxisB = (mSelectedAxes & EAxis::Z ? mRotation.ZAxis() : mRotation.YAxis());
                 mMoveDir = (AxisA + AxisB) / 2.f;
             }
         }
@@ -296,18 +301,20 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
 
         if (NumAxes == 1)
         {
-            if (mSelectedAxes & EAxis::X) AxisB = mRotation.XAxis();
-            else if (mSelectedAxes & EAxis::Y) AxisB = mRotation.YAxis();
-            else AxisB = mRotation.ZAxis();
+            if (mSelectedAxes & EAxis::X)
+                AxisB = mRotation.XAxis();
+            else if (mSelectedAxes & EAxis::Y)
+                AxisB = mRotation.YAxis();
+            else
+                AxisB = mRotation.ZAxis();
 
             CVector3f GizmoToCamera = (mPosition - rCamera.Position()).Normalized();
             AxisA = AxisB.Cross(GizmoToCamera);
         }
-
         else if (NumAxes == 2)
         {
-            AxisA = (mSelectedAxes & EAxis::X ? mRotation.XAxis() : mRotation.YAxis());
-            AxisB = (mSelectedAxes & EAxis::Z ? mRotation.ZAxis() : mRotation.YAxis());
+            AxisA = mSelectedAxes & EAxis::X ? mRotation.XAxis() : mRotation.YAxis();
+            AxisB = mSelectedAxes & EAxis::Z ? mRotation.ZAxis() : mRotation.YAxis();
         }
 
         CVector3f PlaneNormal = AxisA.Cross(AxisB);
@@ -323,58 +330,65 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
 
             // Calculate new position
             CVector3f NewPos = mPosition;
-            if (mSelectedAxes & EAxis::X) NewPos += mRotation.XAxis() * LocalDelta.X;
-            if (mSelectedAxes & EAxis::Y) NewPos += mRotation.YAxis() * LocalDelta.Y;
-            if (mSelectedAxes & EAxis::Z) NewPos += mRotation.ZAxis() * LocalDelta.Z;
+            if (mSelectedAxes & EAxis::X)
+                NewPos += mRotation.XAxis() * LocalDelta.X;
+            if (mSelectedAxes & EAxis::Y)
+                NewPos += mRotation.YAxis() * LocalDelta.Y;
+            if (mSelectedAxes & EAxis::Z)
+                NewPos += mRotation.ZAxis() * LocalDelta.Z;
 
             // Check relativity of new pos to camera to reduce issue where the gizmo might
             // go flying off into the distance if newPosToCamera is parallel to the plane
             CVector3f NewPosToCamera = (NewPos - rCamera.Position()).Normalized();
             float Dot = Math::Abs(PlaneNormal.Dot(NewPosToCamera));
-            if (Dot < 0.02f) return false;
+            if (Dot < 0.02f)
+                return false;
 
             // Set offset
             if (!mSetOffset)
             {
                 mTranslateOffset = mPosition - NewPos;
-                mDeltaTranslation = CVector3f::skZero;
+                mDeltaTranslation = CVector3f::Zero();
                 mSetOffset = true;
                 return false;
             }
-
-            // Apply translation
-            else
+            else // Apply translation
             {
                 mDeltaTranslation = mRotation.Inverse() * (NewPos - mPosition + mTranslateOffset);
-                if (!(mSelectedAxes & EAxis::X)) mDeltaTranslation.X = 0.f;
-                if (!(mSelectedAxes & EAxis::Y)) mDeltaTranslation.Y = 0.f;
-                if (!(mSelectedAxes & EAxis::Z)) mDeltaTranslation.Z = 0.f;
+                if (!(mSelectedAxes & EAxis::X))
+                    mDeltaTranslation.X = 0.f;
+                if (!(mSelectedAxes & EAxis::Y))
+                    mDeltaTranslation.Y = 0.f;
+                if (!(mSelectedAxes & EAxis::Z))
+                    mDeltaTranslation.Z = 0.f;
 
                 mTotalTranslation += mDeltaTranslation;
                 mPosition += mRotation * mDeltaTranslation;
 
-                if (!mHasTransformed && (mDeltaTranslation != CVector3f::skZero))
+                if (!mHasTransformed && (mDeltaTranslation != CVector3f::Zero()))
                     mHasTransformed = true;
 
                 return mHasTransformed;
             }
         }
-
         else
         {
-            mDeltaTranslation = CVector3f::skZero;
+            mDeltaTranslation = CVector3f::Zero();
             return false;
         }
     }
 
     // Rotate
-    else if (mMode == EGizmoMode::Rotate)
+    if (mMode == EGizmoMode::Rotate)
     {
         // Choose rotation axis
         CVector3f Axis;
-        if (mSelectedAxes & EAxis::X) Axis = CVector3f::skUnitX;
-        else if (mSelectedAxes & EAxis::Y) Axis = CVector3f::skUnitY;
-        else Axis = CVector3f::skUnitZ;
+        if (mSelectedAxes & EAxis::X)
+            Axis = CVector3f::UnitX();
+        else if (mSelectedAxes & EAxis::Y)
+            Axis = CVector3f::UnitY();
+        else
+            Axis = CVector3f::UnitZ();
 
         // Convert hit point + move direction into a line in screen space
         // Clockwise direction is set in StartTransform(). Is there a cleaner way to calculate the direction?
@@ -387,7 +401,7 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
         if (!mSetOffset)
         {
             mRotateOffset = -RotAmount;
-            mDeltaRotation = CQuaternion::skIdentity;
+            mDeltaRotation = CQuaternion::Identity();
             mSetOffset = true;
             return false;
         }
@@ -402,18 +416,21 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
             mRotation *= mDeltaRotation;
 
         // Add to total
-        if (mSelectedAxes & EAxis::X)      mTotalRotation.X = RotAmount;
-        else if (mSelectedAxes & EAxis::Y) mTotalRotation.Y = RotAmount;
-        else                               mTotalRotation.Z = RotAmount;
+        if (mSelectedAxes & EAxis::X)
+            mTotalRotation.X = RotAmount;
+        else if (mSelectedAxes & EAxis::Y)
+            mTotalRotation.Y = RotAmount;
+        else
+            mTotalRotation.Z = RotAmount;
 
-        if (!mHasTransformed && (RotAmount != 0.f))
+        if (!mHasTransformed && RotAmount != 0.f)
             mHasTransformed = true;
 
         return mHasTransformed;
     }
 
     // Scale
-    else if (mMode == EGizmoMode::Scale)
+    if (mMode == EGizmoMode::Scale)
     {
         // Create a line in screen space. First step: line origin
         CMatrix4f VP = rCamera.ViewMatrix().Transpose() * rCamera.ProjectionMatrix().Transpose();
@@ -431,9 +448,12 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
         if (NumSelectedAxes() == 1)
         {
             CVector3f WorldDir;
-            if (mSelectedAxes & EAxis::X)      WorldDir = DirX;
-            else if (mSelectedAxes & EAxis::Y) WorldDir = DirY;
-            else                               WorldDir = DirZ;
+            if (mSelectedAxes & EAxis::X)
+                WorldDir = DirX;
+            else if (mSelectedAxes & EAxis::Y)
+                WorldDir = DirY;
+            else
+                WorldDir = DirZ;
             LineDir = (((mPosition + WorldDir) * VP).XY() - LineOrigin).Normalized();
         }
         // Two axes - take the two selected axes and convert them to world space, then average them for the line direction
@@ -445,16 +465,17 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
             CVector2f ScreenB = (((mPosition + AxisB) * VP).XY() - LineOrigin).Normalized();
             LineDir = ((ScreenA + ScreenB) / 2.f).Normalized();
         }
-        // Three axes - use straight up
-        else LineDir = CVector2f::skUp;
-
+        else // Three axes - use straight up
+        {
+            LineDir = CVector2f::Up();
+        }
         float ScaleAmount = LineDir.Dot(MouseCoords + mWrapOffset - LineOrigin) * 5.f;
 
         // Set offset
         if (!mSetOffset)
         {
             mScaleOffset = -ScaleAmount;
-            mDeltaScale = CVector3f::skOne;
+            mDeltaScale = CVector3f::One();
             mSetOffset = true;
             return false;
         }
@@ -468,10 +489,13 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
 
         CVector3f OldScale = mTotalScale;
 
-        mTotalScale = CVector3f::skOne;
-        if (mSelectedAxes & EAxis::X) mTotalScale.X = ScaleAmount;
-        if (mSelectedAxes & EAxis::Y) mTotalScale.Y = ScaleAmount;
-        if (mSelectedAxes & EAxis::Z) mTotalScale.Z = ScaleAmount;
+        mTotalScale = CVector3f::One();
+        if (mSelectedAxes & EAxis::X)
+            mTotalScale.X = ScaleAmount;
+        if (mSelectedAxes & EAxis::Y)
+            mTotalScale.Y = ScaleAmount;
+        if (mSelectedAxes & EAxis::Z)
+            mTotalScale.Z = ScaleAmount;
 
         mDeltaScale = mTotalScale / OldScale;
 
@@ -486,7 +510,7 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, CCamera& rCamera)
 
 void CGizmo::EndTransform()
 {
-    mTotalScale = CVector3f::skOne;
+    mTotalScale = CVector3f::One();
     mIsTransforming = false;
 }
 
@@ -499,22 +523,22 @@ void CGizmo::SetMode(EGizmoMode Mode)
     case EGizmoMode::Translate:
         mpCurrentParts = smTranslateModels;
         mNumCurrentParts = CGIZMO_TRANSLATE_NUM;
-        mDeltaRotation = CQuaternion::skIdentity;
-        mDeltaScale = CVector3f::skOne;
+        mDeltaRotation = CQuaternion::Identity();
+        mDeltaScale = CVector3f::One();
         break;
 
     case EGizmoMode::Rotate:
         mpCurrentParts = smRotateModels;
         mNumCurrentParts = CGIZMO_ROTATE_NUM;
-        mDeltaTranslation = CVector3f::skZero;
-        mDeltaScale = CVector3f::skOne;
+        mDeltaTranslation = CVector3f::Zero();
+        mDeltaScale = CVector3f::One();
         break;
 
     case EGizmoMode::Scale:
         mpCurrentParts = smScaleModels;
         mNumCurrentParts = CGIZMO_SCALE_NUM;
-        mDeltaTranslation = CVector3f::skZero;
-        mDeltaRotation = CQuaternion::skIdentity;
+        mDeltaTranslation = CVector3f::Zero();
+        mDeltaRotation = CQuaternion::Identity();
         break;
     default: break;
     }
@@ -525,7 +549,7 @@ void CGizmo::SetTransformSpace(ETransformSpace Space)
     mTransformSpace = Space;
 
     if (Space == ETransformSpace::World)
-        mRotation = CQuaternion::skIdentity;
+        mRotation = CQuaternion::Identity();
     else
         mRotation = mLocalRotation;
 }

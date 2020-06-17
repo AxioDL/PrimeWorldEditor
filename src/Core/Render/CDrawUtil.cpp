@@ -63,13 +63,13 @@ void CDrawUtil::DrawSquare(const float *pTexCoords)
 
 void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB)
 {
-    DrawLine(PointA, PointB, CColor::skWhite);
+    DrawLine(PointA, PointB, CColor::White());
 }
 
 void CDrawUtil::DrawLine(const CVector2f& PointA, const CVector2f& PointB)
 {
     // Overload for 2D lines
-    DrawLine(CVector3f(PointA.X, PointA.Y, 0.f), CVector3f(PointB.X, PointB.Y, 0.f), CColor::skWhite);
+    DrawLine(CVector3f(PointA.X, PointA.Y, 0.f), CVector3f(PointB.X, PointB.Y, 0.f), CColor::White());
 }
 
 void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const CColor& LineColor)
@@ -281,7 +281,7 @@ void CDrawUtil::UseColorShaderLighting(const CColor& kColor)
 
 void CDrawUtil::UseTextureShader()
 {
-    UseTextureShader(CColor::skWhite);
+    UseTextureShader(CColor::White());
 }
 
 void CDrawUtil::UseTextureShader(const CColor& TintColor)

@@ -66,7 +66,7 @@ public:
     std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
     CVector2f RenderString(const TString& rkString, CRenderer *pRenderer, float AspectRatio,
                            CVector2f Position = CVector2f(0,0),
-                           CColor FillColor = CColor::skWhite, CColor StrokeColor = CColor::skBlack,
+                           CColor FillColor = CColor::White(), CColor StrokeColor = CColor::Black(),
                            uint32 FontSize = CFONT_DEFAULT_SIZE);
 
     // Accessors

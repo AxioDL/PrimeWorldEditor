@@ -16,15 +16,15 @@ CSceneViewport::CSceneViewport(QWidget *pParent)
     , mRenderingMergedWorld(true)
     , mGizmoTransforming(false)
     , mpHoverNode(nullptr)
-    , mHoverPoint(CVector3f::skZero)
+    , mHoverPoint(CVector3f::Zero())
     , mpContextMenu(nullptr)
     , mpMenuNode(nullptr)
 {
     mGrid.SetColor(CColor(0.f, 0.f, 0.6f, 0.f), CColor(0.f, 0.f, 1.f, 0.f));
-    mLinkLine.SetColor(CColor::skYellow);
+    mLinkLine.SetColor(CColor::Yellow());
 
     mpRenderer = new CRenderer();
-    mpRenderer->SetClearColor(CColor::skBlack);
+    mpRenderer->SetClearColor(CColor::Black());
     qreal pixelRatio = devicePixelRatioF();
     mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 
@@ -306,7 +306,7 @@ void CSceneViewport::Paint()
 {
     if (!mpScene) return;
 
-    mpRenderer->SetClearColor(CColor::skBlack);
+    mpRenderer->SetClearColor(CColor::Black());
     mpRenderer->BeginFrame();
 
     // todo: The sky should really just be a regular node in the background depth group instead of having special rendering code here

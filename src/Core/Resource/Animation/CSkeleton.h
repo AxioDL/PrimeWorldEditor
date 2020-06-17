@@ -15,9 +15,9 @@ class CBone;
 
 struct SBoneTransformInfo
 {
-    CVector3f Position{CVector3f::skZero};
-    CQuaternion Rotation{CQuaternion::skIdentity};
-    CVector3f Scale{CVector3f::skOne};
+    CVector3f Position{CVector3f::Zero()};
+    CQuaternion Rotation{CQuaternion::Identity()};
+    CVector3f Scale{CVector3f::One()};
 
     SBoneTransformInfo() = default;
 };

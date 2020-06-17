@@ -24,7 +24,7 @@ void CBone::UpdateTransform(CBoneTransformData& rData, const SBoneTransformInfo&
         pAnim->EvaluateTransform(Time, mID, &TransformInfo.Position, &TransformInfo.Rotation, &TransformInfo.Scale);
 
     if (AnchorRoot && IsRoot())
-        TransformInfo.Position = CVector3f::skZero;
+        TransformInfo.Position = CVector3f::Zero();
 
     // Apply parent transform
     TransformInfo.Position = rkParentTransform.Position + (rkParentTransform.Rotation * (rkParentTransform.Scale * TransformInfo.Position));
@@ -125,9 +125,9 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkDat
         if (pBone->IsSelected())
         {
             const CQuaternion BoneRot = pkData ? pBone->TransformedRotation(*pkData) : pBone->Rotation();
-            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.XAxis(), CColor::skRed);
-            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.YAxis(), CColor::skGreen);
-            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.ZAxis(), CColor::skBlue);
+            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.XAxis(), CColor::Red());
+            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.YAxis(), CColor::Green());
+            CDrawUtil::DrawLine(BonePos, BonePos + BoneRot.ZAxis(), CColor::Blue());
         }
 
         // Draw child links
@@ -151,7 +151,7 @@ void CSkeleton::Draw(FRenderOptions /*Options*/, const CBoneTransformData *pkDat
         Transform.Translate(BonePos);
         CGraphics::sMVPBlock.ModelMatrix = Transform * BaseTransform;
         CGraphics::UpdateMVPBlock();
-        CDrawUtil::DrawSphere(pBone->IsSelected() ? CColor::skRed : CColor::skWhite);
+        CDrawUtil::DrawSphere(pBone->IsSelected() ? CColor::Red() : CColor::White());
     }
 }
 

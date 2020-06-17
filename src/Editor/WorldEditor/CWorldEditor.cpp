@@ -812,7 +812,7 @@ void CWorldEditor::UpdateGizmoUI()
     // Update transform XYZ spin boxes
     if (!ui->TransformSpinBox->IsBeingEdited())
     {
-        CVector3f SpinBoxValue = CVector3f::skZero;
+        CVector3f SpinBoxValue = CVector3f::Zero();
 
         // If the gizmo is transforming, use the total transform amount
         // Otherwise, use the first selected node transform, or 0 if no selection

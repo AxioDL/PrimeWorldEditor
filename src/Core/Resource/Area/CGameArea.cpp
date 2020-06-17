@@ -110,7 +110,7 @@ void CGameArea::ClearTerrain()
     mVertexCount = 0;
     mTriangleCount = 0;
     mTerrainMerged = false;
-    mAABox = CAABox::skInfinite;
+    mAABox = CAABox::Infinite();
 }
 
 void CGameArea::ClearScriptLayers()

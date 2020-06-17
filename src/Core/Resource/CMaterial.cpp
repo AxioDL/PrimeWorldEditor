@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 
 uint64 CMaterial::sCurrentMaterial = 0;
-CColor CMaterial::sCurrentTint = CColor::skWhite;
+CColor CMaterial::sCurrentTint = CColor::White();
 std::map<uint64, CMaterial::SMaterialShader> CMaterial::smShaderMap;
 
 CMaterial::CMaterial()

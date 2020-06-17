@@ -34,7 +34,7 @@ void CScriptAttachNode::AttachPropertyModified()
         if (pModel && pModel->Type() == EResourceType::Model)
             mLocalAABox = pModel->AABox();
         else
-            mLocalAABox = CAABox::skInfinite;
+            mLocalAABox = CAABox::Infinite();
 
         MarkTransformChanged();
     }
@@ -93,7 +93,7 @@ void CScriptAttachNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERe
     CGraphics::UpdateVertexBlock();
 
     CGraphics::sPixelBlock.TintColor = mpParent->TintColor(rkViewInfo);
-    CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
+    CGraphics::sPixelBlock.SetAllTevColors(CColor::White());
     CGraphics::UpdatePixelBlock();
     DrawModelParts(Model(), Options, 0, Command);
 }

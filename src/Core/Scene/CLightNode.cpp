@@ -8,7 +8,7 @@ CLightNode::CLightNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CLigh
     : CSceneNode(pScene, NodeID, pParent)
     , mpLight(pLight)
 {
-    mLocalAABox = CAABox::skOne;
+    mLocalAABox = CAABox::One();
     mPosition = pLight->Position();
 
     switch (pLight->Type())
@@ -34,7 +34,7 @@ void CLightNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
 
     if (IsSelected() && mpLight->Type() == ELightType::Custom)
     {
-        CAABox RadiusBox = (CAABox::skOne * 2.f * mpLight->GetRadius()) + mPosition;
+        CAABox RadiusBox = (CAABox::One() * 2.f * mpLight->GetRadius()) + mPosition;
 
         if (rkViewInfo.ViewFrustum.BoxInFrustum(RadiusBox))
             pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
