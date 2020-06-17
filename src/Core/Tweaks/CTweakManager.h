@@ -23,7 +23,7 @@ public:
     void ClearTweaks();
 
     // Accessors
-    inline const std::vector<CTweakData*>& TweakObjects() const
+    const std::vector<CTweakData*>& TweakObjects() const
     {
         return mTweakObjects;
     }
