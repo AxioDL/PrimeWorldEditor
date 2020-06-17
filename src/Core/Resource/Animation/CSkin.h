@@ -28,19 +28,19 @@ public:
     const SVertexWeights& WeightsForVertex(uint32 VertIdx)
     {
         // Null weights bind everything to the root bone in case there is no matching vertex group
-        static const SVertexWeights skNullWeights = {
-            { 3, 0, 0, 0 },
-            { 1.f, 0.f, 0.f, 0.f }
+        static constexpr SVertexWeights skNullWeights{
+            {3, 0, 0, 0},
+            {1.f, 0.f, 0.f, 0.f},
         };
 
         uint32 Index = 0;
 
-        for (uint32 iGrp = 0; iGrp < mVertGroups.size(); iGrp++)
+        for (const auto& group : mVertGroups)
         {
-            if (VertIdx < Index + mVertGroups[iGrp].NumVertices)
-                return mVertGroups[iGrp].Weights;
+            if (VertIdx < Index + group.NumVertices)
+                return group.Weights;
 
-            Index += mVertGroups[iGrp].NumVertices;
+            Index += group.NumVertices;
         }
 
         return skNullWeights;
