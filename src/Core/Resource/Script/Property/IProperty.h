@@ -202,7 +202,7 @@ public:
     void MarkDirty();
     void ClearDirtyFlag();
     bool ConvertType(EPropertyType NewType, IProperty* pNewArchetype = nullptr);
-    bool UsesNameMap();
+    bool UsesNameMap() const;
     bool HasAccurateName();
 
     /** Accessors */
