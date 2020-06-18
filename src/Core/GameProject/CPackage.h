@@ -46,10 +46,10 @@ class CPackage
 
 public:
     CPackage() = default;
-    CPackage(CGameProject *pProj, const TString& rkName, const TString& rkPath)
+    CPackage(CGameProject *pProj, TString rkName, TString rkPath)
         : mpProject(pProj)
-        , mPakName(rkName)
-        , mPakPath(rkPath)
+        , mPakName(std::move(rkName))
+        , mPakPath(std::move(rkPath))
         , mCacheDirty(true)
     {}
 

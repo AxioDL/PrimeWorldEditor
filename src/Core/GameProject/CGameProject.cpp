@@ -62,7 +62,7 @@ bool CGameProject::Serialize(IArchive& rArc)
             TString PackageName = packagePath.GetFileName(false);
             TString PackageDir = packagePath.GetFileDirectory();
 
-            auto pPackage = std::make_unique<CPackage>(this, PackageName, PackageDir);
+            auto pPackage = std::make_unique<CPackage>(this, std::move(PackageName), std::move(PackageDir));
             const bool PackageLoadSuccess = pPackage->Load();
             mPackages.push_back(std::move(pPackage));
 
