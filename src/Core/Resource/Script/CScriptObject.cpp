@@ -79,19 +79,18 @@ void CScriptObject::EvaluateVolume()
     mVolumeScale = mpTemplate->VolumeScale(this);
 }
 
-bool CScriptObject::IsEditorProperty(IProperty *pProp)
+bool CScriptObject::IsEditorProperty(const IProperty *pProp) const
 {
-    return ( (pProp == mInstanceName.Property()) ||
-             (pProp == mPosition.Property()) ||
-             (pProp == mRotation.Property()) ||
-             (pProp == mScale.Property()) ||
-             (pProp == mActive.Property()) ||
-             (pProp == mLightParameters.Property()) ||
-             (pProp->Parent() == mPosition.Property()) ||
-             (pProp->Parent() == mRotation.Property()) ||
-             (pProp->Parent() == mScale.Property()) ||
-             (pProp->Parent() == mLightParameters.Property())
-           );
+    return pProp == mInstanceName.Property() ||
+           pProp == mPosition.Property() ||
+           pProp == mRotation.Property() ||
+           pProp == mScale.Property() ||
+           pProp == mActive.Property() ||
+           pProp == mLightParameters.Property() ||
+           pProp->Parent() == mPosition.Property() ||
+           pProp->Parent() == mRotation.Property() ||
+           pProp->Parent() == mScale.Property() ||
+           pProp->Parent() == mLightParameters.Property();
 }
 
 void CScriptObject::SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex)

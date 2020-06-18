@@ -72,7 +72,7 @@ public:
     void EvaluateDisplayAsset();
     void EvaluateCollisionModel();
     void EvaluateVolume();
-    bool IsEditorProperty(IProperty *pProp);
+    bool IsEditorProperty(const IProperty *pProp) const;
     void SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex = UINT32_MAX);
     uint32 LayerIndex() const;
     bool HasNearVisibleActivation() const;
