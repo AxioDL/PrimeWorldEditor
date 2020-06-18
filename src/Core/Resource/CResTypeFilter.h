@@ -5,6 +5,8 @@
 #include "CResTypeInfo.h"
 #include "Core/GameProject/CResourceEntry.h"
 
+#include <algorithm>
+
 class CResTypeFilter
 {
     EGame mGame = EGame::Invalid;
@@ -19,9 +21,9 @@ public:
         mAcceptedTypes.clear();
         mGame = Game;
 
-        for (auto Iter = rkTypes.begin(); Iter != rkTypes.end(); Iter++)
+        for (const auto& str : rkTypes)
         {
-            CResTypeInfo *pTypeInfo = CResTypeInfo::TypeForCookedExtension(mGame, CFourCC(*Iter));
+            CResTypeInfo* pTypeInfo = CResTypeInfo::TypeForCookedExtension(mGame, CFourCC(str));
 
             if (pTypeInfo)
                 mAcceptedTypes.insert(pTypeInfo->Type());
@@ -32,10 +34,12 @@ public:
     {
         TString Out;
 
-        for (auto Iter = mAcceptedTypes.begin(); Iter != mAcceptedTypes.end(); Iter++)
+        for (const auto type : mAcceptedTypes)
         {
-            if (!Out.IsEmpty()) Out += ',';
-            CResTypeInfo *pTypeInfo = CResTypeInfo::FindTypeInfo(*Iter);
+            if (!Out.IsEmpty())
+                Out += ',';
+
+            CResTypeInfo *pTypeInfo = CResTypeInfo::FindTypeInfo(type);
             Out += pTypeInfo->CookedExtension(mGame).ToString();
         }
 
@@ -68,15 +72,10 @@ public:
         return pEntry && Accepts(pEntry->ResourceType());
     }
 
-    bool Accepts(const CResTypeFilter& rkFilter) const
+    bool Accepts(const CResTypeFilter& filter) const
     {
-        for (auto Iter = mAcceptedTypes.begin(); Iter != mAcceptedTypes.end(); Iter++)
-        {
-            if (rkFilter.Accepts(*Iter))
-                return true;
-        }
-
-        return false;
+        return std::any_of(mAcceptedTypes.cbegin(), mAcceptedTypes.cend(),
+                           [&filter](const auto& entry) { return filter.Accepts(entry); });
     }
 
     bool operator==(const CResTypeFilter& rkOther) const
