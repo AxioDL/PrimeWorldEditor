@@ -668,7 +668,10 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
             if (mpArea->InstanceByID(InstanceID) != nullptr)
             {
                 if (pInst->ObjectTypeID() != FOURCC('GCTR'))
-                    debugf("Duplicate SCGN object: [%s] %s (%08X)", *pInst->Template()->Name(), *pInst->InstanceName(), pInst->InstanceID());
+                {
+                    debugf("Duplicate SCGN object: [%s] %s (%08X)", *pInst->Template()->Name(), *pInst->InstanceName(),
+                           static_cast<uint32>(pInst->InstanceID()));
+                }
 
                 pGenLayer->RemoveInstance(pInst);
                 delete pInst;
