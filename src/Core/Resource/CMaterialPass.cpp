@@ -152,6 +152,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, size_t PassIndex)
         TexMtx[0][3] = 0.f;
         TexMtx[1][3] = 0.f;
         TexMtx[2][3] = 0.f;
+        break;
     }
 
     case EUVAnimMode::ConvolutedModeA: // Mode 7
