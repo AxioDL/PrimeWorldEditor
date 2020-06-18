@@ -28,7 +28,7 @@ class CResTypeInfo
     static std::unordered_map<EResourceType, std::unique_ptr<CResTypeInfo>> smTypeMap;
 
     // Private Methods
-    CResTypeInfo(EResourceType Type, const TString& rkTypeName, const TString& rkRetroExtension);
+    CResTypeInfo(EResourceType type, TString typeName, TString retroExtension);
     ~CResTypeInfo() = default;
     friend struct std::default_delete<CResTypeInfo>;
 

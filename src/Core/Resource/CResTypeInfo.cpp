@@ -4,15 +4,15 @@
 
 std::unordered_map<EResourceType, std::unique_ptr<CResTypeInfo>> CResTypeInfo::smTypeMap;
 
-CResTypeInfo::CResTypeInfo(EResourceType Type, const TString& rkTypeName, const TString& rkRetroExtension)
-    : mType(Type)
-    , mTypeName(rkTypeName)
-    , mRetroExtension(rkRetroExtension)
+CResTypeInfo::CResTypeInfo(EResourceType type, TString typeName, TString retroExtension)
+    : mType(type)
+    , mTypeName(std::move(typeName))
+    , mRetroExtension(std::move(retroExtension))
 {
 #if !PUBLIC_RELEASE
-    ASSERT(smTypeMap.find(Type) == smTypeMap.end());
+    ASSERT(smTypeMap.find(type) == smTypeMap.cend());
 #endif
-    smTypeMap.insert_or_assign(Type, std::unique_ptr<CResTypeInfo>(this));
+    smTypeMap.insert_or_assign(type, std::unique_ptr<CResTypeInfo>(this));
 }
 
 bool CResTypeInfo::IsInGame(EGame Game) const
