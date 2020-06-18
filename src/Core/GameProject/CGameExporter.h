@@ -77,7 +77,7 @@ public:
     CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
     bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress);
     void LoadResource(const CAssetID& rkID, std::vector<uint8>& rBuffer);
-    bool ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot);
+    bool ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot) const;
 
     TString ProjectPath() const  { return mProjectPath; }
 

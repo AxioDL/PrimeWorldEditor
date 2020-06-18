@@ -106,7 +106,7 @@ void CGameExporter::LoadResource(const CAssetID& rkID, std::vector<uint8>& rBuff
         LoadResource(*pInst, rBuffer);
 }
 
-bool CGameExporter::ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot)
+bool CGameExporter::ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot) const
 {
     if (IsInRoot && mDiscType != EDiscType::Normal)
     {
