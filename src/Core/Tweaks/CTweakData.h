@@ -14,13 +14,13 @@ class CTweakData : public CResource
     CScriptTemplate* mpTemplate;
 
     /** Tweak ID for MP2+ */
-    uint mTweakID;
+    uint32 mTweakID;
 
     /** Tweak data */
     std::vector<uint8> mTweakData;
 
 public:
-    CTweakData(CScriptTemplate* pTemplate, uint TweakID, CResourceEntry* pEntry = nullptr)
+    CTweakData(CScriptTemplate* pTemplate, uint32 TweakID, CResourceEntry* pEntry = nullptr)
         : CResource(pEntry)
         , mpTemplate(pTemplate)
         , mTweakID(TweakID)
