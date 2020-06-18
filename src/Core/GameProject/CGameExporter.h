@@ -39,15 +39,15 @@ class CGameExporter
     TString mWorldsDirName;
 
     // Files
-    nod::DiscBase *mpDisc;
+    nod::DiscBase *mpDisc = nullptr;
     EDiscType mDiscType;
     bool mFrontEnd;
 
     // Resources
     TStringList mPaks;
     std::map<CAssetID, bool> mAreaDuplicateMap;
-    CAssetNameMap *mpNameMap;
-    CGameInfo *mpGameInfo;
+    CAssetNameMap *mpNameMap = nullptr;
+    CGameInfo *mpGameInfo = nullptr;
 
     struct SResourceInstance
     {
@@ -62,7 +62,7 @@ class CGameExporter
     std::map<CAssetID, SResourceInstance> mResourceMap;
 
     // Progress
-    IProgressNotifier *mpProgress;
+    IProgressNotifier *mpProgress = nullptr;
 
 public:
     enum EExportStep

@@ -34,7 +34,6 @@ CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, EReg
     , mBuildVersion(BuildVersion)
     , mDiscType(DiscType)
     , mFrontEnd(FrontEnd)
-    , mpProgress(nullptr)
 {
     ASSERT(mGame != EGame::Invalid);
     ASSERT(mRegion != ERegion::Unknown);
