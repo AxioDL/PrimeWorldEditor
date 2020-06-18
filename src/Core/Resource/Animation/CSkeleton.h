@@ -19,8 +19,6 @@ struct SBoneTransformInfo
     CVector3f Position{CVector3f::Zero()};
     CQuaternion Rotation{CQuaternion::Identity()};
     CVector3f Scale{CVector3f::One()};
-
-    SBoneTransformInfo() = default;
 };
 
 class CSkeleton : public CResource
