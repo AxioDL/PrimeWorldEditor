@@ -47,13 +47,13 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
 
     CColor BaseTint = TintColor(rkViewInfo);
 
-    for (uint32 MeshIdx = 0; MeshIdx < mpCollision->NumMeshes(); MeshIdx++)
+    for (size_t MeshIdx = 0; MeshIdx < mpCollision->NumMeshes(); MeshIdx++)
     {
         CCollisionMesh *pMesh = mpCollision->MeshByIndex(MeshIdx);
         CCollisionRenderData& RenderData = pMesh->GetRenderData();
         const SCollisionIndexData& kIndexData = pMesh->GetIndexData();
 
-        for (int MatIdx = 0; MatIdx < (int) kIndexData.Materials.size(); MatIdx++)
+        for (int MatIdx = 0; MatIdx < static_cast<int>(kIndexData.Materials.size()); MatIdx++)
         {
             const CCollisionMaterial& kMat = kIndexData.Materials[MatIdx];
 
@@ -83,9 +83,9 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
     // Render bounding hierarchy
     if (rkViewInfo.CollisionSettings.DrawBoundingHierarchy)
     {
-        int Depth = rkViewInfo.CollisionSettings.BoundingHierarchyRenderDepth;
+        const int Depth = rkViewInfo.CollisionSettings.BoundingHierarchyRenderDepth;
 
-        for (uint MeshIdx = 0; MeshIdx < mpCollision->NumMeshes(); MeshIdx++)
+        for (size_t MeshIdx = 0; MeshIdx < mpCollision->NumMeshes(); MeshIdx++)
         {
             mpCollision->MeshByIndex(MeshIdx)->GetRenderData().RenderBoundingHierarchy(Depth);
         }
@@ -124,17 +124,17 @@ void CCollisionNode::SetCollision(CCollisionMeshGroup *pCollision)
 {
     mpCollision = pCollision;
 
-    if (mpCollision)
+    if (!mpCollision)
+        return;
+
+    mpCollision->BuildRenderData();
+
+    // Update bounds
+    mLocalAABox = CAABox::Infinite();
+
+    for (size_t MeshIdx = 0; MeshIdx < pCollision->NumMeshes(); MeshIdx++)
     {
-        mpCollision->BuildRenderData();
-
-        // Update bounds
-        mLocalAABox = CAABox::Infinite();
-
-        for (uint MeshIdx = 0; MeshIdx < pCollision->NumMeshes(); MeshIdx++)
-        {
-            CCollisionMesh* pMesh = pCollision->MeshByIndex(MeshIdx);
-            mLocalAABox.ExpandBounds(pMesh->Bounds());
-        }
+        const CCollisionMesh* pMesh = pCollision->MeshByIndex(MeshIdx);
+        mLocalAABox.ExpandBounds(pMesh->Bounds());
     }
 }

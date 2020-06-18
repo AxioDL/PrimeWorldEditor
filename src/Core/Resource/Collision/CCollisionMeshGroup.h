@@ -17,8 +17,8 @@ public:
     explicit CCollisionMeshGroup(CResourceEntry *pEntry = nullptr) : CResource(pEntry) {}
     ~CCollisionMeshGroup() = default;
 
-    uint32 NumMeshes() const                              { return mMeshes.size(); }
-    CCollisionMesh* MeshByIndex(uint32 Index) const       { return mMeshes[Index].get(); }
+    size_t NumMeshes() const                              { return mMeshes.size(); }
+    CCollisionMesh* MeshByIndex(size_t Index) const       { return mMeshes[Index].get(); }
     void AddMesh(std::unique_ptr<CCollisionMesh>&& pMesh) { mMeshes.push_back(std::move(pMesh)); }
 
     void BuildRenderData()

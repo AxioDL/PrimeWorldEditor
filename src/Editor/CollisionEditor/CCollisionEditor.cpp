@@ -31,11 +31,11 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     mpUI->ToolBar->addWidget( new QLabel("OBBTree: ", this) );
 
     int MaxDepth = 0;
-    for (uint MeshIdx = 0; MeshIdx < pCollisionMesh->NumMeshes(); MeshIdx++)
+    for (size_t MeshIdx = 0; MeshIdx < pCollisionMesh->NumMeshes(); MeshIdx++)
     {
-        CCollisionMesh* pMesh = pCollisionMesh->MeshByIndex(MeshIdx);
-        int MeshDepth = pMesh->GetRenderData().MaxBoundingHierarchyDepth();
-        MaxDepth = Math::Max(MeshDepth, MaxDepth);
+        const CCollisionMesh* pMesh = pCollisionMesh->MeshByIndex(MeshIdx);
+        const int MeshDepth = pMesh->GetRenderData().MaxBoundingHierarchyDepth();
+        MaxDepth = std::max(MeshDepth, MaxDepth);
     }
 
     QSlider* pOBBTreeSlider = new QSlider(this);
