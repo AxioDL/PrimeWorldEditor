@@ -97,6 +97,7 @@ void CMaterialPass::SetAnimCurrent(FRenderOptions Options, size_t PassIndex)
                             0.0f, 0.5f, 0.0f, 0.5f,
                             0.0f, 0.0f, 0.0f, 1.0f,
                             0.0f, 0.0f, 0.0f, 1.0f);
+        break;
     }
 
     case EUVAnimMode::UVScroll: // Mode 2
