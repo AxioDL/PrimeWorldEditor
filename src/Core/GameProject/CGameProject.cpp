@@ -148,7 +148,7 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
     }
 }
 
-CAssetID CGameProject::FindNamedResource(const TString& rkName) const
+CAssetID CGameProject::FindNamedResource(std::string_view name) const
 {
     for (const auto& pkg : mPackages)
     {
@@ -156,7 +156,7 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
         {
             const SNamedResource& rkRes = pkg->NamedResourceByIndex(iRes);
 
-            if (rkRes.Name == rkName)
+            if (rkRes.Name == name)
                 return rkRes.ID;
         }
     }
@@ -164,17 +164,15 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
     return CAssetID::InvalidID(mGame);
 }
 
-CPackage* CGameProject::FindPackage(const TString& rkName) const
+CPackage* CGameProject::FindPackage(std::string_view name) const
 {
-    for (const auto& pPackage : mPackages)
-    {
-        if (pPackage->Name() == rkName)
-        {
-            return pPackage.get();
-        }
-    }
+    const auto iter = std::find_if(mPackages.begin(), mPackages.end(),
+                                   [name](const auto& package) { return package->Name() == name; });
 
-    return nullptr;
+    if (iter == mPackages.cend())
+        return nullptr;
+
+    return iter->get();
 }
 
 std::unique_ptr<CGameProject> CGameProject::CreateProjectForExport(

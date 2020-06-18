@@ -14,6 +14,7 @@
 #include <Common/TString.h>
 #include <Common/FileIO/CFileLock.h>
 #include <memory>
+#include <string_view>
 
 namespace nod { class DiscWii; }
 
@@ -57,8 +58,8 @@ public:
     bool BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress);
     bool MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso, IProgressNotifier *pProgress);
     void GetWorldList(std::list<CAssetID>& rOut) const;
-    CAssetID FindNamedResource(const TString& rkName) const;
-    CPackage* FindPackage(const TString& rkName) const;
+    CAssetID FindNamedResource(std::string_view name) const;
+    CPackage* FindPackage(std::string_view name) const;
 
     // Static
     static std::unique_ptr<CGameProject> CreateProjectForExport(

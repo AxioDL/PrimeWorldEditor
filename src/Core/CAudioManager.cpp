@@ -39,7 +39,7 @@ void CAudioManager::LoadAssets()
     }
 
     // Load audio lookup table + sfx name list
-    const TString AudioLookupName = (mpProject->Game() < EGame::EchoesDemo ? "sound_lookup" : "sound_lookup_ATBL");
+    const std::string_view AudioLookupName = mpProject->Game() < EGame::EchoesDemo ? "sound_lookup" : "sound_lookup_ATBL";
     const CAssetID AudioLookupID = mpProject->FindNamedResource(AudioLookupName);
 
     if (AudioLookupID.IsValid())
