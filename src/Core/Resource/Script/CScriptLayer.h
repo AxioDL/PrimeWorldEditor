@@ -10,14 +10,13 @@
 class CScriptLayer
 {
     CGameArea *mpArea;
-    TString mLayerName;
+    TString mLayerName{"New Layer"};
     bool mActive = true;
     bool mVisible = true;
     std::vector<CScriptObject*> mInstances;
 public:
-    CScriptLayer(CGameArea *pArea)
+    explicit CScriptLayer(CGameArea *pArea)
         : mpArea(pArea)
-        , mLayerName("New Layer")
     {
     }
 
