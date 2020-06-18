@@ -19,8 +19,10 @@ bool CCharacterUsageMap::IsCharacterUsed(const CAssetID& rkID, size_t CharacterI
 
 bool CCharacterUsageMap::IsAnimationUsed(const CAssetID& rkID, CSetAnimationDependency *pAnim) const
 {
-    auto Find = mUsageMap.find(rkID);
-    if (Find == mUsageMap.end()) return false;
+    const auto Find = mUsageMap.find(rkID);
+    if (Find == mUsageMap.end())
+        return false;
+
     const std::vector<bool>& rkUsageList = Find->second;
 
     for (uint32 iChar = 0; iChar < rkUsageList.size(); iChar++)
@@ -82,9 +84,9 @@ void CCharacterUsageMap::FindUsagesForLayer(CResourceEntry *pAreaEntry, uint32 L
     ASSERT(pTree->Type() == EDependencyNodeType::Area);
 
     // Only examine dependencies of the particular layer specified by the caller
-    bool IsLastLayer = (mLayerIndex == pTree->NumScriptLayers() - 1);
-    uint32 StartIdx = pTree->ScriptLayerOffset(mLayerIndex);
-    uint32 EndIdx = (IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(mLayerIndex + 1));
+    const bool IsLastLayer = mLayerIndex == pTree->NumScriptLayers() - 1;
+    const uint32 StartIdx = pTree->ScriptLayerOffset(mLayerIndex);
+    const uint32 EndIdx = IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(mLayerIndex + 1);
 
     for (uint32 iInst = StartIdx; iInst < EndIdx; iInst++)
         ParseDependencyNode(pTree->ChildByIndex(iInst));
@@ -94,7 +96,7 @@ void CCharacterUsageMap::Clear()
 {
     mUsageMap.clear();
     mStillLookingIDs.clear();
-    mLayerIndex = -1;
+    mLayerIndex = UINT32_MAX;
     mIsInitialArea = true;
 }
 
@@ -102,16 +104,14 @@ void CCharacterUsageMap::Clear()
 
 void CCharacterUsageMap::DebugPrintContents()
 {
-    for (auto Iter = mUsageMap.begin(); Iter != mUsageMap.end(); Iter++)
+    for (auto& [ID, usedList] : mUsageMap)
     {
-        CAssetID ID = Iter->first;
-        std::vector<bool>& rUsedList = Iter->second;
-        CAnimSet *pSet = mpStore->LoadResource<CAnimSet>(ID);
+        const CAnimSet *pSet = mpStore->LoadResource<CAnimSet>(ID);
 
         for (uint32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
         {
-            bool Used = (rUsedList.size() > iChar && rUsedList[iChar]);
-            TString CharName = pSet->Character(iChar)->Name;
+            const bool Used = usedList.size() > iChar && usedList[iChar];
+            const TString CharName = pSet->Character(iChar)->Name;
             debugf("%s : Char %d : %s : %s", *ID.ToString(), iChar, *CharName, (Used ? "USED" : "UNUSED"));
         }
     }
@@ -120,57 +120,57 @@ void CCharacterUsageMap::DebugPrintContents()
 // ************ PROTECTED ************
 void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
 {
-    if (!pNode) return;
-    EDependencyNodeType Type = pNode->Type();
+    if (!pNode)
+        return;
+
+    const EDependencyNodeType Type = pNode->Type();
 
     if (Type == EDependencyNodeType::CharacterProperty)
     {
-        CCharPropertyDependency *pDep = static_cast<CCharPropertyDependency*>(pNode);
-        CAssetID ResID = pDep->ID();
-        auto Find = mUsageMap.find(ResID);
+        auto *pDep = static_cast<CCharPropertyDependency*>(pNode);
+        const CAssetID ResID = pDep->ID();
+        const auto Find = mUsageMap.find(ResID);
 
-        if (!mIsInitialArea && mStillLookingIDs.find(ResID) == mStillLookingIDs.end())
+        if (!mIsInitialArea && mStillLookingIDs.find(ResID) == mStillLookingIDs.cend())
             return;
 
-        if (Find != mUsageMap.end())
+        if (Find != mUsageMap.cend())
         {
             if (!mIsInitialArea && mCurrentAreaAllowsDupes)
             {
-                mStillLookingIDs.erase( mStillLookingIDs.find(ResID) );
+                mStillLookingIDs.erase(mStillLookingIDs.find(ResID));
                 return;
             }
         }
-
         else
         {
-            if (!mIsInitialArea) return;
-            mUsageMap[ResID] = std::vector<bool>();
+            if (!mIsInitialArea)
+                return;
+
+            mUsageMap.insert_or_assign(ResID, std::vector<bool>());
             mStillLookingIDs.insert(ResID);
         }
 
         std::vector<bool>& rUsageList = mUsageMap[ResID];
-        uint32 UsedChar = pDep->UsedChar();
+        const uint32 UsedChar = pDep->UsedChar();
 
         if (rUsageList.size() <= UsedChar)
             rUsageList.resize(UsedChar + 1, false);
 
         rUsageList[UsedChar] = true;
     }
-
     // Parse dependencies of the referenced resource if it's a type that can reference animsets
     else if (Type == EDependencyNodeType::Resource || Type == EDependencyNodeType::ScriptProperty)
     {
-        CResourceDependency *pDep = static_cast<CResourceDependency*>(pNode);
-        CResourceEntry *pEntry = mpStore->FindEntry(pDep->ID());
+        auto* pDep = static_cast<CResourceDependency*>(pNode);
+        CResourceEntry* pEntry = mpStore->FindEntry(pDep->ID());
 
         if (pEntry && pEntry->ResourceType() == EResourceType::Scan)
         {
             ParseDependencyNode(pEntry->Dependencies());
         }
     }
-
-    // Look for sub-dependencies of the current node
-    else
+    else // Look for sub-dependencies of the current node
     {
         for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
             ParseDependencyNode(pNode->ChildByIndex(iChild));
@@ -216,9 +216,12 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
 
 void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, const CAssetID& rkID, std::list<CAssetID>& rOut)
 {
-    if (pCurEntry && pCurEntry->ResourceType() == EResourceType::DependencyGroup) return;
+    if (pCurEntry && pCurEntry->ResourceType() == EResourceType::DependencyGroup)
+        return;
+
     CResourceEntry *pEntry = mpStore->FindEntry(rkID);
-    if (!pEntry) return;
+    if (!pEntry)
+        return;
 
     EResourceType ResType = pEntry->ResourceType();
 
@@ -228,12 +231,15 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
                    (ResType != EResourceType::World || !pCurEntry) &&
                    (ResType != EResourceType::Area || !pCurEntry || pCurEntry->ResourceType() == EResourceType::World);
 
-    if (!IsValid) return;
-
-    if ( ( mCurrentAreaHasDuplicates && mAreaUsedAssets.find(rkID) != mAreaUsedAssets.end()) ||
-         (!mCurrentAreaHasDuplicates && mPackageUsedAssets.find(rkID) != mPackageUsedAssets.end()) ||
-         (!mIsUniversalAreaAsset && mUniversalAreaAssets.find(rkID) != mUniversalAreaAssets.end() ) )
+    if (!IsValid)
         return;
+
+    if ((mCurrentAreaHasDuplicates && mAreaUsedAssets.find(rkID) != mAreaUsedAssets.end()) ||
+        (!mCurrentAreaHasDuplicates && mPackageUsedAssets.find(rkID) != mPackageUsedAssets.end()) ||
+        (!mIsUniversalAreaAsset && mUniversalAreaAssets.find(rkID) != mUniversalAreaAssets.end()))
+    {
+        return;
+    }
 
     // Entry is valid, parse its sub-dependencies
     mPackageUsedAssets.insert(rkID);
@@ -260,10 +266,11 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
             }
         }
     }
-
     // Animset - keep track of the current animset ID
     else if (ResType == EResourceType::AnimSet)
+    {
         mCurrentAnimSetID = rkID;
+    }
 
     // Evaluate dependencies of this entry
     CDependencyTree *pTree = pEntry->Dependencies();
@@ -273,7 +280,6 @@ void CPackageDependencyListBuilder::AddDependency(CResourceEntry *pCurEntry, con
     // Revert current animset ID
     if (ResType == EResourceType::AnimSet)
         mCurrentAnimSetID = CAssetID::InvalidID(mGame);
-
     // Revert duplicate flag
     else if (ResType == EResourceType::Area)
         mCurrentAreaHasDuplicates = false;
@@ -420,27 +426,29 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
 
             if (pNode->Type() == EDependencyNodeType::ScriptInstance)
             {
-                CScriptInstanceDependency *pInst = static_cast<CScriptInstanceDependency*>(pNode);
+                auto* pInst = static_cast<CScriptInstanceDependency*>(pNode);
                 mIsPlayerActor = (pInst->ObjectType() == 0x4C || pInst->ObjectType() == FOURCC('PLAC'));
 
                 for (uint32 iDep = 0; iDep < pInst->NumChildren(); iDep++)
                 {
-                    CPropertyDependency *pDep = static_cast<CPropertyDependency*>(pInst->ChildByIndex(iDep));
+                    auto* pDep = static_cast<CPropertyDependency*>(pInst->ChildByIndex(iDep));
 
                     // For MP3, exclude the CMDL/CSKR properties for the suit assets - only include default character assets
                     if (mGame == EGame::Corruption && mIsPlayerActor)
                     {
                         TString PropID = pDep->PropertyID();
 
-                        if (    PropID == "0x846397A8" || PropID == "0x685A4C01" ||
-                                PropID == "0x9834ECC9" || PropID == "0x188B8960" ||
-                                PropID == "0x134A81E3" || PropID == "0x4ABF030C" ||
-                                PropID == "0x9BF030DC" || PropID == "0x981263D3" ||
-                                PropID == "0x8A8D5AA5" || PropID == "0xE4734608" ||
-                                PropID == "0x3376814D" || PropID == "0x797CA77E" ||
-                                PropID == "0x0EBEC440" || PropID == "0xBC0952D8" ||
-                                PropID == "0xA8778E57" || PropID == "0x1CB10DBE"    )
+                        if (PropID == "0x846397A8" || PropID == "0x685A4C01" ||
+                            PropID == "0x9834ECC9" || PropID == "0x188B8960" ||
+                            PropID == "0x134A81E3" || PropID == "0x4ABF030C" ||
+                            PropID == "0x9BF030DC" || PropID == "0x981263D3" ||
+                            PropID == "0x8A8D5AA5" || PropID == "0xE4734608" ||
+                            PropID == "0x3376814D" || PropID == "0x797CA77E" ||
+                            PropID == "0x0EBEC440" || PropID == "0xBC0952D8" ||
+                            PropID == "0xA8778E57" || PropID == "0x1CB10DBE")
+                        {
                             continue;
+                        }
                     }
 
                     AddDependency(pDep->ID(), rAssetsOut, pAudioGroupsOut);
@@ -473,9 +481,10 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
 void CAreaDependencyListBuilder::AddDependency(const CAssetID& rkID, std::list<CAssetID>& rOut, std::set<CAssetID> *pAudioGroupsOut)
 {
     CResourceEntry *pEntry = mpStore->FindEntry(rkID);
-    if (!pEntry) return;
+    if (!pEntry)
+        return;
 
-    EResourceType ResType = pEntry->ResourceType();
+    const EResourceType ResType = pEntry->ResourceType();
 
     // If this is an audio group, for MP1, save it in the output set. For MP2, treat audio groups as a normal dependency.
     if (mGame <= EGame::Prime && ResType == EResourceType::AudioGroup)
@@ -579,11 +588,12 @@ void CAssetDependencyListBuilder::BuildDependencyList(std::vector<CAssetID>& Out
 void CAssetDependencyListBuilder::AddDependency(const CAssetID& kID, std::vector<CAssetID>& Out)
 {
     CResourceEntry *pEntry = mpResourceEntry->ResourceStore()->FindEntry(kID);
-    if (!pEntry) return;
+    if (!pEntry)
+        return;
 
-    EResourceType ResType = pEntry->ResourceType();
+    const EResourceType ResType = pEntry->ResourceType();
 
-    if (mUsedAssets.find(kID) != mUsedAssets.end())
+    if (mUsedAssets.find(kID) != mUsedAssets.cend())
         return;
 
     // Dependency is valid! Evaluate the node tree
