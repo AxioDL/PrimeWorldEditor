@@ -74,7 +74,7 @@ void SerializeGameList(IArchive& Arc)
         ENSURE(Arc.ParamBegin("Game", 0));
 
         // Determine which game is being serialized
-        const auto Game = static_cast<EGame>(GameIdx);
+        auto Game = static_cast<EGame>(GameIdx);
         Arc << SerialParameter("ID", Game, SH_Attribute);
         ASSERT(Game != EGame::Invalid);
 
