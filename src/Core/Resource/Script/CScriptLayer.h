@@ -111,6 +111,7 @@ public:
 
     // Operators
     CScriptObject* operator[](uint32 Index) { return InstanceByIndex(Index); }
+    const CScriptObject* operator[](uint32 Index) const { return InstanceByIndex(Index); }
 };
 
 #endif // CSCRIPTLAYER_H
