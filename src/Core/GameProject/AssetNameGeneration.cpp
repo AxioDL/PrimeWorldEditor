@@ -109,11 +109,11 @@ void GenerateAssetNames(CGameProject *pProj)
     // Generate names for package named resources
     debugf("Processing packages");
 
-    for (uint32 iPkg = 0; iPkg < pProj->NumPackages(); iPkg++)
+    for (size_t iPkg = 0; iPkg < pProj->NumPackages(); iPkg++)
     {
         CPackage *pPkg = pProj->PackageByIndex(iPkg);
 
-        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (size_t iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
             if (rkRes.Name.EndsWith("NODEPEND")) continue;

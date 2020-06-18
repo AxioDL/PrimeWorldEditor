@@ -87,8 +87,8 @@ public:
     void SetProjectName(TString name) { mProjectName = std::move(name); }
 
     TString Name() const                                 { return mProjectName; }
-    uint32 NumPackages() const                           { return mPackages.size(); }
-    CPackage* PackageByIndex(uint32 Index) const         { return mPackages[Index].get(); }
+    size_t NumPackages() const                           { return mPackages.size(); }
+    CPackage* PackageByIndex(size_t Index) const         { return mPackages[Index].get(); }
     void AddPackage(std::unique_ptr<CPackage>&& package) { mPackages.push_back(std::move(package)); }
     CResourceStore* ResourceStore() const                { return mpResourceStore.get(); }
     CGameInfo* GameInfo() const                          { return mpGameInfo.get(); }

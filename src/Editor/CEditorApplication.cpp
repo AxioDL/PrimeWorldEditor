@@ -216,7 +216,7 @@ bool CEditorApplication::CookAllDirtyPackages()
     ASSERT(mpActiveProject != nullptr);
     QList<CPackage*> PackageList;
 
-    for (uint32 iPkg = 0; iPkg < mpActiveProject->NumPackages(); iPkg++)
+    for (size_t iPkg = 0; iPkg < mpActiveProject->NumPackages(); iPkg++)
     {
         CPackage *pPackage = mpActiveProject->PackageByIndex(iPkg);
 
@@ -258,7 +258,7 @@ bool CEditorApplication::HasAnyDirtyPackages()
     if (!mpActiveProject)
         return false;
 
-    for (uint32 PkgIdx = 0; PkgIdx < mpActiveProject->NumPackages(); PkgIdx++)
+    for (size_t PkgIdx = 0; PkgIdx < mpActiveProject->NumPackages(); PkgIdx++)
     {
         CPackage *pPackage = mpActiveProject->PackageByIndex(PkgIdx);
 

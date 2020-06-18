@@ -669,11 +669,11 @@ TString CGameExporter::MakeWorldName(CAssetID WorldID)
     // Find the original world name in the package resource names
     TString WorldName;
 
-    for (uint32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
+    for (size_t iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
     {
         CPackage *pPkg = mpProject->PackageByIndex(iPkg);
 
-        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (size_t iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 

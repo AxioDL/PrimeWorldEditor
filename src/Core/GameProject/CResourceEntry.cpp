@@ -330,7 +330,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/, bool FlagForRecook /*=
     // Flag dirty any packages that contain this resource.
     if (FlagForRecook)
     {
-        for (uint32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
+        for (size_t iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
         {
             CPackage *pPkg = mpStore->Project()->PackageByIndex(iPkg);
 

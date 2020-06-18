@@ -102,26 +102,27 @@ void CProjectSettingsDialog::SetupPackagesList()
     mpUI->PackagesList->clear();
     if (!mpProject) return;
 
-    for (uint32 iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
+    for (size_t iPkg = 0; iPkg < mpProject->NumPackages(); iPkg++)
     {
         CPackage *pPackage = mpProject->PackageByIndex(iPkg);
         ASSERT(pPackage != nullptr);
 
         QString PackageName = TO_QSTRING(pPackage->Name());
-        if (pPackage->NeedsRecook()) PackageName += '*';
+        if (pPackage->NeedsRecook())
+            PackageName += '*';
         mpUI->PackagesList->addItem(PackageName);
     }
 }
 
 void CProjectSettingsDialog::CookPackage()
 {
-    uint32 PackageIdx = mpUI->PackagesList->currentRow();
+    const auto PackageIdx = static_cast<uint32>(mpUI->PackagesList->currentRow());
 
-    if (PackageIdx != -1)
-    {
-        CPackage *pPackage = mpProject->PackageByIndex(PackageIdx);
-        gpEdApp->CookPackage(pPackage);
-    }
+    if (PackageIdx == UINT32_MAX)
+        return;
+
+    CPackage *pPackage = mpProject->PackageByIndex(PackageIdx);
+    gpEdApp->CookPackage(pPackage);
 }
 
 void CProjectSettingsDialog::CookAllDirtyPackages()
