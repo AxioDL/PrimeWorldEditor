@@ -23,14 +23,14 @@ QVariant CPoiMapModel::headerData(int Section, Qt::Orientation Orientation, int 
 
 int CPoiMapModel::rowCount(const QModelIndex& /*rkParent*/) const
 {
-    return mpPoiToWorld ? mpPoiToWorld->NumMappedPOIs() : 0;
+    return mpPoiToWorld ? static_cast<int>(mpPoiToWorld->NumMappedPOIs()) : 0;
 }
 
 QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
 {
     if (rkIndex.row() < rowCount(QModelIndex()))
     {
-        const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(rkIndex.row());
+        const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(static_cast<size_t>(rkIndex.row()));
         CScriptObject *pPOI = mpArea->InstanceByID(pkMap->PoiID);
 
         if (Role == Qt::DisplayRole)
@@ -67,17 +67,17 @@ QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
 
 void CPoiMapModel::AddPOI(CScriptNode *pPOI)
 {
-    if (!mModelMap.contains(pPOI))
-    {
-        int NewIndex = mpPoiToWorld->NumMappedPOIs();
-        beginInsertRows(QModelIndex(), NewIndex, NewIndex);
+    if (mModelMap.contains(pPOI))
+        return;
 
-        QList<CModelNode*> *pList = new QList<CModelNode*>;
-        mModelMap[pPOI] = pList;
-        mpPoiToWorld->AddPoi(pPOI->Instance()->InstanceID());
+    const int NewIndex = static_cast<int>(mpPoiToWorld->NumMappedPOIs());
+    beginInsertRows(QModelIndex(), NewIndex, NewIndex);
 
-        endInsertRows();
-    }
+    QList<CModelNode*> *pList = new QList<CModelNode*>;
+    mModelMap[pPOI] = pList;
+    mpPoiToWorld->AddPoi(pPOI->Instance()->InstanceID());
+
+    endInsertRows();
 }
 
 void CPoiMapModel::AddMapping(const QModelIndex& rkIndex, CModelNode *pNode)
@@ -142,9 +142,11 @@ bool CPoiMapModel::IsModelMapped(const QModelIndex& rkIndex, CModelNode *pNode) 
 
 CScriptNode* CPoiMapModel::PoiNodePointer(const QModelIndex& rkIndex) const
 {
-    if ((uint32) rkIndex.row() < mpPoiToWorld->NumMappedPOIs())
+    const auto rowIndex = static_cast<size_t>(rkIndex.row());
+
+    if (rowIndex < mpPoiToWorld->NumMappedPOIs())
     {
-        const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(rkIndex.row());
+        const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(rowIndex);
         return mpEditor->Scene()->NodeForInstanceID(pkMap->PoiID);
     }
 
@@ -180,7 +182,7 @@ void CPoiMapModel::OnMapChange(CWorld*, CGameArea *pArea)
         }
 
         // Create internal model map
-        for (uint32 iPoi = 0; iPoi < mpPoiToWorld->NumMappedPOIs(); iPoi++)
+        for (size_t iPoi = 0; iPoi < mpPoiToWorld->NumMappedPOIs(); iPoi++)
         {
             const CPoiToWorld::SPoiMap *pkMap = mpPoiToWorld->MapByIndex(iPoi);
             CScriptNode *pPoiNode = mpEditor->Scene()->NodeForInstanceID(pkMap->PoiID);
@@ -189,10 +191,10 @@ void CPoiMapModel::OnMapChange(CWorld*, CGameArea *pArea)
             {
                 QList<CModelNode*> *pModelList = new QList<CModelNode*>;
 
-                for (auto it = pkMap->ModelIDs.begin(); it != pkMap->ModelIDs.end(); it++)
+                for (const auto modelID : pkMap->ModelIDs)
                 {
-                    if (NodeMap.contains(*it))
-                        *pModelList << NodeMap[*it];
+                    if (NodeMap.contains(modelID))
+                        *pModelList << NodeMap[modelID];
                 }
 
                 mModelMap[pPoiNode] = pModelList;

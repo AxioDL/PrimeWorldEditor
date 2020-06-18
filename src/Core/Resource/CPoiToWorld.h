@@ -30,12 +30,12 @@ public:
     void RemovePoi(uint32 PoiID);
     void RemovePoiMeshMap(uint32 PoiID, uint32 ModelID);
 
-    uint32 NumMappedPOIs() const
+    size_t NumMappedPOIs() const
     {
         return mMaps.size();
     }
 
-    const SPoiMap* MapByIndex(uint32 Index) const
+    const SPoiMap* MapByIndex(size_t Index) const
     {
         return mMaps[Index];
     }
