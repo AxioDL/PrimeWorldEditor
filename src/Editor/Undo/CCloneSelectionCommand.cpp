@@ -17,7 +17,7 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
             CScriptNode *pScript = static_cast<CScriptNode*>(*It);
             CScriptObject *pInst = pScript->Instance();
 
-            for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
+            for (size_t iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
             {
                 CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pInst->Link(ELinkType::Outgoing, iLink)->Receiver());
 
@@ -85,7 +85,7 @@ void CCloneSelectionCommand::redo()
         CScriptObject *pSrc = static_cast<CScriptNode*>(ToClone[iNode])->Instance();
         CScriptObject *pClone = static_cast<CScriptNode*>(ClonedNodes[iNode])->Instance();
 
-        for (uint32 iLink = 0; iLink < pSrc->NumLinks(ELinkType::Outgoing); iLink++)
+        for (size_t iLink = 0; iLink < pSrc->NumLinks(ELinkType::Outgoing); iLink++)
         {
             CLink *pSrcLink = pSrc->Link(ELinkType::Outgoing, iLink);
 

@@ -195,8 +195,8 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, voi
                 rOut.WriteShort((uint16) PropertiesToWrite.size());
         }
 
-        for (uint32 PropertyIdx = 0; PropertyIdx < PropertiesToWrite.size(); PropertyIdx++)
-            WriteProperty(rOut, PropertiesToWrite[PropertyIdx], pData, pStruct->IsAtomic());
+        for (auto* property : PropertiesToWrite)
+            WriteProperty(rOut, property, pData, pStruct->IsAtomic());
 
         break;
     }
@@ -233,35 +233,35 @@ void CScriptCooker::WriteInstance(IOutputStream& rOut, CScriptObject *pInstance)
 
     // Note the format is pretty much the same between games; the main difference is a
     // number of fields changed size between MP1 and 2, but they're still the same fields
-    bool IsPrime1 = (mGame <= EGame::Prime);
+    const bool IsPrime1 = mGame <= EGame::Prime;
 
-    uint32 ObjectType = pInstance->ObjectTypeID();
-    IsPrime1 ? rOut.WriteByte((uint8) ObjectType) : rOut.WriteLong(ObjectType);
+    const uint32 ObjectType = pInstance->ObjectTypeID();
+    IsPrime1 ? rOut.WriteByte(static_cast<uint8>(ObjectType)) : rOut.WriteLong(ObjectType);
 
-    uint32 SizeOffset = rOut.Tell();
+    const uint32 SizeOffset = rOut.Tell();
     IsPrime1 ? rOut.WriteLong(0) : rOut.WriteShort(0);
 
-    uint32 InstanceStart = rOut.Tell();
-    uint32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
+    const uint32 InstanceStart = rOut.Tell();
+    const uint32 InstanceID = (pInstance->Layer()->AreaIndex() << 26) | pInstance->InstanceID();
     rOut.WriteLong(InstanceID);
 
-    uint32 NumLinks = pInstance->NumLinks(ELinkType::Outgoing);
-    IsPrime1 ? rOut.WriteLong(NumLinks) : rOut.WriteShort((uint16) NumLinks);
+    const size_t NumLinks = pInstance->NumLinks(ELinkType::Outgoing);
+    IsPrime1 ? rOut.WriteLong(static_cast<int32>(NumLinks)) : rOut.WriteShort(static_cast<uint16>(NumLinks));
 
-    for (uint32 LinkIdx = 0; LinkIdx < NumLinks; LinkIdx++)
+    for (size_t LinkIdx = 0; LinkIdx < NumLinks; LinkIdx++)
     {
-        CLink *pLink = pInstance->Link(ELinkType::Outgoing, LinkIdx);
+        const CLink *pLink = pInstance->Link(ELinkType::Outgoing, LinkIdx);
         rOut.WriteLong(pLink->State());
         rOut.WriteLong(pLink->Message());
         rOut.WriteLong(pLink->ReceiverID());
     }
 
     WriteProperty(rOut, pInstance->Template()->Properties(), pInstance->PropertyData(), false);
-    uint32 InstanceEnd = rOut.Tell();
+    const uint32 InstanceEnd = rOut.Tell();
 
     rOut.Seek(SizeOffset, SEEK_SET);
-    uint32 Size = InstanceEnd - InstanceStart;
-    IsPrime1 ? rOut.WriteLong(Size) : rOut.WriteShort((uint16) Size);
+    const uint32 Size = InstanceEnd - InstanceStart;
+    IsPrime1 ? rOut.WriteLong(Size) : rOut.WriteShort(static_cast<uint16>(Size));
     rOut.Seek(InstanceEnd, SEEK_SET);
 }
 
@@ -269,7 +269,7 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
 {
     ASSERT(pLayer->Area()->Game() == mGame);
 
-    rOut.WriteByte( mGame <= EGame::Prime ? 0 : 1 ); // Version
+    rOut.WriteByte(mGame <= EGame::Prime ? 0 : 1); // Version
 
     uint32 InstanceCountOffset = rOut.Tell();
     uint32 NumWrittenInstances = 0;
@@ -286,15 +286,16 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
         {
             // GenericCreature instances in DKCR always write to both SCLY and SCGN
             if (mGame == EGame::DKCReturns && pInstance->ObjectTypeID() == FOURCC('GCTR'))
+            {
                 mGeneratedObjects.push_back(pInstance);
-
+            }
             // Instances receiving a Generate/Activate message (MP2) or a
             // Generate/Attach message (MP3+) should be written to SCGN, not SCLY
             else
             {
-                for (uint32 LinkIdx = 0; LinkIdx < pInstance->NumLinks(ELinkType::Incoming); LinkIdx++)
+                for (size_t LinkIdx = 0; LinkIdx < pInstance->NumLinks(ELinkType::Incoming); LinkIdx++)
                 {
-                    CLink *pLink = pInstance->Link(ELinkType::Incoming, LinkIdx);
+                    const CLink *pLink = pInstance->Link(ELinkType::Incoming, LinkIdx);
 
                     if (mGame <= EGame::Echoes)
                     {
@@ -304,7 +305,6 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
                             break;
                         }
                     }
-
                     else
                     {
                         if (pLink->Message() == FOURCC('ATCH'))
@@ -341,6 +341,6 @@ void CScriptCooker::WriteGeneratedLayer(IOutputStream& rOut)
     rOut.WriteByte(1); // Version
     rOut.WriteLong(mGeneratedObjects.size());
 
-    for (uint32 ObjectIdx = 0; ObjectIdx < mGeneratedObjects.size(); ObjectIdx++)
-        WriteInstance(rOut, mGeneratedObjects[ObjectIdx]);
+    for (auto* object : mGeneratedObjects)
+        WriteInstance(rOut, object);
 }

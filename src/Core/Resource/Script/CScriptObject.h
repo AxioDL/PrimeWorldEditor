@@ -89,8 +89,8 @@ public:
     uint32 Version() const                                          { return mVersion; }
     uint32 ObjectTypeID() const                                     { return mpTemplate->ObjectID(); }
     CInstanceID InstanceID() const                                  { return mInstanceID; }
-    uint32 NumLinks(ELinkType Type) const                           { return (Type == ELinkType::Incoming ? mInLinks.size() : mOutLinks.size()); }
-    CLink* Link(ELinkType Type, uint32 Index) const                 { return (Type == ELinkType::Incoming ? mInLinks[Index] : mOutLinks[Index]); }
+    size_t NumLinks(ELinkType Type) const                           { return (Type == ELinkType::Incoming ? mInLinks.size() : mOutLinks.size()); }
+    CLink* Link(ELinkType Type, size_t Index) const                 { return (Type == ELinkType::Incoming ? mInLinks[Index] : mOutLinks[Index]); }
     void* PropertyData() const                                      { return (void*) mPropertyData.data(); }
 
     CVector3f Position() const                  { return mPosition.IsValid() ? mPosition.Get() : CVector3f::Zero(); }

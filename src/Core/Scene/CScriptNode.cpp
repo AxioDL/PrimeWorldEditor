@@ -267,19 +267,19 @@ void CScriptNode::DrawSelection()
         CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();
 
-        for (uint32 iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
+        for (size_t iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
         {
             // Don't draw in links if the other object is selected.
-            CLink *pLink = mpInstance->Link(ELinkType::Incoming, iIn);
-            CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->SenderID());
+            const CLink *pLink = mpInstance->Link(ELinkType::Incoming, iIn);
+            const CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->SenderID());
             if (pLinkNode && !pLinkNode->IsSelected())
                 CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::TransparentRed());
         }
 
-        for (uint32 iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
+        for (size_t iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
         {
-            CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iOut);
-            CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
+            const CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iOut);
+            const CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
             if (pLinkNode)
                 CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::TransparentGreen());
         }
@@ -581,12 +581,12 @@ void CScriptNode::GeneratePosition()
 
         // Ideal way to generate the position is to find a spot close to where it's being used.
         // To do this I check the location of the objects that this one is linked to.
-        uint32 NumLinks = mpInstance->NumLinks(ELinkType::Incoming) + mpInstance->NumLinks(ELinkType::Outgoing);
+        const size_t NumLinks = mpInstance->NumLinks(ELinkType::Incoming) + mpInstance->NumLinks(ELinkType::Outgoing);
 
         // In the case of one link, apply an offset so the new position isn't the same place as the object it's linked to
         if (NumLinks == 1)
         {
-            uint32 LinkedID = (mpInstance->NumLinks(ELinkType::Incoming) > 0 ? mpInstance->Link(ELinkType::Incoming, 0)->SenderID() : mpInstance->Link(ELinkType::Outgoing, 0)->ReceiverID());
+            const uint32 LinkedID = (mpInstance->NumLinks(ELinkType::Incoming) > 0 ? mpInstance->Link(ELinkType::Incoming, 0)->SenderID() : mpInstance->Link(ELinkType::Outgoing, 0)->ReceiverID());
             CScriptNode *pNode = mpScene->NodeForInstanceID(LinkedID);
             pNode->GeneratePosition();
             mPosition = pNode->AbsolutePosition();
@@ -594,13 +594,12 @@ void CScriptNode::GeneratePosition()
             mPosition.Z += (AABox().Size().Z / 2.f);
             mPosition.Z += 2.f;
         }
-
         // For two or more links, average out the position of the connected objects.
         else if (NumLinks >= 2)
         {
             CVector3f NewPos = CVector3f::Zero();
 
-            for (uint32 iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
+            for (size_t iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
             {
                 CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(ELinkType::Incoming, iIn)->SenderID());
 
@@ -611,7 +610,7 @@ void CScriptNode::GeneratePosition()
                 }
             }
 
-            for (uint32 iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
+            for (size_t iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
             {
                 CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(ELinkType::Outgoing, iOut)->ReceiverID());
 
@@ -622,7 +621,7 @@ void CScriptNode::GeneratePosition()
                 }
             }
 
-            mPosition = NewPos / (float) NumLinks;
+            mPosition = NewPos / static_cast<float>(NumLinks);
             mPosition.X += 2.f;
         }
 

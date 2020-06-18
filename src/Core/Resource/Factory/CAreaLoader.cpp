@@ -688,7 +688,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
         CScriptObject *pInst = Iter->second;
 
         // Store outgoing connections
-        for (uint32 iCon = 0; iCon < pInst->NumLinks(ELinkType::Outgoing); iCon++)
+        for (size_t iCon = 0; iCon < pInst->NumLinks(ELinkType::Outgoing); iCon++)
         {
             CLink *pLink = pInst->Link(ELinkType::Outgoing, iCon);
             mConnectionMap[pLink->ReceiverID()].push_back(pLink);

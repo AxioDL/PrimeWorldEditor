@@ -252,7 +252,7 @@ void CSceneViewport::FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing
 
     if (SearchOutgoing)
     {
-        for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
+        for (size_t iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
         {
             CLink *pLink = pInst->Link(ELinkType::Outgoing, iLink);
 
@@ -263,7 +263,7 @@ void CSceneViewport::FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing
 
     if (SearchIncoming)
     {
-        for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Incoming); iLink++)
+        for (size_t iLink = 0; iLink < pInst->NumLinks(ELinkType::Incoming); iLink++)
         {
             CLink *pLink = pInst->Link(ELinkType::Incoming, iLink);
 

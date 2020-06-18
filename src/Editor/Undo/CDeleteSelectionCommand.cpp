@@ -33,11 +33,11 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
             rNode.pLayer = pInst->Layer();
             rNode.LayerIndex = pInst->LayerIndex();
 
-            for (uint32 iType = 0; iType < 2; iType++)
+            for (size_t iType = 0; iType < 2; iType++)
             {
                 ELinkType Type = (iType == 0 ? ELinkType::Outgoing : ELinkType::Incoming);
 
-                for (uint32 iLink = 0; iLink < pInst->NumLinks(Type); iLink++)
+                for (size_t iLink = 0; iLink < pInst->NumLinks(Type); iLink++)
                 {
                     CLink *pLink = pInst->Link(Type, iLink);
 

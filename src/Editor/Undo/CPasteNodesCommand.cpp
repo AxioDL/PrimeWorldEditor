@@ -93,7 +93,7 @@ void CPasteNodesCommand::redo()
         {
             CScriptObject *pInstance = static_cast<CScriptNode*>(pNode)->Instance();
 
-            for (uint32 iLink = 0; iLink < pInstance->NumLinks(ELinkType::Outgoing); iLink++)
+            for (size_t iLink = 0; iLink < pInstance->NumLinks(ELinkType::Outgoing); iLink++)
             {
                 CLink *pLink = pInstance->Link(ELinkType::Outgoing, iLink);
                 int Index = mpMimeData->IndexOfInstanceID(pLink->ReceiverID());
@@ -103,7 +103,6 @@ void CPasteNodesCommand::redo()
                     CScriptObject *pNewTarget = static_cast<CScriptNode*>(PastedNodes[Index])->Instance();
                     pLink->SetReceiver(pNewTarget->InstanceID());
                 }
-
                 else if (mpMimeData->AreaID() != pArea->ID() || pArea->InstanceByID(pLink->ReceiverID()) == nullptr)
                 {
                     CScriptObject *pSender = pLink->Sender();
@@ -114,7 +113,6 @@ void CPasteNodesCommand::redo()
                     delete pLink;
                     iLink--;
                 }
-
                 else
                 {
                     CScriptObject *pReceiver = pLink->Receiver();

@@ -60,7 +60,7 @@ void CWaypointExtra::AddToSplinePath(CSplinePathExtra *pPath)
 
 void CWaypointExtra::RemoveFromSplinePath(CSplinePathExtra *pPath)
 {
-    for (auto it = mPaths.begin(); it != mPaths.end(); it++)
+    for (auto it = mPaths.begin(); it != mPaths.end(); ++it)
     {
         if (*it == pPath)
         {
@@ -75,9 +75,9 @@ void CWaypointExtra::BuildLinks()
 {
     mLinks.clear();
 
-    for (uint32 iLink = 0; iLink < mpInstance->NumLinks(ELinkType::Outgoing); iLink++)
+    for (size_t iLink = 0; iLink < mpInstance->NumLinks(ELinkType::Outgoing); iLink++)
     {
-        CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iLink);
+        const CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iLink);
 
         if (IsPathLink(pLink))
         {
@@ -94,26 +94,33 @@ void CWaypointExtra::BuildLinks()
     mLinksBuilt = true;
 }
 
-bool CWaypointExtra::IsPathLink(CLink *pLink)
+bool CWaypointExtra::IsPathLink(const CLink *pLink) const
 {
     bool Valid = false;
 
     if (pLink->State() < 0xFF)
     {
-        if (pLink->State() == 0x1 && pLink->Message() == 0x8) Valid = true; // Arrived / Next (MP1)
+        // Arrived / Next (MP1)
+        if (pLink->State() == 0x1 && pLink->Message() == 0x8)
+            Valid = true;
     }
-
     else
     {
-        CFourCC State(pLink->State());
-        CFourCC Message(pLink->Message());
-        if (State == FOURCC('ARRV') && Message == FOURCC('NEXT')) Valid = true; // Arrived / Next (MP2)
-        if (State == FOURCC('NEXT') && Message == FOURCC('ATCH')) Valid = true; // Next / Attach (MP3/DKCR)
+        const CFourCC State(pLink->State());
+        const CFourCC Message(pLink->Message());
+
+        // Arrived / Next (MP2)
+        if (State == FOURCC('ARRV') && Message == FOURCC('NEXT'))
+            Valid = true;
+
+        // Next / Attach (MP3/DKCR)
+        if (State == FOURCC('NEXT') && Message == FOURCC('ATCH'))
+            Valid = true;
     }
 
     if (Valid)
     {
-        CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
+        const CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
         if (pNode)
             return pNode->Instance()->ObjectTypeID() == mpInstance->ObjectTypeID();

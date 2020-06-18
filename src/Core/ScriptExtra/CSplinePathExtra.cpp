@@ -13,8 +13,8 @@ void CSplinePathExtra::PropertyModified(IProperty* pProperty)
 {
     if (pProperty == mPathColor.Property())
     {
-        for (auto it = mWaypoints.begin(); it != mWaypoints.end(); it++)
-            (*it)->CheckColor();
+        for (auto* extra : mWaypoints)
+            extra->CheckColor();
     }
 }
 
@@ -25,7 +25,7 @@ void CSplinePathExtra::PostLoad()
 
 void CSplinePathExtra::FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked, CWaypointExtra* pWaypoint)
 {
-    if (rChecked.find(pWaypoint) != rChecked.end())
+    if (rChecked.find(pWaypoint) != rChecked.cend())
         return;
 
     rChecked.insert(pWaypoint);
@@ -35,8 +35,8 @@ void CSplinePathExtra::FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked
     std::list<CWaypointExtra*> Attached;
     pWaypoint->GetLinkedWaypoints(Attached);
 
-    for (auto it = Attached.begin(); it != Attached.end(); it++)
-        FindAttachedWaypoints(rChecked, *it);
+    for (auto* extra : Attached)
+        FindAttachedWaypoints(rChecked, extra);
 }
 
 void CSplinePathExtra::AddWaypoints()
@@ -46,12 +46,12 @@ void CSplinePathExtra::AddWaypoints()
 
     std::set<CWaypointExtra*> CheckedWaypoints;
 
-    for (uint32 LinkIdx = 0; LinkIdx < mpInstance->NumLinks(ELinkType::Outgoing); LinkIdx++)
+    for (size_t LinkIdx = 0; LinkIdx < mpInstance->NumLinks(ELinkType::Outgoing); LinkIdx++)
     {
-        CLink* pLink = mpInstance->Link(ELinkType::Outgoing, LinkIdx);
+        const CLink* pLink = mpInstance->Link(ELinkType::Outgoing, LinkIdx);
 
-        if ( (pLink->State() == FOURCC('IS00') && pLink->Message() == FOURCC('ATCH')) || // InternalState00/Attach
-             (pLink->State() == FOURCC('MOTP') && pLink->Message() == FOURCC('ATCH')) )  // MotionPath/Attach
+        if ((pLink->State() == FOURCC('IS00') && pLink->Message() == FOURCC('ATCH')) || // InternalState00/Attach
+            (pLink->State() == FOURCC('MOTP') && pLink->Message() == FOURCC('ATCH')))   // MotionPath/Attach
         {
             CScriptNode* pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
@@ -66,7 +66,7 @@ void CSplinePathExtra::AddWaypoints()
 
 void CSplinePathExtra::RemoveWaypoint(CWaypointExtra *pWaypoint)
 {
-    for (auto it = mWaypoints.begin(); it != mWaypoints.end(); it++)
+    for (auto it = mWaypoints.begin(); it != mWaypoints.end(); ++it)
     {
         if (*it == pWaypoint)
         {
@@ -78,8 +78,8 @@ void CSplinePathExtra::RemoveWaypoint(CWaypointExtra *pWaypoint)
 
 void CSplinePathExtra::ClearWaypoints()
 {
-    for (auto it = mWaypoints.begin(); it != mWaypoints.end(); it++)
-        (*it)->RemoveFromSplinePath(this);
+    for (auto* extra : mWaypoints)
+        extra->RemoveFromSplinePath(this);
 
     mWaypoints.clear();
 }

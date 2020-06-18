@@ -25,9 +25,9 @@ void CLinkModel::SetConnectionType(ELinkType Type)
 int CLinkModel::rowCount(const QModelIndex&) const
 {
     if (mpObject)
-        return mpObject->NumLinks(mType);
+        return static_cast<int>(mpObject->NumLinks(mType));
 
-    else return 0;
+    return 0;
 }
 
 int CLinkModel::columnCount(const QModelIndex& /*rkParent*/) const
