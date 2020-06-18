@@ -27,9 +27,9 @@ public:
     }
 
     // Data Manipulation
-    void AddInstance(CScriptObject *pObject, uint32 Index = -1)
+    void AddInstance(CScriptObject *pObject, uint32 Index = UINT32_MAX)
     {
-        if (Index != -1 && Index < mInstances.size())
+        if (Index != UINT32_MAX && Index < mInstances.size())
         {
             auto it = mInstances.begin();
             std::advance(it, Index);
