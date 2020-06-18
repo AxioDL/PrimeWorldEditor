@@ -1,16 +1,13 @@
 #include "CDynamicVertexBuffer.h"
 #include "CVertexArrayManager.h"
 
-static const uint32 gskAttribSize[] = {
+#include <array>
+
+constexpr std::array<uint32, 12> gskAttribSize{
     0xC, 0xC, 0x4, 0x4, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8
 };
 
-CDynamicVertexBuffer::CDynamicVertexBuffer()
-    : mAttribFlags(EVertexAttribute::None)
-    , mBufferedFlags(EVertexAttribute::None)
-    , mNumVertices(0)
-{
-}
+CDynamicVertexBuffer::CDynamicVertexBuffer() = default;
 
 CDynamicVertexBuffer::~CDynamicVertexBuffer()
 {
@@ -44,7 +41,7 @@ void CDynamicVertexBuffer::SetActiveAttribs(FVertexDescription AttribFlags)
 
 void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pkData)
 {
-    uint32 Index;
+    size_t Index;
 
     switch (Attrib)
     {
@@ -69,9 +66,9 @@ void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pkD
 
 void CDynamicVertexBuffer::ClearBuffers()
 {
-    for (uint32 iAttrib = 0; iAttrib < 12; iAttrib++)
+    for (uint32 iAttrib = 0; iAttrib < mAttribBuffers.size(); iAttrib++)
     {
-        int Bit = 1 << iAttrib;
+        const int Bit = 1 << iAttrib;
 
         if (mBufferedFlags & Bit)
             glDeleteBuffers(1, &mAttribBuffers[iAttrib]);
@@ -86,9 +83,9 @@ GLuint CDynamicVertexBuffer::CreateVAO()
     glGenVertexArrays(1, &VertexArray);
     glBindVertexArray(VertexArray);
 
-    for (uint32 iAttrib = 0; iAttrib < 12; iAttrib++)
+    for (uint32 iAttrib = 0; iAttrib < mAttribBuffers.size(); iAttrib++)
     {
-        bool HasAttrib = ((3 << (iAttrib * 2)) != 0);
+        const bool HasAttrib = (3 << (iAttrib * 2)) != 0;
 
         if (HasAttrib)
         {
@@ -96,7 +93,7 @@ GLuint CDynamicVertexBuffer::CreateVAO()
             GLuint NumComponents;
             GLenum DataType;
 
-            if ((iAttrib == 2) || (iAttrib == 3))
+            if (iAttrib == 2 || iAttrib == 3)
             {
                 NumComponents = 4;
                 DataType = GL_UNSIGNED_BYTE;
@@ -107,7 +104,7 @@ GLuint CDynamicVertexBuffer::CreateVAO()
                 DataType = GL_FLOAT;
             }
 
-            glVertexAttribPointer(iAttrib, NumComponents, DataType, GL_FALSE, 0, (void*) 0);
+            glVertexAttribPointer(iAttrib, NumComponents, DataType, GL_FALSE, 0, nullptr);
             glEnableVertexAttribArray(iAttrib);
         }
     }
@@ -119,17 +116,18 @@ GLuint CDynamicVertexBuffer::CreateVAO()
 // ************ PRIVATE ************
 void CDynamicVertexBuffer::InitBuffers()
 {
-    if (mBufferedFlags) ClearBuffers();
+    if (mBufferedFlags)
+        ClearBuffers();
 
-    for (uint32 iAttrib = 0; iAttrib < 12; iAttrib++)
+    for (uint32 iAttrib = 0; iAttrib < mAttribBuffers.size(); iAttrib++)
     {
-        bool HasAttrib = ((3 << (iAttrib * 2)) != 0);
+        const bool HasAttrib = ((3 << (iAttrib * 2)) != 0);
 
         if (HasAttrib)
         {
             glGenBuffers(1, &mAttribBuffers[iAttrib]);
             glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[iAttrib]);
-            glBufferData(GL_ARRAY_BUFFER, gskAttribSize[iAttrib] * mNumVertices, NULL, GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, gskAttribSize[iAttrib] * mNumVertices, nullptr, GL_DYNAMIC_DRAW);
         }
     }
     mBufferedFlags = mAttribFlags;

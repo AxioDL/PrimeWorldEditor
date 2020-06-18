@@ -4,15 +4,15 @@
 #include "Core/Resource/Model/EVertexAttribute.h"
 #include <Common/BasicTypes.h>
 
-#include <vector>
+#include <array>
 #include <GL/glew.h>
 
 class CDynamicVertexBuffer
 {
-    FVertexDescription mAttribFlags;
-    FVertexDescription mBufferedFlags;
-    uint32 mNumVertices;
-    GLuint mAttribBuffers[12];
+    FVertexDescription mAttribFlags{EVertexAttribute::None};
+    FVertexDescription mBufferedFlags{EVertexAttribute::None};
+    uint32 mNumVertices = 0;
+    std::array<GLuint, 12> mAttribBuffers{};
 
 public:
     CDynamicVertexBuffer();
