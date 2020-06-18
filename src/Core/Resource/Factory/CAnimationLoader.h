@@ -40,7 +40,7 @@ class CAnimationLoader
     void ReadUncompressedANIM();
     void ReadCompressedANIM();
     void ReadCompressedAnimationData();
-    CQuaternion DequantizeRotation(bool Sign, int16 X, int16 Y, int16 Z);
+    CQuaternion DequantizeRotation(bool Sign, int16 X, int16 Y, int16 Z) const;
 
 public:
     static std::unique_ptr<CAnimation> LoadANIM(IInputStream& rANIM, CResourceEntry *pEntry);
