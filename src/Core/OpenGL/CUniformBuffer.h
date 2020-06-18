@@ -74,7 +74,7 @@ private:
     void InitializeBuffer()
     {
         Bind();
-        glBufferData(GL_UNIFORM_BUFFER, mBufferSize, 0, GL_DYNAMIC_DRAW);
+        glBufferData(GL_UNIFORM_BUFFER, mBufferSize, nullptr, GL_DYNAMIC_DRAW);
         Unbind();
     }
 };
