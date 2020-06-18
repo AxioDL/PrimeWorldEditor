@@ -12,38 +12,12 @@ uint64 CMaterial::sCurrentMaterial = 0;
 CColor CMaterial::sCurrentTint = CColor::White();
 std::map<uint64, CMaterial::SMaterialShader> CMaterial::smShaderMap;
 
-CMaterial::CMaterial()
-    : mpShader(nullptr)
-    , mShaderStatus(EShaderStatus::NoShader)
-    , mRecalcHash(true)
-    , mVersion(EGame::Invalid)
-    , mOptions(EMaterialOption::None)
-    , mVtxDesc(EVertexAttribute::None)
-    , mBlendSrcFac(GL_ONE)
-    , mBlendDstFac(GL_ZERO)
-    , mLightingEnabled(true)
-    , mEchoesUnknownA(0)
-    , mEchoesUnknownB(0)
-    , mpIndirectTexture(nullptr)
-    , mpNextDrawPassMaterial(nullptr)
-    , mpBloomMaterial(nullptr)
-{}
+CMaterial::CMaterial() = default;
 
 CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
-    : mpShader(nullptr)
-    , mShaderStatus(EShaderStatus::NoShader)
-    , mRecalcHash(true)
-    , mVersion(Version)
+    : mVersion(Version)
     , mOptions(EMaterialOption::DepthWrite | EMaterialOption::ColorWrite)
     , mVtxDesc(VtxDesc)
-    , mBlendSrcFac(GL_ONE)
-    , mBlendDstFac(GL_ZERO)
-    , mLightingEnabled(true)
-    , mEchoesUnknownA(0)
-    , mEchoesUnknownB(0)
-    , mpIndirectTexture(nullptr)
-    , mpNextDrawPassMaterial(nullptr)
-    , mpBloomMaterial(nullptr)
 {}
 
 CMaterial::~CMaterial()

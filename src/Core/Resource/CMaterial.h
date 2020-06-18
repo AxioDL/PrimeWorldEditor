@@ -74,23 +74,23 @@ private:
     static CColor sCurrentTint;  // The tint for the currently bound material
 
     // Members
-    TString mName;                  // Name of the material
-    CShader *mpShader;              // This material's generated shader. Created with GenerateShader().
-    EShaderStatus mShaderStatus;    // A status variable so that PWE won't crash if a shader fails to compile.
-    uint64 mParametersHash;         // A hash of all the parameters that can identify this TEV setup.
-    bool mRecalcHash;               // Indicates the hash needs to be recalculated. Set true when parameters are changed.
+    TString mName;                                           // Name of the material
+    CShader *mpShader = nullptr;                             // This material's generated shader. Created with GenerateShader().
+    EShaderStatus mShaderStatus{EShaderStatus::NoShader};    // A status variable so that PWE won't crash if a shader fails to compile.
+    uint64 mParametersHash = 0;                              // A hash of all the parameters that can identify this TEV setup.
+    bool mRecalcHash = true;                                 // Indicates the hash needs to be recalculated. Set true when parameters are changed.
 
-    EGame mVersion;
-    FMaterialOptions mOptions;           // See the EMaterialOption enum above
-    FVertexDescription mVtxDesc;         // Descriptor of vertex attributes used by this material
-    std::array<CColor, 4> mKonstColors;  // Konst color values for TEV
-    std::array<CColor, 4> mTevColors;    // Initial TEV color register values (for MP3 materials only)
-    GLenum mBlendSrcFac;                 // Source blend factor
-    GLenum mBlendDstFac;                 // Dest blend factor
-    bool mLightingEnabled;               // Color channel control flags; indicate whether lighting is enabled
-    uint32 mEchoesUnknownA;              // First unknown value introduced in Echoes. Included for cooking.
-    uint32 mEchoesUnknownB;              // Second unknown value introduced in Echoes. Included for cooking.
-    TResPtr<CTexture> mpIndirectTexture; // Optional texture used for the indirect stage for reflections
+    EGame mVersion{EGame::Invalid};
+    FMaterialOptions mOptions{EMaterialOption::None};           // See the EMaterialOption enum above
+    FVertexDescription mVtxDesc{EVertexAttribute::None};        // Descriptor of vertex attributes used by this material
+    std::array<CColor, 4> mKonstColors;                         // Konst color values for TEV
+    std::array<CColor, 4> mTevColors;                           // Initial TEV color register values (for MP3 materials only)
+    GLenum mBlendSrcFac{GL_ONE};                                // Source blend factor
+    GLenum mBlendDstFac{GL_ZERO};                               // Dest blend factor
+    bool mLightingEnabled = true;                               // Color channel control flags; indicate whether lighting is enabled
+    uint32 mEchoesUnknownA = 0;                                 // First unknown value introduced in Echoes. Included for cooking.
+    uint32 mEchoesUnknownB = 0;                                 // Second unknown value introduced in Echoes. Included for cooking.
+    TResPtr<CTexture> mpIndirectTexture;                        // Optional texture used for the indirect stage for reflections
 
     std::vector<std::unique_ptr<CMaterialPass>> mPasses;
 
