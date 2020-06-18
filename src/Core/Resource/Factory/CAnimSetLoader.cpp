@@ -7,8 +7,7 @@ CAnimSetLoader::CAnimSetLoader() = default;
 
 void CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 {
-    pSet->mCharacters.emplace_back(SSetCharacter());
-    SSetCharacter& rChar = pSet->mCharacters.back();
+    SSetCharacter& rChar = pSet->mCharacters.emplace_back();
 
     // Character Header
     rChar.ID = rCHAR.ReadByte();
@@ -98,8 +97,7 @@ void CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     uint8 Flag = rCHAR.ReadByte();
     rCHAR.Skip(1);
 
-    pSet->mCharacters.emplace_back( SSetCharacter() );;
-    SSetCharacter& rChar = pSet->mCharacters.back();
+    SSetCharacter& rChar = pSet->mCharacters.emplace_back();
 
     // Character Header
     rChar.ID = 0;
@@ -655,7 +653,7 @@ std::unique_ptr<CSourceAnimData> CAnimSetLoader::LoadSAND(IInputStream& rSAND, C
 
     for (uint32 TransitionIdx = 0; TransitionIdx < NumTransitions; TransitionIdx++)
     {
-        uint8 UnkByte = rSAND.ReadByte();
+        [[maybe_unused]] const uint8 UnkByte = rSAND.ReadByte();
         ASSERT(UnkByte == 0);
 
         CSourceAnimData::STransition Transition;
@@ -670,7 +668,7 @@ std::unique_ptr<CSourceAnimData> CAnimSetLoader::LoadSAND(IInputStream& rSAND, C
 
     for (uint32 HalfIdx = 0; HalfIdx < NumHalfTransitions; HalfIdx++)
     {
-        uint8 UnkByte = rSAND.ReadByte();
+        [[maybe_unused]] const uint8 UnkByte = rSAND.ReadByte();
         ASSERT(UnkByte == 0);
 
         CSourceAnimData::SHalfTransition HalfTrans;
