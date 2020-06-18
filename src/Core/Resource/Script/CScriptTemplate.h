@@ -153,9 +153,9 @@ public:
     bool IsVisible() const                           { return mVisible; }
     TString SourceFile() const                       { return mSourceFile; }
     CStructProperty* Properties() const              { return mpProperties.get(); }
-    uint32 NumAttachments() const                    { return mAttachments.size(); }
-    const SAttachment& Attachment(uint32 Index) const       { return mAttachments[Index]; }
-    const std::vector<TString>& RequiredModules() const     { return mModules; }
+    size_t NumAttachments() const                    { return mAttachments.size(); }
+    const SAttachment& Attachment(size_t Index) const    { return mAttachments[Index]; }
+    const std::vector<TString>& RequiredModules() const  { return mModules; }
 
     CStringProperty* NameProperty() const                { return mpNameProperty; }
     CVectorProperty* PositionProperty() const            { return mpPositionProperty; }

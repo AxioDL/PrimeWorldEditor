@@ -54,7 +54,7 @@ CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CSc
         }
 
         // Create attachment nodes
-        for (uint32 iAttach = 0; iAttach < pTemp->NumAttachments(); iAttach++)
+        for (size_t iAttach = 0; iAttach < pTemp->NumAttachments(); iAttach++)
         {
             const SAttachment& rkAttach = pTemp->Attachment(iAttach);
             CScriptAttachNode *pAttach = new CScriptAttachNode(pScene, rkAttach, this);
