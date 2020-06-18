@@ -106,7 +106,7 @@ public:
                 return iLyr;
         }
 
-        return -1;
+        return UINT32_MAX;
     }
 
     // Operators

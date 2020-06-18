@@ -79,11 +79,11 @@ void WEditorProperties::SetLayerComboBox()
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
         CScriptLayer *pLayer = pScript->Instance()->Layer();
-        for (uint32 iLyr = 0; iLyr < mpEditor->ActiveArea()->NumScriptLayers(); iLyr++)
+        for (size_t iLyr = 0; iLyr < mpEditor->ActiveArea()->NumScriptLayers(); iLyr++)
         {
             if (mpEditor->ActiveArea()->ScriptLayer(iLyr) == pLayer)
             {
-                mpLayersComboBox->setCurrentIndex(iLyr);
+                mpLayersComboBox->setCurrentIndex(static_cast<int>(iLyr));
                 break;
             }
         }
@@ -170,7 +170,7 @@ void WEditorProperties::OnLayersModified()
 
      if (pArea)
      {
-         for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+         for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
              mpLayersComboBox->addItem(TO_QSTRING(pArea->ScriptLayer(iLyr)->Name()));
      }
 
@@ -215,12 +215,12 @@ void WEditorProperties::OnInstanceNameEditFinished()
 
 void WEditorProperties::OnLayerChanged()
 {
-    int Index = mpLayersComboBox->currentIndex();
+    const int Index = mpLayersComboBox->currentIndex();
 
-    if (Index >= 0)
-    {
-        CScriptLayer *pLayer = mpEditor->ActiveArea()->ScriptLayer(Index);
-        mpEditor->SetSelectionLayer(pLayer);
-    }
+    if (Index < 0)
+        return;
+
+    CScriptLayer *pLayer = mpEditor->ActiveArea()->ScriptLayer(static_cast<size_t>(Index));
+    mpEditor->SetSelectionLayer(pLayer);
 }
 

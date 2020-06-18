@@ -121,8 +121,9 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     mLightCount = 0;
     mAmbientColor = CColor::TransparentBlack();
 
-    uint32 Index = mLightLayerIndex;
-    if ((pArea->NumLightLayers() <= Index) || (pArea->NumLights(Index) == 0)) Index = 0;
+    size_t Index = mLightLayerIndex;
+    if (pArea->NumLightLayers() <= Index || pArea->NumLights(Index) == 0)
+        Index = 0;
 
     struct SLightEntry {
         CLight *pLight;
@@ -138,11 +139,11 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     std::vector<SLightEntry> LightEntries;
 
     // Default ambient color to white if there are no lights on the selected layer
-    uint32 NumLights = pArea->NumLights(Index);
+    const size_t NumLights = pArea->NumLights(Index);
     if (NumLights == 0)
         mAmbientColor = CColor::TransparentWhite();
 
-    for (uint32 iLight = 0; iLight < NumLights; iLight++)
+    for (size_t iLight = 0; iLight < NumLights; iLight++)
     {
         CLight* pLight = pArea->Light(Index, iLight);
 

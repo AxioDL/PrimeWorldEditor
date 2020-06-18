@@ -41,7 +41,7 @@ void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 
     SArea& AreaInfo = mAreas[pArea->WorldIndex()];
 
-    for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+    for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
     {
         if (AreaInfo.Layers.size() <= iLyr)
             break;

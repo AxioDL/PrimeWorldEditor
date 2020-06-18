@@ -183,36 +183,36 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     mpAreaRootNode = new CRootNode(this, -1, mpSceneRootNode);
 
     // Create static nodes
-    uint32 Count = mpArea->NumStaticModels();
+    size_t Count = mpArea->NumStaticModels();
 
-    for (uint32 iMdl = 0; iMdl < Count; iMdl++)
+    for (size_t iMdl = 0; iMdl < Count; iMdl++)
     {
         CStaticNode *pNode = CreateStaticNode(mpArea->StaticModel(iMdl));
-        pNode->SetName("Static World Model " + TString::FromInt32(iMdl, 0, 10));
+        pNode->SetName("Static World Model " + std::to_string(iMdl));
     }
 
     // Create model nodes
     Count = mpArea->NumWorldModels();
 
-    for (uint32 iMdl = 0; iMdl < Count; iMdl++)
+    for (size_t iMdl = 0; iMdl < Count; iMdl++)
     {
         CModel *pModel = mpArea->TerrainModel(iMdl);
         CModelNode *pNode = CreateModelNode(pModel);
-        pNode->SetName("World Model " + TString::FromInt32(iMdl, 0, 10));
+        pNode->SetName("World Model " + std::to_string(iMdl));
         pNode->SetWorldModel(true);
     }
 
     CreateCollisionNode(mpArea->Collision());
 
-    uint32 NumLayers = mpArea->NumScriptLayers();
+    const size_t NumLayers = mpArea->NumScriptLayers();
 
-    for (uint32 iLyr = 0; iLyr < NumLayers; iLyr++)
+    for (size_t iLyr = 0; iLyr < NumLayers; iLyr++)
     {
         CScriptLayer *pLayer = mpArea->ScriptLayer(iLyr);
-        uint32 NumObjects = pLayer->NumInstances();
+        const size_t NumObjects = pLayer->NumInstances();
         mNodes[ENodeType::Script].reserve(mNodes[ENodeType::Script].size() + NumObjects);
 
-        for (uint32 iObj = 0; iObj < NumObjects; iObj++)
+        for (size_t iObj = 0; iObj < NumObjects; iObj++)
         {
             CScriptObject *pObj = pLayer->InstanceByIndex(iObj);
             CreateScriptNode(pObj);
@@ -227,14 +227,14 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
         pScript->BuildLightList(mpArea);
     }
 
-    uint32 NumLightLayers = mpArea->NumLightLayers();
+    const size_t NumLightLayers = mpArea->NumLightLayers();
     CGraphics::sAreaAmbientColor = CColor::TransparentBlack();
 
-    for (uint32 iLyr = 0; iLyr < NumLightLayers; iLyr++)
+    for (size_t iLyr = 0; iLyr < NumLightLayers; iLyr++)
     {
-        uint32 NumLights = mpArea->NumLights(iLyr);
+        const size_t NumLights = mpArea->NumLights(iLyr);
 
-        for (uint32 iLit = 0; iLit < NumLights; iLit++)
+        for (size_t iLit = 0; iLit < NumLights; iLit++)
         {
             CLight *pLight = mpArea->Light(iLyr, iLit);
 

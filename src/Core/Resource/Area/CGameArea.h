@@ -78,11 +78,12 @@ public:
     uint32 TotalInstanceCount() const;
     CScriptObject* InstanceByID(uint32 InstanceID);
     uint32 FindUnusedInstanceID() const;
-    CScriptObject* SpawnInstance(CScriptTemplate *pTemplate, CScriptLayer *pLayer,
+    CScriptObject* SpawnInstance(CScriptTemplate* pTemplate, CScriptLayer* pLayer,
                                  const CVector3f& rkPosition = CVector3f::Zero(),
                                  const CQuaternion& rkRotation = CQuaternion::Identity(),
                                  const CVector3f& rkScale = CVector3f::One(),
-                                 uint32 SuggestedID = -1, uint32 SuggestedLayerIndex = -1);
+                                 uint32 SuggestedID = UINT32_MAX,
+                                 uint32 SuggestedLayerIndex = UINT32_MAX);
     void AddInstanceToArea(CScriptObject *pInstance);
     void DeleteInstance(CScriptObject *pInstance);
     void ClearExtraDependencies();
@@ -91,16 +92,16 @@ public:
     uint32 WorldIndex() const                                    { return mWorldIndex; }
     CTransform4f Transform() const                               { return mTransform; }
     CMaterialSet* Materials() const                              { return mpMaterialSet; }
-    uint32 NumWorldModels() const                                { return mWorldModels.size(); }
-    uint32 NumStaticModels() const                               { return mStaticWorldModels.size(); }
-    CModel* TerrainModel(uint32 iMdl) const                      { return mWorldModels[iMdl].get(); }
-    CStaticModel* StaticModel(uint32 iMdl) const                 { return mStaticWorldModels[iMdl].get(); }
+    size_t NumWorldModels() const                                { return mWorldModels.size(); }
+    size_t NumStaticModels() const                               { return mStaticWorldModels.size(); }
+    CModel* TerrainModel(size_t iMdl) const                      { return mWorldModels[iMdl].get(); }
+    CStaticModel* StaticModel(size_t iMdl) const                 { return mStaticWorldModels[iMdl].get(); }
     CCollisionMeshGroup* Collision() const                       { return mpCollision.get(); }
-    uint32 NumScriptLayers() const                               { return mScriptLayers.size(); }
-    CScriptLayer* ScriptLayer(uint32 Index) const                { return mScriptLayers[Index].get(); }
-    uint32 NumLightLayers() const                                { return mLightLayers.size(); }
-    uint32 NumLights(uint32 LayerIndex) const                    { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
-    CLight* Light(uint32 LayerIndex, uint32 LightIndex)          { return &mLightLayers[LayerIndex][LightIndex]; }
+    size_t NumScriptLayers() const                               { return mScriptLayers.size(); }
+    CScriptLayer* ScriptLayer(size_t Index) const                { return mScriptLayers[Index].get(); }
+    size_t NumLightLayers() const                                { return mLightLayers.size(); }
+    size_t NumLights(size_t LayerIndex) const                    { return (LayerIndex < mLightLayers.size() ? mLightLayers[LayerIndex].size() : 0); }
+    CLight* Light(size_t LayerIndex, size_t LightIndex)          { return &mLightLayers[LayerIndex][LightIndex]; }
     CAssetID PathID() const                                      { return mPathID; }
     CPoiToWorld* PoiToWorldMap() const                           { return mpPoiToWorldMap; }
     CAssetID PortalAreaID() const                                { return mPortalAreaID; }

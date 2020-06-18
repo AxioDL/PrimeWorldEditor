@@ -288,10 +288,10 @@ void WInstancesTab::OnHideAllExceptTypeAction()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
         {
             CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
-            pLayer->SetVisible( pLayer == mpMenuLayer ? true : false );
+            pLayer->SetVisible(pLayer == mpMenuLayer);
         }
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, TypeParent), mpLayersModel->index(mpLayersModel->rowCount(TypeParent) - 1, 2, TypeParent) );
@@ -322,12 +322,11 @@ void WInstancesTab::OnUnhideAllTypes()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
             pArea->ScriptLayer(iLyr)->SetVisible(true);
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, TypeParent), mpLayersModel->index(mpLayersModel->rowCount(TypeParent) - 1, 2, TypeParent) );
     }
-
     else
     {
         EGame Game = mpEditor->CurrentGame();
@@ -353,7 +352,7 @@ void WInstancesTab::OnUnhideAll()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
             pArea->ScriptLayer(iLyr)->SetVisible(true);
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, LayersRoot), mpLayersModel->index(mpLayersModel->rowCount(LayersRoot) - 1, 2, LayersRoot) );

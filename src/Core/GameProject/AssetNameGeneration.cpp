@@ -280,7 +280,7 @@ void GenerateAssetNames(CGameProject *pProj)
             }
 
             // Generate names from script instance names
-            for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+            for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
             {
                 CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
 

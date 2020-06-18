@@ -152,15 +152,15 @@ void CQuickplayPropertyEditor::OnWorldEditorAreaChanged(CWorld* pWorld, CGameAre
 
     if (pArea)
     {
-        for (uint LayerIdx = 0; LayerIdx < pArea->NumScriptLayers(); LayerIdx++)
+        for (size_t LayerIdx = 0; LayerIdx < pArea->NumScriptLayers(); LayerIdx++)
         {
             CScriptLayer* pLayer = pArea->ScriptLayer(LayerIdx);
             bool bActive = pLayer->IsActive();
 
             QListWidgetItem* pItem = new QListWidgetItem();
-            pItem->setText( TO_QSTRING(pLayer->Name()) );
-            pItem->setCheckState( bActive ? Qt::Checked : Qt::Unchecked );
-            mpUI->LayerList->addItem( pItem );
+            pItem->setText(TO_QSTRING(pLayer->Name()));
+            pItem->setCheckState(bActive ? Qt::Checked : Qt::Unchecked);
+            mpUI->LayerList->addItem(pItem);
 
             if (bActive)
             {

@@ -642,15 +642,15 @@ void CAreaLoader::ReadEGMC()
 void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
 {
     // Create instance map
-    for (uint32 LayerIdx = 0; LayerIdx < mpArea->NumScriptLayers(); LayerIdx++)
+    for (size_t LayerIdx = 0; LayerIdx < mpArea->NumScriptLayers(); LayerIdx++)
     {
         auto& pLayer = mpArea->mScriptLayers[LayerIdx];
 
-        for (uint32 InstIdx = 0; InstIdx < pLayer->NumInstances(); InstIdx++)
+        for (size_t InstIdx = 0; InstIdx < pLayer->NumInstances(); InstIdx++)
         {
             CScriptObject *pInst = pLayer->InstanceByIndex(InstIdx);
-            uint32 InstanceID = pInst->InstanceID();
-            CScriptObject *pExisting = mpArea->InstanceByID(InstanceID);
+            const uint32 InstanceID = pInst->InstanceID();
+            [[maybe_unused]] CScriptObject *pExisting = mpArea->InstanceByID(InstanceID);
             ASSERT(pExisting == nullptr);
             mpArea->mObjectMap[InstanceID] = pInst;
         }
@@ -673,11 +673,10 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
                 pGenLayer->RemoveInstance(pInst);
                 delete pInst;
             }
-
             else
             {
-                uint32 LayerIdx = (InstanceID >> 26) & 0x3F;
-                pInst->SetLayer( mpArea->ScriptLayer(LayerIdx) );
+                const uint32 LayerIdx = (InstanceID >> 26) & 0x3F;
+                pInst->SetLayer(mpArea->ScriptLayer(LayerIdx));
                 mpArea->mObjectMap[InstanceID] = pInst;
             }
         }
