@@ -71,8 +71,8 @@ public:
     TString Name() const                                         { return mPakName; }
     TString Path() const                                         { return mPakPath; }
     CGameProject* Project() const                                { return mpProject; }
-    uint32 NumNamedResources() const                             { return mResources.size(); }
-    const SNamedResource& NamedResourceByIndex(uint32 Idx) const { return mResources[Idx]; }
+    size_t NumNamedResources() const                             { return mResources.size(); }
+    const SNamedResource& NamedResourceByIndex(size_t Idx) const { return mResources[Idx]; }
     bool NeedsRecook() const                                     { return mNeedsRecook; }
 
     void SetPakName(TString NewName) { mPakName = std::move(NewName); }

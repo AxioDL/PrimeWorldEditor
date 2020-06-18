@@ -128,7 +128,7 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
         // Construct a sorted list of worlds in this package
         std::list<const SNamedResource*> PackageWorlds;
 
-        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (size_t iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
@@ -152,7 +152,7 @@ CAssetID CGameProject::FindNamedResource(std::string_view name) const
 {
     for (const auto& pkg : mPackages)
     {
-        for (uint32 iRes = 0; iRes < pkg->NumNamedResources(); iRes++)
+        for (size_t iRes = 0; iRes < pkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pkg->NamedResourceByIndex(iRes);
 

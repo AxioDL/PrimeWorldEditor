@@ -184,11 +184,12 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
     FindUniversalAreaAssets();
 
     // Iterate over all resources and parse their dependencies
-    for (uint32 iRes = 0; iRes < mpkPackage->NumNamedResources(); iRes++)
+    for (size_t iRes = 0; iRes < mpkPackage->NumNamedResources(); iRes++)
     {
         const SNamedResource& rkRes = mpkPackage->NamedResourceByIndex(iRes);
         CResourceEntry *pEntry = mpStore->FindEntry(rkRes.ID);
-        if (!pEntry) continue;
+        if (!pEntry)
+            continue;
 
         if (rkRes.Name.EndsWith("NODEPEND") || rkRes.Type == "CSNG")
         {
@@ -196,16 +197,17 @@ void CPackageDependencyListBuilder::BuildDependencyList(bool AllowDuplicates, st
             continue;
         }
 
-        mIsUniversalAreaAsset = (mUniversalAreaAssets.find(rkRes.ID) != mUniversalAreaAssets.end());
+        mIsUniversalAreaAsset = mUniversalAreaAssets.find(rkRes.ID) != mUniversalAreaAssets.cend();
 
         if (rkRes.Type == "MLVL")
         {
-            mpWorld = (CWorld*) pEntry->Load();
+            mpWorld = static_cast<CWorld*>(pEntry->Load());
             ASSERT(mpWorld);
         }
-
         else
+        {
             mCharacterUsageMap.FindUsagesForAsset(pEntry);
+        }
 
         AddDependency(nullptr, rkRes.ID, rOut);
         mpWorld = nullptr;
@@ -342,7 +344,7 @@ void CPackageDependencyListBuilder::FindUniversalAreaAssets()
     if (pPackage)
     {
         // Iterate over all the package contents, keep track of all universal area assets
-        for (uint32 ResIdx = 0; ResIdx < pPackage->NumNamedResources(); ResIdx++)
+        for (size_t ResIdx = 0; ResIdx < pPackage->NumNamedResources(); ResIdx++)
         {
             const SNamedResource& rkRes = pPackage->NamedResourceByIndex(ResIdx);
 
