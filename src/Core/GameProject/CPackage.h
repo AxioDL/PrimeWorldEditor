@@ -15,7 +15,7 @@ enum class EPackageDefinitionVersion
     // Add new versions before this line
 
     Max,
-    Current = EPackageDefinitionVersion::Max - 1
+    Current = Max - 1
 };
 
 struct SNamedResource
