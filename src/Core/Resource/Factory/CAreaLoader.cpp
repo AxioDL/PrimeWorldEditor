@@ -8,6 +8,7 @@
 
 #include <Common/CFourCC.h>
 
+#include <algorithm>
 #include <cfloat>
 
 CAreaLoader::CAreaLoader() = default;
@@ -25,17 +26,17 @@ CAreaLoader::~CAreaLoader()
 void CAreaLoader::ReadHeaderPrime()
 {
     mpArea->mTransform = CTransform4f(*mpMREA);
-    mNumMeshes = mpMREA->ReadLong();
-    uint32 mNumBlocks = mpMREA->ReadLong();
+    mNumMeshes = mpMREA->ReadULong();
+    const uint32 mNumBlocks = mpMREA->ReadULong();
 
-    mGeometryBlockNum = mpMREA->ReadLong();
-    mScriptLayerBlockNum = mpMREA->ReadLong();
-    mCollisionBlockNum = mpMREA->ReadLong();
-    mUnknownBlockNum = mpMREA->ReadLong();
-    mLightsBlockNum = mpMREA->ReadLong();
-    mVisiBlockNum = mpMREA->ReadLong();
-    mPathBlockNum = mpMREA->ReadLong();
-    mOctreeBlockNum = mpMREA->ReadLong();
+    mGeometryBlockNum = mpMREA->ReadULong();
+    mScriptLayerBlockNum = mpMREA->ReadULong();
+    mCollisionBlockNum = mpMREA->ReadULong();
+    mUnknownBlockNum = mpMREA->ReadULong();
+    mLightsBlockNum = mpMREA->ReadULong();
+    mVisiBlockNum = mpMREA->ReadULong();
+    mPathBlockNum = mpMREA->ReadULong();
+    mOctreeBlockNum = mpMREA->ReadULong();
 
     mpSectionMgr = new CSectionMgrIn(mNumBlocks, mpMREA);
     mpMREA->SeekToBoundary(32);
@@ -105,17 +106,17 @@ void CAreaLoader::ReadSCLYPrime()
     mpMREA->Seek(mVersion <= EGame::Prime ? 4 : 1, SEEK_CUR); // Skipping unknown value which is always 1
 
     // Read layer sizes
-    mNumLayers = mpMREA->ReadLong();
+    mNumLayers = mpMREA->ReadULong();
     mpArea->mScriptLayers.resize(mNumLayers);
     std::vector<uint32> LayerSizes(mNumLayers);
 
-    for (uint32 iLyr = 0; iLyr < mNumLayers; iLyr++)
-        LayerSizes[iLyr] = mpMREA->ReadLong();
+    for (auto& layerSize : LayerSizes)
+        layerSize = mpMREA->ReadLong();
 
     // SCLY
-    for (uint32 iLyr = 0; iLyr < mNumLayers; iLyr++)
+    for (size_t iLyr = 0; iLyr < mNumLayers; iLyr++)
     {
-        uint32 Next = mpMREA->Tell() + LayerSizes[iLyr];
+        const uint32 Next = mpMREA->Tell() + LayerSizes[iLyr];
         mpArea->mScriptLayers[iLyr] = CScriptLoader::LoadLayer(*mpMREA, mpArea, mVersion);
         mpMREA->Seek(Next, SEEK_SET);
     }
@@ -146,32 +147,33 @@ void CAreaLoader::ReadLightsPrime()
 {
     mpSectionMgr->ToSection(mLightsBlockNum);
 
-    uint32 BabeDead = mpMREA->ReadLong();
-    if (BabeDead != 0xbabedead) return;
+    const uint32 BabeDead = mpMREA->ReadULong();
+    if (BabeDead != 0xbabedead)
+        return;
 
     mpArea->mLightLayers.resize(2);
 
     for (uint32 iLyr = 0; iLyr < 2; iLyr++)
     {
-        uint32 NumLights = mpMREA->ReadLong();
+        const uint32 NumLights = mpMREA->ReadULong();
         mpArea->mLightLayers[iLyr].resize(NumLights);
 
         for (uint32 iLight = 0; iLight < NumLights; iLight++)
         {
-            ELightType Type = ELightType(mpMREA->ReadLong());
+            const auto Type = ELightType(mpMREA->ReadULong());
             CVector3f Color(*mpMREA);
             CVector3f Position(*mpMREA);
             CVector3f Direction(*mpMREA);
             float Multiplier = mpMREA->ReadFloat();
-            float SpotCutoff = mpMREA->ReadFloat();
+            const float SpotCutoff = mpMREA->ReadFloat();
             mpMREA->Seek(0x9, SEEK_CUR);
-            uint32 FalloffType = mpMREA->ReadLong();
+            const uint32 FalloffType = mpMREA->ReadULong();
             mpMREA->Seek(0x4, SEEK_CUR);
 
             // Relevant data is read - now we process and form a CLight out of it
             CLight pLight;
 
-            CColor LightColor = CColor(Color.X, Color.Y, Color.Z, 0.f);
+            const CColor LightColor = CColor(Color.X, Color.Y, Color.Z, 0.f);
             if (Multiplier < FLT_EPSILON)
                 Multiplier = FLT_EPSILON;
 
@@ -181,37 +183,34 @@ void CAreaLoader::ReadLightsPrime()
                 Color *= Multiplier;
 
                 // Clamp
-                if (Color.X > 1.f) Color.X = 1.f;
-                if (Color.Y > 1.f) Color.Y = 1.f;
-                if (Color.Z > 1.f) Color.Z = 1.f;
-                CColor MultColor(Color.X, Color.Y, Color.Z, 1.f);
+                Color.X = std::min(Color.X, 1.0f);
+                Color.Y = std::min(Color.Y, 1.0f);
+                Color.Z = std::min(Color.Z, 1.0f);
+
+                const CColor MultColor(Color.X, Color.Y, Color.Z, 1.f);
 
                 pLight = CLight::BuildLocalAmbient(Position, MultColor);
             }
-
             // Directional
             else if (Type == ELightType::Directional)
             {
                 pLight = CLight::BuildDirectional(Position, Direction, LightColor);
             }
-
             // Spot
             else if (Type == ELightType::Spot)
             {
                 pLight = CLight::BuildSpot(Position, Direction.Normalized(), LightColor, SpotCutoff);
 
-                float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
-                float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
-                float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
+                const float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
+                const float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
+                const float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
                 pLight.SetDistAtten(DistAttenA, DistAttenB, DistAttenC);
             }
-
-            // Custom
-            else
+            else // Custom
             {
-                float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
-                float DistAttenB = (FalloffType == 1) ? (249.9998f / Multiplier) : 0.f;
-                float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
+                const float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
+                const float DistAttenB = (FalloffType == 1) ? (249.9998f / Multiplier) : 0.f;
+                const float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
 
                 pLight = CLight::BuildCustom(Position, Direction, LightColor,
                                             DistAttenA, DistAttenB, DistAttenC,
@@ -229,22 +228,24 @@ void CAreaLoader::ReadHeaderEchoes()
 {
     // This function reads the header for Echoes and the Echoes demo disc
     mpArea->mTransform = CTransform4f(*mpMREA);
-    mNumMeshes = mpMREA->ReadLong();
-    if (mVersion == EGame::Echoes) mNumLayers = mpMREA->ReadLong();
-    uint32 numBlocks = mpMREA->ReadLong();
+    mNumMeshes = mpMREA->ReadULong();
+    if (mVersion == EGame::Echoes)
+        mNumLayers = mpMREA->ReadULong();
+    const uint32 numBlocks = mpMREA->ReadULong();
 
-    mGeometryBlockNum = mpMREA->ReadLong();
-    mScriptLayerBlockNum = mpMREA->ReadLong();
-    mScriptGeneratorBlockNum = mpMREA->ReadLong();
-    mCollisionBlockNum = mpMREA->ReadLong();
-    mUnknownBlockNum = mpMREA->ReadLong();
-    mLightsBlockNum = mpMREA->ReadLong();
-    mVisiBlockNum = mpMREA->ReadLong();
-    mPathBlockNum = mpMREA->ReadLong();
-    mFFFFBlockNum = mpMREA->ReadLong();
-    mPTLABlockNum = mpMREA->ReadLong();
-    mEGMCBlockNum = mpMREA->ReadLong();
-    if (mVersion == EGame::Echoes) mClusters.resize(mpMREA->ReadLong());
+    mGeometryBlockNum = mpMREA->ReadULong();
+    mScriptLayerBlockNum = mpMREA->ReadULong();
+    mScriptGeneratorBlockNum = mpMREA->ReadULong();
+    mCollisionBlockNum = mpMREA->ReadULong();
+    mUnknownBlockNum = mpMREA->ReadULong();
+    mLightsBlockNum = mpMREA->ReadULong();
+    mVisiBlockNum = mpMREA->ReadULong();
+    mPathBlockNum = mpMREA->ReadULong();
+    mFFFFBlockNum = mpMREA->ReadULong();
+    mPTLABlockNum = mpMREA->ReadULong();
+    mEGMCBlockNum = mpMREA->ReadULong();
+    if (mVersion == EGame::Echoes)
+        mClusters.resize(mpMREA->ReadULong());
     mpMREA->SeekToBoundary(32);
 
     mpSectionMgr = new CSectionMgrIn(numBlocks, mpMREA);
@@ -271,7 +272,7 @@ void CAreaLoader::ReadSCLYEchoes()
     // SCLY
     for (uint32 iLyr = 0; iLyr < mNumLayers; iLyr++)
     {
-        CFourCC SCLY(*mpMREA);
+        const CFourCC SCLY(*mpMREA);
         if (SCLY != FOURCC('SCLY'))
         {
             errorf("%s [0x%X]: Layer %d - Invalid SCLY magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, iLyr, *SCLY.ToString());
@@ -285,7 +286,7 @@ void CAreaLoader::ReadSCLYEchoes()
     }
 
     // SCGN
-    CFourCC SCGN(*mpMREA);
+    const CFourCC SCGN(*mpMREA);
     if (SCGN != FOURCC('SCGN'))
     {
         errorf("%s [0x%X]: Invalid SCGN magic: %s", *mpMREA->GetSourceString(), mpMREA->Tell() - 4, *SCGN.ToString());
@@ -302,11 +303,11 @@ void CAreaLoader::ReadHeaderCorruption()
 {
     // This function reads the header for MP3, the MP3 prototype, and DKCR
     mpArea->mTransform = CTransform4f(*mpMREA);
-    mNumMeshes = mpMREA->ReadLong();
-    mNumLayers = mpMREA->ReadLong();
-    uint32 NumSections = mpMREA->ReadLong();
-    mClusters.resize(mpMREA->ReadLong());
-    uint32 SectionNumberCount = mpMREA->ReadLong();
+    mNumMeshes = mpMREA->ReadULong();
+    mNumLayers = mpMREA->ReadULong();
+    const uint32 NumSections = mpMREA->ReadULong();
+    mClusters.resize(mpMREA->ReadULong());
+    const uint32 SectionNumberCount = mpMREA->ReadULong();
     mpMREA->SeekToBoundary(32);
 
     mpSectionMgr = new CSectionMgrIn(NumSections, mpMREA);
@@ -334,9 +335,7 @@ void CAreaLoader::ReadHeaderCorruption()
         else if (Type == "SGEN") mScriptGeneratorBlockNum = Num;
         else if (Type == "WOBJ") mGeometryBlockNum = Num; // note WOBJ can show up multiple times, but is always 0
 
-        CGameArea::SSectionNumber SecNum;
-        SecNum.SectionID = Type;
-        SecNum.Index = Num;
+        const CGameArea::SSectionNumber SecNum{Type, Num};
         mpArea->mSectionNumbers.push_back(SecNum);
     }
 
@@ -370,12 +369,12 @@ void CAreaLoader::ReadGeometryCorruption()
 
         // Load surface mesh IDs
         mpSectionMgr->ToSection(CurWOBJSection -  2);
-        const size_t NumSurfaces = mpMREA->ReadShort();
+        const size_t NumSurfaces = mpMREA->ReadUShort();
 
         for (size_t iSurf = 0; iSurf < NumSurfaces; iSurf++)
         {
             mpMREA->Seek(0x2, SEEK_CUR);
-            pWorldModel->GetSurface(iSurf)->MeshID = mpMREA->ReadShort();
+            pWorldModel->GetSurface(iSurf)->MeshID = mpMREA->ReadUShort();
         }
     }
 
@@ -393,42 +392,42 @@ void CAreaLoader::ReadDependenciesCorruption()
     mpSectionMgr->ToSection(mDependenciesBlockNum);
 
     // Read the offsets first so we can read the deps directly into their corresponding arrays
-    uint32 NumDeps = mpMREA->ReadLong();
-    uint32 DepsStart = mpMREA->Tell();
+    const uint32 NumDeps = mpMREA->ReadULong();
+    const uint32 DepsStart = mpMREA->Tell();
     mpMREA->Skip(NumDeps * 0xC);
 
-    uint32 NumOffsets = mpMREA->ReadLong();
+    const uint32 NumOffsets = mpMREA->ReadULong();
     std::vector<uint32> Offsets(NumOffsets);
 
-    for (uint32 OffsetIdx = 0; OffsetIdx < NumOffsets; OffsetIdx++)
-        Offsets[OffsetIdx] = mpMREA->ReadLong();
+    for (auto& offset : Offsets)
+        offset = mpMREA->ReadULong();
 
     mpMREA->GoTo(DepsStart);
 
     // Read layer dependencies
-    uint32 NumLayers = NumOffsets - 1;
+    const uint32 NumLayers = NumOffsets - 1;
     mpArea->mExtraLayerDeps.resize(NumLayers);
 
-    for (uint32 LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
+    for (size_t LayerIdx = 0; LayerIdx < NumLayers; LayerIdx++)
     {
-        uint32 NumLayerDeps = Offsets[LayerIdx+1] - Offsets[LayerIdx];
+        const uint32 NumLayerDeps = Offsets[LayerIdx + 1] - Offsets[LayerIdx];
         mpArea->mExtraLayerDeps[LayerIdx].reserve(NumLayerDeps);
 
         for (uint32 DepIdx = 0; DepIdx < NumLayerDeps; DepIdx++)
         {
-            CAssetID AssetID(*mpMREA, EGame::Corruption);
+            const CAssetID AssetID(*mpMREA, EGame::Corruption);
             mpMREA->Skip(4);
             mpArea->mExtraLayerDeps[LayerIdx].push_back(AssetID);
         }
     }
 
     // Read area dependencies
-    uint32 NumAreaDeps = NumDeps - Offsets[NumLayers];
+    const uint32 NumAreaDeps = NumDeps - Offsets[NumLayers];
     mpArea->mExtraAreaDeps.reserve(NumAreaDeps);
 
     for (uint32 DepIdx = 0; DepIdx < NumAreaDeps; DepIdx++)
     {
-        CAssetID AssetID(*mpMREA, EGame::Corruption);
+        const CAssetID AssetID(*mpMREA, EGame::Corruption);
         mpMREA->Skip(4);
         mpArea->mExtraAreaDeps.push_back(AssetID);
     }
@@ -438,34 +437,35 @@ void CAreaLoader::ReadLightsCorruption()
 {
     mpSectionMgr->ToSection(mLightsBlockNum);
 
-    uint32 BabeDead = mpMREA->ReadLong();
-    if (BabeDead != 0xbabedead) return;
+    const uint32 BabeDead = mpMREA->ReadULong();
+    if (BabeDead != 0xbabedead)
+        return;
 
     mpArea->mLightLayers.resize(4);
 
     for (uint32 iLayer = 0; iLayer < 4; iLayer++)
     {
-        uint32 NumLights = mpMREA->ReadLong();
+        const uint32 NumLights = mpMREA->ReadULong();
         mpArea->mLightLayers[iLayer].resize(NumLights);
 
         for (uint32 iLight = 0; iLight < NumLights; iLight++)
         {
-            ELightType Type = (ELightType) mpMREA->ReadLong();
+            const auto Type = static_cast<ELightType>(mpMREA->ReadLong());
 
-            float R = mpMREA->ReadFloat();
-            float G = mpMREA->ReadFloat();
-            float B = mpMREA->ReadFloat();
-            float A = mpMREA->ReadFloat();
-            CColor LightColor(R, G, B, A);
+            const float R = mpMREA->ReadFloat();
+            const float G = mpMREA->ReadFloat();
+            const float B = mpMREA->ReadFloat();
+            const float A = mpMREA->ReadFloat();
+            const CColor LightColor(R, G, B, A);
 
-            CVector3f Position(*mpMREA);
-            CVector3f Direction(*mpMREA);
+            const CVector3f Position(*mpMREA);
+            const CVector3f Direction(*mpMREA);
             mpMREA->Seek(0xC, SEEK_CUR);
 
             float Multiplier = mpMREA->ReadFloat();
-            float SpotCutoff = mpMREA->ReadFloat();
+            const float SpotCutoff = mpMREA->ReadFloat();
             mpMREA->Seek(0x9, SEEK_CUR);
-            uint32 FalloffType = mpMREA->ReadLong();
+            const uint32 FalloffType = mpMREA->ReadULong();
             mpMREA->Seek(0x18, SEEK_CUR);
 
             // Relevant data is read - now we process and form a CLight out of it
@@ -479,30 +479,26 @@ void CAreaLoader::ReadLightsCorruption()
             {
                 pLight = CLight::BuildLocalAmbient(Position, LightColor * Multiplier);
             }
-
             // Directional
             else if (Type == ELightType::Directional)
             {
                 pLight = CLight::BuildDirectional(Position, Direction, LightColor);
             }
-
             // Spot
             else if (Type == ELightType::Spot)
             {
                 pLight = CLight::BuildSpot(Position, Direction.Normalized(), LightColor, SpotCutoff);
 
-                float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
-                float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
-                float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
+                const float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
+                const float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
+                const float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
                 pLight.SetDistAtten(DistAttenA, DistAttenB, DistAttenC);
             }
-
-            // Custom
-            else
+            else // Custom
             {
-                float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
-                float DistAttenB = (FalloffType == 1) ? (249.9998f / Multiplier) : 0.f;
-                float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
+                const float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
+                const float DistAttenB = (FalloffType == 1) ? (249.9998f / Multiplier) : 0.f;
+                const float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
 
                 pLight = CLight::BuildCustom(Position, Direction, LightColor,
                                             DistAttenA, DistAttenB, DistAttenC,
@@ -520,15 +516,16 @@ void CAreaLoader::ReadCompressedBlocks()
 {
     mTotalDecmpSize = 0;
 
-    for (uint32 iClust = 0; iClust < mClusters.size(); iClust++)
+    for (auto& cluster : mClusters)
     {
-        mClusters[iClust].BufferSize = mpMREA->ReadLong();
-        mClusters[iClust].DecompressedSize = mpMREA->ReadLong();
-        mClusters[iClust].CompressedSize = mpMREA->ReadLong();
-        mClusters[iClust].NumSections = mpMREA->ReadLong();
-        mTotalDecmpSize += mClusters[iClust].DecompressedSize;
+        cluster.BufferSize = mpMREA->ReadULong();
+        cluster.DecompressedSize = mpMREA->ReadULong();
+        cluster.CompressedSize = mpMREA->ReadULong();
+        cluster.NumSections = mpMREA->ReadULong();
+        mTotalDecmpSize += cluster.DecompressedSize;
 
-        if (mClusters[iClust].CompressedSize != 0) mpArea->mUsesCompression = true;
+        if (cluster.CompressedSize != 0)
+            mpArea->mUsesCompression = true;
     }
 
     mpMREA->SeekToBoundary(32);
@@ -544,27 +541,26 @@ void CAreaLoader::Decompress()
     mpDecmpBuffer = new uint8[mTotalDecmpSize];
     uint32 Offset = 0;
 
-    for (uint32 iClust = 0; iClust < mClusters.size(); iClust++)
+    for (auto& cluster : mClusters)
     {
-        SCompressedCluster *pClust = &mClusters[iClust];
+        SCompressedCluster *pClust = &cluster;
 
         // Is it decompressed already?
-        if (mClusters[iClust].CompressedSize == 0)
+        if (cluster.CompressedSize == 0)
         {
             mpMREA->ReadBytes(mpDecmpBuffer + Offset, pClust->DecompressedSize);
             Offset += pClust->DecompressedSize;
         }
-
         else
         {
-            uint32 StartOffset = 32 - (mClusters[iClust].CompressedSize % 32); // For some reason they pad the beginning instead of the end
+            uint32 StartOffset = 32 - (cluster.CompressedSize % 32); // For some reason they pad the beginning instead of the end
             if (StartOffset != 32)
                 mpMREA->Seek(StartOffset, SEEK_CUR);
 
-            std::vector<uint8> CompressedBuf(mClusters[iClust].CompressedSize);
+            std::vector<uint8> CompressedBuf(cluster.CompressedSize);
             mpMREA->ReadBytes(CompressedBuf.data(), CompressedBuf.size());
 
-            bool Success = CompressionUtil::DecompressSegmentedData(CompressedBuf.data(), CompressedBuf.size(), mpDecmpBuffer + Offset, pClust->DecompressedSize);
+            const bool Success = CompressionUtil::DecompressSegmentedData(CompressedBuf.data(), CompressedBuf.size(), mpDecmpBuffer + Offset, pClust->DecompressedSize);
             if (!Success)
                 throw "Failed to decompress MREA!";
 
@@ -572,7 +568,7 @@ void CAreaLoader::Decompress()
         }
     }
 
-    TString Source = mpMREA->GetSourceString();
+    const TString Source = mpMREA->GetSourceString();
     mpMREA = new CMemoryInStream(mpDecmpBuffer, mTotalDecmpSize, EEndian::BigEndian);
     mpMREA->SetSourceString(Source);
     mpSectionMgr->SetInputStream(mpMREA);
@@ -586,7 +582,7 @@ void CAreaLoader::LoadSectionDataBuffers()
 
    for (uint32 iSec = 0; iSec < mpSectionMgr->NumSections(); iSec++)
    {
-       uint32 Size = mpSectionMgr->CurrentSectionSize();
+       const uint32 Size = mpSectionMgr->CurrentSectionSize();
        mpArea->mSectionDataBuffers[iSec].resize(Size);
        mpMREA->ReadBytes(mpArea->mSectionDataBuffers[iSec].data(), mpArea->mSectionDataBuffers[iSec].size());
        mpSectionMgr->ToNextSection();
@@ -614,7 +610,7 @@ void CAreaLoader::ReadPTLA()
 void CAreaLoader::ReadEGMC()
 {
     mpSectionMgr->ToSection(mEGMCBlockNum);
-    CAssetID EGMC(*mpMREA, mVersion);
+    const CAssetID EGMC(*mpMREA, mVersion);
     mpArea->mpPoiToWorldMap = gpResourceStore->LoadResource(EGMC, EResourceType::StaticGeometryMap);
 }
 
@@ -636,12 +632,12 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
     }
 
     // Merge objects from the generated layer back into the regular script layers
-    if (pGenLayer)
+    if (pGenLayer != nullptr)
     {
         while (pGenLayer->NumInstances() != 0)
         {
             CScriptObject *pInst = pGenLayer->InstanceByIndex(0);
-            uint32 InstanceID = pInst->InstanceID();
+            const uint32 InstanceID = pInst->InstanceID();
 
             // Check if this is a duplicate of an existing instance (this only happens with DKCR GenericCreature as far as I'm aware)
             if (mpArea->InstanceByID(InstanceID) != nullptr)
@@ -665,9 +661,9 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
     }
 
     // Iterate over all objects
-    for (auto Iter = mpArea->mObjectMap.begin(); Iter != mpArea->mObjectMap.end(); Iter++)
+    for (auto& object : mpArea->mObjectMap)
     {
-        CScriptObject *pInst = Iter->second;
+        CScriptObject *pInst = object.second;
 
         // Store outgoing connections
         for (size_t iCon = 0; iCon < pInst->NumLinks(ELinkType::Outgoing); iCon++)
@@ -689,12 +685,12 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
     }
 
     // Store connections
-    for (auto it = mpArea->mObjectMap.begin(); it != mpArea->mObjectMap.end(); it++)
+    for (auto it = mpArea->mObjectMap.begin(); it != mpArea->mObjectMap.end(); ++it)
     {
-        uint32 InstanceID = it->first;
-        auto iConMap = mConnectionMap.find(InstanceID);
+        const uint32 InstanceID = it->first;
+        const auto iConMap = mConnectionMap.find(InstanceID);
 
-        if (iConMap != mConnectionMap.end())
+        if (iConMap != mConnectionMap.cend())
         {
             CScriptObject *pObj = mpArea->InstanceByID(InstanceID);
             pObj->mInLinks = iConMap->second;
@@ -710,7 +706,7 @@ std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEn
     // Validation
     if (!MREA.IsValid()) return nullptr;
 
-    uint32 DeadBeef = MREA.ReadLong();
+    const uint32 DeadBeef = MREA.ReadULong();
     if (DeadBeef != 0xdeadbeef)
     {
         errorf("%s: Invalid MREA magic: 0x%08X", *MREA.GetSourceString(), DeadBeef);
@@ -721,7 +717,7 @@ std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEn
 
     // Header
     Loader.mpArea = ptr.get();
-    uint32 Version = MREA.ReadLong();
+    const uint32 Version = MREA.ReadULong();
     Loader.mVersion = GetFormatVersion(Version);
     Loader.mpMREA = &MREA;
 
