@@ -94,9 +94,9 @@ public:
         return nullptr;
     }
 
-    void SetName(const TString& rkName)  { mLayerName = rkName; }
-    void SetActive(bool Active)          { mActive = Active; }
-    void SetVisible(bool Visible)        { mVisible = Visible; }
+    void SetName(TString rkName)   { mLayerName = std::move(rkName); }
+    void SetActive(bool Active)    { mActive = Active; }
+    void SetVisible(bool Visible)  { mVisible = Visible; }
 
     uint32 AreaIndex() const
     {
