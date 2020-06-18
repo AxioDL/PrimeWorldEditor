@@ -84,7 +84,7 @@ public:
     TString DiscFilesystemRoot(bool Relative) const  { return DiscDir(Relative) + (IsWiiBuild() ? "DATA/" : "") + "files/"; }
 
     // Accessors
-    void SetProjectName(const TString& rkName) { mProjectName = rkName; }
+    void SetProjectName(TString name) { mProjectName = std::move(name); }
 
     TString Name() const                                 { return mProjectName; }
     uint32 NumPackages() const                           { return mPackages.size(); }
