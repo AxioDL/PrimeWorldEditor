@@ -18,16 +18,16 @@ void CModelLoader::LoadWorldMeshHeader(IInputStream& rModel)
 void CModelLoader::LoadAttribArrays(IInputStream& rModel)
 {
     // Positions
-    if (mFlags & EModelLoaderFlag::HalfPrecisionPositions) // 16-bit (DKCR only)
+    if ((mFlags & EModelLoaderFlag::HalfPrecisionPositions) != 0) // 16-bit (DKCR only)
     {
         mPositions.resize(mpSectionMgr->CurrentSectionSize() / 0x6);
         constexpr float Divisor = 8192.f; // Might be incorrect! Needs verification via size comparison.
 
         for (auto& position : mPositions)
         {
-            position.X = rModel.ReadShort() / Divisor;
-            position.Y = rModel.ReadShort() / Divisor;
-            position.Z = rModel.ReadShort() / Divisor;
+            position.X = static_cast<float>(rModel.ReadShort()) / Divisor;
+            position.Y = static_cast<float>(rModel.ReadShort()) / Divisor;
+            position.Z = static_cast<float>(rModel.ReadShort()) / Divisor;
         }
     }
     else // 32-bit
@@ -41,16 +41,16 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
     mpSectionMgr->ToNextSection();
 
     // Normals
-    if (mFlags & EModelLoaderFlag::HalfPrecisionNormals) // 16-bit
+    if ((mFlags & EModelLoaderFlag::HalfPrecisionNormals) != 0) // 16-bit
     {
         mNormals.resize(mpSectionMgr->CurrentSectionSize() / 0x6);
         const float Divisor = (mVersion < EGame::DKCReturns) ? 32768.f : 16384.f;
 
         for (auto& normal : mNormals)
         {
-            normal.X = rModel.ReadShort() / Divisor;
-            normal.Y = rModel.ReadShort() / Divisor;
-            normal.Z = rModel.ReadShort() / Divisor;
+            normal.X = static_cast<float>(rModel.ReadShort()) / Divisor;
+            normal.Y = static_cast<float>(rModel.ReadShort()) / Divisor;
+            normal.Z = static_cast<float>(rModel.ReadShort()) / Divisor;
         }
     }
     else // 32-bit
@@ -81,15 +81,15 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
     mpSectionMgr->ToNextSection();
 
     // Lightmap UVs
-    if (mFlags & EModelLoaderFlag::LightmapUVs)
+    if ((mFlags & EModelLoaderFlag::LightmapUVs) != 0)
     {
         mTex1.resize(mpSectionMgr->CurrentSectionSize() / 0x4);
         const float Divisor = (mVersion < EGame::DKCReturns) ? 32768.f : 8192.f;
 
         for (auto& vec : mTex1)
         {
-            vec.X = rModel.ReadShort() / Divisor;
-            vec.Y = rModel.ReadShort() / Divisor;
+            vec.X = static_cast<float>(rModel.ReadShort()) / Divisor;
+            vec.Y = static_cast<float>(rModel.ReadShort()) / Divisor;
         }
 
         mpSectionMgr->ToNextSection();
@@ -137,7 +137,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
 
             for (uint32 iMtxAttr = 0; iMtxAttr < 8; iMtxAttr++)
             {
-                if (VtxDesc & static_cast<uint>(EVertexAttribute::PosMtx << iMtxAttr))
+                if ((VtxDesc & static_cast<uint>(EVertexAttribute::PosMtx << iMtxAttr)) != 0)
                     rModel.Seek(0x1, SEEK_CUR);
             }
 
@@ -146,9 +146,9 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
             // tex0 can also be read from either UV buffer; depends what the material says.
 
             // Position
-            if (VtxDesc & EVertexAttribute::Position)
+            if ((VtxDesc & EVertexAttribute::Position) != 0)
             {
-                uint16 PosIndex = rModel.ReadShort() & 0xFFFF;
+                const uint16 PosIndex = rModel.ReadShort() & 0xFFFF;
                 Vtx.Position = mPositions[PosIndex];
                 Vtx.ArrayPosition = PosIndex;
 
@@ -157,13 +157,13 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
             }
 
             // Normal
-            if (VtxDesc & EVertexAttribute::Normal)
+            if ((VtxDesc & EVertexAttribute::Normal) != 0)
                 Vtx.Normal = mNormals[rModel.ReadShort() & 0xFFFF];
 
             // Color
             for (size_t iClr = 0; iClr < Vtx.Color.size(); iClr++)
             {
-                if (VtxDesc & static_cast<uint32>(EVertexAttribute::Color0 << iClr))
+                if ((VtxDesc & static_cast<uint32>(EVertexAttribute::Color0 << iClr)) != 0)
                     Vtx.Color[iClr] = mColors[rModel.ReadShort() & 0xFFFF];
             }
 
@@ -171,9 +171,9 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
             if (mVersion < EGame::DKCReturns)
             {
                 // Tex0
-                if (VtxDesc & EVertexAttribute::Tex0)
+                if ((VtxDesc & EVertexAttribute::Tex0) != 0)
                 {
-                    if ((mFlags & EModelLoaderFlag::LightmapUVs) && (pMat->Options() & EMaterialOption::ShortTexCoord))
+                    if ((mFlags & EModelLoaderFlag::LightmapUVs) != 0 && (pMat->Options() & EMaterialOption::ShortTexCoord) != 0)
                         Vtx.Tex[0] = mTex1[rModel.ReadShort() & 0xFFFF];
                     else
                         Vtx.Tex[0] = mTex0[rModel.ReadShort() & 0xFFFF];
@@ -182,7 +182,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
                 // Tex1-7
                 for (size_t iTex = 1; iTex < 7; iTex++)
                 {
-                    if (VtxDesc & static_cast<uint32>(EVertexAttribute::Tex0 << iTex))
+                    if ((VtxDesc & static_cast<uint32>(EVertexAttribute::Tex0 << iTex)) != 0)
                         Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
                 }
             }
@@ -191,7 +191,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
                 // Tex0-7
                 for (size_t iTex = 0; iTex < 7; iTex++)
                 {
-                    if (VtxDesc & static_cast<uint32>(EVertexAttribute::Tex0 << iTex))
+                    if ((VtxDesc & static_cast<uint32>(EVertexAttribute::Tex0 << iTex)) != 0)
                     {
                         if (!mSurfaceUsingTex1)
                             Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
@@ -264,7 +264,7 @@ void CModelLoader::LoadSurfaceHeaderDKCR(IInputStream& rModel, SSurface *pSurf)
     pSurf->MaterialID = static_cast<uint32>(rModel.ReadShort());
     rModel.Seek(0x2, SEEK_CUR);
     mSurfaceUsingTex1 = (rModel.ReadByte() == 1);
-    uint32 ExtraSize = rModel.ReadByte();
+    uint32 ExtraSize = static_cast<uint8>(rModel.ReadByte());
 
     if (ExtraSize > 0)
     {
@@ -404,16 +404,16 @@ std::unique_ptr<CModel> CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEnt
     if (Magic == 0xDEADBABE)
     {
         Version = rCMDL.ReadLong();
-        uint32 Flags = rCMDL.ReadLong();
+        const uint32 Flags = rCMDL.ReadLong();
         AABox = CAABox(rCMDL);
         BlockCount = rCMDL.ReadLong();
         MatSetCount = rCMDL.ReadLong();
 
-        if (Flags & 0x1)
+        if ((Flags & 0x1) != 0)
             Loader.mFlags |= EModelLoaderFlag::Skinned;
-        if (Flags & 0x2)
+        if ((Flags & 0x2) != 0)
             Loader.mFlags |= EModelLoaderFlag::HalfPrecisionNormals;
-        if (Flags & 0x4)
+        if ((Flags & 0x4) != 0)
             Loader.mFlags |= EModelLoaderFlag::LightmapUVs;
     }
 
@@ -428,14 +428,14 @@ std::unique_ptr<CModel> CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEnt
 
         // todo: unknown flags
         Loader.mFlags = EModelLoaderFlag::HalfPrecisionNormals | EModelLoaderFlag::LightmapUVs;
-        if (Flags & 0x10)
+        if ((Flags & 0x10) != 0)
             Loader.mFlags |= EModelLoaderFlag::VisibilityGroups;
-        if (Flags & 0x20)
+        if ((Flags & 0x20) != 0)
             Loader.mFlags |= EModelLoaderFlag::HalfPrecisionPositions;
 
         // Visibility group data
         // Skipping for now - should read in eventually
-        if (Flags & 0x10)
+        if ((Flags & 0x10) != 0)
         {
             rCMDL.Seek(0x4, SEEK_CUR);
             const uint32 VisGroupCount = rCMDL.ReadLong();
@@ -581,9 +581,8 @@ void CModelLoader::BuildWorldMeshes(std::vector<std::unique_ptr<CModel>>& rkIn, 
     // This function takes the gigantic models with all surfaces combined from MP2/3/DKCR and splits the surfaces to reform the original uncombined meshes.
     std::map<uint32, CModel*> OutputMap;
 
-    for (size_t iMdl = 0; iMdl < rkIn.size(); iMdl++)
+    for (auto& pModel : rkIn)
     {
-        auto& pModel = rkIn[iMdl];
         pModel->mHasOwnSurfaces = false;
         pModel->mHasOwnMaterials = false;
 
