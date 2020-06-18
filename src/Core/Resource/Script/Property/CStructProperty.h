@@ -32,7 +32,7 @@ public:
     void InitFromArchetype(IProperty* pOther) override;
     bool ShouldSerialize() const override;
 
-    static EPropertyType StaticType() { return EPropertyType::Struct; }
+    static constexpr EPropertyType StaticType() { return EPropertyType::Struct; }
 };
 
 #endif

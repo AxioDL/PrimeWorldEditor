@@ -16,7 +16,7 @@
 // Must be included on every CResource subclass.
 #define DECLARE_RESOURCE_TYPE(ResourceTypeEnum) \
 public: \
-    static EResourceType StaticType() \
+    static constexpr EResourceType StaticType() \
     { \
         return EResourceType::ResourceTypeEnum; \
     } \

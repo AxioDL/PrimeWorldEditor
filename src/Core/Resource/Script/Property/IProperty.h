@@ -361,7 +361,7 @@ public:
         mDefaultValue = kInDefaultValue;
     }
 
-    static EPropertyType StaticType()     { return PropEnum; }
+    static constexpr EPropertyType StaticType()     { return PropEnum; }
 };
 
 template<typename PropType, EPropertyType PropEnum>
