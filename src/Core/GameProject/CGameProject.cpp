@@ -26,10 +26,10 @@ CGameProject::~CGameProject()
 bool CGameProject::Save()
 {
     mProjFileLock.Release();
-    TString ProjPath = ProjectPath();
-    CXMLWriter Writer(ProjPath, "GameProject", (int) EProjectVersion::Current, mGame);
+    const TString ProjPath = ProjectPath();
+    CXMLWriter Writer(ProjPath, "GameProject", static_cast<int>(EProjectVersion::Current), mGame);
     Serialize(Writer);
-    bool SaveSuccess = Writer.Save();
+    const bool SaveSuccess = Writer.Save();
     mProjFileLock.Lock(*ProjPath);
     return SaveSuccess;
 }
@@ -46,8 +46,8 @@ bool CGameProject::Serialize(IArchive& rArc)
 
     if (!rArc.IsReader())
     {
-        for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
-            PackageList.push_back( mPackages[iPkg]->DefinitionPath(true) );
+        for (auto& package : mPackages)
+            PackageList.push_back(package->DefinitionPath(true));
     }
 
     rArc << SerialParameter("Packages", PackageList);
@@ -78,16 +78,16 @@ bool CGameProject::Serialize(IArchive& rArc)
 
 bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress)
 {
-    ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
-    ASSERT( !IsWiiDeAsobu() && !IsTrilogy() );
+    ASSERT(FileUtil::IsValidPath(rkIsoPath, false));
+    ASSERT(!IsWiiDeAsobu() && !IsTrilogy());
 
-    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
+    const auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
+        pProgress->Report(static_cast<int>(ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
-    TString DiscRoot = DiscDir(false);
+    const TString DiscRoot = DiscDir(false);
 
     if (!IsWiiBuild())
     {
@@ -103,18 +103,18 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
 
 bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso, IProgressNotifier *pProgress)
 {
-    ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
-    ASSERT( IsWiiDeAsobu() || IsTrilogy() );
-    ASSERT( pOriginalIso != nullptr );
+    ASSERT(FileUtil::IsValidPath(rkIsoPath, false));
+    ASSERT(IsWiiDeAsobu() || IsTrilogy());
+    ASSERT(pOriginalIso != nullptr);
 
-    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
+    const auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
+        pProgress->Report(static_cast<int>(ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
 
-    TString DiscRoot = DiscFilesystemRoot(false);
+    const TString DiscRoot = DiscFilesystemRoot(false);
 
     nod::DiscMergerWii Merger(TStringToNodString(rkIsoPath), *pOriginalIso, IsTrilogy(), ProgressCallback);
     return Merger.mergeFromDirectory(TStringToNodString(DiscRoot)) == nod::EBuildResult::Success;
@@ -210,7 +210,7 @@ std::unique_ptr<CGameProject> CGameProject::LoadProject(const TString& rkProjPat
     pProgress->Report("Loading project settings");
     bool LoadSuccess = false;
 
-    TString ProjPath = rkProjPath;
+    const TString ProjPath = rkProjPath;
     CXMLReader Reader(ProjPath);
 
     if (!Reader.IsValid())
@@ -263,7 +263,7 @@ std::unique_ptr<CGameProject> CGameProject::LoadProject(const TString& rkProjPat
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
 
     // Perform update
-    if (Reader.FileVersion() < (uint16) EProjectVersion::Current)
+    if (Reader.FileVersion() < static_cast<uint16>(EProjectVersion::Current))
     {
         pProgress->Report("Updating project");
 
@@ -290,7 +290,7 @@ std::unique_ptr<CGameProject> CGameProject::LoadProject(const TString& rkProjPat
     }
 
     // Create hidden files directory, if needed
-    TString HiddenDir = pProj->HiddenFilesDir();
+    const TString HiddenDir = pProj->HiddenFilesDir();
 
     if (!FileUtil::Exists(HiddenDir))
     {
