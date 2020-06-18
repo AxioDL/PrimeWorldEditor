@@ -26,28 +26,28 @@ enum class ECameraMoveMode
  * const function). */
 class CCamera
 {
-    ECameraMoveMode mMode;
+    ECameraMoveMode mMode{ECameraMoveMode::Free};
     mutable CVector3f mPosition;
     mutable CVector3f mDirection;
     mutable CVector3f mRightVector;
     mutable CVector3f mUpVector;
-    float mAspectRatio;
+    float mAspectRatio = 1.7777777f;
 
     float mYaw;
-    float mPitch;
+    float mPitch = 0.0f;
     CVector3f mOrbitTarget;
-    mutable float mOrbitDistance;
-    float mMoveSpeed;
-    float mLookSpeed;
+    mutable float mOrbitDistance = 0.0f;
+    float mMoveSpeed = 1.0f;
+    float mLookSpeed = 1.0f;
 
     mutable CMatrix4f mViewMatrix;
     mutable CMatrix4f mProjectionMatrix;
     mutable CFrustumPlanes mFrustumPlanes;
 
-    mutable bool mTransformDirty;
-    mutable bool mViewDirty;
-    mutable bool mProjectionDirty;
-    mutable bool mFrustumPlanesDirty;
+    mutable bool mTransformDirty = true;
+    mutable bool mViewDirty = true;
+    mutable bool mProjectionDirty = true;
+    mutable bool mFrustumPlanesDirty = true;
 
 public:
     CCamera();

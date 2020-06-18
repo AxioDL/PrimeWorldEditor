@@ -4,17 +4,7 @@
 #include <Common/Math/MathUtil.h>
 
 CCamera::CCamera()
-    : mMode(ECameraMoveMode::Free)
-    , mPosition(0)
-    , mAspectRatio(1.7777777f)
-    , mYaw(-Math::skHalfPi)
-    , mPitch(0.f)
-    , mMoveSpeed(1.f)
-    , mLookSpeed(1.f)
-    , mTransformDirty(true)
-    , mViewDirty(true)
-    , mProjectionDirty(true)
-    , mFrustumPlanesDirty(true)
+    : mYaw(-Math::skHalfPi)
 {
     ResetOrbit();
 }
@@ -22,12 +12,8 @@ CCamera::CCamera()
 // todo: make it actually look at the target!
 // don't actually use this constructor, it's unfinished and won't work properly
 CCamera::CCamera(CVector3f Position, CVector3f /*Target*/)
-    : mMode(ECameraMoveMode::Free)
-    , mPosition(Position)
+    : mPosition(Position)
     , mYaw(-Math::skHalfPi)
-    , mPitch(0.f)
-    , mMoveSpeed(1.f)
-    , mLookSpeed(1.f)
 {
 }
 
