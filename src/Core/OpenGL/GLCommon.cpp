@@ -1,7 +1,7 @@
 #include "GLCommon.h"
 #include <Common/Macros.h>
 
-GLenum gBlendFactor[] =
+const std::array<GLenum, 8> gBlendFactor
 {
     GL_ZERO,                // GX_BL_ZERO
     GL_ONE,                 // GX_BL_ONE
@@ -14,7 +14,7 @@ GLenum gBlendFactor[] =
 };
 
 
-GLenum gZMode[] =
+const std::array<GLenum, 7> gZMode
 {
     GL_NEVER,    // GX_NEVER
     GL_LESS,     // GX_LESS
