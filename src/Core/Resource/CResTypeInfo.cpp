@@ -8,9 +8,6 @@ CResTypeInfo::CResTypeInfo(EResourceType Type, const TString& rkTypeName, const 
     : mType(Type)
     , mTypeName(rkTypeName)
     , mRetroExtension(rkRetroExtension)
-    , mCanBeSerialized(false)
-    , mCanHaveDependencies(true)
-    , mCanBeCreated(false)
 {
 #if !PUBLIC_RELEASE
     ASSERT(smTypeMap.find(Type) == smTypeMap.end());
