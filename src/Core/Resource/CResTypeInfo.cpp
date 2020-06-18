@@ -155,18 +155,18 @@ void CResTypeInfo::CResTypeInfoFactory::AddExtension(CResTypeInfo *pType, CFourC
     ASSERT(FirstGame >= EGame::PrimeDemo && LastGame <= EGame::DKCReturns && FirstGame <= LastGame);
     ASSERT(FirstGame != EGame::Invalid && LastGame != EGame::Invalid);
 
-    for (int GameIdx = (int) FirstGame; GameIdx <= (int) LastGame; GameIdx++)
+    for (int GameIdx = static_cast<int>(FirstGame); GameIdx <= static_cast<int>(LastGame); GameIdx++)
     {
 #if !PUBLIC_RELEASE
-        ASSERT(!pType->IsInGame((EGame) GameIdx));
+        ASSERT(!pType->IsInGame(static_cast<EGame>(GameIdx)));
 #endif
 
-        CResTypeInfo::SGameExtension Info { (EGame) GameIdx, Ext };
+        SGameExtension Info{static_cast<EGame>(GameIdx), Ext};
         pType->mCookedExtensions.push_back(Info);
     }
 
-    std::sort(pType->mCookedExtensions.begin(), pType->mCookedExtensions.end(), [](const CResTypeInfo::SGameExtension& rkLeft, const CResTypeInfo::SGameExtension& rkRight) -> bool {
-        return rkLeft.Game < rkRight.Game;
+    std::sort(pType->mCookedExtensions.begin(), pType->mCookedExtensions.end(), [](const SGameExtension& left, const SGameExtension& right) {
+        return left.Game < right.Game;
     });
 }
 
