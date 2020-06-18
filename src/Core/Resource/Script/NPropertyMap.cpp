@@ -9,14 +9,14 @@ namespace NPropertyMap
 namespace
 {
 /** Path to the property map file */
-const char* gpkLegacyMapPath = "templates/PropertyMapLegacy.xml";
-const char* gpkMapPath = "templates/PropertyMap.xml";
+constexpr char gpkLegacyMapPath[] = "templates/PropertyMapLegacy.xml";
+constexpr char gpkMapPath[] = "templates/PropertyMap.xml";
 
 /** Whether to do name lookups from the legacy map */
-const bool gkUseLegacyMapForNameLookups = false;
+constexpr bool gkUseLegacyMapForNameLookups = false;
 
 /** Whether to update names in the legacy map */
-const bool gkUseLegacyMapForUpdates = false;
+constexpr bool gkUseLegacyMapForUpdates = false;
 
 /** Whether the map is dirty (has unsaved changes */
 bool gMapIsDirty = false;
@@ -150,7 +150,7 @@ void LoadMap()
     ASSERT(!gMapIsLoaded);
     debugf("Loading property map");
 
-    if (gkUseLegacyMapForNameLookups)
+    if constexpr (gkUseLegacyMapForNameLookups)
     {
         CXMLReader Reader(gDataDir + gpkLegacyMapPath);
         ASSERT(Reader.IsValid());
@@ -199,7 +199,7 @@ void SaveMap(bool Force)
 
     if (gMapIsDirty || Force)
     {
-        if (gkUseLegacyMapForUpdates)
+        if constexpr (gkUseLegacyMapForUpdates)
         {
             CXMLWriter Writer(gDataDir + gpkLegacyMapPath, "PropertyMap");
             ASSERT(Writer.IsValid());
@@ -235,7 +235,7 @@ const char* GetPropertyName(IProperty* pInProperty)
 {
     ConditionalLoadMap();
 
-    if (gkUseLegacyMapForNameLookups)
+    if constexpr (gkUseLegacyMapForNameLookups)
     {
         const auto MapFind = gLegacyNameMap.find(pInProperty->ID());
         return MapFind == gLegacyNameMap.cend() ? "Unknown" : *MapFind->second;
@@ -327,7 +327,7 @@ void RetrieveXMLsWithProperty(uint32 ID, const char* pkTypeName, std::set<TStrin
 /** Updates the name of a given property in the map */
 void SetPropertyName(uint32 ID, const char* pkTypeName, const char* pkNewName)
 {
-    if (gkUseLegacyMapForUpdates)
+    if constexpr (gkUseLegacyMapForUpdates)
     {
         auto Iter = gLegacyNameMap.find(ID);
 
@@ -475,7 +475,7 @@ void RegisterProperty(IProperty* pProperty)
     SNameKey Key = CreateKey(pProperty);
     auto MapFind = gNameMap.find(Key);
 
-    if (gkUseLegacyMapForNameLookups)
+    if constexpr (gkUseLegacyMapForNameLookups)
     {
         // If we are using the legacy map, gNameMap may be empty. We need to retrieve the name
         // from the legacy map, and create an entry in gNameMap with it.

@@ -222,13 +222,13 @@ bool CWorldCooker::CookMLVL(CWorld *pWorld, IOutputStream& rMLVL)
         LayerNameOffsets.push_back(LayerNames.size());
         rMLVL.WriteLong(rArea.Layers.size());
 
-        uint64 LayerActiveFlags = -1;
+        uint64 LayerActiveFlags = UINT64_MAX;
 
         for (uint32 iLyr = 0; iLyr < rArea.Layers.size(); iLyr++)
         {
             CWorld::SArea::SLayer& rLayer = rArea.Layers[iLyr];
             if (!rLayer.Active)
-                LayerActiveFlags &= ~(1 << iLyr);
+                LayerActiveFlags &= ~(UINT64_C(1) << iLyr);
 
             LayerNames.push_back(rLayer.LayerName);
             LayerStateIDs.push_back(rLayer.LayerStateID);

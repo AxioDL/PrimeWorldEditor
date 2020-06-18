@@ -4,7 +4,7 @@
 #include "Core/GameProject/DependencyListBuilders.h"
 #include <Common/Log.h>
 
-const bool gkForceDisableCompression = false;
+constexpr bool gkForceDisableCompression = false;
 
 CAreaCooker::CAreaCooker() = default;
 
