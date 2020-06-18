@@ -14,13 +14,13 @@ public:
     CBoneTransformData() = default;
     explicit CBoneTransformData(CSkeleton *pSkel)            { ResizeToSkeleton(pSkel); }
     void ResizeToSkeleton(CSkeleton *pSkel)                  { mBoneMatrices.resize(pSkel ? pSkel->MaxBoneID() + 1 : 0); }
-    CTransform4f& BoneMatrix(uint32 BoneID)                  { return mBoneMatrices[BoneID]; }
-    const CTransform4f& BoneMatrix(uint32 BoneID) const      { return mBoneMatrices[BoneID]; }
+    CTransform4f& BoneMatrix(size_t BoneID)                  { return mBoneMatrices[BoneID]; }
+    const CTransform4f& BoneMatrix(size_t BoneID) const      { return mBoneMatrices[BoneID]; }
     const void* Data() const                                 { return mBoneMatrices.data(); }
-    uint32 DataSize() const                                  { return mBoneMatrices.size() * sizeof(CTransform4f); }
-    uint32 NumTrackedBones() const                           { return mBoneMatrices.size(); }
-    CTransform4f& operator[](uint32 BoneIndex)               { return BoneMatrix(BoneIndex); }
-    const CTransform4f& operator[](uint32 BoneIndex) const   { return BoneMatrix(BoneIndex); }
+    size_t DataSize() const                                  { return mBoneMatrices.size() * sizeof(CTransform4f); }
+    size_t NumTrackedBones() const                           { return mBoneMatrices.size(); }
+    CTransform4f& operator[](size_t BoneIndex)               { return BoneMatrix(BoneIndex); }
+    const CTransform4f& operator[](size_t BoneIndex) const   { return BoneMatrix(BoneIndex); }
 };
 
 #endif // CBONETRANSFORMDATA
