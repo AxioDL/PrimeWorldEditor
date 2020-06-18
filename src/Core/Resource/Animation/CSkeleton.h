@@ -43,7 +43,7 @@ public:
     void Draw(FRenderOptions Options, const CBoneTransformData *pkData);
     std::pair<int32, float> RayIntersect(const CRay& rkRay, const CBoneTransformData& rkData) const;
 
-    uint32 NumBones() const  { return mBones.size(); }
+    size_t NumBones() const  { return mBones.size(); }
     CBone* RootBone() const  { return mpRootBone; }
 };
 
