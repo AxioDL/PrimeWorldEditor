@@ -12,48 +12,48 @@ CMaterialLoader::~CMaterialLoader() = default;
 FVertexDescription CMaterialLoader::ConvertToVertexDescription(uint32 VertexFlags)
 {
     FVertexDescription Desc;
-    if (VertexFlags & 0x00000003) Desc |= EVertexAttribute::Position;
-    if (VertexFlags & 0x0000000C) Desc |= EVertexAttribute::Normal;
-    if (VertexFlags & 0x00000030) Desc |= EVertexAttribute::Color0;
-    if (VertexFlags & 0x000000C0) Desc |= EVertexAttribute::Color1;
-    if (VertexFlags & 0x00000300) Desc |= EVertexAttribute::Tex0;
-    if (VertexFlags & 0x00000C00) Desc |= EVertexAttribute::Tex1;
-    if (VertexFlags & 0x00003000) Desc |= EVertexAttribute::Tex2;
-    if (VertexFlags & 0x0000C000) Desc |= EVertexAttribute::Tex3;
-    if (VertexFlags & 0x00030000) Desc |= EVertexAttribute::Tex4;
-    if (VertexFlags & 0x000C0000) Desc |= EVertexAttribute::Tex5;
-    if (VertexFlags & 0x00300000) Desc |= EVertexAttribute::Tex6;
-    if (VertexFlags & 0x00C00000) Desc |= EVertexAttribute::Tex7;
-    if (VertexFlags & 0x01000000) Desc |= EVertexAttribute::PosMtx;
-    if (VertexFlags & 0x02000000) Desc |= EVertexAttribute::Tex0Mtx;
-    if (VertexFlags & 0x04000000) Desc |= EVertexAttribute::Tex1Mtx;
-    if (VertexFlags & 0x08000000) Desc |= EVertexAttribute::Tex2Mtx;
-    if (VertexFlags & 0x10000000) Desc |= EVertexAttribute::Tex3Mtx;
-    if (VertexFlags & 0x20000000) Desc |= EVertexAttribute::Tex4Mtx;
-    if (VertexFlags & 0x40000000) Desc |= EVertexAttribute::Tex5Mtx;
-    if (VertexFlags & 0x80000000) Desc |= EVertexAttribute::Tex6Mtx;
+    if ((VertexFlags & 0x00000003) != 0) Desc |= EVertexAttribute::Position;
+    if ((VertexFlags & 0x0000000C) != 0) Desc |= EVertexAttribute::Normal;
+    if ((VertexFlags & 0x00000030) != 0) Desc |= EVertexAttribute::Color0;
+    if ((VertexFlags & 0x000000C0) != 0) Desc |= EVertexAttribute::Color1;
+    if ((VertexFlags & 0x00000300) != 0) Desc |= EVertexAttribute::Tex0;
+    if ((VertexFlags & 0x00000C00) != 0) Desc |= EVertexAttribute::Tex1;
+    if ((VertexFlags & 0x00003000) != 0) Desc |= EVertexAttribute::Tex2;
+    if ((VertexFlags & 0x0000C000) != 0) Desc |= EVertexAttribute::Tex3;
+    if ((VertexFlags & 0x00030000) != 0) Desc |= EVertexAttribute::Tex4;
+    if ((VertexFlags & 0x000C0000) != 0) Desc |= EVertexAttribute::Tex5;
+    if ((VertexFlags & 0x00300000) != 0) Desc |= EVertexAttribute::Tex6;
+    if ((VertexFlags & 0x00C00000) != 0) Desc |= EVertexAttribute::Tex7;
+    if ((VertexFlags & 0x01000000) != 0) Desc |= EVertexAttribute::PosMtx;
+    if ((VertexFlags & 0x02000000) != 0) Desc |= EVertexAttribute::Tex0Mtx;
+    if ((VertexFlags & 0x04000000) != 0) Desc |= EVertexAttribute::Tex1Mtx;
+    if ((VertexFlags & 0x08000000) != 0) Desc |= EVertexAttribute::Tex2Mtx;
+    if ((VertexFlags & 0x10000000) != 0) Desc |= EVertexAttribute::Tex3Mtx;
+    if ((VertexFlags & 0x20000000) != 0) Desc |= EVertexAttribute::Tex4Mtx;
+    if ((VertexFlags & 0x40000000) != 0) Desc |= EVertexAttribute::Tex5Mtx;
+    if ((VertexFlags & 0x80000000) != 0) Desc |= EVertexAttribute::Tex6Mtx;
     return Desc;
 }
 
 void CMaterialLoader::ReadPrimeMatSet()
 {
     // Textures
-    uint32 NumTextures = mpFile->ReadLong();
+    const uint32 NumTextures = mpFile->ReadULong();
     mTextures.resize(NumTextures);
 
-    for (uint32 iTex = 0; iTex < NumTextures; iTex++)
+    for (size_t iTex = 0; iTex < NumTextures; iTex++)
     {
-        uint32 TextureID = mpFile->ReadLong();
+        const uint32 TextureID = mpFile->ReadULong();
         mTextures[iTex] = gpResourceStore->LoadResource<CTexture>(TextureID);
     }
 
     // Materials
-    uint32 NumMats = mpFile->ReadLong();
+    const uint32 NumMats = mpFile->ReadULong();
     std::vector<uint32> Offsets(NumMats);
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
-        Offsets[iMat] = mpFile->ReadLong();
+    for (auto& offset : Offsets)
+        offset = mpFile->ReadULong();
 
-    uint32 MatsStart = mpFile->Tell();
+    const uint32 MatsStart = mpFile->Tell();
     mpSet->mMaterials.resize(NumMats);
     for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
@@ -69,41 +69,44 @@ std::unique_ptr<CMaterial> CMaterialLoader::ReadPrimeMaterial()
     auto pMat = std::make_unique<CMaterial>(mVersion, FVertexDescription{});
 
     // Flags
-    pMat->mOptions = (mpFile->ReadLong() & (uint) EMaterialOption::AllMP1Settings);
+    pMat->mOptions = (mpFile->ReadULong() & static_cast<uint>(EMaterialOption::AllMP1Settings));
     pMat->mOptions.SetFlag(EMaterialOption::ColorWrite);
 
     // Textures
-    uint32 NumTextures = mpFile->ReadLong();
+    const uint32 NumTextures = mpFile->ReadULong();
     std::vector<uint32> TextureIndices(NumTextures);
 
-    for (uint32 iTex = 0; iTex < NumTextures; iTex++)
+    for (auto& index : TextureIndices)
     {
-        uint32 Index = mpFile->ReadLong();
-        TextureIndices[iTex] = Index;
+        index = mpFile->ReadULong();
     }
 
     // Vertex description
-    pMat->mVtxDesc = ConvertToVertexDescription( mpFile->ReadLong() );
+    pMat->mVtxDesc = ConvertToVertexDescription(mpFile->ReadULong());
 
     // Unknowns
     if (mVersion >= EGame::EchoesDemo)
     {
-        pMat->mEchoesUnknownA = mpFile->ReadLong();
-        pMat->mEchoesUnknownB = mpFile->ReadLong();
+        pMat->mEchoesUnknownA = mpFile->ReadULong();
+        pMat->mEchoesUnknownB = mpFile->ReadULong();
     }
     mpFile->Seek(0x4, SEEK_CUR); // Skipping group index
 
     // Konst
-    if (pMat->mOptions & EMaterialOption::Konst)
+    if ((pMat->mOptions & EMaterialOption::Konst) != 0)
     {
-        uint32 KonstCount = mpFile->ReadLong();
+        const uint32 KonstCount = mpFile->ReadULong();
 
-        for (uint32 iKonst = 0; iKonst < KonstCount; iKonst++)
+        for (size_t iKonst = 0; iKonst < KonstCount; iKonst++)
         {
-            if (iKonst >= 4) break;
+            if (iKonst >= 4)
+                break;
+
             pMat->mKonstColors[iKonst] = CColor(*mpFile, true);
         }
-        if (KonstCount > 4) mpFile->Seek(0x4 * (KonstCount - 4), SEEK_CUR);
+
+        if (KonstCount > 4)
+            mpFile->Seek(0x4 * (KonstCount - 4), SEEK_CUR);
     }
 
     // Blend mode
@@ -111,131 +114,131 @@ std::unique_ptr<CMaterial> CMaterialLoader::ReadPrimeMaterial()
     pMat->mBlendSrcFac = gBlendFactor[mpFile->ReadShort()];
 
     // Indirect texture
-    if (pMat->mOptions & EMaterialOption::IndStage)
+    if ((pMat->mOptions & EMaterialOption::IndStage) != 0)
     {
-        uint32 IndTexIndex = mpFile->ReadLong();
+        const uint32 IndTexIndex = mpFile->ReadULong();
         pMat->mpIndirectTexture = mTextures[TextureIndices[IndTexIndex]];
     }
 
     // Color channels
-    uint32 ChanCount = mpFile->ReadLong();
-    pMat->mLightingEnabled = ((mpFile->ReadLong() & 0x1) == 1);
+    const uint32 ChanCount = mpFile->ReadULong();
+    pMat->mLightingEnabled = (mpFile->ReadULong() & 1) == 1;
     mpFile->Seek((4 * ChanCount) - 4, SEEK_CUR);
 
     // TEV
-    uint32 TevCount = mpFile->ReadLong();
+    const uint32 TevCount = mpFile->ReadULong();
     pMat->mPasses.resize(TevCount);
 
-    for (uint32 iTev = 0; iTev < TevCount; iTev++)
+    for (size_t iTev = 0; iTev < TevCount; iTev++)
     {
         auto pPass = std::make_unique<CMaterialPass>(pMat.get());
 
-        uint32 ColorIn = mpFile->ReadLong();
-        uint32 AlphaIn = mpFile->ReadLong();
-        pPass->mColorOutput = (ETevOutput) ((mpFile->ReadLong() & 0x600) >> 9);
-        pPass->mAlphaOutput = (ETevOutput) ((mpFile->ReadLong() & 0x600) >> 9);
+        const uint32 ColorIn = mpFile->ReadULong();
+        const uint32 AlphaIn = mpFile->ReadULong();
+        pPass->mColorOutput = static_cast<ETevOutput>((mpFile->ReadULong() & 0x600) >> 9);
+        pPass->mAlphaOutput = static_cast<ETevOutput>((mpFile->ReadULong() & 0x600) >> 9);
         mpFile->Seek(0x1, SEEK_CUR); // Padding byte
-        pPass->mKAlphaSel = (ETevKSel) mpFile->ReadByte();
-        pPass->mKColorSel = (ETevKSel) mpFile->ReadByte();
-        pPass->mRasSel = (ETevRasSel) (uint8) mpFile->ReadByte();
+        pPass->mKAlphaSel = static_cast<ETevKSel>(mpFile->ReadByte());
+        pPass->mKColorSel = static_cast<ETevKSel>(mpFile->ReadByte());
+        pPass->mRasSel = static_cast<ETevRasSel>(mpFile->ReadUByte());
 
-        for (uint32 iInput = 0; iInput < 4; iInput++)
+        for (size_t iInput = 0; iInput < 4; iInput++)
         {
-            pPass->mColorInputs[iInput] = (ETevColorInput) ((ColorIn >> (iInput * 5)) & 0xF);
-            pPass->mAlphaInputs[iInput] = (ETevAlphaInput) ((AlphaIn >> (iInput * 5)) & 0x7);
+            pPass->mColorInputs[iInput] = static_cast<ETevColorInput>((ColorIn >> (iInput * 5)) & 0xF);
+            pPass->mAlphaInputs[iInput] = static_cast<ETevAlphaInput>((AlphaIn >> (iInput * 5)) & 0x7);
         }
 
         pMat->mPasses[iTev] = std::move(pPass);
     }
 
     std::vector<uint8> TevCoordIndices(TevCount);
-    for (uint32 iTev = 0; iTev < TevCount; iTev++)
+    for (size_t iTev = 0; iTev < TevCount; iTev++)
     {
         mpFile->Seek(0x2, SEEK_CUR);
         CMaterialPass *pPass = pMat->Pass(iTev);
 
-        uint8 TexSel = mpFile->ReadByte();
+        const uint8 TexSel = mpFile->ReadUByte();
 
-        if ((TexSel == 0xFF) || (TexSel >= TextureIndices.size()))
+        if (TexSel == 0xFF || TexSel >= TextureIndices.size())
             pPass->mpTexture = nullptr;
         else
             pPass->mpTexture = mTextures[TextureIndices[TexSel]];
 
-        TevCoordIndices[iTev] = mpFile->ReadByte();
+        TevCoordIndices[iTev] = mpFile->ReadUByte();
     }
 
     // TexGens
-    uint32 TexGenCount = mpFile->ReadLong();
+    const uint32 TexGenCount = mpFile->ReadULong();
     std::vector<uint32> TexGens(TexGenCount);
 
-    for (uint32 iTex = 0; iTex < TexGenCount; iTex++)
-        TexGens[iTex] = mpFile->ReadLong();
+    for (auto& texGen : TexGens)
+        texGen = mpFile->ReadULong();
 
     // UV animations
     mpFile->Seek(0x4, SEEK_CUR); // Skipping UV anims size
-    uint32 NumAnims = mpFile->ReadLong();
+    const uint32 NumAnims = mpFile->ReadULong();
 
     struct SUVAnim {
-        int32 Mode; float Params[4];
+        int32 Mode;
+        std::array<float, 4> Params;
     };
     std::vector <SUVAnim> Anims(NumAnims);
 
-    for (uint32 iAnim = 0; iAnim < NumAnims; iAnim++)
+    for (auto& Anim : Anims)
     {
-        Anims[iAnim].Mode = mpFile->ReadLong();
+        Anim.Mode = mpFile->ReadLong();
 
-        switch (Anims[iAnim].Mode)
+        switch (Anim.Mode)
         {
         case 3: // Rotation
         case 7: // ???
-            Anims[iAnim].Params[0] = mpFile->ReadFloat();
-            Anims[iAnim].Params[1] = mpFile->ReadFloat();
+            Anim.Params[0] = mpFile->ReadFloat();
+            Anim.Params[1] = mpFile->ReadFloat();
             break;
         case 2: // UV Scroll
         case 4: // U Scroll
         case 5: // V Scroll
-            Anims[iAnim].Params[0] = mpFile->ReadFloat();
-            Anims[iAnim].Params[1] = mpFile->ReadFloat();
-            Anims[iAnim].Params[2] = mpFile->ReadFloat();
-            Anims[iAnim].Params[3] = mpFile->ReadFloat();
+            Anim.Params[0] = mpFile->ReadFloat();
+            Anim.Params[1] = mpFile->ReadFloat();
+            Anim.Params[2] = mpFile->ReadFloat();
+            Anim.Params[3] = mpFile->ReadFloat();
             break;
         case 0: // Inverse ModelView Matrix
         case 1: // Inverse ModelView Matrix Translated
         case 6: // Model Matrix
             break;
         default:
-            errorf("%s [0x%X]: Unsupported animation mode encountered: %d", *mpFile->GetSourceString(), mpFile->Tell() - 4, Anims[iAnim].Mode);
+            errorf("%s [0x%X]: Unsupported animation mode encountered: %d", *mpFile->GetSourceString(), mpFile->Tell() - 4, Anim.Mode);
             break;
         }
     }
 
     // Move TexGen and anims into passes
-    for (uint32 iPass = 0; iPass < pMat->mPasses.size(); iPass++)
+    for (size_t iPass = 0; iPass < pMat->mPasses.size(); iPass++)
     {
         CMaterialPass *pPass = pMat->mPasses[iPass].get();
-        uint8 TexCoordIdx = TevCoordIndices[iPass];
+        const uint8 TexCoordIdx = TevCoordIndices[iPass];
 
-        if ((TexGens.size() == 0) || (TexCoordIdx == 0xFF))
+        if (TexGens.empty() || TexCoordIdx == 0xFF)
         {
             pPass->mTexCoordSource = 0xFF;
             pPass->mAnimMode = EUVAnimMode::NoUVAnim;
         }
-
         else
         {
-            pPass->mTexCoordSource = (uint8) ((TexGens[TexCoordIdx] & 0x1F0) >> 4);
+            pPass->mTexCoordSource = static_cast<uint8>((TexGens[TexCoordIdx] & 0x1F0) >> 4);
 
             // Next step - find which animation is used by this pass
             // Texture matrix is a reliable way to tell, because every UV anim mode generates a texture matrix
-            uint32 TexMtxIdx = ((TexGens[TexCoordIdx] & 0x3E00) >> 9) / 3;
+            const uint32 TexMtxIdx = ((TexGens[TexCoordIdx] & 0x3E00) >> 9) / 3;
 
             if (TexMtxIdx == 10) pPass->mAnimMode = EUVAnimMode::NoUVAnim; // 10 is identity matrix; indicates no UV anim for this pass
 
             else
             {
-                pPass->mAnimMode = (EUVAnimMode) Anims[TexMtxIdx].Mode;
+                pPass->mAnimMode = static_cast<EUVAnimMode>(Anims[TexMtxIdx].Mode);
 
-                for (uint32 iParam = 0; iParam < 4; iParam++)
+                for (size_t iParam = 0; iParam < 4; iParam++)
                     pPass->mAnimParams[iParam] = Anims[TexMtxIdx].Params[iParam];
             }
         }
@@ -246,16 +249,16 @@ std::unique_ptr<CMaterial> CMaterialLoader::ReadPrimeMaterial()
 
 void CMaterialLoader::ReadCorruptionMatSet()
 {
-    uint32 NumMats = mpFile->ReadLong();
+    const uint32 NumMats = mpFile->ReadULong();
     mpSet->mMaterials.resize(NumMats);
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
     {
-        uint32 Size = mpFile->ReadLong();
-        uint32 Next = mpFile->Tell() + Size;
+        const uint32 Size = mpFile->ReadULong();
+        const uint32 Next = mpFile->Tell() + Size;
         mpSet->mMaterials[iMat] = ReadCorruptionMaterial();
         mpSet->mMaterials[iMat]->mVersion = mVersion;
-        mpSet->mMaterials[iMat]->mName = TString("Material #") + TString::FromInt32(iMat + 1, 0, 10);
+        mpSet->mMaterials[iMat]->mName = TString("Material #") + std::to_string(iMat + 1);
         mpFile->Seek(Next, SEEK_SET);
     }
 }
@@ -321,17 +324,17 @@ ECLR ClrFourCCToEnum(CFourCC fcc)
 std::unique_ptr<CMaterial> CMaterialLoader::ReadCorruptionMaterial()
 {
     // Flags
-    FMP3MaterialOptions MP3Options = mpFile->ReadLong();
+    const FMP3MaterialOptions MP3Options = mpFile->ReadLong();
 
     mpFile->Seek(0x8, SEEK_CUR); // Don't know what any of this is
-    FVertexDescription VtxDesc = ConvertToVertexDescription( mpFile->ReadLong() );
+    FVertexDescription VtxDesc = ConvertToVertexDescription(mpFile->ReadULong());
     mpFile->Seek(0xC, SEEK_CUR);
 
     SMP3IntermediateMaterial Intermediate;
     Intermediate.mOptions = MP3Options;
     while (true)
     {
-        CFourCC Type = mpFile->ReadLong();
+        CFourCC Type = mpFile->ReadULong();
 
         // END
         if (Type == "END ")
@@ -340,44 +343,44 @@ std::unique_ptr<CMaterial> CMaterialLoader::ReadCorruptionMaterial()
         // INT
         if (Type == "INT ")
         {
-            CFourCC IntType = mpFile->ReadLong();
-            uint8 IntVal = (uint8) mpFile->ReadLong();
-            Intermediate.mINTs[int(IntFourCCToEnum(IntType))] = IntVal;
+            const CFourCC IntType = mpFile->ReadULong();
+            const auto IntVal = static_cast<uint8>(mpFile->ReadULong());
+            Intermediate.mINTs[static_cast<int>(IntFourCCToEnum(IntType))] = IntVal;
         }
 
         // CLR
         if (Type == "CLR ")
         {
-            CFourCC ClrType = mpFile->ReadLong();
-            CColor ClrVal(*mpFile, true);
-            Intermediate.mCLRs[int(ClrFourCCToEnum(ClrType))] = ClrVal;
+            const CFourCC ClrType = mpFile->ReadULong();
+            const CColor ClrVal(*mpFile, true);
+            Intermediate.mCLRs[static_cast<int>(ClrFourCCToEnum(ClrType))] = ClrVal;
         }
 
         // PASS
         if (Type == "PASS")
         {
-            uint32 Size = mpFile->ReadLong();
-            uint32 Next = Size + mpFile->Tell();
+            const uint32 Size = mpFile->ReadULong();
+            const uint32 Next = Size + mpFile->Tell();
 
-            CFourCC PassType = mpFile->ReadLong();
-            auto& Pass = Intermediate.mPASSes[int(PassFourCCToEnum(PassType))].emplace(SMP3IntermediateMaterial::PASS());
+            const CFourCC PassType = mpFile->ReadULong();
+            auto& Pass = Intermediate.mPASSes[static_cast<int>(PassFourCCToEnum(PassType))].emplace(SMP3IntermediateMaterial::PASS());
 
             Pass.mPassType = PassType;
-            Pass.mSettings = (EPassSettings) mpFile->ReadLong();
+            Pass.mSettings = static_cast<EPassSettings>(mpFile->ReadULong());
 
-            uint64 TextureID = mpFile->ReadLongLong();
-            if (TextureID != 0xFFFFFFFFFFFFFFFF)
+            const uint64 TextureID = mpFile->ReadULongLong();
+            if (TextureID != UINT64_MAX)
                 Pass.mpTexture = gpResourceStore->LoadResource<CTexture>(TextureID);
 
-            Pass.mUvSrc = mpFile->ReadLong();
+            Pass.mUvSrc = mpFile->ReadULong();
 
-            uint32 AnimSize = mpFile->ReadLong();
+            const uint32 AnimSize = mpFile->ReadULong();
             if (AnimSize > 0)
             {
-                Pass.mUvSource = (EUVAnimUVSource) mpFile->ReadShort();
-                Pass.mMtxConfig = (EUVAnimMatrixConfig) mpFile->ReadShort();
+                Pass.mUvSource = static_cast<EUVAnimUVSource>(mpFile->ReadUShort());
+                Pass.mMtxConfig = static_cast<EUVAnimMatrixConfig>(mpFile->ReadUShort());
 
-                Pass.mAnimMode = (EUVAnimMode) mpFile->ReadLong();
+                Pass.mAnimMode = static_cast<EUVAnimMode>(mpFile->ReadULong());
 
                 switch (Pass.mAnimMode)
                 {
@@ -402,7 +405,7 @@ std::unique_ptr<CMaterial> CMaterialLoader::ReadCorruptionMaterial()
 
                         // Unknown/unsupported animation type
                     case EUVAnimMode::ConvolutedModeB:
-                        Pass.mAnimConvolutedModeBType = EUVConvolutedModeBType(mpFile->ReadLong());
+                        Pass.mAnimConvolutedModeBType = EUVConvolutedModeBType(mpFile->ReadULong());
                         Pass.mAnimParams[0] = mpFile->ReadFloat();
                         Pass.mAnimParams[1] = mpFile->ReadFloat();
                         Pass.mAnimParams[2] = mpFile->ReadFloat();
@@ -412,7 +415,7 @@ std::unique_ptr<CMaterial> CMaterialLoader::ReadCorruptionMaterial()
                         Pass.mAnimParams[6] = mpFile->ReadFloat();
                         Pass.mAnimParams[7] = mpFile->ReadFloat();
                         debugf("%s: UVMode8 Used with type %i",
-                                *mpFile->GetSourceString(), int(Pass.mAnimConvolutedModeBType));
+                                *mpFile->GetSourceString(), static_cast<int>(Pass.mAnimConvolutedModeBType));
                         break;
                     case EUVAnimMode::Eleven:
                         break;
@@ -454,25 +457,25 @@ void CMaterialLoader::SetMP3IntermediateIntoMaterialPass(CMaterialPass* pPass,
 void CMaterialLoader::SelectBestCombinerConfig(EMP3RenderConfig& OutConfig, uint8& OutAlpha,
                                                const SMP3IntermediateMaterial& Material, bool Bloom)
 {
-    uint8 UseAlpha = Material.GetINT(EINT::OPAC);
+    const uint8 UseAlpha = Material.GetINT(EINT::OPAC);
 
     EMP3RenderConfig UseConfig = EMP3RenderConfig::FullRenderOpaque;
-    if (Material.mOptions & EMP3MaterialOption::SolidWhiteOnly)
+    if ((Material.mOptions & EMP3MaterialOption::SolidWhiteOnly) != 0)
     {
         // Just white
         UseConfig = EMP3RenderConfig::SolidWhite;
     }
-    else if (Material.mOptions & EMP3MaterialOption::SolidColorOnly)
+    else if ((Material.mOptions & EMP3MaterialOption::SolidColorOnly) != 0)
     {
         // Just KColor/KAlpha
         UseConfig = EMP3RenderConfig::SolidKColorKAlpha;
     }
     else
     {
-        bool AdditiveIncandecence = Material.mOptions & EMP3MaterialOption::AdditiveIncandecence;
+        const bool AdditiveIncandecence = (Material.mOptions & EMP3MaterialOption::AdditiveIncandecence) != 0;
         // Essentially skips optimized variants for special rendering cases even if opaque
         // Config 6 being an important case here
-        bool ForceAlphaBlendingConfig = Material.mOptions & EMP3MaterialOption::PreIncandecenceTransparency;
+        const bool ForceAlphaBlendingConfig = (Material.mOptions & EMP3MaterialOption::PreIncandecenceTransparency) != 0;
         if (AdditiveIncandecence && !ForceAlphaBlendingConfig)
         {
             // Incandecence/Reflect only
@@ -481,7 +484,7 @@ void CMaterialLoader::SelectBestCombinerConfig(EMP3RenderConfig& OutConfig, uint
         else
         {
             bool AlphaCompare = false;
-            if (Material.mOptions & EMP3MaterialOption::Masked && UseAlpha == 255)
+            if ((Material.mOptions & EMP3MaterialOption::Masked) != 0 && UseAlpha == 255)
             {
                 AlphaCompare = true;
             }
@@ -493,7 +496,7 @@ void CMaterialLoader::SelectBestCombinerConfig(EMP3RenderConfig& OutConfig, uint
             }
 
             bool ForceNoBloom = true;
-            if (!(ConsiderBloom && Material.mOptions & EMP3MaterialOption::Bloom))
+            if (!(ConsiderBloom && (Material.mOptions & EMP3MaterialOption::Bloom) != 0))
                 ForceNoBloom = false;
 
             if (AdditiveIncandecence)
@@ -520,7 +523,7 @@ void CMaterialLoader::SelectBestCombinerConfig(EMP3RenderConfig& OutConfig, uint
             }
             else if (ForceAlphaBlendingConfig || UseAlpha < 255)
             {
-                bool WithIncandecence = Material.GetPASS(EPASS::INCA) || Material.GetPASS(EPASS::BLOI);
+                const bool WithIncandecence = Material.GetPASS(EPASS::INCA) || Material.GetPASS(EPASS::BLOI);
                 if (ForceNoBloom || !Bloom)
                 {
                     if (WithIncandecence)
@@ -560,7 +563,7 @@ void CMaterialLoader::SelectBestCombinerConfig(EMP3RenderConfig& OutConfig, uint
     OutAlpha = UseAlpha;
 }
 
-static const ETevKSel KColorEighths[] =
+constexpr std::array KColorEighths
 {
     kKonstOneEighth,
     kKonstOneFourth,
@@ -569,18 +572,21 @@ static const ETevKSel KColorEighths[] =
     kKonstFiveEighths,
     kKonstThreeFourths,
     kKonstSevenEighths,
-    kKonstOne
+    kKonstOne,
 };
 
 bool CMaterialLoader::SetupStaticDiffuseLightingStage(STevTracker& Tracker, CMaterial* pMat,
                                                       const SMP3IntermediateMaterial& Intermediate, bool FullAlpha)
 {
-    bool hasDIFFTexture = Intermediate.GetPASS(EPASS::DIFF).operator bool();
+    const bool hasDIFFTexture = Intermediate.GetPASS(EPASS::DIFF).operator bool();
     if (!hasDIFFTexture && (Intermediate.mOptions & (EMP3MaterialOption::AdditiveIncandecence |
                                                      EMP3MaterialOption::PreIncandecenceTransparency |
                                                      EMP3MaterialOption::ForceLightingStage)) !=
                                                      EMP3MaterialOption::ForceLightingStage)
+    {
         return false;
+    }
+
     pMat->SetTevColor(Intermediate.GetCLR(ECLR::DIFB), kColor1Reg);
     auto pPass = std::make_unique<CMaterialPass>(pMat);
     if (hasDIFFTexture)
@@ -755,7 +761,7 @@ void CMaterialLoader::SetupColorKColorStage(STevTracker& Tracker, CMaterial* pMa
 
     bool useDynamicLightingAlpha = false;
     CColor col = Intermediate.GetCLR(ECLR::CLR);
-    col.A = Alpha / 255.f;
+    col.A = static_cast<float>(Alpha) / 255.f;
     pMat->SetKonst(col, Tracker.mCurKColor);
     pPass->SetKColorSel(ETevKSel(kKonst0_RGB + Tracker.mCurKColor));
     pPass->SetColorInputs(kZeroRGB, StaticLighting ? kColor0RGB : kRasRGB, kKonstRGB, kZeroRGB);
@@ -787,7 +793,7 @@ bool CMaterialLoader::SetupTransparencyStage(STevTracker& Tracker, CMaterial* pM
         auto pPass = std::make_unique<CMaterialPass>(pMat);
         SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateTran);
 
-        if (IntermediateTran->mSettings & EPassSettings::InvertOpacityMap)
+        if ((IntermediateTran->mSettings & EPassSettings::InvertOpacityMap) != 0)
         {
             pPass->SetAlphaInputs(kPrevAlpha, kZeroAlpha, kTextureAlpha, kZeroAlpha);
         }
@@ -846,7 +852,7 @@ void CMaterialLoader::SetupTransparencyKAlphaMultiplyStage(STevTracker& Tracker,
             }
         }
         const auto& IntermediateTran = Intermediate.GetPASS(EPASS::TRAN);
-        if (IntermediateTran && IntermediateTran->mSettings & EPassSettings::InvertOpacityMap)
+        if (IntermediateTran && (IntermediateTran->mSettings & EPassSettings::InvertOpacityMap) != 0)
         {
             pPass->SetAlphaInputs(argA, kZeroAlpha, kTextureAlpha, kZeroAlpha);
         }
@@ -892,7 +898,7 @@ void CMaterialLoader::SetupTransparencyKAlphaMultiplyStage(STevTracker& Tracker,
 bool CMaterialLoader::SetupReflectionAlphaStage(STevTracker& Tracker, CMaterial* pMat,
                                                 const SMP3IntermediateMaterial& Intermediate)
 {
-    if (Intermediate.mOptions & EMP3MaterialOption::ReflectionAlphaTarget)
+    if ((Intermediate.mOptions & EMP3MaterialOption::ReflectionAlphaTarget) != 0)
     {
         if (const auto& IntermediateRfld = Intermediate.GetPASS(EPASS::RFLD))
         {
@@ -917,8 +923,9 @@ bool CMaterialLoader::SetupReflectionStages(STevTracker& Tracker, CMaterial* pMa
                                             const SMP3IntermediateMaterial& Intermediate,
                                             ETevColorInput argD, bool StaticLighting)
 {
-    if (!Intermediate.GetPASS(EPASS::RFLD) || Intermediate.mOptions & EMP3MaterialOption::ReflectionAlphaTarget)
+    if (!Intermediate.GetPASS(EPASS::RFLD) || (Intermediate.mOptions & EMP3MaterialOption::ReflectionAlphaTarget) != 0)
         return false;
+
     ETevColorInput argC = kOneRGB;
     if (Intermediate.GetPASS(EPASS::RFLV) || Intermediate.GetPASS(EPASS::LRLD) || Intermediate.GetPASS(EPASS::LURD)) {
         auto pPass = std::make_unique<CMaterialPass>(pMat);
@@ -948,6 +955,7 @@ bool CMaterialLoader::SetupReflectionStages(STevTracker& Tracker, CMaterial* pMa
         argC = kColor2RGB;
         pMat->mPasses.push_back(std::move(pPass));
     }
+
     if (const auto& IntermediateRfld = Intermediate.GetPASS(EPASS::RFLD))
     {
         auto pPass = std::make_unique<CMaterialPass>(pMat);
@@ -959,6 +967,7 @@ bool CMaterialLoader::SetupReflectionStages(STevTracker& Tracker, CMaterial* pMa
         SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateRfld);
         pMat->mPasses.push_back(std::move(pPass));
     }
+
     return true;
 }
 
@@ -978,14 +987,14 @@ bool CMaterialLoader::SetupQuantizedKAlphaAdd(STevTracker& Tracker, CMaterial* p
 bool CMaterialLoader::SetupIncandecenceStage(STevTracker& Tracker, CMaterial* pMat,
                                              const SMP3IntermediateMaterial& Intermediate)
 {
-    uint8 bloi = Intermediate.GetINT(EINT::BLOI);
+    const uint8 bloi = Intermediate.GetINT(EINT::BLOI);
     const auto& IntermediateInca = Intermediate.GetPASS(EPASS::INCA);
     if (!IntermediateInca)
     {
-        if (bloi)
+        if (bloi != 0)
             return SetupQuantizedKAlphaAdd(Tracker, pMat, bloi);
-        else
-            return false;
+
+        return false;
     }
 
     auto pPass = std::make_unique<CMaterialPass>(pMat);
@@ -997,18 +1006,18 @@ bool CMaterialLoader::SetupIncandecenceStage(STevTracker& Tracker, CMaterial* pM
     pPass->SetColorOutput(kPrevReg);
     pPass->SetAlphaOutput(kPrevReg);
     pPass->SetRasSel(kRasColorNull);
-    if (IntermediateInca->mSettings & EPassSettings::BloomContribution)
+    if ((IntermediateInca->mSettings & EPassSettings::BloomContribution) != 0)
     {
         pPass->SetTexSwapComp(3, IntermediateInca->GetSwapAlphaComp());
         pPass->SetKAlphaSel(KColorEighths[Intermediate.GetINT(EINT::BNIF) / 32]);
         pPass->SetAlphaInputs(kZeroAlpha, kTextureAlpha, kKonstAlpha, kPrevAlpha);
         pMat->mPasses.push_back(std::move(pPass));
-        if (bloi)
+        if (bloi != 0)
             SetupQuantizedKAlphaAdd(Tracker, pMat, bloi);
     }
     else
     {
-        if (bloi)
+        if (bloi != 0)
         {
             pPass->SetKAlphaSel(KColorEighths[bloi / 32]);
             pPass->SetAlphaInputs(kKonstAlpha, kZeroAlpha, kZeroAlpha, kPrevAlpha);
@@ -1048,11 +1057,11 @@ bool CMaterialLoader::SetupStartingIncandecenceStage(STevTracker& Tracker, CMate
                                                      const SMP3IntermediateMaterial& Intermediate)
 {
     bool needsBloiAdd = false;
-    uint8 bloi = Intermediate.GetINT(EINT::BLOI);
+    const uint8 bloi = Intermediate.GetINT(EINT::BLOI);
     const auto& IntermediateInca = Intermediate.GetPASS(EPASS::INCA);
     if (!IntermediateInca)
     {
-        if (bloi)
+        if (bloi != 0)
         {
             auto pPass = std::make_unique<CMaterialPass>(pMat);
             pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kZeroRGB);
@@ -1073,11 +1082,11 @@ bool CMaterialLoader::SetupStartingIncandecenceStage(STevTracker& Tracker, CMate
     /* KColor is set as the INCA mod color in game */
     pPass->SetKColorSel(kKonstOne);
     pPass->SetColorInputs(kZeroRGB, kTextureRGB, kKonstRGB, kZeroRGB);
-    if (IntermediateInca->mSettings & EPassSettings::BloomContribution)
+    if ((IntermediateInca->mSettings & EPassSettings::BloomContribution) != 0)
     {
         pPass->SetTexSwapComp(3, IntermediateInca->GetSwapAlphaComp());
-        uint8 bnif = Intermediate.GetINT(EINT::BNIF);
-        if (bloi && !bnif)
+        const uint8 bnif = Intermediate.GetINT(EINT::BNIF);
+        if (bloi != 0 && !bnif)
         {
             pPass->SetKAlphaSel(KColorEighths[bloi / 32]);
             pPass->SetAlphaInputs(kKonstAlpha, kZeroAlpha, kZeroAlpha, kTextureAlpha);
@@ -1091,7 +1100,7 @@ bool CMaterialLoader::SetupStartingIncandecenceStage(STevTracker& Tracker, CMate
     }
     else
     {
-        if (bloi)
+        if (bloi != 0)
         {
             pPass->SetKAlphaSel(KColorEighths[bloi / 32]);
             pPass->SetAlphaInputs(kZeroAlpha, kZeroAlpha, kZeroAlpha, kKonstAlpha);
@@ -1153,7 +1162,7 @@ bool CMaterialLoader::SetupStaticBloomLightingA1Stages(STevTracker& Tracker, CMa
     const auto& IntermediateBlol = Intermediate.GetPASS(EPASS::BLOL);
     auto pPass = std::make_unique<CMaterialPass>(pMat);
 
-    ETevAlphaInput argC = IntermediateBlol ? kTextureAlpha : kZeroAlpha;
+    const ETevAlphaInput argC = IntermediateBlol ? kTextureAlpha : kZeroAlpha;
     pPass->SetAlphaInputs(kZeroAlpha, kColor1Alpha, argC, kRasAlpha);
     pPass->SetAlphaOutput(kPrevReg);
     if (argC == kTextureAlpha) {
@@ -1196,7 +1205,7 @@ bool CMaterialLoader::SetupStaticBloomDiffuseLightingStages(STevTracker& Tracker
         pPass->SetColorOutput(kPrevReg);
         pPass->SetAlphaOutput(kPrevReg);
         pPass->SetColorInputs(kZeroRGB, kZeroRGB, kZeroRGB, kPrevRGB);
-        ETevAlphaInput argC = Tracker.mStaticLightingAlphaSet ? kPrevAlpha : kRasAlpha;
+        const ETevAlphaInput argC = Tracker.mStaticLightingAlphaSet ? kPrevAlpha : kRasAlpha;
         if (!StaticLighting)
         {
             if (Intermediate.GetINT(EINT::BLOD) == 255 || Tracker.mStaticDiffuseLightingAlphaSet)
@@ -1241,7 +1250,7 @@ bool CMaterialLoader::SetupStaticBloomDiffuseLightingStages(STevTracker& Tracker
             }
             else
             {
-                ETevAlphaInput argB = Tracker.mStaticLightingAlphaSet ? kPrevAlpha : kRasAlpha;
+                const ETevAlphaInput argB = Tracker.mStaticLightingAlphaSet ? kPrevAlpha : kRasAlpha;
                 pPass->SetKAlphaSel(KColorEighths[Intermediate.GetINT(EINT::BLOD) / 32]);
                 pPass->SetAlphaInputs(kZeroAlpha, argB, kKonstAlpha, kZeroAlpha);
                 pPass->SetRasSel(argB == kPrevAlpha ? kRasColor0A0 : kRasColorNull);
@@ -1279,7 +1288,7 @@ void CMaterialLoader::SetupNoBloomTransparent(CMaterial* pMat, const SMP3Interme
                                               uint8 Alpha)
 {
     STevTracker Tracker;
-    bool StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, true);
+    const bool StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, true);
     if (Intermediate.GetPASS(EPASS::CLR))
     {
         SetupColorTextureStage(Tracker, pMat, Intermediate, true, Alpha, StaticLighting);
@@ -1317,7 +1326,7 @@ void CMaterialLoader::SetupFullRenderOpaque(CMaterial* pMat, const SMP3Intermedi
 {
     pMat->mOptions.AssignFlag(EMaterialOption::AlphaWrite, true);
     STevTracker Tracker;
-    bool StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, false);
+    const bool StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, false);
     SetupStaticBloomLightingStage(Tracker, pMat, Intermediate, StaticLighting);
     SetupStaticBloomDiffuseLightingStages(Tracker, pMat, Intermediate, StaticLighting);
     if (Intermediate.GetPASS(EPASS::CLR))
@@ -1382,7 +1391,7 @@ CMaterial* CMaterialLoader::SetupFullRenderTransparent(
     CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate, uint8 Alpha)
 {
     STevTracker Tracker;
-    bool StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, true);
+    const bool StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, true);
     if (Intermediate.GetPASS(EPASS::CLR))
     {
         SetupColorTextureStage(Tracker, pMat, Intermediate, true, Alpha, StaticLighting);
@@ -1447,7 +1456,7 @@ void CMaterialLoader::SetupFullRenderTransparentAdditiveIncandecence(CMaterial* 
 void CMaterialLoader::SetupMaterialAlphaCompare(CMaterial* pMat, const SMP3IntermediateMaterial& Intermediate)
 {
     STevTracker Tracker;
-    int StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, true);
+    const bool StaticLighting = SetupStaticDiffuseLightingStage(Tracker, pMat, Intermediate, true);
     if (Intermediate.GetPASS(EPASS::CLR))
     {
         SetupColorTextureStage(Tracker, pMat, Intermediate, false, 255, StaticLighting);
