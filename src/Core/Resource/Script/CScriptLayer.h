@@ -35,14 +35,15 @@ public:
             std::advance(it, Index);
             mInstances.insert(it, pObject);
         }
-
         else
+        {
             mInstances.push_back(pObject);
+        }
     }
 
     void RemoveInstance(CScriptObject *pInstance)
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
+        for (auto it = mInstances.begin(); it != mInstances.end(); ++it)
         {
             if (*it == pInstance)
             {
@@ -59,7 +60,7 @@ public:
 
     void RemoveInstanceByID(uint32 ID)
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
+        for (auto it = mInstances.begin(); it != mInstances.end(); ++it)
         {
             if ((*it)->InstanceID() == ID)
             {
@@ -84,7 +85,7 @@ public:
 
     CScriptObject* InstanceByID(uint32 ID) const
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
+        for (auto it = mInstances.begin(); it != mInstances.end(); ++it)
         {
             if ((*it)->InstanceID() == ID)
                 return *it;
