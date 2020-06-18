@@ -252,7 +252,7 @@ void CMaterialLoader::ReadCorruptionMatSet()
     const uint32 NumMats = mpFile->ReadULong();
     mpSet->mMaterials.resize(NumMats);
 
-    for (size_t iMat = 0; iMat < NumMats; iMat++)
+    for (uint32 iMat = 0; iMat < NumMats; iMat++)
     {
         const uint32 Size = mpFile->ReadULong();
         const uint32 Next = mpFile->Tell() + Size;
