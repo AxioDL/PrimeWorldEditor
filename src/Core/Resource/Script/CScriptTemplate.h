@@ -14,10 +14,9 @@ class CGameTemplate;
 class CScriptObject;
 typedef TString TIDString;
 
-enum EAttachType
-{
-    eAttach,
-    eFollow
+enum class EAttachType {
+    Attach,
+    Follow
 };
 
 struct SAttachment

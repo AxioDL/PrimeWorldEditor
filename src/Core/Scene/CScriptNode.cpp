@@ -739,11 +739,13 @@ CTransform4f CScriptNode::BoneTransform(uint32 BoneID, EAttachType AttachType, b
         CBone *pBone = pSkel->BoneByID(BoneID);
         ASSERT(pBone);
 
-        if (AttachType == eAttach) Out.Rotate(pBone->Rotation());
+        if (AttachType == EAttachType::Attach)
+            Out.Rotate(pBone->Rotation());
         Out.Translate(pBone->Position());
     }
 
-    if (Absolute) Out = Transform() * Out;
+    if (Absolute)
+        Out = Transform() * Out;
 
     return Out;
 }
