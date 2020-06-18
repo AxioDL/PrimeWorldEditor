@@ -81,7 +81,7 @@ CBone* CSkeleton::BoneByID(uint32 BoneID) const
     return iter->get();
 }
 
-CBone* CSkeleton::BoneByName(const TString& name) const
+CBone* CSkeleton::BoneByName(std::string_view name) const
 {
     const auto iter = std::find_if(mBones.begin(), mBones.end(),
                                    [&name](const auto& bone) { return bone->Name() == name; });

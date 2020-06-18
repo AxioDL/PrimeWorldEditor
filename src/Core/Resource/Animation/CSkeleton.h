@@ -9,6 +9,7 @@
 #include <Common/Math/CRay.h>
 #include <Common/Math/CVector3f.h>
 #include <memory>
+#include <string_view>
 
 class CBoneTransformData;
 class CBone;
@@ -37,7 +38,7 @@ public:
     ~CSkeleton() override;
     void UpdateTransform(CBoneTransformData& rData, CAnimation *pAnim, float Time, bool AnchorRoot);
     CBone* BoneByID(uint32 BoneID) const;
-    CBone* BoneByName(const TString& name) const;
+    CBone* BoneByName(std::string_view name) const;
     uint32 MaxBoneID() const;
 
     void Draw(FRenderOptions Options, const CBoneTransformData *pkData);
