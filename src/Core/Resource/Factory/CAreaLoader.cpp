@@ -9,29 +9,8 @@
 #include <Common/CFourCC.h>
 
 #include <cfloat>
-#include <iostream>
 
-CAreaLoader::CAreaLoader()
-    : mpMREA(nullptr)
-    , mHasDecompressedBuffer(false)
-    , mGeometryBlockNum(-1)
-    , mScriptLayerBlockNum(-1)
-    , mCollisionBlockNum(-1)
-    , mUnknownBlockNum(-1)
-    , mLightsBlockNum(-1)
-    , mVisiBlockNum(-1)
-    , mPathBlockNum(-1)
-    , mOctreeBlockNum(-1)
-    , mScriptGeneratorBlockNum(-1)
-    , mFFFFBlockNum(-1)
-    , mPTLABlockNum(-1)
-    , mEGMCBlockNum(-1)
-    , mBoundingBoxesBlockNum(-1)
-    , mDependenciesBlockNum(-1)
-    , mGPUBlockNum(-1)
-    , mRSOBlockNum(-1)
-{
-}
+CAreaLoader::CAreaLoader() = default;
 
 CAreaLoader::~CAreaLoader()
 {
