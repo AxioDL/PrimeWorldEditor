@@ -12,17 +12,13 @@ CResTypeInfo::CResTypeInfo(EResourceType Type, const TString& rkTypeName, const 
 #if !PUBLIC_RELEASE
     ASSERT(smTypeMap.find(Type) == smTypeMap.end());
 #endif
-    smTypeMap[Type] = std::unique_ptr<CResTypeInfo>(this);
+    smTypeMap.insert_or_assign(Type, std::unique_ptr<CResTypeInfo>(this));
 }
 
 bool CResTypeInfo::IsInGame(EGame Game) const
 {
-    for (uint32 iGame = 0; iGame < mCookedExtensions.size(); iGame++)
-    {
-        if (mCookedExtensions[iGame].Game == Game)
-            return true;
-    }
-    return false;
+    return std::any_of(mCookedExtensions.cbegin(), mCookedExtensions.cend(),
+                       [Game](const auto& entry) { return entry.Game == Game; });
 }
 
 CFourCC CResTypeInfo::CookedExtension(EGame Game) const
@@ -31,24 +27,24 @@ CFourCC CResTypeInfo::CookedExtension(EGame Game) const
     if (Game == EGame::Invalid)
         Game = EGame::Prime;
 
-    for (uint32 iGame = 0; iGame < mCookedExtensions.size(); iGame++)
-    {
-        if (mCookedExtensions[iGame].Game == Game)
-            return mCookedExtensions[iGame].CookedExt;
-    }
+    const auto iter = std::find_if(mCookedExtensions.cbegin(), mCookedExtensions.cend(),
+                                   [Game](const auto& entry) { return entry.Game == Game; });
 
-    return "NONE";
+    if (iter == mCookedExtensions.cend())
+        return "NONE";
+
+    return iter->CookedExt;
 }
 
 // ************ STATIC ************
 void CResTypeInfo::GetAllTypesInGame(EGame Game, std::list<CResTypeInfo*>& rOut)
 {
-    for (auto Iter = smTypeMap.begin(); Iter != smTypeMap.end(); Iter++)
+    for (const auto& entry : smTypeMap)
     {
-        CResTypeInfo *pType = Iter->second.get();
+        auto& type = entry.second;
 
-        if (pType->IsInGame(Game))
-            rOut.push_back(pType);
+        if (type->IsInGame(Game))
+            rOut.push_back(type.get());
     }
 }
 
@@ -68,19 +64,19 @@ CResTypeInfo* CResTypeInfo::TypeForCookedExtension(EGame Game, CFourCC Ext)
     }
 
     // Is this type cached?
-    auto Iter = sCachedTypeMap.find(Ext);
-    if (Iter != sCachedTypeMap.end())
+    const auto Iter = sCachedTypeMap.find(Ext);
+    if (Iter != sCachedTypeMap.cend())
         return Iter->second;
 
     // Not cached - do a slow lookup
-    for (auto Iter = smTypeMap.begin(); Iter != smTypeMap.end(); Iter++)
+    for (auto& entry : smTypeMap)
     {
-        CResTypeInfo *pType = Iter->second.get();
+        auto* type = entry.second.get();
 
-        if (pType->CookedExtension(Game) == Ext)
+        if (type->CookedExtension(Game) == Ext)
         {
-            sCachedTypeMap[Ext] = pType;
-            return pType;
+            sCachedTypeMap.insert_or_assign(Ext, type);
+            return type;
         }
     }
 
@@ -91,14 +87,18 @@ CResTypeInfo* CResTypeInfo::TypeForCookedExtension(EGame Game, CFourCC Ext)
         errorf("Failed to find resource type for cooked extension: %s", *Ext.ToString());
         DEBUG_BREAK;
     }
-    sCachedTypeMap[Ext] = nullptr;
+    sCachedTypeMap.insert_or_assign(Ext, nullptr);
     return nullptr;
 }
 
 CResTypeInfo* CResTypeInfo::FindTypeInfo(EResourceType Type)
 {
-    auto Iter = smTypeMap.find(Type);
-    return (Iter == smTypeMap.end() ? nullptr : Iter->second.get());
+    const auto iter = smTypeMap.find(Type);
+
+    if (iter == smTypeMap.cend())
+        return nullptr;
+
+    return iter->second.get();
 }
 
 // ************ SERIALIZATION ************
