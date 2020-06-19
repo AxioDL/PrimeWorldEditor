@@ -21,12 +21,12 @@ bool CPoiToWorldCooker::CookEGMC(CPoiToWorld *pPoiToWorld, IOutputStream& rOut)
     }
 
     // Write EGMC
-    rOut.WriteLong(Mappings.size());
+    rOut.WriteULong(static_cast<uint32>(Mappings.size()));
 
     for (const auto& mapping : Mappings)
     {
-        rOut.WriteLong(mapping.MeshID);
-        rOut.WriteLong(mapping.PoiID);
+        rOut.WriteULong(mapping.MeshID);
+        rOut.WriteULong(mapping.PoiID);
     }
 
     return true;
