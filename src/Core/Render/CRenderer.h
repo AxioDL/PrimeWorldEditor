@@ -48,20 +48,23 @@ enum class EBloomMode
  */
 class CRenderer
 {
-    FRenderOptions mOptions;
-    EBloomMode mBloomMode;
-    bool mDrawGrid;
+    FRenderOptions mOptions{ERenderOption::EnableUVScroll | ERenderOption::EnableBackfaceCull};
+    EBloomMode mBloomMode{EBloomMode::NoBloom};
+    bool mDrawGrid = true;
     CColor mClearColor;
-    uint32 mContextIndex;
-    bool mInitialized;
-    uint32 mViewportWidth, mViewportHeight;
-    uint32 mBloomWidth, mBloomHeight;
-    float mBloomHScale, mBloomVScale;
+    uint32 mContextIndex = UINT32_MAX;
+    bool mInitialized = false;
+    uint32 mViewportWidth = 0;
+    uint32 mViewportHeight = 0;
+    uint32 mBloomWidth = 0;
+    uint32 mBloomHeight = 0;
+    float mBloomHScale = 0.0f;
+    float mBloomVScale = 0.0f;
 
     CFramebuffer mSceneFramebuffer;
     CFramebuffer mPostProcessFramebuffer;
     CFramebuffer mBloomFramebuffers[3];
-    GLint mDefaultFramebuffer;
+    GLint mDefaultFramebuffer = 0;
 
     CRenderBucket mBackgroundBucket;
     CRenderBucket mMidgroundBucket;

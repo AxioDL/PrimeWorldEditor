@@ -7,7 +7,6 @@
 #include <Common/Math/CTransform4f.h>
 
 #include <algorithm>
-#include <iostream>
 #include <fstream>
 #include <vector>
 #include <sstream>
@@ -17,11 +16,6 @@ uint32 CRenderer::sNumRenderers = 0;
 
 // ************ INITIALIZATION ************
 CRenderer::CRenderer()
-    : mOptions(ERenderOption::EnableUVScroll | ERenderOption::EnableBackfaceCull)
-    , mBloomMode(EBloomMode::NoBloom)
-    , mDrawGrid(true)
-    , mInitialized(false)
-    , mContextIndex(-1)
 {
     sNumRenderers++;
 }
