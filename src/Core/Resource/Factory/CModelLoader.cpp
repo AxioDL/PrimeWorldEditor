@@ -98,11 +98,11 @@ void CModelLoader::LoadAttribArrays(IInputStream& rModel)
 
 void CModelLoader::LoadSurfaceOffsets(IInputStream& rModel)
 {
-    mSurfaceCount = rModel.ReadLong();
+    mSurfaceCount = rModel.ReadULong();
     mSurfaceOffsets.resize(mSurfaceCount);
 
     for (size_t iSurf = 0; iSurf < mSurfaceCount; iSurf++)
-        mSurfaceOffsets[iSurf] = rModel.ReadLong();
+        mSurfaceOffsets[iSurf] = rModel.ReadULong();
 
     mpSectionMgr->ToNextSection();
 }
@@ -121,14 +121,14 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
     CMaterial *pMat = mMaterials[0]->MaterialByIndex(pSurf->MaterialID, false);
 
     // Primitive table
-    uint8 Flag = rModel.ReadByte();
+    uint8 Flag = rModel.ReadUByte();
     const uint32 NextSurface = mpSectionMgr->NextOffset();
 
     while (Flag != 0 && (static_cast<uint32>(rModel.Tell()) < NextSurface))
     {
         SSurface::SPrimitive Prim;
         Prim.Type = EPrimitiveType(Flag & 0xF8);
-        const uint16 VertexCount = rModel.ReadShort();
+        const uint16 VertexCount = rModel.ReadUShort();
 
         for (uint16 iVtx = 0; iVtx < VertexCount; iVtx++)
         {
@@ -148,7 +148,7 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
             // Position
             if ((VtxDesc & EVertexAttribute::Position) != 0)
             {
-                const uint16 PosIndex = rModel.ReadShort() & 0xFFFF;
+                const uint16 PosIndex = rModel.ReadUShort() & 0xFFFF;
                 Vtx.Position = mPositions[PosIndex];
                 Vtx.ArrayPosition = PosIndex;
 
@@ -158,13 +158,13 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
 
             // Normal
             if ((VtxDesc & EVertexAttribute::Normal) != 0)
-                Vtx.Normal = mNormals[rModel.ReadShort() & 0xFFFF];
+                Vtx.Normal = mNormals[rModel.ReadUShort() & 0xFFFF];
 
             // Color
             for (size_t iClr = 0; iClr < Vtx.Color.size(); iClr++)
             {
                 if ((VtxDesc & static_cast<uint32>(EVertexAttribute::Color0 << iClr)) != 0)
-                    Vtx.Color[iClr] = mColors[rModel.ReadShort() & 0xFFFF];
+                    Vtx.Color[iClr] = mColors[rModel.ReadUShort() & 0xFFFF];
             }
 
             // Tex Coords - these are done a bit differently in DKCR than in the Prime series
@@ -174,16 +174,16 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
                 if ((VtxDesc & EVertexAttribute::Tex0) != 0)
                 {
                     if ((mFlags & EModelLoaderFlag::LightmapUVs) != 0 && (pMat->Options() & EMaterialOption::ShortTexCoord) != 0)
-                        Vtx.Tex[0] = mTex1[rModel.ReadShort() & 0xFFFF];
+                        Vtx.Tex[0] = mTex1[rModel.ReadUShort() & 0xFFFF];
                     else
-                        Vtx.Tex[0] = mTex0[rModel.ReadShort() & 0xFFFF];
+                        Vtx.Tex[0] = mTex0[rModel.ReadUShort() & 0xFFFF];
                 }
 
                 // Tex1-7
                 for (size_t iTex = 1; iTex < 7; iTex++)
                 {
                     if ((VtxDesc & static_cast<uint32>(EVertexAttribute::Tex0 << iTex)) != 0)
-                        Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
+                        Vtx.Tex[iTex] = mTex0[rModel.ReadUShort() & 0xFFFF];
                 }
             }
             else
@@ -194,9 +194,9 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
                     if ((VtxDesc & static_cast<uint32>(EVertexAttribute::Tex0 << iTex)) != 0)
                     {
                         if (!mSurfaceUsingTex1)
-                            Vtx.Tex[iTex] = mTex0[rModel.ReadShort() & 0xFFFF];
+                            Vtx.Tex[iTex] = mTex0[rModel.ReadUShort() & 0xFFFF];
                         else
-                            Vtx.Tex[iTex] = mTex1[rModel.ReadShort() & 0xFFFF];
+                            Vtx.Tex[iTex] = mTex1[rModel.ReadUShort() & 0xFFFF];
                     }
                 }
             }
@@ -231,10 +231,10 @@ SSurface* CModelLoader::LoadSurface(IInputStream& rModel)
 void CModelLoader::LoadSurfaceHeaderPrime(IInputStream& rModel, SSurface *pSurf)
 {
     pSurf->CenterPoint = CVector3f(rModel);
-    pSurf->MaterialID = rModel.ReadLong();
+    pSurf->MaterialID = rModel.ReadULong();
 
     rModel.Seek(0xC, SEEK_CUR);
-    uint32 ExtraSize = rModel.ReadLong();
+    uint32 ExtraSize = rModel.ReadULong();
     pSurf->ReflectionDirection = CVector3f(rModel);
 
     if (mVersion >= EGame::EchoesDemo)
@@ -261,10 +261,10 @@ void CModelLoader::LoadSurfaceHeaderDKCR(IInputStream& rModel, SSurface *pSurf)
 {
     pSurf->CenterPoint = CVector3f(rModel);
     rModel.Seek(0xE, SEEK_CUR);
-    pSurf->MaterialID = static_cast<uint32>(rModel.ReadShort());
+    pSurf->MaterialID = rModel.ReadUShort();
     rModel.Seek(0x2, SEEK_CUR);
-    mSurfaceUsingTex1 = (rModel.ReadByte() == 1);
-    uint32 ExtraSize = static_cast<uint8>(rModel.ReadByte());
+    mSurfaceUsingTex1 = rModel.ReadUByte() == 1;
+    uint32 ExtraSize = rModel.ReadUByte();
 
     if (ExtraSize > 0)
     {
@@ -395,7 +395,7 @@ std::unique_ptr<CModel> CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEnt
     CModelLoader Loader;
 
     // CMDL header - same across the three Primes, but different structure in DKCR
-    const uint32 Magic = rCMDL.ReadLong();
+    const uint32 Magic = rCMDL.ReadULong();
 
     uint32 Version, BlockCount, MatSetCount;
     CAABox AABox;
@@ -403,11 +403,11 @@ std::unique_ptr<CModel> CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEnt
     // 0xDEADBABE - Metroid Prime seres
     if (Magic == 0xDEADBABE)
     {
-        Version = rCMDL.ReadLong();
-        const uint32 Flags = rCMDL.ReadLong();
+        Version = rCMDL.ReadULong();
+        const uint32 Flags = rCMDL.ReadULong();
         AABox = CAABox(rCMDL);
-        BlockCount = rCMDL.ReadLong();
-        MatSetCount = rCMDL.ReadLong();
+        BlockCount = rCMDL.ReadULong();
+        MatSetCount = rCMDL.ReadULong();
 
         if ((Flags & 0x1) != 0)
             Loader.mFlags |= EModelLoaderFlag::Skinned;
@@ -421,10 +421,10 @@ std::unique_ptr<CModel> CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEnt
     else if (Magic == 0x9381000A)
     {
         Version = Magic & 0xFFFF;
-        const uint32 Flags = rCMDL.ReadLong();
+        const uint32 Flags = rCMDL.ReadULong();
         AABox = CAABox(rCMDL);
-        BlockCount = rCMDL.ReadLong();
-        MatSetCount = rCMDL.ReadLong();
+        BlockCount = rCMDL.ReadULong();
+        MatSetCount = rCMDL.ReadULong();
 
         // todo: unknown flags
         Loader.mFlags = EModelLoaderFlag::HalfPrecisionNormals | EModelLoaderFlag::LightmapUVs;
@@ -438,11 +438,11 @@ std::unique_ptr<CModel> CModelLoader::LoadCMDL(IInputStream& rCMDL, CResourceEnt
         if ((Flags & 0x10) != 0)
         {
             rCMDL.Seek(0x4, SEEK_CUR);
-            const uint32 VisGroupCount = rCMDL.ReadLong();
+            const uint32 VisGroupCount = rCMDL.ReadULong();
 
             for (uint32 iVis = 0; iVis < VisGroupCount; iVis++)
             {
-                const uint32 NameLength = rCMDL.ReadLong();
+                const uint32 NameLength = rCMDL.ReadULong();
                 rCMDL.Seek(NameLength, SEEK_CUR);
             }
 
