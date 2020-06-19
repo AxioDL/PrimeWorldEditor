@@ -32,7 +32,7 @@ private:
 
 public:
     explicit CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr);
-    ~CDamageableTriggerExtra();
+    ~CDamageableTriggerExtra() override;
     void CreateMaterial();
     void UpdatePlaneTransform();
     ERenderSide RenderSideForDirection(const CVector3f& rkDir);
