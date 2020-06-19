@@ -128,12 +128,13 @@ CLightNode* CScene::CreateLightNode(CLight *pLight, uint32 NodeID)
 void CScene::DeleteNode(CSceneNode *pNode)
 {
     const ENodeType Type = pNode->NodeType();
+    auto& nodeEntry = mNodes[Type];
 
-    for (auto it = mNodes[Type].begin(); it != mNodes[Type].end(); ++it)
+    for (auto it = nodeEntry.begin(); it != nodeEntry.end(); ++it)
     {
         if (*it == pNode)
         {
-            mNodes[Type].erase(it);
+            nodeEntry.erase(it);
             break;
         }
     }
