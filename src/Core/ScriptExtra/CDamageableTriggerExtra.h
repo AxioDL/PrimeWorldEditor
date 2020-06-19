@@ -2,6 +2,7 @@
 #define CDAMAGEABLETRIGGEREXTRA_H
 
 #include "CScriptExtra.h"
+#include <array>
 
 class CDamageableTriggerExtra : public CScriptExtra
 {
@@ -21,13 +22,13 @@ public:
 private:
     CVectorRef mPlaneSize;
     TEnumRef<ERenderSide> mRenderSide;
-    CAssetRef mTextureAssets[3];
+    std::array<CAssetRef, 3> mTextureAssets;
 
-    CMaterial* mpMat;
-    CTexture* mpTextures[3];
+    CMaterial* mpMat = nullptr;
+    std::array<CTexture*, 3> mpTextures{};
     CVector2f mCoordScale;
 
-    float mCachedRayDistance;
+    float mCachedRayDistance = 0.0f;
 
 public:
     explicit CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr);
