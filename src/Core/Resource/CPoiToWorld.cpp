@@ -29,9 +29,9 @@ void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
     SPoiMap *pMap = mPoiLookupMap[PoiID];
 
     // Check whether this model ID is already mapped to this POI
-    for (auto it = pMap->ModelIDs.begin(); it != pMap->ModelIDs.end(); it++)
+    for (const auto id : pMap->ModelIDs)
     {
-        if (*it == ModelID)
+        if (id == ModelID)
             return;
     }
 
