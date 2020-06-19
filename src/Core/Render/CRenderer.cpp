@@ -6,11 +6,6 @@
 #include "Core/Resource/Factory/CTextureDecoder.h"
 #include <Common/Math/CTransform4f.h>
 
-#include <algorithm>
-#include <fstream>
-#include <vector>
-#include <sstream>
-
 // ************ STATIC MEMBER INITIALIZATION ************
 uint32 CRenderer::sNumRenderers = 0;
 
@@ -98,10 +93,10 @@ void CRenderer::SetViewportSize(uint32 Width, uint32 Height)
 {
     mViewportWidth = Width;
     mViewportHeight = Height;
-    mBloomHScale = ((float) Width / 640);
-    mBloomVScale = ((float) Height / 528);
-    mBloomWidth  = (uint32) (320 * mBloomHScale);
-    mBloomHeight = (uint32) (224 * mBloomVScale);
+    mBloomHScale = static_cast<float>(Width) / 640.0f;
+    mBloomVScale = static_cast<float>(Height) / 528.0f;
+    mBloomWidth  = static_cast<uint32>(320.0f * mBloomHScale);
+    mBloomHeight = static_cast<uint32>(224.0f * mBloomVScale);
     mBloomHScale = 1.f / mBloomHScale;
     mBloomVScale = 1.f / mBloomVScale;
 }
@@ -115,7 +110,7 @@ void CRenderer::RenderBuckets(const SViewInfo& rkViewInfo)
     mSceneFramebuffer.Bind();
 
     // Set backface culling
-    if (mOptions & ERenderOption::EnableBackfaceCull)
+    if ((mOptions & ERenderOption::EnableBackfaceCull) != 0)
         glEnable(GL_CULL_FACE);
     else
         glDisable(GL_CULL_FACE);
@@ -148,7 +143,7 @@ void CRenderer::RenderBloom()
         return;
 
     // Setup
-    static constexpr float skHOffset[6] = {
+    static constexpr std::array skHOffset{
         -0.008595f,
         -0.005470f,
         -0.002345f,
@@ -157,7 +152,7 @@ void CRenderer::RenderBloom()
         0.008595f,
     };
 
-    static constexpr float skVOffset[6] = {
+    static constexpr std::array skVOffset{
         -0.012275f,
         -0.007815f,
         -0.003350f,
@@ -166,7 +161,7 @@ void CRenderer::RenderBloom()
         0.012275f,
     };
 
-    static constexpr CColor skTintColors[6] = {
+    static constexpr std::array skTintColors{
         CColor::Integral(17, 17, 17),
         CColor::Integral(53, 53, 53),
         CColor::Integral(89, 89, 89),
@@ -175,10 +170,10 @@ void CRenderer::RenderBloom()
         CColor::Integral(17, 17, 17),
     };
 
-    uint32 BloomWidth  = (mBloomMode == EBloomMode::Bloom ? mBloomWidth  : mViewportWidth);
-    uint32 BloomHeight = (mBloomMode == EBloomMode::Bloom ? mBloomHeight : mViewportHeight);
-    float BloomHScale = (mBloomMode == EBloomMode::Bloom ? mBloomHScale : 0);
-    float BloomVScale = (mBloomMode == EBloomMode::Bloom ? mBloomVScale : 0);
+    const uint32 BloomWidth  = (mBloomMode == EBloomMode::Bloom ? mBloomWidth  : mViewportWidth);
+    const uint32 BloomHeight = (mBloomMode == EBloomMode::Bloom ? mBloomHeight : mViewportHeight);
+    const float BloomHScale = (mBloomMode == EBloomMode::Bloom ? mBloomHScale : 0);
+    const float BloomVScale = (mBloomMode == EBloomMode::Bloom ? mBloomVScale : 0);
 
     glDisable(GL_DEPTH_TEST);
     glViewport(0, 0, BloomWidth, BloomHeight);
@@ -213,10 +208,10 @@ void CRenderer::RenderBloom()
     mBloomFramebuffers[0].Texture()->Bind(0);
     CDrawUtil::DrawSquare();
 
-    for (uint32 iPass = 0; iPass < 6; iPass++)
+    for (size_t iPass = 0; iPass < skTintColors.size(); iPass++)
     {
         CDrawUtil::UseTextureShader(skTintColors[iPass]);
-        CVector3f Translate(skHOffset[iPass] * BloomHScale, 0.f, 0.f);
+        const CVector3f Translate(skHOffset[iPass] * BloomHScale, 0.f, 0.f);
         CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Translate);
         CGraphics::UpdateMVPBlock();
         glBlendFunc(GL_ONE, GL_ONE);
@@ -233,10 +228,10 @@ void CRenderer::RenderBloom()
     mBloomFramebuffers[1].Texture()->Bind(0);
     CDrawUtil::DrawSquare();
 
-    for (uint32 iPass = 0; iPass < 6; iPass++)
+    for (size_t iPass = 0; iPass < skTintColors.size(); iPass++)
     {
         CDrawUtil::UseTextureShader(skTintColors[iPass]);
-        CVector3f Translate(0.f, skVOffset[iPass] * BloomVScale, 0.f);
+        const CVector3f Translate(0.f, skVOffset[iPass] * BloomVScale, 0.f);
         CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Translate);
         CGraphics::UpdateMVPBlock();
         glBlendFunc(GL_ONE, GL_ONE);
@@ -276,8 +271,11 @@ void CRenderer::RenderBloom()
 
 void CRenderer::RenderSky(CModel *pSkyboxModel, const SViewInfo& rkViewInfo)
 {
-    if (!mInitialized) Init();
-    if (!pSkyboxModel) return;
+    if (!mInitialized)
+        Init();
+
+    if (pSkyboxModel == nullptr)
+        return;
 
     glEnable(GL_CULL_FACE);
 
@@ -329,7 +327,8 @@ void CRenderer::AddMesh(IRenderable *pRenderable, int ComponentIndex, const CAAB
 
 void CRenderer::BeginFrame()
 {
-    if (!mInitialized) Init();
+    if (!mInitialized)
+        Init();
 
     CGraphics::SetActiveContext(mContextIndex);
     glGetIntegerv(GL_FRAMEBUFFER_BINDING, &mDefaultFramebuffer);

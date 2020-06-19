@@ -19,6 +19,8 @@
 #include <Common/Math/CAABox.h>
 #include <Common/Math/CMatrix4f.h>
 
+#include <array>
+
 enum class EBloomMode
 {
     NoBloom,
@@ -63,7 +65,7 @@ class CRenderer
 
     CFramebuffer mSceneFramebuffer;
     CFramebuffer mPostProcessFramebuffer;
-    CFramebuffer mBloomFramebuffers[3];
+    std::array<CFramebuffer, 3> mBloomFramebuffers;
     GLint mDefaultFramebuffer = 0;
 
     CRenderBucket mBackgroundBucket;
