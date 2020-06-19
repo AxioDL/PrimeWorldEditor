@@ -5,13 +5,7 @@
 #include <Common/Hash/CCRC32.h>
 
 /** Default constructor */
-CPropertyNameGenerator::CPropertyNameGenerator()
-    : mWordListLoadStarted(false)
-    , mWordListLoadFinished(false)
-    , mIsRunning(false)
-    , mFinishedRunning(false)
-{
-}
+CPropertyNameGenerator::CPropertyNameGenerator() = default;
 
 void CPropertyNameGenerator::Warmup()
 {
