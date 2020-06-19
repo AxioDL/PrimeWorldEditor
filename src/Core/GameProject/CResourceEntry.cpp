@@ -466,7 +466,8 @@ bool CResourceEntry::Unload()
 bool CResourceEntry::CanMoveTo(const TString& rkDir, const TString& rkName)
 {
     // Validate that the path/name are valid
-    if (!mpStore->IsValidResourcePath(rkDir, rkName)) return false;
+    if (!CResourceStore::IsValidResourcePath(rkDir, rkName))
+        return false;
 
     // We need to validate the path isn't taken already - either the directory doesn't exist, or doesn't have a resource by this name
     CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(rkDir, false);
