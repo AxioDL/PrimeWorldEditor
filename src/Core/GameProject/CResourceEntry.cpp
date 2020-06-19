@@ -241,7 +241,7 @@ bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const
 
 uint64 CResourceEntry::Size() const
 {
-    if (mCachedSize == -1)
+    if (mCachedSize == UINT64_MAX)
     {
         if (HasCookedVersion())
             mCachedSize = FileUtil::FileSize(CookedAssetPath());
