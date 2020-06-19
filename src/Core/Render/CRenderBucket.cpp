@@ -18,52 +18,55 @@ void CRenderBucket::CSubBucket::Add(const SRenderablePtr& rkPtr)
 void CRenderBucket::CSubBucket::Sort(const CCamera* pkCamera, bool DebugVisualization)
 {
     std::stable_sort(mRenderables.begin(), mRenderables.begin() + mSize,
-                     [&, pkCamera](const SRenderablePtr& rkLeft, const SRenderablePtr& rkRight) -> bool
+                     [&, pkCamera](const auto& rkLeft, const auto& rkRight) {
+                         const CVector3f CamPos = pkCamera->Position();
+                         const CVector3f CamDir = pkCamera->Direction();
+
+                         const CVector3f DistL = rkLeft.AABox.ClosestPointAlongVector(CamDir) - CamPos;
+                         const CVector3f DistR = rkRight.AABox.ClosestPointAlongVector(CamDir) - CamPos;
+                         const float DotL = DistL.Dot(CamDir);
+                         const float DotR = DistR.Dot(CamDir);
+                         return DotL > DotR;
+                     });
+
+    if (!DebugVisualization)
+        return;
+
+    for (size_t iPtr = 0; iPtr < mSize; iPtr++)
     {
-        CVector3f CamPos = pkCamera->Position();
-        CVector3f CamDir = pkCamera->Direction();
+        const SRenderablePtr *pPtr = &mRenderables[iPtr];
+        const CVector3f Point = pPtr->AABox.ClosestPointAlongVector(pkCamera->Direction());
+        CDrawUtil::DrawWireCube(pPtr->AABox, CColor::White());
 
-        CVector3f DistL = rkLeft.AABox.ClosestPointAlongVector(CamDir) - CamPos;
-        CVector3f DistR = rkRight.AABox.ClosestPointAlongVector(CamDir) - CamPos;
-        float DotL = DistL.Dot(CamDir);
-        float DotR = DistR.Dot(CamDir);
-        return (DotL > DotR);
-    });
+        const CVector3f Dist = Point - pkCamera->Position();
+        float Dot = Dist.Dot(pkCamera->Direction());
+        if (Dot < 0.f)
+            Dot = -Dot;
+        Dot = std::min(Dot, 50.f);
+        const float Intensity = 1.f - (Dot / 50.f);
+        const CColor CubeColor(Intensity, Intensity, Intensity, 1.f);
 
-    if (DebugVisualization)
-    {
-        for (uint32 iPtr = 0; iPtr < mSize; iPtr++)
-        {
-            SRenderablePtr *pPtr = &mRenderables[iPtr];
-            CVector3f Point = pPtr->AABox.ClosestPointAlongVector(pkCamera->Direction());
-            CDrawUtil::DrawWireCube(pPtr->AABox, CColor::White());
-
-            CVector3f Dist = Point - pkCamera->Position();
-            float Dot = Dist.Dot(pkCamera->Direction());
-            if (Dot < 0.f) Dot = -Dot;
-            if (Dot > 50.f) Dot = 50.f;
-            float Intensity = 1.f - (Dot / 50.f);
-            CColor CubeColor(Intensity, Intensity, Intensity, 1.f);
-
-            CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Point);
-            CGraphics::UpdateMVPBlock();
-            CDrawUtil::DrawCube(CubeColor);
-        }
+        CGraphics::sMVPBlock.ModelMatrix = CTransform4f::TranslationMatrix(Point);
+        CGraphics::UpdateMVPBlock();
+        CDrawUtil::DrawCube(CubeColor);
     }
 }
 
 void CRenderBucket::CSubBucket::Clear()
 {
     mEstSize = mSize;
-    if (mRenderables.size() > mSize) mRenderables.resize(mSize);
+
+    if (mRenderables.size() > mSize)
+        mRenderables.resize(mSize);
+
     mSize = 0;
 }
 
 void CRenderBucket::CSubBucket::Draw(const SViewInfo& rkViewInfo)
 {
-    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
+    const FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
-    for (uint32 iPtr = 0; iPtr < mSize; iPtr++)
+    for (size_t iPtr = 0; iPtr < mSize; iPtr++)
     {
         const SRenderablePtr& rkPtr = mRenderables[iPtr];
 
