@@ -59,18 +59,18 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
     GenerateSurfaceData();
 
     // Header
-    rOut.WriteLong(0xDEADBABE);
-    rOut.WriteLong(GetCMDLVersion(mVersion));
-    rOut.WriteLong(mpModel->IsSkinned() ? 6 : 5);
+    rOut.WriteULong(0xDEADBABE);
+    rOut.WriteULong(GetCMDLVersion(mVersion));
+    rOut.WriteULong(mpModel->IsSkinned() ? 6 : 5);
     mpModel->mAABox.Write(rOut);
 
-    uint32 NumSections = mNumMatSets + mNumSurfaces + 6;
-    rOut.WriteLong(NumSections);
-    rOut.WriteLong(mNumMatSets);
+    const uint32 NumSections = mNumMatSets + mNumSurfaces + 6;
+    rOut.WriteULong(NumSections);
+    rOut.WriteULong(mNumMatSets);
 
     const uint32 SectionSizesOffset = rOut.Tell();
     for (uint32 iSec = 0; iSec < NumSections; iSec++)
-        rOut.WriteLong(0);
+        rOut.WriteULong(0);
 
     rOut.WriteToBoundary(32, 0);
 
@@ -127,11 +127,11 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
     SectionMgr.AddSize(rOut); // Skipping short UV coordinates
 
     // Surface offsets
-    rOut.WriteLong(mNumSurfaces);
+    rOut.WriteULong(mNumSurfaces);
     const uint32 SurfaceOffsetsStart = rOut.Tell();
 
     for (uint32 iSurf = 0; iSurf < mNumSurfaces; iSurf++)
-        rOut.WriteLong(0);
+        rOut.WriteULong(0);
 
     rOut.WriteToBoundary(32, 0);
     SectionMgr.AddSize(rOut);
@@ -145,12 +145,12 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
         SSurface *pSurface = mpModel->GetSurface(iSurf);
 
         pSurface->CenterPoint.Write(rOut);
-        rOut.WriteLong(pSurface->MaterialID);
-        rOut.WriteShort(static_cast<uint16>(0x8000));
+        rOut.WriteULong(pSurface->MaterialID);
+        rOut.WriteUShort(0x8000);
         const uint32 PrimTableSizeOffset = rOut.Tell();
-        rOut.WriteShort(0);
-        rOut.WriteLongLong(0);
-        rOut.WriteLong(0);
+        rOut.WriteUShort(0);
+        rOut.WriteULongLong(0);
+        rOut.WriteULong(0);
         pSurface->ReflectionDirection.Write(rOut);
         rOut.WriteToBoundary(32, 0);
 
@@ -159,8 +159,8 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
 
         for (const SSurface::SPrimitive& pPrimitive : pSurface->Primitives)
         {
-            rOut.WriteByte(static_cast<uint8>(pPrimitive.Type));
-            rOut.WriteShort(static_cast<uint16>(pPrimitive.Vertices.size()));
+            rOut.WriteUByte(static_cast<uint8>(pPrimitive.Type));
+            rOut.WriteUShort(static_cast<uint16>(pPrimitive.Vertices.size()));
 
             for (const CVertex& pVert : pPrimitive.Vertices)
             {
@@ -169,35 +169,35 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
                     for (size_t iMtxAttribs = 0; iMtxAttribs < pVert.MatrixIndices.size(); iMtxAttribs++)
                     {
                         const auto  MatrixBit = static_cast<uint32>(EVertexAttribute::PosMtx << iMtxAttribs);
-                        if (VtxAttribs & MatrixBit)
+                        if ((VtxAttribs & MatrixBit) != 0)
                         {
-                            rOut.WriteByte(pVert.MatrixIndices[iMtxAttribs]);
+                            rOut.WriteUByte(pVert.MatrixIndices[iMtxAttribs]);
                         }
                     }
                 }
 
                 const auto VertexIndex = static_cast<uint16>(pVert.ArrayPosition);
 
-                if (VtxAttribs & EVertexAttribute::Position)
-                    rOut.WriteShort(VertexIndex);
+                if ((VtxAttribs & EVertexAttribute::Position) != 0)
+                    rOut.WriteUShort(VertexIndex);
 
-                if (VtxAttribs & EVertexAttribute::Normal)
-                    rOut.WriteShort(VertexIndex);
+                if ((VtxAttribs & EVertexAttribute::Normal) != 0)
+                    rOut.WriteUShort(VertexIndex);
 
-                if (VtxAttribs & EVertexAttribute::Color0)
-                    rOut.WriteShort(VertexIndex);
+                if ((VtxAttribs & EVertexAttribute::Color0) != 0)
+                    rOut.WriteUShort(VertexIndex);
 
-                if (VtxAttribs & EVertexAttribute::Color1)
-                    rOut.WriteShort(VertexIndex);
+                if ((VtxAttribs & EVertexAttribute::Color1) != 0)
+                    rOut.WriteUShort(VertexIndex);
 
                 uint16 TexOffset = 0;
                 for (uint32 iTex = 0; iTex < 8; iTex++)
                 {
                     const auto TexBit = static_cast<uint32>(EVertexAttribute::Tex0 << iTex);
 
-                    if (VtxAttribs & TexBit)
+                    if ((VtxAttribs & TexBit) != 0)
                     {
-                        rOut.WriteShort(VertexIndex + TexOffset);
+                        rOut.WriteUShort(static_cast<uint16>(VertexIndex + TexOffset));
                         TexOffset += static_cast<uint16>(mNumVertices);
                     }
                 }
@@ -208,7 +208,7 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
         const uint32 PrimTableEnd = rOut.Tell();
         const uint32 PrimTableSize = PrimTableEnd - PrimTableStart;
         rOut.Seek(PrimTableSizeOffset, SEEK_SET);
-        rOut.WriteShort(static_cast<uint16>(PrimTableSize));
+        rOut.WriteUShort(static_cast<uint16>(PrimTableSize));
         rOut.Seek(PrimTableEnd, SEEK_SET);
 
         SectionMgr.AddSize(rOut);
@@ -219,7 +219,7 @@ void CModelCooker::WriteModelPrime(IOutputStream& rOut)
     rOut.Seek(SurfaceOffsetsStart, SEEK_SET);
 
     for (size_t iSurf = 0; iSurf < mNumSurfaces; iSurf++)
-        rOut.WriteLong(SurfaceEndOffsets[iSurf]);
+        rOut.WriteULong(SurfaceEndOffsets[iSurf]);
 
     rOut.Seek(SectionSizesOffset, SEEK_SET);
     SectionMgr.WriteSizes(rOut);
