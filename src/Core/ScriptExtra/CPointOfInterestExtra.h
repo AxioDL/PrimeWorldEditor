@@ -17,9 +17,6 @@ public:
     void PropertyModified(IProperty* pProperty) override;
     void ModifyTintColor(CColor& Color) override;
     CScan* GetScan() const { return mpScanData; }
-
-    static const CColor skRegularColor;
-    static const CColor skImportantColor;
 };
 
 #endif // CPOINTOFINTERESTEXTRA_H
