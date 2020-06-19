@@ -3,6 +3,7 @@
 
 #include "CScriptExtra.h"
 #include <array>
+#include <memory>
 
 class CDamageableTriggerExtra : public CScriptExtra
 {
@@ -24,7 +25,7 @@ private:
     TEnumRef<ERenderSide> mRenderSide;
     std::array<CAssetRef, 3> mTextureAssets;
 
-    CMaterial* mpMat = nullptr;
+    std::unique_ptr<CMaterial> mpMat;
     std::array<CTexture*, 3> mpTextures{};
     CVector2f mCoordScale;
 

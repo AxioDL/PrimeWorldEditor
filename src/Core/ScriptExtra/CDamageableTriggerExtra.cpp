@@ -31,15 +31,12 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
     }
 }
 
-CDamageableTriggerExtra::~CDamageableTriggerExtra()
-{
-    delete mpMat;
-}
+CDamageableTriggerExtra::~CDamageableTriggerExtra() = default;
 
 void CDamageableTriggerExtra::CreateMaterial()
 {
     ASSERT(!mpMat);
-    mpMat = new CMaterial(mGame, EVertexAttribute::Position | EVertexAttribute::Normal | EVertexAttribute::Tex0);
+    mpMat = std::make_unique<CMaterial>(mGame, EVertexAttribute::Position | EVertexAttribute::Normal | EVertexAttribute::Tex0);
 
     // Most values/TEV setup were found from the executable + from graphics debuggers
     // Animation parameters are estimates from eyeballing the values ingame
