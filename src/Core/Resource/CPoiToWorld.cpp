@@ -1,29 +1,25 @@
 #include "CPoiToWorld.h"
 
-CPoiToWorld::CPoiToWorld(CResourceEntry *pEntry /*= 0*/)
+CPoiToWorld::CPoiToWorld(CResourceEntry *pEntry)
     : CResource(pEntry)
 {
 }
 
-CPoiToWorld::~CPoiToWorld()
-{
-    for (auto it = mMaps.begin(); it != mMaps.end(); it++)
-        delete *it;
-}
+CPoiToWorld::~CPoiToWorld() = default;
 
 void CPoiToWorld::AddPoi(uint32 PoiID)
 {
     // Check if this POI already exists
-    auto it = mPoiLookupMap.find(PoiID);
+    const auto it = mPoiLookupMap.find(PoiID);
 
-    if (it == mPoiLookupMap.end())
-    {
-        SPoiMap *pMap = new SPoiMap();
-        pMap->PoiID = PoiID;
+    if (it != mPoiLookupMap.end())
+        return;
 
-        mMaps.push_back(pMap);
-        mPoiLookupMap[PoiID] = pMap;
-    }
+    auto pMap = std::make_unique<SPoiMap>();
+    pMap->PoiID = PoiID;
+
+    auto* ptr = mMaps.emplace_back(std::move(pMap)).get();
+    mPoiLookupMap.insert_or_assign(PoiID, ptr);
 }
 
 void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
@@ -45,7 +41,7 @@ void CPoiToWorld::AddPoiMeshMap(uint32 PoiID, uint32 ModelID)
 
 void CPoiToWorld::RemovePoi(uint32 PoiID)
 {
-    for (auto it = mMaps.begin(); it != mMaps.end(); it++)
+    for (auto it = mMaps.begin(); it != mMaps.end(); ++it)
     {
         if ((*it)->PoiID == PoiID)
         {
@@ -58,19 +54,19 @@ void CPoiToWorld::RemovePoi(uint32 PoiID)
 
 void CPoiToWorld::RemovePoiMeshMap(uint32 PoiID, uint32 ModelID)
 {
-    auto MapIt = mPoiLookupMap.find(PoiID);
+    const auto MapIt = mPoiLookupMap.find(PoiID);
 
-    if (MapIt != mPoiLookupMap.end())
+    if (MapIt == mPoiLookupMap.end())
+        return;
+
+    SPoiMap *pMap = MapIt->second;
+
+    for (auto ListIt = pMap->ModelIDs.begin(); ListIt != pMap->ModelIDs.end(); ++ListIt)
     {
-        SPoiMap *pMap = MapIt->second;
-
-        for (auto ListIt = pMap->ModelIDs.begin(); ListIt != pMap->ModelIDs.end(); ListIt++)
+        if (*ListIt == ModelID)
         {
-            if (*ListIt == ModelID)
-            {
-                pMap->ModelIDs.erase(ListIt);
-                break;
-            }
+            pMap->ModelIDs.erase(ListIt);
+            break;
         }
     }
 }

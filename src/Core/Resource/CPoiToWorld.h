@@ -4,6 +4,7 @@
 #include "CResource.h"
 #include <list>
 #include <map>
+#include <memory>
 #include <vector>
 
 class CPoiToWorld : public CResource
@@ -18,7 +19,7 @@ public:
     };
 
 private:
-    std::vector<SPoiMap*> mMaps;
+    std::vector<std::unique_ptr<SPoiMap>> mMaps;
     std::map<uint32,SPoiMap*> mPoiLookupMap;
 
 public:
@@ -37,7 +38,7 @@ public:
 
     const SPoiMap* MapByIndex(size_t Index) const
     {
-        return mMaps[Index];
+        return mMaps[Index].get();
     }
 
     const SPoiMap* MapByID(uint32 InstanceID) const
