@@ -13,13 +13,7 @@
 #include <string>
 
 CScene::CScene()
-    : mSplitTerrain(true)
-    , mRanPostLoad(false)
-    , mNumNodes(0)
-    , mpSceneRootNode(new CRootNode(this, -1, nullptr))
-    , mpArea(nullptr)
-    , mpWorld(nullptr)
-    , mpAreaRootNode(nullptr)
+    : mpSceneRootNode(new CRootNode(this, UINT32_MAX, nullptr))
 {
 }
 
@@ -34,7 +28,7 @@ bool CScene::IsNodeIDUsed(uint32 ID) const
     return (mNodeMap.find(ID) != mNodeMap.end());
 }
 
-uint32 CScene::CreateNodeID(uint32 SuggestedID /*= -1*/) const
+uint32 CScene::CreateNodeID(uint32 SuggestedID) const
 {
     if (SuggestedID != -1)
     {
@@ -52,7 +46,7 @@ uint32 CScene::CreateNodeID(uint32 SuggestedID /*= -1*/) const
     return ID;
 }
 
-CModelNode* CScene::CreateModelNode(CModel *pModel, uint32 NodeID /*= -1*/)
+CModelNode* CScene::CreateModelNode(CModel *pModel, uint32 NodeID)
 {
     if (pModel == nullptr) return nullptr;
 
@@ -64,7 +58,7 @@ CModelNode* CScene::CreateModelNode(CModel *pModel, uint32 NodeID /*= -1*/)
     return pNode;
 }
 
-CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, uint32 NodeID /*= -1*/)
+CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, uint32 NodeID)
 {
     if (pModel == nullptr) return nullptr;
 
@@ -76,7 +70,7 @@ CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, uint32 NodeID /*= -1
     return pNode;
 }
 
-CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 NodeID /*= -1*/)
+CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 NodeID)
 {
     if (pMesh == nullptr) return nullptr;
 
@@ -88,7 +82,7 @@ CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 N
     return pNode;
 }
 
-CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID /*= -1*/)
+CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID)
 {
     if (pObj == nullptr) return nullptr;
 
@@ -114,7 +108,7 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID /*= -1*
     return pNode;
 }
 
-CLightNode* CScene::CreateLightNode(CLight *pLight, uint32 NodeID /*= -1*/)
+CLightNode* CScene::CreateLightNode(CLight *pLight, uint32 NodeID)
 {
     if (pLight == nullptr) return nullptr;
 
@@ -180,7 +174,7 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     // Create nodes for new area
     mpWorld = pWorld;
     mpArea = pArea;
-    mpAreaRootNode = new CRootNode(this, -1, mpSceneRootNode);
+    mpAreaRootNode = new CRootNode(this, UINT32_MAX, mpSceneRootNode);
 
     // Create static nodes
     size_t Count = mpArea->NumStaticModels();
