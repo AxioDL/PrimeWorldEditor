@@ -4,9 +4,9 @@
 EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, uint32 DepCount)
 {
     // Only difference between versions is asset ID length. Just check for EOF with 32-bit ID length.
-    uint32 Start = rDGRP.Tell();
+    const uint32 Start = rDGRP.Tell();
     rDGRP.Seek(DepCount * 8, SEEK_CUR);
-    uint32 Remaining = rDGRP.Size() - rDGRP.Tell();
+    const uint32 Remaining = rDGRP.Size() - rDGRP.Tell();
 
     EGame Game = EGame::CorruptionProto;
 
@@ -16,7 +16,7 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, uint32 DepCount)
 
         for (uint32 iRem = 0; iRem < Remaining; iRem++)
         {
-            uint8 Byte = rDGRP.ReadByte();
+            const uint8 Byte = rDGRP.ReadUByte();
 
             if (Byte != 0xFF)
             {
@@ -25,7 +25,8 @@ EGame CDependencyGroupLoader::VersionTest(IInputStream& rDGRP, uint32 DepCount)
             }
         }
 
-        if (IsEOF) Game = EGame::PrimeDemo;
+        if (IsEOF)
+            Game = EGame::PrimeDemo;
     }
 
     rDGRP.Seek(Start, SEEK_SET);
@@ -37,15 +38,15 @@ std::unique_ptr<CDependencyGroup> CDependencyGroupLoader::LoadDGRP(IInputStream&
     if (!rDGRP.IsValid())
         return nullptr;
 
-    uint32 NumDependencies = rDGRP.ReadLong();
-    EGame Game = VersionTest(rDGRP, NumDependencies);
+    const uint32 NumDependencies = rDGRP.ReadULong();
+    const EGame Game = VersionTest(rDGRP, NumDependencies);
 
     auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
 
     for (uint32 iDep = 0; iDep < NumDependencies; iDep++)
     {
         rDGRP.Seek(0x4, SEEK_CUR); // Skip dependency type
-        CAssetID AssetID(rDGRP, Game);
+        const CAssetID AssetID(rDGRP, Game);
         pGroup->AddDependency(AssetID);
     }
 
