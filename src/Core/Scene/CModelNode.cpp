@@ -6,10 +6,6 @@
 
 CModelNode::CModelNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CModel *pModel)
     : CSceneNode(pScene, NodeID, pParent)
-    , mWorldModel(false)
-    , mForceAlphaOn(false)
-    , mEnableScanOverlay(false)
-    , mTintColor(CColor::White())
 {
     mScale = CVector3f::One();
     SetModel(pModel);
@@ -31,9 +27,14 @@ void CModelNode::PostLoad()
 
 void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
 {
-    if (!mpModel) return;
-    if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox())) return;
-    if (rkViewInfo.GameMode) return;
+    if (!mpModel)
+        return;
+ 
+    if (!rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
+        return;
+
+    if (rkViewInfo.GameMode)
+        return;
 
     // Transparent world models should have each surface processed separately
     if (mWorldModel && mpModel->HasTransparency(mActiveMatSet))
@@ -46,10 +47,10 @@ void CModelNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo
                 pRenderer->AddMesh(this, iSurf, mpModel->GetSurfaceAABox(iSurf).Transformed(Transform()), true, ERenderCommand::DrawTransparentParts);
         }
     }
-
-    // Other models should just draw all transparent surfaces sequentially
-    else
+    else // Other models should just draw all transparent surfaces sequentially
+    {
         AddModelToRenderer(pRenderer, mpModel, mActiveMatSet);
+    }
 
     if (mSelected)
         pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
@@ -118,14 +119,17 @@ void CModelNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand
 
 void CModelNode::DrawSelection()
 {
-    if (!mpModel) return;
+    if (!mpModel)
+        return;
+
     LoadModelMatrix();
     mpModel->DrawWireframe(ERenderOption::None, WireframeColor());
 }
 
 void CModelNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
 {
-    if (!mpModel) return;
+    if (!mpModel)
+        return;
 
     const CRay& rkRay = rTester.Ray();
     std::pair<bool,float> BoxResult = AABox().IntersectsRay(rkRay);

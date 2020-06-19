@@ -8,10 +8,10 @@ class CModelNode : public CSceneNode
 {
     TResPtr<CModel> mpModel;
     uint32 mActiveMatSet;
-    bool mWorldModel;
-    bool mForceAlphaOn;
-    CColor mTintColor;
-    bool mEnableScanOverlay;
+    bool mWorldModel = false;
+    bool mForceAlphaOn = false;
+    CColor mTintColor{CColor::White()};
+    bool mEnableScanOverlay = false;
     CColor mScanOverlayColor;
 
 public:
