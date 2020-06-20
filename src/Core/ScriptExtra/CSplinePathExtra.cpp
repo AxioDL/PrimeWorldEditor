@@ -3,6 +3,8 @@
 #include "Core/Resource/Script/CLink.h"
 #include "Core/Scene/CScene.h"
 
+#include <algorithm>
+
 CSplinePathExtra::CSplinePathExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent)
     : CScriptExtra(pInstance, pScene, pParent)
 {

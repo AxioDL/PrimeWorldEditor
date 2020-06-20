@@ -24,7 +24,7 @@ public:
     ~CWaypointExtra();
     void CheckColor();
     void AddToSplinePath(CSplinePathExtra *pPath);
-    void RemoveFromSplinePath(CSplinePathExtra *pPath);
+    void RemoveFromSplinePath(const CSplinePathExtra *pPath);
     void BuildLinks();
     bool IsPathLink(const CLink *pLink) const;
     void GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut);
