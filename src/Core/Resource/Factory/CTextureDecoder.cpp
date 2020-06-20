@@ -241,9 +241,9 @@ void CTextureDecoder::ReadTXTR(IInputStream& rTXTR)
 {
     // Read TXTR header
     mTexelFormat = ETexelFormat(rTXTR.ReadLong());
-    mWidth = rTXTR.ReadShort();
-    mHeight = rTXTR.ReadShort();
-    mNumMipMaps = rTXTR.ReadLong();
+    mWidth = rTXTR.ReadUShort();
+    mHeight = rTXTR.ReadUShort();
+    mNumMipMaps = rTXTR.ReadULong();
 
     // For C4 and C8 images, read palette
     if (mTexelFormat == ETexelFormat::GX_C4 || mTexelFormat == ETexelFormat::GX_C8)
@@ -274,17 +274,17 @@ void CTextureDecoder::ReadDDS(IInputStream& rDDS)
         return;
     }
 
-    const uint32 ImageDataStart = rDDS.Tell() + rDDS.ReadLong();
+    const uint32 ImageDataStart = rDDS.Tell() + rDDS.ReadULong();
     rDDS.Seek(0x4, SEEK_CUR); // Skipping flags
-    mHeight = static_cast<uint16>(rDDS.ReadLong());
-    mWidth = static_cast<uint16>(rDDS.ReadLong());
+    mHeight = static_cast<uint16>(rDDS.ReadULong());
+    mWidth = static_cast<uint16>(rDDS.ReadULong());
     rDDS.Seek(0x8, SEEK_CUR); // Skipping linear size + depth
-    mNumMipMaps = rDDS.ReadLong() + 1; // DDS doesn't seem to count the first mipmap
+    mNumMipMaps = rDDS.ReadULong() + 1; // DDS doesn't seem to count the first mipmap
     rDDS.Seek(0x2C, SEEK_CUR); // Skipping reserved
 
     // Pixel Format
     rDDS.Seek(0x4, SEEK_CUR); // Skipping size
-    mDDSInfo.Flags = rDDS.ReadLong();
+    mDDSInfo.Flags = rDDS.ReadULong();
     const CFourCC Format(rDDS);
 
     if (Format == "DXT1")      mDDSInfo.Format = SDDSInfo::DXT1;
@@ -295,11 +295,11 @@ void CTextureDecoder::ReadDDS(IInputStream& rDDS)
     else
     {
         mDDSInfo.Format = SDDSInfo::RGBA;
-        mDDSInfo.BitCount = rDDS.ReadLong();
-        mDDSInfo.RBitMask = rDDS.ReadLong();
-        mDDSInfo.GBitMask = rDDS.ReadLong();
-        mDDSInfo.BBitMask = rDDS.ReadLong();
-        mDDSInfo.ABitMask = rDDS.ReadLong();
+        mDDSInfo.BitCount = rDDS.ReadULong();
+        mDDSInfo.RBitMask = rDDS.ReadULong();
+        mDDSInfo.GBitMask = rDDS.ReadULong();
+        mDDSInfo.BBitMask = rDDS.ReadULong();
+        mDDSInfo.ABitMask = rDDS.ReadULong();
         mDDSInfo.RShift = CalculateShiftForMask(mDDSInfo.RBitMask);
         mDDSInfo.GShift = CalculateShiftForMask(mDDSInfo.GBitMask);
         mDDSInfo.BShift = CalculateShiftForMask(mDDSInfo.BBitMask);
@@ -471,13 +471,13 @@ void CTextureDecoder::FullDecodeGXTexture(IInputStream& rTXTR)
                         // I4/C4/CMPR require reading more than one pixel at a time
                         if (mTexelFormat == ETexelFormat::GX_I4)
                         {
-                            const uint8 Byte = rTXTR.ReadByte();
+                            const uint8 Byte = rTXTR.ReadUByte();
                             Out.WriteLong(DecodePixelI4(Byte, 0).ToLongARGB());
                             Out.WriteLong(DecodePixelI4(Byte, 1).ToLongARGB());
                         }
                         else if (mTexelFormat == ETexelFormat::GX_C4)
                         {
-                            const uint8 Byte = rTXTR.ReadByte();
+                            const uint8 Byte = rTXTR.ReadUByte();
                             Out.WriteLong(DecodePixelC4(Byte, 0, mPaletteInput).ToLongARGB());
                             Out.WriteLong(DecodePixelC4(Byte, 1, mPaletteInput).ToLongARGB());
                         }
@@ -642,23 +642,23 @@ void CTextureDecoder::DecodeDDS(IInputStream& rDDS)
 void CTextureDecoder::ReadPixelsI4(IInputStream& rSrc, IOutputStream& rDst)
 {
     const uint8 Pixels = rSrc.ReadByte();
-    rDst.WriteByte(Extend4to8(Pixels >> 4));
-    rDst.WriteByte(Extend4to8(Pixels >> 4));
-    rDst.WriteByte(Extend4to8(Pixels));
-    rDst.WriteByte(Extend4to8(Pixels));
+    rDst.WriteUByte(Extend4to8(Pixels >> 4));
+    rDst.WriteUByte(Extend4to8(Pixels >> 4));
+    rDst.WriteUByte(Extend4to8(Pixels));
+    rDst.WriteUByte(Extend4to8(Pixels));
 }
 
 void CTextureDecoder::ReadPixelI8(IInputStream& rSrc, IOutputStream& rDst)
 {
-    const uint8 Pixel = rSrc.ReadByte();
-    rDst.WriteByte(Pixel);
-    rDst.WriteByte(Pixel);
+    const uint8 Pixel = rSrc.ReadUByte();
+    rDst.WriteUByte(Pixel);
+    rDst.WriteUByte(Pixel);
 }
 
 void CTextureDecoder::ReadPixelIA4(IInputStream& rSrc, IOutputStream& rDst)
 {
     // this can be left as-is for DDS conversion, but opengl doesn't support two components in one byte...
-    const uint8 Byte = rSrc.ReadByte();
+    const uint8 Byte = rSrc.ReadUByte();
     const uint8 Alpha = Extend4to8(Byte >> 4);
     const uint8 Lum = Extend4to8(Byte);
     rDst.WriteShort((Lum << 8) | Alpha);
@@ -675,7 +675,7 @@ void CTextureDecoder::ReadPixelsC4(IInputStream& rSrc, IOutputStream& rDst)
     // this is the only way to get them to decode correctly for now.
     // Commented-out code is proper C4 decoding. Dedicated font texture-decoding function
     // is probably going to be necessary in the future.
-    const uint8 Byte = rSrc.ReadByte();
+    const uint8 Byte = rSrc.ReadUByte();
     std::array<uint8, 2> Indices;
     Indices[0] = (Byte >> 4) & 0xF;
     Indices[1] = Byte & 0xF;
@@ -726,7 +726,7 @@ void CTextureDecoder::ReadPixelRGB565(IInputStream& rSrc, IOutputStream& rDst)
 
 void CTextureDecoder::ReadPixelRGB5A3(IInputStream& rSrc, IOutputStream& rDst)
 {
-    const uint16 Pixel = rSrc.ReadShort();
+    const uint16 Pixel = rSrc.ReadUShort();
     uint8 R, G, B, A;
 
     if (Pixel & 0x8000) // RGB5
@@ -750,12 +750,12 @@ void CTextureDecoder::ReadPixelRGB5A3(IInputStream& rSrc, IOutputStream& rDst)
 
 void CTextureDecoder::ReadPixelRGBA8(IInputStream& rSrc, IOutputStream& rDst)
 {
-    const uint16 AR = rSrc.ReadShort();
+    const uint16 AR = rSrc.ReadUShort();
     rSrc.Seek(0x1E, SEEK_CUR);
-    const uint16 GB = rSrc.ReadShort();
+    const uint16 GB = rSrc.ReadUShort();
     rSrc.Seek(-0x20, SEEK_CUR);
     const uint32 Pixel = (AR << 16) | GB;
-    rDst.WriteLong(Pixel);
+    rDst.WriteULong(Pixel);
 }
 
 void CTextureDecoder::ReadSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst)
@@ -765,9 +765,9 @@ void CTextureDecoder::ReadSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst)
 
     for (uint32 iByte = 0; iByte < 4; iByte++)
     {
-        uint8 Byte = rSrc.ReadByte();
+        uint8 Byte = rSrc.ReadUByte();
         Byte = ((Byte & 0x3) << 6) | ((Byte & 0xC) << 2) | ((Byte & 0x30) >> 2) | ((Byte & 0xC0) >> 6);
-        rDst.WriteByte(Byte);
+        rDst.WriteUByte(Byte);
     }
 }
 
@@ -866,8 +866,8 @@ CColor CTextureDecoder::DecodePixelRGB5A3(uint16 Short)
 
 void CTextureDecoder::DecodeSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst, uint16 Width)
 {
-    const uint16 PaletteA = rSrc.ReadShort();
-    const uint16 PaletteB = rSrc.ReadShort();
+    const uint16 PaletteA = rSrc.ReadUShort();
+    const uint16 PaletteB = rSrc.ReadUShort();
 
     std::array<CColor, 4> Palettes{
         DecodePixelRGB565(PaletteA),
@@ -887,7 +887,7 @@ void CTextureDecoder::DecodeSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst
 
     for (uint32 iBlockY = 0; iBlockY < 4; iBlockY++)
     {
-        const uint8 Byte = rSrc.ReadByte();
+        const uint8 Byte = rSrc.ReadUByte();
 
         for (uint32 iBlockX = 0; iBlockX < 4; iBlockX++)
         {
@@ -905,8 +905,8 @@ void CTextureDecoder::DecodeBlockBC1(IInputStream& rSrc, IOutputStream& rDst, ui
 {
     // Very similar to the CMPR subblock function, but unfortunately a slight
     // difference in the order the pixel indices are read requires a separate function
-    const uint16 PaletteA = rSrc.ReadShort();
-    const uint16 PaletteB = rSrc.ReadShort();
+    const uint16 PaletteA = rSrc.ReadUShort();
+    const uint16 PaletteB = rSrc.ReadUShort();
 
     std::array<CColor, 4> Palettes{
         DecodePixelRGB565(PaletteA),
@@ -942,8 +942,8 @@ void CTextureDecoder::DecodeBlockBC1(IInputStream& rSrc, IOutputStream& rDst, ui
 
 void CTextureDecoder::DecodeBlockBC2(IInputStream& rSrc, IOutputStream& rDst, uint32 Width)
 {
-    const uint16 PaletteA = rSrc.ReadShort();
-    const uint16 PaletteB = rSrc.ReadShort();
+    const uint16 PaletteA = rSrc.ReadUShort();
+    const uint16 PaletteB = rSrc.ReadUShort();
 
     std::array<CColor, 4> CPalettes{
         DecodePixelRGB565(PaletteA),
@@ -963,7 +963,7 @@ void CTextureDecoder::DecodeBlockBC2(IInputStream& rSrc, IOutputStream& rDst, ui
 
     for (uint32 iBlockY = 0; iBlockY < 4; iBlockY++)
     {
-        const uint8 Byte = rSrc.ReadByte();
+        const uint8 Byte = rSrc.ReadUByte();
 
         for (uint32 iBlockX = 0; iBlockX < 4; iBlockX++)
         {
@@ -979,8 +979,8 @@ void CTextureDecoder::DecodeBlockBC2(IInputStream& rSrc, IOutputStream& rDst, ui
 
 void CTextureDecoder::DecodeBlockBC3(IInputStream& rSrc, IOutputStream& rDst, uint32 Width)
 {
-    const uint16 PaletteA = rSrc.ReadShort();
-    const uint16 PaletteB = rSrc.ReadShort();
+    const uint16 PaletteA = rSrc.ReadUShort();
+    const uint16 PaletteB = rSrc.ReadUShort();
 
     std::array<CColor, 4> Palettes{
         DecodePixelRGB565(PaletteA),
@@ -1000,7 +1000,7 @@ void CTextureDecoder::DecodeBlockBC3(IInputStream& rSrc, IOutputStream& rDst, ui
 
     for (uint32 iBlockY = 0; iBlockY < 4; iBlockY++)
     {
-        const uint8 Byte = rSrc.ReadByte();
+        const uint8 Byte = rSrc.ReadUByte();
 
         for (uint32 iBlockX = 0; iBlockX < 4; iBlockX++)
         {
