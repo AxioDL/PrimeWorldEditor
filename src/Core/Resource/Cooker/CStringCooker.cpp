@@ -28,23 +28,23 @@ void CStringCooker::WritePrimeDemoSTRG(IOutputStream& STRG)
     // Fill in offsets
     const uint32 FileSize = STRG.Tell() - StartOffset;
     STRG.GoTo(StartOffset);
-    STRG.WriteLong(FileSize);
+    STRG.WriteULong(FileSize);
     STRG.Skip(4);
 
     for (size_t StringIdx = 0; StringIdx < NumStrings; StringIdx++)
-        STRG.WriteLong(StringOffsets[StringIdx]);
+        STRG.WriteULong(StringOffsets[StringIdx]);
 }
 
 void CStringCooker::WritePrimeSTRG(IOutputStream& STRG)
 {
     // Magic/Version
-    STRG.WriteLong(0x87654321);
-    STRG.WriteLong(mpStringTable->Game() >= EGame::EchoesDemo ? 1 : 0);
-    STRG.WriteLong(static_cast<int>(mpStringTable->NumLanguages()));
-    STRG.WriteLong(static_cast<int>(mpStringTable->NumStrings()));
+    STRG.WriteULong(0x87654321);
+    STRG.WriteULong(mpStringTable->Game() >= EGame::EchoesDemo ? 1 : 0);
+    STRG.WriteULong(static_cast<uint32>(mpStringTable->NumLanguages()));
+    STRG.WriteULong(static_cast<uint32>(mpStringTable->NumStrings()));
 
     // Language info
-    const uint LanguagesStart = STRG.Tell();
+    const uint32 LanguagesStart = STRG.Tell();
 
     for (size_t i = 0; i < mpStringTable->NumLanguages(); i++)
     {
@@ -105,12 +105,12 @@ void CStringCooker::WritePrimeSTRG(IOutputStream& STRG)
 
         if (mpStringTable->Game() == EGame::Prime)
         {
-            STRG.WriteLong(LanguageSizes[LanguageIdx]);
+            STRG.WriteULong(LanguageSizes[LanguageIdx]);
         }
 
         for (size_t i = 0; i < mpStringTable->NumStrings(); i++)
         {
-            STRG.WriteLong(StringOffsets[i]);
+            STRG.WriteULong(StringOffsets[i]);
         }
 
         STRG.GoTo(LanguageEnd);
@@ -124,11 +124,11 @@ void CStringCooker::WritePrimeSTRG(IOutputStream& STRG)
     for (size_t i = 0; i < mpStringTable->NumLanguages(); i++)
     {
         STRG.Skip(4); // Skip language ID
-        STRG.WriteLong(LanguageOffsets[i]);
+        STRG.WriteULong(LanguageOffsets[i]);
 
         if (mpStringTable->Game() >= EGame::EchoesDemo)
         {
-            STRG.WriteLong(LanguageSizes[i]);
+            STRG.WriteULong(LanguageSizes[i]);
         }
     }
 
@@ -138,10 +138,10 @@ void CStringCooker::WritePrimeSTRG(IOutputStream& STRG)
 void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
 {
     // Magic/Version
-    STRG.WriteLong(0x87654321);
-    STRG.WriteLong(3);
-    STRG.WriteLong(mpStringTable->NumLanguages());
-    STRG.WriteLong(mpStringTable->NumStrings());
+    STRG.WriteULong(0x87654321);
+    STRG.WriteULong(3);
+    STRG.WriteULong(static_cast<uint32>(mpStringTable->NumLanguages()));
+    STRG.WriteULong(static_cast<uint32>(mpStringTable->NumStrings()));
 
     // Name Table
     WriteNameTable(STRG);
@@ -208,7 +208,7 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
             {
                 CookedData.StringOffsets[StringIdx] = STRG.Tell() - StringsStart;
                 CookedData.TotalSize += kStringData.String.Size() + 1; // +1 for terminating zero
-                STRG.WriteLong(kStringData.String.Size() + 1);
+                STRG.WriteULong(kStringData.String.Size() + 1);
                 STRG.WriteString(kStringData.String);
             }
             else
@@ -227,10 +227,10 @@ void CStringCooker::WriteCorruptionSTRG(IOutputStream& STRG)
     for (size_t LanguageIdx = 0; LanguageIdx < mpStringTable->NumLanguages(); LanguageIdx++)
     {
         const SCookedLanguageData& kCookedData = CookedLanguageData[LanguageIdx];
-        STRG.WriteLong(kCookedData.TotalSize);
+        STRG.WriteULong(kCookedData.TotalSize);
 
         for (size_t StringIdx = 0; StringIdx < mpStringTable->NumStrings(); StringIdx++)
-            STRG.WriteLong(kCookedData.StringOffsets[StringIdx]);
+            STRG.WriteULong(kCookedData.StringOffsets[StringIdx]);
     }
 
     STRG.GoTo(STRGEnd);
@@ -266,14 +266,14 @@ void CStringCooker::WriteNameTable(IOutputStream& STRG)
 
     // Write out name entries
     const uint32 NameTableStart = STRG.Tell();
-    STRG.WriteLong(NameEntries.size());
-    STRG.WriteLong(0); // Dummy name table size
+    STRG.WriteULong(static_cast<uint32>(NameEntries.size()));
+    STRG.WriteULong(0); // Dummy name table size
     const uint32 NameTableOffsetsStart = STRG.Tell();
 
     for (size_t NameIdx = 0; NameIdx < NameEntries.size(); NameIdx++)
     {
-        STRG.WriteLong(0); // Dummy name offset
-        STRG.WriteLong(NameEntries[NameIdx].Index);
+        STRG.WriteULong(0); // Dummy name offset
+        STRG.WriteULong(NameEntries[NameIdx].Index);
     }
 
     // Write out names
@@ -291,11 +291,11 @@ void CStringCooker::WriteNameTable(IOutputStream& STRG)
 
     STRG.GoTo(NameTableStart);
     STRG.Skip(4);
-    STRG.WriteLong(NameTableSize);
+    STRG.WriteULong(NameTableSize);
 
     for (const uint32 offset : NameOffsets)
     {
-        STRG.WriteLong(offset);
+        STRG.WriteULong(offset);
         STRG.Skip(4);
     }
 
