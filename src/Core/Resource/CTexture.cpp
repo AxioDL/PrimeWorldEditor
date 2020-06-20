@@ -290,7 +290,7 @@ void CTexture::CalcLinearSize()
     mLinearSize = static_cast<uint32>(mWidth * mHeight * BytesPerPixel);
 }
 
-uint32 CTexture::CalcTotalSize()
+uint32 CTexture::CalcTotalSize() const
 {
     const float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
     uint32 MipW = mWidth, MipH = mHeight;

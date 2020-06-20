@@ -63,7 +63,7 @@ public:
     // Private
 private:
     void CalcLinearSize();
-    uint32 CalcTotalSize();
+    uint32 CalcTotalSize() const;
     void CopyGLBuffer();
     void DeleteBuffers();
 };
