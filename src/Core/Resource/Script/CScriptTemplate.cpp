@@ -5,6 +5,7 @@
 #include "Core/Resource/Animation/CAnimSet.h"
 #include <Common/Log.h>
 
+#include <algorithm>
 #include <string>
 
 // Old constructor
@@ -286,16 +287,15 @@ void CScriptTemplate::AddObject(CScriptObject *pObject)
     mObjectList.push_back(pObject);
 }
 
-void CScriptTemplate::RemoveObject(CScriptObject *pObject)
+void CScriptTemplate::RemoveObject(const CScriptObject *pObject)
 {
-    for (auto it = mObjectList.begin(); it != mObjectList.end(); it++)
-    {
-        if (*it == pObject)
-        {
-            mObjectList.erase(it);
-            break;
-        }
-    }
+    const auto iter = std::find_if(mObjectList.cbegin(), mObjectList.cend(),
+                                   [pObject](const auto* ptr) { return ptr == pObject; });
+
+    if (iter == mObjectList.cend())
+        return;
+
+    mObjectList.erase(iter);
 }
 
 void CScriptTemplate::SortObjects()

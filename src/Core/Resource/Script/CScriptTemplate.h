@@ -172,7 +172,7 @@ public:
     uint32 NumObjects() const;
     const std::list<CScriptObject*>& ObjectList() const;
     void AddObject(CScriptObject *pObject);
-    void RemoveObject(CScriptObject *pObject);
+    void RemoveObject(const CScriptObject *pObject);
     void SortObjects();
 
 private:
