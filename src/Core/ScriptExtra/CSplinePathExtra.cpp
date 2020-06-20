@@ -64,16 +64,15 @@ void CSplinePathExtra::AddWaypoints()
     }
 }
 
-void CSplinePathExtra::RemoveWaypoint(CWaypointExtra *pWaypoint)
+void CSplinePathExtra::RemoveWaypoint(const CWaypointExtra *pWaypoint)
 {
-    for (auto it = mWaypoints.begin(); it != mWaypoints.end(); ++it)
-    {
-        if (*it == pWaypoint)
-        {
-            mWaypoints.erase(it);
-            break;
-        }
-    }
+    const auto iter = std::find_if(mWaypoints.cbegin(), mWaypoints.cend(),
+                                   [pWaypoint](const auto* entry) { return entry == pWaypoint; });
+
+    if (iter == mWaypoints.cend())
+        return;
+
+    mWaypoints.erase(iter);
 }
 
 void CSplinePathExtra::ClearWaypoints()

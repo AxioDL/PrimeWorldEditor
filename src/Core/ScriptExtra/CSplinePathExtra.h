@@ -24,7 +24,7 @@ public:
 
     void FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked, CWaypointExtra* pWaypoint);
     void AddWaypoints();
-    void RemoveWaypoint(CWaypointExtra* pWaypoint);
+    void RemoveWaypoint(const CWaypointExtra* pWaypoint);
     void ClearWaypoints();
 };
 
