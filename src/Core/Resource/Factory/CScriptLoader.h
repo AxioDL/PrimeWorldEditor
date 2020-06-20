@@ -10,14 +10,14 @@
 
 class CScriptLoader
 {
-    EGame mVersion;
-    CScriptObject* mpObj;
-    CScriptLayer* mpLayer;
-    CGameArea* mpArea;
-    CGameTemplate *mpGameTemplate;
+    EGame mVersion{};
+    CScriptObject* mpObj = nullptr;
+    CScriptLayer* mpLayer = nullptr;
+    CGameArea* mpArea = nullptr;
+    CGameTemplate *mpGameTemplate = nullptr;
 
     // Current data pointer
-    void* mpCurrentData;
+    void* mpCurrentData = nullptr;
 
     CScriptLoader();
     void ReadProperty(IProperty* pProp, uint32 Size, IInputStream& rSCLY);

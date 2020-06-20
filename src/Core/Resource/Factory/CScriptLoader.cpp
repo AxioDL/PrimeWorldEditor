@@ -7,17 +7,12 @@
 #include "Core/Resource/Script/Property/CEnumProperty.h"
 #include "Core/Resource/Script/Property/CFlagsProperty.h"
 #include <Common/Log.h>
-#include <iostream>
 #include <sstream>
 
 // Whether to ensure the values of enum/flag properties are valid
 #define VALIDATE_PROPERTY_VALUES 1
 
-CScriptLoader::CScriptLoader()
-    : mpObj(nullptr)
-    , mpCurrentData(nullptr)
-{
-}
+CScriptLoader::CScriptLoader() = default;
 
 void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rSCLY)
 {
