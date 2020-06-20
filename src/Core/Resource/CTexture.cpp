@@ -21,7 +21,7 @@ CTexture::~CTexture()
 
 bool CTexture::BufferGL()
 {
-    GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
+    const GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
     glGenTextures(1, &mTextureID);
     glBindTexture(BindTarget, mTextureID);
 
@@ -30,31 +30,32 @@ bool CTexture::BufferGL()
 
     switch (mTexelFormat)
     {
-        case ETexelFormat::Luminance:
-            GLFormat = GL_R;
-            GLType = GL_UNSIGNED_BYTE;
-            break;
-        case ETexelFormat::LuminanceAlpha:
-            GLFormat = GL_RG;
-            GLType = GL_UNSIGNED_BYTE;
-            break;
-        case ETexelFormat::RGB565:
-            GLFormat = GL_RGB;
-            GLType = GL_UNSIGNED_SHORT_5_6_5;
-            break;
-        case ETexelFormat::RGBA4:
-            GLFormat = GL_RGBA;
-            GLType = GL_UNSIGNED_SHORT_4_4_4_4;
-            break;
-        case ETexelFormat::RGBA8:
-            GLFormat = GL_RGBA;
-            GLType = GL_UNSIGNED_BYTE;
-            break;
-        case ETexelFormat::DXT1:
-            GLFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
-            IsCompressed = true;
-            break;
-        default: break;
+    case ETexelFormat::Luminance:
+        GLFormat = GL_R;
+        GLType = GL_UNSIGNED_BYTE;
+        break;
+    case ETexelFormat::LuminanceAlpha:
+        GLFormat = GL_RG;
+        GLType = GL_UNSIGNED_BYTE;
+        break;
+    case ETexelFormat::RGB565:
+        GLFormat = GL_RGB;
+        GLType = GL_UNSIGNED_SHORT_5_6_5;
+        break;
+    case ETexelFormat::RGBA4:
+        GLFormat = GL_RGBA;
+        GLType = GL_UNSIGNED_SHORT_4_4_4_4;
+        break;
+    case ETexelFormat::RGBA8:
+        GLFormat = GL_RGBA;
+        GLType = GL_UNSIGNED_BYTE;
+        break;
+    case ETexelFormat::DXT1:
+        GLFormat = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
+        IsCompressed = true;
+        break;
+    default:
+        break;
     }
 
     // The smallest mipmaps are probably not being loaded correctly, because mipmaps in GX textures have a minimum size depending on the format, and these don't.
@@ -75,7 +76,9 @@ bool CTexture::BufferGL()
                 glTexImage2D(BindTarget, iMip, GLFormat, MipW, MipH, 0, GLFormat, GLType, pData);
         }
         else
+        {
             glCompressedTexImage2D(BindTarget, iMip, GLFormat, MipW, MipH, 0, MipSize, pData);
+        }
 
         MipW /= 2;
         MipH /= 2;
@@ -89,7 +92,7 @@ bool CTexture::BufferGL()
     // Swizzling for luminance textures:
     if (mTexelFormat == ETexelFormat::Luminance || mTexelFormat == ETexelFormat::LuminanceAlpha)
     {
-        GLint SwizzleMask[] = {GL_RED, GL_RED, GL_RED, GLFormat == GL_RG ? GL_GREEN : GL_ONE};
+        const GLint SwizzleMask[] = {GL_RED, GL_RED, GL_RED, GLFormat == GL_RG ? GL_GREEN : GL_ONE};
         glTexParameteriv(BindTarget, GL_TEXTURE_SWIZZLE_RGBA, SwizzleMask);
     }
 
@@ -113,7 +116,7 @@ void CTexture::Bind(uint32 GLTextureUnit)
     if (!mGLBufferExists)
         BufferGL();
 
-    GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
+    const GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
     glBindTexture(BindTarget, mTextureID);
 }
 
@@ -122,8 +125,8 @@ void CTexture::Resize(uint32 Width, uint32 Height)
     if ((mWidth != Width) || (mHeight != Height))
     {
         DeleteBuffers();
-        mWidth = (uint16) Width;
-        mHeight = (uint16) Height;
+        mWidth = static_cast<uint16>(Width);
+        mHeight = static_cast<uint16>(Height);
         mNumMipMaps = 1;
         CalcLinearSize();
     }
@@ -133,23 +136,23 @@ float CTexture::ReadTexelAlpha(const CVector2f& rkTexCoord)
 {
     // todo: support texel formats other than DXT1
     // DXT1 is definitely the most complicated one anyway; try reusing CTextureDecoder functions for other formats
-    uint32 TexelX = (uint32) ((mWidth - 1) * rkTexCoord.X);
-    uint32 TexelY = (uint32) ((mHeight - 1) * (1.f - std::fmod(rkTexCoord.Y, 1.f)));
+    const auto TexelX = static_cast<uint32>((mWidth - 1) * rkTexCoord.X);
+    const auto TexelY = static_cast<uint32>((mHeight - 1) * (1.f - std::fmod(rkTexCoord.Y, 1.f)));
 
     if (mTexelFormat == ETexelFormat::DXT1 && mBufferExists)
     {
         CMemoryInStream Buffer(mpImgDataBuffer, mImgDataSize, EEndian::SystemEndian);
 
         // 8 bytes per 4x4 16-pixel block, left-to-right top-to-bottom
-        uint32 BlockIdxX = TexelX / 4;
-        uint32 BlockIdxY = TexelY / 4;
-        uint32 BlocksPerRow = mWidth / 4;
+        const uint32 BlockIdxX = TexelX / 4;
+        const uint32 BlockIdxY = TexelY / 4;
+        const uint32 BlocksPerRow = mWidth / 4;
 
-        uint32 BufferPos = (8 * BlockIdxX) + (8 * BlockIdxY * BlocksPerRow);
+        const uint32 BufferPos = (8 * BlockIdxX) + (8 * BlockIdxY * BlocksPerRow);
         Buffer.Seek(BufferPos, SEEK_SET);
 
-        uint16 PaletteA = Buffer.ReadShort();
-        uint16 PaletteB = Buffer.ReadShort();
+        const uint16 PaletteA = Buffer.ReadUShort();
+        const uint16 PaletteB = Buffer.ReadUShort();
 
         if (PaletteA > PaletteB)
         {
@@ -159,13 +162,13 @@ float CTexture::ReadTexelAlpha(const CVector2f& rkTexCoord)
 
         // We only care about alpha, which is only present on palette index 3.
         // We don't need to calculate/decode the actual palette colors.
-        uint32 BlockCol = (TexelX & 0xF) / 4;
-        uint32 BlockRow = (TexelY & 0xF) / 4;
+        const uint32 BlockCol = (TexelX & 0xF) / 4;
+        const uint32 BlockRow = (TexelY & 0xF) / 4;
 
         Buffer.Seek(BlockRow, SEEK_CUR);
-        uint8 Row = Buffer.ReadByte();
-        uint8 Shift = (uint8) (6 - (BlockCol * 2));
-        uint8 PaletteIndex = (Row >> Shift) & 0x3;
+        const uint8 Row = Buffer.ReadUByte();
+        const uint8 Shift = static_cast<uint8>(6 - (BlockCol * 2));
+        const uint8 PaletteIndex = (Row >> Shift) & 0x3;
         return (PaletteIndex == 3 ? 0.f : 1.f);
     }
 
@@ -179,13 +182,13 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
     CopyGLBuffer();
 
     rOut.WriteFourCC(FOURCC('DDS ')); // "DDS " fourCC
-    rOut.WriteLong(0x7C);            // dwSize
-    rOut.WriteLong(0x21007);         // dwFlags
-    rOut.WriteLong(mHeight);         // dwHeight
-    rOut.WriteLong(mWidth);          // dwWidth
-    rOut.WriteLong(mLinearSize);     // dwPitchOrLinearSize
-    rOut.WriteLong(0);               // dwDepth
-    rOut.WriteLong(mNumMipMaps - 1); // dwMipMapCount
+    rOut.WriteULong(0x7C);            // dwSize
+    rOut.WriteULong(0x21007);         // dwFlags
+    rOut.WriteULong(mHeight);         // dwHeight
+    rOut.WriteULong(mWidth);          // dwWidth
+    rOut.WriteULong(mLinearSize);     // dwPitchOrLinearSize
+    rOut.WriteULong(0);               // dwDepth
+    rOut.WriteULong(mNumMipMaps - 1); // dwMipMapCount
 
     for (uint32 iRes = 0; iRes < 11; iRes++)
         rOut.WriteLong(0);           // dwReserved1[11]
@@ -196,54 +199,54 @@ bool CTexture::WriteDDS(IOutputStream& rOut)
 
     switch (mTexelFormat)
     {
-        case ETexelFormat::Luminance:
-            PFFlags = 0x20000;
-            PFBpp = 0x8;
-            PFRBitMask = 0xFF;
-            break;
-        case ETexelFormat::LuminanceAlpha:
-            PFFlags = 0x20001;
-            PFBpp = 0x10;
-            PFRBitMask = 0x00FF;
-            PFABitMask = 0xFF00;
-            break;
-        case ETexelFormat::RGBA4:
-            PFFlags = 0x41;
-            PFBpp = 0x10;
-            PFRBitMask = 0x0F00;
-            PFGBitMask = 0x00F0;
-            PFBBitMask = 0x000F;
-            PFABitMask = 0xF000;
-            break;
-        case ETexelFormat::RGB565:
-            PFFlags = 0x40;
-            PFBpp = 0x10;
-            PFRBitMask = 0xF800;
-            PFGBitMask = 0x7E0;
-            PFBBitMask = 0x1F;
-            break;
-        case ETexelFormat::RGBA8:
-            PFFlags = 0x41;
-            PFBpp = 0x20;
-            PFRBitMask = 0x00FF0000;
-            PFGBitMask = 0x0000FF00;
-            PFBBitMask = 0x000000FF;
-            PFABitMask = 0xFF000000;
-            break;
-        case ETexelFormat::DXT1:
-            PFFlags = 0x4;
-            break;
-        default:
-            break;
+    case ETexelFormat::Luminance:
+        PFFlags = 0x20000;
+        PFBpp = 0x8;
+        PFRBitMask = 0xFF;
+        break;
+    case ETexelFormat::LuminanceAlpha:
+        PFFlags = 0x20001;
+        PFBpp = 0x10;
+        PFRBitMask = 0x00FF;
+        PFABitMask = 0xFF00;
+        break;
+    case ETexelFormat::RGBA4:
+        PFFlags = 0x41;
+        PFBpp = 0x10;
+        PFRBitMask = 0x0F00;
+        PFGBitMask = 0x00F0;
+        PFBBitMask = 0x000F;
+        PFABitMask = 0xF000;
+        break;
+    case ETexelFormat::RGB565:
+        PFFlags = 0x40;
+        PFBpp = 0x10;
+        PFRBitMask = 0xF800;
+        PFGBitMask = 0x7E0;
+        PFBBitMask = 0x1F;
+        break;
+    case ETexelFormat::RGBA8:
+        PFFlags = 0x41;
+        PFBpp = 0x20;
+        PFRBitMask = 0x00FF0000;
+        PFGBitMask = 0x0000FF00;
+        PFBBitMask = 0x000000FF;
+        PFABitMask = 0xFF000000;
+        break;
+    case ETexelFormat::DXT1:
+        PFFlags = 0x4;
+        break;
+    default:
+        break;
     }
 
-    rOut.WriteLong(PFFlags);    // DDS_PIXELFORMAT.dwFlags
+    rOut.WriteULong(PFFlags);    // DDS_PIXELFORMAT.dwFlags
     (mTexelFormat == ETexelFormat::DXT1) ? rOut.WriteFourCC(FOURCC('DXT1')) : rOut.WriteLong(0); // DDS_PIXELFORMAT.dwFourCC
-    rOut.WriteLong(PFBpp);      // DDS_PIXELFORMAT.dwRGBBitCount
-    rOut.WriteLong(PFRBitMask); // DDS_PIXELFORMAT.dwRBitMask
-    rOut.WriteLong(PFGBitMask); // DDS_PIXELFORMAT.dwGBitMask
-    rOut.WriteLong(PFBBitMask); // DDS_PIXELFORMAT.dwBBitMask
-    rOut.WriteLong(PFABitMask); // DDS_PIXELFORMAT.dwABitMask
+    rOut.WriteULong(PFBpp);      // DDS_PIXELFORMAT.dwRGBBitCount
+    rOut.WriteULong(PFRBitMask); // DDS_PIXELFORMAT.dwRBitMask
+    rOut.WriteULong(PFGBitMask); // DDS_PIXELFORMAT.dwGBitMask
+    rOut.WriteULong(PFBBitMask); // DDS_PIXELFORMAT.dwBBitMask
+    rOut.WriteULong(PFABitMask); // DDS_PIXELFORMAT.dwABitMask
 
     rOut.WriteLong(0x401000); // dwCaps
     rOut.WriteLong(0);        // dwCaps2
@@ -283,19 +286,19 @@ uint32 CTexture::FormatBPP(ETexelFormat Format)
 // ************ PRIVATE ************
 void CTexture::CalcLinearSize()
 {
-    float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
-    mLinearSize = (uint32) (mWidth * mHeight * BytesPerPixel);
+    const float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
+    mLinearSize = static_cast<uint32>(mWidth * mHeight * BytesPerPixel);
 }
 
 uint32 CTexture::CalcTotalSize()
 {
-    float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
+    const float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
     uint32 MipW = mWidth, MipH = mHeight;
     uint32 Size = 0;
 
     for (uint32 iMip = 0; iMip < mNumMipMaps; iMip++)
     {
-        Size += (uint32) (MipW * MipH * BytesPerPixel);
+        Size += static_cast<uint32>(MipW * MipH * BytesPerPixel);
         MipW /= 2;
         MipH /= 2;
     }
@@ -323,9 +326,9 @@ void CTexture::CopyGLBuffer()
 
     // Get texture
     uint32 MipW = mWidth, MipH = mHeight, MipOffset = 0;
-    float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
+    const float BytesPerPixel = FormatBPP(mTexelFormat) / 8.f;
 
-    GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
+    const GLenum BindTarget = (mEnableMultisampling ? GL_TEXTURE_2D_MULTISAMPLE : GL_TEXTURE_2D);
     glBindTexture(BindTarget, mTextureID);
 
     for (uint32 iMip = 0; iMip < mNumMipMaps; iMip++)
@@ -334,7 +337,7 @@ void CTexture::CopyGLBuffer()
 
         glGetTexImage(BindTarget, iMip, GL_RGBA, GL_UNSIGNED_BYTE, pData);
 
-        MipOffset += (uint32) (MipW * MipH * BytesPerPixel);
+        MipOffset += static_cast<uint32>(MipW * MipH * BytesPerPixel);
         MipW /= 2;
         MipH /= 2;
     }
