@@ -290,12 +290,12 @@ void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructProperty* pStruct)
 
 CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
 {
-    uint32 StartOffset = rSCLY.Tell();
-    uint8 Type = rSCLY.ReadByte();
-    uint32 Size = rSCLY.ReadLong();
-    uint32 End = rSCLY.Tell() + Size;
+    const uint32 StartOffset = rSCLY.Tell();
+    const uint8 Type = rSCLY.ReadUByte();
+    const uint32 Size = rSCLY.ReadULong();
+    const uint32 End = rSCLY.Tell() + Size;
 
-    CScriptTemplate *pTemplate = mpGameTemplate->TemplateByID((uint32) Type);
+    CScriptTemplate *pTemplate = mpGameTemplate->TemplateByID(static_cast<uint32>(Type));
     if (!pTemplate)
     {
         // No valid template for this object; can't load
@@ -304,19 +304,20 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
         return nullptr;
     }
 
-    uint32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
-    if (InstanceID == 0x03FFFFFF) InstanceID = mpArea->FindUnusedInstanceID();
+    uint32 InstanceID = rSCLY.ReadULong() & 0x03FFFFFF;
+    if (InstanceID == 0x03FFFFFF)
+        InstanceID = mpArea->FindUnusedInstanceID();
     mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemplate);
 
     // Load connections
-    uint32 NumLinks = rSCLY.ReadLong();
+    const uint32 NumLinks = rSCLY.ReadULong();
     mpObj->mOutLinks.reserve(NumLinks);
 
     for (uint32 iLink = 0; iLink < NumLinks; iLink++)
     {
-        uint32 State = rSCLY.ReadLong();
-        uint32 Message = rSCLY.ReadLong();
-        uint32 ReceiverID = rSCLY.ReadLong() & 0x03FFFFFF;
+        const uint32 State = rSCLY.ReadULong();
+        const uint32 Message = rSCLY.ReadULong();
+        const uint32 ReceiverID = rSCLY.ReadULong() & 0x03FFFFFF;
 
         CLink *pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
         mpObj->mOutLinks.push_back(pLink);
@@ -335,10 +336,10 @@ CScriptObject* CScriptLoader::LoadObjectMP1(IInputStream& rSCLY)
 
 std::unique_ptr<CScriptLayer> CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
 {
-    uint32 LayerStart = rSCLY.Tell();
+    const uint32 LayerStart = rSCLY.Tell();
 
     rSCLY.Seek(0x1, SEEK_CUR); // One unknown byte at the start of each layer
-    uint32 NumObjects = rSCLY.ReadLong();
+    const uint32 NumObjects = rSCLY.ReadULong();
 
     auto layer = std::make_unique<CScriptLayer>(mpArea);
 
@@ -353,7 +354,7 @@ std::unique_ptr<CScriptLayer> CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
     }
 
     // Layer sizes are always a multiple of 32 - skip end padding before returning
-    uint32 Remaining = 32 - ((rSCLY.Tell() - LayerStart) & 0x1F);
+    const uint32 Remaining = 32 - ((rSCLY.Tell() - LayerStart) & 0x1F);
     rSCLY.Seek(Remaining, SEEK_CUR);
 
     return layer;
@@ -365,14 +366,14 @@ void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
     uint32 ChildCount = pStruct->NumChildren();
 
     if (!pStruct->IsAtomic())
-        ChildCount = rSCLY.ReadShort();
+        ChildCount = rSCLY.ReadUShort();
 
     // Parse properties
     for (uint32 ChildIdx = 0; ChildIdx < ChildCount; ChildIdx++)
     {
         IProperty* pProperty = nullptr;
-        uint32 PropertyStart = rSCLY.Tell();
-        uint32 PropertyID = -1;
+        const uint32 PropertyStart = rSCLY.Tell();
+        uint32 PropertyID = UINT32_MAX;
         uint16 PropertySize = 0;
         uint32 NextProperty = 0;
 
@@ -388,10 +389,10 @@ void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
             pProperty = pStruct->ChildByID(PropertyID);
         }
 
-        if (!pProperty)
-            errorf("%s [0x%X]: Can't find template for property 0x%08X - skipping", *rSCLY.GetSourceString(), PropertyStart, PropertyID);
-        else
+        if (pProperty)
             ReadProperty(pProperty, PropertySize, rSCLY);
+        else
+            errorf("%s [0x%X]: Can't find template for property 0x%08X - skipping", *rSCLY.GetSourceString(), PropertyStart, PropertyID);
 
         if (NextProperty > 0)
             rSCLY.Seek(NextProperty, SEEK_SET);
@@ -400,10 +401,10 @@ void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
 
 CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
 {
-    uint32 ObjStart = rSCLY.Tell();
-    uint32 ObjectID = rSCLY.ReadLong();
-    uint16 ObjectSize = rSCLY.ReadShort();
-    uint32 ObjEnd = rSCLY.Tell() + ObjectSize;
+    const uint32 ObjStart = rSCLY.Tell();
+    const uint32 ObjectID = rSCLY.ReadULong();
+    const uint16 ObjectSize = rSCLY.ReadUShort();
+    const uint32 ObjEnd = rSCLY.Tell() + ObjectSize;
 
     CScriptTemplate* pTemplate = mpGameTemplate->TemplateByID(ObjectID);
 
@@ -414,21 +415,22 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
         return nullptr;
     }
 
-    uint32 InstanceID = rSCLY.ReadLong() & 0x03FFFFFF;
-    if (InstanceID == 0x03FFFFFF) InstanceID = mpArea->FindUnusedInstanceID();
+    uint32 InstanceID = rSCLY.ReadULong() & 0x03FFFFFF;
+    if (InstanceID == 0x03FFFFFF)
+        InstanceID = mpArea->FindUnusedInstanceID();
     mpObj = new CScriptObject(InstanceID, mpArea, mpLayer, pTemplate);
 
     // Load connections
-    uint32 NumConnections = rSCLY.ReadShort();
+    const uint32 NumConnections = rSCLY.ReadUShort();
     mpObj->mOutLinks.reserve(NumConnections);
 
     for (uint32 LinkIdx = 0; LinkIdx < NumConnections; LinkIdx++)
     {
-        uint32 State = rSCLY.ReadLong();
-        uint32 Message = rSCLY.ReadLong();
-        uint32 ReceiverID = rSCLY.ReadLong() & 0x03FFFFFF;
+        const uint32 State = rSCLY.ReadULong();
+        const uint32 Message = rSCLY.ReadULong();
+        const uint32 ReceiverID = rSCLY.ReadULong() & 0x03FFFFFF;
 
-        CLink* pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
+        auto* pLink = new CLink(mpArea, State, Message, mpObj->mInstanceID, ReceiverID);
         mpObj->mOutLinks.push_back(pLink);
     }
 
@@ -445,7 +447,7 @@ CScriptObject* CScriptLoader::LoadObjectMP2(IInputStream& rSCLY)
 std::unique_ptr<CScriptLayer> CScriptLoader::LoadLayerMP2(IInputStream& rSCLY)
 {
     rSCLY.Seek(0x1, SEEK_CUR); // Skipping version. todo: verify this?
-    uint32 NumObjects = rSCLY.ReadLong();
+    const uint32 NumObjects = rSCLY.ReadULong();
 
     auto layer = std::make_unique<CScriptLayer>(mpArea);
 
@@ -487,7 +489,8 @@ std::unique_ptr<CScriptLayer> CScriptLoader::LoadLayer(IInputStream& rSCLY, CGam
 
 CScriptObject* CScriptLoader::LoadInstance(IInputStream& rSCLY, CGameArea *pArea, CScriptLayer *pLayer, EGame Version, bool ForceReturnsFormat)
 {
-    if (!rSCLY.IsValid()) return nullptr;
+    if (!rSCLY.IsValid())
+        return nullptr;
 
     CScriptLoader Loader;
     Loader.mVersion = (ForceReturnsFormat ? EGame::DKCReturns : Version);
@@ -509,7 +512,8 @@ CScriptObject* CScriptLoader::LoadInstance(IInputStream& rSCLY, CGameArea *pArea
 
 void CScriptLoader::LoadStructData(IInputStream& rInput, CStructRef InStruct)
 {
-    if (!rInput.IsValid()) return;
+    if (!rInput.IsValid())
+        return;
 
     CScriptLoader Loader;
     Loader.mVersion = InStruct.Property()->Game();
