@@ -199,7 +199,7 @@ void CScriptObject::RemoveLink(ELinkType Type, CLink *pLink)
 {
     std::vector<CLink*> *pLinkVec = (Type == ELinkType::Incoming ? &mInLinks : &mOutLinks);
 
-    for (auto it = pLinkVec->begin(); it != pLinkVec->end(); it++)
+    for (auto it = pLinkVec->begin(); it != pLinkVec->end(); ++it)
     {
         if (*it == pLink)
         {
@@ -211,20 +211,20 @@ void CScriptObject::RemoveLink(ELinkType Type, CLink *pLink)
 
 void CScriptObject::BreakAllLinks()
 {
-    for (auto it = mInLinks.begin(); it != mInLinks.end(); it++)
+    for (auto* link : mInLinks)
     {
-        CLink *pLink = *it;
-        CScriptObject *pSender = pLink->Sender();
-        if (pSender) pSender->RemoveLink(ELinkType::Outgoing, pLink);
-        delete pLink;
+        if (CScriptObject* sender = link->Sender())
+            sender->RemoveLink(ELinkType::Outgoing, link);
+
+        delete link;
     }
 
-    for (auto it = mOutLinks.begin(); it != mOutLinks.end(); it++)
+    for (auto* link : mOutLinks)
     {
-        CLink *pLink = *it;
-        CScriptObject *pReceiver = pLink->Receiver();
-        if (pReceiver) pReceiver->RemoveLink(ELinkType::Incoming, pLink);
-        delete pLink;
+        if (CScriptObject* receiver = link->Receiver())
+            receiver->RemoveLink(ELinkType::Incoming, link);
+
+        delete link;
     }
 
     mInLinks.clear();
