@@ -16,8 +16,8 @@ class CScriptNode : public CSceneNode
     CScriptExtra *mpExtra = nullptr;
 
     TResPtr<CResource> mpDisplayAsset;
-    uint32 mCharIndex;
-    uint32 mAnimIndex;
+    uint32 mCharIndex = 0;
+    uint32 mAnimIndex = 0;
     CCollisionNode *mpCollisionNode;
     std::vector<CScriptAttachNode*> mAttachments;
 
