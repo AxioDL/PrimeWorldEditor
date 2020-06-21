@@ -265,15 +265,15 @@ void CScriptLoader::ReadProperty(IProperty *pProp, uint32 Size, IInputStream& rS
 
 void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructProperty* pStruct)
 {
-    uint32 StructStart = rSCLY.Tell();
+    [[maybe_unused]] const uint32 StructStart = rSCLY.Tell();
 
     // Verify property count
-    uint32 PropertyCount = pStruct->NumChildren();
-    uint32 Version = 0;
+    const uint32 PropertyCount = pStruct->NumChildren();
+    [[maybe_unused]] uint32 Version = 0;
 
     if (!pStruct->IsAtomic())
     {
-        uint32 FilePropCount = rSCLY.ReadLong();
+        [[maybe_unused]] const uint32 FilePropCount = rSCLY.ReadULong();
         //@todo version checking
     }
 
