@@ -126,7 +126,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     MarkTransformChanged();
 }
 
-CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::RenderSideForDirection(const CVector3f& rkDir)
+CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::RenderSideForDirection(const CVector3f& rkDir) const 
 {
     // Get the index of the largest XYZ component
     const CVector3f AbsDir(Math::Abs(rkDir.X), Math::Abs(rkDir.Y), Math::Abs(rkDir.Z));
@@ -144,7 +144,7 @@ CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::RenderSideForDirec
     return ERenderSide::NoRender;
 }
 
-CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::TransformRenderSide(ERenderSide Side)
+CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::TransformRenderSide(ERenderSide Side) const
 {
     // DamageableTrigger has a convenience feature implemented that changes the
     // render side when the area's been rotated, so we need to replicate it here.

@@ -36,8 +36,8 @@ public:
     ~CDamageableTriggerExtra() override;
     void CreateMaterial();
     void UpdatePlaneTransform();
-    ERenderSide RenderSideForDirection(const CVector3f& rkDir);
-    ERenderSide TransformRenderSide(ERenderSide Side);
+    ERenderSide RenderSideForDirection(const CVector3f& rkDir) const;
+    ERenderSide TransformRenderSide(ERenderSide Side) const;
     void OnTransformed() override;
     void PropertyModified(IProperty* pProperty) override;
     bool ShouldDrawNormalAssets() override;
