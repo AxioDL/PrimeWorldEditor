@@ -6,107 +6,103 @@
 std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackfaces, float LineThreshold)
 {
     bool Hit = false;
-    float HitDist;
+    float HitDist = 0.0f;
 
-    for (uint32 iPrim = 0; iPrim < Primitives.size(); iPrim++)
+    for (const auto& prim : Primitives)
     {
-        SPrimitive *pPrim = &Primitives[iPrim];
-        uint32 NumVerts = pPrim->Vertices.size();
+        const size_t NumVerts = prim.Vertices.size();
 
         // Triangles
-        if ((pPrim->Type == EPrimitiveType::Triangles) || (pPrim->Type == EPrimitiveType::TriangleFan) || (pPrim->Type == EPrimitiveType::TriangleStrip))
+        if (prim.Type == EPrimitiveType::Triangles || prim.Type == EPrimitiveType::TriangleFan || prim.Type == EPrimitiveType::TriangleStrip)
         {
-            uint32 NumTris;
+            size_t NumTris;
 
-            if (pPrim->Type == EPrimitiveType::Triangles)
+            if (prim.Type == EPrimitiveType::Triangles)
                 NumTris = NumVerts / 3;
             else
                 NumTris = NumVerts - 2;
 
-            for (uint32 iTri = 0; iTri < NumTris; iTri++)
+            for (size_t iTri = 0; iTri < NumTris; iTri++)
             {
                 CVector3f VtxA, VtxB, VtxC;
 
                 // Get the three vertices that make up the current tri
-                if (pPrim->Type == EPrimitiveType::Triangles)
+                if (prim.Type == EPrimitiveType::Triangles)
                 {
-                    uint32 VertIndex = iTri * 3;
-                    VtxA = pPrim->Vertices[VertIndex].Position;
-                    VtxB = pPrim->Vertices[VertIndex+1].Position;
-                    VtxC = pPrim->Vertices[VertIndex+2].Position;
+                    const size_t VertIndex = iTri * 3;
+                    VtxA = prim.Vertices[VertIndex + 0].Position;
+                    VtxB = prim.Vertices[VertIndex + 1].Position;
+                    VtxC = prim.Vertices[VertIndex + 2].Position;
                 }
-
-                else if (pPrim->Type == EPrimitiveType::TriangleFan)
+                else if (prim.Type == EPrimitiveType::TriangleFan)
                 {
-                    VtxA = pPrim->Vertices[0].Position;
-                    VtxB = pPrim->Vertices[iTri+1].Position;
-                    VtxC = pPrim->Vertices[iTri+2].Position;
+                    VtxA = prim.Vertices[0].Position;
+                    VtxB = prim.Vertices[iTri + 1].Position;
+                    VtxC = prim.Vertices[iTri + 2].Position;
                 }
-
-                else if (pPrim->Type == EPrimitiveType::TriangleStrip)
+                else if (prim.Type == EPrimitiveType::TriangleStrip)
                 {
-                    if (iTri & 0x1)
+                    if ((iTri & 1) != 0)
                     {
-                        VtxA = pPrim->Vertices[iTri+2].Position;
-                        VtxB = pPrim->Vertices[iTri+1].Position;
-                        VtxC = pPrim->Vertices[iTri].Position;
+                        VtxA = prim.Vertices[iTri + 2].Position;
+                        VtxB = prim.Vertices[iTri + 1].Position;
+                        VtxC = prim.Vertices[iTri + 0].Position;
                     }
-
                     else
                     {
-                        VtxA = pPrim->Vertices[iTri].Position;
-                        VtxB = pPrim->Vertices[iTri+1].Position;
-                        VtxC = pPrim->Vertices[iTri+2].Position;
+                        VtxA = prim.Vertices[iTri + 0].Position;
+                        VtxB = prim.Vertices[iTri + 1].Position;
+                        VtxC = prim.Vertices[iTri + 2].Position;
                     }
                 }
 
                 // Intersection test
-                std::pair<bool,float> TriResult = Math::RayTriangleIntersection(rkRay, VtxA, VtxB, VtxC, AllowBackfaces);
+                const auto [intersects, distance] = Math::RayTriangleIntersection(rkRay, VtxA, VtxB, VtxC, AllowBackfaces);
 
-                if (TriResult.first)
+                if (intersects)
                 {
-                    if ((!Hit) || (TriResult.second < HitDist))
+                    if (!Hit || distance < HitDist)
                     {
                         Hit = true;
-                        HitDist = TriResult.second;
+                        HitDist = distance;
                     }
                 }
             }
         }
 
         // Lines
-        if ((pPrim->Type == EPrimitiveType::Lines) || (pPrim->Type == EPrimitiveType::LineStrip))
+        if (prim.Type == EPrimitiveType::Lines || prim.Type == EPrimitiveType::LineStrip)
         {
-            uint32 NumLines;
+            size_t NumLines;
 
-            if (pPrim->Type == EPrimitiveType::Lines)
+            if (prim.Type == EPrimitiveType::Lines)
                 NumLines = NumVerts / 2;
             else
                 NumLines = NumVerts - 1;
 
-            for (uint32 iLine = 0; iLine < NumLines; iLine++)
+            for (size_t iLine = 0; iLine < NumLines; iLine++)
             {
                 CVector3f VtxA, VtxB;
 
                 // Get the two vertices that make up the current line
-                uint32 Index = (pPrim->Type == EPrimitiveType::Lines ? iLine * 2 : iLine);
-                VtxA = pPrim->Vertices[Index].Position;
-                VtxB = pPrim->Vertices[Index+1].Position;
+                const size_t Index = (prim.Type == EPrimitiveType::Lines ? iLine * 2 : iLine);
+                VtxA = prim.Vertices[Index + 0].Position;
+                VtxB = prim.Vertices[Index + 1].Position;
 
                 // Intersection test
-                std::pair<bool,float> Result = Math::RayLineIntersection(rkRay, VtxA, VtxB, LineThreshold);
+                const auto [intersects, distance] = Math::RayLineIntersection(rkRay, VtxA, VtxB, LineThreshold);
 
-                if (Result.first)
+                if (intersects)
                 {
-                    if ((!Hit) || (Result.second < HitDist))
+                    if (!Hit || distance < HitDist)
                     {
                         Hit = true;
-                        HitDist = Result.second;
+                        HitDist = distance;
                     }
                 }
             }
         }
     }
 
-    return std::pair<bool,float>(Hit, HitDist);
+    return {Hit, HitDist};
 }

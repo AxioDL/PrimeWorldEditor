@@ -25,7 +25,8 @@ bool CTexture::BufferGL()
     glGenTextures(1, &mTextureID);
     glBindTexture(BindTarget, mTextureID);
 
-    GLenum GLFormat, GLType;
+    GLenum GLFormat = 0;
+    GLenum GLType = 0;
     bool IsCompressed = false;
 
     switch (mTexelFormat)
