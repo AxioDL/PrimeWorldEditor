@@ -120,12 +120,12 @@ SRayIntersection CDoorExtra::RayNodeIntersectTest(const CRay& rkRay, uint32 Asse
     Out.ComponentIndex = AssetID;
 
     const CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
-    const std::pair<bool, float> Result = mpShieldModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
+    const auto [intersects, distance] = mpShieldModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
 
-    if (Result.first)
+    if (intersects)
     {
         Out.Hit = true;
-        const CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
+        const CVector3f HitPoint = TransformedRay.PointOnRay(distance);
         const CVector3f WorldHitPoint = Transform() * HitPoint;
         Out.Distance = rkRay.Origin().Distance(WorldHitPoint);
     }

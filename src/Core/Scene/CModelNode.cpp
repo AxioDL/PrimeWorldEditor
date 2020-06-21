@@ -132,7 +132,7 @@ void CModelNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SView
         return;
 
     const CRay& rkRay = rTester.Ray();
-    std::pair<bool,float> BoxResult = AABox().IntersectsRay(rkRay);
+    const std::pair<bool, float> BoxResult = AABox().IntersectsRay(rkRay);
 
     if (BoxResult.first)
         rTester.AddNodeModel(this, mpModel);
@@ -144,16 +144,16 @@ SRayIntersection CModelNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Asse
     Out.pNode = this;
     Out.ComponentIndex = AssetID;
 
-    CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
-    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
-    std::pair<bool,float> Result = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
+    const CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
+    const FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
+    const auto [intersects, distance] = mpModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
 
-    if (Result.first)
+    if (intersects)
     {
         Out.Hit = true;
 
-        CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
-        CVector3f WorldHitPoint = Transform() * HitPoint;
+        const CVector3f HitPoint = TransformedRay.PointOnRay(distance);
+        const CVector3f WorldHitPoint = Transform() * HitPoint;
         Out.Distance = Math::Distance(rkRay.Origin(), WorldHitPoint);
     }
     else

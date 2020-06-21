@@ -32,7 +32,7 @@ struct SSurface
 
     SSurface() = default;
 
-    std::pair<bool,float> IntersectsRay(const CRay& rkRay, bool AllowBackfaces = false, float LineThreshold = 0.02f);
+    std::pair<bool,float> IntersectsRay(const CRay& rkRay, bool AllowBackfaces = false, float LineThreshold = 0.02f) const;
 };
 
 #endif // SSURFACE_H

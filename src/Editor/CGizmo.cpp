@@ -163,18 +163,18 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
         if (ModelBoxCheck)
         {
             bool Hit = false;
-            float Dist;
+            float Dist = 0.0f;
 
             for (size_t iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
             {
                 // Skip surface/box check - since we use lines the boxes might be too small
-                SSurface *pSurf = pModel->GetSurface(iSurf);
-                std::pair<bool,float> SurfCheck = pSurf->IntersectsRay(rPartRay, false, 0.05f);
+                const SSurface* pSurf = pModel->GetSurface(iSurf);
+                const auto [intersects, distance] = pSurf->IntersectsRay(rPartRay, false, 0.05f);
 
-                if (SurfCheck.first)
+                if (intersects)
                 {
-                    if (!Hit || SurfCheck.second < Dist)
-                        Dist = SurfCheck.second;
+                    if (!Hit || distance < Dist)
+                        Dist = distance;
 
                     Hit = true;
                 }

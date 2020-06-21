@@ -3,7 +3,7 @@
 #include "Core/CRayCollisionTester.h"
 #include <Common/Math/MathUtil.h>
 
-std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackfaces, float LineThreshold)
+std::pair<bool,float> SSurface::IntersectsRay(const CRay& rkRay, bool AllowBackfaces, float LineThreshold) const
 {
     bool Hit = false;
     float HitDist = 0.0f;
