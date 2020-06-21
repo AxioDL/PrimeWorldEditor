@@ -7,7 +7,7 @@
 class CModelNode : public CSceneNode
 {
     TResPtr<CModel> mpModel;
-    uint32 mActiveMatSet;
+    uint32 mActiveMatSet = 0;
     bool mWorldModel = false;
     bool mForceAlphaOn = false;
     CColor mTintColor{CColor::White()};
@@ -15,7 +15,7 @@ class CModelNode : public CSceneNode
     CColor mScanOverlayColor;
 
 public:
-    explicit CModelNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0, CModel *pModel = 0);
+    explicit CModelNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = nullptr, CModel *pModel = nullptr);
 
     ENodeType NodeType() override;
     void PostLoad() override;
