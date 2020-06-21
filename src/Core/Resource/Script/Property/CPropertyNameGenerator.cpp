@@ -4,6 +4,8 @@
 #include "Core/Resource/Script/NPropertyMap.h"
 #include <Common/Hash/CCRC32.h>
 
+#include <memory>
+
 /** Default constructor */
 CPropertyNameGenerator::CPropertyNameGenerator() = default;
 
@@ -16,22 +18,22 @@ void CPropertyNameGenerator::Warmup()
     mWords.clear();
 
     // Load the word list from the file
-    FILE* pListFile = fopen(*(gDataDir + "resources/WordList.txt"), "r");
+    using FILEPtr = std::unique_ptr<FILE, decltype(&std::fclose)>;
+    auto pListFile = FILEPtr{std::fopen(*(gDataDir + "resources/WordList.txt"), "r"), std::fclose};
     ASSERT(pListFile);
 
-    while (!feof(pListFile))
+    while (!feof(pListFile.get()))
     {
         char WordBuffer[64];
-        fgets(&WordBuffer[0], 64, pListFile);
+        std::fgets(WordBuffer, sizeof(WordBuffer), pListFile.get());
         WordBuffer[0] = TString::CharToUpper(WordBuffer[0]);
 
         SWord Word;
         Word.Word = TString(WordBuffer).Trimmed();
         Word.Usages = 0;
-        mWords.push_back(Word);
+        mWords.push_back(std::move(Word));
     }
 
-    fclose(pListFile);
     mWordListLoadFinished = true;
 }
 
