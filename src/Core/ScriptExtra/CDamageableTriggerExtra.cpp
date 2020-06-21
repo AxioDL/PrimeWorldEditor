@@ -270,12 +270,12 @@ void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester
         }
     }
 
-    std::pair<bool,float> Result = AABox().IntersectsRay(rkRay);
+    const auto [intersects, distance] = AABox().IntersectsRay(rkRay);
 
-    if (Result.first)
+    if (intersects)
     {
-        rTester.AddNode(this, UINT32_MAX, Result.second);
-        mCachedRayDistance = Result.second;
+        rTester.AddNode(this, UINT32_MAX, distance);
+        mCachedRayDistance = distance;
     }
 }
 
