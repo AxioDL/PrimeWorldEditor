@@ -999,7 +999,7 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
 
     case FOURCC('CNST'):
     {
-        uint32 Value = rFile.ReadLong();
+        [[maybe_unused]] const uint32 Value = rFile.ReadULong();
         ASSERT(gpResourceStore->FindEntry(CAssetID(Value)) == nullptr);
         break;
     }

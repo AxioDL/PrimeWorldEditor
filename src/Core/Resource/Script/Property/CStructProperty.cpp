@@ -97,7 +97,7 @@ void CStructProperty::Serialize(IArchive& rArc)
     // Serialize archetype
     if (mpArchetype)
     {
-        CStructProperty* pArchetype = static_cast<CStructProperty*>(mpArchetype);
+        [[maybe_unused]] const CStructProperty* pArchetype = static_cast<CStructProperty*>(mpArchetype);
         ASSERT(pArchetype != nullptr);
 
         if (rArc.IsReader())
