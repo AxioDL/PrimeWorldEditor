@@ -177,11 +177,11 @@ void CStructProperty::InitFromArchetype(IProperty* pOther)
 
     // Copy children
     _ClearChildren();
-    mChildren.reserve( pOther->NumChildren() );
+    mChildren.reserve(pOther->NumChildren());
 
-    for (uint32 ChildIdx = 0; ChildIdx < pOther->NumChildren(); ChildIdx++)
+    for (size_t ChildIdx = 0; ChildIdx < pOther->NumChildren(); ChildIdx++)
     {
-        IProperty* pChild = CreateCopy( pOther->ChildByIndex(ChildIdx) );
+        IProperty* pChild = CreateCopy(pOther->ChildByIndex(ChildIdx));
         mChildren.push_back(pChild);
     }
 }

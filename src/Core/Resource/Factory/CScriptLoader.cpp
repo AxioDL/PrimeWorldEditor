@@ -268,7 +268,7 @@ void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructProperty* pStruct)
     [[maybe_unused]] const uint32 StructStart = rSCLY.Tell();
 
     // Verify property count
-    const uint32 PropertyCount = pStruct->NumChildren();
+    const size_t PropertyCount = pStruct->NumChildren();
     [[maybe_unused]] uint32 Version = 0;
 
     if (!pStruct->IsAtomic())
@@ -278,7 +278,7 @@ void CScriptLoader::LoadStructMP1(IInputStream& rSCLY, CStructProperty* pStruct)
     }
 
     // Parse properties
-    for (uint32 ChildIndex = 0; ChildIndex < PropertyCount; ChildIndex++)
+    for (size_t ChildIndex = 0; ChildIndex < PropertyCount; ChildIndex++)
     {
         IProperty *pProperty = pStruct->ChildByIndex(ChildIndex);
 
@@ -363,13 +363,13 @@ std::unique_ptr<CScriptLayer> CScriptLoader::LoadLayerMP1(IInputStream& rSCLY)
 void CScriptLoader::LoadStructMP2(IInputStream& rSCLY, CStructProperty* pStruct)
 {
     // Verify property count
-    uint32 ChildCount = pStruct->NumChildren();
+    size_t ChildCount = pStruct->NumChildren();
 
     if (!pStruct->IsAtomic())
         ChildCount = rSCLY.ReadUShort();
 
     // Parse properties
-    for (uint32 ChildIdx = 0; ChildIdx < ChildCount; ChildIdx++)
+    for (size_t ChildIdx = 0; ChildIdx < ChildCount; ChildIdx++)
     {
         IProperty* pProperty = nullptr;
         const uint32 PropertyStart = rSCLY.Tell();

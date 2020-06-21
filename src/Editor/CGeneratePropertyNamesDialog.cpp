@@ -73,7 +73,7 @@ void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
 /** Populate the ID pool with the children of the given property */
 void CGeneratePropertyNamesDialog::AddChildrenToIDPool(IProperty* pProperty, bool Recursive)
 {
-    for (uint32 ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
+    for (size_t ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
     {
         IProperty* pChild = pProperty->ChildByIndex(ChildIdx);
 

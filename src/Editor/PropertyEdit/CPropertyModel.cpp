@@ -47,7 +47,7 @@ int CPropertyModel::RecursiveBuildArrays(IProperty* pProperty, int ParentID)
         for (uint32 ElementIdx = 0; ElementIdx < ArrayCount; ElementIdx++)
         {
             mpPropertyData = pArray->ItemPointer(pOldData, ElementIdx);
-            int NewChildID = RecursiveBuildArrays( pArray->ItemArchetype(), MyID );
+            const int NewChildID = RecursiveBuildArrays( pArray->ItemArchetype(), MyID );
             mProperties[MyID].ChildIDs.push_back(NewChildID);
         }
 
@@ -55,9 +55,9 @@ int CPropertyModel::RecursiveBuildArrays(IProperty* pProperty, int ParentID)
     }
     else
     {
-        for (uint32 ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
+        for (size_t ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
         {
-            int NewChildID = RecursiveBuildArrays( pProperty->ChildByIndex(ChildIdx), MyID );
+            const int NewChildID = RecursiveBuildArrays( pProperty->ChildByIndex(ChildIdx), MyID );
             mProperties[MyID].ChildIDs.push_back(NewChildID);
         }
     }
@@ -183,10 +183,17 @@ int CPropertyModel::columnCount(const QModelIndex& /*rkParent*/) const
 
 int CPropertyModel::rowCount(const QModelIndex& rkParent) const
 {
-    if (!mpRootProperty) return 0;
-    if (!rkParent.isValid()) return mpRootProperty->NumChildren();
-    if (rkParent.column() != 0) return 0;
-    if (rkParent.internalId() & 0x80000000) return 0;
+    if (!mpRootProperty)
+        return 0;
+
+    if (!rkParent.isValid())
+        return static_cast<int>(mpRootProperty->NumChildren());
+
+    if (rkParent.column() != 0)
+        return 0;
+
+    if ((rkParent.internalId() & 0x80000000) != 0)
+        return 0;
 
     IProperty *pProp = PropertyForIndex(rkParent, false);
     int ID = rkParent.internalId();

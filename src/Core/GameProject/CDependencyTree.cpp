@@ -26,16 +26,17 @@ void IDependencyNode::GetAllResourceReferences(std::set<CAssetID>& rOutSet) cons
 void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructProperty* pProperties, void* pData)
 {
     // Recursive function for parsing dependencies in properties
-    for (uint32 PropertyIdx = 0; PropertyIdx < pProperties->NumChildren(); PropertyIdx++)
+    for (size_t PropertyIdx = 0; PropertyIdx < pProperties->NumChildren(); PropertyIdx++)
     {
         IProperty* pProp = pProperties->ChildByIndex(PropertyIdx);
-        EPropertyType Type = pProp->Type();
+        const EPropertyType Type = pProp->Type();
 
         // Technically we aren't parsing array children, but it's not really worth refactoring this function
         // to support it when there aren't any array properties that contain any asset references anyway...
         if (Type == EPropertyType::Struct)
-            ParseProperties( pParentEntry, TPropCast<CStructProperty>(pProp), pData );
-
+        {
+            ParseProperties(pParentEntry, TPropCast<CStructProperty>(pProp), pData);
+        }
         else if (Type == EPropertyType::Sound)
         {
             uint32 SoundID = TPropCast<CSoundProperty>(pProp)->Value(pData);
@@ -51,7 +52,6 @@ void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructPrope
                 }
             }
         }
-
         else if (Type == EPropertyType::Asset)
         {
             CAssetID ID = TPropCast<CAssetProperty>(pProp)->Value(pData);
@@ -61,7 +61,6 @@ void IDependencyNode::ParseProperties(CResourceEntry* pParentEntry, CStructPrope
                 mChildren.push_back(std::make_unique<CPropertyDependency>(pProp->IDString(true), ID));
             }
         }
-
         else if (Type == EPropertyType::AnimationSet)
         {
             CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pData);

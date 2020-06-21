@@ -23,7 +23,7 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
         PropertyModified(mPlaneSize.Property());
 
     // Fetch textures
-    for (uint32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
+    for (size_t TextureIdx = 0; TextureIdx < mTextureAssets.size(); TextureIdx++)
     {
         mTextureAssets[TextureIdx] = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIndex(6 + TextureIdx));
         if (mTextureAssets[TextureIdx].IsValid())

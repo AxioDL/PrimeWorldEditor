@@ -208,11 +208,11 @@ public:
     /** Accessors */
     EGame Game() const;
     ECookPreference CookPreference() const { return mCookPreference; }
-    uint32 NumChildren() const { return mChildren.size(); }
+    size_t NumChildren() const { return mChildren.size(); }
 
-    IProperty* ChildByIndex(uint32 ChildIndex) const
+    IProperty* ChildByIndex(size_t ChildIndex) const
     {
-        ASSERT(ChildIndex >= 0 && ChildIndex < mChildren.size());
+        ASSERT(ChildIndex < mChildren.size());
         return mChildren[ChildIndex];
     }
 
@@ -278,17 +278,17 @@ public:
     static IProperty* CreateCopy(IProperty* pArchetype);
 
     static IProperty* CreateIntrinsic(EPropertyType Type,
-                                         EGame Game,
-                                         uint32 Offset,
-                                         const TString& rkName);
+                                      EGame Game,
+                                      uint32 Offset,
+                                      const TString& rkName);
 
     static IProperty* CreateIntrinsic(EPropertyType Type,
-                                         IProperty* pParent,
-                                         uint32 Offset,
-                                         const TString& rkName);
+                                      IProperty* pParent,
+                                      uint32 Offset,
+                                      const TString& rkName);
 
     static IProperty* ArchiveConstructor(EPropertyType Type,
-                                           const IArchive& Arc);
+                                         const IArchive& Arc);
 };
 
 template<typename PropType, EPropertyType PropEnum>

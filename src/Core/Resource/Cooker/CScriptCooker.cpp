@@ -180,7 +180,7 @@ void CScriptCooker::WriteProperty(IOutputStream& rOut, IProperty* pProperty, voi
         auto* pStruct = TPropCast<CStructProperty>(pProperty);
         std::vector<IProperty*> PropertiesToWrite;
 
-        for (uint32 ChildIdx = 0; ChildIdx < pStruct->NumChildren(); ChildIdx++)
+        for (size_t ChildIdx = 0; ChildIdx < pStruct->NumChildren(); ChildIdx++)
         {
             IProperty *pChild = pStruct->ChildByIndex(ChildIdx);
 
