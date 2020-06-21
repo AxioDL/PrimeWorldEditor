@@ -4,6 +4,7 @@
 #include "CScriptObject.h"
 #include "Core/Resource/CDependencyGroup.h"
 #include <Common/BasicTypes.h>
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -22,8 +23,8 @@ public:
 
     ~CScriptLayer()
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
-            delete *it;
+        for (auto* instance : mInstances)
+            delete instance;
     }
 
     // Data Manipulation
@@ -43,14 +44,13 @@ public:
 
     void RemoveInstance(CScriptObject *pInstance)
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); ++it)
-        {
-            if (*it == pInstance)
-            {
-                mInstances.erase(it);
-                break;
-            }
-        }
+        const auto it = std::find_if(mInstances.cbegin(), mInstances.cend(),
+                                     [pInstance](const auto* instance) { return instance == pInstance; });
+
+        if (it == mInstances.cend())
+            return;
+
+        mInstances.erase(it);
     }
 
     void RemoveInstanceByIndex(uint32 Index)
@@ -60,14 +60,13 @@ public:
 
     void RemoveInstanceByID(uint32 ID)
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); ++it)
-        {
-            if ((*it)->InstanceID() == ID)
-            {
-                mInstances.erase(it);
-                break;
-            }
-        }
+        const auto it = std::find_if(mInstances.cbegin(), mInstances.cend(),
+                                     [ID](const auto* instance) { return instance->InstanceID() == ID; });
+
+        if (it == mInstances.cend())
+            return;
+
+        mInstances.erase(it);
     }
 
     void Reserve(uint32 Amount)
@@ -85,13 +84,13 @@ public:
 
     CScriptObject* InstanceByID(uint32 ID) const
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); ++it)
-        {
-            if ((*it)->InstanceID() == ID)
-                return *it;
-        }
+        const auto it = std::find_if(mInstances.begin(), mInstances.end(),
+                                     [ID](const auto* instance) { return instance->InstanceID() == ID; });
 
-        return nullptr;
+        if (it == mInstances.cbegin())
+            return nullptr;
+
+        return *it;
     }
 
     void SetName(TString rkName)   { mLayerName = std::move(rkName); }
