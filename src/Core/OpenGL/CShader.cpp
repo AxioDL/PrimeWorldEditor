@@ -246,9 +246,9 @@ void CShader::KillCachedShader()
 // ************ PRIVATE ************
 void CShader::CacheCommonUniforms()
 {
-    for (uint32 iTex = 0; iTex < 8; iTex++)
+    for (size_t iTex = 0; iTex < 8; iTex++)
     {
-        TString TexUniform = "Texture" + TString::FromInt32(iTex);
+        const TString TexUniform = "Texture" + std::to_string(iTex);
         mTextureUniforms[iTex] = glGetUniformLocation(mProgram, *TexUniform);
     }
 
