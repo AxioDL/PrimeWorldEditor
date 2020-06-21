@@ -229,8 +229,8 @@ void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, size_t M
     }
     else
     {
-        const bool DrawOpaque = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawOpaqueParts);
-        const bool DrawTransparent = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawTransparentParts);
+        const bool DrawOpaque = RenderCommand == ERenderCommand::DrawOpaqueParts;
+        const bool DrawTransparent = RenderCommand == ERenderCommand::DrawTransparentParts;
 
         for (size_t iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
         {
