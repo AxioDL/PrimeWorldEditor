@@ -43,9 +43,9 @@ public:
         }
     }
 
-    uint32 NumEvents() const                             { return mEvents.size(); }
-    uint32 EventCharacterIndex(uint32 EventIdx) const    { return mEvents[EventIdx].mCharacterIndex; }
-    CAssetID EventAssetRef(uint32 EventIdx) const        { return mEvents[EventIdx].mAssetRef; }
+    size_t NumEvents() const                             { return mEvents.size(); }
+    uint32 EventCharacterIndex(size_t EventIdx) const    { return mEvents[EventIdx].mCharacterIndex; }
+    CAssetID EventAssetRef(size_t EventIdx) const        { return mEvents[EventIdx].mAssetRef; }
 
     void AddEvent(uint32 CharIdx, CAssetID AssetID)      { mEvents.push_back(SEvent{CharIdx, AssetID}); }
 };
