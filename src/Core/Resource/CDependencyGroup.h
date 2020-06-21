@@ -2,6 +2,7 @@
 #define CDEPENDENCYGROUP
 
 #include "CResource.h"
+#include <algorithm>
 
 class CDependencyGroup : public CResource
 {
@@ -21,33 +22,27 @@ public:
             mDependencies.push_back(rkID);
     }
 
-    void AddDependency(CResource *pRes)
+    void AddDependency(const CResource* pRes)
     {
-        if ( pRes && !HasDependency(pRes->ID()) )
+        if (pRes != nullptr && !HasDependency(pRes->ID()))
             mDependencies.push_back(pRes->ID());
     }
 
     void RemoveDependency(const CAssetID& rkID)
     {
-        for (auto Iter = mDependencies.begin(); Iter != mDependencies.end(); Iter++)
-        {
-            if (*Iter == rkID)
-            {
-                mDependencies.erase(Iter);
-                return;
-            }
-        }
+        const auto it = std::find_if(mDependencies.cbegin(), mDependencies.cend(),
+                                     [&rkID](const auto& entry) { return entry == rkID; });
+
+        if (it == mDependencies.cend())
+            return;
+
+        mDependencies.erase(it);
     }
     
-    bool HasDependency(const CAssetID &rkID) const
+    bool HasDependency(const CAssetID& rkID) const
     {
-        for (uint32 iDep = 0; iDep < mDependencies.size(); iDep++)
-        {
-            if (mDependencies[iDep] == rkID)
-                return true;
-        }
-
-        return false;
+        return std::any_of(mDependencies.cbegin(), mDependencies.cend(),
+                           [&rkID](const auto& entry) { return entry == rkID; });
     }
 
     std::unique_ptr<CDependencyTree> BuildDependencyTree() const
