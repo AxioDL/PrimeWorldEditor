@@ -20,7 +20,7 @@ void CAudioManager::LoadAssets()
     for (TResourceIterator<EResourceType::AudioGroup> It(mpProject->ResourceStore()); It; ++It)
     {
         if (auto* pGroup = static_cast<CAudioGroup*>(It->Load()))
-            mAudioGroups.push_back(pGroup);
+            mAudioGroups.emplace_back(pGroup);
     }
 
     std::sort(mAudioGroups.begin(), mAudioGroups.end(), [](const CAudioGroup *pLeft, const CAudioGroup *pRight) {
