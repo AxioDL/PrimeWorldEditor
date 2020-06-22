@@ -382,9 +382,9 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
     IProperty* pArchetype = pProperty->RootArchetype();
     pArchetype->GatherAllSubInstances(Properties, true);
 
-    for (auto Iter = Properties.begin(); Iter != Properties.end(); ++Iter)
+    for (auto* property : Properties)
     {
-        pProperty = *Iter;
+        pProperty = property;
 
         if (pProperty->UsesNameMap())
         {

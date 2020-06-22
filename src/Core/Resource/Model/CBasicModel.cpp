@@ -7,9 +7,11 @@ CBasicModel::CBasicModel(CResourceEntry *pEntry)
 
 CBasicModel::~CBasicModel()
 {
-    if (mHasOwnSurfaces)
-        for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
-            delete mSurfaces[iSurf];
+    if (!mHasOwnSurfaces)
+        return;
+
+    for (auto* surface : mSurfaces)
+        delete surface;
 }
 
 size_t CBasicModel::GetVertexCount() const

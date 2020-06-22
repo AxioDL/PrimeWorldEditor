@@ -122,17 +122,20 @@ uint32 CGameArea::TotalInstanceCount() const
 {
     uint32 Num = 0;
 
-    for (uint32 iLyr = 0; iLyr < mScriptLayers.size(); iLyr++)
-        Num += mScriptLayers[iLyr]->NumInstances();
+    for (const auto& layer : mScriptLayers)
+        Num += layer->NumInstances();
 
     return Num;
 }
 
 CScriptObject* CGameArea::InstanceByID(uint32 InstanceID)
 {
-    auto it = mObjectMap.find(InstanceID);
-    if (it != mObjectMap.end()) return it->second;
-    else return nullptr;
+    const auto it = mObjectMap.find(InstanceID);
+
+    if (it != mObjectMap.cend())
+        return it->second;
+
+    return nullptr;
 }
 
 uint32 CGameArea::FindUnusedInstanceID() const

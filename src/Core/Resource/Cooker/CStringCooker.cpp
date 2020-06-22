@@ -270,10 +270,10 @@ void CStringCooker::WriteNameTable(IOutputStream& STRG)
     STRG.WriteULong(0); // Dummy name table size
     const uint32 NameTableOffsetsStart = STRG.Tell();
 
-    for (size_t NameIdx = 0; NameIdx < NameEntries.size(); NameIdx++)
+    for (const auto& entry : NameEntries)
     {
         STRG.WriteULong(0); // Dummy name offset
-        STRG.WriteULong(NameEntries[NameIdx].Index);
+        STRG.WriteULong(entry.Index);
     }
 
     // Write out names

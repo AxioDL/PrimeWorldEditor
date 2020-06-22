@@ -1,8 +1,8 @@
 #include "CLight.h"
 #include "Core/Render/CGraphics.h"
 #include <Common/Common.h>
+#include <cfloat>
 #include <cmath>
-#include <float.h>
 
 constexpr uint32_t CLIGHT_NO_RADIUS = 0x40;
 constexpr uint32_t CLIGHT_NO_INTENSITY = 0x80;

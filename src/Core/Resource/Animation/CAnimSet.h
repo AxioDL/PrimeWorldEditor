@@ -177,10 +177,9 @@ public:
 
     CAnimation* FindAnimationAsset(uint32 AnimID) const
     {
-        if (AnimID >= 0 && AnimID < mAnimPrimitives.size())
+        if (AnimID < mAnimPrimitives.size())
         {
-            CAnimPrimitive Prim = mAnimPrimitives[AnimID];
-            return Prim.Animation();
+            return mAnimPrimitives[AnimID].Animation();
         }
 
         return nullptr;
@@ -188,8 +187,8 @@ public:
 
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
     {
-        for (uint32 iAnim = 0; iAnim < mAnimPrimitives.size(); iAnim++)
-            rPrimSet.insert(mAnimPrimitives[iAnim]);
+        for (const auto& primitive : mAnimPrimitives)
+            rPrimSet.insert(primitive);
     }
 
     // Accessors
@@ -198,26 +197,25 @@ public:
 
     const SSetCharacter* Character(uint32 Index) const
     {
-        ASSERT(Index >= 0 && Index < NumCharacters());
+        ASSERT(Index < NumCharacters());
         return &mCharacters[Index];
     }
 
     const SAnimation* Animation(uint32 Index) const
     {
-        ASSERT(Index >= 0 && Index < NumAnimations());
+        ASSERT(Index < NumAnimations());
         return &mAnimations[Index];
     }
 
     CAnimEventData* AnimationEventData(uint32 Index) const
     {
-        ASSERT(Index >= 0 && Index < NumAnimations());
+        ASSERT(Index < NumAnimations());
 
         if (Game() <= EGame::Prime)
         {
             const CAnimPrimitive& rkPrim = mAnimPrimitives[Index];
             return rkPrim.Animation() ? rkPrim.Animation()->EventData() : nullptr;
         }
-
         else
         {
             return (Index < mAnimEvents.size() ? mAnimEvents[Index].get() : nullptr);

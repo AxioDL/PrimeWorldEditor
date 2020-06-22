@@ -140,7 +140,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
             break;
 
         // Now that all words are updated, calculate the new hashes.
-        CCRC32 LastValidHash = (RecalcIndex > 0 ? WordCache[RecalcIndex-1].Hash : PrefixHash);
+        CCRC32 LastValidHash = (RecalcIndex > 0 ? WordCache[RecalcIndex - 1].Hash : PrefixHash);
 
         for (; RecalcIndex < WordCache.size(); RecalcIndex++)
         {
@@ -169,12 +169,12 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
         CCRC32 BaseHash = LastValidHash;
         BaseHash.Hash( *rkParams.Suffix );
 
-        for (int TypeIdx = 0; TypeIdx < mTypeNames.size(); TypeIdx++)
+        for (const auto& typeName : mTypeNames)
         {
             CCRC32 FullHash = BaseHash;
-            const char* pkTypeName = *mTypeNames[TypeIdx];
+            const char* pkTypeName = *typeName;
             FullHash.Hash( pkTypeName );
-            uint32 PropertyID = FullHash.Digest();
+            const uint32 PropertyID = FullHash.Digest();
 
             // Check if this hash is a property ID
             if (IsValidPropertyID(PropertyID, pkTypeName, rkParams))
@@ -185,9 +185,9 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                 // Generate a string with the complete name. (We wait to do this until now to avoid needless string allocation)
                 PropertyName.Name = rkParams.Prefix;
 
-                for (int WordIdx = 0; WordIdx < WordCache.size(); WordIdx++)
+                for (size_t WordIdx = 0; WordIdx < WordCache.size(); WordIdx++)
                 {
-                    int Index = WordCache[WordIdx].WordIndex;
+                    const int Index = WordCache[WordIdx].WordIndex;
 
                     if (WordIdx > 0 && rkParams.Casing == ENameCasing::Snake_Case)
                     {
@@ -225,9 +225,9 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                 {
                     TString DelimitedXmlList;
 
-                    for (auto Iter = PropertyName.XmlList.begin(); Iter != PropertyName.XmlList.end(); Iter++)
+                    for (const auto& xml : PropertyName.XmlList)
                     {
-                        DelimitedXmlList += *Iter + "\n";
+                        DelimitedXmlList += xml + '\n';
                     }
 
                     debugf("%s [%s] : 0x%08X\n%s", *PropertyName.Name, *PropertyName.Type, PropertyName.ID, *DelimitedXmlList);

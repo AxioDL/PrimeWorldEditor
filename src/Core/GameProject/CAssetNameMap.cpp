@@ -149,13 +149,14 @@ void CAssetNameMap::PostLoadValidate()
     mIsValid = false;
     std::set<SAssetNameInfo> Dupes;
 
-    for (auto Iter = mMap.begin(); Iter != mMap.end(); Iter++)
+    for (auto Iter = mMap.begin(); Iter != mMap.end(); ++Iter)
     {
         const SAssetNameInfo& rkInfo = Iter->second;
 
         if (mUsedSet.find(rkInfo) != mUsedSet.end())
+        {
             Dupes.insert(rkInfo);
-
+        }
         else
         {
             mUsedSet.insert(rkInfo);
@@ -183,15 +184,17 @@ void CAssetNameMap::PostLoadValidate()
     {
         errorf("Asset name map is invalid and cannot be used! Duplicate asset entries detected:");
 
-        for (auto Iter = Dupes.begin(); Iter != Dupes.end(); Iter++)
+        for (const auto& dupe : Dupes)
         {
-            warnf("\t%s", *Iter->FullPath());
+            warnf("\t%s", *dupe.FullPath());
         }
 
         mMap.clear();
     }
     else
+    {
         mIsValid = !FoundErrors;
+    }
 }
 
 TString CAssetNameMap::DefaultNameMapPath(EIDLength IDLength)

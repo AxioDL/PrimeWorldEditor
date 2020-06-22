@@ -33,17 +33,16 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
 {
     // Gather texture list from the materials before starting
     mTextureIDs.clear();
-    uint32 NumMats = mpSet->mMaterials.size();
+    const size_t NumMats = mpSet->mMaterials.size();
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
     {
-        CMaterial *pMat = mpSet->mMaterials[iMat].get();
+        const CMaterial *pMat = mpSet->mMaterials[iMat].get();
 
-        uint32 NumPasses  = pMat->PassCount();
-        for (uint32 iPass = 0; iPass < NumPasses; iPass++)
+        const size_t NumPasses  = pMat->PassCount();
+        for (size_t iPass = 0; iPass < NumPasses; iPass++)
         {
-            CTexture *pTex = pMat->Pass(iPass)->Texture();
-            if (pTex)
+            if (const CTexture* pTex = pMat->Pass(iPass)->Texture())
                 mTextureIDs.push_back(pTex->ID().ToLong());
         }
     }
@@ -53,23 +52,23 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
     mTextureIDs.erase(std::unique(mTextureIDs.begin(), mTextureIDs.end()), mTextureIDs.end());
 
     // Write texture IDs
-    rOut.WriteLong(mTextureIDs.size());
+    rOut.WriteULong(static_cast<uint32>(mTextureIDs.size()));
 
-    for (uint32 iTex = 0; iTex < mTextureIDs.size(); iTex++)
-        rOut.WriteLong(mTextureIDs[iTex]);
+    for (const auto id : mTextureIDs)
+        rOut.WriteULong(id);
 
     // Write material offset filler
-    rOut.WriteLong(NumMats);
-    uint32 MatOffsetsStart = rOut.Tell();
+    rOut.WriteULong(static_cast<uint32>(NumMats));
+    const uint32 MatOffsetsStart = rOut.Tell();
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
-        rOut.WriteLong(0);
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
+        rOut.WriteULong(0);
 
     // Write materials
-    uint32 MatsStart = rOut.Tell();
+    const uint32 MatsStart = rOut.Tell();
     std::vector<uint32> MatEndOffsets(NumMats);
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
     {
         mpMat = mpSet->mMaterials[iMat].get();
         WriteMaterialPrime(rOut);
@@ -77,11 +76,11 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
     }
 
     // Write material offsets
-    uint32 MatsEnd = rOut.Tell();
+    const uint32 MatsEnd = rOut.Tell();
     rOut.Seek(MatOffsetsStart, SEEK_SET);
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
-        rOut.WriteLong(MatEndOffsets[iMat]);
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
+        rOut.WriteULong(MatEndOffsets[iMat]);
 
     // Done!
     rOut.Seek(MatsEnd, SEEK_SET);

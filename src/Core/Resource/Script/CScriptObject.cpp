@@ -38,8 +38,8 @@ CScriptObject::~CScriptObject()
     mpTemplate->RemoveObject(this);
 
     // Note: Incoming links will be deleted by the sender.
-    for (uint32 iLink = 0; iLink < mOutLinks.size(); iLink++)
-        delete mOutLinks[iLink];
+    for (auto* link : mOutLinks)
+        delete link;
 }
 
 // ************ DATA MANIPULATION ************

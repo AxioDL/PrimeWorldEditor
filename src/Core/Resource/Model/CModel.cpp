@@ -5,7 +5,7 @@
 #include "Core/OpenGL/GLCommon.h"
 #include <Common/Macros.h>
 
-CModel::CModel(CResourceEntry *pEntry /*= 0*/)
+CModel::CModel(CResourceEntry *pEntry)
     : CBasicModel(pEntry)
 {
     mHasOwnMaterials = true;
@@ -27,8 +27,8 @@ CModel::~CModel()
     if (!mHasOwnMaterials)
         return;
 
-    for (size_t iMat = 0; iMat < mMaterialSets.size(); iMat++)
-        delete mMaterialSets[iMat];
+    for (auto* set : mMaterialSets)
+        delete set;
 }
 
 
@@ -92,8 +92,8 @@ void CModel::BufferGL()
                 }
             }
 
-            for (size_t iIBO = 0; iIBO < mSurfaceIndexBuffers[iSurf].size(); iIBO++)
-                mSurfaceIndexBuffers[iSurf][iIBO].Buffer();
+            for (auto& ibo : mSurfaceIndexBuffers[iSurf])
+                ibo.Buffer();
         }
 
         mBuffered = true;
@@ -143,10 +143,9 @@ void CModel::DrawSurface(FRenderOptions Options, size_t Surface, size_t MatSet)
         mVBO.Bind();
         glLineWidth(1.f);
 
-        for (size_t iIBO = 0; iIBO < mSurfaceIndexBuffers[Surface].size(); iIBO++)
+        for (auto& ibo : mSurfaceIndexBuffers[Surface])
         {
-            CIndexBuffer *pIBO = &mSurfaceIndexBuffers[Surface][iIBO];
-            pIBO->DrawElements();
+            ibo.DrawElements();
         }
 
         mVBO.Unbind();
@@ -315,10 +314,10 @@ CIndexBuffer* CModel::InternalGetIBO(size_t Surface, EPrimitiveType Primitive)
     std::vector<CIndexBuffer>& pIBOs = mSurfaceIndexBuffers[Surface];
     const GLenum Type = GXPrimToGLPrim(Primitive);
 
-    for (size_t iIBO = 0; iIBO < pIBOs.size(); iIBO++)
+    for (auto& ibo : pIBOs)
     {
-        if (pIBOs[iIBO].GetPrimitiveType() == Type)
-            return &pIBOs[iIBO];
+        if (ibo.GetPrimitiveType() == Type)
+            return &ibo;
     }
 
     return &pIBOs.emplace_back(Type);

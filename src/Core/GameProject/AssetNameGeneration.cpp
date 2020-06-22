@@ -527,10 +527,8 @@ void GenerateAssetNames(CGameProject *pProj)
                 }
             }
 
-            for (uint32 iOverlay = 0; iOverlay < pkChar->OverlayModels.size(); iOverlay++)
+            for (const auto& rkOverlay : pkChar->OverlayModels)
             {
-                const SOverlayModel& rkOverlay = pkChar->OverlayModels[iOverlay];
-
                 if (rkOverlay.ModelID.IsValid() || rkOverlay.SkinID.IsValid())
                 {
                     TString TypeName = (
@@ -564,17 +562,16 @@ void GenerateAssetNames(CGameProject *pProj)
         std::set<CAnimPrimitive> AnimPrimitives;
         pSet->GetUniquePrimitives(AnimPrimitives);
 
-        for (auto It = AnimPrimitives.begin(); It != AnimPrimitives.end(); It++)
+        for (const auto& rkPrim : AnimPrimitives)
         {
-            const CAnimPrimitive& rkPrim = *It;
             CAnimation *pAnim = rkPrim.Animation();
 
-            if (pAnim)
+            if (pAnim != nullptr)
             {
                 ApplyGeneratedName(pAnim->Entry(), SetDir, rkPrim.Name());
                 CAnimEventData *pEvents = pAnim->EventData();
 
-                if (pEvents)
+                if (pEvents != nullptr)
                     ApplyGeneratedName(pEvents->Entry(), SetDir, rkPrim.Name());
             }
         }

@@ -238,8 +238,8 @@ std::unique_ptr<CSetCharacterDependency> CSetCharacterDependency::BuildTree(cons
 
     for (const auto& vec : particleVectors)
     {
-        for (uint32 iPart = 0; iPart < vec->size(); iPart++)
-            pTree->AddDependency(vec->at(iPart));
+        for (const auto& dependency : *vec)
+            pTree->AddDependency(dependency);
     }
 
     for (const SOverlayModel& overlay : rkChar.OverlayModels)
@@ -331,7 +331,7 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
 
     for (uint32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
-        auto pTree = CScriptInstanceDependency::BuildTree( pLayer->InstanceByIndex(iInst) );
+        auto pTree = CScriptInstanceDependency::BuildTree(pLayer->InstanceByIndex(iInst));
         ASSERT(pTree != nullptr);
 
         // Note: MP2+ need to track all instances (not just instances with dependencies) to be able to build the layer module list
@@ -342,8 +342,8 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
         }
     }
 
-    for (uint32 iDep = 0; iDep < rkExtraDeps.size(); iDep++)
-        AddDependency(rkExtraDeps[iDep]);
+    for (const auto& dep : rkExtraDeps)
+        AddDependency(dep);
 }
 
 void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<uint32>& rModuleLayerOffsetsOut) const
@@ -352,35 +352,34 @@ void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>
 
     // Output module list will be split per-script layer
     // The output offset list contains two offsets per layer - start index and end index
-    for (uint32 iLayer = 0; iLayer < mLayerOffsets.size(); iLayer++)
+    for (size_t iLayer = 0; iLayer < mLayerOffsets.size(); iLayer++)
     {
-        uint32 StartIdx = mLayerOffsets[iLayer];
-        uint32 EndIdx = (iLayer == mLayerOffsets.size() - 1 ? mChildren.size() : mLayerOffsets[iLayer + 1]);
+        const size_t StartIdx = mLayerOffsets[iLayer];
+        const size_t EndIdx = (iLayer == mLayerOffsets.size() - 1 ? mChildren.size() : mLayerOffsets[iLayer + 1]);
 
-        uint32 ModuleStartIdx = rModuleDepsOut.size();
+        const auto ModuleStartIdx = static_cast<uint32>(rModuleDepsOut.size());
         rModuleLayerOffsetsOut.push_back(ModuleStartIdx);
 
         // Keep track of which types we've already checked on this layer to speed things up a little...
         std::set<uint32> UsedObjectTypes;
 
-        for (uint32 iInst = StartIdx; iInst < EndIdx; iInst++)
+        for (size_t iInst = StartIdx; iInst < EndIdx; iInst++)
         {
-            auto& pNode = mChildren[iInst];
+            const auto& pNode = mChildren[iInst];
             if (pNode->Type() != EDependencyNodeType::ScriptInstance)
                 continue;
 
             const auto *pInst = static_cast<CScriptInstanceDependency*>(pNode.get());
-            uint32 ObjType = pInst->ObjectType();
+            const uint32 ObjType = pInst->ObjectType();
 
             if (UsedObjectTypes.find(ObjType) == UsedObjectTypes.end())
             {
                 // Get the module list for this object type and check whether any of them are new before adding them to the output list
-                CScriptTemplate *pTemplate = pGame->TemplateByID(ObjType);
+                const CScriptTemplate *pTemplate = pGame->TemplateByID(ObjType);
                 const std::vector<TString>& rkModules = pTemplate->RequiredModules();
 
-                for (uint32 iMod = 0; iMod < rkModules.size(); iMod++)
+                for (const auto& ModuleName : rkModules)
                 {
-                    TString ModuleName = rkModules[iMod];
                     bool NewModule = true;
 
                     for (uint32 iUsed = ModuleStartIdx; iUsed < rModuleDepsOut.size(); iUsed++)
@@ -400,6 +399,6 @@ void CAreaDependencyTree::GetModuleDependencies(EGame Game, std::vector<TString>
             }
         }
 
-        rModuleLayerOffsetsOut.push_back(rModuleDepsOut.size());
+        rModuleLayerOffsetsOut.push_back(static_cast<uint32>(rModuleDepsOut.size()));
     }
 }

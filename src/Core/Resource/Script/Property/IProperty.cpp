@@ -472,14 +472,13 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype)
     }
 
     // Swap out our parent's reference to us to point to the new property.
-    if (mpParent)
+    if (mpParent != nullptr)
     {
-        for (size_t SiblingIdx = 0; SiblingIdx < mpParent->mChildren.size(); SiblingIdx++)
+        for (auto& sibling : mpParent->mChildren)
         {
-            IProperty* pSibling = mpParent->mChildren[SiblingIdx];
-            if (pSibling == this)
+            if (sibling == this)
             {
-                mpParent->mChildren[SiblingIdx] = pNewProperty;
+                sibling = pNewProperty;
                 break;
             }
         }
