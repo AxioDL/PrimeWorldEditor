@@ -97,25 +97,25 @@ void CMaterial::GenerateShader(bool AllowRegen /*= true*/)
 
 void CMaterial::ClearShader()
 {
-    if (mpShader)
+    if (mpShader == nullptr)
+        return;
+
+    const auto Find = smShaderMap.find(mParametersHash);
+    ASSERT(Find != smShaderMap.cend());
+
+    SMaterialShader& rShader = Find->second;
+    ASSERT(rShader.pShader == mpShader);
+
+    rShader.NumReferences--;
+
+    if (rShader.NumReferences == 0)
     {
-        auto Find = smShaderMap.find(mParametersHash);
-        ASSERT(Find != smShaderMap.end());
-
-        SMaterialShader& rShader = Find->second;
-        ASSERT(rShader.pShader == mpShader);
-
-        rShader.NumReferences--;
-
-        if (rShader.NumReferences == 0)
-        {
-            delete mpShader;
-            smShaderMap.erase(Find);
-        }
-
-        mpShader = nullptr;
-        mShaderStatus = EShaderStatus::NoShader;
+        delete mpShader;
+        smShaderMap.erase(Find);
     }
+
+    mpShader = nullptr;
+    mShaderStatus = EShaderStatus::NoShader;
 }
 
 bool CMaterial::SetCurrent(FRenderOptions Options)
@@ -133,7 +133,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         // Set RGB blend equation - force to ZERO/ONE if alpha is disabled
         GLenum srcRGB, dstRGB, srcAlpha, dstAlpha;
 
-        if (Options & ERenderOption::NoAlpha) {
+        if ((Options & ERenderOption::NoAlpha) != 0) {
             srcRGB = GL_ONE;
             dstRGB = GL_ZERO;
         } else {
@@ -141,7 +141,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
             dstRGB = mBlendDstFac;
         }
 
-        if (mOptions & EMaterialOption::ZeroDestAlpha) {
+        if ((mOptions & EMaterialOption::ZeroDestAlpha) != 0) {
             srcAlpha = GL_ZERO;
             dstAlpha = GL_ZERO;
         } else {
@@ -164,7 +164,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         // COLOR0_Amb,Mat is initialized by the node instead of by the material
 
         // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
-        if ((mOptions & EMaterialOption::DepthWrite) || (Options & ERenderOption::NoAlpha))
+        if ((mOptions & EMaterialOption::DepthWrite) != 0 || (Options & ERenderOption::NoAlpha) != 0)
             glDepthMask(GL_TRUE);
         else
             glDepthMask(GL_FALSE);
