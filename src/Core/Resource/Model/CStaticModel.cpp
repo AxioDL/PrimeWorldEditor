@@ -33,26 +33,25 @@ void CStaticModel::BufferGL()
         mVBO.Clear();
         mIBOs.clear();
 
-        for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
+        for (size_t iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
         {
             SSurface *pSurf = mSurfaces[iSurf];
 
-            uint16 VBOStartOffset = (uint16) mVBO.Size();
-            mVBO.Reserve((uint16) pSurf->VertexCount);
+            const auto VBOStartOffset = static_cast<uint16>(mVBO.Size());
+            mVBO.Reserve(static_cast<uint16>(pSurf->VertexCount));
 
-            for (uint32 iPrim = 0; iPrim < pSurf->Primitives.size(); iPrim++)
+            for (const auto& pPrim : pSurf->Primitives)
             {
-                SSurface::SPrimitive *pPrim = &pSurf->Primitives[iPrim];
-                CIndexBuffer *pIBO = InternalGetIBO(pPrim->Type);
-                pIBO->Reserve(pPrim->Vertices.size() + 1); // Allocate enough space for this primitive, plus the restart index
+                CIndexBuffer *pIBO = InternalGetIBO(pPrim.Type);
+                pIBO->Reserve(pPrim.Vertices.size() + 1); // Allocate enough space for this primitive, plus the restart index
 
                 // Next step: add new vertices to the VBO and create a small index buffer for the current primitive
-                std::vector<uint16> Indices(pPrim->Vertices.size());
-                for (uint32 iVert = 0; iVert < pPrim->Vertices.size(); iVert++)
-                    Indices[iVert] = mVBO.AddIfUnique(pPrim->Vertices[iVert], VBOStartOffset);
+                std::vector<uint16> Indices(pPrim.Vertices.size());
+                for (size_t iVert = 0; iVert < pPrim.Vertices.size(); iVert++)
+                    Indices[iVert] = mVBO.AddIfUnique(pPrim.Vertices[iVert], VBOStartOffset);
 
                 // then add the indices to the IBO. We convert some primitives to strips to minimize draw calls.
-                switch (pPrim->Type)
+                switch (pPrim.Type)
                 {
                     case EPrimitiveType::Triangles:
                         pIBO->TrianglesToStrips(Indices.data(), Indices.size());
@@ -74,14 +73,14 @@ void CStaticModel::BufferGL()
             while (mIBOs.size() > mSurfaceEndOffsets.size())
                 mSurfaceEndOffsets.emplace_back(std::vector<uint32>(mSurfaces.size()));
 
-            for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+            for (size_t iIBO = 0; iIBO < mIBOs.size(); iIBO++)
                 mSurfaceEndOffsets[iIBO][iSurf] = mIBOs[iIBO].GetSize();
         }
 
         mVBO.Buffer();
 
-        for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
-            mIBOs[iIBO].Buffer();
+        for (auto& ibo : mIBOs)
+            ibo.Buffer();
 
         mBuffered = true;
     }
@@ -89,8 +88,10 @@ void CStaticModel::BufferGL()
 
 void CStaticModel::GenerateMaterialShaders()
 {
-    if (mpMaterial)
-        mpMaterial->GenerateShader(false);
+    if (mpMaterial == nullptr)
+        return;
+
+    mpMaterial->GenerateShader(false);
 }
 
 void CStaticModel::ClearGLBuffer()
@@ -103,20 +104,20 @@ void CStaticModel::ClearGLBuffer()
 
 void CStaticModel::Draw(FRenderOptions Options)
 {
-    if (!mBuffered) BufferGL();
+    if (!mBuffered)
+        BufferGL();
 
     mVBO.Bind();
     glLineWidth(1.f);
 
-    auto DoDraw = [this]()
+    const auto DoDraw = [this]
     {
         // Draw IBOs
-        for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+        for (CIndexBuffer& ibo : mIBOs)
         {
-            CIndexBuffer *pIBO = &mIBOs[iIBO];
-            pIBO->Bind();
-            glDrawElements(pIBO->GetPrimitiveType(), pIBO->GetSize(), GL_UNSIGNED_SHORT, nullptr);
-            pIBO->Unbind();
+            ibo.Bind();
+            glDrawElements(ibo.GetPrimitiveType(), ibo.GetSize(), GL_UNSIGNED_SHORT, nullptr);
+            ibo.Unbind();
             gDrawCount++;
         }
     };
@@ -124,7 +125,7 @@ void CStaticModel::Draw(FRenderOptions Options)
     // Bind material
     if ((Options & ERenderOption::NoMaterialSetup) == 0)
     {
-        for (CMaterial* passMat = mpMaterial; passMat; passMat = passMat->GetNextDrawPass())
+        for (CMaterial* passMat = mpMaterial; passMat != nullptr; passMat = passMat->GetNextDrawPass())
         {
             passMat->SetCurrent(Options);
             DoDraw();
@@ -140,21 +141,26 @@ void CStaticModel::Draw(FRenderOptions Options)
 
 void CStaticModel::DrawSurface(FRenderOptions Options, uint32 Surface)
 {
-    if (!mBuffered) BufferGL();
+    if (!mBuffered)
+        BufferGL();
 
     mVBO.Bind();
     glLineWidth(1.f);
 
-    auto DoDraw = [this, Surface]()
+    const auto DoDraw = [this, Surface]
     {
-        for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+        for (size_t iIBO = 0; iIBO < mIBOs.size(); iIBO++)
         {
             // Since there is a shared IBO for every mesh, we need two things to draw a single one: an offset and a size
             uint32 Offset = 0;
-            if (Surface > 0) Offset = mSurfaceEndOffsets[iIBO][Surface - 1];
-            uint32 Size = mSurfaceEndOffsets[iIBO][Surface] - Offset;
+            if (Surface > 0)
+                Offset = mSurfaceEndOffsets[iIBO][Surface - 1];
 
-            if (!Size) continue; // The chosen submesh doesn't use this IBO
+            const uint32 Size = mSurfaceEndOffsets[iIBO][Surface] - Offset;
+
+            // The chosen submesh doesn't use this IBO
+            if (Size == 0)
+                continue;
 
             // Now we have both, so we can draw
             mIBOs[iIBO].DrawElements(Offset, Size);
@@ -165,7 +171,7 @@ void CStaticModel::DrawSurface(FRenderOptions Options, uint32 Surface)
     // Bind material
     if ((Options & ERenderOption::NoMaterialSetup) == 0)
     {
-        for (CMaterial* passMat = mpMaterial; passMat; passMat = passMat->GetNextDrawPass())
+        for (CMaterial* passMat = mpMaterial; passMat != nullptr; passMat = passMat->GetNextDrawPass())
         {
             passMat->SetCurrent(Options);
             DoDraw();
@@ -181,7 +187,8 @@ void CStaticModel::DrawSurface(FRenderOptions Options, uint32 Surface)
 
 void CStaticModel::DrawWireframe(FRenderOptions Options, CColor WireColor /*= CColor::skWhite*/)
 {
-    if (!mBuffered) BufferGL();
+    if (!mBuffered)
+        BufferGL();
 
     // Set up wireframe
     WireColor.A = 0;
@@ -221,12 +228,12 @@ bool CStaticModel::IsOccluder() const
 
 CIndexBuffer* CStaticModel::InternalGetIBO(EPrimitiveType Primitive)
 {
-    GLenum type = GXPrimToGLPrim(Primitive);
+    const GLenum type = GXPrimToGLPrim(Primitive);
 
-    for (uint32 iIBO = 0; iIBO < mIBOs.size(); iIBO++)
+    for (auto& ibo : mIBOs)
     {
-        if (mIBOs[iIBO].GetPrimitiveType() == type)
-            return &mIBOs[iIBO];
+        if (ibo.GetPrimitiveType() == type)
+            return &ibo;
     }
 
     mIBOs.emplace_back(CIndexBuffer(type));
