@@ -70,7 +70,7 @@ float CLight::CalculateIntensity() const
     if (mType == ELightType::Custom)
         coef = mAngleAttenCoefficients.X;
 
-    return coef * std::max(mColor.R, std::max(mColor.G, mColor.B));
+    return coef * std::max({mColor.R, mColor.G, mColor.B});
 #if 0
     // Get the color component with the greatest numeric value
     float Greatest = (mColor.G >= mColor.B) ? mColor.G : mColor.B;
