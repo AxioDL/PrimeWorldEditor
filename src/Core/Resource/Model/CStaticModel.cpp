@@ -115,7 +115,7 @@ void CStaticModel::Draw(FRenderOptions Options)
         {
             CIndexBuffer *pIBO = &mIBOs[iIBO];
             pIBO->Bind();
-            glDrawElements(pIBO->GetPrimitiveType(), pIBO->GetSize(), GL_UNSIGNED_SHORT, (void*) 0);
+            glDrawElements(pIBO->GetPrimitiveType(), pIBO->GetSize(), GL_UNSIGNED_SHORT, nullptr);
             pIBO->Unbind();
             gDrawCount++;
         }
