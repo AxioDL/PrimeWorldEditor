@@ -78,7 +78,7 @@ public:
 
 protected:
     void SetDisplayAsset(CResource *pRes);
-    void CalculateTransform(CTransform4f& rOut) const;
+    void CalculateTransform(CTransform4f& rOut) const override;
 };
 
 #endif // CSCRIPTNODE_H

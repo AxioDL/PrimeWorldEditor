@@ -37,7 +37,7 @@ public:
     TString LocatorName() const       { return mLocatorName; }
 
 protected:
-    void CalculateTransform(CTransform4f& rOut) const;
+    void CalculateTransform(CTransform4f& rOut) const override;
 };
 
 #endif // CSCRIPTATTACHNODE_H

@@ -18,12 +18,12 @@ class CStaticModel : public CBasicModel
 public:
     CStaticModel();
     explicit CStaticModel(CMaterial *pMat);
-    ~CStaticModel();
+    ~CStaticModel() override;
     void AddSurface(SSurface *pSurface);
 
     void BufferGL();
     void GenerateMaterialShaders();
-    void ClearGLBuffer();
+    void ClearGLBuffer() override;
     void Draw(FRenderOptions Options);
     void DrawSurface(FRenderOptions Options, uint32 Surface);
     void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::White());

@@ -15,7 +15,7 @@ class CCollisionMeshGroup : public CResource
 
 public:
     explicit CCollisionMeshGroup(CResourceEntry *pEntry = nullptr) : CResource(pEntry) {}
-    ~CCollisionMeshGroup() = default;
+    ~CCollisionMeshGroup() override = default;
 
     size_t NumMeshes() const                              { return mMeshes.size(); }
     CCollisionMesh* MeshByIndex(size_t Index) const       { return mMeshes[Index].get(); }

@@ -108,7 +108,7 @@ public:
         : CResource(pEntry)
     {}
 
-    ~CAnimSet()
+    ~CAnimSet() override
     {
         // For MP2, anim events need to be cleaned up manually
         for ([[maybe_unused]] const auto& event : mAnimEvents)
@@ -117,7 +117,7 @@ public:
         }
     }
 
-    std::unique_ptr<CDependencyTree> BuildDependencyTree() const
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
         auto pTree = std::make_unique<CDependencyTree>();
 

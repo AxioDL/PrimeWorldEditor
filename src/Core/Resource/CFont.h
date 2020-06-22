@@ -62,7 +62,7 @@ class CFont : public CResource
 
 public:
     explicit CFont(CResourceEntry *pEntry = nullptr);
-    ~CFont();
+    ~CFont() override;
     std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
     CVector2f RenderString(const TString& rkString, CRenderer *pRenderer, float AspectRatio,
                            CVector2f Position = CVector2f(0,0),

@@ -68,7 +68,7 @@ class CGameArea : public CResource
 
 public:
     explicit CGameArea(CResourceEntry *pEntry = nullptr);
-    ~CGameArea();
+    ~CGameArea() override;
     std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
 
     void AddWorldModel(std::unique_ptr<CModel>&& pModel);

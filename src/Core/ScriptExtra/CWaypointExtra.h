@@ -21,7 +21,7 @@ class CWaypointExtra : public CScriptExtra
 
 public:
     explicit CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr);
-    ~CWaypointExtra();
+    ~CWaypointExtra() override;
     void CheckColor();
     void AddToSplinePath(CSplinePathExtra *pPath);
     void RemoveFromSplinePath(const CSplinePathExtra *pPath);
@@ -29,11 +29,11 @@ public:
     bool IsPathLink(const CLink *pLink) const;
     void GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut);
 
-    void OnTransformed();
-    void LinksModified();
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
-    CColor TevColor();
+    void OnTransformed() override;
+    void LinksModified() override;
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo) override;
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo) override;
+    CColor TevColor() override;
 };
 
 #endif // CWAYPOINTEXTRA_H

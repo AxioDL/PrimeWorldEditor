@@ -23,7 +23,7 @@ class CModel : public CBasicModel
 public:
     explicit CModel(CResourceEntry *pEntry = nullptr);
     CModel(CMaterialSet *pSet, bool OwnsMatSet);
-    ~CModel();
+    ~CModel() override;
 
     std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
     void BufferGL();

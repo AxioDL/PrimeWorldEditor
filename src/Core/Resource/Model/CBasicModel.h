@@ -22,7 +22,7 @@ protected:
 
 public:
     explicit CBasicModel(CResourceEntry *pEntry = nullptr);
-    ~CBasicModel();
+    ~CBasicModel() override;
 
     size_t GetVertexCount() const;
     size_t GetTriangleCount() const;

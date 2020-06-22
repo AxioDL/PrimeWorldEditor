@@ -33,7 +33,7 @@ public:
         : CResource(pEntry)
     {}
 
-    ~CSourceAnimData() = default;
+    ~CSourceAnimData() override = default;
 
     std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {

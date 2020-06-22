@@ -34,7 +34,7 @@ public:
     {
     }
 
-    virtual ~CScriptExtra() = default;
+    ~CScriptExtra() override = default;
     CScriptObject* Instance() const  { return mpInstance; }
     EGame Game() const               { return mGame; }
 
@@ -51,7 +51,7 @@ public:
 
     // Virtual CScriptExtra functions
     virtual void InstanceTransformed() {}
-    virtual void PropertyModified(IProperty* /*pProperty*/) {}
+    void PropertyModified(IProperty* /*pProperty*/) override {}
     virtual void DisplayAssetChanged(CResource* /*pNewDisplayAsset*/) {}
     virtual void LinksModified() {}
     virtual bool ShouldDrawNormalAssets() { return true; }

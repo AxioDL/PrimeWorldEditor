@@ -33,7 +33,7 @@ class CTexture : public CResource
 public:
     explicit CTexture(CResourceEntry *pEntry = nullptr);
     CTexture(uint32 Width, uint32 Height);
-    ~CTexture();
+    ~CTexture() override;
 
     bool BufferGL();
     void Bind(uint32 GLTextureUnit);

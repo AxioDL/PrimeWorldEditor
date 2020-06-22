@@ -44,7 +44,7 @@ class CMetaTransMetaAnim : public IMetaTransition
 
 public:
     CMetaTransMetaAnim(IInputStream& rInput, EGame Game);
-    ~CMetaTransMetaAnim();
+    ~CMetaTransMetaAnim() override;
     EMetaTransType Type() const override;
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };

@@ -9,7 +9,7 @@ class CRootNode : public CSceneNode
 public:
     explicit CRootNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = nullptr)
         : CSceneNode(pScene, NodeID, pParent) {}
-    ~CRootNode() = default;
+    ~CRootNode() override = default;
 
     ENodeType NodeType() override
     {

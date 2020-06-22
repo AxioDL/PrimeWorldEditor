@@ -100,7 +100,7 @@ protected:
 
 public:
     CMetaAnimBlend(EMetaAnimType Type, IInputStream& rInput, EGame Game);
-    ~CMetaAnimBlend();
+    ~CMetaAnimBlend() override;
     EMetaAnimType Type() const override;
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 
@@ -126,7 +126,7 @@ protected:
 
 public:
     CMetaAnimRandom(IInputStream& rInput, EGame Game);
-    ~CMetaAnimRandom();
+    ~CMetaAnimRandom() override;
     EMetaAnimType Type() const override;
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
@@ -139,7 +139,7 @@ protected:
 
 public:
     CMetaAnimSequence(IInputStream& rInput, EGame Game);
-    ~CMetaAnimSequence();
+    ~CMetaAnimSequence() override;
     EMetaAnimType Type() const override;
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
