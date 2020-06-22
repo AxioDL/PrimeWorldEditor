@@ -101,7 +101,7 @@ EMetaAnimType CMetaAnimRandom::Type() const
 
 void CMetaAnimRandom::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
 {
-    for (auto& pair : mProbabilityPairs)
+    for (const auto& pair : mProbabilityPairs)
         pair.pAnim->GetUniquePrimitives(rPrimSet);
 }
 
@@ -126,6 +126,6 @@ EMetaAnimType CMetaAnimSequence::Type() const
 
 void CMetaAnimSequence::GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
 {
-    for (auto& anim : mAnimations)
+    for (const auto& anim : mAnimations)
         anim->GetUniquePrimitives(rPrimSet);
 }

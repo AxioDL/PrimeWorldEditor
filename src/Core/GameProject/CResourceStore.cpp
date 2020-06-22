@@ -301,7 +301,7 @@ CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
 
         if (Found != mResourceEntries.cend())
         {
-            auto& pEntry = Found->second;
+            const auto& pEntry = Found->second;
 
             if (!pEntry->IsMarkedForDeletion())
                 return pEntry.get();
@@ -450,7 +450,7 @@ CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourc
         if (IsValidResourcePath(rkDir, rkName))
         {
             auto res = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type, ExistingResource);
-            auto resPtr = res.get();
+            auto* resPtr = res.get();
 
             mResourceEntries.insert_or_assign(rkID, std::move(res));
             mDatabaseCacheDirty = true;

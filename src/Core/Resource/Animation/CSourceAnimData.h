@@ -102,7 +102,7 @@ public:
                 break;
 
             // Add all transition primitives to the tree
-            for (auto& primitive : PrimSet)
+            for (const auto& primitive : PrimSet)
                 pTree->AddDependency(primitive.Animation());
         }
     }

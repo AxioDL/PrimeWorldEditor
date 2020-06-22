@@ -145,16 +145,15 @@ public:
             std::set<CAnimPrimitive> PrimitiveSet;
 
             // Animations
-            for (auto& anim : mAnimations)
+            for (const auto& anim : mAnimations)
             {
                 anim.pMetaAnim->GetUniquePrimitives(PrimitiveSet);
             }
 
-            CSourceAnimData *pAnimData = gpResourceStore->LoadResource<CSourceAnimData>(rkChar.AnimDataID);
-            if (pAnimData)
+            if (auto* pAnimData = gpResourceStore->LoadResource<CSourceAnimData>(rkChar.AnimDataID))
                 pAnimData->AddTransitionDependencies(pTree.get());
 
-            for (auto& prim : PrimitiveSet)
+            for (const auto& prim : PrimitiveSet)
             {
                 pTree->AddDependency(prim.Animation());
             }

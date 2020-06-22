@@ -41,7 +41,7 @@ void CResTypeInfo::GetAllTypesInGame(EGame Game, std::list<CResTypeInfo*>& rOut)
 {
     for (const auto& entry : smTypeMap)
     {
-        auto& type = entry.second;
+        const auto& type = entry.second;
 
         if (type->IsInGame(Game))
             rOut.push_back(type.get());
