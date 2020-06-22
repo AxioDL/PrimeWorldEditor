@@ -97,7 +97,7 @@ CVector3f CLight::CalculateSpotAngleAtten() const
 // ************ ACCESSORS ************
 float CLight::GetRadius() const
 {
-    if (mDirtyFlags & CLIGHT_NO_RADIUS)
+    if ((mDirtyFlags & CLIGHT_NO_RADIUS) != 0)
     {
         mCachedRadius = CalculateRadius();
         mDirtyFlags &= ~CLIGHT_NO_RADIUS;
@@ -108,7 +108,7 @@ float CLight::GetRadius() const
 
 float CLight::GetIntensity() const
 {
-    if (mDirtyFlags & CLIGHT_NO_INTENSITY)
+    if ((mDirtyFlags & CLIGHT_NO_INTENSITY) != 0)
     {
         mCachedIntensity = CalculateIntensity();
         mDirtyFlags &= ~CLIGHT_NO_INTENSITY;
