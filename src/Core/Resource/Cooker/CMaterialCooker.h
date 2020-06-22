@@ -7,9 +7,9 @@
 
 class CMaterialCooker
 {
-    CMaterialSet *mpSet;
-    CMaterial *mpMat;
-    EGame mVersion;
+    CMaterialSet *mpSet = nullptr;
+    CMaterial *mpMat = nullptr;
+    EGame mVersion{};
     std::vector<uint32> mTextureIDs;
     std::vector<uint64> mMaterialHashes;
 

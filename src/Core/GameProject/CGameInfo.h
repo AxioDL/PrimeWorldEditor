@@ -12,7 +12,7 @@
 // they serve similar purposes, no real reason for them to be different classes
 class CGameInfo
 {
-    EGame mGame;
+    EGame mGame{EGame::Invalid};
 
     // List of known builds of each game
     struct SBuildInfo
@@ -34,9 +34,7 @@ class CGameInfo
     std::map<CAssetID, TString> mAreaNameMap;
 
 public:
-    CGameInfo()
-        : mGame(EGame::Invalid)
-    {}
+    CGameInfo() = default;
 
     bool LoadGameInfo(EGame Game);
     bool LoadGameInfo(TString Path);

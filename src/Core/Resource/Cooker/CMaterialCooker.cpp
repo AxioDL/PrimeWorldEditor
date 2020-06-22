@@ -1,10 +1,7 @@
 #include "CMaterialCooker.h"
 #include <algorithm>
 
-CMaterialCooker::CMaterialCooker()
-    : mpMat(nullptr)
-{
-}
+CMaterialCooker::CMaterialCooker() = default;
 
 uint32 CMaterialCooker::ConvertFromVertexDescription(FVertexDescription VtxDesc)
 {

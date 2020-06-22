@@ -50,7 +50,7 @@ struct SNameKey
     };
 
     SNameKey()
-        : TypeHash(-1), ID(-1)
+        : TypeHash(UINT32_MAX), ID(UINT32_MAX)
     {}
 
     SNameKey(uint32 InTypeHash, uint32 InID)
