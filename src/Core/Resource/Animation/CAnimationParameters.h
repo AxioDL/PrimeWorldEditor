@@ -27,9 +27,9 @@ public:
     void Write(IOutputStream& rSCLY);
     void Serialize(IArchive& rArc);
 
-    const SSetCharacter* GetCurrentSetCharacter(int32 NodeIndex = -1);
+    const SSetCharacter* GetCurrentSetCharacter(int32 NodeIndex = -1) const;
     CModel* GetCurrentModel(int32 NodeIndex = -1);
-    TString GetCurrentCharacterName(int32 NodeIndex = -1);
+    TString GetCurrentCharacterName(int32 NodeIndex = -1) const;
 
     // Accessors
     EGame Version() const            { return mGame; }
@@ -54,7 +54,7 @@ public:
         }
     }
 
-    uint32 Unknown(uint32 Index);
+    uint32 Unknown(uint32 Index) const;
     void SetResource(const CAssetID& rkID);
     void SetUnknown(uint32 Index, uint32 Value);
 

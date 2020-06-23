@@ -175,7 +175,7 @@ public:
         return pTree;
     }
 
-    CAnimation* FindAnimationAsset(uint32 AnimID) const
+    CAnimation* FindAnimationAsset(size_t AnimID) const
     {
         if (AnimID < mAnimPrimitives.size())
         {
@@ -192,29 +192,29 @@ public:
     }
 
     // Accessors
-    uint32 NumCharacters() const        { return mCharacters.size(); }
-    uint32 NumAnimations() const        { return mAnimations.size(); }
+    size_t NumCharacters() const        { return mCharacters.size(); }
+    size_t NumAnimations() const        { return mAnimations.size(); }
 
-    const SSetCharacter* Character(uint32 Index) const
+    const SSetCharacter* Character(size_t Index) const
     {
         ASSERT(Index < NumCharacters());
         return &mCharacters[Index];
     }
 
-    const SAnimation* Animation(uint32 Index) const
+    const SAnimation* Animation(size_t Index) const
     {
         ASSERT(Index < NumAnimations());
         return &mAnimations[Index];
     }
 
-    CAnimEventData* AnimationEventData(uint32 Index) const
+    CAnimEventData* AnimationEventData(size_t Index) const
     {
         ASSERT(Index < NumAnimations());
 
         if (Game() <= EGame::Prime)
         {
             const CAnimPrimitive& rkPrim = mAnimPrimitives[Index];
-            return rkPrim.Animation() ? rkPrim.Animation()->EventData() : nullptr;
+            return rkPrim.Animation() != nullptr ? rkPrim.Animation()->EventData() : nullptr;
         }
         else
         {

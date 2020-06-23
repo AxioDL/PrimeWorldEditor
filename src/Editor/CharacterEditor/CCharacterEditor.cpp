@@ -185,8 +185,8 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     mpCharComboBox->blockSignals(true);
     mpCharComboBox->clear();
 
-    for (uint32 iChar = 0; iChar < mpSet->NumCharacters(); iChar++)
-        mpCharComboBox->addItem( TO_QSTRING(mpSet->Character(iChar)->Name) );
+    for (size_t iChar = 0; iChar < mpSet->NumCharacters(); iChar++)
+        mpCharComboBox->addItem(TO_QSTRING(mpSet->Character(iChar)->Name));
 
     SetActiveCharacterIndex(0);
     mpCharComboBox->blockSignals(false);
@@ -195,7 +195,7 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     mpAnimComboBox->blockSignals(true);
     mpAnimComboBox->clear();
 
-    for (uint32 iAnim = 0; iAnim < mpSet->NumAnimations(); iAnim++)
+    for (size_t iAnim = 0; iAnim < mpSet->NumAnimations(); iAnim++)
         mpAnimComboBox->addItem( TO_QSTRING(mpSet->Animation(iAnim)->Name) );
 
     SetActiveAnimation(0);
@@ -334,13 +334,15 @@ void CCharacterEditor::SetActiveAnimation(int AnimIndex)
 
 void CCharacterEditor::PrevAnim()
 {
-    if (mCurrentAnim > 0) SetActiveAnimation(mCurrentAnim - 1);
+    if (mCurrentAnim > 0)
+        SetActiveAnimation(mCurrentAnim - 1);
 }
 
 void CCharacterEditor::NextAnim()
 {
-    uint32 MaxAnim = (mpSet ? mpSet->NumAnimations() - 1 : 0);
-    if (mCurrentAnim < MaxAnim) SetActiveAnimation(mCurrentAnim + 1);
+    const size_t MaxAnim = (mpSet ? mpSet->NumAnimations() - 1 : 0);
+    if (mCurrentAnim < MaxAnim)
+        SetActiveAnimation(mCurrentAnim + 1);
 }
 
 void CCharacterEditor::SetAnimTime(int Time)

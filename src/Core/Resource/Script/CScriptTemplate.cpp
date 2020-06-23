@@ -209,7 +209,7 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, uint32& rOutCh
 
                 if (pRes != nullptr)
                 {
-                    const uint32 MaxNumChars = static_cast<const CAnimSet*>(pRes)->NumCharacters();
+                    const size_t MaxNumChars = static_cast<const CAnimSet*>(pRes)->NumCharacters();
                     rOutCharIndex = (asset.ForceNodeIndex >= 0 && asset.ForceNodeIndex < static_cast<int32>(MaxNumChars) ? asset.ForceNodeIndex : Params.CharacterIndex());
                     rOutAnimIndex = Params.AnimIndex();
                 }

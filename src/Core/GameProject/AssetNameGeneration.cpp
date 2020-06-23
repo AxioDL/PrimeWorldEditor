@@ -503,9 +503,9 @@ void GenerateAssetNames(CGameProject *pProj)
     {
         TString SetDir = It->DirectoryPath();
         TString NewSetName;
-        CAnimSet *pSet = (CAnimSet*) It->Load();
+        auto* pSet = static_cast<CAnimSet*>(It->Load());
 
-        for (uint32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
+        for (size_t iChar = 0; iChar < pSet->NumCharacters(); iChar++)
         {
             const SSetCharacter *pkChar = pSet->Character(iChar);
 

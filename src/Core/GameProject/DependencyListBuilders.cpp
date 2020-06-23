@@ -104,15 +104,15 @@ void CCharacterUsageMap::Clear()
 
 void CCharacterUsageMap::DebugPrintContents()
 {
-    for (auto& [ID, usedList] : mUsageMap)
+    for (const auto& [ID, usedList] : mUsageMap)
     {
-        const CAnimSet *pSet = mpStore->LoadResource<CAnimSet>(ID);
+        const auto* pSet = mpStore->LoadResource<CAnimSet>(ID);
 
-        for (uint32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
+        for (size_t iChar = 0; iChar < pSet->NumCharacters(); iChar++)
         {
             const bool Used = usedList.size() > iChar && usedList[iChar];
             const TString CharName = pSet->Character(iChar)->Name;
-            debugf("%s : Char %d : %s : %s", *ID.ToString(), iChar, *CharName, (Used ? "USED" : "UNUSED"));
+            debugf("%s : Char %zu : %s : %s", *ID.ToString(), iChar, *CharName, (Used ? "USED" : "UNUSED"));
         }
     }
 }

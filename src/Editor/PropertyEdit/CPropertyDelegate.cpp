@@ -592,7 +592,7 @@ QWidget* CPropertyDelegate::CreateCharacterEditor(QWidget *pParent, const QModel
 
         if (pAnimSet)
         {
-            for (uint32 CharIdx = 0; CharIdx < pAnimSet->NumCharacters(); CharIdx++)
+            for (size_t CharIdx = 0; CharIdx < pAnimSet->NumCharacters(); CharIdx++)
                 pComboBox->addItem(TO_QSTRING(pAnimSet->Character(CharIdx)->Name));
         }
 

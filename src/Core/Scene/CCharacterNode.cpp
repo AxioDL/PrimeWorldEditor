@@ -17,11 +17,11 @@ ENodeType CCharacterNode::NodeType()
 
 void CCharacterNode::PostLoad()
 {
-    if (mpCharacter)
-    {
-        for (uint32 iChar = 0; iChar < mpCharacter->NumCharacters(); iChar++)
-            mpCharacter->Character(iChar)->pModel->BufferGL();
-    }
+    if (mpCharacter == nullptr)
+        return;
+
+    for (size_t iChar = 0; iChar < mpCharacter->NumCharacters(); iChar++)
+        mpCharacter->Character(iChar)->pModel->BufferGL();
 }
 
 void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
