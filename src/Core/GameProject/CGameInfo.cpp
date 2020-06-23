@@ -15,7 +15,7 @@ bool CGameInfo::LoadGameInfo(EGame Game)
     return LoadGameInfo(Path);
 }
 
-bool CGameInfo::LoadGameInfo(TString Path)
+bool CGameInfo::LoadGameInfo(const TString& Path)
 {
     CXMLReader Reader(Path);
 

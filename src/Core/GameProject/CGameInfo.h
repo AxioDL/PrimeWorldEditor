@@ -37,7 +37,7 @@ public:
     CGameInfo() = default;
 
     bool LoadGameInfo(EGame Game);
-    bool LoadGameInfo(TString Path);
+    bool LoadGameInfo(const TString& Path);
     bool SaveGameInfo(TString Path = "");
     void Serialize(IArchive& rArc);
 
