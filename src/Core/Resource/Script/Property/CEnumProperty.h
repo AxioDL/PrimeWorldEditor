@@ -22,8 +22,8 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<int32, TypeEnum>
         uint32 ID = 0;
 
         SEnumValue() = default;
-        SEnumValue(const TString& rkInName, uint32 InID)
-            : Name(rkInName), ID(InID) {}
+        SEnumValue(TString rkInName, uint32 InID)
+            : Name(std::move(rkInName)), ID(InID) {}
 
 
         bool operator==(const SEnumValue& other) const
