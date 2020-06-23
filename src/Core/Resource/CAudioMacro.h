@@ -28,8 +28,8 @@ public:
 
     // Accessors
     TString MacroName() const                    { return mMacroName; }
-    uint32 NumSamples() const                    { return mSamples.size(); }
-    CAssetID SampleByIndex(uint32 Index) const   { return mSamples[Index]; }
+    size_t NumSamples() const                    { return mSamples.size(); }
+    CAssetID SampleByIndex(size_t Index) const   { return mSamples[Index]; }
 };
 
 #endif // CAUDIOMACRO_H

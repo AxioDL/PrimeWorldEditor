@@ -466,23 +466,23 @@ void GenerateAssetNames(CGameProject *pProj)
 
     for (TResourceIterator<EResourceType::AudioMacro> It(pStore); It; ++It)
     {
-        CAudioMacro *pMacro = (CAudioMacro*) It->Load();
+        const auto* pMacro = static_cast<CAudioMacro*>(It->Load());
         TString MacroName = pMacro->MacroName();
         ApplyGeneratedName(*It, kSfxDir, MacroName);
 
-        for (uint32 iSamp = 0; iSamp < pMacro->NumSamples(); iSamp++)
+        for (size_t iSamp = 0; iSamp < pMacro->NumSamples(); iSamp++)
         {
-            CAssetID SampleID = pMacro->SampleByIndex(iSamp);
-            CResourceEntry *pSample = pStore->FindEntry(SampleID);
+            const CAssetID SampleID = pMacro->SampleByIndex(iSamp);
+            CResourceEntry* pSample = pStore->FindEntry(SampleID);
 
-            if (pSample && !pSample->IsNamed())
+            if (pSample != nullptr && !pSample->IsNamed())
             {
                 TString SampleName;
 
                 if (pMacro->NumSamples() == 1)
                     SampleName = MacroName;
                 else
-                    SampleName = TString::Format("%s_%d", *MacroName, iSamp);
+                    SampleName = TString::Format("%s_%zu", *MacroName, iSamp);
 
                 ApplyGeneratedName(pSample, kSfxDir, SampleName);
             }
