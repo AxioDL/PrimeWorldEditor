@@ -108,10 +108,10 @@ public:
 
     void AddValue(TString ValueName, uint32 ValueID)
     {
-        mValues.push_back( SEnumValue(ValueName, ValueID) );
+        mValues.emplace_back(std::move(ValueName), ValueID);
     }
 
-    uint32 NumPossibleValues() const { return mValues.size(); }
+    size_t NumPossibleValues() const { return mValues.size(); }
 
     uint32 ValueIndex(uint32 ID) const
     {
@@ -122,27 +122,29 @@ public:
                 return ValueIdx;
             }
         }
-        return -1;
+        return UINT32_MAX;
     }
 
-    uint32 ValueID(uint32 Index) const
+    uint32 ValueID(size_t Index) const
     {
-        ASSERT(Index >= 0 && Index < mValues.size());
+        ASSERT(Index < mValues.size());
         return mValues[Index].ID;
     }
 
-    TString ValueName(uint32 Index) const
+    TString ValueName(size_t Index) const
     {
-        ASSERT(Index >= 0 && Index < mValues.size());
+        ASSERT(Index < mValues.size());
         return mValues[Index].Name;
     }
 
     bool HasValidValue(void* pPropertyData)
     {
-        if (mValues.empty()) return true;
-        int ID = base::ValueRef(pPropertyData);
-        uint32 Index = ValueIndex(ID);
-        return Index >= 0 && Index < mValues.size();
+        if (mValues.empty())
+            return true;
+
+        const int ID = base::ValueRef(pPropertyData);
+        const uint32 Index = ValueIndex(ID);
+        return Index < mValues.size();
     }
 
     bool OverridesTypeName() const
