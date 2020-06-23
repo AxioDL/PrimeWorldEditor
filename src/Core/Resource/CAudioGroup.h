@@ -21,8 +21,8 @@ public:
     // Accessors
     TString GroupName() const                        { return mGroupName; }
     uint32 GroupID() const                           { return mGroupID; }
-    uint32 NumSoundDefineIDs() const                 { return mDefineIDs.size(); }
-    uint16 SoundDefineIDByIndex(uint32 Index) const  { return mDefineIDs[Index]; }
+    size_t NumSoundDefineIDs() const                 { return mDefineIDs.size(); }
+    uint16 SoundDefineIDByIndex(size_t Index) const  { return mDefineIDs[Index]; }
 };
 
 #endif // CAUDIOGROUP
