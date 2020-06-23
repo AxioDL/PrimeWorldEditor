@@ -187,8 +187,7 @@ public:
 
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
     {
-        for (const auto& primitive : mAnimPrimitives)
-            rPrimSet.insert(primitive);
+        rPrimSet.insert(mAnimPrimitives.cbegin(), mAnimPrimitives.cend());
     }
 
     // Accessors
