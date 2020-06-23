@@ -15,7 +15,7 @@ public:
         : CResource(pEntry)
     {}
 
-    uint16 FindSoundDefineID(uint32 SoundID) const
+    uint16 FindSoundDefineID(size_t SoundID) const
     {
         if (SoundID >= mDefineIDs.size()) 
             return UINT16_MAX;
