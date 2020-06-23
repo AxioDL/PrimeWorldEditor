@@ -93,9 +93,9 @@ class CPropertyDependency : public CResourceDependency
 public:
     CPropertyDependency() = default;
 
-    CPropertyDependency(const TString& rkPropID, const CAssetID& rkAssetID)
+    CPropertyDependency(TString rkPropID, const CAssetID& rkAssetID)
         : CResourceDependency(rkAssetID)
-        , mIDString(rkPropID)
+        , mIDString(std::move(rkPropID))
     {}
 
     EDependencyNodeType Type() const override;
@@ -114,8 +114,8 @@ protected:
 public:
     CCharPropertyDependency() = default;
 
-    CCharPropertyDependency(const TString& rkPropID, const CAssetID& rkAssetID, int UsedChar)
-        : CPropertyDependency(rkPropID, rkAssetID)
+    CCharPropertyDependency(TString rkPropID, const CAssetID& rkAssetID, int UsedChar)
+        : CPropertyDependency(std::move(rkPropID), rkAssetID)
         , mUsedChar(UsedChar)
     {}
 
