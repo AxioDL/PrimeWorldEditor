@@ -85,10 +85,10 @@ void CCharacterUsageMap::FindUsagesForLayer(CResourceEntry *pAreaEntry, uint32 L
 
     // Only examine dependencies of the particular layer specified by the caller
     const bool IsLastLayer = mLayerIndex == pTree->NumScriptLayers() - 1;
-    const uint32 StartIdx = pTree->ScriptLayerOffset(mLayerIndex);
-    const uint32 EndIdx = IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(mLayerIndex + 1);
+    const size_t StartIdx = pTree->ScriptLayerOffset(mLayerIndex);
+    const size_t EndIdx = IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(mLayerIndex + 1);
 
-    for (uint32 iInst = StartIdx; iInst < EndIdx; iInst++)
+    for (size_t iInst = StartIdx; iInst < EndIdx; iInst++)
         ParseDependencyNode(pTree->ChildByIndex(iInst));
 }
 
@@ -165,14 +165,14 @@ void CCharacterUsageMap::ParseDependencyNode(IDependencyNode *pNode)
         auto* pDep = static_cast<CResourceDependency*>(pNode);
         CResourceEntry* pEntry = mpStore->FindEntry(pDep->ID());
 
-        if (pEntry && pEntry->ResourceType() == EResourceType::Scan)
+        if (pEntry != nullptr && pEntry->ResourceType() == EResourceType::Scan)
         {
             ParseDependencyNode(pEntry->Dependencies());
         }
     }
     else // Look for sub-dependencies of the current node
     {
-        for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+        for (size_t iChild = 0; iChild < pNode->NumChildren(); iChild++)
             ParseDependencyNode(pNode->ChildByIndex(iChild));
     }
 }
@@ -334,7 +334,7 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurE
             mIsPlayerActor = (ObjType == 0x4C || ObjType == FOURCC('PLAC'));
         }
 
-        for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+        for (size_t iChild = 0; iChild < pNode->NumChildren(); iChild++)
             EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), rOut);
 
         if (Type == EDependencyNodeType::ScriptInstance)
@@ -400,38 +400,38 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
     CAreaDependencyTree *pTree = static_cast<CAreaDependencyTree*>(mpAreaEntry->Dependencies());
 
     // Fill area base used assets set (don't actually add to list yet)
-    uint32 BaseEndIndex = (pTree->NumScriptLayers() > 0 ? pTree->ScriptLayerOffset(0) : pTree->NumChildren());
+    const size_t BaseEndIndex = pTree->NumScriptLayers() > 0 ? pTree->ScriptLayerOffset(0) : pTree->NumChildren();
 
-    for (uint32 iDep = 0; iDep < BaseEndIndex; iDep++)
+    for (size_t iDep = 0; iDep < BaseEndIndex; iDep++)
     {
-        CResourceDependency *pRes = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
+        const auto* pRes = static_cast<const CResourceDependency*>(pTree->ChildByIndex(iDep));
         ASSERT(pRes->Type() == EDependencyNodeType::Resource);
         mBaseUsedAssets.insert(pRes->ID());
     }
 
     // Get dependencies of each layer
-    for (uint32 iLyr = 0; iLyr < pTree->NumScriptLayers(); iLyr++)
+    for (size_t iLyr = 0; iLyr < pTree->NumScriptLayers(); iLyr++)
     {
         mLayerUsedAssets.clear();
         mCharacterUsageMap.FindUsagesForLayer(mpAreaEntry, iLyr);
         rLayerOffsetsOut.push_back(rAssetsOut.size());
 
-        bool IsLastLayer = (iLyr == pTree->NumScriptLayers() - 1);
-        uint32 StartIdx = pTree->ScriptLayerOffset(iLyr);
-        uint32 EndIdx = (IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(iLyr + 1));
+        const bool IsLastLayer = iLyr == pTree->NumScriptLayers() - 1;
+        const size_t StartIdx = pTree->ScriptLayerOffset(iLyr);
+        const size_t EndIdx = IsLastLayer ? pTree->NumChildren() : pTree->ScriptLayerOffset(iLyr + 1);
 
-        for (uint32 iChild = StartIdx; iChild < EndIdx; iChild++)
+        for (size_t iChild = StartIdx; iChild < EndIdx; iChild++)
         {
-            IDependencyNode *pNode = pTree->ChildByIndex(iChild);
+            const IDependencyNode *pNode = pTree->ChildByIndex(iChild);
 
             if (pNode->Type() == EDependencyNodeType::ScriptInstance)
             {
-                auto* pInst = static_cast<CScriptInstanceDependency*>(pNode);
+                const auto* pInst = static_cast<const CScriptInstanceDependency*>(pNode);
                 mIsPlayerActor = (pInst->ObjectType() == 0x4C || pInst->ObjectType() == FOURCC('PLAC'));
 
-                for (uint32 iDep = 0; iDep < pInst->NumChildren(); iDep++)
+                for (size_t iDep = 0; iDep < pInst->NumChildren(); iDep++)
                 {
-                    auto* pDep = static_cast<CPropertyDependency*>(pInst->ChildByIndex(iDep));
+                    const auto* pDep = static_cast<const CPropertyDependency*>(pInst->ChildByIndex(iDep));
 
                     // For MP3, exclude the CMDL/CSKR properties for the suit assets - only include default character assets
                     if (mGame == EGame::Corruption && mIsPlayerActor)
@@ -456,7 +456,7 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
             }
             else if (pNode->Type() == EDependencyNodeType::Resource)
             {
-                CResourceDependency *pResDep = static_cast<CResourceDependency*>(pNode);
+                const auto* pResDep = static_cast<const CResourceDependency*>(pNode);
                 AddDependency(pResDep->ID(), rAssetsOut, pAudioGroupsOut);
             }
             else
@@ -471,9 +471,9 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
     mLayerUsedAssets.clear();
     rLayerOffsetsOut.push_back(rAssetsOut.size());
 
-    for (uint32 iDep = 0; iDep < BaseEndIndex; iDep++)
+    for (size_t iDep = 0; iDep < BaseEndIndex; iDep++)
     {
-        CResourceDependency *pDep = static_cast<CResourceDependency*>(pTree->ChildByIndex(iDep));
+        const auto* pDep = static_cast<const CResourceDependency*>(pTree->ChildByIndex(iDep));
         AddDependency(pDep->ID(), rAssetsOut, pAudioGroupsOut);
     }
 }
@@ -541,12 +541,12 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
 
     if (Type == EDependencyNodeType::Resource || Type == EDependencyNodeType::ScriptProperty || Type == EDependencyNodeType::CharacterProperty)
     {
-        const auto* pDep = static_cast<CResourceDependency*>(pNode);
+        const auto* pDep = static_cast<const CResourceDependency*>(pNode);
         AddDependency(pDep->ID(), rOut, pAudioGroupsOut);
     }
     else if (Type == EDependencyNodeType::AnimEvent)
     {
-        const auto* pDep = static_cast<CAnimEventDependency*>(pNode);
+        const auto* pDep = static_cast<const CAnimEventDependency*>(pNode);
         const uint32 CharIndex = pDep->CharIndex();
 
         if (CharIndex == UINT32_MAX || mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, CharIndex))
@@ -557,7 +557,7 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
         // Note: For MP1/2 PlayerActor, always treat as if Empty Suit is the only used one
         const uint32 kEmptySuitIndex = (mGame >= EGame::EchoesDemo ? 3 : 5);
 
-        const auto *pChar = static_cast<CSetCharacterDependency*>(pNode);
+        const auto *pChar = static_cast<const CSetCharacterDependency*>(pNode);
         const uint32 SetIndex = pChar->CharSetIndex();
         ParseChildren = mCharacterUsageMap.IsCharacterUsed(mCurrentAnimSetID, pChar->CharSetIndex()) || (mIsPlayerActor && SetIndex == kEmptySuitIndex);
     }
@@ -573,7 +573,7 @@ void CAreaDependencyListBuilder::EvaluateDependencyNode(CResourceEntry *pCurEntr
 
     if (ParseChildren)
     {
-        for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+        for (size_t iChild = 0; iChild < pNode->NumChildren(); iChild++)
             EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), rOut, pAudioGroupsOut);
     }
 }
@@ -653,7 +653,7 @@ void CAssetDependencyListBuilder::EvaluateDependencyNode(CResourceEntry* pCurEnt
 
     if (ParseChildren)
     {
-        for (uint32 iChild = 0; iChild < pNode->NumChildren(); iChild++)
+        for (size_t iChild = 0; iChild < pNode->NumChildren(); iChild++)
             EvaluateDependencyNode(pCurEntry, pNode->ChildByIndex(iChild), Out);
     }
 }

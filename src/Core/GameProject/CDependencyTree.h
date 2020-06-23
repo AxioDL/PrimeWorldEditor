@@ -46,8 +46,8 @@ public:
     static IDependencyNode* ArchiveConstructor(EDependencyNodeType Type);
 
     // Accessors
-    uint32 NumChildren() const                         { return mChildren.size(); }
-    IDependencyNode* ChildByIndex(uint32 Index) const  { return mChildren[Index].get(); }
+    size_t NumChildren() const                         { return mChildren.size(); }
+    IDependencyNode* ChildByIndex(size_t Index) const  { return mChildren[Index].get(); }
 };
 
 // Basic dependency tree; this class is sufficient for most resource types.
@@ -130,14 +130,14 @@ public:
 class CScriptInstanceDependency : public IDependencyNode
 {
 protected:
-    uint mObjectType = 0;
+    uint32 mObjectType = 0;
 
 public:
     EDependencyNodeType Type() const override;
     void Serialize(IArchive& rArc) override;
 
     // Accessors
-    uint ObjectType() const       { return mObjectType; }
+    uint32 ObjectType() const       { return mObjectType; }
 
     // Static
     static std::unique_ptr<CScriptInstanceDependency> BuildTree(CScriptObject *pInstance);
@@ -151,7 +151,7 @@ protected:
 
 public:
     CSetCharacterDependency() = default;
-    CSetCharacterDependency(uint32 SetIndex) : mCharSetIndex(SetIndex) {}
+    explicit CSetCharacterDependency(uint32 SetIndex) : mCharSetIndex(SetIndex) {}
 
     EDependencyNodeType Type() const override;
     void Serialize(IArchive& rArc) override;
@@ -217,8 +217,8 @@ public:
     void GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<uint32>& rModuleLayerOffsetsOut) const;
 
     // Accessors
-    uint32 NumScriptLayers() const                   { return mLayerOffsets.size(); }
-    uint32 ScriptLayerOffset(uint32 LayerIdx) const  { return mLayerOffsets[LayerIdx]; }
+    size_t NumScriptLayers() const                   { return mLayerOffsets.size(); }
+    uint32 ScriptLayerOffset(size_t LayerIdx) const  { return mLayerOffsets[LayerIdx]; }
 };
 
 #endif // CDEPENDENCYTREE
