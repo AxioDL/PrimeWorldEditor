@@ -22,8 +22,8 @@ CScriptEditSidebar::CScriptEditSidebar(CWorldEditor *pEditor)
     mpInstancesTab = new WInstancesTab(pEditor, this);
 
     mpTabWidget->setIconSize(QSize(24, 24));
-    mpTabWidget->addTab(mpCreateTab, QIcon(":/icons/Create.svg"), "");
-    mpTabWidget->addTab(mpModifyTab, QIcon(":/icons/Modify.svg"), "");
-    mpTabWidget->addTab(mpInstancesTab, QIcon(":/icons/Instances.svg"), "");
+    mpTabWidget->addTab(mpCreateTab, QIcon(QStringLiteral(":/icons/Create.svg")), {});
+    mpTabWidget->addTab(mpModifyTab, QIcon(QStringLiteral(":/icons/Modify.svg")), {});
+    mpTabWidget->addTab(mpInstancesTab, QIcon(QStringLiteral(":/icons/Instances.svg")), {});
     pLayout->addWidget(mpTabWidget);
 }

@@ -16,15 +16,15 @@ INodeEditor::INodeEditor(QWidget *pParent)
     , mCloneState(eNotCloning)
 {
     // Create gizmo actions
-    mGizmoActions.append(new QAction(QIcon(":/icons/SelectMode.svg"), "Select Objects", this));
-    mGizmoActions.append(new QAction(QIcon(":/icons/Translate.svg"), "Translate", this));
-    mGizmoActions.append(new QAction(QIcon(":/icons/Rotate.svg"), "Rotate", this));
-    mGizmoActions.append(new QAction(QIcon(":/icons/Scale.svg"), "Scale", this));
+    mGizmoActions.append(new QAction(QIcon(QStringLiteral(":/icons/SelectMode.svg")), tr("Select Objects"), this));
+    mGizmoActions.append(new QAction(QIcon(QStringLiteral(":/icons/Translate.svg")), tr("Translate"), this));
+    mGizmoActions.append(new QAction(QIcon(QStringLiteral(":/icons/Rotate.svg")), tr("Rotate"), this));
+    mGizmoActions.append(new QAction(QIcon(QStringLiteral(":/icons/Scale.svg")), tr("Scale"), this));
 
-    mGizmoActions[0]->setShortcut(QKeySequence("Ctrl+Q"));
-    mGizmoActions[1]->setShortcut(QKeySequence("Ctrl+W"));
-    mGizmoActions[2]->setShortcut(QKeySequence("Ctrl+E"));
-    mGizmoActions[3]->setShortcut(QKeySequence("Ctrl+R"));
+    mGizmoActions[0]->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_Q));
+    mGizmoActions[1]->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_W));
+    mGizmoActions[2]->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_E));
+    mGizmoActions[3]->setShortcut(QKeySequence(Qt::CTRL, Qt::Key_R));
 
     mpGizmoGroup = new QActionGroup(this);
 
@@ -38,8 +38,8 @@ INodeEditor::INodeEditor(QWidget *pParent)
 
     // Create transform combo box
     mpTransformCombo = new QComboBox(this);
-    mpTransformCombo->addItem("World");
-    mpTransformCombo->addItem("Local");
+    mpTransformCombo->addItem(tr("World"));
+    mpTransformCombo->addItem(tr("Local"));
 
     // Connect signals and slots
     connect(mGizmoActions[0], SIGNAL(triggered()), this, SLOT(OnSelectObjectsTriggered()));
@@ -202,7 +202,7 @@ void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
 
         else
         {
-            mUndoStack.beginMacro("Select");
+            mUndoStack.beginMacro(tr("Select"));
             mUndoStack.push(new CClearSelectionCommand(mpSelection));
             mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
             mUndoStack.endMacro();
@@ -300,7 +300,7 @@ void INodeEditor::OnGizmoMoved()
 {
     if (mCloneState == eReadyToClone)
     {
-        mUndoStack.beginMacro("Clone");
+        mUndoStack.beginMacro(tr("Clone"));
         mUndoStack.push(new CCloneSelectionCommand(this));
         mCloneState = eCloning;
     }

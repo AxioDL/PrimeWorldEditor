@@ -57,10 +57,10 @@ void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
 
     uint32 ID = pProperty->ID();
     const char* pkTypeName = pProperty->HashableTypeName();
-    mIdPairs << SPropertyIdTypePair { ID, pkTypeName };
+    mIdPairs << SPropertyIdTypePair{ID, pkTypeName};
 
-    QString ItemText = QString("%1 [%2]").arg( *TString::HexString(pProperty->ID(), 8, false) ).arg( pkTypeName );
-    mpUI->IdPoolList->addItem( ItemText );
+    QString ItemText = QStringLiteral("%1 [%2]").arg(*TString::HexString(pProperty->ID(), 8, false)).arg(pkTypeName);
+    mpUI->IdPoolList->addItem(ItemText);
 
     // We probably don't want to call UpdateUI every single time we add a property, but
     // we do need to call it somewhere to make sure the ID list shows up on the UI...
@@ -109,10 +109,10 @@ void CGeneratePropertyNamesDialog::closeEvent(QCloseEvent*)
 /** Add an item to the suffix list */
 void CGeneratePropertyNamesDialog::AddSuffix()
 {
-    QListWidgetItem* pNewItem = new QListWidgetItem("New Suffix", mpUI->TypeSuffixesListWidget);
-    pNewItem->setFlags( Qt::ItemIsEditable |
-                        Qt::ItemIsEnabled |
-                        Qt::ItemIsSelectable );
+    QListWidgetItem* pNewItem = new QListWidgetItem(tr("New Suffix"), mpUI->TypeSuffixesListWidget);
+    pNewItem->setFlags(Qt::ItemIsEditable |
+                       Qt::ItemIsEnabled |
+                       Qt::ItemIsSelectable);
     mpUI->TypeSuffixesListWidget->setCurrentItem(pNewItem, QItemSelectionModel::ClearAndSelect);
     mpUI->TypeSuffixesListWidget->editItem(pNewItem);
 }
@@ -272,11 +272,11 @@ void CGeneratePropertyNamesDialog::ApplyChanges()
 {
     // make sure the user really wants to do this
     QString WarningText =
-            QString("Are you sure you want to rename %1 %2? This operation cannot be undone.")
-                .arg(mCheckedItems.size())
-                .arg(mCheckedItems.size() == 1 ? "property" : "properties");
+        tr("Are you sure you want to rename %1 %2? This operation cannot be undone.")
+            .arg(mCheckedItems.size())
+            .arg(mCheckedItems.size() == 1 ? tr("property") : tr("properties"));
 
-    bool ReallyRename = UICommon::YesNoQuestion(this, "Warning", WarningText);
+    bool ReallyRename = UICommon::YesNoQuestion(this, tr("Warning"), WarningText);
 
     if (!ReallyRename)
     {
@@ -369,11 +369,12 @@ void CGeneratePropertyNamesDialog::UpdateUI()
     if (HasResults)
     {
         mpUI->NumSelectedLabel->setText(
-                    QString("%1 names, %2 selected")
-                        .arg(TotalItems)
-                        .arg(mCheckedItems.size())
-                );
+            tr("%1 names, %2 selected")
+                .arg(TotalItems)
+                .arg(mCheckedItems.size()));
     }
     else
+    {
         mpUI->NumSelectedLabel->clear();
+    }
 }

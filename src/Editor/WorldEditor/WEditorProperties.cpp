@@ -9,21 +9,21 @@ WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
     , mHasEditedName(false)
 {
     mpInstanceInfoLabel = new QLabel;
-    mpInstanceInfoLabel->setText("<i>[No selection]</i>");
+    mpInstanceInfoLabel->setText(tr("<i>[No selection]</i>"));
     mpInstanceInfoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
     mpInstanceInfoLayout = new QHBoxLayout;
     mpInstanceInfoLayout->addWidget(mpInstanceInfoLabel);
 
     mpActiveCheckBox = new QCheckBox;
-    mpActiveCheckBox->setToolTip("Active");
+    mpActiveCheckBox->setToolTip(tr("Active"));
     mpInstanceNameLineEdit = new QLineEdit;
-    mpInstanceNameLineEdit->setToolTip("Instance Name");
+    mpInstanceNameLineEdit->setToolTip(tr("Instance Name"));
     mpNameLayout = new QHBoxLayout;
     mpNameLayout->addWidget(mpActiveCheckBox);
     mpNameLayout->addWidget(mpInstanceNameLineEdit);
 
     mpLayersLabel = new QLabel;
-    mpLayersLabel->setText("Layer:");
+    mpLayersLabel->setText(tr("Layer:"));
     mpLayersLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     mpLayersComboBox = new QComboBox;
     mpLayersComboBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -112,17 +112,17 @@ void WEditorProperties::OnSelectionModified()
 
         if (pSelection->IsEmpty())
         {
-            mpInstanceInfoLabel->setText("<i>[No selection]</i>");
+            mpInstanceInfoLabel->setText(tr("<i>[No selection]</i>"));
             mpInstanceNameLineEdit->clear();
         }
         else if (mpDisplayNode)
         {
-            mpInstanceInfoLabel->setText("[Light]");
+            mpInstanceInfoLabel->setText(tr("[Light]"));
             mpInstanceNameLineEdit->setText(TO_QSTRING(mpDisplayNode->Name()));
         }
         else
         {
-            mpInstanceInfoLabel->setText(QString("<i>[%1 objects selected]</i>").arg(pSelection->Size()));
+            mpInstanceInfoLabel->setText(tr("<i>[%1 objects selected]</i>").arg(pSelection->Size()));
             mpInstanceNameLineEdit->clear();
         }
 
@@ -134,13 +134,13 @@ void WEditorProperties::OnSelectionModified()
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
         CInstanceID InstanceID = pScript->Instance()->InstanceID();
         TString ObjectType = pScript->Template()->Name();
-        mpInstanceInfoLabel->setText(QString("[%1] [%2]").
-                                     arg( TO_QSTRING(ObjectType) ).
-                                     arg( TO_QSTRING(TString::HexString(InstanceID, 8, false)) ));
-        mpInstanceInfoLabel->setToolTip(QString("[Layer: %1] [Area: %2] [ID: %3]").
-                                        arg( InstanceID.Layer() ).
-                                        arg( InstanceID.Area() ).
-                                        arg( TO_QSTRING(TString::HexString(InstanceID.Id(), 4, false)) ));
+        mpInstanceInfoLabel->setText(QStringLiteral("[%1] [%2]")
+                                         .arg(TO_QSTRING(ObjectType))
+                                         .arg(TO_QSTRING(TString::HexString(InstanceID, 8, false))));
+        mpInstanceInfoLabel->setToolTip(tr("[Layer: %1] [Area: %2] [ID: %3]")
+                                            .arg(InstanceID.Layer())
+                                            .arg(InstanceID.Area())
+                                            .arg(TO_QSTRING(TString::HexString(InstanceID.Id(), 4, false))));
 
         UpdatePropertyValues();
     }

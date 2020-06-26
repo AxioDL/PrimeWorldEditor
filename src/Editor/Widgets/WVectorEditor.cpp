@@ -160,9 +160,9 @@ void WVectorEditor::SetZ(double Z)
 void WVectorEditor::SetupUI()
 {
     // Create and initialize widgets
-    mpLabelX = new QLabel("X", this);
-    mpLabelY = new QLabel("Y", this);
-    mpLabelZ = new QLabel("Z", this);
+    mpLabelX = new QLabel(QStringLiteral("X"), this);
+    mpLabelY = new QLabel(QStringLiteral("Y"), this);
+    mpLabelZ = new QLabel(QStringLiteral("Z"), this);
     mpSpinBoxX = new WDraggableSpinBox(this);
     mpSpinBoxY = new WDraggableSpinBox(this);
     mpSpinBoxZ = new WDraggableSpinBox(this);

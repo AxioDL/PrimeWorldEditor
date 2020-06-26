@@ -53,7 +53,7 @@ QVariant CLinkModel::data(const QModelIndex& rkIndex, int Role) const
 
             if (pTarget)
             {
-                QString ObjType = QString("[%1] ").arg(UICommon::ToQString(pTarget->Template()->Name()));
+                QString ObjType = QStringLiteral("[%1] ").arg(UICommon::ToQString(pTarget->Template()->Name()));
                 return ObjType + UICommon::ToQString(pTarget->InstanceName());
             }
 
@@ -61,7 +61,7 @@ QVariant CLinkModel::data(const QModelIndex& rkIndex, int Role) const
             {
                 QString StrID = QString::number(TargetID, 16).toUpper();
                 while (StrID.length() < 8) StrID = "0" + StrID;
-                return QString("External: ") + StrID;
+                return tr("External: %1").arg(StrID);
             }
         }
 
@@ -91,9 +91,9 @@ QVariant CLinkModel::headerData(int Section, Qt::Orientation Orientation, int Ro
     {
         switch (Section)
         {
-        case 0: return (mType == ELinkType::Incoming ? "Sender" : "Target");
-        case 1: return "State";
-        case 2: return "Message";
+        case 0: return (mType == ELinkType::Incoming ? tr("Sender") : tr("Target"));
+        case 1: return tr("State");
+        case 2: return tr("Message");
         default: return QVariant::Invalid;
         }
     }

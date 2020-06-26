@@ -279,9 +279,15 @@ void CCharacterEditor::RefreshViewport()
 void CCharacterEditor::OnViewportHoverBoneChanged(uint32 BoneID)
 {
     if (BoneID == 0xFFFFFFFF)
+    {
         ui->StatusBar->clearMessage();
+    }
     else
-        ui->StatusBar->showMessage(QString("Bone %1: %2").arg(BoneID).arg( TO_QSTRING(mpSet->Character(mCurrentChar)->pSkeleton->BoneByID(BoneID)->Name()) ));
+    {
+        ui->StatusBar->showMessage(tr("Bone %1: %2")
+                                       .arg(BoneID)
+                                       .arg(TO_QSTRING(mpSet->Character(mCurrentChar)->pSkeleton->BoneByID(BoneID)->Name())));
+    }
 }
 
 void CCharacterEditor::OnViewportClick()
@@ -373,7 +379,11 @@ void CCharacterEditor::SetAnimTime(float Time)
         CurKey = Math::Min<uint32>((uint32) (Time / pAnim->TickInterval()) + 1, NumKeys - 1);
     }
 
-    ui->FrameLabel->setText(QString("Frame %1 / %2 (%3s/%4s)").arg(CurKey).arg(NumKeys - 1).arg(mAnimTime, 0, 'f', 3).arg(pAnim ? pAnim->Duration() : 0.f, 0, 'f', 3));
+    ui->FrameLabel->setText(tr("Frame %1 / %2 (%3s/%4s)")
+                                .arg(CurKey)
+                                .arg(NumKeys - 1)
+                                .arg(mAnimTime, 0, 'f', 3)
+                                .arg(pAnim ? pAnim->Duration() : 0.f, 0, 'f', 3));
 }
 
 void CCharacterEditor::TogglePlay()
@@ -381,11 +391,11 @@ void CCharacterEditor::TogglePlay()
     if (mBindPose) ToggleBindPose(false);
 
     mPlayAnim = !mPlayAnim;
-    QString NewText = (mPlayAnim ? "Pause" : "Play");
+    QString NewText = (mPlayAnim ? tr("Pause") : tr("Play"));
     ui->PlayPauseButton->setToolTip(NewText);
     ui->ActionPlay->setText(NewText);
 
-    QIcon PlayPauseIcon = QIcon(mPlayAnim ? ":/icons/Pause_24px.svg" : ":/icons/Play_24px.svg");
+    QIcon PlayPauseIcon = QIcon(mPlayAnim ? QStringLiteral(":/icons/Pause_24px.svg") : QStringLiteral(":/icons/Play_24px.svg"));
     ui->PlayPauseButton->setIcon(PlayPauseIcon);
 
     if (ui->ActionPlay != sender())
@@ -410,11 +420,11 @@ void CCharacterEditor::ToggleLoop(bool Loop)
 {
     mLoopAnim = Loop;
 
-    QString NewText = (Loop ? "Disable Loop" : "Loop");
+    QString NewText = (Loop ? tr("Disable Loop") : tr("Loop"));
     ui->LoopButton->setToolTip(NewText);
     ui->ActionLoop->setText(NewText);
 
-    QIcon ActionIcon = QIcon(Loop ? ":/icons/DontLoop_24px" : ":/icons/Loop_24px.svg");
+    QIcon ActionIcon = QIcon(Loop ? QStringLiteral(":/icons/DontLoop_24px") : QStringLiteral(":/icons/Loop_24px.svg"));
     ui->ActionLoop->setIcon(ActionIcon);
 
     if (sender() != ui->LoopButton)

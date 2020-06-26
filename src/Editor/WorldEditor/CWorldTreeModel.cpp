@@ -95,8 +95,8 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
 
     else if (Role == Qt::DecorationRole)
     {
-        static QIcon sWorldIcon = QIcon(":/icons/World_16px.svg");
-        static QIcon sAreaIcon  = QIcon(":/icons/New_16px.svg");
+        static QIcon sWorldIcon = QIcon(QStringLiteral(":/icons/World_16px.svg"));
+        static QIcon sAreaIcon  = QIcon(QStringLiteral(":/icons/New_16px.svg"));
 
         if (rkIndex.column() == 1)
             return QVariant::Invalid;
@@ -154,9 +154,9 @@ QVariant CWorldTreeModel::headerData(int Section, Qt::Orientation Orientation, i
     if (Orientation == Qt::Horizontal && Role == Qt::DisplayRole)
     {
         if (Section == 0)
-            return "In-Game Name";
+            return tr("In-Game Name");
         else
-            return "Internal Name";
+            return tr("Internal Name");
     }
     return QVariant::Invalid;
 }
@@ -324,7 +324,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
             // Add remaining worlds to FrontEnd world
             mWorldList.prepend( SWorldInfo() );
             pInfo = &mWorldList.front();
-            pInfo->WorldName = "FrontEnd";
+            pInfo->WorldName = QStringLiteral("FrontEnd");
 
             for (TResourceIterator<EResourceType::World> It; It; ++It)
             {

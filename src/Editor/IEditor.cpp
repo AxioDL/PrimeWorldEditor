@@ -18,8 +18,8 @@ IEditor::IEditor(QWidget* pParent)
     QAction *pRedoAction = mUndoStack.createRedoAction(this);
     pUndoAction->setShortcut(QKeySequence::Undo);
     pRedoAction->setShortcut(QKeySequence::Redo);
-    pUndoAction->setIcon(QIcon(":/icons/Undo.svg"));
-    pRedoAction->setIcon(QIcon(":/icons/Redo.svg"));
+    pUndoAction->setIcon(QIcon(QStringLiteral(":/icons/Undo.svg")));
+    pRedoAction->setIcon(QIcon(QStringLiteral(":/icons/Redo.svg")));
     mUndoActions.push_back(pUndoAction);
     mUndoActions.push_back(pRedoAction);
 
@@ -48,7 +48,8 @@ bool IEditor::CheckUnsavedChanges()
 
     if (!OkToClear)
     {
-        int Result = QMessageBox::warning(this, "Save", "You have unsaved changes. Save?", QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
+        const int Result = QMessageBox::warning(this, tr("Save"), tr("You have unsaved changes. Save?"),
+                                                QMessageBox::Yes, QMessageBox::No, QMessageBox::Cancel);
 
         if (Result == QMessageBox::Yes)
             OkToClear = Save();

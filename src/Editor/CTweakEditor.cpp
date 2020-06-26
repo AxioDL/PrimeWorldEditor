@@ -16,9 +16,9 @@ public:
         , mNewIndex(NewIndex)
     {}
 
-    virtual void undo() override { mpEditor->SetActiveTweakIndex(mOldIndex); }
-    virtual void redo() override { mpEditor->SetActiveTweakIndex(mNewIndex); }
-    virtual bool AffectsCleanState() const override { return false; }
+    void undo() override { mpEditor->SetActiveTweakIndex(mOldIndex); }
+    void redo() override { mpEditor->SetActiveTweakIndex(mNewIndex); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 /** CTweakEditor functions */
@@ -53,7 +53,7 @@ bool CTweakEditor::Save()
 {
     if (!gpEdApp->ActiveProject()->TweakManager()->SaveTweaks())
     {
-        UICommon::ErrorMsg(this, "Tweaks failed to save!");
+        UICommon::ErrorMsg(this, tr("Tweaks failed to save!"));
         return false;
     }
     else
