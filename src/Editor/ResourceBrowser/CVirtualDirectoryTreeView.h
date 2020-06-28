@@ -9,13 +9,14 @@ class CVirtualDirectoryTreeView : public QTreeView
 {
     Q_OBJECT
 
-    CVirtualDirectoryModel *mpModel;
-    bool mTransferSelectionPostMove;
+    CVirtualDirectoryModel *mpModel = nullptr;
+    bool mTransferSelectionPostMove = false;
 
 public:
-    CVirtualDirectoryTreeView(QWidget *pParent = 0);
-    void dragEnterEvent(QDragEnterEvent *pEvent);
-    void setModel(QAbstractItemModel *pModel);
+    explicit CVirtualDirectoryTreeView(QWidget *pParent = nullptr);
+
+    void dragEnterEvent(QDragEnterEvent *pEvent) override;
+    void setModel(QAbstractItemModel *pModel) override;
 
 public slots:
     void OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir);
