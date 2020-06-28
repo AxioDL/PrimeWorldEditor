@@ -26,13 +26,8 @@
     connect(pRelay, SIGNAL(WidgetEdited(QWidget*, const QModelIndex&)), this, SLOT(WidgetEdited(QWidget*, const QModelIndex&))); \
     }
 
-CPropertyDelegate::CPropertyDelegate(QObject* pParent /*= 0*/)
+CPropertyDelegate::CPropertyDelegate(QObject* pParent)
     : QStyledItemDelegate(pParent)
-    , mpEditor(nullptr)
-    , mpModel(nullptr)
-    , mInRelayWidgetEdit(false)
-    , mEditInProgress(false)
-    , mRelaysBlocked(false)
 {
     mpEditor = UICommon::FindAncestor<IEditor>(pParent);
 }
