@@ -9,7 +9,6 @@ CStringListModel::CStringListModel(CStringEditor* pInEditor)
     : QAbstractListModel(pInEditor)
     , mpEditor(pInEditor)
     , mpStringTable(pInEditor->StringTable())
-    , mStringPreviewLanguage(ELanguage::English)
 {
 }
 
