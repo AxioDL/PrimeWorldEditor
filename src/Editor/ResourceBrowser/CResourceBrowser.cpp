@@ -24,15 +24,7 @@
 
 CResourceBrowser::CResourceBrowser(QWidget *pParent)
     : QWidget(pParent)
-    , mpUI(new Ui::CResourceBrowser)
-    , mpSelectedEntry(nullptr)
-    , mpStore(nullptr)
-    , mpSelectedDir(nullptr)
-    , mEditorStore(false)
-    , mAssetListMode(false)
-    , mSearching(false)
-    , mpAddMenu(nullptr)
-    , mpInspectedEntry(nullptr)
+    , mpUI(std::make_unique<Ui::CResourceBrowser>())
 {
     mpUI->setupUi(this);
     setEnabled(false);
@@ -168,10 +160,7 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(UpdateStore()));
 }
 
-CResourceBrowser::~CResourceBrowser()
-{
-    delete mpUI;
-}
+CResourceBrowser::~CResourceBrowser() = default;
 
 void CResourceBrowser::SetActiveDirectory(CVirtualDirectory *pDir)
 {
