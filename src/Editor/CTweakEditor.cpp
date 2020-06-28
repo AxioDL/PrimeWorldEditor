@@ -48,7 +48,7 @@ bool CTweakEditor::Save()
 {
     if (!gpEdApp->ActiveProject()->TweakManager()->SaveTweaks())
     {
-        UICommon::ErrorMsg(this, "Tweaks failed to save!");
+        UICommon::ErrorMsg(this, tr("Tweaks failed to save!"));
         return false;
     }
     else
