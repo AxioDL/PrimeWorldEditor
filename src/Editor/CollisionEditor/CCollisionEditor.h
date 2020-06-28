@@ -5,6 +5,7 @@
 #include "CCollisionEditorViewport.h"
 #include <Core/Scene/CCollisionNode.h>
 #include <Core/Scene/CScene.h>
+#include <memory>
 
 namespace Ui {
 class CCollisionEditor;
@@ -27,9 +28,9 @@ class CCollisionEditor : public IEditor
 
 public:
     /** Constructor/destructor */
-    explicit CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget* pParent = 0);
-    virtual ~CCollisionEditor();
-    virtual CCollisionEditorViewport* Viewport() const override;
+    explicit CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget* pParent = nullptr);
+    ~CCollisionEditor() override;
+    CCollisionEditorViewport* Viewport() const override;
 
 public slots:
     void OnGridToggled(bool Enabled);
