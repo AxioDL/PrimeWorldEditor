@@ -11,34 +11,23 @@
 
 CSceneViewport::CSceneViewport(QWidget *pParent)
     : CBasicViewport(pParent)
-    , mpEditor(nullptr)
-    , mpScene(nullptr)
-    , mRenderingMergedWorld(true)
-    , mGizmoTransforming(false)
-    , mpHoverNode(nullptr)
-    , mHoverPoint(CVector3f::Zero())
-    , mpContextMenu(nullptr)
-    , mpMenuNode(nullptr)
 {
     mGrid.SetColor(CColor(0.f, 0.f, 0.6f, 0.f), CColor(0.f, 0.f, 1.f, 0.f));
     mLinkLine.SetColor(CColor::Yellow());
 
-    mpRenderer = new CRenderer();
+    mpRenderer = std::make_unique<CRenderer>();
     mpRenderer->SetClearColor(CColor::Black());
-    qreal pixelRatio = devicePixelRatioF();
+    const qreal pixelRatio = devicePixelRatioF();
     mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 
     mViewInfo.pScene = mpScene;
-    mViewInfo.pRenderer = mpRenderer;
+    mViewInfo.pRenderer = mpRenderer.get();
     mViewInfo.ShowFlags = EShowFlag::MergedWorld | EShowFlag::ObjectGeometry | EShowFlag::Lights | EShowFlag::Sky;
 
     CreateContextMenu();
 }
 
-CSceneViewport::~CSceneViewport()
-{
-    delete mpRenderer;
-}
+CSceneViewport::~CSceneViewport() = default;
 
 void CSceneViewport::SetScene(INodeEditor *pEditor, CScene *pScene)
 {
@@ -72,7 +61,7 @@ FShowFlags CSceneViewport::ShowFlags() const
 
 CRenderer* CSceneViewport::Renderer()
 {
-    return mpRenderer;
+    return mpRenderer.get();
 }
 
 CSceneNode* CSceneViewport::HoverNode()
@@ -317,22 +306,22 @@ void CSceneViewport::Paint()
     }
 
     mCamera.LoadMatrices();
-    mpScene->AddSceneToRenderer(mpRenderer, mViewInfo);
+    mpScene->AddSceneToRenderer(mpRenderer.get(), mViewInfo);
 
     // Add gizmo to renderer
     if (mpEditor->IsGizmoVisible() && !mViewInfo.GameMode)
     {
         CGizmo *pGizmo = mpEditor->Gizmo();
         pGizmo->UpdateForCamera(mCamera);
-        pGizmo->AddToRenderer(mpRenderer, mViewInfo);
+        pGizmo->AddToRenderer(mpRenderer.get(), mViewInfo);
     }
 
     // Draw grid if the scene is empty
     if (!mViewInfo.GameMode && mpScene->ActiveArea() == nullptr)
-        mGrid.AddToRenderer(mpRenderer, mViewInfo);
+        mGrid.AddToRenderer(mpRenderer.get(), mViewInfo);
 
     // Draw the line for the link the user is editing.
-    if (mLinkLineEnabled) mLinkLine.AddToRenderer(mpRenderer, mViewInfo);
+    if (mLinkLineEnabled) mLinkLine.AddToRenderer(mpRenderer.get(), mViewInfo);
 
     mpRenderer->RenderBuckets(mViewInfo);
     mpRenderer->EndFrame();
