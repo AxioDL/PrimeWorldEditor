@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include <memory>
+
 namespace Ui {
 class CAboutDialog;
 }
@@ -12,11 +14,11 @@ class CAboutDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CAboutDialog(QWidget *parent = 0);
-    ~CAboutDialog();
+    explicit CAboutDialog(QWidget *parent = nullptr);
+    ~CAboutDialog() override;
 
 private:
-    Ui::CAboutDialog *ui;
+    std::unique_ptr<Ui::CAboutDialog> ui;
 };
 
 #endif // CABOUTDIALOG_H
