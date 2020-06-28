@@ -6,23 +6,24 @@
 class WDraggableSpinBox : public QDoubleSpinBox
 {
     Q_OBJECT
-    bool mBeingDragged;
-    bool mBeenDragged;
-    double mDefaultValue;
-    int mLastY;
-    int mMinDecimals;
-    bool mTrimTrailingZeroes;
+    bool mBeingDragged = false;
+    bool mBeenDragged = false;
+    double mDefaultValue = 0.0;
+    int mLastY = 0;
+    int mMinDecimals = 1;
+    bool mTrimTrailingZeroes = true;
 
 public:
-    explicit WDraggableSpinBox(QWidget *pParent = 0);
-    ~WDraggableSpinBox();
-    void mousePressEvent(QMouseEvent *pEvent);
-    void mouseReleaseEvent(QMouseEvent *pEvent);
-    void mouseMoveEvent(QMouseEvent *pEvent);
-    void wheelEvent(QWheelEvent *pEvent);
-    bool eventFilter(QObject *pObj, QEvent *pEvent);
-    QString textFromValue(double Val) const;
-    bool IsBeingDragged();
+    explicit WDraggableSpinBox(QWidget *pParent = nullptr);
+    ~WDraggableSpinBox() override;
+
+    void mousePressEvent(QMouseEvent* pEvent) override;
+    void mouseReleaseEvent(QMouseEvent* pEvent) override;
+    void mouseMoveEvent(QMouseEvent* pEvent) override;
+    void wheelEvent(QWheelEvent* pEvent) override;
+    bool eventFilter(QObject* pObj, QEvent* pEvent) override;
+    QString textFromValue(double Val) const override;
+    bool IsBeingDragged() const;
     void SetDefaultValue(double Value);
     void SetMinDecimals(int Dec);
     void TrimTrailingZeroes(bool Trim);

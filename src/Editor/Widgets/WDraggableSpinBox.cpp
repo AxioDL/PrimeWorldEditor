@@ -7,10 +7,6 @@
 
 WDraggableSpinBox::WDraggableSpinBox(QWidget *parent)
     : QDoubleSpinBox(parent)
-    , mBeingDragged(false)
-    , mDefaultValue(0)
-    , mMinDecimals(1)
-    , mTrimTrailingZeroes(true)
 {
     setMinimum(-1000000.0);
     setMaximum(1000000.0);
@@ -18,9 +14,7 @@ WDraggableSpinBox::WDraggableSpinBox(QWidget *parent)
     lineEdit()->installEventFilter(this);
 }
 
-WDraggableSpinBox::~WDraggableSpinBox()
-{
-}
+WDraggableSpinBox::~WDraggableSpinBox() = default;
 
 void WDraggableSpinBox::mousePressEvent(QMouseEvent *pEvent)
 {
@@ -145,7 +139,7 @@ QString WDraggableSpinBox::textFromValue(double Val) const
     return Str;
 }
 
-bool WDraggableSpinBox::IsBeingDragged()
+bool WDraggableSpinBox::IsBeingDragged() const
 {
     return mBeingDragged;
 }
