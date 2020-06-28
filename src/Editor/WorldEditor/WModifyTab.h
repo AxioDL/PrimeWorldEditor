@@ -12,6 +12,8 @@
 #include <QMenu>
 #include <QWidget>
 
+#include <memory>
+
 class CWorldEditor;
 
 namespace Ui {
@@ -32,11 +34,12 @@ class WModifyTab : public QWidget
     QAction *mpAddFromViewportAction;
     QAction *mpAddFromListAction;
     ELinkType mAddLinkType;
-    bool mIsPicking;
+    bool mIsPicking = false;
 
 public:
-    explicit WModifyTab(CWorldEditor *pEditor, QWidget *pParent = 0);
-    ~WModifyTab();
+    explicit WModifyTab(CWorldEditor *pEditor, QWidget *pParent = nullptr);
+    ~WModifyTab() override;
+
     void ClearUI();
     CPropertyView* PropertyView() const;
 
@@ -53,11 +56,11 @@ public slots:
     void OnDeleteLinksClicked();
     void OnEditLinkClicked();
 
-    inline bool IsPicking() const       { return mIsPicking; }
-    inline CSceneNode* EditNode() const { return mpSelectedNode; }
+    bool IsPicking() const       { return mIsPicking; }
+    CSceneNode* EditNode() const { return mpSelectedNode; }
 
 private:
-    Ui::WModifyTab *ui;
+    std::unique_ptr<Ui::WModifyTab> ui;
 
 private slots:
     void OnLinkTableDoubleClick(QModelIndex Index);

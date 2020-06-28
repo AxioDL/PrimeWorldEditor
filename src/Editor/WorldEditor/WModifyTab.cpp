@@ -12,8 +12,7 @@
 
 WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     : QWidget(pParent)
-    , ui(new Ui::WModifyTab)
-    , mIsPicking(false)
+    , ui(std::make_unique<Ui::WModifyTab>())
 {
     ui->setupUi(this);
     ui->PropertyView->SetEditor(pEditor);
@@ -25,8 +24,8 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     mpOutLinkModel = new CLinkModel(this);
     mpOutLinkModel->SetConnectionType(ELinkType::Outgoing);
 
-    mpAddFromViewportAction = new QAction("Choose from viewport", this);
-    mpAddFromListAction = new QAction("Choose from list", this);
+    mpAddFromViewportAction = new QAction(tr("Choose from viewport"), this);
+    mpAddFromListAction = new QAction(tr("Choose from list"), this);
     mpAddLinkMenu = new QMenu(this);
     mpAddLinkMenu->addAction(mpAddFromViewportAction);
     mpAddLinkMenu->addAction(mpAddFromListAction);
@@ -54,10 +53,7 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
     ClearUI();
 }
 
-WModifyTab::~WModifyTab()
-{
-    delete ui;
-}
+WModifyTab::~WModifyTab() = default;
 
 void WModifyTab::ClearUI()
 {
