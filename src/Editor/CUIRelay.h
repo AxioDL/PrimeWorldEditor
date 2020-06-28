@@ -12,34 +12,34 @@ class CUIRelay : public QObject, public IUIRelay
 {
     Q_OBJECT
 
-    Qt::ConnectionType GetConnectionType()
+    Qt::ConnectionType GetConnectionType() const
     {
-        bool IsUIThread = (QThread::currentThread() == gpEdApp->thread());
+        const bool IsUIThread = (QThread::currentThread() == gpEdApp->thread());
         return IsUIThread ? Qt::DirectConnection : Qt::BlockingQueuedConnection;
     }
 
 public:
-    explicit CUIRelay(QObject *pParent = 0)
+    explicit CUIRelay(QObject *pParent = nullptr)
         : QObject(pParent)
     {}
 
     // Note: All function calls should be deferred with QMetaObject::invokeMethod to ensure
     // that they run on the UI thread instead of whatever thread we happen to be on.
-    virtual void ShowMessageBox(const TString& rkInfoBoxTitle, const TString& rkMessage)
+    void ShowMessageBox(const TString& rkInfoBoxTitle, const TString& rkMessage) override
     {
         QMetaObject::invokeMethod(this, "MessageBoxSlot", GetConnectionType(),
                                   Q_ARG(QString, TO_QSTRING(rkInfoBoxTitle)),
                                   Q_ARG(QString, TO_QSTRING(rkMessage)) );
     }
 
-    virtual void ShowMessageBoxAsync(const TString& rkInfoBoxTitle, const TString& rkMessage)
+    void ShowMessageBoxAsync(const TString& rkInfoBoxTitle, const TString& rkMessage) override
     {
         QMetaObject::invokeMethod(this, "MessageBoxSlot", Qt::QueuedConnection,
                                   Q_ARG(QString, TO_QSTRING(rkInfoBoxTitle)),
                                   Q_ARG(QString, TO_QSTRING(rkMessage)) );
     }
 
-    virtual bool AskYesNoQuestion(const TString& rkInfoBoxTitle, const TString& rkQuestion)
+    bool AskYesNoQuestion(const TString& rkInfoBoxTitle, const TString& rkQuestion) override
     {
         bool RetVal;
         QMetaObject::invokeMethod(this, "AskYesNoQuestionSlot", GetConnectionType(),
@@ -49,7 +49,7 @@ public:
         return RetVal;
     }
 
-    virtual bool OpenProject(const TString& kPath = "")
+    bool OpenProject(const TString& kPath = "") override
     {
         bool RetVal;
         QMetaObject::invokeMethod(this, "OpenProjectSlot", GetConnectionType(),

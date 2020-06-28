@@ -33,7 +33,8 @@ class CEditorApplication : public QApplication
 
 public:
     CEditorApplication(int& rArgc, char **ppArgv);
-    ~CEditorApplication();
+    ~CEditorApplication() override;
+
     void InitEditor();
     bool CloseAllEditors();
     bool CloseProject();

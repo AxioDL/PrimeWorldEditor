@@ -18,7 +18,8 @@ class CCharacterEditorViewport : public CBasicViewport
 
 public:
     explicit CCharacterEditorViewport(QWidget* pParent = nullptr);
-    ~CCharacterEditorViewport();
+    ~CCharacterEditorViewport() override;
+
     void SetNode(CCharacterNode *pNode);
     void CheckUserInput() override;
     void Paint() override;

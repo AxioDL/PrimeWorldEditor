@@ -43,15 +43,16 @@ class CCharacterEditor : public IEditor
 
 public:
     explicit CCharacterEditor(CAnimSet *pSet, QWidget *parent = nullptr);
-    ~CCharacterEditor();
-    void EditorTick(float DeltaTime);
+    ~CCharacterEditor() override;
+
+    void EditorTick(float DeltaTime) override;
     void UpdateAnimTime(float DeltaTime);
     void UpdateCameraOrbit();
     CSkeleton* CurrentSkeleton() const;
     CAnimation* CurrentAnimation() const;
     void SetActiveAnimSet(CAnimSet *pSet);
     void SetSelectedBone(CBone *pBone);
-    CCharacterEditorViewport* Viewport() const;
+    CCharacterEditorViewport* Viewport() const override;
 
 public slots:
     void ToggleGrid(bool Enable);

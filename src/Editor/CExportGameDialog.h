@@ -36,7 +36,7 @@ class CExportGameDialog : public QDialog
 
 public:
     explicit CExportGameDialog(const QString& rkIsoPath, const QString& rkExportDir, QWidget *pParent = nullptr);
-    ~CExportGameDialog();
+    ~CExportGameDialog() override;
 
     void InitUI(QString ExportDir);
     bool ValidateGame();

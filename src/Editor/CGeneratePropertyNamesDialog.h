@@ -59,7 +59,7 @@ class CGeneratePropertyNamesDialog : public QDialog
 
 public:
     explicit CGeneratePropertyNamesDialog(QWidget *pParent = nullptr);
-    ~CGeneratePropertyNamesDialog();
+    ~CGeneratePropertyNamesDialog() override;
 
     /** Add a property to the ID pool */
     void AddToIDPool(IProperty* pProperty);

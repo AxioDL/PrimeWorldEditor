@@ -9,36 +9,32 @@
 class CProgressBarNotifier : public IProgressNotifier
 {
     /** The progress bar we are relaying updates to */
-    QProgressBar* mpProgressBar;
+    QProgressBar* mpProgressBar = nullptr;
 
     /** Whether the user has requested to cancel */
-    bool mCancel;
+    bool mCancel = false;
 
 public:
-    CProgressBarNotifier()
-        : IProgressNotifier()
-        , mpProgressBar(nullptr)
-        , mCancel(false)
-    {}
+    CProgressBarNotifier() = default;
 
-    inline void SetProgressBar(QProgressBar* pProgressBar)
+    void SetProgressBar(QProgressBar* pProgressBar)
     {
         mpProgressBar = pProgressBar;
     }
 
-    inline void SetCanceled(bool ShouldCancel)
+    void SetCanceled(bool ShouldCancel)
     {
         mCancel = ShouldCancel;
     }
 
     /** IProgressNotifier interface */
-    virtual bool ShouldCancel() const
+    bool ShouldCancel() const override
     {
         return mCancel;
     }
 
 protected:
-    virtual void UpdateProgress(const TString &, const TString &, float ProgressPercent)
+    void UpdateProgress(const TString &, const TString &, float ProgressPercent) override
     {
         if (mpProgressBar)
         {

@@ -5,16 +5,13 @@
 
 CErrorLogDialog::CErrorLogDialog(QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::CErrorLogDialog)
+    , ui(std::make_unique<Ui::CErrorLogDialog>())
 {
     ui->setupUi(this);
     connect(ui->CloseButton, SIGNAL(clicked()), this, SLOT(close()));
 }
 
-CErrorLogDialog::~CErrorLogDialog()
-{
-    delete ui;
-}
+CErrorLogDialog::~CErrorLogDialog() = default;
 
 bool CErrorLogDialog::GatherErrors()
 {

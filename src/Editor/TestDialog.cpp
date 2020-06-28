@@ -5,7 +5,7 @@
 
 TestDialog::TestDialog(QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::TestDialog)
+    , ui(std::make_unique<Ui::TestDialog>())
 {
     ui->setupUi(this);
     connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(OnSpinBoxChanged(int)));
@@ -13,10 +13,7 @@ TestDialog::TestDialog(QWidget *pParent)
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(OnFind()));
 }
 
-TestDialog::~TestDialog()
-{
-    delete ui;
-}
+TestDialog::~TestDialog() = default;
 
 void TestDialog::OnSpinBoxChanged(int NewValue)
 {

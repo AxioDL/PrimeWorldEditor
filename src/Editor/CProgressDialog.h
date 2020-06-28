@@ -36,7 +36,7 @@ class CProgressDialog : public IProgressNotifierUI
 
 public:
     explicit CProgressDialog(QString OperationName, bool UseBusyIndicator, bool AlertOnFinish, QWidget *pParent = nullptr);
-    ~CProgressDialog();
+    ~CProgressDialog() override;
 
     void DisallowCanceling();
 

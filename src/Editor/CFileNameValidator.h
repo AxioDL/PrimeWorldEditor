@@ -11,12 +11,12 @@ class CFileNameValidator : public QValidator
     bool mIsDirectory;
 
 public:
-    CFileNameValidator(bool IsDirectory, QObject *pParent = 0)
+    CFileNameValidator(bool IsDirectory, QObject *pParent = nullptr)
         : QValidator(pParent)
         , mIsDirectory(IsDirectory)
     {}
 
-    QValidator::State validate(QString& rInput, int&) const
+    QValidator::State validate(QString& rInput, int&) const override
     {
         QValidator::State Out = QValidator::Acceptable;
 
@@ -41,9 +41,9 @@ public:
         return Out;
     }
 
-    void fixup(QString& rInput) const
+    void fixup(QString& rInput) const override
     {
-        TString Sanitized = FileUtil::SanitizeName( TO_TSTRING(rInput), mIsDirectory );
+        const TString Sanitized = FileUtil::SanitizeName(TO_TSTRING(rInput), mIsDirectory);
         rInput = TO_QSTRING(Sanitized);
     }
 };
