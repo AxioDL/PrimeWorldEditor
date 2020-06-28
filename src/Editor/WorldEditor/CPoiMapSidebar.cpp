@@ -12,17 +12,14 @@
 #include <QMouseEvent>
 #include <QMessageBox>
 
-const CColor CPoiMapSidebar::skNormalColor(0.137255f, 0.184314f, 0.776471f, 0.5f);
-const CColor CPoiMapSidebar::skImportantColor(0.721569f, 0.066667f, 0.066667f, 0.5f);
-const CColor CPoiMapSidebar::skHoverColor(0.047059f, 0.2f, 0.003922f, 0.5f);
+constexpr CColor skNormalColor(0.137255f, 0.184314f, 0.776471f, 0.5f);
+constexpr CColor skImportantColor(0.721569f, 0.066667f, 0.066667f, 0.5f);
+constexpr CColor skHoverColor(0.047059f, 0.2f, 0.003922f, 0.5f);
 
 CPoiMapSidebar::CPoiMapSidebar(CWorldEditor *pEditor)
     : CWorldEditorSidebar(pEditor)
-    , ui(new Ui::CPoiMapSidebar)
+    , ui(std::make_unique<Ui::CPoiMapSidebar>())
     , mSourceModel(pEditor, this)
-    , mHighlightMode(EHighlightMode::HighlightSelected)
-    , mPickType(EPickType::NotPicking)
-    , mpHoverModel(nullptr)
 {
     mModel.setSourceModel(&mSourceModel);
     mModel.sort(0);
@@ -46,10 +43,7 @@ CPoiMapSidebar::CPoiMapSidebar(CWorldEditor *pEditor)
     connect(ui->RemovePoiButton, SIGNAL(clicked()), this, SLOT(OnRemovePoiButtonClicked()));
 }
 
-CPoiMapSidebar::~CPoiMapSidebar()
-{
-    delete ui;
-}
+CPoiMapSidebar::~CPoiMapSidebar() = default;
 
 void CPoiMapSidebar::SidebarOpen()
 {

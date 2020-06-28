@@ -9,6 +9,8 @@
 #include <QMainWindow>
 #include <QSortFilterProxyModel>
 
+#include <memory>
+
 namespace Ui {
 class CPoiMapSidebar;
 }
@@ -16,7 +18,7 @@ class CPoiMapSidebar;
 class CPoiMapSidebar : public CWorldEditorSidebar
 {
     Q_OBJECT
-    Ui::CPoiMapSidebar *ui;
+    std::unique_ptr<Ui::CPoiMapSidebar> ui;
 
 public:
     enum class EHighlightMode
@@ -38,20 +40,17 @@ public:
 private:
     CPoiMapModel mSourceModel;
     QSortFilterProxyModel mModel;
-    EHighlightMode mHighlightMode;
+    EHighlightMode mHighlightMode{EHighlightMode::HighlightSelected};
 
-    EPickType mPickType;
-    CModelNode *mpHoverModel;
-
-    static const CColor skNormalColor;
-    static const CColor skImportantColor;
-    static const CColor skHoverColor;
+    EPickType mPickType{EPickType::NotPicking};
+    CModelNode *mpHoverModel = nullptr;
 
 public:
     explicit CPoiMapSidebar(CWorldEditor *pEditor);
-    ~CPoiMapSidebar();
-    void SidebarOpen();
-    void SidebarClose();
+    ~CPoiMapSidebar() override;
+
+    void SidebarOpen() override;
+    void SidebarClose() override;
     void HighlightPoiModels(const QModelIndex& rkIndex);
     void UnhighlightPoiModels(const QModelIndex& rkIndex);
     void HighlightModel(const QModelIndex& rkIndex, CModelNode *pNode);
