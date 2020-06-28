@@ -8,7 +8,7 @@ CErrorLogDialog::CErrorLogDialog(QWidget *pParent)
     , ui(std::make_unique<Ui::CErrorLogDialog>())
 {
     ui->setupUi(this);
-    connect(ui->CloseButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->CloseButton, &QPushButton::clicked, this, &CErrorLogDialog::close);
 }
 
 CErrorLogDialog::~CErrorLogDialog() = default;
