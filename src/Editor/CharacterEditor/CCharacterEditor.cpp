@@ -37,28 +37,28 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     mpAnimComboBox->setMinimumWidth(175);
     ui->ToolBar->addWidget(mpAnimComboBox);
 
-    connect(ui->Viewport, SIGNAL(HoverBoneChanged(uint32)), this, SLOT(OnViewportHoverBoneChanged(uint32)));
-    connect(ui->Viewport, SIGNAL(ViewportClick(QMouseEvent*)), this, SLOT(OnViewportClick()));
-    connect(ui->ActionShowGrid, SIGNAL(toggled(bool)), this, SLOT(ToggleGrid(bool)));
-    connect(ui->ActionShowMesh, SIGNAL(toggled(bool)), this, SLOT(ToggleMeshVisible(bool)));
-    connect(ui->ActionShowSkeleton, SIGNAL(toggled(bool)), this, SLOT(ToggleSkeletonVisible(bool)));
-    connect(ui->ActionBindPose, SIGNAL(toggled(bool)), this, SLOT(ToggleBindPose(bool)));
-    connect(ui->ActionOrbit, SIGNAL(toggled(bool)), this, SLOT(ToggleOrbit(bool)));
-    connect(ui->ActionPlay, SIGNAL(triggered()), this, SLOT(TogglePlay()));
-    connect(ui->ActionLoop, SIGNAL(toggled(bool)), this, SLOT(ToggleLoop(bool)));
-    connect(ui->ActionRewind, SIGNAL(triggered()), this, SLOT(Rewind()));
-    connect(ui->ActionFastForward, SIGNAL(triggered()), this, SLOT(FastForward()));
-    connect(ui->ActionPrevAnim, SIGNAL(triggered()), this, SLOT(PrevAnim()));
-    connect(ui->ActionNextAnim, SIGNAL(triggered()), this, SLOT(NextAnim()));
-    connect(mpCharComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveCharacterIndex(int)));
-    connect(mpAnimComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveAnimation(int)));
+    connect(ui->Viewport, &CCharacterEditorViewport::HoverBoneChanged, this, &CCharacterEditor::OnViewportHoverBoneChanged);
+    connect(ui->Viewport, &CCharacterEditorViewport::ViewportClick, this, &CCharacterEditor::OnViewportClick);
+    connect(ui->ActionShowGrid, &QAction::toggled, this, &CCharacterEditor::ToggleGrid);
+    connect(ui->ActionShowMesh, &QAction::toggled, this, &CCharacterEditor::ToggleMeshVisible);
+    connect(ui->ActionShowSkeleton, &QAction::toggled, this, &CCharacterEditor::ToggleSkeletonVisible);
+    connect(ui->ActionBindPose, &QAction::toggled, this, &CCharacterEditor::ToggleBindPose);
+    connect(ui->ActionOrbit, &QAction::toggled, this, &CCharacterEditor::ToggleOrbit);
+    connect(ui->ActionPlay, &QAction::triggered, this, &CCharacterEditor::TogglePlay);
+    connect(ui->ActionLoop, &QAction::toggled, this, &CCharacterEditor::ToggleLoop);
+    connect(ui->ActionRewind, &QAction::triggered, this, &CCharacterEditor::Rewind);
+    connect(ui->ActionFastForward, &QAction::triggered, this, &CCharacterEditor::FastForward);
+    connect(ui->ActionPrevAnim, &QAction::triggered, this, &CCharacterEditor::PrevAnim);
+    connect(ui->ActionNextAnim, &QAction::triggered, this, &CCharacterEditor::NextAnim);
+    connect(mpCharComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &CCharacterEditor::SetActiveCharacterIndex);
+    connect(mpAnimComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &CCharacterEditor::SetActiveAnimation);
 
-    connect(ui->AnimSlider, SIGNAL(valueChanged(int)), this, SLOT(SetAnimTime(int)));
-    connect(ui->PlayPauseButton, SIGNAL(pressed()), this, SLOT(TogglePlay()));
-    connect(ui->LoopButton, SIGNAL(toggled(bool)), this, SLOT(ToggleLoop(bool)));
-    connect(ui->RewindButton, SIGNAL(pressed()), this, SLOT(Rewind()));
-    connect(ui->FastForwardButton, SIGNAL(pressed()), this, SLOT(FastForward()));
-    connect(ui->AnimSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(AnimSpeedSpinBoxChanged(double)));
+    connect(ui->AnimSlider, qOverload<int>(&QSlider::valueChanged), this, qOverload<int>(&CCharacterEditor::SetAnimTime));
+    connect(ui->PlayPauseButton, &QPushButton::pressed, this, &CCharacterEditor::TogglePlay);
+    connect(ui->LoopButton, &QPushButton::toggled, this, &CCharacterEditor::ToggleLoop);
+    connect(ui->RewindButton, &QPushButton::pressed, this, &CCharacterEditor::Rewind);
+    connect(ui->FastForwardButton, &QPushButton::pressed, this, &CCharacterEditor::FastForward);
+    connect(ui->AnimSpeedSpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, &CCharacterEditor::AnimSpeedSpinBoxChanged);
 
     // Init skeleton tree view
     ui->SkeletonHierarchyTreeView->setModel(&mSkeletonModel);
@@ -66,7 +66,8 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     SplitterSizes << width() * 0.2 << width() * 0.8;
     ui->splitter->setSizes(SplitterSizes);
 
-    connect(ui->SkeletonHierarchyTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnSkeletonTreeSelectionChanged(QModelIndex)));
+    connect(ui->SkeletonHierarchyTreeView->selectionModel(), &QItemSelectionModel::currentChanged, this,
+            &CCharacterEditor::OnSkeletonTreeSelectionChanged);
 
     SetActiveAnimSet(pSet);
 }
