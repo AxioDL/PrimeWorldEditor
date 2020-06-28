@@ -56,7 +56,7 @@ bool CStringEditor::Save()
 {
     if (!mpStringTable->Entry()->Save())
     {
-        UICommon::ErrorMsg(this, "Failed to save!");
+        UICommon::ErrorMsg(this, tr("Failed to save!"));
         return false;
     }
     else
@@ -73,14 +73,14 @@ bool CStringEditor::eventFilter(QObject* pWatched, QEvent* pEvent)
     {
         if (pWatched == mpUI->StringNameLineEdit && mIsEditingStringName)
         {
-            IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Edit String Name", mpStringTable, true);
+            IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>(tr("Edit String Name"), mpStringTable, true);
             UndoStack().push(pCommand);
             mIsEditingStringName = false;
             return true;
         }
         else if (pWatched == mpUI->StringTextEdit && mIsEditingStringData)
         {
-            IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Edit String", mpStringTable, true);
+            IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>(tr("Edit String"), mpStringTable, true);
             UndoStack().push(pCommand);
             mIsEditingStringData = false;
             return true;
@@ -95,14 +95,14 @@ void CStringEditor::InitUI()
     mpListModel = new CStringListModel(this);
     mpUI->StringNameListView->setModel(mpListModel);
     mpUI->StringNameListView->setItemDelegate( new CStringDelegate(this) );
-    mpUI->AddStringButton->setShortcut( QKeySequence("Alt+=") );
-    mpUI->RemoveStringButton->setShortcut( QKeySequence("Alt+-") );
+    mpUI->AddStringButton->setShortcut(QKeySequence(Qt::Key_Alt, Qt::Key_Equal));
+    mpUI->RemoveStringButton->setShortcut(QKeySequence(Qt::Key_Alt, Qt::Key_Minus));
 
     // Register shortcuts
-    new QShortcut( QKeySequence("Alt+Down"),  this, SLOT(IncrementStringIndex()) );
-    new QShortcut( QKeySequence("Alt+Up"),    this, SLOT(DecrementStringIndex()) );
-    new QShortcut( QKeySequence("Alt+Right"), this, SLOT(IncrementLanguageIndex()) );
-    new QShortcut( QKeySequence("Alt+Left"),  this, SLOT(DecrementLanguageIndex()) );
+    new QShortcut(QKeySequence(Qt::Key_Alt, Qt::Key_Down), this, SLOT(IncrementStringIndex()));
+    new QShortcut(QKeySequence(Qt::Key_Alt, Qt::Key_Up), this, SLOT(DecrementStringIndex()));
+    new QShortcut(QKeySequence(Qt::Key_Alt, Qt::Key_Right), this, SLOT(IncrementLanguageIndex()));
+    new QShortcut(QKeySequence(Qt::Key_Alt, Qt::Key_Left), this, SLOT(DecrementLanguageIndex()));
 
     // Set up language tabs
     mpUI->EditLanguageTabBar->setExpanding(false);
@@ -153,13 +153,13 @@ void CStringEditor::InitUI()
 void CStringEditor::UpdateStatusBar()
 {
     // Update status bar
-    QString StatusText = QString("%1 languages, %2 strings")
+    QString StatusText = tr("%1 languages, %2 strings")
             .arg(mpStringTable->NumLanguages())
             .arg(mpStringTable->NumStrings());
 
     if (mCurrentStringIndex >= 0)
     {
-        StatusText += QString("; editing string #%1 in %2")
+        StatusText += tr("; editing string #%1 in %2")
                 .arg(mCurrentStringIndex + 1)
                 .arg(TEnumReflection<ELanguage>::ConvertValueToString(mCurrentLanguage));
     }
@@ -303,7 +303,7 @@ void CStringEditor::OnStringNameEdited()
     
     if (mpStringTable->StringNameByIndex(mCurrentStringIndex) != NewName)
     {
-        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Edit String Name", mpStringTable, false);
+        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>(tr("Edit String Name"), mpStringTable, false);
 
         mpStringTable->SetStringName(mCurrentStringIndex, std::move(NewName));
         mIsEditingStringName = true;
@@ -317,7 +317,7 @@ void CStringEditor::OnStringTextEdited()
     
     if (mpStringTable->GetString(mCurrentLanguage, mCurrentStringIndex) != NewText)
     {
-        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Edit String", mpStringTable, false);
+        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>(tr("Edit String"), mpStringTable, false);
 
         mpStringTable->SetString(mCurrentLanguage, mCurrentStringIndex, std::move(NewText));
         mIsEditingStringData = true;
@@ -330,7 +330,7 @@ void CStringEditor::OnAddString()
     UndoStack().beginMacro("Add String");
 
     // Add string
-    IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Add String", mpStringTable, true);
+    IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>(tr("Add String"), mpStringTable, true);
     uint Index = mCurrentStringIndex + 1;
     mpStringTable->AddString(Index);
     UndoStack().push(pCommand);
@@ -348,7 +348,7 @@ void CStringEditor::OnRemoveString()
 {
     if (mpUI->StringNameListView->selectionModel()->hasSelection())
     {
-        UndoStack().beginMacro("Remove String");
+        UndoStack().beginMacro(tr("Remove String"));
         const size_t Index = mCurrentStringIndex;
 
         // Change selection to a new string.
@@ -360,7 +360,7 @@ void CStringEditor::OnRemoveString()
         UndoStack().push(pCommand);
 
         // Remove the string
-        pCommand = new TSerializeUndoCommand<CStringTable>("Remove String", mpStringTable, true);
+        pCommand = new TSerializeUndoCommand<CStringTable>(tr("Remove String"), mpStringTable, true);
         mpStringTable->RemoveString(Index);
         UndoStack().push(pCommand);
         UndoStack().endMacro();
@@ -373,10 +373,10 @@ void CStringEditor::OnMoveString(int StringIndex, int NewIndex)
     {
         ASSERT( StringIndex >= 0 && StringIndex < (int) mpStringTable->NumStrings() );
         ASSERT( NewIndex >= 0 && NewIndex < (int) mpStringTable->NumStrings() );
-        UndoStack().beginMacro("Move String");
+        UndoStack().beginMacro(tr("Move String"));
 
         // Move string
-        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>("Move String", mpStringTable, true);
+        IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>(tr("Move String"), mpStringTable, true);
         mpStringTable->MoveString(StringIndex, NewIndex);
         UndoStack().push(pCommand);
 
