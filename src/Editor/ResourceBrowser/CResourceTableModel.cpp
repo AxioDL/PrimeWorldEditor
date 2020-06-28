@@ -35,14 +35,16 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
         CVirtualDirectory *pDir = IndexDirectory(rkIndex);
 
         if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
-            return ( (mpCurrentDir && !mpCurrentDir->IsRoot() && rkIndex.row() == 0)
-                    ? ".." : TO_QSTRING(pDir->Name()));
+        {
+            return ((mpCurrentDir && !mpCurrentDir->IsRoot() && rkIndex.row() == 0)
+                        ? tr("..")
+                        : TO_QSTRING(pDir->Name()));
+        }
 
-        else if (Role == Qt::DecorationRole)
-            return QIcon(":/icons/Open_24px.svg");
+        if (Role == Qt::DecorationRole)
+            return QIcon(QStringLiteral(":/icons/Open_24px.svg"));
 
-        else
-            return QVariant::Invalid;
+        return QVariant::Invalid;
     }
 
     // Resource
@@ -51,11 +53,11 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
     if (Role == Qt::DisplayRole)
         return TO_QSTRING(pEntry->Name());
 
-    else if (Role == Qt::ToolTipRole)
+    if (Role == Qt::ToolTipRole)
         return TO_QSTRING(pEntry->CookedAssetPath(true));
 
-    else if (Role == Qt::DecorationRole)
-        return QIcon(":/icons/Sphere Preview.svg");
+    if (Role == Qt::DecorationRole)
+        return QIcon(QStringLiteral(":/icons/Sphere Preview.svg"));
 
     return QVariant::Invalid;
 }
@@ -238,9 +240,9 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
     }
 
     if (pDir)
-        mModelDescription = pDir->IsRoot() ? "Resources" : TO_QSTRING(pDir->FullPath());
+        mModelDescription = pDir->IsRoot() ? tr("Resources") : TO_QSTRING(pDir->FullPath());
     else
-        mModelDescription = "Nothing";
+        mModelDescription = tr("Nothing");
 
     endResetModel();
 }
