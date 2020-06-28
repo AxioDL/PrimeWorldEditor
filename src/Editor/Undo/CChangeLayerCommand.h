@@ -15,9 +15,9 @@ class CChangeLayerCommand : public IUndoCommand
 
 public:
     CChangeLayerCommand(CWorldEditor *pEditor, const QList<CScriptNode*>& rkNodeList, CScriptLayer *pNewLayer);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
 };
 
 #endif // CCHANGELAYERCOMMAND_H
