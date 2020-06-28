@@ -12,24 +12,25 @@ class CLinkDialog : public QDialog
     Q_OBJECT
 
     CWorldEditor *mpEditor;
-    CGameTemplate *mpGame;
-    CScriptObject *mpSender;
-    CScriptObject *mpReceiver;
-    CLink *mpEditLink;
+    CGameTemplate *mpGame = nullptr;
+    CScriptObject *mpSender = nullptr;
+    CScriptObject *mpReceiver = nullptr;
+    CLink *mpEditLink = nullptr;
 
-    CStateMessageModel mSenderStateModel;
-    CStateMessageModel mReceiverMessageModel;
+    CStateMessageModel mSenderStateModel{CStateMessageModel::EType::States, this};
+    CStateMessageModel mReceiverMessageModel{CStateMessageModel::EType::Messages, this};
 
-    bool mIsPicking;
+    bool mIsPicking = false;
 
-    Ui::CLinkDialog *ui;
+    std::unique_ptr<Ui::CLinkDialog> ui;
 
 public:
-    explicit CLinkDialog(CWorldEditor *pEditor, QWidget *parent = 0);
-    ~CLinkDialog();
-    void resizeEvent(QResizeEvent *);
-    void showEvent(QShowEvent *);
-    void closeEvent(QCloseEvent *);
+    explicit CLinkDialog(CWorldEditor *pEditor, QWidget *parent = nullptr);
+    ~CLinkDialog() override;
+
+    void resizeEvent(QResizeEvent*) override;
+    void showEvent(QShowEvent*) override;
+    void closeEvent(QCloseEvent*) override;
 
     void NewLink(CScriptObject *pSender, CScriptObject *pReceiver);
     void EditLink(CLink *pLink);
@@ -44,11 +45,11 @@ public:
     void UpdateSenderNameLabel();
     void UpdateReceiverNameLabel();
 
-    inline CScriptObject* Sender() const { return mpSender; }
-    inline CScriptObject* Receiver() const { return mpReceiver; }
-    inline bool IsPicking() const { return mIsPicking; }
-    inline bool IsPickingSender() const { return mIsPicking && ui->SenderPickFromViewport->isChecked(); }
-    inline bool IsPickingReceiver() const { return mIsPicking && ui->ReceiverPickFromViewport->isChecked(); }
+    CScriptObject* Sender() const { return mpSender; }
+    CScriptObject* Receiver() const { return mpReceiver; }
+    bool IsPicking() const { return mIsPicking; }
+    bool IsPickingSender() const { return mIsPicking && ui->SenderPickFromViewport->isChecked(); }
+    bool IsPickingReceiver() const { return mIsPicking && ui->ReceiverPickFromViewport->isChecked(); }
 
 public slots:
     void accept();

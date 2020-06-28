@@ -6,17 +6,10 @@
 #include "Editor/Undo/CEditLinkCommand.h"
 #include <Core/Resource/Script/CScriptObject.h>
 
-CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
+CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::CLinkDialog)
     , mpEditor(pEditor)
-    , mpGame(nullptr)
-    , mpSender(nullptr)
-    , mpReceiver(nullptr)
-    , mSenderStateModel(CStateMessageModel::EType::States, this)
-    , mReceiverMessageModel(CStateMessageModel::EType::Messages, this)
-    , mIsPicking(false)
-    , mpEditLink(nullptr)
+    , ui(std::make_unique<Ui::CLinkDialog>())
 {
     ui->setupUi(this);
     ui->SenderStateComboBox->setModel(&mSenderStateModel);
@@ -29,10 +22,7 @@ CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     connect(ui->ReceiverPickFromList, SIGNAL(clicked()), this, SLOT(OnPickFromListClicked()));
 }
 
-CLinkDialog::~CLinkDialog()
-{
-    delete ui;
-}
+CLinkDialog::~CLinkDialog() = default;
 
 void CLinkDialog::resizeEvent(QResizeEvent *)
 {
