@@ -10,7 +10,6 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     : IEditor(pParent)
     , mpUI(std::make_unique<Ui::CCollisionEditor>())
 {
-    mpUI = std::make_unique<Ui::CCollisionEditor>();
     mpUI->setupUi(this);
 
     mpCollisionMesh = pCollisionMesh;
