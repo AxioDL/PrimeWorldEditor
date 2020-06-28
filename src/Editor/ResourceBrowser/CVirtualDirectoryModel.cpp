@@ -75,18 +75,20 @@ QVariant CVirtualDirectoryModel::data(const QModelIndex& rkIndex, int Role) cons
     if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
     {
         if (!rkIndex.parent().isValid())
-            return "Resources";
-
+        {
+            return tr("Resources");
+        }
         else
         {
             CVirtualDirectory *pDir = IndexDirectory(rkIndex);
-            if (pDir) return TO_QSTRING(pDir->Name());
+            if (pDir)
+                return TO_QSTRING(pDir->Name());
         }
     }
 
     if (Role == Qt::DecorationRole)
     {
-        return QIcon(":/icons/Open_24px.svg");
+        return QIcon(QStringLiteral(":/icons/Open_24px.svg"));
     }
 
     return QVariant::Invalid;
