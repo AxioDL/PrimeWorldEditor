@@ -2,13 +2,8 @@
 #include "CResourceBrowser.h"
 #include "CResourceMimeData.h"
 
-CVirtualDirectoryModel::CVirtualDirectoryModel(CResourceBrowser *pBrowser, QObject *pParent /*= 0*/)
+CVirtualDirectoryModel::CVirtualDirectoryModel(CResourceBrowser *pBrowser, QObject *pParent)
     : QAbstractItemModel(pParent)
-    , mpRoot(nullptr)
-    , mInsertingRows(false)
-    , mRemovingRows(false)
-    , mMovingRows(false)
-    , mChangingLayout(false)
 {
     connect(pBrowser, SIGNAL(DirectoryAboutToBeMoved(CVirtualDirectory*,QString)), this, SLOT(OnDirectoryAboutToBeMoved(CVirtualDirectory*,QString)));
     connect(pBrowser, SIGNAL(DirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)), this, SLOT(FinishModelChanges()));
