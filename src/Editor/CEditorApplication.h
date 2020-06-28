@@ -21,12 +21,12 @@ class CEditorApplication : public QApplication
     Q_OBJECT
 
     std::unique_ptr<CGameProject> mpActiveProject;
-    CWorldEditor *mpWorldEditor;
-    CResourceBrowser *mpResourceBrowser;
-    CProjectSettingsDialog *mpProjectDialog;
+    CWorldEditor *mpWorldEditor = nullptr;
+    CResourceBrowser *mpResourceBrowser = nullptr;
+    CProjectSettingsDialog *mpProjectDialog = nullptr;
     QVector<IEditor*> mEditorWindows;
     QMap<CResourceEntry*,IEditor*> mEditingMap;
-    bool mInitialized;
+    bool mInitialized = false;
 
     QTimer mRefreshTimer;
     double mLastUpdate;

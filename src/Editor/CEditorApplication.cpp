@@ -22,13 +22,8 @@
 
 CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     : QApplication(rArgc, ppArgv)
-    , mpActiveProject(nullptr)
-    , mpWorldEditor(nullptr)
-    , mpProjectDialog(nullptr)
-    , mInitialized(false)
+    , mLastUpdate{CTimer::GlobalTime()}
 {
-    mLastUpdate = CTimer::GlobalTime();
-
     connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(TickEditors()));
     mRefreshTimer.start(8);
 }
