@@ -12,8 +12,6 @@ CResourceTableContextMenu::CResourceTableContextMenu(CResourceBrowser *pBrowser,
     , mpTable(pView)
     , mpModel(pModel)
     , mpProxy(pProxy)
-    , mpClickedEntry(nullptr)
-    , mpClickedDirectory(nullptr)
 {
     // Connect to the view
     connect(pView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowMenu(QPoint)));
