@@ -3,16 +3,13 @@
 #include "Editor/INodeEditor.h"
 
 CTranslateNodeCommand::CTranslateNodeCommand()
-    : IUndoCommand("Translate"),
-      mpEditor(nullptr),
-      mCommandEnded(false)
+    : IUndoCommand("Translate")
 {
 }
 
 CTranslateNodeCommand::CTranslateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& Delta, ETransformSpace TransformSpace)
     : IUndoCommand("Translate"),
-      mpEditor(pEditor),
-      mCommandEnded(false)
+      mpEditor(pEditor)
 {
     mNodeList.reserve(rkNodes.size());
 
