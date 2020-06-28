@@ -4,6 +4,8 @@
 #include "Editor/IEditor.h"
 #include <Core/Resource/Scan/CScan.h>
 
+#include <memory>
+
 namespace Ui {
 class CScanEditor;
 }
@@ -13,17 +15,17 @@ class CScanEditor : public IEditor
     Q_OBJECT
 
     /** Qt UI */
-    Ui::CScanEditor* mpUI;
+    std::unique_ptr<Ui::CScanEditor> mpUI;
 
     /** Scan asset being edited */
     TResPtr<CScan> mpScan;
 
 public:
-    explicit CScanEditor(CScan* pScan, QWidget* pParent = 0);
-    ~CScanEditor();
+    explicit CScanEditor(CScan* pScan, QWidget* pParent = nullptr);
+    ~CScanEditor() override;
 
 public slots:
-    virtual bool Save() override;
+    bool Save() override;
 };
 
 #endif // CSCANEDITOR_H

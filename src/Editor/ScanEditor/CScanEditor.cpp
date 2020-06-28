@@ -1,9 +1,9 @@
 #include "CScanEditor.h"
 #include "ui_CScanEditor.h"
 
-CScanEditor::CScanEditor(CScan* pScan, QWidget* pParent /*= 0*/)
+CScanEditor::CScanEditor(CScan* pScan, QWidget* pParent)
     : IEditor(pParent)
-    , mpUI(new Ui::CScanEditor)
+    , mpUI(std::make_unique<Ui::CScanEditor>())
     , mpScan(pScan)
 {
     mpUI->setupUi(this);
@@ -19,10 +19,7 @@ CScanEditor::CScanEditor(CScan* pScan, QWidget* pParent /*= 0*/)
     connect( mpUI->ActionSaveAndCook, SIGNAL(toggled(bool)), this, SLOT(SaveAndRepack()) );
 }
 
-CScanEditor::~CScanEditor()
-{
-    delete mpUI;
-}
+CScanEditor::~CScanEditor() = default;
 
 bool CScanEditor::Save()
 {
@@ -32,6 +29,6 @@ bool CScanEditor::Save()
         setWindowModified(false);
         return true;
     }
-    else
-        return false;
+
+    return false;
 }
