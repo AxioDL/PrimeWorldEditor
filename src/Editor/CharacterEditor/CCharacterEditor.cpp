@@ -7,25 +7,19 @@
 #include <QMessageBox>
 #include <QTreeView>
 
-const CVector3f CCharacterEditor::skDefaultOrbitTarget = CVector3f(0,0,1);
-const float CCharacterEditor::skDefaultOrbitDistance = 4.f;
+constexpr CVector3f skDefaultOrbitTarget{0, 0, 1};
+constexpr float skDefaultOrbitDistance = 4.f;
 
 CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     : IEditor(parent)
-    , ui(new Ui::CCharacterEditor)
-    , mpScene(new CScene())
-    , mpSelectedBone(nullptr)
-    , mBindPose(false)
-    , mPlayAnim(true)
-    , mLoopAnim(true)
-    , mAnimTime(0.f)
-    , mPlaybackSpeed(1.f)
+    , ui(std::make_unique<Ui::CCharacterEditor>())
+    , mpScene(std::make_unique<CScene>())
 {
     ui->setupUi(this);
     REPLACE_WINDOWTITLE_APPVARS;
 
-    mpCharNode = new CCharacterNode(mpScene, -1);
-    ui->Viewport->SetNode(mpCharNode);
+    mpCharNode = std::make_unique<CCharacterNode>(mpScene.get(), UINT32_MAX);
+    ui->Viewport->SetNode(mpCharNode.get());
 
     CCamera& rCamera = ui->Viewport->Camera();
     rCamera.SetMoveSpeed(0.5f);
@@ -77,12 +71,7 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     SetActiveAnimSet(pSet);
 }
 
-CCharacterEditor::~CCharacterEditor()
-{
-    delete ui;
-    delete mpScene;
-    delete mpCharNode;
-}
+CCharacterEditor::~CCharacterEditor() = default;
 
 void CCharacterEditor::EditorTick(float DeltaTime)
 {
