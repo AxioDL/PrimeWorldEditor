@@ -6,9 +6,8 @@
 
 CLayerEditor::CLayerEditor(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::CLayerEditor)
-    , mpArea(nullptr)
     , mpModel(new CLayerModel(this))
+    , ui(std::make_unique<Ui::CLayerEditor>())
 {
     ui->setupUi(this);
     ui->LayerSelectComboBox->setModel(mpModel);
@@ -18,10 +17,7 @@ CLayerEditor::CLayerEditor(QWidget *parent)
     connect(ui->ActiveCheckBox, SIGNAL(toggled(bool)), this, SLOT(EditLayerActive(bool)));
 }
 
-CLayerEditor::~CLayerEditor()
-{
-    delete ui;
-}
+CLayerEditor::~CLayerEditor() = default;
 
 void CLayerEditor::SetArea(CGameArea *pArea)
 {
