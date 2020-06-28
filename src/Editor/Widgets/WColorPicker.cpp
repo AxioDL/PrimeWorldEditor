@@ -6,7 +6,6 @@
 
 WColorPicker::WColorPicker(QWidget *parent)
     : QWidget(parent)
-    , mColor(Qt::transparent)
 {
 }
 
@@ -79,7 +78,7 @@ void WColorPicker::mouseReleaseEvent(QMouseEvent *pEvent)
     }
 }
 
-QColor WColorPicker::Color()
+QColor WColorPicker::Color() const
 {
     return mColor;
 }

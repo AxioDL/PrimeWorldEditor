@@ -7,16 +7,17 @@
 class WColorPicker : public QWidget
 {
     Q_OBJECT
-    QColor mColor;
+    QColor mColor{Qt::transparent};
     QColor mOldColor;
 
 public:
-    explicit WColorPicker(QWidget *pParent = 0);
-    void paintEvent(QPaintEvent *);
-    void keyPressEvent(QKeyEvent *pEvent);
-    void mousePressEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *pEvent);
-    QColor Color();
+    explicit WColorPicker(QWidget* pParent = nullptr);
+
+    void paintEvent(QPaintEvent*) override;
+    void keyPressEvent(QKeyEvent* pEvent) override;
+    void mousePressEvent(QMouseEvent*) override;
+    void mouseReleaseEvent(QMouseEvent* pEvent) override;
+    QColor Color() const;
     void SetColor(QColor Color);
 
 signals:
