@@ -3,16 +3,13 @@
 #include "Editor/INodeEditor.h"
 
 CScaleNodeCommand::CScaleNodeCommand()
-    : IUndoCommand("Scale"),
-      mpEditor(nullptr),
-      mCommandEnded(false)
+    : IUndoCommand("Scale")
 {
 }
 
 CScaleNodeCommand::CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, bool UsePivot, const CVector3f& rkPivot, const CVector3f& rkDelta)
     : IUndoCommand("Scale"),
-      mpEditor(pEditor),
-      mCommandEnded(false)
+      mpEditor(pEditor)
 {
     mNodeList.reserve(rkNodes.size());
 

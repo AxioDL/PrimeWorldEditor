@@ -18,18 +18,19 @@ class CScaleNodeCommand : public IUndoCommand
         CVector3f NewScale;
     };
     QList<SNodeScale> mNodeList;
-    INodeEditor *mpEditor;
-    bool mCommandEnded;
+    INodeEditor *mpEditor = nullptr;
+    bool mCommandEnded = false;
 
 public:
     CScaleNodeCommand();
     CScaleNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, bool UsePivot, const CVector3f& rkPivot, const CVector3f& rkDelta);
-    ~CScaleNodeCommand();
-    int id() const;
-    bool mergeWith(const QUndoCommand *pkOther);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    ~CScaleNodeCommand() override;
+
+    int id() const override;
+    bool mergeWith(const QUndoCommand *pkOther) override;
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
     static CScaleNodeCommand* End();
 };
 
