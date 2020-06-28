@@ -21,9 +21,9 @@ class CEditLinkCommand : public IUndoCommand
 public:
     CEditLinkCommand(CWorldEditor *pEditor, CLink *pLink, CLink NewLink);
     QList<CScriptObject*> AffectedInstances() const;
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
 };
 
 #endif // CEDITLINKCOMMAND_H
