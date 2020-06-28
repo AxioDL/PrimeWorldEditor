@@ -18,23 +18,23 @@ CPropertyView::CPropertyView(QWidget *pParent)
 
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-    mpShowNameValidityAction = new QAction("Show whether property name is correct", this);
+    mpShowNameValidityAction = new QAction(tr("Show whether property name is correct"), this);
     mpShowNameValidityAction->setCheckable(true);
     mpShowNameValidityAction->setChecked(false);
     connect(mpShowNameValidityAction, SIGNAL(triggered(bool)), this, SLOT(ToggleShowNameValidity(bool)));
 
     if (gTemplatesWritable)
     {
-        mpEditTemplateAction = new QAction("Edit template", this);
+        mpEditTemplateAction = new QAction(tr("Edit template"), this);
         connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
     }
     else
     {
-        mpEditTemplateAction = new QAction("Template files not writable", this);
+        mpEditTemplateAction = new QAction(tr("Template files not writable"), this);
         mpEditTemplateAction->setEnabled(false);
     }
 
-    mpGenNamesForPropertyAction = new QAction("Generate names for this property", this);
+    mpGenNamesForPropertyAction = new QAction(tr("Generate names for this property"), this);
     mpGenNamesForSiblingsAction = new QAction(this); // Text set in CreateContextMenu()
     mpGenNamesForChildrenAction = new QAction(this); // Text set in CreateContextMenu()
     connect(mpGenNamesForPropertyAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForProperty()));
@@ -299,14 +299,14 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
             if (!pProperty->IsRootParent())
             {
                 QString TypeName = TO_QSTRING( pProperty->Parent()->RootArchetype()->Name() );
-                mpGenNamesForSiblingsAction->setText( QString("Generate names for %1 properties").arg(TypeName) );
+                mpGenNamesForSiblingsAction->setText(tr("Generate names for %1 properties").arg(TypeName));
                 Menu.addAction(mpGenNamesForSiblingsAction);
             }
 
             if (pProperty->Type() == EPropertyType::Struct && !pProperty->IsAtomic())
             {
                 QString TypeName = TO_QSTRING( pProperty->RootArchetype()->Name() );
-                mpGenNamesForChildrenAction->setText( QString("Generate names for %1 properties").arg(TypeName) );
+                mpGenNamesForChildrenAction->setText(tr("Generate names for %1 properties").arg(TypeName));
                 Menu.addAction(mpGenNamesForChildrenAction);
             }
         }
