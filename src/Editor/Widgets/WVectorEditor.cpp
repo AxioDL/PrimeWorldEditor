@@ -29,7 +29,7 @@ WVectorEditor::~WVectorEditor()
     delete mpLayout;
 }
 
-CVector3f WVectorEditor::Value()
+CVector3f WVectorEditor::Value() const
 {
     return mValue;
 }
