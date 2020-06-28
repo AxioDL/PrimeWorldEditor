@@ -4,13 +4,10 @@
 
 CLayerModel::CLayerModel(QObject *pParent)
     : QAbstractListModel(pParent)
-    , mpArea(nullptr)
 {
 }
 
-CLayerModel::~CLayerModel()
-{
-}
+CLayerModel::~CLayerModel() = default;
 
 int CLayerModel::rowCount(const QModelIndex& /*parent*/) const
 {
