@@ -5,11 +5,9 @@
 
 CProgressDialog::CProgressDialog(QString OperationName, bool UseBusyIndicator, bool AlertOnFinish, QWidget *pParent)
     : IProgressNotifierUI(pParent)
-    , mpUI(new Ui::CProgressDialog)
+    , mpUI(std::make_unique<Ui::CProgressDialog>())
     , mUseBusyIndicator(UseBusyIndicator)
     , mAlertOnFinish(AlertOnFinish)
-    , mFinished(false)
-    , mCanceled(false)
 {
     mpUI->setupUi(this);
     mpUI->ProgressBar->setMinimum(0);
@@ -37,10 +35,7 @@ CProgressDialog::CProgressDialog(QString OperationName, bool UseBusyIndicator, b
     connect(mpUI->CancelButton, SIGNAL(pressed()), this, SLOT(CancelButtonClicked()));
 }
 
-CProgressDialog::~CProgressDialog()
-{
-    delete mpUI;
-}
+CProgressDialog::~CProgressDialog() = default;
 
 void CProgressDialog::DisallowCanceling()
 {
