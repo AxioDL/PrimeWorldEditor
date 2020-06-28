@@ -6,6 +6,8 @@
 #include "CWorldEditorSidebar.h"
 #include "CWorldTreeModel.h"
 
+#include <memory>
+
 class CWorldEditor;
 
 namespace Ui {
@@ -16,13 +18,13 @@ class CWorldInfoSidebar : public CWorldEditorSidebar
 {
     Q_OBJECT
 
-    Ui::CWorldInfoSidebar *mpUI;
+    std::unique_ptr<Ui::CWorldInfoSidebar> mpUI;
     CWorldTreeModel mModel;
     CWorldTreeProxyModel mProxyModel;
 
 public:
     explicit CWorldInfoSidebar(CWorldEditor *pEditor);
-    ~CWorldInfoSidebar();
+    ~CWorldInfoSidebar() override;
 
 public slots:
     void OnActiveProjectChanged(CGameProject *pProj);

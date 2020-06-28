@@ -5,7 +5,7 @@
 
 CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
     : CWorldEditorSidebar(pEditor)
-    , mpUI(new Ui::CWorldInfoSidebar)
+    , mpUI(std::make_unique<Ui::CWorldInfoSidebar>())
     , mModel(pEditor)
 {
     mpUI->setupUi(this);
@@ -45,10 +45,7 @@ CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
     mpUI->AreaNameSelector->SetEditable(false);
 }
 
-CWorldInfoSidebar::~CWorldInfoSidebar()
-{
-    delete mpUI;
-}
+CWorldInfoSidebar::~CWorldInfoSidebar() = default;
 
 // ************ SLOTS ************
 void CWorldInfoSidebar::OnActiveProjectChanged(CGameProject *pProj)
