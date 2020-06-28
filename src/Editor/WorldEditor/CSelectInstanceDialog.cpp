@@ -3,13 +3,10 @@
 
 CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::CSelectInstanceDialog)
     , mpEditor(pEditor)
     , mLayersModel(pEditor, this)
     , mTypesModel(pEditor, this)
-    , mValidSelection(false)
-    , mpLayersInst(nullptr)
-    , mpTypesInst(nullptr)
+    , ui(std::make_unique<Ui::CSelectInstanceDialog>())
 {
     ui->setupUi(this);
 
@@ -45,10 +42,7 @@ CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pPa
     connect(ui->TypesTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClicked(QModelIndex)));
 }
 
-CSelectInstanceDialog::~CSelectInstanceDialog()
-{
-    delete ui;
-}
+CSelectInstanceDialog::~CSelectInstanceDialog() = default;
 
 CScriptObject* CSelectInstanceDialog::SelectedInstance() const
 {
