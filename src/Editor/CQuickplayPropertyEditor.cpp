@@ -9,9 +9,9 @@
 class CDolphinValidator : public QValidator
 {
 public:
-    CDolphinValidator(QObject* pParent = 0) : QValidator(pParent) {}
+    explicit CDolphinValidator(QObject* pParent = nullptr) : QValidator(pParent) {}
 
-    virtual QValidator::State validate(QString& Input, int& Pos) const override
+    QValidator::State validate(QString& Input, int& Pos) const override
     {
         return PathValid(Input) ? QValidator::Acceptable : QValidator::Invalid;
     }
@@ -26,7 +26,7 @@ public:
 /** CQuickplayPropertyEditor functions */
 CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Parameters, QWidget* pParent /*= 0*/)
     : QMenu(pParent)
-    , mpUI(new Ui::CQuickplayPropertyEditor)
+    , mpUI(std::make_unique<Ui::CQuickplayPropertyEditor>())
     , mParameters(Parameters)
 {
     mpUI->setupUi(this);
@@ -67,10 +67,7 @@ CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Paramet
     }
 }
 
-CQuickplayPropertyEditor::~CQuickplayPropertyEditor()
-{
-    delete mpUI;
-}
+CQuickplayPropertyEditor::~CQuickplayPropertyEditor() = default;
 
 void CQuickplayPropertyEditor::BrowseForDolphin()
 {
