@@ -11,20 +11,20 @@ CCollisionRenderSettingsDialog::CCollisionRenderSettingsDialog(CWorldEditor *pEd
     mpUi->setupUi(this);
 
     SetupWidgets();
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(SetupWidgets()));
-    connect(mpUi->HideMaskLineEdit, SIGNAL(textChanged(QString)), this, SLOT(OnHideMaskChanged(QString)));
-    connect(mpUi->HighlightMaskLineEdit, SIGNAL(textChanged(QString)), this, SLOT(OnHighlightMaskChanged(QString)));
-    connect(mpUi->WireframeCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnWireframeToggled(bool)));
-    connect(mpUi->SurfaceTypeCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnSurfaceTypeToggled(bool)));
-    connect(mpUi->StandableTrisCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnStandableTrisToggled(bool)));
-    connect(mpUi->AreaBoundsCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnAreaBoundsToggled(bool)));
-    connect(mpUi->BackfacesCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnBackfacesToggled(bool)));
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CCollisionRenderSettingsDialog::SetupWidgets);
+    connect(mpUi->HideMaskLineEdit, &QLineEdit::textChanged, this, &CCollisionRenderSettingsDialog::OnHideMaskChanged);
+    connect(mpUi->HighlightMaskLineEdit, &QLineEdit::textChanged, this, &CCollisionRenderSettingsDialog::OnHighlightMaskChanged);
+    connect(mpUi->WireframeCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnWireframeToggled);
+    connect(mpUi->SurfaceTypeCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnSurfaceTypeToggled);
+    connect(mpUi->StandableTrisCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnStandableTrisToggled);
+    connect(mpUi->AreaBoundsCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnAreaBoundsToggled);
+    connect(mpUi->BackfacesCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnBackfacesToggled);
 
-    connect(mpUi->HideShootThruCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
-    connect(mpUi->HideCameraThruCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
-    connect(mpUi->HideScanThruCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
-    connect(mpUi->HideAiWalkThruCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
-    connect(mpUi->HideAiBlockCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
+    connect(mpUi->HideShootThruCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnHideCheckboxesToggled);
+    connect(mpUi->HideCameraThruCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnHideCheckboxesToggled);
+    connect(mpUi->HideScanThruCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnHideCheckboxesToggled);
+    connect(mpUi->HideAiWalkThruCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnHideCheckboxesToggled);
+    connect(mpUi->HideAiBlockCheckBox, &QCheckBox::toggled, this, &CCollisionRenderSettingsDialog::OnHideCheckboxesToggled);
 }
 
 CCollisionRenderSettingsDialog::~CCollisionRenderSettingsDialog() = default;
