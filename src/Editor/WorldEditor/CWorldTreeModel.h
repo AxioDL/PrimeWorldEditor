@@ -25,14 +25,14 @@ class CWorldTreeModel : public QAbstractItemModel
     QList<SWorldInfo> mWorldList;
 
 public:
-    CWorldTreeModel(CWorldEditor *pEditor);
+    explicit CWorldTreeModel(CWorldEditor *pEditor);
 
-    int rowCount(const QModelIndex& rkParent) const;
-    int columnCount(const QModelIndex& rkParent) const;
-    QModelIndex index(int Row, int Column, const QModelIndex& rkParent) const;
-    QModelIndex parent(const QModelIndex& rkChild) const;
-    QVariant data(const QModelIndex& rkIndex, int Role) const;
-    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
+    int rowCount(const QModelIndex& rkParent) const override;
+    int columnCount(const QModelIndex& rkParent) const override;
+    QModelIndex index(int Row, int Column, const QModelIndex& rkParent) const override;
+    QModelIndex parent(const QModelIndex& rkChild) const override;
+    QVariant data(const QModelIndex& rkIndex, int Role) const override;
+    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const override;
 
     bool IndexIsWorld(const QModelIndex& rkIndex) const;
     int AreaIndexForIndex(const QModelIndex& rkIndex) const;
@@ -54,10 +54,14 @@ class CWorldTreeProxyModel : public QSortFilterProxyModel
     QString mFilterString;
 
 public:
-    bool lessThan(const QModelIndex& rkSourceLeft, const QModelIndex& rkSourceRight) const;
-    bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const;
+    bool lessThan(const QModelIndex& rkSourceLeft, const QModelIndex& rkSourceRight) const override;
+    bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const override;
 
-    inline void SetFilterString(const QString& rkFilter)    { mFilterString = rkFilter; invalidate(); }
+    void SetFilterString(const QString& rkFilter)
+    {
+        mFilterString = rkFilter;
+        invalidate();
+    }
 };
 
 #endif // CWORLDTREEMODEL_H
