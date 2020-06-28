@@ -54,7 +54,7 @@ void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
     const char* pkTypeName = pProperty->HashableTypeName();
     mIdPairs << SPropertyIdTypePair { ID, pkTypeName };
 
-    QString ItemText = QString("%1 [%2]").arg( *TString::HexString(pProperty->ID(), 8, false) ).arg( pkTypeName );
+    const QString ItemText = tr("%1 [%2]").arg(*TString::HexString(pProperty->ID(), 8, false)).arg(pkTypeName);
     mpUI->IdPoolList->addItem( ItemText );
 
     // We probably don't want to call UpdateUI every single time we add a property, but
@@ -104,10 +104,10 @@ void CGeneratePropertyNamesDialog::closeEvent(QCloseEvent*)
 /** Add an item to the suffix list */
 void CGeneratePropertyNamesDialog::AddSuffix()
 {
-    QListWidgetItem* pNewItem = new QListWidgetItem("New Suffix", mpUI->TypeSuffixesListWidget);
-    pNewItem->setFlags( Qt::ItemIsEditable |
-                        Qt::ItemIsEnabled |
-                        Qt::ItemIsSelectable );
+    auto* pNewItem = new QListWidgetItem(tr("New Suffix"), mpUI->TypeSuffixesListWidget);
+    pNewItem->setFlags(Qt::ItemIsEditable |
+                       Qt::ItemIsEnabled |
+                       Qt::ItemIsSelectable);
     mpUI->TypeSuffixesListWidget->setCurrentItem(pNewItem, QItemSelectionModel::ClearAndSelect);
     mpUI->TypeSuffixesListWidget->editItem(pNewItem);
 }
@@ -266,12 +266,12 @@ void CGeneratePropertyNamesDialog::UncheckAll()
 void CGeneratePropertyNamesDialog::ApplyChanges()
 {
     // make sure the user really wants to do this
-    QString WarningText =
-            QString("Are you sure you want to rename %1 %2? This operation cannot be undone.")
-                .arg(mCheckedItems.size())
-                .arg(mCheckedItems.size() == 1 ? "property" : "properties");
+    const QString WarningText =
+        tr("Are you sure you want to rename %1 %2? This operation cannot be undone.")
+            .arg(mCheckedItems.size())
+            .arg(mCheckedItems.size() == 1 ? tr("property") : tr("properties"));
 
-    bool ReallyRename = UICommon::YesNoQuestion(this, "Warning", WarningText);
+    const bool ReallyRename = UICommon::YesNoQuestion(this, tr("Warning"), WarningText);
 
     if (!ReallyRename)
     {
@@ -304,8 +304,8 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
     // Add new items to the tree
     if (rkOutput.size() > CurItemCount)
     {
-        std::list<SGeneratedPropertyName>::const_iterator Iter = rkOutput.cbegin();
-        std::list<SGeneratedPropertyName>::const_iterator End = rkOutput.cend();
+        auto Iter = rkOutput.cbegin();
+        auto End = rkOutput.cend();
         std::advance(Iter, CurItemCount);
 
         for (; Iter != End; Iter++)
@@ -314,10 +314,10 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
 
             // Add an item to the tree for this name
             QStringList ColumnText;
-            ColumnText << TO_QSTRING( rkName.Name )
-                       << TO_QSTRING( rkName.Type )
-                       << TO_QSTRING( TString::HexString(rkName.ID) )
-                       << TO_QSTRING( NPropertyMap::GetPropertyName(rkName.ID, *rkName.Type) );
+            ColumnText << TO_QSTRING(rkName.Name)
+                       << TO_QSTRING(rkName.Type)
+                       << TO_QSTRING(TString::HexString(rkName.ID))
+                       << TO_QSTRING(NPropertyMap::GetPropertyName(rkName.ID, *rkName.Type));
 
             QTreeWidgetItem* pItem = new CCheckableTreeWidgetItem(pTreeWidget, ColumnText);
             pItem->setFlags(Qt::ItemIsEnabled |
@@ -353,9 +353,9 @@ void CGeneratePropertyNamesDialog::UpdateUI()
     mpUI->StartButton->setEnabled( !mRunningNameGeneration );
     mpUI->CancelButton->setEnabled( mRunningNameGeneration && !mCanceledNameGeneration );
 
-    int TotalItems = mpUI->OutputTreeWidget->topLevelItemCount();
-    bool HasResults = TotalItems > 0;
-    bool HasCheckedResults = HasResults && !mCheckedItems.isEmpty();
+    const int TotalItems = mpUI->OutputTreeWidget->topLevelItemCount();
+    const bool HasResults = TotalItems > 0;
+    const bool HasCheckedResults = HasResults && !mCheckedItems.isEmpty();
     mpUI->CheckAllButton->setEnabled( HasResults );
     mpUI->UncheckAllButton->setEnabled( HasResults );
     mpUI->ApplyButton->setEnabled( !mRunningNameGeneration && HasCheckedResults );
@@ -364,11 +364,12 @@ void CGeneratePropertyNamesDialog::UpdateUI()
     if (HasResults)
     {
         mpUI->NumSelectedLabel->setText(
-                    QString("%1 names, %2 selected")
-                        .arg(TotalItems)
-                        .arg(mCheckedItems.size())
-                );
+            tr("%1 names, %2 selected")
+                .arg(TotalItems)
+                .arg(mCheckedItems.size()));
     }
     else
+    {
         mpUI->NumSelectedLabel->clear();
+    }
 }
