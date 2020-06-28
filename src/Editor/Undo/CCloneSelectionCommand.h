@@ -14,10 +14,11 @@ class CCloneSelectionCommand : public IUndoCommand
     CInstancePtrList mLinkedInstances;
 
 public:
-    CCloneSelectionCommand(INodeEditor *pEditor);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    explicit CCloneSelectionCommand(INodeEditor *pEditor);
+
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
 };
 
 #endif // CCLONESELECTIONCOMMAND_H
