@@ -13,27 +13,27 @@ class CResourceTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 
-    CVirtualDirectory *mpCurrentDir;
+    CVirtualDirectory *mpCurrentDir = nullptr;
     QList<CVirtualDirectory*> mDirectories;
     QList<CResourceEntry*> mEntries;
     QString mModelDescription;
-    bool mIsAssetListMode;
-    bool mIsDisplayingUserEntryList;
+    bool mIsAssetListMode = false;
+    bool mIsDisplayingUserEntryList = false;
 
 public:
-    CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent = 0);
+    explicit CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent = nullptr);
 
     // Interface
-    int rowCount(const QModelIndex& /*rkParent*/) const;
-    int columnCount(const QModelIndex& /*rkParent*/) const;
-    QVariant data(const QModelIndex& rkIndex, int Role) const;
-    Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
+    int rowCount(const QModelIndex& /*rkParent*/) const override;
+    int columnCount(const QModelIndex& /*rkParent*/) const override;
+    QVariant data(const QModelIndex& rkIndex, int Role) const override;
+    Qt::ItemFlags flags(const QModelIndex& rkIndex) const override;
 
-    bool canDropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent) const;
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
-    QMimeData* mimeData(const QModelIndexList& rkIndexes) const;
-    Qt::DropActions supportedDragActions() const;
-    Qt::DropActions supportedDropActions() const;
+    bool canDropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent) const override;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+    QMimeData* mimeData(const QModelIndexList& rkIndexes) const override;
+    Qt::DropActions supportedDragActions() const override;
+    Qt::DropActions supportedDropActions() const override;
 
     // Functionality
     QModelIndex GetIndexForEntry(CResourceEntry *pEntry) const;
@@ -50,12 +50,12 @@ protected:
 
 public:
     // Accessors
-    inline uint32 NumDirectories() const            { return mDirectories.size(); }
-    inline uint32 NumResources() const              { return mEntries.size(); }
-    inline CVirtualDirectory* CurrentDir() const    { return mpCurrentDir; }
-    inline bool IsDisplayingAssetList() const       { return mIsAssetListMode; }
-    inline bool IsDisplayingUserEntryList() const   { return mIsDisplayingUserEntryList; }
-    inline QString ModelDescription() const         { return mModelDescription; }
+    uint32 NumDirectories() const            { return mDirectories.size(); }
+    uint32 NumResources() const              { return mEntries.size(); }
+    CVirtualDirectory* CurrentDir() const    { return mpCurrentDir; }
+    bool IsDisplayingAssetList() const       { return mIsAssetListMode; }
+    bool IsDisplayingUserEntryList() const   { return mIsDisplayingUserEntryList; }
+    QString ModelDescription() const         { return mModelDescription; }
 
 public slots:
     void RefreshAllIndices();

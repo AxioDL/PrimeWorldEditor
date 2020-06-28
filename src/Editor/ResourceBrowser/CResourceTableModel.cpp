@@ -2,10 +2,8 @@
 #include "CResourceBrowser.h"
 #include "CResourceMimeData.h"
 
-CResourceTableModel::CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent /*= 0*/)
+CResourceTableModel::CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent)
     : QAbstractTableModel(pParent)
-    , mpCurrentDir(nullptr)
-    , mIsDisplayingUserEntryList(false)
 {
     connect(pBrowser, SIGNAL(ResourceCreated(CResourceEntry*)), this, SLOT(CheckAddResource(CResourceEntry*)));
     connect(pBrowser, SIGNAL(ResourceAboutToBeDeleted(CResourceEntry*)), this, SLOT(CheckRemoveResource(CResourceEntry*)));
