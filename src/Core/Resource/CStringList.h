@@ -21,7 +21,7 @@ public:
 
     TString StringByIndex(size_t Index) const
     {
-        ASSERT(Index >= 0 && Index < mStringList.size());
+        ASSERT(Index < mStringList.size());
         return mStringList[Index];
     }
 };
