@@ -5,8 +5,6 @@
 
 CLinkModel::CLinkModel(QObject *pParent)
     : QAbstractTableModel(pParent)
-    , mpObject(nullptr)
-    , mType(ELinkType::Outgoing)
 {
 }
 

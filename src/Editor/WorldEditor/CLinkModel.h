@@ -8,17 +8,18 @@ class CLinkModel : public QAbstractTableModel
 {
     Q_OBJECT
 
-    CScriptObject *mpObject;
-    ELinkType mType;
+    CScriptObject *mpObject = nullptr;
+    ELinkType mType{ELinkType::Outgoing};
 
 public:
-    explicit CLinkModel(QObject *pParent = 0);
+    explicit CLinkModel(QObject *pParent = nullptr);
+
     void SetObject(CScriptObject *pObj);
     void SetConnectionType(ELinkType Type);
-    int rowCount(const QModelIndex& rkParent = QModelIndex()) const;
-    int columnCount(const QModelIndex& rkParent) const;
-    QVariant data(const QModelIndex& rkIndex, int Role) const;
-    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
+    int rowCount(const QModelIndex& rkParent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& rkParent) const override;
+    QVariant data(const QModelIndex& rkIndex, int Role) const override;
+    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const override;
 };
 
 #endif // CCONNECTIONMODEL_H
