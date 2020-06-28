@@ -50,21 +50,21 @@ void CProjectSettingsDialog::ActiveProjectChanged(CGameProject *pProj)
     if (mpProject)
     {
         // Set up project info
-        mpUI->ProjectNameLineEdit->setText( TO_QSTRING(pProj->Name()) );
-        mpUI->GameLineEdit->setText( TO_QSTRING(GetGameName(pProj->Game())) );
-        mpUI->GameIdLineEdit->setText( TO_QSTRING(pProj->GameID()) );
+        mpUI->ProjectNameLineEdit->setText(TO_QSTRING(pProj->Name()));
+        mpUI->GameLineEdit->setText(TO_QSTRING(GetGameName(pProj->Game())));
+        mpUI->GameIdLineEdit->setText(TO_QSTRING(pProj->GameID()));
 
-        float BuildVer = pProj->BuildVersion();
-        ERegion Region = pProj->Region();
-        TString RegionName = TEnumReflection<ERegion>::ConvertValueToString(Region);
-        TString BuildName = pProj->GameInfo()->GetBuildName(BuildVer, Region);
-        mpUI->BuildLineEdit->setText( QString("%1 (%2)").arg(BuildVer).arg( TO_QSTRING(BuildName) ) );
-        mpUI->RegionLineEdit->setText( TO_QSTRING(RegionName) );
+        const float BuildVer = pProj->BuildVersion();
+        const ERegion Region = pProj->Region();
+        const TString RegionName = TEnumReflection<ERegion>::ConvertValueToString(Region);
+        const TString BuildName = pProj->GameInfo()->GetBuildName(BuildVer, Region);
+        mpUI->BuildLineEdit->setText(tr("%1 (%2)").arg(BuildVer).arg(TO_QSTRING(BuildName)));
+        mpUI->RegionLineEdit->setText(TO_QSTRING(RegionName));
 
         // Banner info
-        COpeningBanner Banner(pProj);
-        mpUI->GameNameLineEdit->setText( TO_QSTRING(Banner.EnglishGameName()) );
-        mpUI->GameNameLineEdit->setMaxLength( Banner.MaxGameNameLength() );
+        const COpeningBanner Banner(pProj);
+        mpUI->GameNameLineEdit->setText(TO_QSTRING(Banner.EnglishGameName()));
+        mpUI->GameNameLineEdit->setMaxLength(Banner.MaxGameNameLength());
     }
     else
     {
@@ -135,17 +135,17 @@ void CProjectSettingsDialog::BuildISO()
 
     if (!pProj->IsWiiBuild())
     {
-        DefaultExtension = ".gcm";
-        FilterString = "*.gcm;*.iso";
+        DefaultExtension = QStringLiteral(".gcm");
+        FilterString = QStringLiteral("*.gcm;*.iso");
     }
     else
     {
-        DefaultExtension = ".iso";
-        FilterString = "*.iso";
+        DefaultExtension = QStringLiteral(".iso");
+        FilterString = QStringLiteral("*.iso");
     }
 
     QString DefaultPath = TO_QSTRING( pProj->ProjectRoot() + FileUtil::SanitizeName(pProj->Name(), false) ) + DefaultExtension;
-    QString IsoPath = UICommon::SaveFileDialog(this, "Choose output ISO path", FilterString, DefaultPath);
+    QString IsoPath = UICommon::SaveFileDialog(this, tr("Choose output ISO path"), FilterString, DefaultPath);
 
     if (!IsoPath.isEmpty())
     {
@@ -154,8 +154,8 @@ void CProjectSettingsDialog::BuildISO()
 
         if (NeedsDiscMerge)
         {
-            FilterString += ";*.wbfs;*.nfs";
-            QString SourceIsoPath = UICommon::OpenFileDialog(this, "Select the original ISO", FilterString, DefaultPath);
+            FilterString += QStringLiteral(";*.wbfs;*.nfs");
+            QString SourceIsoPath = UICommon::OpenFileDialog(this, tr("Select the original ISO"), FilterString, DefaultPath);
 
             if (SourceIsoPath.isEmpty())
                 return;
@@ -166,7 +166,7 @@ void CProjectSettingsDialog::BuildISO()
 
             if (!pBaseDisc || !IsWii)
             {
-                UICommon::ErrorMsg(this, "The ISO provided is not a valid Wii ISO!");
+                UICommon::ErrorMsg(this, tr("The ISO provided is not a valid Wii ISO!"));
                 return;
             }
 
@@ -175,7 +175,7 @@ void CProjectSettingsDialog::BuildISO()
 
             if (strncmp(*GameID, rkHeader.m_gameID, 6) != 0)
             {
-                UICommon::ErrorMsg(this, "The ISO provided doesn't match the project!");
+                UICommon::ErrorMsg(this, tr("The ISO provided doesn't match the project!"));
                 return;
             }
         }
@@ -185,7 +185,7 @@ void CProjectSettingsDialog::BuildISO()
             // Make sure there will be no leftover quickplay files in the built ISO
             NDolphinIntegration::CleanupQuickplayFiles(pProj);
 
-            CProgressDialog Dialog("Building ISO", false, true, this);
+            CProgressDialog Dialog(tr("Building ISO"), false, true, this);
             Dialog.DisallowCanceling();
             bool Success;
 
@@ -201,9 +201,9 @@ void CProjectSettingsDialog::BuildISO()
             }
 
             if (Success)
-                UICommon::InfoMsg(this, "Success", "ISO built successfully!");
+                UICommon::InfoMsg(this, tr("Success"), tr("ISO built successfully!"));
             else
-                UICommon::ErrorMsg(this, "ISO build failed!");
+                UICommon::ErrorMsg(this, tr("ISO build failed!"));
         }
     }
 }
