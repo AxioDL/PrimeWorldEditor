@@ -11,34 +11,12 @@
 #include <QScreen>
 
 CGizmo::CGizmo()
-    : mSelectedAxes(EAxis::None)
-    , mTransformSpace(ETransformSpace::World)
-    , mGizmoSize(1.f)
-    , mCameraDist(0.f)
-    , mIsTransforming(false)
-    , mHasTransformed(false)
-    , mWrapOffset(0.f)
-    , mEnableCursorWrap(true)
-    , mPosition(CVector3f::Zero())
-    , mRotation(CQuaternion::Identity())
-    , mLocalRotation(CQuaternion::Identity())
-    , mScale(CVector3f::One())
-    , mFlipScaleX(false)
-    , mFlipScaleY(false)
-    , mFlipScaleZ(false)
-    , mDeltaTranslation(CVector3f::Zero())
-    , mDeltaRotation(CQuaternion::Identity())
-    , mDeltaScale(CVector3f::One())
-    , mTotalScale(CVector3f::One())
-    , mSetOffset(false)
 {
     LoadModels();
     SetMode(EGizmoMode::Translate);
 }
 
-CGizmo::~CGizmo()
-{
-}
+CGizmo::~CGizmo() = default;
 
 void CGizmo::AddToRenderer(CRenderer *pRenderer, const SViewInfo&)
 {
@@ -521,22 +499,22 @@ void CGizmo::SetMode(EGizmoMode Mode)
     switch (Mode)
     {
     case EGizmoMode::Translate:
-        mpCurrentParts = smTranslateModels;
-        mNumCurrentParts = CGIZMO_TRANSLATE_NUM;
+        mpCurrentParts = smTranslateModels.data();
+        mNumCurrentParts = smTranslateModels.size();
         mDeltaRotation = CQuaternion::Identity();
         mDeltaScale = CVector3f::One();
         break;
 
     case EGizmoMode::Rotate:
-        mpCurrentParts = smRotateModels;
-        mNumCurrentParts = CGIZMO_ROTATE_NUM;
+        mpCurrentParts = smRotateModels.data();
+        mNumCurrentParts = smRotateModels.size();
         mDeltaTranslation = CVector3f::Zero();
         mDeltaScale = CVector3f::One();
         break;
 
     case EGizmoMode::Scale:
-        mpCurrentParts = smScaleModels;
-        mNumCurrentParts = CGIZMO_SCALE_NUM;
+        mpCurrentParts = smScaleModels.data();
+        mNumCurrentParts = smScaleModels.size();
         mDeltaTranslation = CVector3f::Zero();
         mDeltaRotation = CQuaternion::Identity();
         break;
@@ -671,9 +649,3 @@ void CGizmo::WrapCursor()
         mWrapOffset.Y += 2.f;
     }
 }
-
-// ************ STATIC MEMBER INITIALIZATION ************
-bool CGizmo::smModelsLoaded = false;
-CGizmo::SModelPart CGizmo::smTranslateModels[CGIZMO_TRANSLATE_NUM];
-CGizmo::SModelPart CGizmo::smRotateModels[CGIZMO_ROTATE_NUM];
-CGizmo::SModelPart CGizmo::smScaleModels[CGIZMO_SCALE_NUM];
