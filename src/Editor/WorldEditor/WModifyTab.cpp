@@ -262,7 +262,7 @@ void WModifyTab::OnLinkTableDoubleClick(QModelIndex Index)
     {
         // The link table will only be visible if the selected node is a script node
         CScriptNode *pNode = static_cast<CScriptNode*>(mpSelectedNode);
-        uint32 InstanceID;
+        uint32 InstanceID = 0;
 
         if (sender() == ui->InLinksTableView)
             InstanceID = pNode->Instance()->Link(ELinkType::Incoming, Index.row())->SenderID();
