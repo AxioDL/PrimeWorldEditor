@@ -72,8 +72,8 @@ public:
     CTexture* ActiveBillboard() const;
     bool UsesModel() const;
 
-    uint32 NumAttachments() const                        { return mAttachments.size(); }
-    CScriptAttachNode* Attachment(uint32 Index) const    { return mAttachments[Index]; }
+    size_t NumAttachments() const                        { return mAttachments.size(); }
+    CScriptAttachNode* Attachment(size_t Index) const    { return mAttachments[Index]; }
     CResource* DisplayAsset() const                      { return mpDisplayAsset; }
 
 protected:
