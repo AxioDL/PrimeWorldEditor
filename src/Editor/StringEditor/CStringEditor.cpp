@@ -9,7 +9,7 @@
 #include <QShortcut>
 
 /** Settings strings */
-const char* gkpLanguageSetting = "StringEditor/EditLanguage";
+constexpr char gkpLanguageSetting[] = "StringEditor/EditLanguage";
 
 /** Command classes */
 class CSetStringIndexCommand : public IUndoCommand
@@ -21,9 +21,9 @@ public:
         : IUndoCommand("Select String"), mpEditor(pEditor), mOldIndex(OldIndex), mNewIndex(NewIndex)
     {}
 
-    virtual void undo() override { mpEditor->SetActiveString(mOldIndex); }
-    virtual void redo() override { mpEditor->SetActiveString(mNewIndex); }
-    virtual bool AffectsCleanState() const override { return false; }
+    void undo() override { mpEditor->SetActiveString(mOldIndex); }
+    void redo() override { mpEditor->SetActiveString(mNewIndex); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 class CSetLanguageCommand : public IUndoCommand
@@ -35,30 +35,22 @@ public:
         : IUndoCommand("Select Language"), mpEditor(pEditor), mOldLanguage(OldLanguage), mNewLanguage(NewLanguage)
     {}
 
-    virtual void undo() override { mpEditor->SetActiveLanguage(mOldLanguage); }
-    virtual void redo() override { mpEditor->SetActiveLanguage(mNewLanguage); }
-    virtual bool AffectsCleanState() const override { return false; }
+    void undo() override { mpEditor->SetActiveLanguage(mOldLanguage); }
+    void redo() override { mpEditor->SetActiveLanguage(mNewLanguage); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 /** Constructor */
 CStringEditor::CStringEditor(CStringTable* pStringTable, QWidget* pParent)
     : IEditor(pParent)
-    , mpUI(new Ui::CStringEditor)
+    , mpUI(std::make_unique<Ui::CStringEditor>())
     , mpStringTable(pStringTable)
-    , mCurrentLanguage(ELanguage::English)
-    , mCurrentStringIndex(-1)
-    , mCurrentStringCount(0)
-    , mIsEditingStringName(false)
-    , mIsEditingStringData(false)
 {
     InitUI();
 //  LoadSettings(); // Disabled for now
 }
 
-CStringEditor::~CStringEditor()
-{
-    delete mpUI;
-}
+CStringEditor::~CStringEditor() = default;
 
 bool CStringEditor::Save()
 {
