@@ -13,6 +13,7 @@
 #include <QScopedPointer>
 #include <QTimer>
 #include <QTreeWidgetItem>
+#include <memory>
 
 using CNameCasingComboBox = TEnumComboBox<ENameCasing>;
 
@@ -26,7 +27,7 @@ class CGeneratePropertyNamesDialog;
 class CGeneratePropertyNamesDialog : public QDialog
 {
     Q_OBJECT
-    Ui::CGeneratePropertyNamesDialog* mpUI;
+    std::unique_ptr<Ui::CGeneratePropertyNamesDialog> mpUI;
 
     /** The name generator */
     CPropertyNameGenerator mGenerator;
@@ -51,13 +52,13 @@ class CGeneratePropertyNamesDialog : public QDialog
     QVector<QTreeWidgetItem*> mCheckedItems;
 
     /** Whether name generation is running */
-    bool mRunningNameGeneration;
+    bool mRunningNameGeneration = false;
 
     /** Whether name generation has been canceled */
-    bool mCanceledNameGeneration;
+    bool mCanceledNameGeneration = false;
 
 public:
-    explicit CGeneratePropertyNamesDialog(QWidget *pParent = 0);
+    explicit CGeneratePropertyNamesDialog(QWidget *pParent = nullptr);
     ~CGeneratePropertyNamesDialog();
 
     /** Add a property to the ID pool */
@@ -71,10 +72,10 @@ public:
 
 public slots:
     /** Show event override */
-    virtual void showEvent(QShowEvent* pEvent);
+    void showEvent(QShowEvent* pEvent) override;
 
     /** Close event override */
-    virtual void closeEvent(QCloseEvent* pEvent);
+    void closeEvent(QCloseEvent* pEvent) override;
 
     /** Add an item to the suffix list */
     void AddSuffix();

@@ -10,10 +10,8 @@
 
 CGeneratePropertyNamesDialog::CGeneratePropertyNamesDialog(QWidget* pParent)
     : QDialog(pParent)
-    , mpUI( new Ui::CGeneratePropertyNamesDialog )
-    , mFutureWatcher( this )
-    , mRunningNameGeneration( false )
-    , mCanceledNameGeneration( false )
+    , mpUI(std::make_unique<Ui::CGeneratePropertyNamesDialog>())
+    , mFutureWatcher(this)
 {
     mpUI->setupUi(this);
     mNotifier.SetProgressBar( mpUI->ProgressBar );
@@ -41,10 +39,7 @@ CGeneratePropertyNamesDialog::CGeneratePropertyNamesDialog(QWidget* pParent)
     QtConcurrent::run(&mGenerator, &CPropertyNameGenerator::Warmup);
 }
 
-CGeneratePropertyNamesDialog::~CGeneratePropertyNamesDialog()
-{
-    delete mpUI;
-}
+CGeneratePropertyNamesDialog::~CGeneratePropertyNamesDialog() = default;
 
 /** Add a property to the ID pool */
 void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
