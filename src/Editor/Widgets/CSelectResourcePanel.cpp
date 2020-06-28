@@ -7,7 +7,7 @@
 
 CSelectResourcePanel::CSelectResourcePanel(CResourceSelector *pSelector)
     : QFrame(pSelector)
-    , mpUI(new Ui::CSelectResourcePanel)
+    , mpUI(std::make_unique<Ui::CSelectResourcePanel>())
     , mpSelector(pSelector)
     , mModel(pSelector)
 {
@@ -69,10 +69,7 @@ CSelectResourcePanel::CSelectResourcePanel(CResourceSelector *pSelector)
     mpUI->SearchBar->setFocus();
 }
 
-CSelectResourcePanel::~CSelectResourcePanel()
-{
-    delete mpUI;
-}
+CSelectResourcePanel::~CSelectResourcePanel() = default;
 
 // Slots
 void CSelectResourcePanel::FocusChanged(QWidget*, QWidget *pNew)
