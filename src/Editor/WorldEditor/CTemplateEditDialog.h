@@ -6,6 +6,8 @@
 #include <Core/Resource/Script/CGameTemplate.h>
 #include <QDialog>
 
+#include <memory>
+
 namespace Ui {
 class CTemplateEditDialog;
 }
@@ -13,7 +15,7 @@ class CTemplateEditDialog;
 class CTemplateEditDialog : public QDialog
 {
     Q_OBJECT
-    Ui::CTemplateEditDialog* mpUI;
+    std::unique_ptr<Ui::CTemplateEditDialog> mpUI;
     CPropertyNameValidator* mpValidator;
 
     IProperty *mpProperty;
@@ -22,15 +24,15 @@ class CTemplateEditDialog : public QDialog
     TString mOriginalName;
     TString mOriginalDescription;
     TString mOriginalTypeName;
-    bool mOriginalAllowTypeNameOverride;
-    bool mOriginalNameWasValid;
+    bool mOriginalAllowTypeNameOverride = false;
+    bool mOriginalNameWasValid = true;
 
     // These members help track what templates need to be updated and resaved after the user clicks OK
     QVector<IProperty*> mEquivalentProperties;
 
 public:
-    CTemplateEditDialog(IProperty* pProperty, QWidget *pParent = 0);
-    ~CTemplateEditDialog();
+    explicit CTemplateEditDialog(IProperty* pProperty, QWidget *pParent = nullptr);
+    ~CTemplateEditDialog() override;
 
 signals:
     void PerformedTypeConversion();

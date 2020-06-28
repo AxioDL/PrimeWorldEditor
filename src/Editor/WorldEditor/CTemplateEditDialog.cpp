@@ -10,14 +10,12 @@
 
 CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     : QDialog(pParent)
-    , mpUI(new Ui::CTemplateEditDialog)
+    , mpUI(std::make_unique<Ui::CTemplateEditDialog>())
     , mpValidator(new CPropertyNameValidator(this))
     , mpProperty(pProperty)
     , mGame(pProperty->Game())
     , mOriginalName(pProperty->Name())
     , mOriginalDescription(pProperty->Description())
-    , mOriginalAllowTypeNameOverride(false)
-    , mOriginalNameWasValid(true)
 {
     mpUI->setupUi(this);
 
@@ -112,10 +110,7 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     connect(mpUI->ButtonBox, SIGNAL(rejected()), this, SLOT(close()));
 }
 
-CTemplateEditDialog::~CTemplateEditDialog()
-{
-    delete mpUI;
-}
+CTemplateEditDialog::~CTemplateEditDialog() = default;
 
 // ************ PUBLIC SLOTS ************
 void CTemplateEditDialog::ApplyChanges()
