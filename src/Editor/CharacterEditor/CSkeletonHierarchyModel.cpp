@@ -1,9 +1,8 @@
 #include "CSkeletonHierarchyModel.h"
 #include "Editor/UICommon.h"
 
-CSkeletonHierarchyModel::CSkeletonHierarchyModel(QObject *pParent /*= 0*/)
+CSkeletonHierarchyModel::CSkeletonHierarchyModel(QObject *pParent)
     : QAbstractItemModel(pParent)
-    , mpSkeleton(nullptr)
 {
 }
 
