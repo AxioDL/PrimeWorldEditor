@@ -20,8 +20,7 @@
 
 CProjectSettingsDialog::CProjectSettingsDialog(QWidget *pParent)
     : QDialog(pParent)
-    , mpUI(new Ui::CProjectSettingsDialog)
-    , mpProject(nullptr)
+    , mpUI(std::make_unique<Ui::CProjectSettingsDialog>())
 {
     mpUI->setupUi(this);
 
@@ -42,10 +41,7 @@ CProjectSettingsDialog::CProjectSettingsDialog(QWidget *pParent)
     mpUI->BuildIsoButton->setPalette(Palette);
 }
 
-CProjectSettingsDialog::~CProjectSettingsDialog()
-{
-    delete mpUI;
-}
+CProjectSettingsDialog::~CProjectSettingsDialog() = default;
 
 void CProjectSettingsDialog::ActiveProjectChanged(CGameProject *pProj)
 {
