@@ -508,7 +508,7 @@ void CInstancesModel::InstancesLayerPreChange()
 void CInstancesModel::InstancesLayerPostChange(const QList<CScriptNode*>& rkInstanceList)
 {
     QList<CScriptObject*> InstanceList;
-    foreach (CScriptNode *pNode, rkInstanceList)
+    for (CScriptNode *pNode : rkInstanceList)
         InstanceList << pNode->Instance();
 
     QModelIndex ScriptIdx = index(0, 0, QModelIndex());

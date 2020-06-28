@@ -75,7 +75,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
     // Remove selected objects from the linked instances list.
     LinkedInstances.removeAll(nullptr);
 
-    foreach (CScriptObject *pInst, LinkedInstances)
+    for (CScriptObject *pInst : LinkedInstances)
     {
         if (mpEditor->Scene()->NodeForInstance(pInst)->IsSelected())
             LinkedInstances.removeOne(pInst);
@@ -144,7 +144,7 @@ void CDeleteSelectionCommand::undo()
     }
 
     // Run OnLoadFinished
-    foreach (CSceneNode *pNode, NewNodes)
+    for (CSceneNode *pNode : NewNodes)
         pNode->OnLoadFinished();
 
     // Add selection and done

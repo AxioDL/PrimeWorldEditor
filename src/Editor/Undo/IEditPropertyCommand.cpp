@@ -11,7 +11,7 @@ void IEditPropertyCommand::SaveObjectStateToArray(std::vector<char>& rVector)
     QVector<void*> DataPointers;
     GetObjectDataPointers(DataPointers);
 
-    foreach (void* pData, DataPointers)
+    for (void* pData : DataPointers)
     {
         mpProperty->SerializeValue(pData, Writer);
     }
@@ -25,7 +25,7 @@ void IEditPropertyCommand::RestoreObjectStateFromArray(std::vector<char>& rArray
     QVector<void*> DataPointers;
     GetObjectDataPointers(DataPointers);
 
-    foreach (void* pData, DataPointers)
+    for (void* pData : DataPointers)
     {
        mpProperty->SerializeValue(pData, Reader);
     }

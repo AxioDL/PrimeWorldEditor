@@ -205,10 +205,10 @@ void CPoiMapSidebar::UpdateModelHighlights()
         }
     }
 
-    foreach (const QModelIndex& rkIndex, UnselectedIndices)
+    for (const QModelIndex& rkIndex : UnselectedIndices)
         UnhighlightPoiModels(rkIndex);
 
-    foreach (const QModelIndex& rkIndex, SelectedIndices)
+    for (const QModelIndex& rkIndex : SelectedIndices)
         HighlightPoiModels(rkIndex);
 }
 
@@ -264,7 +264,7 @@ void CPoiMapSidebar::OnUnmapAllPressed()
     QModelIndex Index = GetSelectedRow();
     QList<CModelNode*> ModelList = mSourceModel.GetPoiMeshList(Index);
 
-    foreach (CModelNode *pModel, ModelList)
+    for (CModelNode *pModel : ModelList)
     {
         mSourceModel.RemoveMapping(Index, pModel);
         RevertModelOverlay(pModel);
@@ -343,7 +343,7 @@ void CPoiMapSidebar::OnInstanceListButtonClicked()
 
     if (!rkSelection.empty())
     {
-        foreach (CScriptNode *pNode, rkSelection)
+        for (CScriptNode *pNode : rkSelection)
             mSourceModel.AddPOI(pNode);
 
         mModel.sort(0);

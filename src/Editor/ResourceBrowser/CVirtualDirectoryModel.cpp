@@ -138,7 +138,7 @@ bool CVirtualDirectoryModel::canDropMimeData(const QMimeData *pkData, Qt::DropAc
             if (pkMimeData)
             {
                 // Don't allow moving a directory into one of its children
-                foreach (CVirtualDirectory *pMoveDir, pkMimeData->Directories())
+                for (CVirtualDirectory *pMoveDir : pkMimeData->Directories())
                 {
                     if (pDir->IsDescendantOf(pMoveDir))
                         return false;
@@ -222,7 +222,7 @@ QModelIndex CVirtualDirectoryModel::GetIndexForDirectory(CVirtualDirectory *pDir
     // Traverse hierarchy
     QModelIndex Out = index(0, 0, QModelIndex());
 
-    foreach (int Idx, Indices)
+    for (const int Idx : Indices)
         Out = index(Idx, 0, Out);
 
     ASSERT(IndexDirectory(Out) == pOriginal);

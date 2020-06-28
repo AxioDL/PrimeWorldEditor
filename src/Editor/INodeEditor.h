@@ -60,10 +60,10 @@ public:
 
     CScene* Scene();
     CGizmo* Gizmo();
-    bool IsGizmoVisible();
+    bool IsGizmoVisible() const;
     void BeginGizmoTransform();
     void EndGizmoTransform();
-    ETransformSpace CurrentTransformSpace();
+    ETransformSpace CurrentTransformSpace() const;
 
     void SelectNode(CSceneNode *pNode);
     void BatchSelectNodes(QList<CSceneNode*> Nodes, bool ClearExistingSelection, const QString& rkCommandName = "Select");

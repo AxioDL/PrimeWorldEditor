@@ -20,7 +20,7 @@ INodeEditor::INodeEditor(QWidget *pParent)
 
     mpGizmoGroup = new QActionGroup(this);
 
-    foreach (QAction *pAction, mGizmoActions)
+    for (QAction *pAction : mGizmoActions)
     {
         pAction->setCheckable(true);
         mpGizmoGroup->addAction(pAction);
@@ -57,7 +57,7 @@ CGizmo* INodeEditor::Gizmo()
     return &mGizmo;
 }
 
-bool INodeEditor::IsGizmoVisible()
+bool INodeEditor::IsGizmoVisible() const
 {
     return (mShowGizmo && !mpSelection->IsEmpty());
 }
@@ -68,7 +68,7 @@ void INodeEditor::BeginGizmoTransform()
     if ((qApp->keyboardModifiers() & Qt::ShiftModifier) != 0)
         mCloneState = ECloneState::ReadyToClone;
 
-    foreach (QAction *pAction, mGizmoActions)
+    for (QAction *pAction : mGizmoActions)
         pAction->setEnabled(false);
 }
 
@@ -76,7 +76,7 @@ void INodeEditor::EndGizmoTransform()
 {
     mGizmoTransforming = false;
 
-    foreach (QAction *pAction, mGizmoActions)
+    for (QAction *pAction : mGizmoActions)
         pAction->setEnabled(true);
 
     if (mGizmo.HasTransformed())
@@ -95,7 +95,7 @@ void INodeEditor::EndGizmoTransform()
     mCloneState = ECloneState::NotCloning;
 }
 
-ETransformSpace INodeEditor::CurrentTransformSpace()
+ETransformSpace INodeEditor::CurrentTransformSpace() const
 {
     switch (mGizmo.Mode())
     {
@@ -108,98 +108,100 @@ ETransformSpace INodeEditor::CurrentTransformSpace()
 
 void INodeEditor::SelectNode(CSceneNode *pNode)
 {
-    if (!mSelectionLocked)
-    {
-        if (!pNode->IsSelected())
-            mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
-    }
+    if (mSelectionLocked)
+        return;
+
+    if (!pNode->IsSelected())
+        mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
 }
 
 void INodeEditor::BatchSelectNodes(QList<CSceneNode*> Nodes, bool ClearExistingSelection, const QString& rkCommandName /*= "Select"*/)
 {
-    if (!mSelectionLocked)
+    if (mSelectionLocked)
+        return;
+
+    if (!ClearExistingSelection)
     {
-        if (!ClearExistingSelection)
+        for (CSceneNode *pNode : Nodes)
         {
-            foreach (CSceneNode *pNode, Nodes)
-            {
-                if (pNode->IsSelected())
-                    Nodes.removeOne(pNode);
-            }
+            if (pNode->IsSelected())
+                Nodes.removeOne(pNode);
         }
+    }
 
-        if (Nodes.size() > 0)
-        {
-            mUndoStack.beginMacro(rkCommandName);
+    if (Nodes.size() > 0)
+    {
+        mUndoStack.beginMacro(rkCommandName);
 
-            if (ClearExistingSelection)
-                ClearSelection();
+        if (ClearExistingSelection)
+            ClearSelection();
 
-            foreach (CSceneNode *pNode, Nodes)
-                SelectNode(pNode);
+        for (CSceneNode *pNode : Nodes)
+            SelectNode(pNode);
 
-            mUndoStack.endMacro();
-        }
+        mUndoStack.endMacro();
     }
 }
 
 void INodeEditor::DeselectNode(CSceneNode *pNode)
 {
-    if (!mSelectionLocked)
-    {
-        if (pNode->IsSelected())
-            mUndoStack.push(new CDeselectNodeCommand(mpSelection, pNode));
-    }
+    if (mSelectionLocked)
+        return;
+
+    if (pNode->IsSelected())
+        mUndoStack.push(new CDeselectNodeCommand(mpSelection, pNode));
 }
 
 void INodeEditor::BatchDeselectNodes(QList<CSceneNode*> Nodes, const QString& rkCommandName /*= "Deselect"*/)
 {
-    if (!mSelectionLocked)
+    if (mSelectionLocked)
+        return;
+
+    for (CSceneNode *pNode : Nodes)
     {
-        foreach (CSceneNode *pNode, Nodes)
-        {
-            if (!pNode->IsSelected())
-                Nodes.removeOne(pNode);
-        }
+        if (!pNode->IsSelected())
+            Nodes.removeOne(pNode);
+    }
 
-        if (Nodes.size() > 0)
-        {
-            mUndoStack.beginMacro(rkCommandName);
+    if (Nodes.size() > 0)
+    {
+        mUndoStack.beginMacro(rkCommandName);
 
-            foreach (CSceneNode *pNode, Nodes)
-                DeselectNode(pNode);
+        for (CSceneNode *pNode : Nodes)
+            DeselectNode(pNode);
 
-            mUndoStack.endMacro();
-        }
+        mUndoStack.endMacro();
     }
 }
 
 void INodeEditor::ClearSelection()
 {
-    if (!mSelectionLocked)
-    {
-        if (!mpSelection->IsEmpty())
-            mUndoStack.push(new CClearSelectionCommand(mpSelection));
-    }
+    if (mSelectionLocked)
+        return;
+
+    if (!mpSelection->IsEmpty())
+        mUndoStack.push(new CClearSelectionCommand(mpSelection));
 }
 
 void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
 {
-    if (!mSelectionLocked)
+    if (mSelectionLocked)
+        return;
+
+    if (mpSelection->IsEmpty())
     {
-        if (mpSelection->IsEmpty())
-            mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
-
-        else if ((mpSelection->Size() == 1) && (mpSelection->Front() == pNode))
-            return;
-
-        else
-        {
-            mUndoStack.beginMacro(tr("Select"));
-            mUndoStack.push(new CClearSelectionCommand(mpSelection));
-            mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
-            mUndoStack.endMacro();
-        }
+        mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
+    }
+    else if ((mpSelection->Size() == 1) && (mpSelection->Front() == pNode))
+    {
+        return;
+    }
+    else
+    {
+        mUndoStack.beginMacro(tr("Select"));
+        mUndoStack.push(new CClearSelectionCommand(mpSelection));
+        mUndoStack.push(new CSelectNodeCommand(mpSelection, pNode));
+        mUndoStack.endMacro();
     }
 }
 
@@ -246,11 +248,11 @@ void INodeEditor::EnterPickMode(FNodeFlags AllowedNodes, bool ExitOnInvalidPick,
 
 void INodeEditor::ExitPickMode()
 {
-    if (mPickMode)
-    {
-        mPickMode = false;
-        emit PickModeExited();
-    }
+    if (!mPickMode)
+        return;
+
+    mPickMode = false;
+    emit PickModeExited();
 }
 
 void INodeEditor::NotifySelectionTransformed()

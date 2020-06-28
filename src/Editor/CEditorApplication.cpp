@@ -49,7 +49,7 @@ bool CEditorApplication::CloseAllEditors()
         return true;
 
     // Close active editor windows.
-    foreach (IEditor *pEditor, mEditorWindows)
+    for (IEditor *pEditor : mEditorWindows)
     {
         if (pEditor != mpWorldEditor && !pEditor->close())
             return false;
@@ -318,16 +318,20 @@ void CEditorApplication::TickEditors()
         gpResourceStore->ConditionalSaveStore();
 
     // Tick each editor window and redraw their viewports
-    foreach(IEditor *pEditor, mEditorWindows)
+    for (IEditor *pEditor : mEditorWindows)
     {
         if (pEditor->isVisible())
         {
             CBasicViewport *pViewport = pEditor->Viewport();
-            bool ViewportVisible = (pViewport && pViewport->isVisible() && !pEditor->isMinimized());
+            const bool ViewportVisible = (pViewport && pViewport->isVisible() && !pEditor->isMinimized());
 
-            if (ViewportVisible) pViewport->ProcessInput();
-            pEditor->EditorTick((float) DeltaTime);
-            if (ViewportVisible) pViewport->Render();
+            if (ViewportVisible)
+                pViewport->ProcessInput();
+
+            pEditor->EditorTick(static_cast<float>(DeltaTime));
+
+            if (ViewportVisible)
+                pViewport->Render();
         }
     }
 }

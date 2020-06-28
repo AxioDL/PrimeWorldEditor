@@ -237,7 +237,7 @@ void CResourceBrowser::SelectDirectory(CVirtualDirectory *pDir)
 void CResourceBrowser::CreateFilterCheckboxes()
 {
     // Delete existing checkboxes
-    foreach (const SResourceType& rkType, mTypeList)
+    for (const SResourceType& rkType : mTypeList)
         delete rkType.pFilterCheckBox;
 
     mTypeList.clear();
@@ -257,12 +257,12 @@ void CResourceBrowser::CreateFilterCheckboxes()
             mTypeList << SResourceType { pType, pCheck };
         }
 
-        std::sort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) -> bool {
+        std::sort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) {
             return rkLeft.pTypeInfo->TypeName().ToUpper() < rkRight.pTypeInfo->TypeName().ToUpper();
         });
 
         // Add sorted checkboxes to the UI
-        foreach (const SResourceType& rkType, mTypeList)
+        for (const SResourceType& rkType : mTypeList)
         {
             QCheckBox *pCheck = rkType.pFilterCheckBox;
             mpFilterBoxesLayout->addWidget(rkType.pFilterCheckBox);
@@ -380,7 +380,7 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     QList<CResourceEntry*> ConflictingResources;
     QList<CResourceEntry*> ValidResources;
 
-    foreach (CResourceEntry *pEntry, rkResources)
+    for (CResourceEntry *pEntry : rkResources)
     {
         CResourceEntry *pConflict = pNewDir->FindChildResource(pEntry->Name(), pEntry->ResourceType());
 
@@ -396,7 +396,7 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     QList<CVirtualDirectory*> ConflictingDirs;
     QList<CVirtualDirectory*> ValidDirs;
 
-    foreach (CVirtualDirectory *pDir, rkDirectories)
+    for (CVirtualDirectory *pDir : rkDirectories)
     {
         CVirtualDirectory *pConflict = pNewDir->FindChildDirectory(pDir->Name(), false);
 
@@ -414,12 +414,12 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     {
         QString ErrorMsg = tr("Failed to move; the destination directory has conflicting files.\n\n");
 
-        foreach (CVirtualDirectory *pDir, ConflictingDirs)
+        for (const CVirtualDirectory *pDir : ConflictingDirs)
         {
             ErrorMsg += tr("* %1").arg(TO_QSTRING(pDir->Name()));
         }
 
-        foreach (CResourceEntry *pEntry, ConflictingResources)
+        for (const CResourceEntry *pEntry : ConflictingResources)
         {
             ErrorMsg += tr("* %1.%2\n").arg(TO_QSTRING(pEntry->Name())).arg(TO_QSTRING(pEntry->CookedExtension().ToString()));
         }
@@ -434,10 +434,10 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
         mUndoStack.beginMacro(tr("Move Resources"));
         mUndoStack.push(new CSaveStoreCommand(mpStore));
 
-        foreach (CVirtualDirectory* pDir, ValidDirs)
+        for (CVirtualDirectory* pDir : ValidDirs)
             mUndoStack.push(new CMoveDirectoryCommand(mpStore, pDir, pNewDir));
 
-        foreach (CResourceEntry* pEntry, ValidResources)
+        for (CResourceEntry* pEntry : ValidResources)
             mUndoStack.push(new CMoveResourceCommand(pEntry, pNewDir));
 
         mUndoStack.push(new CSaveStoreCommand(mpStore));
@@ -744,7 +744,7 @@ bool CResourceBrowser::Delete(QVector<CResourceEntry*> Resources, QVector<CVirtu
         mUndoStack.push(new CSaveStoreCommand(mpStore));
 
         // Delete resources first.
-        foreach (CResourceEntry* pEntry, Resources)
+        for (CResourceEntry* pEntry : Resources)
             mUndoStack.push(new CDeleteResourceCommand(pEntry));
 
         // Now delete directories in reverse order (so subdirectories delete first)
@@ -922,7 +922,7 @@ void CResourceBrowser::ImportPackageContentsList()
 
     SetActiveDirectory(nullptr);
 
-    foreach(const QString& rkPath, PathList)
+    for (const QString& rkPath : PathList)
         mpStore->ImportNamesFromPakContentsTxt(TO_TSTRING(rkPath), false);
 
     RefreshResources();
@@ -1060,7 +1060,7 @@ void CResourceBrowser::OnFilterTypeBoxTicked(bool Checked)
 
         else if (Checked)
         {
-            foreach (const SResourceType& rkType, mTypeList)
+            for (const SResourceType& rkType : mTypeList)
             {
                 rkType.pFilterCheckBox->setChecked(false);
                 mpProxyModel->SetTypeFilter(rkType.pTypeInfo, false);
@@ -1070,7 +1070,7 @@ void CResourceBrowser::OnFilterTypeBoxTicked(bool Checked)
 
     else
     {
-        foreach (const SResourceType& rkType, mTypeList)
+        for (const SResourceType& rkType : mTypeList)
         {
             if (rkType.pFilterCheckBox == sender())
             {

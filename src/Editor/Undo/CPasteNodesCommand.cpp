@@ -25,7 +25,7 @@ void CPasteNodesCommand::undo()
     mpEditor->Selection()->SetSelectedNodes(mOriginalSelection.DereferenceList());
     QList<CSceneNode*> PastedNodes = mPastedNodes.DereferenceList();
 
-    foreach (CSceneNode *pNode, PastedNodes)
+    for (CSceneNode *pNode : PastedNodes)
     {
         CScriptObject *pInst = (pNode->NodeType() == ENodeType::Script ? static_cast<CScriptNode*>(pNode)->Instance() : nullptr);
         mpEditor->NotifyNodeAboutToBeDeleted(pNode);
@@ -41,14 +41,15 @@ void CPasteNodesCommand::undo()
 
 void CPasteNodesCommand::redo()
 {
-    if (!mpMimeData) return;
+    if (!mpMimeData)
+        return;
 
     const QVector<CNodeCopyMimeData::SCopiedNode>& rkNodes = mpMimeData->CopiedNodes();
     CScene *pScene = mpEditor->Scene();
     CGameArea *pArea = mpEditor->ActiveArea();
     QList<CSceneNode*> PastedNodes;
 
-    foreach (const CNodeCopyMimeData::SCopiedNode& rkNode, rkNodes)
+    for (const CNodeCopyMimeData::SCopiedNode& rkNode : rkNodes)
     {
         CSceneNode *pNewNode = nullptr;
 
@@ -87,7 +88,7 @@ void CPasteNodesCommand::redo()
     // 1. If the link receiver has also been copied then redirect to the copied version.
     // 2. If we're pasting into the same area that this data was copied from and the receiver still exists, connect to original receiver.
     // 3. If neither of those things is true, then delete the link.
-    foreach (CSceneNode *pNode, PastedNodes)
+    for (CSceneNode *pNode : PastedNodes)
     {
         if (pNode && pNode->NodeType() == ENodeType::Script)
         {
@@ -126,7 +127,7 @@ void CPasteNodesCommand::redo()
     // Call PostLoad on all new nodes and select them
     PastedNodes.removeAll(nullptr);
 
-    foreach (CSceneNode *pNode, PastedNodes)
+    for (CSceneNode *pNode : PastedNodes)
         pNode->OnLoadFinished();
 
     mpEditor->Selection()->SetSelectedNodes(PastedNodes);

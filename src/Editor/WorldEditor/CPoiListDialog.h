@@ -126,7 +126,7 @@ public slots:
     {
         QModelIndexList SelectedIndices = mpListView->selectionModel()->selectedRows();
 
-        foreach (const QModelIndex& rkIndex, SelectedIndices)
+        for (const QModelIndex& rkIndex : SelectedIndices)
         {
             QModelIndex SourceIndex = mModel.mapToSource(rkIndex);
             mSelection << mSourceModel.PoiForIndex(SourceIndex);

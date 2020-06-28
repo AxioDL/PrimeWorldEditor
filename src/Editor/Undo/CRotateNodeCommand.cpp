@@ -21,7 +21,7 @@ CRotateNodeCommand::CRotateNodeCommand(
 {
     mNodeList.reserve(rkNodes.size());
 
-    foreach (CSceneNode *pNode, rkNodes)
+    for (CSceneNode *pNode : rkNodes)
     {
         SNodeRotate Rotate;
         Rotate.pNode = pNode;
@@ -83,7 +83,7 @@ void CRotateNodeCommand::undo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeRotate Rotate, mNodeList)
+    for (SNodeRotate& Rotate : mNodeList)
     {
         Rotate.pNode->SetPosition(Rotate.InitialPos);
         Rotate.pNode->SetRotation(Rotate.InitialRot);
@@ -97,7 +97,7 @@ void CRotateNodeCommand::redo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeRotate Rotate, mNodeList)
+    for (SNodeRotate& Rotate : mNodeList)
     {
         Rotate.pNode->SetPosition(Rotate.NewPos);
         Rotate.pNode->SetRotation(Rotate.NewRot);

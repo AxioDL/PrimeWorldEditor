@@ -438,7 +438,7 @@ void CSceneViewport::OnSelectConnected()
     FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Instance()->InstanceID(), SearchOutgoing, SearchIncoming, InstanceIDs);
 
     QList<CSceneNode*> Nodes;
-    foreach (uint32 ID, InstanceIDs)
+    for (const uint32 ID : InstanceIDs)
         Nodes << mpScene->NodeForInstanceID(ID);
 
     const bool ShouldClear = ((qApp->keyboardModifiers() & Qt::ControlModifier) == 0);

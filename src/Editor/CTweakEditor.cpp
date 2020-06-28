@@ -129,9 +129,9 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
             return pLeft->TweakName().ToUpper() < pRight->TweakName().ToUpper();
         });
 
-        foreach (CTweakData* pTweakData, mTweakAssets)
+        for (CTweakData* pTweakData : mTweakAssets)
         {
-            QString TweakName = TO_QSTRING( pTweakData->TweakName() );
+            const QString TweakName = TO_QSTRING(pTweakData->TweakName());
             mpUI->TweakTabs->addTab(TweakName);
         }
 

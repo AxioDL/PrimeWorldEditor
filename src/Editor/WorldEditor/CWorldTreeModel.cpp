@@ -226,7 +226,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
             pProj->GetWorldList(WorldIDs);
             QList<CAssetID> QWorldIDs = QList<CAssetID>::fromStdList(WorldIDs);
 
-            foreach (const CAssetID& rkID, QWorldIDs)
+            for (const CAssetID& rkID : QWorldIDs)
             {
                 CResourceEntry *pEntry = pProj->ResourceStore()->FindEntry(rkID);
 

@@ -238,7 +238,7 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     }
 
     // Update equivalent properties with new description
-    foreach (IProperty* pProperty, mEquivalentProperties)
+    for (IProperty* pProperty : mEquivalentProperties)
     {
         pProperty->SetDescription(rkNewDesc);
     }

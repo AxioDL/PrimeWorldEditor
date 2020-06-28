@@ -22,7 +22,7 @@ public:
 
     ~CNodeSelection() override
     {
-        foreach (CSceneNode *pNode, mSelectedNodes)
+        for (CSceneNode *pNode : mSelectedNodes)
             pNode->SetSelected(false);
     }
 
@@ -50,7 +50,7 @@ public:
 
     void Clear()
     {
-        foreach (CSceneNode *pNode, mSelectedNodes)
+        for (CSceneNode *pNode : mSelectedNodes)
             pNode->SetSelected(false);
 
         mSelectedNodes.clear();
@@ -72,7 +72,7 @@ public:
         blockSignals(true);
         Clear();
 
-        foreach (CSceneNode *pNode, rkList)
+        for (CSceneNode *pNode : rkList)
             SelectNode(pNode);
         blockSignals(false);
 
@@ -86,7 +86,7 @@ public:
         {
             mCachedBounds = CAABox::Infinite();
 
-            foreach (CSceneNode *pNode, mSelectedNodes)
+            for (CSceneNode *pNode : mSelectedNodes)
             {
                 mCachedBounds.ExpandBounds(pNode->AABox());
 

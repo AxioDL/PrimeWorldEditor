@@ -13,7 +13,7 @@ CTranslateNodeCommand::CTranslateNodeCommand(INodeEditor *pEditor, const QList<C
 {
     mNodeList.reserve(rkNodes.size());
 
-    foreach (CSceneNode *pNode, rkNodes)
+    for (CSceneNode *pNode : rkNodes)
     {
         SNodeTranslate Translate;
         Translate.pNode = pNode;
@@ -59,9 +59,10 @@ bool CTranslateNodeCommand::mergeWith(const QUndoCommand *pkOther)
 
 void CTranslateNodeCommand::undo()
 {
-    if (!mpEditor) return;
+    if (!mpEditor)
+        return;
 
-    foreach (SNodeTranslate Translate, mNodeList)
+    for (SNodeTranslate& Translate : mNodeList)
         Translate.pNode->SetPosition(Translate.InitialPos);
 
     mpEditor->NotifySelectionTransformed();
@@ -70,9 +71,10 @@ void CTranslateNodeCommand::undo()
 
 void CTranslateNodeCommand::redo()
 {
-    if (!mpEditor) return;
+    if (!mpEditor)
+        return;
 
-    foreach (SNodeTranslate Translate, mNodeList)
+    for (SNodeTranslate& Translate : mNodeList)
         Translate.pNode->SetPosition(Translate.NewPos);
 
     mpEditor->NotifySelectionTransformed();

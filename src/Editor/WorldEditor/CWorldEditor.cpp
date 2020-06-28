@@ -557,7 +557,7 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
 {
-    foreach (CScriptObject *pInstance, rkInstances)
+    for (CScriptObject *pInstance : rkInstances)
     {
         CScriptNode *pNode = mScene.NodeForInstance(pInstance);
         pNode->LinksModified();
@@ -665,7 +665,7 @@ void CWorldEditor::SetSelectionActive(bool Active)
 
                 pCommand->SaveOldData();
 
-                foreach (CScriptObject* pInstance, CommandObjects)
+                for (CScriptObject* pInstance : CommandObjects)
                     pInstance->SetActive(Active);
 
                 pCommand->SaveNewData();
@@ -736,7 +736,7 @@ void CWorldEditor::UpdateOpenRecentActions()
     }
 
     // Remove projects that don't exist anymore
-    foreach (const QString& rkProj, RecentProjectsList)
+    for (const QString& rkProj : RecentProjectsList)
     {
         if (!FileUtil::Exists( TO_TSTRING(rkProj) ) || rkProj.contains('\\') )
             RecentProjectsList.removeAll(rkProj);
@@ -1114,7 +1114,7 @@ void CWorldEditor::OnUnlinkClicked()
             bool UnlinkIncoming = (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::OutgoingOnly);
             bool UnlinkOutgoing = (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::IncomingOnly);
 
-            foreach (CScriptNode *pNode, SelectedScriptNodes)
+            for (CScriptNode *pNode : SelectedScriptNodes)
             {
                 CScriptObject *pInst = pNode->Instance();
 

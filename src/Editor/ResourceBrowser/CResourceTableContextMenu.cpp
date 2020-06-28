@@ -214,7 +214,7 @@ void CResourceTableContextMenu::Delete()
     QVector<CResourceEntry*> Resources;
     QVector<CVirtualDirectory*> Directories;
 
-    foreach (const QModelIndex& kIndex, mSelectedIndexes)
+    for (const QModelIndex& kIndex : mSelectedIndexes)
     {
         if (mpModel->IsIndexDirectory(kIndex))
             Directories << mpModel->IndexDirectory(kIndex);

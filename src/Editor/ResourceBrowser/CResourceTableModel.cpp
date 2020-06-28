@@ -96,7 +96,7 @@ bool CResourceTableModel::canDropMimeData(const QMimeData *pkData, Qt::DropActio
         if (pDir)
         {
             // Make sure this directory isn't part of the mime data, or a subdirectory of a directory in the mime data
-            foreach (CVirtualDirectory *pMimeDir, pkMimeData->Directories())
+            for (CVirtualDirectory *pMimeDir : pkMimeData->Directories())
             {
                 if (pDir == pMimeDir || pDir->IsDescendantOf(pMimeDir))
                     return false;
@@ -132,13 +132,15 @@ QMimeData* CResourceTableModel::mimeData(const QModelIndexList& rkIndexes) const
     QList<CResourceEntry*> Resources;
     QList<CVirtualDirectory*> Dirs;
 
-    foreach(QModelIndex Index, rkIndexes)
+    for (const QModelIndex Index : rkIndexes)
     {
         CResourceEntry *pEntry = IndexEntry(Index);
         CVirtualDirectory *pDir = IndexDirectory(Index);
 
-        if (pEntry) Resources << pEntry;
-        else        Dirs << pDir;
+        if (pEntry)
+            Resources << pEntry;
+        else
+            Dirs << pDir;
     }
 
     return new CResourceMimeData(Resources, Dirs);

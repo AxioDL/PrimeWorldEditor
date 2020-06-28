@@ -33,7 +33,7 @@ void CCloneSelectionCommand::undo()
     QList<CSceneNode*> ClonedNodes = mClonedNodes.DereferenceList();
     mpEditor->Selection()->Clear();
 
-    foreach (CSceneNode *pNode, ClonedNodes)
+    for (CSceneNode *pNode : ClonedNodes)
     {
         CScriptObject *pInst = static_cast<CScriptNode*>(pNode)->Instance();
 
@@ -56,7 +56,7 @@ void CCloneSelectionCommand::redo()
     QList<uint32> ClonedInstanceIDs;
 
     // Clone nodes
-    foreach (CSceneNode *pNode, ToClone)
+    for (CSceneNode *pNode : ToClone)
     {
         mpEditor->NotifyNodeAboutToBeSpawned();
         CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
@@ -101,7 +101,7 @@ void CCloneSelectionCommand::redo()
     }
 
     // Call LoadFinished
-    foreach (CSceneNode *pNode, ClonedNodes)
+    for (CSceneNode *pNode : ClonedNodes)
         pNode->OnLoadFinished();
 
     mpEditor->OnLinksModified(mLinkedInstances.DereferenceList());

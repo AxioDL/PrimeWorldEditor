@@ -47,9 +47,9 @@ void CResourceTableView::DeleteSelected()
     QVector<CResourceEntry*> ResourcesToDelete;
     QVector<CVirtualDirectory*> DirsToDelete;
 
-    foreach (QModelIndex Index, List)
+    for (const QModelIndex Index : List)
     {
-        QModelIndex SourceIndex = pProxy->mapToSource(Index);
+        const QModelIndex SourceIndex = pProxy->mapToSource(Index);
 
         if (pModel->IsIndexDirectory(SourceIndex))
             DirsToDelete << pModel->IndexDirectory(SourceIndex);
