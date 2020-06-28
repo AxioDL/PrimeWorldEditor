@@ -37,8 +37,8 @@ public:
 
     void WriteSizes(IOutputStream& rOut)
     {
-        for (uint32 iSec = 0; iSec < mSectionCount; iSec++)
-            rOut.WriteLong(mSectionSizes[iSec]);
+        for (size_t iSec = 0; iSec < mSectionCount; iSec++)
+            rOut.WriteULong(mSectionSizes[iSec]);
     }
 };
 
