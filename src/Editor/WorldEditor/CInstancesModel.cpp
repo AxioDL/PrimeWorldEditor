@@ -34,15 +34,15 @@ CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
 {
     mBaseItems << "Script";
 
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
-    connect(mpEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChange()));
-    connect(mpEditor, SIGNAL(NodeAboutToBeSpawned()), this, SLOT(NodeAboutToBeCreated()));
-    connect(mpEditor, SIGNAL(NodeSpawned(CSceneNode*)), this, SLOT(NodeCreated(CSceneNode*)));
-    connect(mpEditor, SIGNAL(NodeAboutToBeDeleted(CSceneNode*)), this, SLOT(NodeAboutToBeDeleted(CSceneNode*)));
-    connect(mpEditor, SIGNAL(NodeDeleted()), this, SLOT(NodeDeleted()));
-    connect(mpEditor, SIGNAL(PropertyModified(IProperty*,CScriptObject*)), this, SLOT(PropertyModified(IProperty*,CScriptObject*)));
-    connect(mpEditor, SIGNAL(InstancesLayerAboutToChange()), this, SLOT(InstancesLayerPreChange()));
-    connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(InstancesLayerPostChange(QList<CScriptNode*>)));
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CInstancesModel::OnActiveProjectChanged);
+    connect(mpEditor, &CWorldEditor::MapChanged, this, &CInstancesModel::OnMapChange);
+    connect(mpEditor, &CWorldEditor::NodeAboutToBeSpawned, this, &CInstancesModel::NodeAboutToBeCreated);
+    connect(mpEditor, &CWorldEditor::NodeSpawned, this, &CInstancesModel::NodeCreated);
+    connect(mpEditor, &CWorldEditor::NodeAboutToBeDeleted, this, &CInstancesModel::NodeAboutToBeDeleted);
+    connect(mpEditor, &CWorldEditor::NodeDeleted, this, &CInstancesModel::NodeDeleted);
+    connect(mpEditor, &CWorldEditor::PropertyModified, this, &CInstancesModel::PropertyModified);
+    connect(mpEditor, &CWorldEditor::InstancesLayerAboutToChange, this, &CInstancesModel::InstancesLayerPreChange);
+    connect(mpEditor, &CWorldEditor::InstancesLayerChanged, this, &CInstancesModel::InstancesLayerPostChange);
 }
 
 CInstancesModel::~CInstancesModel() = default;
