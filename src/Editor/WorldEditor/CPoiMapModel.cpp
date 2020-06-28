@@ -13,8 +13,8 @@ CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent)
 
 QVariant CPoiMapModel::headerData(int Section, Qt::Orientation Orientation, int Role) const
 {
-    if ( (Section == 0) && (Orientation == Qt::Horizontal) && (Role == Qt::DisplayRole) )
-        return "PointOfInterest";
+    if (Section == 0 && Orientation == Qt::Horizontal && Role == Qt::DisplayRole)
+        return tr("PointOfInterest");
 
     return QVariant::Invalid;
 }
@@ -35,28 +35,27 @@ QVariant CPoiMapModel::data(const QModelIndex& rkIndex, int Role) const
         {
             if (pPOI)
                 return TO_QSTRING(pPOI->InstanceName());
-            else
-                return "[INVALID POI]";
+
+            return tr("[INVALID POI]");
         }
 
-        else if (Role == Qt::DecorationRole)
+        if (Role == Qt::DecorationRole)
         {
-            CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pPOI);
             bool IsImportant = false;
 
-            if (pNode)
+            if (const CScriptNode* pNode = mpEditor->Scene()->NodeForInstance(pPOI))
             {
                 // Get scan
-                CScan *pScan = static_cast<CPointOfInterestExtra*>(pNode->Extra())->GetScan();
+                const CScan *pScan = static_cast<CPointOfInterestExtra*>(pNode->Extra())->GetScan();
 
                 if (pScan)
                     IsImportant = pScan->IsCriticalPropertyRef();
             }
 
             if (IsImportant)
-                return QIcon(":/icons/POI Important.svg");
+                return QIcon(QStringLiteral(":/icons/POI Important.svg"));
             else
-                return QIcon(":/icons/POI Normal.svg");
+                return QIcon(QStringLiteral(":/icons/POI Normal.svg"));
         }
     }
 
