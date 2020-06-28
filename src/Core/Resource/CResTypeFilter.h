@@ -62,14 +62,14 @@ public:
         return mAcceptedTypes.find(Type) != mAcceptedTypes.end();
     }
 
-    bool Accepts(CResTypeInfo *pType) const
+    bool Accepts(const CResTypeInfo *pType) const
     {
-        return pType && Accepts(pType->Type());
+        return pType != nullptr && Accepts(pType->Type());
     }
 
-    bool Accepts(CResourceEntry *pEntry) const
+    bool Accepts(const CResourceEntry *pEntry) const
     {
-        return pEntry && Accepts(pEntry->ResourceType());
+        return pEntry != nullptr && Accepts(pEntry->ResourceType());
     }
 
     bool Accepts(const CResTypeFilter& filter) const
