@@ -9,14 +9,15 @@ class CResourceTableView : public QTableView
 {
     Q_OBJECT
 
-    CResourceTableModel *mpModel;
-    CResourceProxyModel *mpProxy;
-    QAction *mpDeleteAction;
+    CResourceTableModel *mpModel = nullptr;
+    CResourceProxyModel *mpProxy = nullptr;
+    QAction *mpDeleteAction = nullptr;
 
 public:
-    explicit CResourceTableView(QWidget *pParent = 0);
-    void setModel(QAbstractItemModel *pModel);
-    void dragEnterEvent(QDragEnterEvent *pEvent);
+    explicit CResourceTableView(QWidget *pParent = nullptr);
+
+    void setModel(QAbstractItemModel *pModel) override;
+    void dragEnterEvent(QDragEnterEvent *pEvent) override;
 
 public slots:
     void DeleteSelected();
