@@ -16,18 +16,18 @@ CGeneratePropertyNamesDialog::CGeneratePropertyNamesDialog(QWidget* pParent)
     mpUI->setupUi(this);
     mNotifier.SetProgressBar( mpUI->ProgressBar );
 
-    connect( mpUI->AddSuffixButton, SIGNAL(pressed()), this, SLOT(AddSuffix()) );
-    connect( mpUI->RemoveSuffixButton, SIGNAL(pressed()), this, SLOT(DeleteSuffix()) );
-    connect( mpUI->ClearIdPoolButton, SIGNAL(pressed()), this, SLOT(ClearIdPool()) );
-    connect( mpUI->StartButton, SIGNAL(pressed()), this, SLOT(StartGeneration()) );
-    connect( mpUI->CancelButton, SIGNAL(pressed()), this, SLOT(CancelGeneration()) );
-    connect( mpUI->CheckAllButton, SIGNAL(pressed()), this, SLOT(CheckAll()) );
-    connect( mpUI->UncheckAllButton, SIGNAL(pressed()), this, SLOT(UncheckAll()) );
-    connect( mpUI->ApplyButton, SIGNAL(pressed()), this, SLOT(ApplyChanges()) );
-    connect( mpUI->OutputTreeWidget, SIGNAL(CheckStateChanged(QTreeWidgetItem*)),
-             this, SLOT(OnTreeItemChecked(QTreeWidgetItem*)) );
-    connect( mpUI->OutputTreeWidget, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
-             this, SLOT(OnTreeItemDoubleClicked(QTreeWidgetItem*)) );
+    connect(mpUI->AddSuffixButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::AddSuffix);
+    connect(mpUI->RemoveSuffixButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::DeleteSuffix);
+    connect(mpUI->ClearIdPoolButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::ClearIdPool);
+    connect(mpUI->StartButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::StartGeneration);
+    connect(mpUI->CancelButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::CancelGeneration);
+    connect(mpUI->CheckAllButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::CheckAll);
+    connect(mpUI->UncheckAllButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::UncheckAll);
+    connect(mpUI->ApplyButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::ApplyChanges);
+    connect(mpUI->OutputTreeWidget, &CCheckableTreeWidget::CheckStateChanged,
+            this, &CGeneratePropertyNamesDialog::OnTreeItemChecked);
+    connect(mpUI->OutputTreeWidget, &CCheckableTreeWidget::itemDoubleClicked,
+            this, &CGeneratePropertyNamesDialog::OnTreeItemDoubleClicked);
 
     // Configure default tree view split sizes
     // I don't know why it needs to be multiplied by 1.5, it just does
