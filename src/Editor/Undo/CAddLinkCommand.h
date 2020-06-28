@@ -14,9 +14,9 @@ class CAddLinkCommand : public IUndoCommand
 
 public:
     CAddLinkCommand(CWorldEditor *pEditor, CLink Link);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
 };
 
 #endif // CADDLINKCOMMAND_H
