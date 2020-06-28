@@ -9,7 +9,6 @@
 
 CPropertyView::CPropertyView(QWidget *pParent)
     : QTreeView(pParent)
-    , mpMenuProperty(nullptr)
 {
     mpModel = new CPropertyModel(this);
     mpDelegate = new CPropertyDelegate(this);

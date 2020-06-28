@@ -14,7 +14,7 @@ class CPropertyView : public QTreeView
     CPropertyDelegate* mpDelegate;
     CScriptObject* mpObject;
 
-    IProperty* mpMenuProperty;
+    IProperty* mpMenuProperty = nullptr;
     QAction* mpShowNameValidityAction;
     QAction* mpEditTemplateAction;
     QAction* mpGenNamesForPropertyAction;
@@ -22,10 +22,11 @@ class CPropertyView : public QTreeView
     QAction* mpGenNamesForChildrenAction;
 
 public:
-    CPropertyView(QWidget* pParent = 0);
-    void setModel(QAbstractItemModel* pModel);
-    bool event(QEvent* pEvent);
-    int sizeHintForColumn(int Column) const;
+    explicit CPropertyView(QWidget* pParent = nullptr);
+
+    void setModel(QAbstractItemModel* pModel) override;
+    bool event(QEvent* pEvent) override;
+    int sizeHintForColumn(int Column) const override;
 
     void SetEditor(IEditor* pEditor);
     void ClearProperties();
@@ -33,7 +34,7 @@ public:
     void SetInstance(CScriptObject* pObj);
     void UpdateEditorProperties(const QModelIndex& rkParent);
 
-    inline CPropertyModel* PropertyModel() const { return mpModel; }
+    CPropertyModel* PropertyModel() const { return mpModel; }
 
 public slots:
     void SetPersistentEditors(const QModelIndex& rkIndex);
