@@ -580,7 +580,7 @@ void CAreaLoader::LoadSectionDataBuffers()
    mpArea->mSectionDataBuffers.resize(mpSectionMgr->NumSections());
    mpSectionMgr->ToSection(0);
 
-   for (uint32 iSec = 0; iSec < mpSectionMgr->NumSections(); iSec++)
+   for (size_t iSec = 0; iSec < mpSectionMgr->NumSections(); iSec++)
    {
        const uint32 Size = mpSectionMgr->CurrentSectionSize();
        mpArea->mSectionDataBuffers[iSec].resize(Size);

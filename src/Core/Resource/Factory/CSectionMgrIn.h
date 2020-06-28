@@ -15,13 +15,11 @@ class CSectionMgrIn
     uint32 mSecsStart = 0;
 
 public:
-    CSectionMgrIn(uint32 Count, IInputStream* pSrc)
-        : mpInputStream(pSrc)
+    CSectionMgrIn(size_t Count, IInputStream* pSrc)
+        : mpInputStream(pSrc), mSectionSizes(Count)
     {
-        mSectionSizes.resize(Count);
-
-        for (uint32 iSec = 0; iSec < Count; iSec++)
-            mSectionSizes[iSec] = pSrc->ReadLong();
+        for (auto& size : mSectionSizes)
+            size = pSrc->ReadULong();
     }
 
     void Init()
@@ -53,7 +51,7 @@ public:
     uint32 NextOffset() const                { return mCurSecStart + mSectionSizes[mCurSec]; }
     uint32 CurrentSection() const            { return mCurSec; }
     uint32 CurrentSectionSize() const        { return mSectionSizes[mCurSec]; }
-    uint32 NumSections() const               { return mSectionSizes.size(); }
+    size_t NumSections() const               { return mSectionSizes.size(); }
     void SetInputStream(IInputStream *pIn)   { mpInputStream = pIn; }
 };
 
