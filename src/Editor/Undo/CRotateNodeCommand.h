@@ -18,18 +18,19 @@ class CRotateNodeCommand : public IUndoCommand
         CQuaternion NewRot;
     };
     QList<SNodeRotate> mNodeList;
-    INodeEditor *mpEditor;
-    bool mCommandEnded;
+    INodeEditor *mpEditor = nullptr;
+    bool mCommandEnded = false;
 
 public:
     CRotateNodeCommand();
     CRotateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, bool UsePivot, const CVector3f& rkPivot, const CQuaternion& rkPivotRotation, const CQuaternion& rkDelta, ETransformSpace TransformSpace);
-    ~CRotateNodeCommand();
-    int id() const;
-    bool mergeWith(const QUndoCommand *pkOther);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    ~CRotateNodeCommand() override;
+
+    int id() const override;
+    bool mergeWith(const QUndoCommand *pkOther) override;
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
     static CRotateNodeCommand* End();
 };
 

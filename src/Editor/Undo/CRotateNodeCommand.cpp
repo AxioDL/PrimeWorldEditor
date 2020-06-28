@@ -3,9 +3,7 @@
 #include "Editor/INodeEditor.h"
 
 CRotateNodeCommand::CRotateNodeCommand()
-    : IUndoCommand("Rotate"),
-      mpEditor(nullptr),
-      mCommandEnded(false)
+    : IUndoCommand("Rotate")
 {
 }
 
@@ -19,8 +17,7 @@ CRotateNodeCommand::CRotateNodeCommand(
         ETransformSpace TransformSpace
     )
     : IUndoCommand("Rotate"),
-      mpEditor(pEditor),
-      mCommandEnded(false)
+      mpEditor(pEditor)
 {
     mNodeList.reserve(rkNodes.size());
 
