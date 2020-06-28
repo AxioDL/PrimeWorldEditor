@@ -134,26 +134,26 @@ void CLinkDialog::UpdateOkEnabled()
 
 void CLinkDialog::UpdateSenderNameLabel()
 {
-    QString Text = (mpSender ? TO_QSTRING(mpSender->InstanceName()) : "<i>No sender</i>");
+    const QString Text = (mpSender ? TO_QSTRING(mpSender->InstanceName()) : tr("<i>No sender</i>"));
     ui->SenderNameLabel->setToolTip(Text);
 
-    QFontMetrics Metrics(ui->SenderNameLabel->font());
-    QString Elided = Metrics.elidedText(Text, Qt::ElideRight, ui->SenderNameLabel->width() - (ui->SenderNameLabel->frameWidth() * 2));
+    const QFontMetrics Metrics(ui->SenderNameLabel->font());
+    const QString Elided = Metrics.elidedText(Text, Qt::ElideRight, ui->SenderNameLabel->width() - (ui->SenderNameLabel->frameWidth() * 2));
     ui->SenderNameLabel->setText(Elided);
 
-    ui->SenderGroupBox->setTitle(mpSender ? "Sender - " + TO_QSTRING(mpSender->Template()->Name()) : "Sender");
+    ui->SenderGroupBox->setTitle(mpSender ? tr("Sender - %1").arg(TO_QSTRING(mpSender->Template()->Name())) : tr("Sender"));
 }
 
 void CLinkDialog::UpdateReceiverNameLabel()
 {
-    QString Text = (mpReceiver ? TO_QSTRING(mpReceiver->InstanceName()) : "<i>No receiver</i>");
+    const QString Text = (mpReceiver ? TO_QSTRING(mpReceiver->InstanceName()) : tr("<i>No receiver</i>"));
     ui->ReceiverNameLabel->setToolTip(Text);
 
-    QFontMetrics Metrics(ui->ReceiverNameLabel->font());
-    QString Elided = Metrics.elidedText(Text, Qt::ElideRight, ui->ReceiverNameLabel->width() - (ui->ReceiverNameLabel->frameWidth() * 2));
+    const QFontMetrics Metrics(ui->ReceiverNameLabel->font());
+    const QString Elided = Metrics.elidedText(Text, Qt::ElideRight, ui->ReceiverNameLabel->width() - (ui->ReceiverNameLabel->frameWidth() * 2));
     ui->ReceiverNameLabel->setText(Elided);
 
-    ui->ReceiverGroupBox->setTitle(mpReceiver ? "Receiver - " + TO_QSTRING(mpReceiver->Template()->Name()) : "Receiver");
+    ui->ReceiverGroupBox->setTitle(mpReceiver ? tr("Receiver - %1").arg(TO_QSTRING(mpReceiver->Template()->Name())) : tr("Receiver"));
 }
 
 // ************ PUBLIC SLOTS ************
