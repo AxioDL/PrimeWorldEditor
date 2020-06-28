@@ -22,19 +22,15 @@
 
 CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     : IEditor(pParent)
-    , ui(new Ui::CModelEditorWindow)
-    , mpScene(new CScene())
-    , mpCurrentMat(nullptr)
-    , mpCurrentModel(nullptr)
-    , mpCurrentModelNode(new CModelNode(mpScene, -1))
-    , mpCurrentPass(nullptr)
-    , mIgnoreSignals(false)
+    , ui(std::make_unique<Ui::CModelEditorWindow>())
+    , mpScene(std::make_unique<CScene>())
+    , mpCurrentModelNode(std::make_unique<CModelNode>(mpScene.get(), UINT32_MAX))
 {
     ui->setupUi(this);
     ui->ActionSave->setEnabled( pModel->Game() == EGame::Prime ); // we don't support saving games later than MP1
     REPLACE_WINDOWTITLE_APPVARS;
 
-    ui->Viewport->SetNode(mpCurrentModelNode);
+    ui->Viewport->SetNode(mpCurrentModelNode.get());
     ui->Viewport->SetClearColor(CColor(0.3f, 0.3f, 0.3f, 1.f));
 
     CCamera& rCamera = ui->Viewport->Camera();
@@ -144,12 +140,7 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     SetActiveModel(pModel);
 }
 
-CModelEditorWindow::~CModelEditorWindow()
-{
-    delete mpCurrentModelNode;
-    delete mpScene;
-    delete ui;
-}
+CModelEditorWindow::~CModelEditorWindow() = default;
 
 bool CModelEditorWindow::Save()
 {
