@@ -2,27 +2,19 @@
 #include <Core/Render/CDrawUtil.h>
 
 CModelEditorViewport::CModelEditorViewport(QWidget *pParent)
-    : CBasicViewport(pParent)
-    , mMode(EDrawMode::DrawMesh)
-    , mpActiveMaterial(nullptr)
-    , mpModelNode(nullptr)
-    , mGridEnabled(true)
+    : CBasicViewport(pParent), mpRenderer{std::make_unique<CRenderer>()}
 {
-    mpRenderer = new CRenderer();
-    qreal pixelRatio = devicePixelRatioF();
+    const qreal pixelRatio = devicePixelRatioF();
     mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
     mpRenderer->SetClearColor(CColor::Black());
     mpRenderer->ToggleGrid(true);
 
-    mViewInfo.pRenderer = mpRenderer;
+    mViewInfo.pRenderer = mpRenderer.get();
     mViewInfo.pScene = nullptr;
     mViewInfo.GameMode = false;
 }
 
-CModelEditorViewport::~CModelEditorViewport()
-{
-    delete mpRenderer;
-}
+CModelEditorViewport::~CModelEditorViewport() = default;
 
 void CModelEditorViewport::SetNode(CModelNode *pNode)
 {
@@ -57,20 +49,18 @@ void CModelEditorViewport::Paint()
     if (!mpModelNode->Model())
     {
         if (mGridEnabled)
-            mGrid.AddToRenderer(mpRenderer, mViewInfo);
+            mGrid.AddToRenderer(mpRenderer.get(), mViewInfo);
 
         mpRenderer->RenderBuckets(mViewInfo);
     }
-
     else if (mMode == EDrawMode::DrawMesh)
     {
         if (mGridEnabled)
-            mGrid.AddToRenderer(mpRenderer, mViewInfo);
+            mGrid.AddToRenderer(mpRenderer.get(), mViewInfo);
 
-        mpModelNode->AddToRenderer(mpRenderer, mViewInfo);
+        mpModelNode->AddToRenderer(mpRenderer.get(), mViewInfo);
         mpRenderer->RenderBuckets(mViewInfo);
     }
-
     else if (mMode == EDrawMode::DrawSphere)
     {
         if (!mpActiveMaterial) return;
@@ -88,7 +78,6 @@ void CModelEditorViewport::Paint()
             CDrawUtil::DrawSphere(true);
         }
     }
-
     else if (mMode == EDrawMode::DrawSquare)
     {
         if (!mpActiveMaterial) return;
