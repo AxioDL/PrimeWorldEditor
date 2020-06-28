@@ -7,8 +7,7 @@
 
 WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     : QWidget(pParent)
-    , ui(new Ui::WCreateTab)
-    , mpSpawnLayer(nullptr)
+    , ui(std::make_unique<Ui::WCreateTab>())
 {
     ui->setupUi(this);
 
@@ -20,10 +19,7 @@ WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     connect(ui->SpawnLayerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSpawnLayerChanged(int)));
 }
 
-WCreateTab::~WCreateTab()
-{
-    delete ui;
-}
+WCreateTab::~WCreateTab() = default;
 
 bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
 {
