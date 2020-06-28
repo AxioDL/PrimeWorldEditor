@@ -33,10 +33,10 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     mpUI->SortComboBox->hide();
 
     // Create undo/redo actions
-    mpUndoAction = new QAction("Undo", this);
-    mpRedoAction = new QAction("Redo", this);
-    mpUndoAction->setShortcut( QKeySequence::Undo );
-    mpRedoAction->setShortcut( QKeySequence::Redo );
+    mpUndoAction = new QAction(tr("Undo"), this);
+    mpRedoAction = new QAction(tr("Redo"), this);
+    mpUndoAction->setShortcut(QKeySequence::Undo);
+    mpRedoAction->setShortcut(QKeySequence::Redo);
 
     // todo - undo/redo commands are deactivated because they conflict with the World Editor undo/redo commands. fix this
 #if 0
@@ -103,29 +103,29 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 
     // Set up the options menu
     QMenu *pOptionsMenu = new QMenu(this);
-    QMenu *pImportMenu = pOptionsMenu->addMenu("Import Names");
-    pOptionsMenu->addAction("Export Names", this, SLOT(ExportAssetNames()));
+    QMenu *pImportMenu = pOptionsMenu->addMenu(tr("Import Names"));
+    pOptionsMenu->addAction(tr("Export Names"), this, SLOT(ExportAssetNames()));
     pOptionsMenu->addSeparator();
 
-    pImportMenu->addAction("Asset Name Map", this, SLOT(ImportAssetNameMap()));
-    pImportMenu->addAction("Package Contents List", this, SLOT(ImportPackageContentsList()));
-    pImportMenu->addAction("Generate Asset Names", this, SLOT(GenerateAssetNames()));
+    pImportMenu->addAction(tr("Asset Name Map"), this, SLOT(ImportAssetNameMap()));
+    pImportMenu->addAction(tr("Package Contents List"), this, SLOT(ImportPackageContentsList()));
+    pImportMenu->addAction(tr("Generate Asset Names"), this, SLOT(GenerateAssetNames()));
 
-    QAction *pDisplayAssetIDsAction = new QAction("Display Asset IDs", this);
+    QAction *pDisplayAssetIDsAction = new QAction(tr("Display Asset IDs"), this);
     pDisplayAssetIDsAction->setCheckable(true);
     connect(pDisplayAssetIDsAction, SIGNAL(toggled(bool)), this, SLOT(SetAssetIDDisplayEnabled(bool)));
     pOptionsMenu->addAction(pDisplayAssetIDsAction);
 
-    pOptionsMenu->addAction("Find Asset by ID", this, SLOT(FindAssetByID()));
-    pOptionsMenu->addAction("Rebuild Database", this, SLOT(RebuildResourceDB()));
+    pOptionsMenu->addAction(tr("Find Asset by ID"), this, SLOT(FindAssetByID()));
+    pOptionsMenu->addAction(tr("Rebuild Database"), this, SLOT(RebuildResourceDB()));
     mpUI->OptionsToolButton->setMenu(pOptionsMenu);
 
 #if !PUBLIC_RELEASE
     // Only add the store menu in debug builds. We don't want end users editing the editor store.
     pOptionsMenu->addSeparator();
-    QMenu *pStoreMenu = pOptionsMenu->addMenu("Set Store");
-    QAction *pProjStoreAction = pStoreMenu->addAction("Project Store", this, SLOT(SetProjectStore()));
-    QAction *pEdStoreAction = pStoreMenu->addAction("Editor Store", this, SLOT(SetEditorStore()));
+    QMenu *pStoreMenu = pOptionsMenu->addMenu(tr("Set Store"));
+    QAction *pProjStoreAction = pStoreMenu->addAction(tr("Project Store"), this, SLOT(SetProjectStore()));
+    QAction *pEdStoreAction = pStoreMenu->addAction(tr("Editor Store"), this, SLOT(SetEditorStore()));
 
     pProjStoreAction->setCheckable(true);
     pProjStoreAction->setChecked(true);
@@ -287,10 +287,10 @@ void CResourceBrowser::CreateAddMenu()
     if (mpStore)
     {
         mpAddMenu = new QMenu(this);
-        mpAddMenu->addAction("New Folder", this, SLOT(CreateDirectory()));
+        mpAddMenu->addAction(tr("New Folder"), this, SLOT(CreateDirectory()));
         mpAddMenu->addSeparator();
 
-        QMenu* pCreateMenu = new QMenu("Create...", mpAddMenu);
+        QMenu* pCreateMenu = new QMenu(tr("Create..."), mpAddMenu);
         mpAddMenu->addMenu(pCreateMenu);
         AddCreateAssetMenuActions(pCreateMenu);
 
@@ -328,21 +328,21 @@ bool CResourceBrowser::RenameResource(CResourceEntry *pEntry, const TString& rkN
     {
         if (pEntry->Directory()->FindChildResource(rkNewName, pEntry->ResourceType()) != nullptr)
         {
-            UICommon::ErrorMsg(this, "Failed to rename; the destination directory has conflicting files!");
+            UICommon::ErrorMsg(this, tr("Failed to rename; the destination directory has conflicting files!"));
             return false;
         }
         else
         {
-            UICommon::ErrorMsg(this, "Failed to rename; filename is invalid!");
+            UICommon::ErrorMsg(this, tr("Failed to rename; filename is invalid!"));
             return false;
         }
     }
 
     // Everything seems to be valid; proceed with the rename
-    mUndoStack.beginMacro("Rename Resource");
-    mUndoStack.push( new CSaveStoreCommand(mpStore) );
-    mUndoStack.push( new CRenameResourceCommand(pEntry, rkNewName) );
-    mUndoStack.push( new CSaveStoreCommand(mpStore) );
+    mUndoStack.beginMacro(tr("Rename Resource"));
+    mUndoStack.push(new CSaveStoreCommand(mpStore));
+    mUndoStack.push(new CRenameResourceCommand(pEntry, rkNewName));
+    mUndoStack.push(new CSaveStoreCommand(mpStore));
     mUndoStack.endMacro();
     return true;
 }
@@ -354,22 +354,22 @@ bool CResourceBrowser::RenameDirectory(CVirtualDirectory *pDir, const TString& r
 
     if (!CVirtualDirectory::IsValidDirectoryName(rkNewName))
     {
-        UICommon::ErrorMsg(this, "Failed to rename; directory name is invalid!");
+        UICommon::ErrorMsg(this, tr("Failed to rename; directory name is invalid!"));
         return false;
     }
 
     // Check for conflicts
     if (pDir->Parent()->FindChildDirectory(rkNewName, false) != nullptr)
     {
-        UICommon::ErrorMsg(this, "Failed to rename; the destination directory has a conflicting directory!");
+        UICommon::ErrorMsg(this, tr("Failed to rename; the destination directory has a conflicting directory!"));
         return false;
     }
 
     // No conflicts, proceed with the rename
-    mUndoStack.beginMacro("Rename Directory");
-    mUndoStack.push( new CSaveStoreCommand(mpStore) );
-    mUndoStack.push( new CRenameDirectoryCommand(pDir, rkNewName) );
-    mUndoStack.push( new CSaveStoreCommand(mpStore) );
+    mUndoStack.beginMacro(tr("Rename Directory"));
+    mUndoStack.push(new CSaveStoreCommand(mpStore));
+    mUndoStack.push(new CRenameDirectoryCommand(pDir, rkNewName));
+    mUndoStack.push(new CSaveStoreCommand(mpStore));
     mUndoStack.endMacro();
     return true;
 }
@@ -412,16 +412,16 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     // If there were conflicts, notify the user of them
     if (!ConflictingResources.isEmpty() || !ConflictingDirs.isEmpty())
     {
-        QString ErrorMsg = "Failed to move; the destination directory has conflicting files.\n\n";
+        QString ErrorMsg = tr("Failed to move; the destination directory has conflicting files.\n\n");
 
         foreach (CVirtualDirectory *pDir, ConflictingDirs)
         {
-            ErrorMsg += QString("* %1").arg( TO_QSTRING(pDir->Name()) );
+            ErrorMsg += tr("* %1").arg(TO_QSTRING(pDir->Name()));
         }
 
         foreach (CResourceEntry *pEntry, ConflictingResources)
         {
-            ErrorMsg += QString("* %1.%2\n").arg( TO_QSTRING(pEntry->Name()) ).arg( TO_QSTRING(pEntry->CookedExtension().ToString()) );
+            ErrorMsg += tr("* %1.%2\n").arg(TO_QSTRING(pEntry->Name())).arg(TO_QSTRING(pEntry->CookedExtension().ToString()));
         }
 
         UICommon::ErrorMsg(this, ErrorMsg);
@@ -431,16 +431,16 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
     // Create undo actions to actually perform the moves
     if (!ValidResources.isEmpty() || !ValidDirs.isEmpty())
     {
-        mUndoStack.beginMacro("Move Resources");
-        mUndoStack.push( new CSaveStoreCommand(mpStore) );
+        mUndoStack.beginMacro(tr("Move Resources"));
+        mUndoStack.push(new CSaveStoreCommand(mpStore));
 
-        foreach (CVirtualDirectory *pDir, ValidDirs)
-            mUndoStack.push( new CMoveDirectoryCommand(mpStore, pDir, pNewDir) );
+        foreach (CVirtualDirectory* pDir, ValidDirs)
+            mUndoStack.push(new CMoveDirectoryCommand(mpStore, pDir, pNewDir));
 
-        foreach (CResourceEntry *pEntry, ValidResources)
-            mUndoStack.push( new CMoveResourceCommand(pEntry, pNewDir) );
+        foreach (CResourceEntry* pEntry, ValidResources)
+            mUndoStack.push(new CMoveResourceCommand(pEntry, pNewDir));
 
-        mUndoStack.push( new CSaveStoreCommand(mpStore) );
+        mUndoStack.push(new CSaveStoreCommand(mpStore));
         mUndoStack.endMacro();
     }
 
@@ -486,10 +486,10 @@ CResourceEntry* CResourceBrowser::CreateNewResource(EResourceType Type,
     CResourceEntry* pEntry = mpStore->CreateNewResource(ID, Type, pDir->FullPath(), Name);
 
     // Push undo command
-    mUndoStack.beginMacro("Create Resource");
-    mUndoStack.push( new CSaveStoreCommand(mpStore) );
-    mUndoStack.push( new CCreateResourceCommand(pEntry) );
-    mUndoStack.push( new CSaveStoreCommand(mpStore) );
+    mUndoStack.beginMacro(tr("Create Resource"));
+    mUndoStack.push(new CSaveStoreCommand(mpStore));
+    mUndoStack.push(new CCreateResourceCommand(pEntry));
+    mUndoStack.push(new CSaveStoreCommand(mpStore));
     mUndoStack.endMacro();
 
     pEntry->Save();
@@ -541,24 +541,26 @@ void CResourceBrowser::UpdateDescriptionLabel()
 
     if (mpStore)
     {
-        QString ModelDesc = mpModel->ModelDescription();
+        const QString ModelDesc = mpModel->ModelDescription();
 
         if (mSearching)
         {
-            QString SearchText = mpUI->SearchBar->text();
-            Desc = QString("Searching \"%1\" in: %2").arg(SearchText).arg(ModelDesc);
+            const QString SearchText = mpUI->SearchBar->text();
+            Desc = tr("Searching \"%1\" in: %2").arg(SearchText).arg(ModelDesc);
         }
         else
-            Desc = QString("Displaying: %1").arg(ModelDesc);
+        {
+            Desc = tr("Displaying: %1").arg(ModelDesc);
+        }
     }
 
     mpUI->TableDescriptionLabel->setText(Desc);
 
     // Update clear button status
-    bool CanGoUp = (mpSelectedDir && !mpSelectedDir->IsRoot());
-    bool CanClear = (!mpUI->SearchBar->text().isEmpty() || mpModel->IsDisplayingUserEntryList());
+    const bool CanGoUp = (mpSelectedDir && !mpSelectedDir->IsRoot());
+    const bool CanClear = (!mpUI->SearchBar->text().isEmpty() || mpModel->IsDisplayingUserEntryList());
     mpUI->ClearButton->setEnabled(CanGoUp || CanClear);
-    mpUI->ClearButton->setIcon( CanClear ? QIcon(":/icons/X_16px.svg") : QIcon(":/icons/ToParentFolder_16px.svg") );
+    mpUI->ClearButton->setIcon(CanClear ? QIcon(QStringLiteral(":/icons/X_16px.svg")) : QIcon(QStringLiteral(":/icons/ToParentFolder_16px.svg")));
 }
 
 void CResourceBrowser::SetResourceTreeView()
@@ -635,11 +637,11 @@ bool CResourceBrowser::CreateDirectory()
         }
 
         // Push create command to actually create the directory
-        mUndoStack.beginMacro("Create Directory");
-        mUndoStack.push( new CSaveStoreCommand(mpStore) );
+        mUndoStack.beginMacro(tr("Create Directory"));
+        mUndoStack.push(new CSaveStoreCommand(mpStore));
         CCreateDirectoryCommand *pCmd = new CCreateDirectoryCommand(mpStore, mpSelectedDir->FullPath(), DirName);
         mUndoStack.push(pCmd);
-        mUndoStack.push( new CSaveStoreCommand(mpStore) );
+        mUndoStack.push(new CSaveStoreCommand(mpStore));
         mUndoStack.endMacro();
 
         // Now fetch the new directory and start editing it so the user can enter a name
@@ -673,7 +675,7 @@ bool CResourceBrowser::Delete(QVector<CResourceEntry*> Resources, QVector<CVirtu
     {
         if (!Directories[DirIdx]->IsSafeToDelete())
         {
-            ErrorPaths += TO_QSTRING( Directories[DirIdx]->FullPath() ) + '\n';
+            ErrorPaths += TO_QSTRING(Directories[DirIdx]->FullPath()) + '\n';
             Directories.removeAt(DirIdx);
             DirIdx--;
         }
@@ -683,7 +685,7 @@ bool CResourceBrowser::Delete(QVector<CResourceEntry*> Resources, QVector<CVirtu
     {
         if (Resources[ResIdx]->IsLoaded() && Resources[ResIdx]->Resource()->IsReferenced())
         {
-            ErrorPaths += TO_QSTRING( Resources[ResIdx]->CookedAssetPath(true) ) + '\n';
+            ErrorPaths += TO_QSTRING(Resources[ResIdx]->CookedAssetPath(true)) + '\n';
             Resources.removeAt(ResIdx);
             ResIdx--;
         }
@@ -693,8 +695,8 @@ bool CResourceBrowser::Delete(QVector<CResourceEntry*> Resources, QVector<CVirtu
     {
         // Remove trailing newline
         ErrorPaths.chop(1);
-        UICommon::ErrorMsg(this, QString("The following resources/directories are still referenced and cannot be deleted:\n\n%1")
-                           .arg(ErrorPaths));
+        UICommon::ErrorMsg(this, tr("The following resources/directories are still referenced and cannot be deleted:\n\n%1")
+                                     .arg(ErrorPaths));
     }
 
     // Gather a complete list of resources in subdirectories
@@ -716,48 +718,48 @@ bool CResourceBrowser::Delete(QVector<CResourceEntry*> Resources, QVector<CVirtu
         return false;
 
     // Allow the user to confirm before proceeding.
-    QString ConfirmMsg = QString("Are you sure you want to permanently delete ");
+    QString ConfirmMsg = tr("Are you sure you want to permanently delete ");
 
     if (Resources.size() > 0)
     {
-        ConfirmMsg += QString("%1 resource%2").arg(Resources.size()).arg(Resources.size() == 1 ? "" : "s");
+        ConfirmMsg += tr("%1 resource%2").arg(Resources.size()).arg(Resources.size() == 1 ? "" : "s");
 
         if (Directories.size() > 0)
         {
-            ConfirmMsg += " and ";
+            ConfirmMsg += tr(" and ");
         }
     }
     if (Directories.size() > 0)
     {
-        ConfirmMsg += QString("%1 %2").arg(Directories.size()).arg(Directories.size() == 1 ? "directory" : "directories");
+        ConfirmMsg += tr("%1 %2").arg(Directories.size()).arg(Directories.size() == 1 ? tr("directory") : tr("directories"));
     }
-    ConfirmMsg += "?";
+    ConfirmMsg += tr("?");
 
-    if (UICommon::YesNoQuestion(this, "Warning", ConfirmMsg))
+    if (UICommon::YesNoQuestion(this, tr("Warning"), ConfirmMsg))
     {
         // Note that the undo stack will undo actions in the reverse order they are pushed
         // So we need to push commands last that we want to be undone first
         // We want to delete subdirectories first, then parent directories, then resources
-        mUndoStack.beginMacro("Delete");
-        mUndoStack.push( new CSaveStoreCommand(mpStore) );
+        mUndoStack.beginMacro(tr("Delete"));
+        mUndoStack.push(new CSaveStoreCommand(mpStore));
 
         // Delete resources first.
         foreach (CResourceEntry* pEntry, Resources)
-            mUndoStack.push( new CDeleteResourceCommand(pEntry) );
+            mUndoStack.push(new CDeleteResourceCommand(pEntry));
 
         // Now delete directories in reverse order (so subdirectories delete first)
         for (int DirIdx = Directories.size()-1; DirIdx >= 0; DirIdx--)
         {
             CVirtualDirectory* pDir = Directories[DirIdx];
-            mUndoStack.push( new CDeleteDirectoryCommand(mpStore, pDir->Parent()->FullPath(), pDir->Name()) );
+            mUndoStack.push(new CDeleteDirectoryCommand(mpStore, pDir->Parent()->FullPath(), pDir->Name()));
         }
 
-        mUndoStack.push( new CSaveStoreCommand(mpStore) );
+        mUndoStack.push(new CSaveStoreCommand(mpStore));
         mUndoStack.endMacro();
         return true;
     }
-    else
-        return false;
+
+    return false;
 }
 
 void CResourceBrowser::OnSearchStringChanged(QString SearchString)
@@ -822,7 +824,7 @@ void CResourceBrowser::FindAssetByID()
     if (!mpStore)
         return;
 
-    QString QStringAssetID = QInputDialog::getText(this, "Enter Asset ID", "Enter asset ID:");
+    const QString QStringAssetID = QInputDialog::getText(this, tr("Enter Asset ID"), tr("Enter asset ID:"));
     TString StringAssetID = TO_TSTRING(QStringAssetID);
     StringAssetID.RemoveWhitespace();
 
@@ -846,18 +848,20 @@ void CResourceBrowser::FindAssetByID()
                 WasValid = true;
 
                 if (pEntry)
+                {
                     SelectResource(pEntry, true);
-
-                // User entered valid but unrecognized ID
-                else
-                    UICommon::ErrorMsg(this, QString("Couldn't find any asset with ID %1").arg(QStringAssetID));
+                }
+                else // User entered valid but unrecognized ID
+                {
+                    UICommon::ErrorMsg(this, tr("Couldn't find any asset with ID %1").arg(QStringAssetID));
+                }
             }
         }
 
         // User entered invalid string
         if (!WasValid)
         {
-            UICommon::ErrorMsg(this, "The entered string is not a valid asset ID!");
+            UICommon::ErrorMsg(this, tr("The entered string is not a valid asset ID!"));
         }
     }
 
@@ -912,8 +916,10 @@ void CResourceBrowser::SetEditorStore()
 
 void CResourceBrowser::ImportPackageContentsList()
 {
-    QStringList PathList = UICommon::OpenFilesDialog(this, "Open package contents list", "*.pak.contents.txt");
-    if (PathList.isEmpty()) return;
+    const QStringList PathList = UICommon::OpenFilesDialog(this, tr("Open package contents list"), QStringLiteral("*.pak.contents.txt"));
+    if (PathList.isEmpty())
+        return;
+
     SetActiveDirectory(nullptr);
 
     foreach(const QString& rkPath, PathList)
@@ -927,7 +933,7 @@ void CResourceBrowser::GenerateAssetNames()
 {
     SetActiveDirectory(nullptr);
 
-    CProgressDialog Dialog("Generating asset names", true, true, this);
+    CProgressDialog Dialog(tr("Generating asset names"), true, true, this);
     Dialog.DisallowCanceling();
     Dialog.SetOneShotTask("Generating asset names");
 
@@ -940,22 +946,23 @@ void CResourceBrowser::GenerateAssetNames()
     RefreshResources();
     RefreshDirectories();
 
-    UICommon::InfoMsg(this, "Complete", "Asset name generation complete!");
+    UICommon::InfoMsg(this, tr("Complete"), tr("Asset name generation complete!"));
 }
 
 void CResourceBrowser::ImportAssetNameMap()
 {
-    CAssetNameMap Map( mpStore->Game() );
-    bool LoadSuccess = Map.LoadAssetNames();
+    CAssetNameMap Map(mpStore->Game());
+    const bool LoadSuccess = Map.LoadAssetNames();
 
     if (!LoadSuccess)
     {
-        UICommon::ErrorMsg(this, "Import failed; couldn't load asset name map!");
+        UICommon::ErrorMsg(this, tr("Import failed; couldn't load asset name map!"));
         return;
     }
-    else if (!Map.IsValid())
+
+    if (!Map.IsValid())
     {
-        UICommon::ErrorMsg(this, "Import failed; the input asset name map is invalid! See the log for details.");
+        UICommon::ErrorMsg(this, tr("Import failed; the input asset name map is invalid! See the log for details."));
         return;
     }
 
@@ -973,16 +980,17 @@ void CResourceBrowser::ImportAssetNameMap()
     mpStore->ConditionalSaveStore();
     RefreshResources();
     RefreshDirectories();
-    UICommon::InfoMsg(this, "Success", "New asset names imported successfully!");
+    UICommon::InfoMsg(this, tr("Success"), tr("New asset names imported successfully!"));
 }
 
 void CResourceBrowser::ExportAssetNames()
 {
-    QString OutFile = UICommon::SaveFileDialog(this, "Export asset name map", "*.xml",
-            gResourcesWritable ? *(gDataDir + "resources/gameinfo/") : "");
-    if (OutFile.isEmpty()) return;
-    TString OutFileStr = TO_TSTRING(OutFile);
+    const QString OutFile = UICommon::SaveFileDialog(this, tr("Export asset name map"), QStringLiteral("*.xml"),
+                                                     gResourcesWritable ? *(gDataDir + "resources/gameinfo/") : "");
+    if (OutFile.isEmpty())
+        return;
 
+    TString OutFileStr = TO_TSTRING(OutFile);
     CAssetNameMap NameMap(mpStore->Game());
 
     if (FileUtil::Exists(OutFileStr))
@@ -991,7 +999,7 @@ void CResourceBrowser::ExportAssetNames()
 
         if (!LoadSuccess || !NameMap.IsValid())
         {
-            UICommon::ErrorMsg(this, "Unable to export; failed to load existing names from the original asset name map file! See the log for details.");
+            UICommon::ErrorMsg(this, tr("Unable to export; failed to load existing names from the original asset name map file! See the log for details."));
             return;
         }
     }
@@ -1000,14 +1008,14 @@ void CResourceBrowser::ExportAssetNames()
     bool SaveSuccess = NameMap.SaveAssetNames(OutFileStr);
 
     if (!SaveSuccess)
-        UICommon::ErrorMsg(this, "Failed to export asset names!");
+        UICommon::ErrorMsg(this, tr("Failed to export asset names!"));
     else
-        UICommon::InfoMsg(this, "Success", "Asset names exported successfully!");
+        UICommon::InfoMsg(this, tr("Success"), tr("Asset names exported successfully!"));
 }
 
 void CResourceBrowser::RebuildResourceDB()
 {
-    if (UICommon::YesNoQuestion(this, "Rebuild resource database", "Are you sure you want to rebuild the resource database? This will take a while."))
+    if (UICommon::YesNoQuestion(this, tr("Rebuild resource database"), tr("Are you sure you want to rebuild the resource database? This will take a while.")))
     {
         gpEdApp->RebuildResourceDatabase();
     }
