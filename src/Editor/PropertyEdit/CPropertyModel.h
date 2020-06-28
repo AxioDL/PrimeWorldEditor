@@ -18,34 +18,35 @@ class CPropertyModel : public QAbstractItemModel
     };
     QVector<SProperty> mProperties;
     QMap<IProperty*, int> mPropertyToIDMap;
-    int mFirstUnusedID;
+    int mFirstUnusedID = -1;
 
-    CGameProject* mpProject;
-    CScriptObject* mpObject; // may be null
-    IProperty* mpRootProperty;
-    void* mpPropertyData;
+    CGameProject* mpProject = nullptr;
+    CScriptObject* mpObject  = nullptr; // may be null
+    IProperty* mpRootProperty = nullptr;
+    void* mpPropertyData = nullptr;
 
-    bool mBoldModifiedProperties;
-    bool mShowNameValidity;
+    bool mBoldModifiedProperties = true;
+    bool mShowNameValidity = false;
     QFont mFont;
 
     int RecursiveBuildArrays(IProperty* pProperty, int ParentID);
 
 public:
-    CPropertyModel(QObject *pParent = 0);
+    explicit CPropertyModel(QObject *pParent = nullptr);
+
     void ConfigureIntrinsic(CGameProject* pProject, IProperty* pRootProperty, void* pPropertyData);
     void ConfigureScript(CGameProject* pProject, IProperty* pRootProperty, CScriptObject* pObject);
     IProperty* PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const;
     QModelIndex IndexForProperty(IProperty *pProp) const;
     void* DataPointerForIndex(const QModelIndex& rkIndex) const;
 
-    int columnCount(const QModelIndex& rkParent) const;
-    int rowCount(const QModelIndex& rkParent) const;
-    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
-    QVariant data(const QModelIndex& rkIndex, int Role) const;
-    QModelIndex index(int Row, int Column, const QModelIndex& rkParent) const;
-    QModelIndex parent(const QModelIndex& rkChild) const;
-    Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
+    int columnCount(const QModelIndex& rkParent) const override;
+    int rowCount(const QModelIndex& rkParent) const override;
+    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const override;
+    QVariant data(const QModelIndex& rkIndex, int Role) const override;
+    QModelIndex index(int Row, int Column, const QModelIndex& rkParent) const override;
+    QModelIndex parent(const QModelIndex& rkChild) const override;
+    Qt::ItemFlags flags(const QModelIndex& rkIndex) const override;
 
     void ArrayAboutToBeResized(const QModelIndex& rkIndex, uint32 NewSize);
     void ArrayResized(const QModelIndex& rkIndex, uint32 OldSize);
@@ -55,9 +56,9 @@ public:
     EPropertyType GetEffectiveFieldType(IProperty* pProperty) const;
     void SetShowPropertyNameValidity(bool Enable);
 
-    inline void SetFont(QFont Font) { mFont = Font; }
-    inline void SetBoldModifiedProperties(bool Enable) { mBoldModifiedProperties = Enable; }
-    inline CScriptObject* GetScriptObject() const { return mpObject; }
+    void SetFont(QFont Font) { mFont = Font; }
+    void SetBoldModifiedProperties(bool Enable) { mBoldModifiedProperties = Enable; }
+    CScriptObject* GetScriptObject() const { return mpObject; }
 
 public slots:
     void NotifyPropertyModified(class CScriptObject *pInst, IProperty *pProp);

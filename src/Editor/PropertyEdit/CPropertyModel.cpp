@@ -5,14 +5,8 @@
 #include <QFont>
 #include <QSize>
 
-CPropertyModel::CPropertyModel(QObject *pParent /*= 0*/)
+CPropertyModel::CPropertyModel(QObject *pParent)
     : QAbstractItemModel(pParent)
-    , mpProject(nullptr)
-    , mpRootProperty(nullptr)
-    , mpPropertyData(nullptr)
-    , mBoldModifiedProperties(true)
-    , mShowNameValidity(false)
-    , mFirstUnusedID(-1)
 {
 }
 
