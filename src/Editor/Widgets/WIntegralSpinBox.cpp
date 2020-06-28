@@ -7,9 +7,7 @@ WIntegralSpinBox::WIntegralSpinBox(QWidget *pParent) : QSpinBox(pParent)
     lineEdit()->installEventFilter(this);
 }
 
-WIntegralSpinBox::~WIntegralSpinBox()
-{
-}
+WIntegralSpinBox::~WIntegralSpinBox() = default;
 
 void WIntegralSpinBox::wheelEvent(QWheelEvent *pEvent)
 {

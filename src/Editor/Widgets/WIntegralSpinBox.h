@@ -9,9 +9,10 @@ class WIntegralSpinBox : public QSpinBox
     Q_OBJECT
 public:
     explicit WIntegralSpinBox(QWidget *pParent);
-    ~WIntegralSpinBox();
-    void wheelEvent(QWheelEvent *pEvent);
-    bool eventFilter(QObject *pObj, QEvent *pEvent);
+    ~WIntegralSpinBox() override;
+
+    void wheelEvent(QWheelEvent* pEvent) override;
+    bool eventFilter(QObject* pObj, QEvent* pEvent) override;
 };
 
 #endif // WINTEGRALSPINBOX_H
