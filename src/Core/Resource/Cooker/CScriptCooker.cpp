@@ -276,7 +276,7 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
     uint32 NumWrittenInstances = 0;
     rOut.WriteLong(0);
 
-    for (uint32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
+    for (size_t iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
         CScriptObject *pInstance = pLayer->InstanceByIndex(iInst);
 

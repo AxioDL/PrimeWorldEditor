@@ -118,9 +118,9 @@ void CGameArea::ClearScriptLayers()
     mScriptLayers.clear();
 }
 
-uint32 CGameArea::TotalInstanceCount() const
+size_t CGameArea::TotalInstanceCount() const
 {
-    uint32 Num = 0;
+    size_t Num = 0;
 
     for (const auto& layer : mScriptLayers)
         Num += layer->NumInstances();
@@ -164,30 +164,30 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
                                         uint32 SuggestedLayerIndex /*= -1*/ )
 {
     // Verify we can fit another instance in this area.
-    uint32 NumInstances = TotalInstanceCount();
+    const size_t NumInstances = TotalInstanceCount();
 
     if (NumInstances >= 0xFFFF)
     {
-        errorf("Unable to spawn a new script instance; too many instances in area (%d)", NumInstances);
+        errorf("Unable to spawn a new script instance; too many instances in area (%zu)", NumInstances);
         return nullptr;
     }
 
     // Check whether the suggested instance ID is valid
     uint32 InstanceID = SuggestedID;
 
-    if (InstanceID != -1)
+    if (InstanceID != UINT32_MAX)
     {
-        if (mObjectMap.find(InstanceID) == mObjectMap.end())
-            InstanceID = -1;
+        if (mObjectMap.find(InstanceID) == mObjectMap.cend())
+            InstanceID = UINT32_MAX;
     }
 
     // If not valid (or if there's no suggested ID) then determine a new instance ID
-    if (InstanceID == -1)
+    if (InstanceID == UINT32_MAX)
     {
         // Determine layer index
-        uint32 LayerIndex = pLayer->AreaIndex();
+        const uint32 LayerIndex = pLayer->AreaIndex();
 
-        if (LayerIndex == -1)
+        if (LayerIndex == UINT32_MAX)
         {
             errorf("Unable to spawn a new script instance; invalid script layer passed in");
             return nullptr;
@@ -198,13 +198,14 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
     }
 
     // Spawn instance
-    CScriptObject *pInstance = new CScriptObject(InstanceID, this, pLayer, pTemplate);
+    auto* pInstance = new CScriptObject(InstanceID, this, pLayer, pTemplate);
     pInstance->EvaluateProperties();
     pInstance->SetPosition(rkPosition);
     pInstance->SetRotation(rkRotation.ToEuler());
     pInstance->SetScale(rkScale);
     pInstance->SetName(pTemplate->Name());
-    if (pTemplate->Game() < EGame::EchoesDemo) pInstance->SetActive(true);
+    if (pTemplate->Game() < EGame::EchoesDemo)
+        pInstance->SetActive(true);
     pLayer->AddInstance(pInstance, SuggestedLayerIndex);
     mObjectMap[InstanceID] = pInstance;
     return pInstance;

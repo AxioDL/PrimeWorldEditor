@@ -75,7 +75,7 @@ public:
     void MergeTerrain();
     void ClearTerrain();
     void ClearScriptLayers();
-    uint32 TotalInstanceCount() const;
+    size_t TotalInstanceCount() const;
     CScriptObject* InstanceByID(uint32 InstanceID);
     uint32 FindUnusedInstanceID() const;
     CScriptObject* SpawnInstance(CScriptTemplate* pTemplate, CScriptLayer* pLayer,

@@ -329,7 +329,7 @@ void CAreaDependencyTree::AddScriptLayer(CScriptLayer *pLayer, const std::vector
     mLayerOffsets.push_back(mChildren.size());
     std::set<CAssetID> UsedIDs;
 
-    for (uint32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
+    for (size_t iInst = 0; iInst < pLayer->NumInstances(); iInst++)
     {
         auto pTree = CScriptInstanceDependency::BuildTree(pLayer->InstanceByIndex(iInst));
         ASSERT(pTree != nullptr);

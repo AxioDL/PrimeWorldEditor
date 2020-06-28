@@ -284,7 +284,7 @@ void GenerateAssetNames(CGameProject *pProj)
             {
                 CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
 
-                for (uint32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
+                for (size_t iInst = 0; iInst < pLayer->NumInstances(); iInst++)
                 {
                     CScriptObject* pInst = pLayer->InstanceByIndex(iInst);
                     CStructProperty* pProperties = pInst->Template()->Properties();

@@ -53,7 +53,7 @@ public:
         mInstances.erase(it);
     }
 
-    void RemoveInstanceByIndex(uint32 Index)
+    void RemoveInstanceByIndex(size_t Index)
     {
         mInstances.erase(mInstances.begin() + Index);
     }
@@ -69,7 +69,7 @@ public:
         mInstances.erase(it);
     }
 
-    void Reserve(uint32 Amount)
+    void Reserve(size_t Amount)
     {
         mInstances.reserve(Amount);
     }
@@ -79,8 +79,8 @@ public:
     TString Name() const         { return mLayerName; }
     bool IsActive() const        { return mActive; }
     bool IsVisible() const       { return mVisible; }
-    uint32 NumInstances() const  { return mInstances.size(); }
-    CScriptObject* InstanceByIndex(uint32 Index) const { return mInstances[Index]; }
+    size_t NumInstances() const  { return mInstances.size(); }
+    CScriptObject* InstanceByIndex(size_t Index) const { return mInstances[Index]; }
 
     CScriptObject* InstanceByID(uint32 ID) const
     {
@@ -109,8 +109,8 @@ public:
     }
 
     // Operators
-    CScriptObject* operator[](uint32 Index) { return InstanceByIndex(Index); }
-    const CScriptObject* operator[](uint32 Index) const { return InstanceByIndex(Index); }
+    CScriptObject* operator[](size_t Index) { return InstanceByIndex(Index); }
+    const CScriptObject* operator[](size_t Index) const { return InstanceByIndex(Index); }
 };
 
 #endif // CSCRIPTLAYER_H

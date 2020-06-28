@@ -174,35 +174,37 @@ QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
 
 int CInstancesModel::rowCount(const QModelIndex& rkParent) const
 {
-    EIndexType Type = IndexType(rkParent);
+    const EIndexType Type = IndexType(rkParent);
 
     // Node types
     if (Type == EIndexType::Root)
     {
         return mBaseItems.count();
     }
+
     // Object types
-    else if (Type == EIndexType::NodeType)
+    if (Type == EIndexType::NodeType)
     {
         // Script Objects
         if (rkParent.row() == 0)
         {
             if (mModelType == EInstanceModelType::Layers)
-                return (mpArea ? mpArea->NumScriptLayers() : 0);
-            else
-                return mTemplateList.size();
+                return mpArea ? static_cast<int>(mpArea->NumScriptLayers()) : 0;
+
+            return static_cast<int>(mTemplateList.size());
         }
-        else
-            return 0;
+
+        return 0;
     }
+
     // Instances
-    else if (Type == EIndexType::ObjectType)
+    if (Type == EIndexType::ObjectType)
     {
         const uint32 RowIndex = ((rkParent.internalId() & TYPES_ROW_INDEX_MASK) >> TYPES_ROW_INDEX_SHIFT);
         if (mModelType == EInstanceModelType::Layers)
-            return (mpArea ? mpArea->ScriptLayer(RowIndex)->NumInstances() : 0);
-        else
-            return mTemplateList[RowIndex]->NumObjects();
+            return mpArea ? static_cast<int>(mpArea->ScriptLayer(RowIndex)->NumInstances()) : 0;
+
+        return static_cast<int>(mTemplateList[RowIndex]->NumObjects());
     }
 
     return 0;
