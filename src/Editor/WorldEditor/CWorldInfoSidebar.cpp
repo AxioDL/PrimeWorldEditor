@@ -50,13 +50,13 @@ CWorldInfoSidebar::~CWorldInfoSidebar() = default;
 // ************ SLOTS ************
 void CWorldInfoSidebar::OnActiveProjectChanged(CGameProject *pProj)
 {
-    mpUI->ProjectInfoWidget->setHidden( pProj == nullptr );
+    mpUI->ProjectInfoWidget->setHidden(pProj == nullptr);
     mpUI->WorldInfoWidget->setHidden(true);
     mpUI->AreaInfoWidget->setHidden(true);
     mpUI->AreaSearchLineEdit->clear();
-    mProxyModel.SetFilterString("");
+    mProxyModel.SetFilterString({});
 
-    mpUI->GameNameLabel->setText( pProj ? TO_QSTRING(pProj->Name()) : "" );
+    mpUI->GameNameLabel->setText(pProj ? TO_QSTRING(pProj->Name()) : QString{});
 
     // Add/remove widgets from the form layout based on the game. This is needed because
     // simply hiding the widgets causes a minor spacing issue. The only fix seems to be
@@ -152,7 +152,7 @@ void CWorldInfoSidebar::OnWorldTreeDoubleClicked(QModelIndex Index)
         }
         else
         {
-            UICommon::ErrorMsg(Editor(), "The MREA asset associated with this area doesn't exist!");
+            UICommon::ErrorMsg(Editor(), tr("The MREA asset associated with this area doesn't exist!"));
         }
     }
 }
