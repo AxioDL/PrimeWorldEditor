@@ -2,11 +2,8 @@
 #include "Editor/Undo/CEditScriptPropertyCommand.h"
 #include <Core/Resource/Script/CScriptLayer.h>
 
-WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
+WEditorProperties::WEditorProperties(QWidget *pParent)
     : QWidget(pParent)
-    , mpEditor(nullptr)
-    , mpDisplayNode(nullptr)
-    , mHasEditedName(false)
 {
     mpInstanceInfoLabel = new QLabel;
     mpInstanceInfoLabel->setText("<i>[No selection]</i>");
