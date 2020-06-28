@@ -19,14 +19,15 @@ protected:
     QList<QAction*> mUndoActions;
 
 public:
-    IEditor(QWidget* pParent);
+    explicit IEditor(QWidget* pParent);
+
     QUndoStack& UndoStack();
-    void AddUndoActions(QToolBar* pToolBar, QAction* pBefore = 0);
-    void AddUndoActions(QMenu* pMenu, QAction* pBefore = 0);
+    void AddUndoActions(QToolBar* pToolBar, QAction* pBefore = nullptr);
+    void AddUndoActions(QMenu* pMenu, QAction* pBefore = nullptr);
     bool CheckUnsavedChanges();
 
     /** QMainWindow overrides */
-    virtual void closeEvent(QCloseEvent*);
+    void closeEvent(QCloseEvent*) override;
 
     /** Interface */
     virtual void EditorTick(float /*DeltaTime*/)    { }
