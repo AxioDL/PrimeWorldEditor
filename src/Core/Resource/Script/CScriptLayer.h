@@ -42,7 +42,7 @@ public:
         }
     }
 
-    void RemoveInstance(CScriptObject *pInstance)
+    void RemoveInstance(const CScriptObject *pInstance)
     {
         const auto it = std::find_if(mInstances.cbegin(), mInstances.cend(),
                                      [pInstance](const auto* instance) { return instance == pInstance; });
