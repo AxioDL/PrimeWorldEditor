@@ -23,7 +23,7 @@ public:
 
     void SetTask(int TaskIndex, TString TaskName)
     {
-        mTaskName = TaskName;
+        mTaskName = std::move(TaskName);
         mTaskIndex = TaskIndex;
         mTaskCount = Math::Max(mTaskCount, TaskIndex + 1);
     }
