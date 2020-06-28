@@ -12,9 +12,9 @@ class CResourceSelector : public QWidget
 {
     Q_OBJECT
 
-    CResourceEntry *mpResEntry;
+    CResourceEntry *mpResEntry = nullptr;
     CResTypeFilter mTypeFilter;
-    bool mIsEditable;
+    bool mIsEditable = true;
 
     // UI
     QVBoxLayout *mpLayout;
@@ -30,11 +30,12 @@ class CResourceSelector : public QWidget
     QAction *mpCopyPathAction;
 
     // Drag and Drop
-    bool mIsDragging;
+    bool mIsDragging = false;
     QPoint mDragStartPosition;
 
 public:
-    explicit CResourceSelector(QWidget *pParent = 0);
+    explicit CResourceSelector(QWidget *pParent = nullptr);
+
     void SetFrameVisible(bool Visible);
     void SetEditable(bool Editable);
     void SetTypeFilter(const CResTypeFilter& rkFilter);
@@ -44,21 +45,21 @@ public:
     void SetResource(CResource *pRes);
 
     // Interface
-    bool eventFilter(QObject *pWatched, QEvent *pEvent);
+    bool eventFilter(QObject *pWatched, QEvent *pEvent) override;
 
     // Drag
-    void mousePressEvent(QMouseEvent *pEvent);
-    void mouseMoveEvent(QMouseEvent *pEvent);
-    void mouseReleaseEvent(QMouseEvent *pEvent);
+    void mousePressEvent(QMouseEvent *pEvent) override;
+    void mouseMoveEvent(QMouseEvent *pEvent) override;
+    void mouseReleaseEvent(QMouseEvent *pEvent) override;
 
     // Drop
-    void dragEnterEvent(QDragEnterEvent *pEvent);
-    void dropEvent(QDropEvent *pEvent);
+    void dragEnterEvent(QDragEnterEvent *pEvent) override;
+    void dropEvent(QDropEvent *pEvent) override;
 
     // Accessors
-    inline CResourceEntry* Entry() const            { return mpResEntry; }
-    inline const CResTypeFilter& TypeFilter() const { return mTypeFilter; }
-    inline bool IsEditable() const                  { return mIsEditable; }
+    CResourceEntry* Entry() const            { return mpResEntry; }
+    const CResTypeFilter& TypeFilter() const { return mTypeFilter; }
+    bool IsEditable() const                  { return mIsEditable; }
 
 public slots:
     void CreateContextMenu(const QPoint& rkPoint);

@@ -16,11 +16,8 @@
 #include <QDropEvent>
 #include <QMenu>
 
-CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
+CResourceSelector::CResourceSelector(QWidget *pParent)
     : QWidget(pParent)
-    , mpResEntry(nullptr)
-    , mIsEditable(true)
-    , mIsDragging(false)
 {
     setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
