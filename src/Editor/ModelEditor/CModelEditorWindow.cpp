@@ -165,19 +165,19 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     mpCurrentModel = pModel;
     ui->Viewport->Camera().SetOrbit(pModel->AABox());
 
-    uint32 NumVertices = (pModel ? pModel->GetVertexCount() : 0);
-    uint32 NumTriangles = (pModel ? pModel->GetTriangleCount() : 0);
-    uint32 NumMats = (pModel ? pModel->GetMatCount() : 0);
-    uint32 NumMatSets = (pModel ? pModel->GetMatSetCount() : 0);
-    ui->MeshInfoLabel->setText(QString::number(NumVertices) + " vertices, " + QString::number(NumTriangles) + " triangles");
-    ui->MatInfoLabel->setText(QString::number(NumMats) + " materials, " + QString::number(NumMatSets) + " set" + (NumMatSets == 1 ? "" : "s"));
+    const uint32 NumVertices = (pModel ? pModel->GetVertexCount() : 0);
+    const uint32 NumTriangles = (pModel ? pModel->GetTriangleCount() : 0);
+    const uint32 NumMats = (pModel ? pModel->GetMatCount() : 0);
+    const uint32 NumMatSets = (pModel ? pModel->GetMatSetCount() : 0);
+    ui->MeshInfoLabel->setText(tr("%1 vertices, %2 triangles").arg(NumVertices).arg(NumTriangles));
+    ui->MatInfoLabel->setText(tr("%1 materials, %2 set%3").arg(NumMats).arg(NumMatSets).arg(NumMatSets == 1 ? "" : "s"));
 
     // Set items in matset combo box
     ui->SetSelectionComboBox->blockSignals(true);
     ui->SetSelectionComboBox->clear();
 
     for (uint32 iSet = 0; iSet < NumMatSets; iSet++)
-        ui->SetSelectionComboBox->addItem("Set #" + QString::number(iSet + 1));
+        ui->SetSelectionComboBox->addItem(tr("Set #%1").arg(iSet + 1));
 
     ui->SetSelectionComboBox->setCurrentIndex(0);
     ui->SetSelectionComboBox->blockSignals(false);
@@ -263,13 +263,13 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     {
         CMaterialPass *pPass = mpCurrentMat->Pass(iPass);
 
-        QTableWidgetItem *pItemA = new QTableWidgetItem("Pass #" + QString::number(iPass + 1) + ": " + TO_QSTRING(pPass->NamedType()));
-        QTableWidgetItem *pItemB = new QTableWidgetItem();
+        auto *pItemA = new QTableWidgetItem(tr("Pass #%1: %2").arg(iPass + 1).arg(TO_QSTRING(pPass->NamedType())));
+        auto *pItemB = new QTableWidgetItem();
 
         if (pPass->IsEnabled())
-            pItemB->setIcon(QIcon(":/icons/Show.svg"));
+            pItemB->setIcon(QIcon(QStringLiteral(":/icons/Show.svg")));
         else
-            pItemB->setIcon(QIcon(":/icons/Hide.svg"));
+            pItemB->setIcon(QIcon(QStringLiteral(":/icons/Hide.svg")));
 
         ui->PassTable->setItem(iPass, 0, pItemA);
         ui->PassTable->setItem(iPass, 1, pItemB);
@@ -279,17 +279,17 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     ui->TexCoordSrcComboBox->clear();
     FVertexDescription Desc = mpCurrentMat->VtxDesc();
 
-    ui->TexCoordSrcComboBox->addItem("None");
-    if (Desc & EVertexAttribute::Position) ui->TexCoordSrcComboBox->addItem("Position");
-    if (Desc & EVertexAttribute::Normal)   ui->TexCoordSrcComboBox->addItem("Normal");
-    if (Desc & EVertexAttribute::Tex0)     ui->TexCoordSrcComboBox->addItem("Tex Coord 1");
-    if (Desc & EVertexAttribute::Tex1)     ui->TexCoordSrcComboBox->addItem("Tex Coord 2");
-    if (Desc & EVertexAttribute::Tex2)     ui->TexCoordSrcComboBox->addItem("Tex Coord 3");
-    if (Desc & EVertexAttribute::Tex3)     ui->TexCoordSrcComboBox->addItem("Tex Coord 4");
-    if (Desc & EVertexAttribute::Tex4)     ui->TexCoordSrcComboBox->addItem("Tex Coord 5");
-    if (Desc & EVertexAttribute::Tex5)     ui->TexCoordSrcComboBox->addItem("Tex Coord 6");
-    if (Desc & EVertexAttribute::Tex6)     ui->TexCoordSrcComboBox->addItem("Tex Coord 7");
-    if (Desc & EVertexAttribute::Tex7)     ui->TexCoordSrcComboBox->addItem("Tex Coord 8");
+    ui->TexCoordSrcComboBox->addItem(tr("None"));
+    if ((Desc & EVertexAttribute::Position) != 0) ui->TexCoordSrcComboBox->addItem(tr("Position"));
+    if ((Desc & EVertexAttribute::Normal) != 0)   ui->TexCoordSrcComboBox->addItem(tr("Normal"));
+    if ((Desc & EVertexAttribute::Tex0) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 1"));
+    if ((Desc & EVertexAttribute::Tex1) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 2"));
+    if ((Desc & EVertexAttribute::Tex2) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 3"));
+    if ((Desc & EVertexAttribute::Tex3) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 4"));
+    if ((Desc & EVertexAttribute::Tex4) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 5"));
+    if ((Desc & EVertexAttribute::Tex5) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 6"));
+    if ((Desc & EVertexAttribute::Tex6) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 7"));
+    if ((Desc & EVertexAttribute::Tex7) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 8"));
 
     // Emit signal from Pass Table to set up the Pass UI
     mIgnoreSignals = false;
@@ -472,9 +472,9 @@ void CModelEditorWindow::UpdateMaterial(int ValueA, int ValueB)
         mpCurrentMat->Pass(ValueA)->SetEnabled(Enabled);
 
         if (Enabled)
-            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Show.svg"));
+            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(QStringLiteral(":/icons/Show.svg")));
         else
-            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Hide.svg"));
+            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(QStringLiteral(":/icons/Hide.svg")));
     }
 }
 
@@ -645,10 +645,10 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
         break;
 
     case 2: // UV Scroll
-        ui->AnimParamALabel->setText("<b>Horizontal Offset:</b>");
-        ui->AnimParamBLabel->setText("<b>Vertical Offset:</b>");
-        ui->AnimParamCLabel->setText("<b>Horizontal Scale:</b>");
-        ui->AnimParamDLabel->setText("<b>Vertical Scale:</b>");
+        ui->AnimParamALabel->setText(tr("<b>Horizontal Offset:</b>"));
+        ui->AnimParamBLabel->setText(tr("<b>Vertical Offset:</b>"));
+        ui->AnimParamCLabel->setText(tr("<b>Horizontal Scale:</b>"));
+        ui->AnimParamDLabel->setText(tr("<b>Vertical Scale:</b>"));
         ui->AnimParamASpinBox->setValue(mpCurrentPass->AnimParam(0));
         ui->AnimParamBSpinBox->setValue(mpCurrentPass->AnimParam(1));
         ui->AnimParamCSpinBox->setValue(mpCurrentPass->AnimParam(2));
@@ -664,8 +664,8 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
         break;
 
     case 3: // Rotation
-        ui->AnimParamALabel->setText("<b>Offset:</b>");
-        ui->AnimParamBLabel->setText("<b>Scale:</b>");
+        ui->AnimParamALabel->setText(tr("<b>Offset:</b>"));
+        ui->AnimParamBLabel->setText(tr("<b>Scale:</b>"));
         ui->AnimParamASpinBox->setValue(mpCurrentPass->AnimParam(0));
         ui->AnimParamBSpinBox->setValue(mpCurrentPass->AnimParam(1));
         ui->AnimParamALabel->show();
@@ -680,10 +680,10 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
 
     case 4: // Horizontal Filmstrip
     case 5: // Vertical Filmstrip
-        ui->AnimParamALabel->setText("<b>Scale:</b>");
-        ui->AnimParamBLabel->setText("<b>Num Frames:</b>");
-        ui->AnimParamCLabel->setText("<b>Step:</b>");
-        ui->AnimParamDLabel->setText("<b>Time Offset:</bB>");
+        ui->AnimParamALabel->setText(tr("<b>Scale:</b>"));
+        ui->AnimParamBLabel->setText(tr("<b>Num Frames:</b>"));
+        ui->AnimParamCLabel->setText(tr("<b>Step:</b>"));
+        ui->AnimParamDLabel->setText(tr("<b>Time Offset:</b>"));
         ui->AnimParamASpinBox->setValue(mpCurrentPass->AnimParam(0));
         ui->AnimParamBSpinBox->setValue(mpCurrentPass->AnimParam(1));
         ui->AnimParamCSpinBox->setValue(mpCurrentPass->AnimParam(2));
@@ -699,8 +699,8 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
         break;
 
     case 7: // Mysterious mode 7
-        ui->AnimParamALabel->setText("<b>ParamA:</b>");
-        ui->AnimParamBLabel->setText("<b>ParamB:</b>");
+        ui->AnimParamALabel->setText(tr("<b>ParamA:</b>"));
+        ui->AnimParamBLabel->setText(tr("<b>ParamB:</b>"));
         ui->AnimParamASpinBox->setValue(mpCurrentPass->AnimParam(0));
         ui->AnimParamBSpinBox->setValue(mpCurrentPass->AnimParam(1));
         ui->AnimParamALabel->show();
@@ -717,8 +717,9 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
 
 void CModelEditorWindow::Import()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, "Model", "", "*.obj;*.fbx;*.dae;*.3ds;*.blend");
-    if (FileName.isEmpty()) return;
+    const QString FileName = QFileDialog::getOpenFileName(this, tr("Model"), {}, QStringLiteral("*.obj;*.fbx;*.dae;*.3ds;*.blend"));
+    if (FileName.isEmpty())
+        return;
 
     Assimp::Importer Importer;
     Importer.SetPropertyInteger(AI_CONFIG_PP_FD_REMOVE, 1);
@@ -744,7 +745,7 @@ void CModelEditorWindow::Import()
 
     if (!pScene)
     {
-        QMessageBox::warning(this, "Error", "Error: Couldn't import file!");
+        QMessageBox::warning(this, tr("Error"), tr("Error: Couldn't import file!"));
         return;
     }
 
@@ -760,22 +761,26 @@ void CModelEditorWindow::Import()
 
 void CModelEditorWindow::ConvertToDDS()
 {
-    QString Input = QFileDialog::getOpenFileName(this, "Retro Texture (*.TXTR)", "", "*.TXTR");
+    QString Input = QFileDialog::getOpenFileName(this, tr("Retro Texture (*.TXTR)"), {}, QStringLiteral("*.TXTR"));
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
     CFileInStream InTextureFile(TexFilename, EEndian::LittleEndian);
     auto pTex = CTextureDecoder::LoadTXTR( InTextureFile, nullptr );
 
-    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
+    const TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
     CFileOutStream Out(OutName, EEndian::LittleEndian);
-    if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
-
+    if (!Out.IsValid())
+    {
+        QMessageBox::warning(this, tr("Error"), tr("Couldn't open output DDS!"));
+    }
     else
     {
-        bool Success = pTex->WriteDDS(Out);
-        if (!Success) QMessageBox::warning(this, "Error", "Couldn't write output DDS!");
-        else QMessageBox::information(this, "Success", "Successfully converted to DDS!");
+        const bool Success = pTex->WriteDDS(Out);
+        if (!Success)
+            QMessageBox::warning(this, tr("Error"), tr("Couldn't write output DDS!"));
+        else
+            QMessageBox::information(this, tr("Success"), tr("Successfully converted to DDS!"));
     }
 }
 
@@ -790,17 +795,20 @@ void CModelEditorWindow::ConvertToTXTR()
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
 
     if ((pTex->TexelFormat() != ETexelFormat::DXT1) || (pTex->NumMipMaps() > 1))
-        QMessageBox::warning(this, "Error", "Can't convert DDS to TXTR! Save your texture as a DXT1 DDS with no mipmaps, then try again.");
-
+    {
+        QMessageBox::warning(this, tr("Error"), tr("Can't convert DDS to TXTR! Save your texture as a DXT1 DDS with no mipmaps, then try again."));
+    }
     else
     {
         CFileOutStream Out(OutName, EEndian::BigEndian);
-        if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output TXTR!");
-
+        if (!Out.IsValid())
+        {
+            QMessageBox::warning(this, tr("Error"), tr("Couldn't open output TXTR!"));
+        }
         else
         {
             CTextureEncoder::EncodeTXTR(Out, pTex.get(), ETexelFormat::GX_CMPR);
-            QMessageBox::information(this, "Success", "Successfully converted to TXTR!");
+            QMessageBox::information(this, tr("Success"), tr("Successfully converted to TXTR!"));
         }
     }
 }
