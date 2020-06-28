@@ -20,25 +20,17 @@
 
 CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rkExportDir, QWidget *pParent /*= 0*/)
     : QDialog(pParent)
-    , mpUI(new Ui::CExportGameDialog)
-    , mpDisc(nullptr)
-    , mpExporter(nullptr)
-    , mDiscType(EDiscType::Normal)
-    , mGame(EGame::Invalid)
-    , mRegion(ERegion::Unknown)
-    , mBuildVer(0.f)
-    , mWiiFrontend(false)
-    , mExportSuccess(false)
+    , mpUI(std::make_unique<Ui::CExportGameDialog>())
 {
     mpUI->setupUi(this);
 
     // Set up disc
-    mpDisc = nod::OpenDiscFromImage(QStringToNodString(rkIsoPath)).release();
+    mpDisc = nod::OpenDiscFromImage(QStringToNodString(rkIsoPath));
 
     if (ValidateGame())
     {
         mBuildVer = FindBuildVersion();
-        mpExporter = new CGameExporter(mDiscType, mGame, mWiiFrontend, mRegion, mGameTitle, mGameID, mBuildVer);
+        mpExporter = std::make_unique<CGameExporter>(mDiscType, mGame, mWiiFrontend, mRegion, mGameTitle, mGameID, mBuildVer);
         InitUI(rkExportDir);
 
         TString IsoName = TO_TSTRING(rkIsoPath).GetFileName();
@@ -46,17 +38,11 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
     }
     else
     {
-        delete mpDisc;
         mpDisc = nullptr;
     }
 }
 
-CExportGameDialog::~CExportGameDialog()
-{
-    delete mpUI;
-    delete mpDisc;
-    delete mpExporter;
-}
+CExportGameDialog::~CExportGameDialog() = default;
 
 void RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetItem *pParent);
 
@@ -457,7 +443,7 @@ void CExportGameDialog::Export()
     StrExportDir.EnsureEndsWith('/');
 
     CProgressDialog Dialog("Creating new game project", false, true, parentWidget());
-    QFuture<bool> Future = QtConcurrent::run(mpExporter, &CGameExporter::Export, mpDisc, StrExportDir, &NameMap, &GameInfo, &Dialog);
+    QFuture<bool> Future = QtConcurrent::run(mpExporter.get(), &CGameExporter::Export, mpDisc.get(), StrExportDir, &NameMap, &GameInfo, &Dialog);
     mExportSuccess = Dialog.WaitForResults(Future);
 
     if (!mExportSuccess)
@@ -466,5 +452,7 @@ void CExportGameDialog::Export()
             UICommon::ErrorMsg(this, "Export failed!");
     }
     else
+    {
         mNewProjectPath = TO_QSTRING(mpExporter->ProjectPath());
+    }
 }
