@@ -216,14 +216,14 @@ bool CBasicViewport::IsCursorVisible() const
 
 bool CBasicViewport::IsMouseInputActive() const
 {
-    static const FMouseInputs skMoveButtons = EMouseInput::MiddleButton | EMouseInput::RightButton;
+    static constexpr FMouseInputs skMoveButtons = EMouseInput::MiddleButton | EMouseInput::RightButton;
     return ((mButtonsPressed & skMoveButtons) != 0);
 }
 
 bool CBasicViewport::IsKeyboardInputActive() const
 {
-    static const FKeyInputs skMoveKeys = EKeyInput::Q | EKeyInput::W | EKeyInput::E |
-                                         EKeyInput::A | EKeyInput::S | EKeyInput::D;
+    static constexpr FKeyInputs skMoveKeys = EKeyInput::Q | EKeyInput::W | EKeyInput::E |
+                                             EKeyInput::A | EKeyInput::S | EKeyInput::D;
     return ((mKeysPressed & skMoveKeys) != 0);
 }
 
