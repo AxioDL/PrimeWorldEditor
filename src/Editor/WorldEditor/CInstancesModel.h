@@ -27,23 +27,24 @@ public:
 private:
     CWorldEditor *mpEditor;
     CScene *mpScene;
-    CGameArea *mpArea;
-    CGameTemplate *mpCurrentGame;
-    EInstanceModelType mModelType;
+    CGameArea *mpArea = nullptr;
+    CGameTemplate *mpCurrentGame = nullptr;
+    EInstanceModelType mModelType{EInstanceModelType::Layers};
     QList<CScriptTemplate*> mTemplateList;
     QStringList mBaseItems;
-    bool mShowColumnEnabled;
-    bool mChangingLayout;
+    bool mShowColumnEnabled = true;
+    bool mChangingLayout = false;
 
 public:
-    explicit CInstancesModel(CWorldEditor *pEditor, QObject *pParent = 0);
-    ~CInstancesModel();
-    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
-    QModelIndex index(int Row, int Column, const QModelIndex& rkParent = QModelIndex()) const;
-    QModelIndex parent(const QModelIndex& rkChild) const;
-    int rowCount(const QModelIndex& rkParent) const;
-    int columnCount(const QModelIndex& rkParent) const;
-    QVariant data(const QModelIndex& rkIndex, int Role) const;
+    explicit CInstancesModel(CWorldEditor *pEditor, QObject *pParent = nullptr);
+    ~CInstancesModel() override;
+
+    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const override;
+    QModelIndex index(int Row, int Column, const QModelIndex& rkParent = QModelIndex()) const override;
+    QModelIndex parent(const QModelIndex& rkChild) const override;
+    int rowCount(const QModelIndex& rkParent) const override;
+    int columnCount(const QModelIndex& rkParent) const override;
+    QVariant data(const QModelIndex& rkIndex, int Role) const override;
 
     void SetModelType(EInstanceModelType Type);
     void SetShowColumnEnabled(bool Enabled);

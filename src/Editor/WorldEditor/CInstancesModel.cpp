@@ -31,11 +31,6 @@ CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
     : QAbstractItemModel(pParent)
     , mpEditor(pEditor)
     , mpScene(pEditor->Scene())
-    , mpArea(nullptr)
-    , mpCurrentGame(nullptr)
-    , mModelType(EInstanceModelType::Layers)
-    , mShowColumnEnabled(true)
-    , mChangingLayout(false)
 {
     mBaseItems << "Script";
 
@@ -50,9 +45,7 @@ CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
     connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(InstancesLayerPostChange(QList<CScriptNode*>)));
 }
 
-CInstancesModel::~CInstancesModel()
-{
-}
+CInstancesModel::~CInstancesModel() = default;
 
 QVariant CInstancesModel::headerData(int Section, Qt::Orientation Orientation, int Role) const
 {
