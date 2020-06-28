@@ -41,8 +41,6 @@ IEditPropertyCommand::IEditPropertyCommand(
     , mpProperty(pProperty)
     , mpModel(pModel)
     , mIndex(kIndex)
-    , mSavedOldData(false)
-    , mSavedNewData(false)
 {
     ASSERT(mpProperty);
 

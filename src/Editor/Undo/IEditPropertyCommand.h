@@ -15,9 +15,9 @@ protected:
     IProperty* mpProperty;
     CPropertyModel* mpModel;
     QModelIndex mIndex;
-    bool mCommandEnded;
-    bool mSavedOldData;
-    bool mSavedNewData;
+    bool mCommandEnded = false;
+    bool mSavedOldData = false;
+    bool mSavedNewData = false;
 
     /** Save the current state of the object properties to the given data buffer */
     void SaveObjectStateToArray(std::vector<char>& rVector);
@@ -33,7 +33,7 @@ public:
             const QString& kCommandName = "Edit Property"
             );
 
-    virtual ~IEditPropertyCommand() {}
+    ~IEditPropertyCommand() override = default;
 
     virtual void SaveOldData();
     virtual void SaveNewData();
@@ -45,11 +45,11 @@ public:
     virtual void GetObjectDataPointers(QVector<void*>& rOutPointers) const = 0;
 
     /** IUndoCommand/QUndoCommand interface */
-    int id() const;
-    bool mergeWith(const QUndoCommand *pkOther);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const;
+    int id() const override;
+    bool mergeWith(const QUndoCommand *pkOther) override;
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override;
 };
 
 #endif // IEDITPROPERTYCOMMAND_H
