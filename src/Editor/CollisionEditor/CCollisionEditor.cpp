@@ -66,7 +66,7 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 }
 
-CCollisionEditor::~CCollisionEditor() {}
+CCollisionEditor::~CCollisionEditor() = default;
 
 CCollisionEditorViewport* CCollisionEditor::Viewport() const
 {
