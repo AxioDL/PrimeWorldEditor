@@ -58,14 +58,31 @@ public:
         return Get();
     }
 
-    bool operator==(IProperty* pProperty) const
+    bool operator==(const IProperty* pProperty) const
     {
         return mpProperty == pProperty;
     }
+    bool operator!=(const IProperty* pProperty) const
+    {
+        return !operator==(pProperty);
+    }
 
-    friend bool operator==(IProperty* pLeft, const TPropertyRef& kRight)
+    friend bool operator==(const IProperty* pLeft, const TPropertyRef& kRight)
     {
         return pLeft == kRight.Property();
+    }
+    friend bool operator!=(const IProperty* pLeft, const TPropertyRef& kRight)
+    {
+        return !operator==(pLeft, kRight);
+    }
+
+    friend bool operator==(const TPropertyRef& left, const IProperty* right)
+    {
+        return left.Property() == right;
+    }
+    friend bool operator!=(const TPropertyRef& left, const IProperty* right)
+    {
+        return !operator==(left, right);
     }
 };
 
