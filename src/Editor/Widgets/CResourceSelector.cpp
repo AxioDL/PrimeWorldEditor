@@ -25,17 +25,17 @@ CResourceSelector::CResourceSelector(QWidget *pParent)
     // Set up UI
     mpResNameButton = new QPushButton(this);
     mpResNameButton->setFlat(true);
-    mpResNameButton->setStyleSheet("text-align:left; font-size:10pt; margin:0px; padding-left:2px");
+    mpResNameButton->setStyleSheet(QStringLiteral("text-align:left; font-size:10pt; margin:0px; padding-left:2px"));
     
     mpSelectButton = new QPushButton(this);
-    mpSelectButton->setToolTip("Select Resource");
-    mpSelectButton->setIcon(QIcon(":/icons/ArrowD_16px.svg"));
+    mpSelectButton->setToolTip(tr("Select Resource"));
+    mpSelectButton->setIcon(QIcon(QStringLiteral(":/icons/ArrowD_16px.svg")));
     mpSelectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpSelectButton->setFixedSize(16, 16);
 
     mpClearButton = new QPushButton(this);
-    mpClearButton->setToolTip("Clear");
-    mpClearButton->setIcon(QIcon(":/icons/X_16px.svg"));
+    mpClearButton->setToolTip(tr("Clear"));
+    mpClearButton->setIcon(QIcon(QStringLiteral(":/icons/X_16px.svg")));
     mpClearButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpClearButton->setFixedSize(16, 16);
     
@@ -66,9 +66,9 @@ CResourceSelector::CResourceSelector(QWidget *pParent)
     connect(gpEdApp->ResourceBrowser(), SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*)));
 
     // Set up context menu
-    mpEditAssetAction = new QAction("Edit", this);
-    mpCopyNameAction = new QAction("Copy name", this);
-    mpCopyPathAction = new QAction("Copy path", this);
+    mpEditAssetAction = new QAction(tr("Edit"), this);
+    mpCopyNameAction = new QAction(tr("Copy name"), this);
+    mpCopyPathAction = new QAction(tr("Copy path"), this);
 
     // Context menu connections
     connect(mpEditAssetAction, SIGNAL(triggered()), this, SLOT(EditAsset()));
