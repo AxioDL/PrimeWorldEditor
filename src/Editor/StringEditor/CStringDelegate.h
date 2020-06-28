@@ -7,11 +7,11 @@
 class CStringDelegate : public CCustomDelegate
 {
 public:
-    CStringDelegate(QObject* pParent = 0);
+    explicit CStringDelegate(QObject* pParent = nullptr);
 
-    SDelegateFontInfo GetFontInfo(const QStyleOptionViewItem& rkOption) const;
-    QSize sizeHint(const QStyleOptionViewItem& kOption, const QModelIndex& kIndex) const;
-    void paint(QPainter* pPainter, const QStyleOptionViewItem& kOption, const QModelIndex& kIndex) const;
+    SDelegateFontInfo GetFontInfo(const QStyleOptionViewItem& rkOption) const override;
+    QSize sizeHint(const QStyleOptionViewItem& kOption, const QModelIndex& kIndex) const override;
+    void paint(QPainter* pPainter, const QStyleOptionViewItem& kOption, const QModelIndex& kIndex) const override;
 };
 
 #endif // CSTRINGDELEGATE_H
