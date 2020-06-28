@@ -21,19 +21,19 @@ protected:
     // Render
     CCamera mCamera;
     CTimer mFrameTimer;
-    double mLastDrawTime;
+    double mLastDrawTime = CTimer::GlobalTime();
     SViewInfo mViewInfo;
 
     // Cursor settings
-    QCursor mCursorState;
-    bool mCursorVisible;
+    QCursor mCursorState{Qt::ArrowCursor};
+    bool mCursorVisible = true;
 
     // Input
     QPoint mLastMousePos;
-    bool mMouseMoved;
+    bool mMouseMoved = false;
     CTimer mMoveTimer;
-    FMouseInputs mButtonsPressed;
-    FKeyInputs mKeysPressed;
+    FMouseInputs mButtonsPressed{0};
+    FKeyInputs mKeysPressed{0};
 
 public:
     explicit CBasicViewport(QWidget *pParent = nullptr);

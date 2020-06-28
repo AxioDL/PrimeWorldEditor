@@ -8,11 +8,6 @@
 
 CBasicViewport::CBasicViewport(QWidget *pParent)
     : QOpenGLWidget(pParent)
-    , mLastDrawTime(CTimer::GlobalTime())
-    , mKeysPressed(0)
-    , mButtonsPressed(0)
-    , mCursorState(Qt::ArrowCursor)
-    , mCursorVisible(true)
 {
     setMouseTracking(true);
     mCamera.SetAspectRatio((float) width() / height());
@@ -21,9 +16,7 @@ CBasicViewport::CBasicViewport(QWidget *pParent)
     mViewInfo.GameMode = false;
 }
 
-CBasicViewport::~CBasicViewport()
-{
-}
+CBasicViewport::~CBasicViewport() = default;
 
 void CBasicViewport::initializeGL()
 {
