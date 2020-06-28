@@ -82,15 +82,15 @@ void CExportGameDialog::InitUI(QString ExportDir)
     const nod::Node *pkDiscRoot = &pPartition->getFSTRoot();
     RecursiveAddToTree(pkDiscRoot, pTreeRoot);
 
-    pTreeRoot->setIcon(0, QIcon(":/icons/Disc_16px.svg"));
+    pTreeRoot->setIcon(0, QIcon(QStringLiteral(":/icons/Disc_16px.svg")));
     pTreeRoot->setExpanded(true);
 
     // Signals and slots
-    connect(mpUI->OutputDirectoryBrowseButton, SIGNAL(pressed()), this, SLOT(BrowseOutputDirectory()));
-    connect(mpUI->AssetNameMapBrowseButton, SIGNAL(pressed()), this, SLOT(BrowseAssetNameMap()));
-    connect(mpUI->GameEditorInfoBrowseButton, SIGNAL(pressed()), this, SLOT(BrowseGameEditorInfo()));
-    connect(mpUI->CancelButton, SIGNAL(pressed()), this, SLOT(close()));
-    connect(mpUI->ExportButton, SIGNAL(pressed()), this, SLOT(Export()));
+    connect(mpUI->OutputDirectoryBrowseButton, &QPushButton::pressed, this, &CExportGameDialog::BrowseOutputDirectory);
+    connect(mpUI->AssetNameMapBrowseButton, &QPushButton::pressed, this, &CExportGameDialog::BrowseAssetNameMap);
+    connect(mpUI->GameEditorInfoBrowseButton, &QPushButton::pressed, this, &CExportGameDialog::BrowseGameEditorInfo);
+    connect(mpUI->CancelButton, &QPushButton::pressed, this, &CExportGameDialog::close);
+    connect(mpUI->ExportButton, &QPushButton::pressed, this, &CExportGameDialog::Export);
 }
 
 bool CExportGameDialog::ValidateGame()
@@ -321,8 +321,8 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
 {
     // Get sorted list of nodes
     std::list<const nod::Node*> NodeList;
-    for (nod::Node::DirectoryIterator Iter = pkNode->begin(); Iter != pkNode->end(); ++Iter)
-        NodeList.push_back(&*Iter);
+    for (const nod::Node& Iter : *pkNode)
+        NodeList.push_back(&Iter);
 
     NodeList.sort([](const nod::Node *pkLeft, const nod::Node *pkRight) -> bool
     {
@@ -362,7 +362,7 @@ void CExportGameDialog::BrowseOutputDirectory()
 
 void CExportGameDialog::BrowseAssetNameMap()
 {
-    const QString Filter = "*." + TO_QSTRING(CAssetNameMap::GetExtension());
+    const QString Filter = QStringLiteral("*.") + TO_QSTRING(CAssetNameMap::GetExtension());
     const QString NewNameMap = UICommon::OpenFileDialog(this, tr("Choose Asset Name Map"), Filter);
     if (!NewNameMap.isEmpty())
         mpUI->AssetNameMapLineEdit->setText(NewNameMap);
@@ -370,7 +370,7 @@ void CExportGameDialog::BrowseAssetNameMap()
 
 void CExportGameDialog::BrowseGameEditorInfo()
 {
-    const QString Filter = "*." + TO_QSTRING(CGameInfo::GetExtension());
+    const QString Filter = QStringLiteral("*.") + TO_QSTRING(CGameInfo::GetExtension());
     const QString NewGameInfo = UICommon::OpenFileDialog(this, tr("Choose Game Editor Info"), Filter);
     if (!NewGameInfo.isEmpty())
         mpUI->GameEditorInfoLineEdit->setText(NewGameInfo);
