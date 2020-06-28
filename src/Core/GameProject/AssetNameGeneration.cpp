@@ -613,31 +613,33 @@ void GenerateAssetNames(CGameProject *pProj)
     debugf("Processing scans");
     for (TResourceIterator<EResourceType::Scan> It(pStore); It; ++It)
     {
-        if (It->IsNamed()) continue;
-        CScan *pScan = (CScan*) It->Load();
+        if (It->IsNamed())
+            continue;
+
+        auto* pScan = static_cast<CScan*>(It->Load());
         TString ScanName;
 
         if (ScanName.IsEmpty())
         {
-            CAssetID StringID = pScan->ScanStringPropertyRef().Get();
-            CStringTable *pString = (CStringTable*) gpResourceStore->LoadResource(StringID, EResourceType::StringTable);
-            if (pString) ScanName = pString->Entry()->Name();
+            const CAssetID StringID = pScan->ScanStringPropertyRef().Get();
+            if (const auto* pString = static_cast<CStringTable*>(gpResourceStore->LoadResource(StringID, EResourceType::StringTable)))
+                ScanName = pString->Entry()->Name();
         }
 
         ApplyGeneratedName(pScan->Entry(), It->DirectoryPath(), ScanName);
 
         if (!ScanName.IsEmpty() && pProj->Game() <= EGame::Prime)
         {
-            const SScanParametersMP1& kParms = *static_cast<SScanParametersMP1*>(pScan->ScanData().DataPointer());
+            const auto& kParms = *static_cast<SScanParametersMP1*>(pScan->ScanData().DataPointer());
 
-            CResourceEntry *pEntry = pStore->FindEntry(kParms.GuiFrame);
-            if (pEntry) ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), "ScanFrame");
+            if (CResourceEntry* pEntry = pStore->FindEntry(kParms.GuiFrame))
+                ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), "ScanFrame");
 
-            for (uint32 iImg = 0; iImg < 4; iImg++)
+            for (size_t iImg = 0; iImg < kParms.ScanImages.size(); iImg++)
             {
-                CAssetID ImageID = kParms.ScanImages[iImg].Texture;
-                CResourceEntry *pImgEntry = pStore->FindEntry(ImageID);
-                if (pImgEntry) ApplyGeneratedName(pImgEntry, pImgEntry->DirectoryPath(), TString::Format("%s_Image%d", *ScanName, iImg));
+                const CAssetID ImageID = kParms.ScanImages[iImg].Texture;
+                if (CResourceEntry* pImgEntry = pStore->FindEntry(ImageID))
+                    ApplyGeneratedName(pImgEntry, pImgEntry->DirectoryPath(), TString::Format("%s_Image%zu", *ScanName, iImg));
             }
         }
     }
@@ -648,15 +650,12 @@ void GenerateAssetNames(CGameProject *pProj)
     debugf("Processing fonts");
     for (TResourceIterator<EResourceType::Font> It(pStore); It; ++It)
     {
-        CFont *pFont = (CFont*) It->Load();
-
-        if (pFont)
+        if (auto* pFont = static_cast<CFont*>(It->Load()))
         {
             ApplyGeneratedName(pFont->Entry(), pFont->Entry()->DirectoryPath(), pFont->FontName());
 
-            CTexture *pFontTex = pFont->Texture();
 
-            if (pFontTex)
+            if (CTexture* pFontTex = pFont->Texture())
                 ApplyGeneratedName(pFontTex->Entry(), pFont->Entry()->DirectoryPath(), pFont->Entry()->Name() + "_tex");
         }
     }
