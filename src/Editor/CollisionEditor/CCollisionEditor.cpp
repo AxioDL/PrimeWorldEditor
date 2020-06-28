@@ -28,7 +28,7 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
 
     // Add depth widgets to the toolbar
     mpUI->ToolBar->addSeparator();
-    mpUI->ToolBar->addWidget(new QLabel("OBBTree: ", this));
+    mpUI->ToolBar->addWidget(new QLabel(tr("OBBTree: "), this));
 
     int MaxDepth = 0;
     for (size_t MeshIdx = 0; MeshIdx < pCollisionMesh->NumMeshes(); MeshIdx++)
