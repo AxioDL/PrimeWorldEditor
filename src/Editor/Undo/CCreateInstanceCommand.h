@@ -24,9 +24,9 @@ class CCreateInstanceCommand : public IUndoCommand
 
 public:
     CCreateInstanceCommand(CWorldEditor *pEditor, CScriptTemplate *pTemplate, CScriptLayer *pLayer, const CVector3f& rkPosition);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
 };
 
 #endif // CCREATEINSTANCECOMMAND_H
