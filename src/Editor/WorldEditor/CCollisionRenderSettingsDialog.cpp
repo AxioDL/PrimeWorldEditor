@@ -5,8 +5,8 @@
 
 CCollisionRenderSettingsDialog::CCollisionRenderSettingsDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     : QDialog(pParent)
+    , mpUi(std::make_unique<Ui::CCollisionRenderSettingsDialog>())
     , mpEditor(pEditor)
-    , mpUi(new Ui::CCollisionRenderSettingsDialog)
 {
     mpUi->setupUi(this);
 
@@ -27,10 +27,7 @@ CCollisionRenderSettingsDialog::CCollisionRenderSettingsDialog(CWorldEditor *pEd
     connect(mpUi->HideAiBlockCheckBox, SIGNAL(toggled(bool)), this, SLOT(OnHideCheckboxesToggled()));
 }
 
-CCollisionRenderSettingsDialog::~CCollisionRenderSettingsDialog()
-{
-    delete mpUi;
-}
+CCollisionRenderSettingsDialog::~CCollisionRenderSettingsDialog() = default;
 
 void CCollisionRenderSettingsDialog::SetupWidgets()
 {
