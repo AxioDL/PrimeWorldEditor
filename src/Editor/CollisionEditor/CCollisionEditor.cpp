@@ -43,8 +43,8 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     pOBBTreeSlider->setOrientation(Qt::Horizontal);
     pOBBTreeSlider->setMaximumWidth(100);
 
-    connect(pOBBTreeSlider, SIGNAL(valueChanged(int)),
-            this,           SLOT(OnOBBTreeDepthChanged(int)));
+    connect(pOBBTreeSlider, &QSlider::valueChanged,
+            this, &CCollisionEditor::OnOBBTreeDepthChanged);
 
     mpUI->ToolBar->addWidget(pOBBTreeSlider);
 
@@ -53,11 +53,11 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     mpUI->ToolBar->addWidget(pSpacerWidget);
 
     // Connections
-    connect(mpUI->ActionToggleGrid, SIGNAL(toggled(bool)),
-            this,                   SLOT(OnGridToggled(bool)));
+    connect(mpUI->ActionToggleGrid, &QAction::toggled,
+            this, &CCollisionEditor::OnGridToggled);
 
-    connect(mpUI->ActionToggleOrbit,    SIGNAL(toggled(bool)),
-            this,                       SLOT(OnOrbitToggled(bool)));
+    connect(mpUI->ActionToggleOrbit, &QAction::toggled,
+            this, &CCollisionEditor::OnOrbitToggled);
 
     // Update window title
     QString WindowTitle = "%APP_FULL_NAME% - Collision Editor - %1[*]";
