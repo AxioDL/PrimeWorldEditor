@@ -4,11 +4,9 @@
 #include <Core/Scene/CSceneIterator.h>
 #include <Core/ScriptExtra/CPointOfInterestExtra.h>
 
-CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent /*= 0*/)
+CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent)
     : QAbstractListModel(pParent)
     , mpEditor(pEditor)
-    , mpArea(nullptr)
-    , mpPoiToWorld(nullptr)
 {
     connect(pEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChange(CWorld*,CGameArea*)));
 }
