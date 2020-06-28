@@ -16,17 +16,15 @@ public:
         , mNewIndex(NewIndex)
     {}
 
-    virtual void undo() override { mpEditor->SetActiveTweakIndex(mOldIndex); }
-    virtual void redo() override { mpEditor->SetActiveTweakIndex(mNewIndex); }
-    virtual bool AffectsCleanState() const override { return false; }
+    void undo() override { mpEditor->SetActiveTweakIndex(mOldIndex); }
+    void redo() override { mpEditor->SetActiveTweakIndex(mNewIndex); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 /** CTweakEditor functions */
 CTweakEditor::CTweakEditor(QWidget* pParent)
     : IEditor(pParent)
-    , mpUI(new Ui::CTweakEditor)
-    , mCurrentTweakIndex(-1)
-    , mHasBeenShown(false)
+    , mpUI(std::make_unique<Ui::CTweakEditor>())
 {
     mpUI->setupUi(this);
     mpUI->TweakTabs->setExpanding(false);
@@ -39,12 +37,9 @@ CTweakEditor::CTweakEditor(QWidget* pParent)
     connect(mpUI->ActionSaveAndRepack, SIGNAL(triggered(bool)), this, SLOT(SaveAndRepack()));
 }
 
-CTweakEditor::~CTweakEditor()
-{
-    delete mpUI;
-}
+CTweakEditor::~CTweakEditor() = default;
 
-bool CTweakEditor::HasTweaks()
+bool CTweakEditor::HasTweaks() const
 {
     return !mTweakAssets.isEmpty();
 }

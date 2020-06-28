@@ -2,6 +2,9 @@
 #define CTWEAKEDITOR_H
 
 #include "Editor/IEditor.h"
+#include "Tweaks/CTweakData.h"
+
+#include <memory>
 
 namespace Ui {
 class CTweakEditor;
@@ -12,23 +15,23 @@ class CTweakEditor : public IEditor
     Q_OBJECT
 
     /** Qt UI */
-    Ui::CTweakEditor* mpUI;
+    std::unique_ptr<Ui::CTweakEditor> mpUI;
 
     /** List of editable tweak assets */
     QVector<CTweakData*> mTweakAssets;
 
     /** Whether the editor window has been shown before */
-    bool mHasBeenShown;
+    bool mHasBeenShown = false;
 
     /** Index of tweak data currently being edited */
-    int mCurrentTweakIndex;
+    int mCurrentTweakIndex = -1;
 
 public:
-    explicit CTweakEditor(QWidget* pParent = 0);
-    ~CTweakEditor();
-    bool HasTweaks();
+    explicit CTweakEditor(QWidget* pParent = nullptr);
+    ~CTweakEditor() override;
 
-    virtual bool Save() override;
+    bool HasTweaks() const;
+    bool Save() override;
 
 public slots:
     void SetActiveTweakData(CTweakData* pTweakData);
