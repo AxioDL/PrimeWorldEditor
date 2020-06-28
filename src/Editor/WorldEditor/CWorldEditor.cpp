@@ -37,15 +37,10 @@
 
 CWorldEditor::CWorldEditor(QWidget *parent)
     : INodeEditor(parent)
-    , ui(new Ui::CWorldEditor)
-    , mpArea(nullptr)
-    , mpWorld(nullptr)
+    , ui(std::make_unique<Ui::CWorldEditor>())
     , mpLinkDialog(new CLinkDialog(this, this))
     , mpGeneratePropertyNamesDialog(new CGeneratePropertyNamesDialog(this))
     , mpTweakEditor(new CTweakEditor(this))
-    , mIsMakingLink(false)
-    , mpNewLinkSender(nullptr)
-    , mpNewLinkReceiver(nullptr)
 {
     debugf("Creating World Editor");
     ui->setupUi(this);
@@ -226,7 +221,6 @@ CWorldEditor::~CWorldEditor()
         gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
 
     delete mpScriptSidebar; // For some reason WCreateTab filters an event during the viewport's destructor
-    delete ui;
 }
 
 bool CWorldEditor::CloseWorld()
