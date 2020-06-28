@@ -1,26 +1,20 @@
 #include "CCharacterEditorViewport.h"
 
-CCharacterEditorViewport::CCharacterEditorViewport(QWidget *pParent /*= 0*/)
-    : CBasicViewport(pParent)
-    , mpCharNode(nullptr)
-    , mGridEnabled(true)
+CCharacterEditorViewport::CCharacterEditorViewport(QWidget *pParent)
+    : CBasicViewport(pParent), mpRenderer{std::make_unique<CRenderer>()}
 {
-    mpRenderer = new CRenderer();
-    qreal pixelRatio = devicePixelRatioF();
+    const qreal pixelRatio = devicePixelRatioF();
     mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
     mpRenderer->SetClearColor(CColor(0.3f, 0.3f, 0.3f));
     mpRenderer->ToggleGrid(true);
 
     mViewInfo.ShowFlags = EShowFlag::ObjectGeometry; // This enables the mesh and not the skeleton by default
-    mViewInfo.pRenderer = mpRenderer;
+    mViewInfo.pRenderer = mpRenderer.get();
     mViewInfo.pScene = nullptr;
     mViewInfo.GameMode = false;
 }
 
-CCharacterEditorViewport::~CCharacterEditorViewport()
-{
-    delete mpRenderer;
-}
+CCharacterEditorViewport::~CCharacterEditorViewport() = default;
 
 void CCharacterEditorViewport::SetNode(CCharacterNode *pNode)
 {
@@ -29,12 +23,12 @@ void CCharacterEditorViewport::SetNode(CCharacterNode *pNode)
 
 void CCharacterEditorViewport::CheckUserInput()
 {
-    uint32 HoverBoneID = -1;
+    uint32 HoverBoneID = UINT32_MAX;
 
     if (underMouse() && !IsMouseInputActive())
     {
-        CRay Ray = CastRay();
-        SRayIntersection Intersect = mpCharNode->RayNodeIntersectTest(Ray, 0, mViewInfo);
+        const CRay Ray = CastRay();
+        const SRayIntersection Intersect = mpCharNode->RayNodeIntersectTest(Ray, 0, mViewInfo);
 
         if (Intersect.Hit)
             HoverBoneID = Intersect.ComponentIndex;
@@ -51,11 +45,12 @@ void CCharacterEditorViewport::Paint()
 {
     mpRenderer->BeginFrame();
     mCamera.LoadMatrices();
-    if (mGridEnabled) mGrid.AddToRenderer(mpRenderer, mViewInfo);
+    if (mGridEnabled)
+        mGrid.AddToRenderer(mpRenderer.get(), mViewInfo);
 
-    if (mpCharNode)
+    if (mpCharNode != nullptr)
     {
-        mpCharNode->AddToRenderer(mpRenderer, mViewInfo);
+        mpCharNode->AddToRenderer(mpRenderer.get(), mViewInfo);
     }
 
     mpRenderer->RenderBuckets(mViewInfo);
@@ -64,7 +59,7 @@ void CCharacterEditorViewport::Paint()
 
 void CCharacterEditorViewport::OnResize()
 {
-    qreal pixelRatio = devicePixelRatioF();
+    const qreal pixelRatio = devicePixelRatioF();
     mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 }
 
