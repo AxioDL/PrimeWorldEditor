@@ -48,9 +48,9 @@ class CDeleteSelectionCommand : public IUndoCommand
 
 public:
     CDeleteSelectionCommand(CWorldEditor *pEditor, const QString& rkCommandName = "Delete");
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
 };
 
 #endif // CDELETESELECTIONCOMMAND_H
