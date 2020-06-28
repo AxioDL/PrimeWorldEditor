@@ -5,15 +5,7 @@
 
 INodeEditor::INodeEditor(QWidget *pParent)
     : IEditor(pParent)
-    , mPickMode(false)
     , mpSelection(new CNodeSelection)
-    , mSelectionLocked(false)
-    , mShowGizmo(false)
-    , mGizmoHovering(false)
-    , mGizmoTransforming(false)
-    , mTranslateSpace(ETransformSpace::World)
-    , mRotateSpace(ETransformSpace::World)
-    , mCloneState(eNotCloning)
 {
     // Create gizmo actions
     mGizmoActions.append(new QAction(QIcon(":/icons/SelectMode.svg"), "Select Objects", this));
@@ -73,7 +65,8 @@ bool INodeEditor::IsGizmoVisible()
 void INodeEditor::BeginGizmoTransform()
 {
     mGizmoTransforming = true;
-    if ((qApp->keyboardModifiers() & Qt::ShiftModifier) != 0) mCloneState = eReadyToClone;
+    if ((qApp->keyboardModifiers() & Qt::ShiftModifier) != 0)
+        mCloneState = ECloneState::ReadyToClone;
 
     foreach (QAction *pAction, mGizmoActions)
         pAction->setEnabled(false);
@@ -96,10 +89,10 @@ void INodeEditor::EndGizmoTransform()
             mUndoStack.push(CScaleNodeCommand::End());
     }
 
-    if (mCloneState == eCloning)
+    if (mCloneState == ECloneState::Cloning)
         mUndoStack.endMacro();
 
-    mCloneState = eNotCloning;
+    mCloneState = ECloneState::NotCloning;
 }
 
 ETransformSpace INodeEditor::CurrentTransformSpace()
@@ -298,11 +291,11 @@ void INodeEditor::OnSelectionModified()
 
 void INodeEditor::OnGizmoMoved()
 {
-    if (mCloneState == eReadyToClone)
+    if (mCloneState == ECloneState::ReadyToClone)
     {
         mUndoStack.beginMacro("Clone");
         mUndoStack.push(new CCloneSelectionCommand(this));
-        mCloneState = eCloning;
+        mCloneState = ECloneState::Cloning;
     }
 
     switch (mGizmo.Mode())
