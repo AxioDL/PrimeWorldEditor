@@ -9,7 +9,7 @@
 
 WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::WInstancesTab)
+    ui(std::make_unique<Ui::WInstancesTab>())
 {
     ui->setupUi(this);
 
@@ -74,10 +74,7 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     connect(mpUnhideAll, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
 }
 
-WInstancesTab::~WInstancesTab()
-{
-    delete ui;
-}
+WInstancesTab::~WInstancesTab() = default;
 
 // ************ PRIVATE SLOTS ************
 void WInstancesTab::OnTreeClick(QModelIndex Index)
