@@ -94,7 +94,7 @@ void CStringEditor::InitUI()
     mpUI->setupUi(this);
     mpListModel = new CStringListModel(this);
     mpUI->StringNameListView->setModel(mpListModel);
-    mpUI->StringNameListView->setItemDelegate( new CStringDelegate(this) );
+    mpUI->StringNameListView->setItemDelegate(new CStringDelegate(this));
     mpUI->AddStringButton->setShortcut(QKeySequence(Qt::Key_Alt, Qt::Key_Equal));
     mpUI->RemoveStringButton->setShortcut(QKeySequence(Qt::Key_Alt, Qt::Key_Minus));
 
@@ -115,19 +115,19 @@ void CStringEditor::InitUI()
     }
 
     // Connect signals & slots
-    connect( mpUI->StringNameListView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),
-             this, SLOT(OnStringSelected(QModelIndex)) );
+    connect(mpUI->StringNameListView->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &CStringEditor::OnStringSelected);
 
-    connect( mpUI->StringNameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(OnStringNameEdited()) );
-    connect( mpUI->StringTextEdit, SIGNAL(textChanged()), this, SLOT(OnStringTextEdited()) );
-    connect( mpUI->EditLanguageTabBar, SIGNAL(currentChanged(int)), this, SLOT(OnLanguageChanged(int)) );
-    connect( mpUI->AddStringButton, SIGNAL(pressed()), this, SLOT(OnAddString()) );
-    connect( mpUI->RemoveStringButton, SIGNAL(pressed()), this, SLOT(OnRemoveString()) );
+    connect(mpUI->StringNameLineEdit, &QLineEdit::textChanged, this, &CStringEditor::OnStringNameEdited);
+    connect(mpUI->StringTextEdit, &QPlainTextEdit::textChanged, this, &CStringEditor::OnStringTextEdited);
+    connect(mpUI->EditLanguageTabBar, &QTabBar::currentChanged, this, &CStringEditor::OnLanguageChanged);
+    connect(mpUI->AddStringButton, &QPushButton::pressed, this, &CStringEditor::OnAddString);
+    connect(mpUI->RemoveStringButton, &QPushButton::pressed, this, &CStringEditor::OnRemoveString);
 
-    connect( mpUI->ActionSave, SIGNAL(triggered(bool)), this, SLOT(Save()) );
-    connect( mpUI->ActionSaveAndCook, SIGNAL(triggered(bool)), this, SLOT(SaveAndRepack()) );
+    connect(mpUI->ActionSave, &QAction::triggered, this, &CStringEditor::Save);
+    connect(mpUI->ActionSaveAndCook, &QAction::triggered, this, &CStringEditor::SaveAndRepack);
 
-    connect( &UndoStack(), SIGNAL(indexChanged(int)), this, SLOT(UpdateUI()) );
+    connect(&UndoStack(), &QUndoStack::indexChanged, this, &CStringEditor::UpdateUI);
 
     mpUI->ToolBar->addSeparator();
     AddUndoActions(mpUI->ToolBar);
@@ -327,7 +327,7 @@ void CStringEditor::OnStringTextEdited()
 
 void CStringEditor::OnAddString()
 {
-    UndoStack().beginMacro("Add String");
+    UndoStack().beginMacro(tr("Add String"));
 
     // Add string
     IUndoCommand* pCommand = new TSerializeUndoCommand<CStringTable>(tr("Add String"), mpStringTable, true);
