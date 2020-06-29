@@ -39,31 +39,31 @@ CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Paramet
     mpUI->SpawnAtCameraLocationCheckBox->setChecked( Parameters.Features.HasFlag(EQuickplayFeature::SetSpawnPosition) );
     mpUI->GiveAllItemsCheckBox->setChecked( Parameters.Features.HasFlag(EQuickplayFeature::GiveAllItems) );
 
-    connect(mpUI->DolphinPathLineEdit, SIGNAL(textChanged(QString)),
-            this, SLOT(OnDolphinPathChanged(QString)));
+    connect(mpUI->DolphinPathLineEdit, &QLineEdit::textChanged,
+            this, &CQuickplayPropertyEditor::OnDolphinPathChanged);
 
-    connect(mpUI->DolphinBrowseButton, SIGNAL(pressed()),
-            this, SLOT(BrowseForDolphin()));
+    connect(mpUI->DolphinBrowseButton, &QPushButton::pressed,
+            this, &CQuickplayPropertyEditor::BrowseForDolphin);
 
-    connect(mpUI->BootToAreaCheckBox, SIGNAL(toggled(bool)),
-            this, SLOT(OnBootToAreaToggled(bool)));
+    connect(mpUI->BootToAreaCheckBox, &QCheckBox::toggled,
+            this, &CQuickplayPropertyEditor::OnBootToAreaToggled);
 
-    connect(mpUI->SpawnAtCameraLocationCheckBox, SIGNAL(toggled(bool)),
-            this, SLOT(OnSpawnAtCameraLocationToggled(bool)));
+    connect(mpUI->SpawnAtCameraLocationCheckBox, &QCheckBox::toggled,
+            this, &CQuickplayPropertyEditor::OnSpawnAtCameraLocationToggled);
 
-    connect(mpUI->GiveAllItemsCheckBox, SIGNAL(toggled(bool)),
-            this, SLOT(OnGiveAllItemsToggled(bool)));
+    connect(mpUI->GiveAllItemsCheckBox, &QCheckBox::toggled,
+            this, &CQuickplayPropertyEditor::OnGiveAllItemsToggled);
 
-    connect(mpUI->LayerList, SIGNAL(itemChanged(QListWidgetItem*)),
-            this, SLOT(OnLayerListItemChanged(QListWidgetItem*)));
+    connect(mpUI->LayerList, &QListWidget::itemChanged,
+            this, &CQuickplayPropertyEditor::OnLayerListItemChanged);
 
     // Connect to World Editor signals
     CWorldEditor* pWorldEditor = qobject_cast<CWorldEditor*>(pParent);
 
     if (pWorldEditor)
     {
-        connect(pWorldEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)),
-                this, SLOT(OnWorldEditorAreaChanged(CWorld*,CGameArea*)));
+        connect(pWorldEditor, &CWorldEditor::MapChanged,
+                this, &CQuickplayPropertyEditor::OnWorldEditorAreaChanged);
     }
 }
 
