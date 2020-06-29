@@ -24,14 +24,14 @@ CProjectSettingsDialog::CProjectSettingsDialog(QWidget *pParent)
 {
     mpUI->setupUi(this);
 
-    connect(mpUI->GameNameLineEdit, SIGNAL(editingFinished()), this, SLOT(GameNameChanged()));
-    connect(mpUI->CookPackageButton, SIGNAL(clicked()), this, SLOT(CookPackage()));
-    connect(mpUI->CookAllDirtyPackagesButton, SIGNAL(clicked(bool)), this, SLOT(CookAllDirtyPackages()));
-    connect(mpUI->BuildIsoButton, SIGNAL(clicked(bool)), this, SLOT(BuildISO()));
+    connect(mpUI->GameNameLineEdit, &QLineEdit::editingFinished, this, &CProjectSettingsDialog::GameNameChanged);
+    connect(mpUI->CookPackageButton, &QPushButton::clicked, this, &CProjectSettingsDialog::CookPackage);
+    connect(mpUI->CookAllDirtyPackagesButton, &QPushButton::clicked, this, &CProjectSettingsDialog::CookAllDirtyPackages);
+    connect(mpUI->BuildIsoButton, &QPushButton::clicked, this, &CProjectSettingsDialog::BuildISO);
 
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(ActiveProjectChanged(CGameProject*)));
-    connect(gpEdApp, SIGNAL(AssetsModified()), this, SLOT(SetupPackagesList()));
-    connect(gpEdApp, SIGNAL(PackagesCooked()), this, SLOT(SetupPackagesList()));
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CProjectSettingsDialog::ActiveProjectChanged);
+    connect(gpEdApp, &CEditorApplication::AssetsModified, this, &CProjectSettingsDialog::SetupPackagesList);
+    connect(gpEdApp, &CEditorApplication::PackagesCooked, this, &CProjectSettingsDialog::SetupPackagesList);
 
     // Set build ISO button color
     QPalette Palette = mpUI->BuildIsoButton->palette();
