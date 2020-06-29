@@ -5,14 +5,14 @@
 CVirtualDirectoryModel::CVirtualDirectoryModel(CResourceBrowser *pBrowser, QObject *pParent)
     : QAbstractItemModel(pParent)
 {
-    connect(pBrowser, SIGNAL(DirectoryAboutToBeMoved(CVirtualDirectory*,QString)), this, SLOT(OnDirectoryAboutToBeMoved(CVirtualDirectory*,QString)));
-    connect(pBrowser, SIGNAL(DirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)), this, SLOT(FinishModelChanges()));
+    connect(pBrowser, &CResourceBrowser::DirectoryAboutToBeMoved, this, &CVirtualDirectoryModel::OnDirectoryAboutToBeMoved);
+    connect(pBrowser, &CResourceBrowser::DirectoryMoved, this, &CVirtualDirectoryModel::FinishModelChanges);
 
-    connect(pBrowser, SIGNAL(DirectoryAboutToBeCreated(QString)), this, SLOT(OnDirectoryAboutToBeCreated(QString)));
-    connect(pBrowser, SIGNAL(DirectoryCreated(CVirtualDirectory*)), this, SLOT(FinishModelChanges()));
+    connect(pBrowser, &CResourceBrowser::DirectoryAboutToBeCreated, this, &CVirtualDirectoryModel::OnDirectoryAboutToBeCreated);
+    connect(pBrowser, &CResourceBrowser::DirectoryCreated, this, &CVirtualDirectoryModel::FinishModelChanges);
 
-    connect(pBrowser, SIGNAL(DirectoryAboutToBeDeleted(CVirtualDirectory*)), this, SLOT(OnDirectoryAboutToBeDeleted(CVirtualDirectory*)));
-    connect(pBrowser, SIGNAL(DirectoryDeleted()), this, SLOT(FinishModelChanges()));
+    connect(pBrowser, &CResourceBrowser::DirectoryAboutToBeDeleted, this, &CVirtualDirectoryModel::OnDirectoryAboutToBeDeleted);
+    connect(pBrowser, &CResourceBrowser::DirectoryDeleted, this, &CVirtualDirectoryModel::FinishModelChanges);
 }
 
 QModelIndex CVirtualDirectoryModel::index(int Row, int Column, const QModelIndex& rkParent) const
