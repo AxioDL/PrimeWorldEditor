@@ -12,7 +12,6 @@
 #include <Core/Resource/Factory/CTextureDecoder.h>
 #include <Core/Scene/CScene.h>
 
-#include <iostream>
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -87,54 +86,54 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     ui->AnimParamCSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamCSpinBox);
     ui->AnimParamDSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamDSpinBox);
 
-    connect(ui->ActionImport, SIGNAL(triggered()), this, SLOT(Import()));
-    connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
-    connect(ui->ActionConvertToDDS, SIGNAL(triggered()), this, SLOT(ConvertToDDS()));
-    connect(ui->ActionConvertToTXTR, SIGNAL(triggered()), this, SLOT(ConvertToTXTR()));
-    connect(ui->MeshPreviewButton, SIGNAL(clicked()), this, SLOT(SetMeshPreview()));
-    connect(ui->SpherePreviewButton, SIGNAL(clicked()), this, SLOT(SetSpherePreview()));
-    connect(ui->FlatPreviewButton, SIGNAL(clicked()), this, SLOT(SetFlatPreview()));
-    connect(ui->ClearColorPicker, SIGNAL(ColorChanged(QColor)), this, SLOT(ClearColorChanged(QColor)));
-    connect(ui->CameraModeButton, SIGNAL(clicked()), this, SLOT(ToggleCameraMode()));
-    connect(ui->ToggleGridButton, SIGNAL(toggled(bool)), this, SLOT(ToggleGrid(bool)));
+    connect(ui->ActionImport, &QAction::triggered, this, &CModelEditorWindow::Import);
+    connect(ui->ActionSave, &QAction::triggered, this, &CModelEditorWindow::Save);
+    connect(ui->ActionConvertToDDS, &QAction::triggered, this, &CModelEditorWindow::ConvertToDDS);
+    connect(ui->ActionConvertToTXTR, &QAction::triggered, this, &CModelEditorWindow::ConvertToTXTR);
+    connect(ui->MeshPreviewButton, &QPushButton::clicked, this, &CModelEditorWindow::SetMeshPreview);
+    connect(ui->SpherePreviewButton, &QPushButton::clicked, this, &CModelEditorWindow::SetSpherePreview);
+    connect(ui->FlatPreviewButton, &QPushButton::clicked, this, &CModelEditorWindow::SetFlatPreview);
+    connect(ui->ClearColorPicker, &WColorPicker::ColorChanged, this, &CModelEditorWindow::ClearColorChanged);
+    connect(ui->CameraModeButton, &QPushButton::clicked, this, &CModelEditorWindow::ToggleCameraMode);
+    connect(ui->ToggleGridButton, &QPushButton::toggled, this, &CModelEditorWindow::ToggleGrid);
 
-    connect(ui->SetSelectionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateUI(int)));
-    connect(ui->MatSelectionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateUI(int)));
-    connect(ui->EnableTransparencyCheck,      SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnablePunchthroughCheck,      SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableReflectionCheck,        SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableSurfaceReflectionCheck, SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableDepthWriteCheck,        SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableOccluderCheck,          SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableLightmapCheck,          SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableDynamicLightingCheck,   SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->SourceBlendComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->DestBlendComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->KonstColorPickerA, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerB, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerC, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerD, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->PassTable, SIGNAL(cellClicked(int,int)), this, SLOT(UpdateMaterial(int, int)));
-    connect(ui->TevKColorSelComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevKAlphaSelComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevRasSelComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TexCoordSrcComboBox,    SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
+    connect(ui->SetSelectionComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateUI));
+    connect(ui->MatSelectionComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateUI));
+    connect(ui->EnableTransparencyCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnablePunchthroughCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableReflectionCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableSurfaceReflectionCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableDepthWriteCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableOccluderCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableLightmapCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableDynamicLightingCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->SourceBlendComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->DestBlendComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->KonstColorPickerA, &WColorPicker::ColorChanged, this, qOverload<QColor>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->KonstColorPickerB, &WColorPicker::ColorChanged, this, qOverload<QColor>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->KonstColorPickerC, &WColorPicker::ColorChanged, this, qOverload<QColor>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->KonstColorPickerD, &WColorPicker::ColorChanged, this, qOverload<QColor>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->PassTable, &QTableWidget::cellClicked, this, qOverload<int, int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevKColorSelComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevKAlphaSelComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevRasSelComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TexCoordSrcComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
     connect(ui->PassTextureResSelector, SIGNAL(ResourceChanged(QString)), this, SLOT(UpdateMaterial(QString)));
-    connect(ui->TevColor1ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevColor2ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevColor3ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevColor4ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevColorOutputComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlpha1ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlpha2ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlpha3ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlpha4ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlphaOutputComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->AnimTypeComboBox,       SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->AnimParamASpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
-    connect(ui->AnimParamBSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
-    connect(ui->AnimParamCSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
-    connect(ui->AnimParamDSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
+    connect(ui->TevColor1ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevColor2ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevColor3ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevColor4ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevColorOutputComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlpha1ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlpha2ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlpha3ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlpha4ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlphaOutputComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimTypeComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimParamASpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, qOverload<double>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimParamBSpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, qOverload<double>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimParamCSpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, qOverload<double>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimParamDSpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, qOverload<double>(&CModelEditorWindow::UpdateMaterial));
     // That was fun
 
     SetActiveModel(pModel);
