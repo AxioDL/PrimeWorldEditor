@@ -21,12 +21,12 @@ CPropertyView::CPropertyView(QWidget *pParent)
     mpShowNameValidityAction = new QAction(tr("Show whether property name is correct"), this);
     mpShowNameValidityAction->setCheckable(true);
     mpShowNameValidityAction->setChecked(false);
-    connect(mpShowNameValidityAction, SIGNAL(triggered(bool)), this, SLOT(ToggleShowNameValidity(bool)));
+    connect(mpShowNameValidityAction, &QAction::triggered, this, &CPropertyView::ToggleShowNameValidity);
 
     if (gTemplatesWritable)
     {
         mpEditTemplateAction = new QAction(tr("Edit template"), this);
-        connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
+        connect(mpEditTemplateAction, &QAction::triggered, this, &CPropertyView::EditPropertyTemplate);
     }
     else
     {
@@ -37,15 +37,15 @@ CPropertyView::CPropertyView(QWidget *pParent)
     mpGenNamesForPropertyAction = new QAction(tr("Generate names for this property"), this);
     mpGenNamesForSiblingsAction = new QAction(this); // Text set in CreateContextMenu()
     mpGenNamesForChildrenAction = new QAction(this); // Text set in CreateContextMenu()
-    connect(mpGenNamesForPropertyAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForProperty()));
-    connect(mpGenNamesForSiblingsAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForSiblings()));
-    connect(mpGenNamesForChildrenAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForChildren()));
+    connect(mpGenNamesForPropertyAction, &QAction::triggered, this, &CPropertyView::GenerateNamesForProperty);
+    connect(mpGenNamesForSiblingsAction, &QAction::triggered, this, &CPropertyView::GenerateNamesForSiblings);
+    connect(mpGenNamesForChildrenAction, &QAction::triggered, this, &CPropertyView::GenerateNamesForChildren);
 
-    connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
-    connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
-    connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
-    connect(mpModel, SIGNAL(PropertyModified(const QModelIndex&)), this, SLOT(OnPropertyModified(const QModelIndex&)));
+    connect(this, &CPropertyView::expanded, this, &CPropertyView::SetPersistentEditors);
+    connect(this, &CPropertyView::clicked, [this](const QModelIndex& index) { edit(index); });
+    connect(this, &CPropertyView::customContextMenuRequested, this, &CPropertyView::CreateContextMenu);
+    connect(mpModel, &CPropertyModel::rowsInserted, [this](const QModelIndex& index, int, int) { SetPersistentEditors(index); });
+    connect(mpModel, &CPropertyModel::PropertyModified, this, &CPropertyView::OnPropertyModified);
 }
 
 void CPropertyView::setModel(QAbstractItemModel *pModel)
