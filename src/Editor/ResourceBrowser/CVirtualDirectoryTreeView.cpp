@@ -5,7 +5,6 @@
 
 CVirtualDirectoryTreeView::CVirtualDirectoryTreeView(QWidget *pParent)
     : QTreeView(pParent)
-    , mTransferSelectionPostMove(false)
 {
     // slightly hacky cuz there's not really a good way to pass in CResourceBrowser as a parameter
     // due to the fact that we set this class in the .ui file
@@ -19,8 +18,8 @@ CVirtualDirectoryTreeView::CVirtualDirectoryTreeView(QWidget *pParent)
     }
     ASSERT(pBrowser);
 
-    connect(pBrowser, SIGNAL(DirectoryAboutToBeMoved(CVirtualDirectory*,QString)), this, SLOT(OnDirectoryAboutToBeMoved(CVirtualDirectory*)));
-    connect(pBrowser, SIGNAL(DirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)), this, SLOT(OnDirectoryMoved(CVirtualDirectory*)));
+    connect(pBrowser, &CResourceBrowser::DirectoryAboutToBeMoved, this, &CVirtualDirectoryTreeView::OnDirectoryAboutToBeMoved);
+    connect(pBrowser, &CResourceBrowser::DirectoryMoved, this, &CVirtualDirectoryTreeView::OnDirectoryMoved);
 }
 
 void CVirtualDirectoryTreeView::dragEnterEvent(QDragEnterEvent *pEvent)
