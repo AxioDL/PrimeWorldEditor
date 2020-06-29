@@ -15,11 +15,11 @@ CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent)
     ui->SenderStateComboBox->setModel(&mSenderStateModel);
     ui->ReceiverMessageComboBox->setModel(&mReceiverMessageModel);
 
-    connect(ui->SwapButton, SIGNAL(clicked()), this, SLOT(OnSwapClicked()));
-    connect(ui->SenderPickFromViewport, SIGNAL(clicked()), this, SLOT(OnPickFromViewportClicked()));
-    connect(ui->SenderPickFromList, SIGNAL(clicked()), this, SLOT(OnPickFromListClicked()));
-    connect(ui->ReceiverPickFromViewport, SIGNAL(clicked()), this, SLOT(OnPickFromViewportClicked()));
-    connect(ui->ReceiverPickFromList, SIGNAL(clicked()), this, SLOT(OnPickFromListClicked()));
+    connect(ui->SwapButton, &QPushButton::clicked, this, &CLinkDialog::OnSwapClicked);
+    connect(ui->SenderPickFromViewport, &QPushButton::clicked, this, &CLinkDialog::OnPickFromViewportClicked);
+    connect(ui->SenderPickFromList, &QPushButton::clicked, this, &CLinkDialog::OnPickFromListClicked);
+    connect(ui->ReceiverPickFromViewport, &QPushButton::clicked, this, &CLinkDialog::OnPickFromViewportClicked);
+    connect(ui->ReceiverPickFromList, &QPushButton::clicked, this, &CLinkDialog::OnPickFromListClicked);
 }
 
 CLinkDialog::~CLinkDialog() = default;
