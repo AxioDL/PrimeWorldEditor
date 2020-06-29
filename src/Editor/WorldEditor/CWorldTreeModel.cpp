@@ -8,8 +8,8 @@
 
 CWorldTreeModel::CWorldTreeModel(CWorldEditor *pEditor)
 {
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnProjectChanged(CGameProject*)));
-    connect(pEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChanged()));
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CWorldTreeModel::OnProjectChanged);
+    connect(pEditor, &CWorldEditor::MapChanged, this, &CWorldTreeModel::OnMapChanged);
 }
 
 int CWorldTreeModel::rowCount(const QModelIndex& rkParent) const
