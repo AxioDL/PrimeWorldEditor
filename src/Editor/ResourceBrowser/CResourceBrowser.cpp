@@ -44,10 +44,10 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     addAction(mpRedoAction);
 #endif
 
-    connect(mpUndoAction, SIGNAL(triggered(bool)), this, SLOT(Undo()));
-    connect(mpRedoAction, SIGNAL(triggered(bool)), this, SLOT(Redo()));
-    connect(&mUndoStack, SIGNAL(canUndoChanged(bool)), this, SLOT(UpdateUndoActionStates()));
-    connect(&mUndoStack, SIGNAL(canRedoChanged(bool)), this, SLOT(UpdateUndoActionStates()));
+    connect(mpUndoAction, &QAction::triggered, this, &CResourceBrowser::Undo);
+    connect(mpRedoAction, &QAction::triggered, this, &CResourceBrowser::Redo);
+    connect(&mUndoStack, &QUndoStack::canUndoChanged, this, &CResourceBrowser::UpdateUndoActionStates);
+    connect(&mUndoStack, &QUndoStack::canRedoChanged, this, &CResourceBrowser::UpdateUndoActionStates);
 
     // Configure display mode buttons
     QButtonGroup *pModeGroup = new QButtonGroup(this);
@@ -104,28 +104,28 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     // Set up the options menu
     QMenu *pOptionsMenu = new QMenu(this);
     QMenu *pImportMenu = pOptionsMenu->addMenu(tr("Import Names"));
-    pOptionsMenu->addAction(tr("Export Names"), this, SLOT(ExportAssetNames()));
+    pOptionsMenu->addAction(tr("Export Names"), this, &CResourceBrowser::ExportAssetNames);
     pOptionsMenu->addSeparator();
 
-    pImportMenu->addAction(tr("Asset Name Map"), this, SLOT(ImportAssetNameMap()));
-    pImportMenu->addAction(tr("Package Contents List"), this, SLOT(ImportPackageContentsList()));
-    pImportMenu->addAction(tr("Generate Asset Names"), this, SLOT(GenerateAssetNames()));
+    pImportMenu->addAction(tr("Asset Name Map"), this, &CResourceBrowser::ImportAssetNameMap);
+    pImportMenu->addAction(tr("Package Contents List"), this, &CResourceBrowser::ImportPackageContentsList);
+    pImportMenu->addAction(tr("Generate Asset Names"), this, &CResourceBrowser::GenerateAssetNames);
 
     QAction *pDisplayAssetIDsAction = new QAction(tr("Display Asset IDs"), this);
     pDisplayAssetIDsAction->setCheckable(true);
-    connect(pDisplayAssetIDsAction, SIGNAL(toggled(bool)), this, SLOT(SetAssetIDDisplayEnabled(bool)));
+    connect(pDisplayAssetIDsAction, &QAction::toggled, this, &CResourceBrowser::SetAssetIDDisplayEnabled);
     pOptionsMenu->addAction(pDisplayAssetIDsAction);
 
-    pOptionsMenu->addAction(tr("Find Asset by ID"), this, SLOT(FindAssetByID()));
-    pOptionsMenu->addAction(tr("Rebuild Database"), this, SLOT(RebuildResourceDB()));
+    pOptionsMenu->addAction(tr("Find Asset by ID"), this, &CResourceBrowser::FindAssetByID);
+    pOptionsMenu->addAction(tr("Rebuild Database"), this, &CResourceBrowser::RebuildResourceDB);
     mpUI->OptionsToolButton->setMenu(pOptionsMenu);
 
 #if !PUBLIC_RELEASE
     // Only add the store menu in debug builds. We don't want end users editing the editor store.
     pOptionsMenu->addSeparator();
     QMenu *pStoreMenu = pOptionsMenu->addMenu(tr("Set Store"));
-    QAction *pProjStoreAction = pStoreMenu->addAction(tr("Project Store"), this, SLOT(SetProjectStore()));
-    QAction *pEdStoreAction = pStoreMenu->addAction(tr("Editor Store"), this, SLOT(SetEditorStore()));
+    QAction *pProjStoreAction = pStoreMenu->addAction(tr("Project Store"), this, &CResourceBrowser::SetProjectStore);
+    QAction *pEdStoreAction = pStoreMenu->addAction(tr("Editor Store"), this, &CResourceBrowser::SetEditorStore);
 
     pProjStoreAction->setCheckable(true);
     pProjStoreAction->setChecked(true);
@@ -143,21 +143,21 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
     new CResourceTableContextMenu(this, mpUI->ResourceTableView, mpModel, mpProxyModel);
     
     // Set up connections
-    connect(mpUI->SearchBar, SIGNAL(StoppedTyping(QString)), this, SLOT(OnSearchStringChanged(QString)));
-    connect(mpUI->ResourceTreeButton, SIGNAL(pressed()), this, SLOT(SetResourceTreeView()));
-    connect(mpUI->ResourceListButton, SIGNAL(pressed()), this, SLOT(SetResourceListView()));
-    connect(mpUI->SortComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSortModeChanged(int)));
-    connect(mpUI->ClearButton, SIGNAL(pressed()), this, SLOT(OnClearButtonPressed()));
+    connect(mpUI->SearchBar, &CTimedLineEdit::StoppedTyping, this, &CResourceBrowser::OnSearchStringChanged);
+    connect(mpUI->ResourceTreeButton, &QPushButton::pressed, this, &CResourceBrowser::SetResourceTreeView);
+    connect(mpUI->ResourceListButton, &QPushButton::pressed, this, &CResourceBrowser::SetResourceListView);
+    connect(mpUI->SortComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &CResourceBrowser::OnSortModeChanged);
+    connect(mpUI->ClearButton, &QPushButton::pressed, this, &CResourceBrowser::OnClearButtonPressed);
 
-    connect(mpUI->DirectoryTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex)));
-    connect(mpUI->DirectoryTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnDirectorySelectionChanged(QModelIndex)));
-    connect(mpUI->ResourceTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnDoubleClickTable(QModelIndex)));
-    connect(mpUI->ResourceTableView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnResourceSelectionChanged(QModelIndex)));
-    connect(mpProxyModel, SIGNAL(rowsInserted(QModelIndex,int,int)), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
-    connect(mpProxyModel, SIGNAL(layoutChanged(QList<QPersistentModelIndex>,QAbstractItemModel::LayoutChangeHint)), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
-    connect(mpProxyModel, SIGNAL(modelReset()), mpUI->ResourceTableView, SLOT(resizeRowsToContents()));
-    connect(mpFilterAllBox, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(UpdateStore()));
+    connect(mpUI->DirectoryTreeView, &CVirtualDirectoryTreeView::clicked, this, &CResourceBrowser::OnDirectorySelectionChanged);
+    connect(mpUI->DirectoryTreeView->selectionModel(), &QItemSelectionModel::currentChanged, this, &CResourceBrowser::OnDirectorySelectionChanged);
+    connect(mpUI->ResourceTableView, &CResourceTableView::doubleClicked, this, &CResourceBrowser::OnDoubleClickTable);
+    connect(mpUI->ResourceTableView->selectionModel(), &QItemSelectionModel::currentChanged, this, &CResourceBrowser::OnResourceSelectionChanged);
+    connect(mpProxyModel, &CResourceProxyModel::rowsInserted, mpUI->ResourceTableView, &CResourceTableView::resizeRowsToContents);
+    connect(mpProxyModel, &CResourceProxyModel::layoutChanged, mpUI->ResourceTableView, &CResourceTableView::resizeRowsToContents);
+    connect(mpProxyModel, &CResourceProxyModel::modelReset, mpUI->ResourceTableView, &CResourceTableView::resizeRowsToContents);
+    connect(mpFilterAllBox, &QCheckBox::toggled, this, &CResourceBrowser::OnFilterTypeBoxTicked);
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CResourceBrowser::UpdateStore);
 }
 
 CResourceBrowser::~CResourceBrowser() = default;
