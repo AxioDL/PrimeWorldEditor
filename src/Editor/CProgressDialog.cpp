@@ -32,7 +32,7 @@ CProgressDialog::CProgressDialog(QString OperationName, bool UseBusyIndicator, b
     setWindowFlags(windowFlags() | Qt::MSWindowsFixedSizeDialogHint);
 #endif
 
-    connect(mpUI->CancelButton, SIGNAL(pressed()), this, SLOT(CancelButtonClicked()));
+    connect(mpUI->CancelButton, &QPushButton::pressed, this, &CProgressDialog::CancelButtonClicked);
 }
 
 CProgressDialog::~CProgressDialog() = default;
