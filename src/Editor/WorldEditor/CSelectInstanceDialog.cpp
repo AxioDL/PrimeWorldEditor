@@ -35,11 +35,11 @@ CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pPa
 
     ui->ButtonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
-    connect(ui->TabWidget, SIGNAL(currentChanged(int)), this, SLOT(OnTabChanged(int)));
-    connect(ui->LayersTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnTreeClicked(QModelIndex)));
-    connect(ui->LayersTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClicked(QModelIndex)));
-    connect(ui->TypesTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnTreeClicked(QModelIndex)));
-    connect(ui->TypesTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClicked(QModelIndex)));
+    connect(ui->TabWidget, &QTabWidget::currentChanged, this, &CSelectInstanceDialog::OnTabChanged);
+    connect(ui->LayersTreeView, &QTreeView::clicked, this, &CSelectInstanceDialog::OnTreeClicked);
+    connect(ui->LayersTreeView, &QTreeView::doubleClicked, this, &CSelectInstanceDialog::OnTreeDoubleClicked);
+    connect(ui->TypesTreeView, &QTreeView::clicked, this, &CSelectInstanceDialog::OnTreeClicked);
+    connect(ui->TypesTreeView, &QTreeView::doubleClicked, this, &CSelectInstanceDialog::OnTreeDoubleClicked);
 }
 
 CSelectInstanceDialog::~CSelectInstanceDialog() = default;
