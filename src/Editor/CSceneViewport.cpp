@@ -165,40 +165,40 @@ void CSceneViewport::CreateContextMenu()
 
     // Main context menu
     mpToggleSelectAction = new QAction(tr("ToggleSelect"), this);
-    connect(mpToggleSelectAction, SIGNAL(triggered()), this, SLOT(OnToggleSelect()));
+    connect(mpToggleSelectAction, &QAction::triggered, this, &CSceneViewport::OnToggleSelect);
 
     mpHideSelectionSeparator = new QAction(this);
     mpHideSelectionSeparator->setSeparator(true);
 
     mpHideSelectionAction = new QAction(tr("Hide selection"), this);
-    connect(mpHideSelectionAction, SIGNAL(triggered()), this, SLOT(OnHideSelection()));
+    connect(mpHideSelectionAction, &QAction::triggered, this, &CSceneViewport::OnHideSelection);
 
     mpHideUnselectedAction = new QAction(tr("Hide unselected"), this);
-    connect(mpHideUnselectedAction, SIGNAL(triggered()), this, SLOT(OnHideUnselected()));
+    connect(mpHideUnselectedAction, &QAction::triggered, this, &CSceneViewport::OnHideUnselected);
 
     mpHideHoverSeparator = new QAction(this);
     mpHideHoverSeparator->setSeparator(true);
 
     mpHideHoverNodeAction = new QAction(tr("HideNode"), this);
-    connect(mpHideHoverNodeAction, SIGNAL(triggered()), this, SLOT(OnHideNode()));
+    connect(mpHideHoverNodeAction, &QAction::triggered, this, &CSceneViewport::OnHideNode);
 
     mpHideHoverTypeAction = new QAction(tr("HideType"), this);
-    connect(mpHideHoverTypeAction, SIGNAL(triggered()), this, SLOT(OnHideType()));
+    connect(mpHideHoverTypeAction, &QAction::triggered, this, &CSceneViewport::OnHideType);
 
     mpHideHoverLayerAction = new QAction(tr("HideLayer"), this);
-    connect(mpHideHoverLayerAction, SIGNAL(triggered()), this, SLOT(OnHideLayer()));
+    connect(mpHideHoverLayerAction, &QAction::triggered, this, &CSceneViewport::OnHideLayer);
 
     mpUnhideSeparator = new QAction(this);
     mpUnhideSeparator->setSeparator(true);
 
     mpUnhideAllAction = new QAction(tr("Unhide all"), this);
-    connect(mpUnhideAllAction, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
+    connect(mpUnhideAllAction, &QAction::triggered, this, &CSceneViewport::OnUnhideAll);
 
     mpPlayFromHereSeparator = new QAction(this);
     mpPlayFromHereSeparator->setSeparator(true);
 
     mpPlayFromHereAction = new QAction(tr("Play from here"), this);
-    connect(mpPlayFromHereAction, SIGNAL(triggered()), this, SLOT(OnPlayFromHere()));
+    connect(mpPlayFromHereAction, &QAction::triggered, this, &CSceneViewport::OnPlayFromHere);
 
     QList<QAction*> Actions;
     Actions << mpToggleSelectAction
@@ -212,13 +212,13 @@ void CSceneViewport::CreateContextMenu()
     mpSelectConnectedMenu = new QMenu(tr("Select connected..."), this);
 
     mpSelectConnectedOutgoingAction = new QAction(tr("...via outgoing links"), this);
-    connect(mpSelectConnectedOutgoingAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+    connect(mpSelectConnectedOutgoingAction, &QAction::triggered, this, &CSceneViewport::OnSelectConnected);
 
     mpSelectConnectedIncomingAction = new QAction(tr("...via incoming links"), this);
-    connect(mpSelectConnectedIncomingAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+    connect(mpSelectConnectedIncomingAction, &QAction::triggered, this, &CSceneViewport::OnSelectConnected);
 
     mpSelectConnectedAllAction = new QAction(tr("...via all links"), this);
-    connect(mpSelectConnectedAllAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+    connect(mpSelectConnectedAllAction, &QAction::triggered, this, &CSceneViewport::OnSelectConnected);
 
     QList<QAction*> SelectConnectedActions;
     SelectConnectedActions << mpSelectConnectedOutgoingAction << mpSelectConnectedIncomingAction << mpSelectConnectedAllAction;
