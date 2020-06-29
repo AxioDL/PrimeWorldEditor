@@ -59,11 +59,11 @@ CResourceSelector::CResourceSelector(QWidget *pParent)
     mpResNameButton->installEventFilter(this);
 
     // UI Connections
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
-    connect(mpResNameButton, SIGNAL(clicked()), this, SLOT(Find()));
-    connect(mpSelectButton, SIGNAL(clicked()), this, SLOT(Select()));
-    connect(mpClearButton, SIGNAL(clicked()), this, SLOT(Clear()));
-    connect(gpEdApp->ResourceBrowser(), SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*)));
+    connect(this, &CResourceSelector::customContextMenuRequested, this, &CResourceSelector::CreateContextMenu);
+    connect(mpResNameButton, &QPushButton::clicked, this, &CResourceSelector::Find);
+    connect(mpSelectButton, &QPushButton::clicked, this, &CResourceSelector::Select);
+    connect(mpClearButton, &QPushButton::clicked, this, &CResourceSelector::Clear);
+    connect(gpEdApp->ResourceBrowser(), &CResourceBrowser::ResourceMoved, this, &CResourceSelector::OnResourceMoved);
 
     // Set up context menu
     mpEditAssetAction = new QAction(tr("Edit"), this);
@@ -71,9 +71,9 @@ CResourceSelector::CResourceSelector(QWidget *pParent)
     mpCopyPathAction = new QAction(tr("Copy path"), this);
 
     // Context menu connections
-    connect(mpEditAssetAction, SIGNAL(triggered()), this, SLOT(EditAsset()));
-    connect(mpCopyNameAction, SIGNAL(triggered()), this, SLOT(CopyName()));
-    connect(mpCopyPathAction, SIGNAL(triggered()), this, SLOT(CopyPath()));
+    connect(mpEditAssetAction, &QAction::triggered, this, &CResourceSelector::EditAsset);
+    connect(mpCopyNameAction, &QAction::triggered, this, &CResourceSelector::CopyName);
+    connect(mpCopyPathAction, &QAction::triggered, this, &CResourceSelector::CopyPath);
 
     UpdateUI();
 }
