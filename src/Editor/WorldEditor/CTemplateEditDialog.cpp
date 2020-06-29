@@ -32,9 +32,9 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
 
     if (AllowTypeNameEdit)
     {
-        connect( mpUI->TypenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(RefreshTypeNameOverride()) );
+        connect(mpUI->TypenameLineEdit, &QLineEdit::textChanged, this, &CTemplateEditDialog::RefreshTypeNameOverride);
         mOriginalTypeName = pProperty->RootArchetype()->Name();
-        mpUI->TypenameLineEdit->setText( TO_QSTRING(mOriginalTypeName) );
+        mpUI->TypenameLineEdit->setText(TO_QSTRING(mOriginalTypeName));
     }
     else
     {
@@ -47,8 +47,8 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     {
         CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProperty);
         mOriginalAllowTypeNameOverride = pEnum->OverridesTypeName();
-        mpUI->OverrideTypeNameCheckBox->setChecked( mOriginalAllowTypeNameOverride );
-        connect( mpUI->OverrideTypeNameCheckBox, SIGNAL(toggled(bool)), this, SLOT(RefreshTypeNameOverride()) );
+        mpUI->OverrideTypeNameCheckBox->setChecked(mOriginalAllowTypeNameOverride);
+        connect(mpUI->OverrideTypeNameCheckBox, &QCheckBox::toggled, this, &CTemplateEditDialog::RefreshTypeNameOverride);
     }
     else
     {
@@ -61,10 +61,19 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     if (Type == EPropertyType::Int || Type == EPropertyType::Choice || Type == EPropertyType::Flags || Type == EPropertyType::Sound)
     {
         QMenu* pConvertMenu = new QMenu(this);
-        if (Type != EPropertyType::Int)    pConvertMenu->addAction(tr("Int"), this, SLOT(ConvertToInt()));
-        if (Type != EPropertyType::Choice) pConvertMenu->addAction(tr("Choice"), this, SLOT(ConvertToChoice()));
-        if (Type != EPropertyType::Flags)  pConvertMenu->addAction(tr("Flags"), this, SLOT(ConvertToFlags()));
-        if (Type != EPropertyType::Sound)  pConvertMenu->addAction(tr("Sound"), this, SLOT(ConvertToSound()));
+
+        if (Type != EPropertyType::Int)
+            pConvertMenu->addAction(tr("Int"), this, &CTemplateEditDialog::ConvertToInt);
+
+        if (Type != EPropertyType::Choice)
+            pConvertMenu->addAction(tr("Choice"), this, &CTemplateEditDialog::ConvertToChoice);
+
+        if (Type != EPropertyType::Flags)
+            pConvertMenu->addAction(tr("Flags"), this, &CTemplateEditDialog::ConvertToFlags);
+
+        if (Type != EPropertyType::Sound)
+            pConvertMenu->addAction(tr("Sound"), this, &CTemplateEditDialog::ConvertToSound);
+
         mpUI->TypeConversionButton->setMenu(pConvertMenu);
     }
     else
@@ -80,7 +89,6 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
         mpUI->ValidityLabel->hide();
         resize(width(), minimumHeight());
     }
-
     else
     {
         NGameList::LoadAllGameTemplates();
@@ -92,7 +100,7 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
             mpUI->TemplatesListWidget->addItem(TO_QSTRING(*Iter));
 
         mpUI->ValidityLabel->SetValidityText(tr("Hash match! Property name is likely correct."), tr("Hash mismatch! Property name is likely wrong."));
-        connect(mpUI->NameLineEdit, SIGNAL( SoftValidityChanged(bool) ), mpUI->ValidityLabel, SLOT( SetValid(bool) ) );
+        connect(mpUI->NameLineEdit, &CSoftValidatorLineEdit::SoftValidityChanged, mpUI->ValidityLabel, &CValidityLabel::SetValid);
 
         mpValidator->SetProperty(pProperty);
         mpUI->NameLineEdit->SetSoftValidator(mpValidator);
@@ -106,8 +114,8 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
 
     mpUI->SourceFileDisplayLabel->setText(TO_QSTRING(Source));
 
-    connect(mpUI->ButtonBox, SIGNAL(accepted()), this, SLOT(ApplyChanges()));
-    connect(mpUI->ButtonBox, SIGNAL(rejected()), this, SLOT(close()));
+    connect(mpUI->ButtonBox, &QDialogButtonBox::accepted, this, &CTemplateEditDialog::ApplyChanges);
+    connect(mpUI->ButtonBox, &QDialogButtonBox::rejected, this, &CTemplateEditDialog::close);
 }
 
 CTemplateEditDialog::~CTemplateEditDialog() = default;
