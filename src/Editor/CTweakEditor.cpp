@@ -32,9 +32,9 @@ CTweakEditor::CTweakEditor(QWidget* pParent)
     AddUndoActions(mpUI->ToolBar);
     SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Tweak Editor[*]");
 
-    connect(mpUI->TweakTabs, SIGNAL(currentChanged(int)), this, SLOT(OnTweakTabClicked(int)));
-    connect(mpUI->ActionSave, SIGNAL(triggered(bool)), this, SLOT(Save()));
-    connect(mpUI->ActionSaveAndRepack, SIGNAL(triggered(bool)), this, SLOT(SaveAndRepack()));
+    connect(mpUI->TweakTabs, &QTabBar::currentChanged, this, &CTweakEditor::OnTweakTabClicked);
+    connect(mpUI->ActionSave, &QAction::triggered, this, &CTweakEditor::Save);
+    connect(mpUI->ActionSaveAndRepack, &QAction::triggered, this, &CTweakEditor::SaveAndRepack);
 }
 
 CTweakEditor::~CTweakEditor() = default;
