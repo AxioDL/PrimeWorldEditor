@@ -5,12 +5,12 @@
 CResourceTableModel::CResourceTableModel(CResourceBrowser *pBrowser, QObject *pParent)
     : QAbstractTableModel(pParent)
 {
-    connect(pBrowser, SIGNAL(ResourceCreated(CResourceEntry*)), this, SLOT(CheckAddResource(CResourceEntry*)));
-    connect(pBrowser, SIGNAL(ResourceAboutToBeDeleted(CResourceEntry*)), this, SLOT(CheckRemoveResource(CResourceEntry*)));
-    connect(pBrowser, SIGNAL(DirectoryCreated(CVirtualDirectory*)), this, SLOT(CheckAddDirectory(CVirtualDirectory*)));
-    connect(pBrowser, SIGNAL(DirectoryAboutToBeDeleted(CVirtualDirectory*)), this, SLOT(CheckRemoveDirectory(CVirtualDirectory*)));
-    connect(pBrowser, SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)));
-    connect(pBrowser, SIGNAL(DirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)), this, SLOT(OnDirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)));
+    connect(pBrowser, &CResourceBrowser::ResourceCreated, this, &CResourceTableModel::CheckAddResource);
+    connect(pBrowser, &CResourceBrowser::ResourceAboutToBeDeleted, this, &CResourceTableModel::CheckRemoveResource);
+    connect(pBrowser, &CResourceBrowser::DirectoryCreated, this, &CResourceTableModel::CheckAddDirectory);
+    connect(pBrowser, &CResourceBrowser::DirectoryAboutToBeDeleted, this, &CResourceTableModel::CheckRemoveDirectory);
+    connect(pBrowser, &CResourceBrowser::ResourceMoved, this, &CResourceTableModel::OnResourceMoved);
+    connect(pBrowser, &CResourceBrowser::DirectoryMoved, this, &CResourceTableModel::OnDirectoryMoved);
 }
 
 // ************ INTERFACE ************
