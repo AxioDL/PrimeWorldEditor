@@ -29,18 +29,18 @@ CPoiMapSidebar::CPoiMapSidebar(CWorldEditor *pEditor)
     ui->ListView->selectionModel()->select(mModel.index(0,0), QItemSelectionModel::Select | QItemSelectionModel::Current);
     SetHighlightSelected();
 
-    connect(ui->HighlightSelectedButton, SIGNAL(pressed()), this, SLOT(SetHighlightSelected()));
-    connect(ui->HighlightAllButton, SIGNAL(pressed()), this, SLOT(SetHighlightAll()));
-    connect(ui->HighlightNoneButton, SIGNAL(pressed()), this, SLOT(SetHighlightNone()));
-    connect(ui->ListView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
-            this, SLOT(OnSelectionChanged(QItemSelection,QItemSelection)));
-    connect(ui->ListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnItemDoubleClick(QModelIndex)));
-    connect(ui->MapMeshesButton, SIGNAL(clicked()), this, SLOT(OnPickButtonClicked()));
-    connect(ui->UnmapMeshesButton, SIGNAL(clicked()), this, SLOT(OnPickButtonClicked()));
-    connect(ui->UnmapAllButton, SIGNAL(clicked()), this, SLOT(OnUnmapAllPressed()));
-    connect(ui->AddPoiFromViewportButton, SIGNAL(clicked()), this, SLOT(OnPickButtonClicked()));
-    connect(ui->AddPoiFromInstanceListButton, SIGNAL(clicked()), this, SLOT(OnInstanceListButtonClicked()));
-    connect(ui->RemovePoiButton, SIGNAL(clicked()), this, SLOT(OnRemovePoiButtonClicked()));
+    connect(ui->HighlightSelectedButton, &QPushButton::pressed, this, &CPoiMapSidebar::SetHighlightSelected);
+    connect(ui->HighlightAllButton, &QPushButton::pressed, this, &CPoiMapSidebar::SetHighlightAll);
+    connect(ui->HighlightNoneButton, &QPushButton::pressed, this, &CPoiMapSidebar::SetHighlightNone);
+    connect(ui->ListView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &CPoiMapSidebar::OnSelectionChanged);
+    connect(ui->ListView, &QListView::doubleClicked, this, &CPoiMapSidebar::OnItemDoubleClick);
+    connect(ui->MapMeshesButton, &QPushButton::clicked, this, &CPoiMapSidebar::OnPickButtonClicked);
+    connect(ui->UnmapMeshesButton, &QPushButton::clicked, this, &CPoiMapSidebar::OnPickButtonClicked);
+    connect(ui->UnmapAllButton, &QPushButton::clicked, this, &CPoiMapSidebar::OnUnmapAllPressed);
+    connect(ui->AddPoiFromViewportButton, &QPushButton::clicked, this, &CPoiMapSidebar::OnPickButtonClicked);
+    connect(ui->AddPoiFromInstanceListButton, &QPushButton::clicked, this, &CPoiMapSidebar::OnInstanceListButtonClicked);
+    connect(ui->RemovePoiButton, &QPushButton::clicked, this, &CPoiMapSidebar::OnRemovePoiButtonClicked);
 }
 
 CPoiMapSidebar::~CPoiMapSidebar() = default;
