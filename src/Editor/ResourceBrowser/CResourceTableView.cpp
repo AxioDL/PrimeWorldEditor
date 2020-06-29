@@ -4,14 +4,14 @@
 #include <QAction>
 #include <QDragEnterEvent>
 
-CResourceTableView::CResourceTableView(QWidget *pParent /*= 0*/)
+CResourceTableView::CResourceTableView(QWidget *pParent)
     : QTableView(pParent)
 {
     // todo: removed delete shortcut because it conflicts with the World Editor delete shortcut
 #if 0
     mpDeleteAction = new QAction(this);
     mpDeleteAction->setShortcut(QKeySequence::Delete);
-    connect(mpDeleteAction, SIGNAL(triggered(bool)), this, SLOT(DeleteSelected()));
+    connect(mpDeleteAction, &QAction::triggered, this, &CResourceTableView::DeleteSelected);
     addAction(mpDeleteAction);
 #endif
 }
