@@ -266,7 +266,7 @@ void CResourceBrowser::CreateFilterCheckboxes()
         {
             QCheckBox *pCheck = rkType.pFilterCheckBox;
             mpFilterBoxesLayout->addWidget(rkType.pFilterCheckBox);
-            connect(pCheck, SIGNAL(toggled(bool)), this, SLOT(OnFilterTypeBoxTicked(bool)));
+            connect(pCheck, &QCheckBox::toggled, this, &CResourceBrowser::OnFilterTypeBoxTicked);
         }
     }
 
@@ -287,7 +287,7 @@ void CResourceBrowser::CreateAddMenu()
     if (mpStore)
     {
         mpAddMenu = new QMenu(this);
-        mpAddMenu->addAction(tr("New Folder"), this, SLOT(CreateDirectory()));
+        mpAddMenu->addAction(tr("New Folder"), this, &CResourceBrowser::CreateDirectory);
         mpAddMenu->addSeparator();
 
         QMenu* pCreateMenu = new QMenu(tr("Create..."), mpAddMenu);
@@ -312,7 +312,7 @@ void CResourceBrowser::AddCreateAssetMenuActions(QMenu* pMenu)
         if (pTypeInfo->CanBeCreated())
         {
             QString TypeName = TO_QSTRING( pTypeInfo->TypeName() );
-            QAction* pAction = pMenu->addAction(TypeName, this, SLOT(OnCreateAssetAction()));
+            QAction* pAction = pMenu->addAction(TypeName, this, &CResourceBrowser::OnCreateAssetAction);
             pAction->setProperty("TypeInfo", QVariant((int) pTypeInfo->Type()));
         }
     }
