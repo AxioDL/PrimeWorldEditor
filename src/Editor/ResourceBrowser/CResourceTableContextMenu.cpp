@@ -14,7 +14,7 @@ CResourceTableContextMenu::CResourceTableContextMenu(CResourceBrowser *pBrowser,
     , mpProxy(pProxy)
 {
     // Connect to the view
-    connect(pView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ShowMenu(QPoint)));
+    connect(pView, &QTableView::customContextMenuRequested, this, &CResourceTableContextMenu::ShowMenu);
 }
 
 void CResourceTableContextMenu::InitMenu()
@@ -32,40 +32,40 @@ void CResourceTableContextMenu::InitMenu()
         const QString kOpenInExplorerString = tr("Show in file manager");
     #endif
 
-        addAction(tr("Open"), this, SLOT(Open()));
-        addAction(tr("Open in External Application"), this, SLOT(OpenInExternalApp()));
-        addAction(kOpenInExplorerString, this, SLOT(OpenInExplorer()));
+        addAction(tr("Open"), this, &CResourceTableContextMenu::Open);
+        addAction(tr("Open in External Application"), this, &CResourceTableContextMenu::OpenInExternalApp);
+        addAction(kOpenInExplorerString, this, &CResourceTableContextMenu::OpenInExplorer);
         addSeparator();
     }
 
     if (mpClickedEntry || mpClickedDirectory)
     {
-        addAction(tr("Rename"), this, SLOT(Rename()));
+        addAction(tr("Rename"), this, &CResourceTableContextMenu::Rename);
 
         if (mpModel->IsDisplayingAssetList())
         {
-            addAction(tr("Select Folder"), this, SLOT(SelectFolder()));
+            addAction(tr("Select Folder"), this, &CResourceTableContextMenu::SelectFolder);
         }
 
         if (mpClickedEntry)
         {
-            addAction(tr("Show Referencers"), this, SLOT(ShowReferencers()));
-            addAction(tr("Show Dependencies"), this, SLOT(ShowDependencies()));
+            addAction(tr("Show Referencers"), this, &CResourceTableContextMenu::ShowReferencers);
+            addAction(tr("Show Dependencies"), this, &CResourceTableContextMenu::ShowDependencies);
         }
     }
 
     if (mpClickedEntry || mpClickedDirectory || !mSelectedIndexes.isEmpty())
     {
-        addAction(tr("Delete"), this, SLOT(Delete()));
+        addAction(tr("Delete"), this, &CResourceTableContextMenu::Delete);
     }
 
     addSeparator();
 
     if (mpClickedEntry)
     {
-        addAction(tr("Copy Name"), this, SLOT(CopyName()));
-        addAction(tr("Copy Path"), this, SLOT(CopyPath()));
-        addAction(tr("Copy ID"), this, SLOT(CopyID()));
+        addAction(tr("Copy Name"), this, &CResourceTableContextMenu::CopyName);
+        addAction(tr("Copy Path"), this, &CResourceTableContextMenu::CopyPath);
+        addAction(tr("Copy ID"), this, &CResourceTableContextMenu::CopyID);
         addSeparator();
     }
 
@@ -78,7 +78,7 @@ void CResourceTableContextMenu::InitMenu()
         switch (mpClickedEntry->ResourceType())
         {
         case EResourceType::StringTable:
-            addAction(tr("Create Scan"), this, SLOT(CreateSCAN()));
+            addAction(tr("Create Scan"), this, &CResourceTableContextMenu::CreateSCAN);
             break;
         default: break;
         }
