@@ -8,7 +8,7 @@ CPoiMapModel::CPoiMapModel(CWorldEditor *pEditor, QObject *pParent)
     : QAbstractListModel(pParent)
     , mpEditor(pEditor)
 {
-    connect(pEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChange(CWorld*,CGameArea*)));
+    connect(pEditor, &CWorldEditor::MapChanged, this, &CPoiMapModel::OnMapChange);
 }
 
 QVariant CPoiMapModel::headerData(int Section, Qt::Orientation Orientation, int Role) const
