@@ -26,7 +26,7 @@ class CPoiListModel : public QAbstractListModel
     QList<CScriptNode*> mObjList;
 
 public:
-    CPoiListModel(CScriptTemplate *pPoiTemplate, CPoiMapModel *pMapModel, CScene *pScene, QWidget *pParent = 0)
+    CPoiListModel(CScriptTemplate *pPoiTemplate, CPoiMapModel *pMapModel, CScene *pScene, QWidget *pParent = nullptr)
         : QAbstractListModel(pParent)
         , mpPoiTemplate(pPoiTemplate)
     {
@@ -41,12 +41,12 @@ public:
         }
     }
 
-    int rowCount(const QModelIndex&) const
+    int rowCount(const QModelIndex&) const override
     {
         return mObjList.size();
     }
 
-    QVariant data(const QModelIndex& rkIndex, int Role) const
+    QVariant data(const QModelIndex& rkIndex, int Role) const override
     {
         if (!rkIndex.isValid()) return QVariant::Invalid;
 
@@ -55,14 +55,14 @@ public:
 
         if (Role == Qt::DecorationRole)
         {
-            CScriptNode *pNode = mObjList[rkIndex.row()];
-            CScan *pScan = static_cast<CPointOfInterestExtra*>(pNode->Extra())->GetScan();
-            bool IsImportant = (pScan ? pScan->IsCriticalPropertyRef() : false);
+            const CScriptNode *pNode = mObjList[rkIndex.row()];
+            const CScan *pScan = static_cast<CPointOfInterestExtra*>(pNode->Extra())->GetScan();
+            const bool IsImportant = (pScan ? pScan->IsCriticalPropertyRef() : false);
 
             if (IsImportant)
-                return QIcon(":/icons/POI Important.svg");
+                return QIcon(QStringLiteral(":/icons/POI Important.svg"));
             else
-                return QIcon(":/icons/POI Normal.svg");
+                return QIcon(QStringLiteral(":/icons/POI Normal.svg"));
         }
 
         return QVariant::Invalid;
@@ -86,7 +86,7 @@ class CPoiListDialog : public QDialog
     QDialogButtonBox *mpButtonBox;
 
 public:
-    CPoiListDialog(CScriptTemplate *pPoiTemplate, CPoiMapModel *pMapModel, CScene *pScene, QWidget *pParent = 0)
+    CPoiListDialog(CScriptTemplate *pPoiTemplate, CPoiMapModel *pMapModel, CScene *pScene, QWidget *pParent = nullptr)
         : QDialog(pParent)
         , mSourceModel(pPoiTemplate, pMapModel, pScene)
     {
@@ -106,14 +106,14 @@ public:
         mpListView->setModel(&mModel);
         mModel.sort(0);
 
-        setWindowTitle("Add POIs");
+        setWindowTitle(tr("Add POIs"));
         mpListView->setEditTriggers(QListView::NoEditTriggers);
         mpListView->setSelectionMode(QListView::ExtendedSelection);
         mpListView->setVerticalScrollMode(QListView::ScrollPerPixel);
 
-        connect(mpListView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnOkClicked()));
-        connect(mpButtonBox, SIGNAL(accepted()), this, SLOT(OnOkClicked()));
-        connect(mpButtonBox, SIGNAL(rejected()), this, SLOT(OnCancelClicked()));
+        connect(mpListView, &QListView::doubleClicked, this, &CPoiListDialog::OnOkClicked);
+        connect(mpButtonBox, &QDialogButtonBox::accepted, this, &CPoiListDialog::OnOkClicked);
+        connect(mpButtonBox, &QDialogButtonBox::rejected, this, &CPoiListDialog::OnCancelClicked);
     }
 
     const QList<CScriptNode*>& Selection() const
