@@ -324,7 +324,7 @@ void CPropertyView::EditPropertyTemplate()
 {
     QMainWindow* pParentWindow = UICommon::FindAncestor<QMainWindow>(this);
     CTemplateEditDialog Dialog(mpMenuProperty, pParentWindow);
-    connect(&Dialog, SIGNAL(PerformedTypeConversion()), this, SLOT(RefreshView()));
+    connect(&Dialog, &CTemplateEditDialog::PerformedTypeConversion, this, &CPropertyView::RefreshView);
     Dialog.exec();
 }
 
