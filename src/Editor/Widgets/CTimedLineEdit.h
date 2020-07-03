@@ -10,20 +10,19 @@ class CTimedLineEdit : public QLineEdit
     Q_OBJECT
 
     QString mCachedText;
-    float mTimeoutDuration;
+    float mTimeoutDuration{0.3f};
     QTimer mTimer;
 
 public:
-    CTimedLineEdit(QWidget *pParent = 0)
+    explicit CTimedLineEdit(QWidget *pParent = nullptr)
         : QLineEdit(pParent)
-        , mTimeoutDuration(0.3f)
     {
-        connect(this, SIGNAL(textChanged(QString)), this, SLOT(OnTextChanged()));
-        connect(&mTimer, SIGNAL(timeout()), this, SLOT(OnTimeout()));
+        connect(this, &CTimedLineEdit::textChanged, this, &CTimedLineEdit::OnTextChanged);
+        connect(&mTimer, &QTimer::timeout, this, &CTimedLineEdit::OnTimeout);
     }
 
-    inline void SetTimeoutDuration(float Duration)  { mTimeoutDuration = Duration; }
-    inline float TimeoutDuration() const            { return mTimeoutDuration; }
+    void SetTimeoutDuration(float Duration)  { mTimeoutDuration = Duration; }
+    float TimeoutDuration() const            { return mTimeoutDuration; }
 
 signals:
     void StoppedTyping(const QString& rkText);
