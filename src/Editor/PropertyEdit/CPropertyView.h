@@ -12,7 +12,7 @@ class CPropertyView : public QTreeView
 
     CPropertyModel* mpModel;
     CPropertyDelegate* mpDelegate;
-    CScriptObject* mpObject;
+    CScriptObject* mpObject = nullptr;
 
     IProperty* mpMenuProperty = nullptr;
     QAction* mpShowNameValidityAction;
