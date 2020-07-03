@@ -8,9 +8,9 @@ TestDialog::TestDialog(QWidget *pParent)
     , ui(std::make_unique<Ui::TestDialog>())
 {
     ui->setupUi(this);
-    connect(ui->spinBox, SIGNAL(valueChanged(int)), this, SLOT(OnSpinBoxChanged(int)));
-    connect(ui->spinBox_2, SIGNAL(valueChanged(int)), this, SLOT(OnSpinBoxChanged(int)));
-    connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(OnFind()));
+    connect(ui->spinBox, qOverload<int>(&QSpinBox::valueChanged), this, &TestDialog::OnSpinBoxChanged);
+    connect(ui->spinBox_2, qOverload<int>(&QSpinBox::valueChanged), this, &TestDialog::OnSpinBoxChanged);
+    connect(ui->pushButton, &QPushButton::clicked, this, &TestDialog::OnFind);
 }
 
 TestDialog::~TestDialog() = default;
