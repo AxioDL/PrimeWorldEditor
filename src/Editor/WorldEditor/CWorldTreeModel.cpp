@@ -95,8 +95,8 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
 
     else if (Role == Qt::DecorationRole)
     {
-        static QIcon sWorldIcon = QIcon(QStringLiteral(":/icons/World_16px.svg"));
-        static QIcon sAreaIcon  = QIcon(QStringLiteral(":/icons/New_16px.svg"));
+        static const QIcon sWorldIcon = QIcon(QStringLiteral(":/icons/World_16px.svg"));
+        static const QIcon sAreaIcon  = QIcon(QStringLiteral(":/icons/New_16px.svg"));
 
         if (rkIndex.column() == 1)
             return QVariant::Invalid;
