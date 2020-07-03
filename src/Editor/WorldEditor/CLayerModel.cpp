@@ -11,7 +11,7 @@ CLayerModel::~CLayerModel() = default;
 
 int CLayerModel::rowCount(const QModelIndex& /*parent*/) const
 {
-    return mpArea ? mpArea->NumScriptLayers() : 0;
+    return mpArea ? static_cast<int>(mpArea->NumScriptLayers()) : 0;
 }
 
 QVariant CLayerModel::data(const QModelIndex &index, int role) const
