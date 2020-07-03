@@ -20,9 +20,9 @@ public:
         , mNewName(rkNewName)
     {}
 
-    void undo() { DoMove(mOldName); }
-    void redo() { DoMove(mNewName); }
-    bool AffectsCleanState() const { return false; }
+    void undo() override { DoMove(mOldName); }
+    void redo() override { DoMove(mNewName); }
+    bool AffectsCleanState() const override { return false; }
 
 protected:
     void DoMove(const TString& rkName)
