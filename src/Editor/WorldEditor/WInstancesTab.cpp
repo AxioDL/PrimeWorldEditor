@@ -23,8 +23,8 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     mLayersProxyModel.setSourceModel(mpLayersModel);
     mTypesProxyModel.setSourceModel(mpTypesModel);
 
-    connect(mpLayersModel, SIGNAL(modelReset()), this, SLOT(ExpandTopLevelItems()));
-    connect(mpTypesModel, SIGNAL(modelReset()), this, SLOT(ExpandTopLevelItems()));
+    connect(mpLayersModel, &CInstancesModel::modelReset, this, &WInstancesTab::ExpandTopLevelItems);
+    connect(mpTypesModel, &CInstancesModel::modelReset, this, &WInstancesTab::ExpandTopLevelItems);
 
     int ColWidth = ui->LayersTreeView->width() * 0.29;
 
@@ -42,12 +42,12 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     ui->TypesTreeView->header()->resizeSection(1, ColWidth);
     ui->TypesTreeView->header()->setSortIndicator(0, Qt::AscendingOrder);
 
-    connect(ui->LayersTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnTreeClick(QModelIndex)));
-    connect(ui->LayersTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClick(QModelIndex)));
-    connect(ui->LayersTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(OnTreeContextMenu(QPoint)));
-    connect(ui->TypesTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnTreeClick(QModelIndex)));
-    connect(ui->TypesTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClick(QModelIndex)));
-    connect(ui->TypesTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(OnTreeContextMenu(QPoint)));
+    connect(ui->LayersTreeView, &QTreeView::clicked, this, &WInstancesTab::OnTreeClick);
+    connect(ui->LayersTreeView, &QTreeView::doubleClicked, this, &WInstancesTab::OnTreeDoubleClick);
+    connect(ui->LayersTreeView, &QTreeView::customContextMenuRequested, this, &WInstancesTab::OnTreeContextMenu);
+    connect(ui->TypesTreeView, &QTreeView::clicked, this, &WInstancesTab::OnTreeClick);
+    connect(ui->TypesTreeView, &QTreeView::doubleClicked, this, &WInstancesTab::OnTreeDoubleClick);
+    connect(ui->TypesTreeView, &QTreeView::customContextMenuRequested, this, &WInstancesTab::OnTreeContextMenu);
 
     // Create context menu
     mpHideInstance = new QAction(tr("Hide instance"), this);
@@ -66,12 +66,12 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     mpTreeContextMenu = new QMenu(this);
     mpTreeContextMenu->addActions(ActionList);
 
-    connect(mpHideInstance, SIGNAL(triggered()), this, SLOT(OnHideInstanceAction()));
-    connect(mpHideType, SIGNAL(triggered()), this, SLOT(OnHideTypeAction()));
-    connect(mpHideAllTypes, SIGNAL(triggered()), this, SLOT(OnHideAllTypesAction()));
-    connect(mpHideAllExceptType, SIGNAL(triggered()), this, SLOT(OnHideAllExceptTypeAction()));
-    connect(mpUnhideAllTypes, SIGNAL(triggered()), this, SLOT(OnUnhideAllTypes()));
-    connect(mpUnhideAll, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
+    connect(mpHideInstance, &QAction::triggered, this, &WInstancesTab::OnHideInstanceAction);
+    connect(mpHideType, &QAction::triggered, this, &WInstancesTab::OnHideTypeAction);
+    connect(mpHideAllTypes, &QAction::triggered, this, &WInstancesTab::OnHideAllTypesAction);
+    connect(mpHideAllExceptType, &QAction::triggered, this, &WInstancesTab::OnHideAllExceptTypeAction);
+    connect(mpUnhideAllTypes, &QAction::triggered, this, &WInstancesTab::OnUnhideAllTypes);
+    connect(mpUnhideAll, &QAction::triggered, this, &WInstancesTab::OnUnhideAll);
 }
 
 WInstancesTab::~WInstancesTab() = default;
