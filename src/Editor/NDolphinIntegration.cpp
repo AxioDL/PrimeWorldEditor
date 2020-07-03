@@ -36,7 +36,7 @@ CGameProject* gpQuickplayProject = nullptr;
 void CQuickplayRelay::QuickplayStarted()
 {
     debugf("Quickplay session started.");
-    connect(gpDolphinProcess, SIGNAL(finished(int)), this, SLOT(QuickplayFinished(int)));
+    connect(gpDolphinProcess, qOverload<int>(&QProcess::finished), this, &CQuickplayRelay::QuickplayFinished);
 }
 
 void CQuickplayRelay::QuickplayFinished(int ReturnCode)
