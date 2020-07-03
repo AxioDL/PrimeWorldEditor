@@ -5,6 +5,8 @@
 #include <QFont>
 #include <QSize>
 
+#include <array>
+
 CPropertyModel::CPropertyModel(QObject *pParent)
     : QAbstractItemModel(pParent)
 {
@@ -29,19 +31,19 @@ int CPropertyModel::RecursiveBuildArrays(IProperty* pProperty, int ParentID)
     mProperties[MyID].pProperty = pProperty;
     mProperties[MyID].ParentID = ParentID;
 
-    int RowNumber = (ParentID >= 0 ? mProperties[ParentID].ChildIDs.size() : 0);
+    const int RowNumber = (ParentID >= 0 ? static_cast<int>(mProperties[ParentID].ChildIDs.size()) : 0);
     mProperties[MyID].Index = createIndex(RowNumber, 0, MyID);
 
     if (pProperty->Type() == EPropertyType::Array)
     {
         CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
-        uint32 ArrayCount = pArray->ArrayCount(mpPropertyData);
+        const uint32 ArrayCount = pArray->ArrayCount(mpPropertyData);
         void* pOldData = mpPropertyData;
 
         for (uint32 ElementIdx = 0; ElementIdx < ArrayCount; ElementIdx++)
         {
             mpPropertyData = pArray->ItemPointer(pOldData, ElementIdx);
-            const int NewChildID = RecursiveBuildArrays( pArray->ItemArchetype(), MyID );
+            const int NewChildID = RecursiveBuildArrays(pArray->ItemArchetype(), MyID);
             mProperties[MyID].ChildIDs.push_back(NewChildID);
         }
 
@@ -51,7 +53,7 @@ int CPropertyModel::RecursiveBuildArrays(IProperty* pProperty, int ParentID)
     {
         for (size_t ChildIdx = 0; ChildIdx < pProperty->NumChildren(); ChildIdx++)
         {
-            const int NewChildID = RecursiveBuildArrays( pProperty->ChildByIndex(ChildIdx), MyID );
+            const int NewChildID = RecursiveBuildArrays(pProperty->ChildByIndex(ChildIdx), MyID);
             mProperties[MyID].ChildIDs.push_back(NewChildID);
         }
     }
@@ -77,7 +79,7 @@ void CPropertyModel::ConfigureIntrinsic(CGameProject* pProject, IProperty* pRoot
     mPropertyToIDMap.clear();
     mFirstUnusedID = -1;
 
-    if (pRootProperty)
+    if (pRootProperty != nullptr)
         RecursiveBuildArrays(pRootProperty, -1);
 
     endResetModel();
@@ -91,11 +93,12 @@ void CPropertyModel::ConfigureScript(CGameProject* pProject, IProperty* pRootPro
 
 IProperty* CPropertyModel::PropertyForIndex(const QModelIndex& rkIndex, bool HandleFlaggedIndices) const
 {
-    if (!rkIndex.isValid()) return mpRootProperty;
+    if (!rkIndex.isValid())
+        return mpRootProperty;
 
     int Index = rkIndex.internalId();
 
-    if (Index & 0x80000000)
+    if ((Index & 0x80000000) != 0)
     {
         if (HandleFlaggedIndices)
             Index &= ~0x80000000;
@@ -112,7 +115,7 @@ QModelIndex CPropertyModel::IndexForProperty(IProperty *pProp) const
     // is used for every element of the array. So instead fetch the index for the array itself.
     if (pProp->IsArrayArchetype())
     {
-        while (pProp && pProp->IsArrayArchetype())
+        while (pProp != nullptr && pProp->IsArrayArchetype())
             pProp = pProp->Parent();
 
         ASSERT(pProp != nullptr && pProp->Type() == EPropertyType::Array);
@@ -120,7 +123,7 @@ QModelIndex CPropertyModel::IndexForProperty(IProperty *pProp) const
 
     if (pProp == mpRootProperty) return QModelIndex();
 
-    int ID = mPropertyToIDMap[pProp];
+    const int ID = mPropertyToIDMap[pProp];
     ASSERT(ID >= 0);
 
     return mProperties[ID].Index;
@@ -129,24 +132,22 @@ QModelIndex CPropertyModel::IndexForProperty(IProperty *pProp) const
 void* CPropertyModel::DataPointerForIndex(const QModelIndex& rkIndex) const
 {
     // Going to be the base pointer in 99% of cases, but we need to account for arrays in some cases
-    int ID = rkIndex.internalId() & ~0x80000000;
+    int ID = static_cast<int>(rkIndex.internalId() & ~0x80000000);
 
     if (!mProperties[ID].pProperty->IsArrayArchetype())
         return mpPropertyData;
 
     // Head up the hierarchy until we find a non-array property, keeping track of array indices along the way
     // Static arrays to avoid memory allocations, we never have more than 2 nested arrays
-    CArrayProperty* ArrayProperties[2];
-    int ArrayIndices[2];
+    std::array<CArrayProperty*, 2> ArrayProperties{};
+    std::array<int, 2> ArrayIndices{};
     int MaxIndex = -1;
 
     IProperty* pProperty = mProperties[ID].pProperty;
 
     while (pProperty->IsArrayArchetype())
     {
-        CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty->Parent());
-
-        if (pArray)
+        if (CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty->Parent()))
         {
             MaxIndex++;
             ArrayProperties[MaxIndex] = pArray;
@@ -162,8 +163,8 @@ void* CPropertyModel::DataPointerForIndex(const QModelIndex& rkIndex) const
 
     for (int i = MaxIndex; i >= 0; i--)
     {
-        CArrayProperty* pArray = ArrayProperties[i];
-        int ArrayIndex = ArrayIndices[i];
+        const CArrayProperty* pArray = ArrayProperties[i];
+        const int ArrayIndex = ArrayIndices[i];
         pOutData = pArray->ItemPointer(pOutData, ArrayIndex);
     }
 
@@ -177,7 +178,7 @@ int CPropertyModel::columnCount(const QModelIndex& /*rkParent*/) const
 
 int CPropertyModel::rowCount(const QModelIndex& rkParent) const
 {
-    if (!mpRootProperty)
+    if (mpRootProperty == nullptr)
         return 0;
 
     if (!rkParent.isValid())
@@ -190,7 +191,7 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
         return 0;
 
     IProperty *pProp = PropertyForIndex(rkParent, false);
-    int ID = rkParent.internalId();
+    const int ID = rkParent.internalId();
 
     switch (pProp->Type())
     {
@@ -200,7 +201,7 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
     case EPropertyType::AnimationSet:
     {
         void* pData = DataPointerForIndex(rkParent);
-        CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pData);
+        const CAnimationParameters Params = TPropCast<CAnimationSetProperty>(pProp)->Value(pData);
 
         if (Params.Version() <= EGame::Echoes) return 3;
         if (Params.Version() <= EGame::Corruption) return 2;
@@ -208,7 +209,7 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
     }
 
     default:
-        return mProperties[ID].ChildIDs.size();
+        return static_cast<int>(mProperties[ID].ChildIDs.size());
     }
 }
 
@@ -227,9 +228,9 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
     if (!rkIndex.isValid())
         return QVariant::Invalid;
 
-    if (Role == Qt::DisplayRole || (Role == Qt::ToolTipRole && rkIndex.column() == 1) )
+    if (Role == Qt::DisplayRole || (Role == Qt::ToolTipRole && rkIndex.column() == 1))
     {
-        if (rkIndex.internalId() & 0x80000000)
+        if ((rkIndex.internalId() & 0x80000000) != 0)
         {
             IProperty *pProp = PropertyForIndex(rkIndex, true);
             const EPropertyType Type = pProp->Type();
@@ -239,14 +240,14 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 CFlagsProperty* pFlags = TPropCast<CFlagsProperty>(pProp);
 
                 if (rkIndex.column() == 0)
-                    return TO_QSTRING( pFlags->FlagName(rkIndex.row()) );
+                    return TO_QSTRING(pFlags->FlagName(rkIndex.row()));
 
                 if (rkIndex.column() == 1)
                 {
                     if (Role == Qt::DisplayRole)
-                        return "";
-                    else
-                        return TO_QSTRING(TString::HexString( pFlags->FlagMask(rkIndex.row()) ));
+                        return QString{};
+
+                    return TO_QSTRING(TString::HexString(pFlags->FlagMask(rkIndex.row())));
                 }
             }
             else if (Type == EPropertyType::AnimationSet)
@@ -304,7 +305,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 // Check for arrays
                 const IProperty *pParent = pProp->Parent();
 
-                if (pParent && pParent->Type() == EPropertyType::Array)
+                if (pParent != nullptr && pParent->Type() == EPropertyType::Array)
                 {
                     // For direct array sub-properties, display the element index after the name
                     const TString ElementName = pProp->Name();
@@ -326,7 +327,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 case EPropertyType::Vector:
                 {
                     const CVector3f Value = TPropCast<CVectorProperty>(pProp)->Value(pData);
-                    return TO_QSTRING("(" + Value.ToString() + ")");
+                    return TO_QSTRING('(' + Value.ToString() + ')');
                 }
 
                 // Display the AGSC/sound name for sounds
@@ -334,7 +335,8 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     const CSoundProperty* pSound = TPropCast<CSoundProperty>(pProp);
                     const uint32 SoundID = pSound->Value(pData);
-                    if (SoundID == -1) return tr("[None]");
+                    if (SoundID == UINT32_MAX)
+                        return tr("[None]");
 
                     const SSoundInfo SoundInfo = mpProject->AudioManager()->GetSoundInfo(SoundID);
                     if (SoundInfo.DefineID == 0xFFFF)
@@ -387,7 +389,8 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 case EPropertyType::Color:
                     if (Role == Qt::DisplayRole)
                         return QString{};
-                // fall through
+                [[fallthrough]];
+
                 // Display property value to string for everything else
                 default:
                     return TO_QSTRING(pProp->ValueAsString(pData) + pProp->Suffix());
@@ -432,7 +435,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
         if (mBoldModifiedProperties)
         {
-            IProperty *pProp = PropertyForIndex(rkIndex, true);
+            const IProperty *pProp = PropertyForIndex(rkIndex, true);
 
             if (!pProp->IsArrayArchetype())
             {
@@ -453,13 +456,11 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
     {
         if (mShowNameValidity && mpRootProperty->ScriptTemplate()->Game() >= EGame::EchoesDemo)
         {
-            IProperty *pProp = PropertyForIndex(rkIndex, true);
-
-            if (pProp)
+            if (IProperty* pProp = PropertyForIndex(rkIndex, true))
             {
                 static const QColor skRightColor = QColor(128, 255, 128);
                 static const QColor skWrongColor = QColor(255, 128, 128);
-                return QBrush( pProp->HasAccurateName() ? skRightColor : skWrongColor );
+                return QBrush(pProp->HasAccurateName() ? skRightColor : skWrongColor);
             }
         }
     }
@@ -474,9 +475,9 @@ QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkPare
         return QModelIndex();
 
     // Check property for children
-    IProperty* pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpRootProperty);
-    EPropertyType ParentType = pParent->Type();
-    int ParentID = rkParent.internalId();
+    const IProperty* pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpRootProperty);
+    const EPropertyType ParentType = pParent->Type();
+    const int ParentID = rkParent.internalId();
 
     if (ParentType == EPropertyType::Flags || ParentType == EPropertyType::AnimationSet)
     {
@@ -484,7 +485,7 @@ QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkPare
     }
     else
     {
-        int ChildID = mProperties[ParentID].ChildIDs[Row];
+        const int ChildID = mProperties[ParentID].ChildIDs[Row];
         return createIndex(Row, Column, ChildID);
     }
 }
@@ -495,9 +496,9 @@ QModelIndex CPropertyModel::parent(const QModelIndex& rkChild) const
     if (!rkChild.isValid())
         return QModelIndex();
 
-    int ID = int(rkChild.internalId());
+    auto ID = static_cast<int>(rkChild.internalId());
 
-    if (ID & 0x80000000)
+    if ((ID & 0x80000000) != 0)
         ID &= ~0x80000000;
     else
         ID = mProperties[ID].ParentID;
@@ -510,8 +511,10 @@ QModelIndex CPropertyModel::parent(const QModelIndex& rkChild) const
 
 Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const
 {
-    if (rkIndex.column() == 0) return Qt::ItemIsEnabled;
-    else return (Qt::ItemIsEnabled | Qt::ItemIsEditable);
+    if (rkIndex.column() == 0)
+        return Qt::ItemIsEnabled;
+
+    return Qt::ItemIsEnabled | Qt::ItemIsEditable;
 }
 
 void CPropertyModel::NotifyPropertyModified(class CScriptObject*, IProperty* pProp)
@@ -524,16 +527,16 @@ void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
     if (rowCount(rkIndex) != 0)
         emit dataChanged( index(0, 0, rkIndex), index(rowCount(rkIndex) - 1, 1, rkIndex));
 
-    if (rkIndex.internalId() & 0x80000000)
+    if ((rkIndex.internalId() & 0x80000000) != 0)
     {
-        QModelIndex Parent = rkIndex.parent();
-        QModelIndex Col0 = Parent.sibling(Parent.row(), 0);
-        QModelIndex Col1 = Parent.sibling(Parent.row(), 1);
+        const QModelIndex Parent = rkIndex.parent();
+        const QModelIndex Col0 = Parent.sibling(Parent.row(), 0);
+        const QModelIndex Col1 = Parent.sibling(Parent.row(), 1);
         emit dataChanged(Col0, Col1);
     }
 
-    QModelIndex IndexCol0 = rkIndex.sibling(rkIndex.row(), 0);
-    QModelIndex IndexCol1 = rkIndex.sibling(rkIndex.row(), 1);
+    const QModelIndex IndexCol0 = rkIndex.sibling(rkIndex.row(), 0);
+    const QModelIndex IndexCol1 = rkIndex.sibling(rkIndex.row(), 1);
     emit dataChanged(IndexCol0, IndexCol1);
 
     emit PropertyModified(rkIndex);
@@ -541,36 +544,36 @@ void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 
 void CPropertyModel::ArrayAboutToBeResized(const QModelIndex& rkIndex, uint32 NewSize)
 {
-    QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
+    const QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
     IProperty* pProperty = PropertyForIndex(Index, false);
-    CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
+    const CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
     ASSERT(pArray);
 
     void* pArrayData = DataPointerForIndex(Index);
-    uint32 OldSize = pArray->ArrayCount(pArrayData);
+    const uint32 OldSize = pArray->ArrayCount(pArrayData);
 
-    if (NewSize != OldSize)
-    {
-        if (NewSize > OldSize)
-            beginInsertRows(Index, OldSize, NewSize - 1);
-        else
-            beginRemoveRows(Index, NewSize, OldSize - 1);
-    }
+    if (NewSize == OldSize)
+        return;
+
+    if (NewSize > OldSize)
+        beginInsertRows(Index, static_cast<int>(OldSize), static_cast<int>(NewSize - 1));
+    else
+        beginRemoveRows(Index, static_cast<int>(NewSize), static_cast<int>(OldSize - 1));
 }
 
 void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, uint32 OldSize)
 {
-    QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
+    const QModelIndex Index = rkIndex.sibling(rkIndex.row(), 0);
     IProperty* pProperty = PropertyForIndex(Index, false);
-    CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
+    const CArrayProperty* pArray = TPropCast<CArrayProperty>(pProperty);
     ASSERT(pArray);
 
     void* pArrayData = DataPointerForIndex(Index);
-    uint32 NewSize = pArray->ArrayCount(pArrayData);
+    const uint32 NewSize = pArray->ArrayCount(pArrayData);
 
     if (NewSize != OldSize)
     {
-        int ID = Index.internalId();
+        const int ID = Index.internalId();
 
         if (NewSize > OldSize)
         {
@@ -580,7 +583,7 @@ void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, uint32 OldSize)
             for (uint32 ElementIdx = OldSize; ElementIdx < NewSize; ElementIdx++)
             {
                 mpPropertyData = pArray->ItemPointer(pArrayData, ElementIdx);
-                int NewChildID = RecursiveBuildArrays( pArray->ItemArchetype(), ID );
+                const int NewChildID = RecursiveBuildArrays( pArray->ItemArchetype(), ID );
                 mProperties[ID].ChildIDs.push_back(NewChildID);
             }
 
@@ -592,7 +595,7 @@ void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, uint32 OldSize)
             // remove old elements
             for (uint32 ElementIdx = NewSize; ElementIdx < OldSize; ElementIdx++)
             {
-                int ChildID = mProperties[ID].ChildIDs[ElementIdx];
+                const int ChildID = mProperties[ID].ChildIDs[ElementIdx];
                 ClearSlot(ChildID);
             }
 
@@ -605,9 +608,9 @@ void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, uint32 OldSize)
 
 void CPropertyModel::ClearSlot(int ID)
 {
-    for (int ChildIdx = 0; ChildIdx < mProperties[ID].ChildIDs.size(); ChildIdx++)
+    for (const int ChildID : mProperties[ID].ChildIDs)
     {
-        ClearSlot(mProperties[ID].ChildIDs[ChildIdx]);
+        ClearSlot(ChildID);
     }
 
     mProperties[ID].ChildIDs.clear();
@@ -624,7 +627,6 @@ EPropertyType CPropertyModel::GetEffectiveFieldType(IProperty* pProperty) const
 
     switch (Out)
     {
-
     // Allow Choice/Enum properties to be edited as Int properties if they don't have any values set.
     case EPropertyType::Choice:
     case EPropertyType::Enum:
@@ -652,7 +654,8 @@ EPropertyType CPropertyModel::GetEffectiveFieldType(IProperty* pProperty) const
         break;
     }
 
-    default: break;
+    default:
+        break;
     }
 
     return Out;
@@ -663,10 +666,8 @@ void CPropertyModel::SetShowPropertyNameValidity(bool Enable)
     mShowNameValidity = Enable;
 
     // Emit data changed so that name colors are updated;
-    QVector<int> Roles;
-    Roles << Qt::ForegroundRole;
-
-    QModelIndex TopLeft = index(0, 0, QModelIndex());
-    QModelIndex BottomRight = index( rowCount(QModelIndex()) - 1, 0, QModelIndex());
+    const QVector<int> Roles{static_cast<int>(Qt::ForegroundRole)};
+    const QModelIndex TopLeft = index(0, 0, QModelIndex());
+    const QModelIndex BottomRight = index(rowCount(QModelIndex()) - 1, 0, QModelIndex());
     emit dataChanged(TopLeft, BottomRight, Roles);
 }
