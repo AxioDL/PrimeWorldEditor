@@ -58,7 +58,7 @@ protected:
         gpEdApp->SetEditorTicksEnabled(false);
 
         QFutureWatcher<RetType> Watcher;
-        connect(&Watcher, SIGNAL(finished()), this, SLOT(FinishAndClose()));
+        connect(&Watcher, &QFutureWatcher<RetType>::finished, this, &CProgressDialog::FinishAndClose);
         Watcher.setFuture(Future);
         exec();
 
