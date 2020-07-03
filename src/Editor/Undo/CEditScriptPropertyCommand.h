@@ -27,7 +27,7 @@ public:
             mInstances.push_back( CInstancePtr(kInstances[i]) );
     }
 
-    virtual void GetObjectDataPointers(QVector<void*>& OutPointers) const override
+    void GetObjectDataPointers(QVector<void*>& OutPointers) const override
     {
         // todo: support multiple objects being edited at once on the property view
         if (mIndex.isValid())
