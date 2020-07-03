@@ -27,7 +27,7 @@ public:
         return false;
     }
 
-    virtual void SaveOldData() override
+    void SaveOldData() override
     {
         CEditScriptPropertyCommand::SaveOldData();
 
@@ -37,7 +37,7 @@ public:
         }
     }
 
-    virtual void SaveNewData() override
+    void SaveNewData() override
     {
         CEditScriptPropertyCommand::SaveNewData();
 
