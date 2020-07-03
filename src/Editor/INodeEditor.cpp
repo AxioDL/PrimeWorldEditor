@@ -34,12 +34,12 @@ INodeEditor::INodeEditor(QWidget *pParent)
     mpTransformCombo->addItem(tr("Local"));
 
     // Connect signals and slots
-    connect(mGizmoActions[0], SIGNAL(triggered()), this, SLOT(OnSelectObjectsTriggered()));
-    connect(mGizmoActions[1], SIGNAL(triggered()), this, SLOT(OnTranslateTriggered()));
-    connect(mGizmoActions[2], SIGNAL(triggered()), this, SLOT(OnRotateTriggered()));
-    connect(mGizmoActions[3], SIGNAL(triggered()), this, SLOT(OnScaleTriggered()));
-    connect(mpTransformCombo, SIGNAL(currentIndexChanged(int)), this, SLOT(OnTransformSpaceChanged(int)));
-    connect(mpSelection, SIGNAL(Modified()), this, SLOT(OnSelectionModified()));
+    connect(mGizmoActions[0], &QAction::triggered, this, &INodeEditor::OnSelectObjectsTriggered);
+    connect(mGizmoActions[1], &QAction::triggered, this, &INodeEditor::OnTranslateTriggered);
+    connect(mGizmoActions[2], &QAction::triggered, this, &INodeEditor::OnRotateTriggered);
+    connect(mGizmoActions[3], &QAction::triggered, this, &INodeEditor::OnScaleTriggered);
+    connect(mpTransformCombo, qOverload<int>(&QComboBox::currentIndexChanged), this, &INodeEditor::OnTransformSpaceChanged);
+    connect(mpSelection, &CNodeSelection::Modified, this, &INodeEditor::OnSelectionModified);
 }
 
 INodeEditor::~INodeEditor()
