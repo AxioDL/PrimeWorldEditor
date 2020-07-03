@@ -753,7 +753,7 @@ void CModelEditorWindow::Import()
     pModel = CModelLoader::ImportAssimpNode(pScene->mRootNode, pScene, *pSet);
 
     SetActiveModel(pModel);
-    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: Untitled");
+    SET_WINDOWTITLE_APPVARS(tr("%APP_FULL_NAME% - Model Editor: Untitled"));
     mOutputFilename = "";
     gpResourceStore->DestroyUnreferencedResources();
 }
