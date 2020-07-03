@@ -26,9 +26,9 @@ public:
         }
     }
 
-    void undo() { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
-    void redo() { mpSelection->SetSelectedNodes(mNewSelection.DereferenceList()); }
-    bool AffectsCleanState() const { return false; }
+    void undo() override { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
+    void redo() override { mpSelection->SetSelectedNodes(mNewSelection.DereferenceList()); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 #endif // CINVERTSELECTIONCOMMAND_H
