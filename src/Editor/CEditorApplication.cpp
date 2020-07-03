@@ -301,7 +301,7 @@ bool CEditorApplication::RebuildResourceDatabase()
 void CEditorApplication::AddEditor(IEditor *pEditor)
 {
     mEditorWindows << pEditor;
-    connect(pEditor, SIGNAL(Closed()), this, SLOT(OnEditorClose()));
+    connect(pEditor, &IEditor::Closed, this, &CEditorApplication::OnEditorClose);
 }
 
 void CEditorApplication::TickEditors()
