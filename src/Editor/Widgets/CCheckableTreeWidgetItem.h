@@ -37,7 +37,7 @@ public:
         : QTreeWidgetItem(other) {}
 
     /** setData override to catch check state changes */
-    virtual void setData(int Column, int Role, const QVariant& rkValue)
+    void setData(int Column, int Role, const QVariant& rkValue) override
     {
         Qt::CheckState OldState = checkState(0);
         QTreeWidgetItem::setData(Column, Role, rkValue);
