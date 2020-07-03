@@ -241,8 +241,8 @@ bool CExportGameDialog::RequestWiiPortGame()
     if (HasMP2) ComboBox.addItem(tr("Metroid Prime 2: Echoes"));
     if (HasMP3) ComboBox.addItem(tr("Metroid Prime 3: Corruption"));
     QDialogButtonBox ButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &Dialog);
-    connect(&ButtonBox, SIGNAL(accepted()), &Dialog, SLOT(accept()));
-    connect(&ButtonBox, SIGNAL(rejected()), &Dialog, SLOT(reject()));
+    connect(&ButtonBox, &QDialogButtonBox::accepted, &Dialog, &QDialog::accept);
+    connect(&ButtonBox, &QDialogButtonBox::rejected, &Dialog, &QDialog::reject);
 
     QVBoxLayout Layout;
     Layout.addWidget(&Label);
