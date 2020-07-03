@@ -23,7 +23,7 @@ IEditor::IEditor(QWidget* pParent)
     mUndoActions.push_back(pUndoAction);
     mUndoActions.push_back(pRedoAction);
 
-    connect(&mUndoStack, SIGNAL(indexChanged(int)), this, SLOT(OnUndoStackIndexChanged()));
+    connect(&mUndoStack, &QUndoStack::indexChanged, this, &IEditor::OnUndoStackIndexChanged);
 }
 
 QUndoStack& IEditor::UndoStack()
