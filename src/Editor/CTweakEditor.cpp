@@ -30,7 +30,7 @@ CTweakEditor::CTweakEditor(QWidget* pParent)
     mpUI->TweakTabs->setExpanding(false);
     mpUI->ToolBar->addSeparator();
     AddUndoActions(mpUI->ToolBar);
-    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Tweak Editor[*]");
+    SET_WINDOWTITLE_APPVARS(tr("%APP_FULL_NAME% - Tweak Editor[*]"));
 
     connect(mpUI->TweakTabs, &QTabBar::currentChanged, this, &CTweakEditor::OnTweakTabClicked);
     connect(mpUI->ActionSave, &QAction::triggered, this, &CTweakEditor::Save);
