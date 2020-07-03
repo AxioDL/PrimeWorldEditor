@@ -62,8 +62,7 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
 
     // Init skeleton tree view
     ui->SkeletonHierarchyTreeView->setModel(&mSkeletonModel);
-    QList<int> SplitterSizes;
-    SplitterSizes << width() * 0.2 << width() * 0.8;
+    const QList<int> SplitterSizes{static_cast<int>(width() * 0.2), static_cast<int>(width() * 0.8)};
     ui->splitter->setSizes(SplitterSizes);
 
     connect(ui->SkeletonHierarchyTreeView->selectionModel(), &QItemSelectionModel::currentChanged, this,
