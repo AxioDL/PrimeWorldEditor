@@ -6,13 +6,13 @@
 class CInstancesProxyModel : public QSortFilterProxyModel
 {
 public:
-    CInstancesProxyModel(QObject *pParent = 0)
+    explicit CInstancesProxyModel(QObject *pParent = nullptr)
         : QSortFilterProxyModel(pParent)
     {
         setSortCaseSensitivity(Qt::CaseInsensitive);
     }
 
-    virtual bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const
+    bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const override
     {
         // Don't sort from the top two levels and don't sort the Show column
         if (rkLeft.parent() == QModelIndex() || rkLeft.parent().parent() == QModelIndex() || rkLeft.column() == 2)
@@ -22,7 +22,6 @@ public:
             else
                 return rkLeft.row() > rkRight.row();
         }
-
         else
         {
             QString Left = sourceModel()->data(rkLeft).toString();
