@@ -162,12 +162,12 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     Params.PrintToLog = mpUI->LogOutputCheckBox->isChecked();
 
     // Run the task and configure ourselves so we can update correctly
-    connect( &mFutureWatcher, SIGNAL(finished()), this, SLOT(GenerationComplete()) );
+    connect(&mFutureWatcher, &QFutureWatcher<void>::finished, this, &CGeneratePropertyNamesDialog::GenerationComplete);
     mFuture = QtConcurrent::run(&mGenerator, &CPropertyNameGenerator::Generate, Params, &mNotifier);
     mFutureWatcher.setFuture(mFuture);
 
     mUpdateTimer.start(500);
-    connect( &mUpdateTimer, SIGNAL(timeout()), this, SLOT(CheckForNewResults()) );
+    connect( &mUpdateTimer, &QTimer::timeout, this, &CGeneratePropertyNamesDialog::CheckForNewResults);
 
     UpdateUI();
 }
