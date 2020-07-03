@@ -18,11 +18,11 @@ void OpenContainingFolder(QWidget* parent, const QString& pathIn)
     const QFileInfo fileInfo(pathIn);
     // Mac, Windows support folder or file.
 #if defined(Q_OS_WIN)
-    QString paths = QProcessEnvironment::systemEnvironment().value(QStringLiteral("Path"));
+    const QString paths = QProcessEnvironment::systemEnvironment().value(QStringLiteral("Path"));
     QString explorer;
-    for (QString path : paths.split(QStringLiteral(";")))
+    for (const QString& path : paths.split(QLatin1Char(';')))
     {
-        QFileInfo finfo(QDir(path), QStringLiteral("explorer.exe"));
+        const QFileInfo finfo(QDir(path), QStringLiteral("explorer.exe"));
         if (finfo.exists())
         {
             explorer = finfo.filePath();
