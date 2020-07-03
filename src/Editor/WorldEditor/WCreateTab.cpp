@@ -5,7 +5,7 @@
 #include "Editor/Undo/UndoCommands.h"
 #include <Core/Resource/Script/NGameList.h>
 
-WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
+WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent)
     : QWidget(pParent)
     , ui(std::make_unique<Ui::WCreateTab>())
 {
@@ -14,9 +14,9 @@ WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
     mpEditor = pEditor;
     mpEditor->Viewport()->installEventFilter(this);
 
-    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersChanged()));
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
-    connect(ui->SpawnLayerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSpawnLayerChanged(int)));
+    connect(mpEditor, &CWorldEditor::LayersModified, this, &WCreateTab::OnLayersChanged);
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &WCreateTab::OnActiveProjectChanged);
+    connect(ui->SpawnLayerComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &WCreateTab::OnSpawnLayerChanged);
 }
 
 WCreateTab::~WCreateTab() = default;
