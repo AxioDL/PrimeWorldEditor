@@ -39,12 +39,12 @@ public:
     }
 
     /** IUndoCommand interface */
-    virtual int id() const override
+    int id() const override
     {
         return FOURCC('TSUC');
     }
 
-    virtual void undo() override
+    void undo() override
     {
         // Restore old state of object
         CMemoryInStream In(&mOldData[0], mOldData.size(), EEndian::SystemEndian);
@@ -52,7 +52,7 @@ public:
         mpObject->Serialize(Reader);
     }
 
-    virtual void redo() override
+    void redo() override
     {
         // First call when command is pushed - save new state of object
         if (mNewData.empty())
@@ -82,7 +82,7 @@ public:
         }
     }
 
-    virtual bool mergeWith(const QUndoCommand* pkOther) override
+    bool mergeWith(const QUndoCommand* pkOther) override
     {
         if (!mIsActionComplete && pkOther->id() == id())
         {
@@ -109,7 +109,7 @@ public:
         return false;
     }
 
-    virtual bool AffectsCleanState() const override
+    bool AffectsCleanState() const override
     {
         return true;
     }
