@@ -6,26 +6,25 @@
 class CResourceBrowserDelegate : public CCustomDelegate
 {
 public:
-    static const int skIconSize = 32;
+    static constexpr int skIconSize = 32;
 
 private:
-    bool mDisplayAssetIDs;
+    bool mDisplayAssetIDs = false;
 
 public:
-    CResourceBrowserDelegate(QObject *pParent = 0)
+    explicit CResourceBrowserDelegate(QObject *pParent = nullptr)
         : CCustomDelegate(pParent)
-        , mDisplayAssetIDs(false)
     {}
 
-    QSize sizeHint(const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const;
-    void paint(QPainter *pPainter, const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const;
+    QSize sizeHint(const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const override;
+    void paint(QPainter* pPainter, const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const override;
 
-    QWidget* createEditor(QWidget *pParent, const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const;
-    void setEditorData(QWidget *pEditor, const QModelIndex& rkIndex) const;
-    void setModelData(QWidget *pEditor, QAbstractItemModel *pModel, const QModelIndex& rkIndex) const;
-    void updateEditorGeometry(QWidget *pEditor, const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const;
+    QWidget* createEditor(QWidget* pParent, const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const override;
+    void setEditorData(QWidget* pEditor, const QModelIndex& rkIndex) const override;
+    void setModelData(QWidget* pEditor, QAbstractItemModel* pModel, const QModelIndex& rkIndex) const override;
+    void updateEditorGeometry(QWidget* pEditor, const QStyleOptionViewItem& rkOption, const QModelIndex& rkIndex) const override;
 
-    inline void SetDisplayAssetIDs(bool Display)    { mDisplayAssetIDs = Display; }
+    void SetDisplayAssetIDs(bool Display)    { mDisplayAssetIDs = Display; }
 
 protected:
     class CResourceEntry* GetIndexEntry(const QModelIndex& rkIndex) const;
