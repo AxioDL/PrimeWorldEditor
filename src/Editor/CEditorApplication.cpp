@@ -24,7 +24,7 @@ CEditorApplication::CEditorApplication(int& rArgc, char **ppArgv)
     : QApplication(rArgc, ppArgv)
     , mLastUpdate{CTimer::GlobalTime()}
 {
-    connect(&mRefreshTimer, SIGNAL(timeout()), this, SLOT(TickEditors()));
+    connect(&mRefreshTimer, &QTimer::timeout, this, &CEditorApplication::TickEditors);
     mRefreshTimer.start(8);
 }
 
