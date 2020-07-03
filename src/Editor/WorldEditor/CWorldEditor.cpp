@@ -786,7 +786,7 @@ void CWorldEditor::UpdateWindowTitle()
 void CWorldEditor::UpdateStatusBar()
 {
     // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
-    QString StatusText = "";
+    QString StatusText;
 
     if (!mGizmoHovering)
     {
