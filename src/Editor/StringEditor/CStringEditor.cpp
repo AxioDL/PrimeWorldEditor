@@ -137,7 +137,7 @@ void CStringEditor::InitUI()
     mpUI->StringTextEdit->installEventFilter(this);
 
     // Update window title
-    QString WindowTitle = "%APP_FULL_NAME% - String Editor - %1[*]";
+    QString WindowTitle = QStringLiteral("%APP_FULL_NAME% - String Editor - %1[*]");
     WindowTitle = WindowTitle.arg( TO_QSTRING(mpStringTable->Entry()->CookedAssetPath(true).GetFileName()) );
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 
