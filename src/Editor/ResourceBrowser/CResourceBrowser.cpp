@@ -759,7 +759,7 @@ bool CResourceBrowser::Delete(QVector<CResourceEntry*> Resources, QVector<CVirtu
     return false;
 }
 
-void CResourceBrowser::OnSearchStringChanged(QString SearchString)
+void CResourceBrowser::OnSearchStringChanged(const QString& SearchString)
 {
     bool WasAssetList = InAssetListMode();
     mSearching = !SearchString.isEmpty();

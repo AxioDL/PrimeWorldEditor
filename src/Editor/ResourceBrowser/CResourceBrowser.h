@@ -98,7 +98,7 @@ public slots:
     void OnCreateAssetAction();
     bool CreateDirectory();
     bool Delete(QVector<CResourceEntry*> Resources, QVector<CVirtualDirectory*> Directories);
-    void OnSearchStringChanged(QString SearchString);
+    void OnSearchStringChanged(const QString& SearchString);
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex);
     void OnDoubleClickTable(QModelIndex Index);
     void OnResourceSelectionChanged(const QModelIndex& rkNewIndex);
