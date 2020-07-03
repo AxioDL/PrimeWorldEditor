@@ -17,9 +17,9 @@ public:
         , mpSelection(pSelection)
     {}
 
-    void undo() { mpSelection->SelectNode(*mpNode); }
-    void redo() { mpSelection->DeselectNode(*mpNode); }
-    bool AffectsCleanState() const { return false; }
+    void undo() override { mpSelection->SelectNode(*mpNode); }
+    void redo() override { mpSelection->DeselectNode(*mpNode); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 #endif // CDESELECTNODECOMMAND_H
