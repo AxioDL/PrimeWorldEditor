@@ -19,7 +19,7 @@ public:
     {
     }
 
-    virtual void GetObjectDataPointers(QVector<void*>& rOutPointers) const override
+    void GetObjectDataPointers(QVector<void*>& rOutPointers) const override
     {
         rOutPointers = mDataPointers;
     }
