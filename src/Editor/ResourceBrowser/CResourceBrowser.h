@@ -58,7 +58,7 @@ class CResourceBrowser : public QWidget
 
 public:
     explicit CResourceBrowser(QWidget *pParent = nullptr);
-    ~CResourceBrowser();
+    ~CResourceBrowser() override;
 
     void SetActiveDirectory(CVirtualDirectory *pDir);
     void SelectResource(CResourceEntry *pEntry, bool ClearFiltersIfNecessary = false);
@@ -78,7 +78,7 @@ public:
                                       CAssetID ID = CAssetID());
 
     // Interface
-    bool eventFilter(QObject *pWatched, QEvent *pEvent);
+    bool eventFilter(QObject* pWatched, QEvent* pEvent) override;
 
     // Accessors
     CResourceStore* CurrentStore() const     { return mpStore; }
