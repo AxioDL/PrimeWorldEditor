@@ -15,12 +15,11 @@ class CFilteredResourceModel : public QAbstractTableModel
 {
     Q_OBJECT
     QVector<CResourceEntry*> mEntries;
-    int mInitialRow;
+    int mInitialRow = 0;
 
 public:
-    CFilteredResourceModel(CResourceSelector *pSelector, QObject *pParent = 0)
+    explicit CFilteredResourceModel(CResourceSelector *pSelector, QObject *pParent = nullptr)
         : QAbstractTableModel(pParent)
-        , mInitialRow(0)
     {
         const CResTypeFilter& rkFilter = pSelector->TypeFilter();
 
@@ -47,17 +46,17 @@ public:
     }
 
     // QAbstractTableModel interface
-    int rowCount(const QModelIndex&) const
+    int rowCount(const QModelIndex&) const override
     {
         return mEntries.size();
     }
 
-    int columnCount(const QModelIndex&) const
+    int columnCount(const QModelIndex&) const override
     {
         return 1;
     }
 
-    QVariant data(const QModelIndex& rkIndex, int Role) const
+    QVariant data(const QModelIndex& rkIndex, int Role) const override
     {
         CResourceEntry *pEntry = EntryForIndex(rkIndex);
 
@@ -88,12 +87,12 @@ public:
     }
 
     // Accessors
-    inline QModelIndex InitialIndex() const
+    QModelIndex InitialIndex() const
     {
         return index(mInitialRow, 0);
     }
 
-    inline CResourceEntry* EntryForIndex(const QModelIndex& rkIndex) const
+    CResourceEntry* EntryForIndex(const QModelIndex& rkIndex) const
     {
         return mEntries[rkIndex.row()];
     }
@@ -105,11 +104,11 @@ class CFilteredResourceProxyModel : public QSortFilterProxyModel
     TString mSearchString;
 
 public:
-    CFilteredResourceProxyModel(QObject *pParent = 0)
+    explicit CFilteredResourceProxyModel(QObject *pParent = nullptr)
         : QSortFilterProxyModel(pParent)
     {}
 
-    bool filterAcceptsRow(int SourceRow, const QModelIndex&) const
+    bool filterAcceptsRow(int SourceRow, const QModelIndex&) const override
     {
         if (mSearchString.IsEmpty())
             return true;
@@ -121,7 +120,7 @@ public:
         return pModel->EntryForIndex(SrcIndex)->UppercaseName().Contains(mSearchString);
     }
 
-    inline void SetSearchString(const QString& rkString)
+    void SetSearchString(const QString& rkString)
     {
         mSearchString = TO_TSTRING(rkString).ToUpper();
         invalidate();
