@@ -248,13 +248,12 @@ void CResourceBrowser::CreateFilterCheckboxes()
         std::list<CResTypeInfo*> TypeList;
         CResTypeInfo::GetAllTypesInGame(mpStore->Game(), TypeList);
 
-        for (auto Iter = TypeList.begin(); Iter != TypeList.end(); Iter++)
+        for (auto* type : TypeList)
         {
-            CResTypeInfo *pType = *Iter;
             QCheckBox *pCheck = new QCheckBox(this);
             pCheck->setFont(mFilterBoxFont);
-            pCheck->setText(TO_QSTRING(pType->TypeName()));
-            mTypeList << SResourceType { pType, pCheck };
+            pCheck->setText(TO_QSTRING(type->TypeName()));
+            mTypeList << SResourceType{type, pCheck};
         }
 
         std::sort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) {
@@ -305,15 +304,13 @@ void CResourceBrowser::AddCreateAssetMenuActions(QMenu* pMenu)
     std::list<CResTypeInfo*> TypeInfos;
     CResTypeInfo::GetAllTypesInGame(mpStore->Game(), TypeInfos);
 
-    for (auto Iter = TypeInfos.begin(); Iter != TypeInfos.end(); Iter++)
+    for (const auto* typeInfo : TypeInfos)
     {
-        CResTypeInfo* pTypeInfo = *Iter;
-
-        if (pTypeInfo->CanBeCreated())
+        if (typeInfo->CanBeCreated())
         {
-            QString TypeName = TO_QSTRING( pTypeInfo->TypeName() );
+            QString TypeName = TO_QSTRING(typeInfo->TypeName());
             QAction* pAction = pMenu->addAction(TypeName, this, &CResourceBrowser::OnCreateAssetAction);
-            pAction->setProperty("TypeInfo", QVariant((int) pTypeInfo->Type()));
+            pAction->setProperty("TypeInfo", QVariant(static_cast<int>(typeInfo->Type())));
         }
     }
 }
