@@ -142,8 +142,7 @@ void CStringEditor::InitUI()
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 
     // Initialize the splitter so top split takes as much space as possible
-    QList<int> SplitterSizes;
-    SplitterSizes << (height() * 0.95) << (height() * 0.05);
+    const QList<int> SplitterSizes{static_cast<int>(height() * 0.95), static_cast<int>(height() * 0.05)};
     mpUI->splitter->setSizes(SplitterSizes);
 
     // Initialize UI
