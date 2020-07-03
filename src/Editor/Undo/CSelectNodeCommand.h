@@ -18,9 +18,9 @@ public:
         , mpSelection(pSelection)
     {}
 
-    void undo() { mpSelection->DeselectNode(*mpNode); }
-    void redo() { mpSelection->SelectNode(*mpNode); }
-    bool AffectsCleanState() const { return false; }
+    void undo() override { mpSelection->DeselectNode(*mpNode); }
+    void redo() override { mpSelection->SelectNode(*mpNode); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 #endif // CSELECTNODECOMMAND_H
