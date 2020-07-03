@@ -94,13 +94,13 @@ public:
     }
 
     /** Check whether the input is valid */
-    inline bool IsInputValid() const
+    bool IsInputValid() const
     {
         return mInputIsValid;
     }
 
 public slots:
-    virtual void OnTextChanged()
+    void OnTextChanged() override
     {
         CTimedLineEdit::OnTextChanged();
 
@@ -110,7 +110,7 @@ public slots:
         }
     }
 
-    virtual void OnTimeout()
+    void OnTimeout() override
     {
         CTimedLineEdit::OnTimeout();
 
