@@ -60,8 +60,8 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
             this, &CCollisionEditor::OnOrbitToggled);
 
     // Update window title
-    QString WindowTitle = "%APP_FULL_NAME% - Collision Editor - %1[*]";
-    WindowTitle = WindowTitle.arg( TO_QSTRING(mpCollisionMesh->Entry()->CookedAssetPath(true).GetFileName()) );
+    const QString WindowTitle = tr("%APP_FULL_NAME% - Collision Editor - %1[*]")
+                                    .arg(TO_QSTRING(mpCollisionMesh->Entry()->CookedAssetPath(true).GetFileName()));
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 }
 
