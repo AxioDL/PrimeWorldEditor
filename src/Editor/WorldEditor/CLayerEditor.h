@@ -17,7 +17,8 @@ class CLayerEditor : public QDialog
 
 public:
     explicit CLayerEditor(QWidget *parent = nullptr);
-    ~CLayerEditor();
+    ~CLayerEditor() override;
+
     void SetArea(CGameArea *pArea);
 
 public slots:
