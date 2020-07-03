@@ -191,17 +191,18 @@ void CLinkDialog::OnPickFromViewportClicked()
     if (pButton && pButton->isChecked())
     {
         mpEditor->EnterPickMode(ENodeType::Script, true, false, false);
-        connect(mpEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnPickModeClick(SRayIntersection,QMouseEvent*)));
-        connect(mpEditor, SIGNAL(PickModeExited()), this, SLOT(OnPickModeExit()));
+        connect(mpEditor, &CWorldEditor::PickModeClick, this, &CLinkDialog::OnPickModeClick);
+        connect(mpEditor, &CWorldEditor::PickModeExited, this, &CLinkDialog::OnPickModeExit);
 
         QPushButton *pOtherButton = (pButton == ui->SenderPickFromViewport ? ui->ReceiverPickFromViewport : ui->SenderPickFromViewport);
         pOtherButton->setChecked(false);
 
         mIsPicking = true;
     }
-
     else
+    {
         mpEditor->ExitPickMode();
+    }
 }
 
 void CLinkDialog::OnPickModeClick(const SRayIntersection& rkHit, QMouseEvent* /*pEvent*/)
@@ -220,8 +221,8 @@ void CLinkDialog::OnPickModeExit()
 {
     ui->SenderPickFromViewport->setChecked(false);
     ui->ReceiverPickFromViewport->setChecked(false);
-    disconnect(mpEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, 0);
-    disconnect(mpEditor, SIGNAL(PickModeExited()), this, 0);
+    disconnect(mpEditor, &CWorldEditor::PickModeClick, this, nullptr);
+    disconnect(mpEditor, &CWorldEditor::PickModeExited, this, nullptr);
     mIsPicking = false;
 }
 
