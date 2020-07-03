@@ -52,7 +52,7 @@ public:
     bool IsPickingReceiver() const { return mIsPicking && ui->ReceiverPickFromViewport->isChecked(); }
 
 public slots:
-    void accept();
+    void accept() override;
     void OnSwapClicked();
     void OnPickFromViewportClicked();
     void OnPickModeClick(const SRayIntersection& rkHit, QMouseEvent *pEvent);
