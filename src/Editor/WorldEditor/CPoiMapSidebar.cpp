@@ -278,8 +278,8 @@ void CPoiMapSidebar::OnPickButtonClicked()
     if (pButton == ui->AddPoiFromViewportButton)
     {
         Editor()->EnterPickMode(ENodeType::Script, true, false, false);
-        connect(Editor(), SIGNAL(PickModeExited()), this, SLOT(StopPicking()));
-        connect(Editor(), SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnPoiPicked(SRayIntersection,QMouseEvent*)));
+        connect(Editor(), &CWorldEditor::PickModeExited, this, &CPoiMapSidebar::StopPicking);
+        connect(Editor(), &CWorldEditor::PickModeClick, this, &CPoiMapSidebar::OnPoiPicked);
 
         pButton->setChecked(true);
         ui->MapMeshesButton->setChecked(false);
@@ -287,17 +287,17 @@ void CPoiMapSidebar::OnPickButtonClicked()
 
         mPickType = EPickType::AddPOIs;
     }
-
     else
     {
         if (!pButton->isChecked())
+        {
             Editor()->ExitPickMode();
-
+        }
         else
         {
             Editor()->EnterPickMode(ENodeType::Model, false, false, true);
-            connect(Editor(), SIGNAL(PickModeExited()), this, SLOT(StopPicking()));
-            connect(Editor(), SIGNAL(PickModeHoverChanged(SRayIntersection,QMouseEvent*)), this, SLOT(OnModelHover(SRayIntersection,QMouseEvent*)));
+            connect(Editor(), &CWorldEditor::PickModeExited, this, &CPoiMapSidebar::StopPicking);
+            connect(Editor(), &CWorldEditor::PickModeHoverChanged, this, &CPoiMapSidebar::OnModelHover);
             pButton->setChecked(true);
 
             if (pButton == ui->MapMeshesButton)
@@ -305,7 +305,6 @@ void CPoiMapSidebar::OnPickButtonClicked()
                 mPickType = EPickType::AddMeshes;
                 ui->UnmapMeshesButton->setChecked(false);
             }
-
             else if (pButton == ui->UnmapMeshesButton)
             {
                 mPickType = EPickType::RemoveMeshes;
@@ -326,9 +325,9 @@ void CPoiMapSidebar::StopPicking()
     mpHoverModel = nullptr;
 
     Editor()->ExitPickMode();
-    disconnect(Editor(), SIGNAL(PickModeExited()), this, 0);
-    disconnect(Editor(), SIGNAL(PickModeHoverChanged(SRayIntersection,QMouseEvent*)), this, 0);
-    disconnect(Editor(), SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, 0);
+    disconnect(Editor(), &CWorldEditor::PickModeExited, this, nullptr);
+    disconnect(Editor(), &CWorldEditor::PickModeHoverChanged, this, nullptr);
+    disconnect(Editor(), &CWorldEditor::PickModeClick, this, nullptr);
 }
 
 void CPoiMapSidebar::OnInstanceListButtonClicked()
