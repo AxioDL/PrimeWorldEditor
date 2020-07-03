@@ -164,7 +164,7 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
 {
     mpSet = pSet;
     mpCharNode->SetCharSet(mpSet);
-    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Character Editor: " + TO_QSTRING(mpSet->Source()));
+    SET_WINDOWTITLE_APPVARS(tr("%APP_FULL_NAME% - Character Editor: ").arg(TO_QSTRING(mpSet->Source())));
 
     // Clear selected bone
     ui->SkeletonHierarchyTreeView->selectionModel()->clear();

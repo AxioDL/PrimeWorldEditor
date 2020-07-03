@@ -137,8 +137,8 @@ void CStringEditor::InitUI()
     mpUI->StringTextEdit->installEventFilter(this);
 
     // Update window title
-    QString WindowTitle = QStringLiteral("%APP_FULL_NAME% - String Editor - %1[*]");
-    WindowTitle = WindowTitle.arg( TO_QSTRING(mpStringTable->Entry()->CookedAssetPath(true).GetFileName()) );
+    const QString WindowTitle = tr("%APP_FULL_NAME% - String Editor - %1[*]")
+                                    .arg(TO_QSTRING(mpStringTable->Entry()->CookedAssetPath(true).GetFileName()));
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 
     // Initialize the splitter so top split takes as much space as possible
