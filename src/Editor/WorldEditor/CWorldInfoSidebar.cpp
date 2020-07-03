@@ -16,11 +16,11 @@ CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
     QHeaderView *pHeader = mpUI->WorldTreeView->header();
     pHeader->resizeSection(0, pHeader->width() * 2); // I really have no idea how this works, I just got this from trial & error
 
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
-    connect(mpUI->ProjectSettingsButton, SIGNAL(pressed()), pEditor, SLOT(OpenProjectSettings()));
-    connect(mpUI->AreaSearchLineEdit, SIGNAL(StoppedTyping(QString)), this, SLOT(OnAreaFilterStringChanged(QString)));
-    connect(mpUI->WorldTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnWorldTreeClicked(QModelIndex)));
-    connect(mpUI->WorldTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnWorldTreeDoubleClicked(QModelIndex)));
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CWorldInfoSidebar::OnActiveProjectChanged);
+    connect(mpUI->ProjectSettingsButton, &QPushButton::pressed, pEditor, &CWorldEditor::OpenProjectSettings);
+    connect(mpUI->AreaSearchLineEdit, &CTimedLineEdit::StoppedTyping, this, &CWorldInfoSidebar::OnAreaFilterStringChanged);
+    connect(mpUI->WorldTreeView->selectionModel(), &QItemSelectionModel::currentChanged, this, &CWorldInfoSidebar::OnWorldTreeClicked);
+    connect(mpUI->WorldTreeView, &QTreeView::doubleClicked, this, &CWorldInfoSidebar::OnWorldTreeDoubleClicked);
 
     // Set up UI for world/area info; disable editing for now
     mpUI->ProjectInfoWidget->setHidden(true);
