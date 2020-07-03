@@ -48,22 +48,22 @@ WEditorProperties::WEditorProperties(QWidget *pParent)
     ComboFont.setPointSize(10);
     mpLayersComboBox->setFont(ComboFont);
 
-    connect(mpActiveCheckBox, SIGNAL(clicked()), this, SLOT(OnActiveChanged()));
-    connect(mpInstanceNameLineEdit, SIGNAL(textEdited(QString)), this, SLOT(OnInstanceNameEdited()));
-    connect(mpInstanceNameLineEdit, SIGNAL(editingFinished()), this, SLOT(OnInstanceNameEditFinished()));
-    connect(mpLayersComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnLayerChanged()));
+    connect(mpActiveCheckBox, &QCheckBox::clicked, this, &WEditorProperties::OnActiveChanged);
+    connect(mpInstanceNameLineEdit, &QLineEdit::textEdited, this, &WEditorProperties::OnInstanceNameEdited);
+    connect(mpInstanceNameLineEdit, &QLineEdit::editingFinished, this, &WEditorProperties::OnInstanceNameEditFinished);
+    connect(mpLayersComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &WEditorProperties::OnLayerChanged);
 }
 
 void WEditorProperties::SyncToEditor(CWorldEditor *pEditor)
 {
     if (mpEditor)
-        disconnect(mpEditor, 0, this, 0);
+        disconnect(mpEditor, nullptr, this, nullptr);
 
     mpEditor = pEditor;
-    connect(mpEditor, SIGNAL(SelectionModified()), this, SLOT(OnSelectionModified()));
-    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersModified()));
-    connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(OnInstancesLayerChanged(QList<CScriptNode*>)));
-    connect(mpEditor, SIGNAL(PropertyModified(IProperty*,CScriptObject*)), this, SLOT(OnPropertyModified(IProperty*,CScriptObject*)));
+    connect(mpEditor, &CWorldEditor::SelectionModified, this, &WEditorProperties::OnSelectionModified);
+    connect(mpEditor, &CWorldEditor::LayersModified, this, &WEditorProperties::OnLayersModified);
+    connect(mpEditor, &CWorldEditor::InstancesLayerChanged, this, &WEditorProperties::OnInstancesLayerChanged);
+    connect(mpEditor, &CWorldEditor::PropertyModified, this, &WEditorProperties::OnPropertyModified);
 
     OnLayersModified();
 }
