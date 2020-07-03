@@ -34,21 +34,21 @@ WModifyTab::WModifyTab(CWorldEditor *pEditor, QWidget *pParent)
 
     ui->InLinksTableView->setModel(mpInLinkModel);
     ui->OutLinksTableView->setModel(mpOutLinkModel);
-    connect(ui->InLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
-    connect(ui->OutLinksTableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnLinkTableDoubleClick(QModelIndex)));
-    connect(ui->InLinksTableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(OnLinksSelectionModified()));
-    connect(ui->OutLinksTableView->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(OnLinksSelectionModified()));
-    connect(ui->AddOutgoingConnectionToolButton, SIGNAL(triggered(QAction*)), this, SLOT(OnAddLinkActionClicked(QAction*)));
-    connect(ui->AddIncomingConnectionToolButton, SIGNAL(triggered(QAction*)), this, SLOT(OnAddLinkActionClicked(QAction*)));
-    connect(ui->DeleteOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteLinksClicked()));
-    connect(ui->DeleteIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnDeleteLinksClicked()));
-    connect(ui->EditOutgoingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditLinkClicked()));
-    connect(ui->EditIncomingConnectionButton, SIGNAL(clicked()), this, SLOT(OnEditLinkClicked()));
-    connect(ui->PropertyView, SIGNAL(PropertyModified(IProperty*)), mpWorldEditor, SLOT(OnPropertyModified(IProperty*)));
-    connect(mpWorldEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChanged()));
-    connect(mpWorldEditor, SIGNAL(SelectionTransformed()), this, SLOT(OnWorldSelectionTransformed()));
-    connect(mpWorldEditor, SIGNAL(InstanceLinksModified(const QList<CScriptObject*>&)), this, SLOT(OnInstanceLinksModified(const QList<CScriptObject*>&)));
-    connect(mpWorldEditor->Selection(), SIGNAL(Modified()), this, SLOT(GenerateUI()));
+    connect(ui->InLinksTableView, &QTableView::doubleClicked, this, &WModifyTab::OnLinkTableDoubleClick);
+    connect(ui->OutLinksTableView, &QTableView::doubleClicked, this, &WModifyTab::OnLinkTableDoubleClick);
+    connect(ui->InLinksTableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WModifyTab::OnLinksSelectionModified);
+    connect(ui->OutLinksTableView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WModifyTab::OnLinksSelectionModified);
+    connect(ui->AddOutgoingConnectionToolButton, &QToolButton::triggered, this, &WModifyTab::OnAddLinkActionClicked);
+    connect(ui->AddIncomingConnectionToolButton, &QToolButton::triggered, this, &WModifyTab::OnAddLinkActionClicked);
+    connect(ui->DeleteOutgoingConnectionButton, &QToolButton::clicked, this, &WModifyTab::OnDeleteLinksClicked);
+    connect(ui->DeleteIncomingConnectionButton, &QToolButton::clicked, this, &WModifyTab::OnDeleteLinksClicked);
+    connect(ui->EditOutgoingConnectionButton, &QToolButton::clicked, this, &WModifyTab::OnEditLinkClicked);
+    connect(ui->EditIncomingConnectionButton, &QToolButton::clicked, this, &WModifyTab::OnEditLinkClicked);
+    connect(ui->PropertyView, qOverload<IProperty*>(&CPropertyView::PropertyModified), mpWorldEditor, &CWorldEditor::OnPropertyModified);
+    connect(mpWorldEditor, &CWorldEditor::MapChanged, this, &WModifyTab::OnMapChanged);
+    connect(mpWorldEditor, &CWorldEditor::SelectionTransformed, this, &WModifyTab::OnWorldSelectionTransformed);
+    connect(mpWorldEditor, &CWorldEditor::InstanceLinksModified, this, &WModifyTab::OnInstanceLinksModified);
+    connect(mpWorldEditor->Selection(), &CNodeSelection::Modified, this, &WModifyTab::GenerateUI);
 
     ClearUI();
 }
@@ -165,8 +165,8 @@ void WModifyTab::OnAddLinkActionClicked(QAction *pAction)
         if (pAction == mpAddFromViewportAction)
         {
             mpWorldEditor->EnterPickMode(ENodeType::Script, true, false, false);
-            connect(mpWorldEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnPickModeClick(SRayIntersection)));
-            connect(mpWorldEditor, SIGNAL(PickModeExited()), this, SLOT(OnPickModeExit()));
+            connect(mpWorldEditor, &CWorldEditor::PickModeClick, this, &WModifyTab::OnPickModeClick);
+            connect(mpWorldEditor, &CWorldEditor::PickModeExited, this, &WModifyTab::OnPickModeExit);
             mIsPicking = true;
         }
 
@@ -212,8 +212,8 @@ void WModifyTab::OnPickModeClick(const SRayIntersection& rkIntersect)
 
 void WModifyTab::OnPickModeExit()
 {
-    disconnect(mpWorldEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, 0);
-    disconnect(mpWorldEditor, SIGNAL(PickModeExited()), this, 0);
+    disconnect(mpWorldEditor, &CWorldEditor::PickModeClick, this, nullptr);
+    disconnect(mpWorldEditor, &CWorldEditor::PickModeExited, this, nullptr);
     mIsPicking = false;
 }
 
