@@ -19,7 +19,7 @@ class CCollisionRenderSettingsDialog : public QDialog
 
 public:
     explicit CCollisionRenderSettingsDialog(CWorldEditor *pEditor, QWidget *pParent = nullptr);
-    ~CCollisionRenderSettingsDialog();
+    ~CCollisionRenderSettingsDialog() override;
 
 public slots:
     void SetupWidgets();
