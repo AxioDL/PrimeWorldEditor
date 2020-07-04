@@ -44,8 +44,6 @@ CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rk
 
 CExportGameDialog::~CExportGameDialog() = default;
 
-void RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetItem *pParent);
-
 void CExportGameDialog::InitUI(QString ExportDir)
 {
     ASSERT(mpDisc != nullptr);
