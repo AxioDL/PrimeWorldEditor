@@ -169,7 +169,7 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     const uint32 NumMats = (pModel ? pModel->GetMatCount() : 0);
     const uint32 NumMatSets = (pModel ? pModel->GetMatSetCount() : 0);
     ui->MeshInfoLabel->setText(tr("%1 vertices, %2 triangles").arg(NumVertices).arg(NumTriangles));
-    ui->MatInfoLabel->setText(tr("%1 materials, %2 set%3").arg(NumMats).arg(NumMatSets).arg(NumMatSets == 1 ? "" : "s"));
+    ui->MatInfoLabel->setText(tr("%1 materials, %2 set%3").arg(NumMats).arg(NumMatSets).arg(NumMatSets == 1 ? QString{} : tr("s")));
 
     // Set items in matset combo box
     ui->SetSelectionComboBox->blockSignals(true);
