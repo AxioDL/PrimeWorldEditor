@@ -123,7 +123,7 @@ public:
     void DecrementSize();
     void UpdateForCamera(const CCamera& rkCamera);
     bool CheckSelectedAxes(const CRay& rkRay);
-    uint32 NumSelectedAxes();
+    uint32 NumSelectedAxes() const;
     void ResetSelectedAxes();
     void StartTransform();
     bool TransformFromInput(const CRay& rkRay, CCamera& rkCamera);

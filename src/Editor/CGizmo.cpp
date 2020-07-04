@@ -189,12 +189,15 @@ bool CGizmo::CheckSelectedAxes(const CRay& rkRay)
     return mSelectedAxes != EAxis::None;
 }
 
-uint32 CGizmo::NumSelectedAxes()
+uint32 CGizmo::NumSelectedAxes() const
 {
     uint32 Out = 0;
 
     for (uint32 iAxis = 1; iAxis < 8; iAxis <<= 1)
-        if (mSelectedAxes & FAxes(iAxis)) Out++;
+    {
+        if (mSelectedAxes & FAxes(iAxis))
+            Out++;
+    }
 
     return Out;
 }
