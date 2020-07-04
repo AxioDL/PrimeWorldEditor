@@ -90,9 +90,8 @@ void CDeleteSelectionCommand::undo()
     QList<uint32> NewInstanceIDs;
 
     // Spawn nodes
-    for (int iNode = 0; iNode < mDeletedNodes.size(); iNode++)
+    for (SDeletedNode& rNode : mDeletedNodes)
     {
-        SDeletedNode& rNode = mDeletedNodes[iNode];
         mpEditor->NotifyNodeAboutToBeSpawned();
 
         CMemoryInStream Mem(rNode.InstanceData.data(), rNode.InstanceData.size(), EEndian::BigEndian);
@@ -105,20 +104,18 @@ void CDeleteSelectionCommand::undo()
         pNode->SetRotation(rNode.Rotation);
         pNode->SetScale(rNode.Scale);
 
-        NewNodes << pNode;
-        NewInstanceIDs << pInstance->InstanceID();
+        NewNodes.push_back(pNode);
+        NewInstanceIDs.push_back(pInstance->InstanceID());
         mpEditor->NotifyNodeSpawned(*rNode.NodePtr);
     }
 
     // Sort links by sender index, add outgoing
-    std::sort(mDeletedLinks.begin(), mDeletedLinks.end(), [](SDeletedLink& rLeft, SDeletedLink& rRight) -> bool {
-        return (rLeft.SenderIndex < rRight.SenderIndex);
+    std::sort(mDeletedLinks.begin(), mDeletedLinks.end(), [](const SDeletedLink& rLeft, const SDeletedLink& rRight) {
+        return rLeft.SenderIndex < rRight.SenderIndex;
     });
 
-    for (int iLink = 0; iLink < mDeletedLinks.size(); iLink++)
+    for (SDeletedLink& rLink : mDeletedLinks)
     {
-        SDeletedLink& rLink = mDeletedLinks[iLink];
-
         // Adding to the sender is only needed if the sender is not one of the nodes we just spawned. If it is, it already has this link.
         if (!NewInstanceIDs.contains(rLink.SenderID) && *rLink.pSender)
         {
@@ -128,14 +125,12 @@ void CDeleteSelectionCommand::undo()
     }
 
     // Sort links by receiver index, add incoming
-    std::sort(mDeletedLinks.begin(), mDeletedLinks.end(), [](SDeletedLink& rLeft, SDeletedLink& rRight) -> bool {
-        return (rLeft.ReceiverIndex < rRight.ReceiverIndex);
+    std::sort(mDeletedLinks.begin(), mDeletedLinks.end(), [](const SDeletedLink& rLeft, const SDeletedLink& rRight) {
+        return rLeft.ReceiverIndex < rRight.ReceiverIndex;
     });
 
-    for (int iLink = 0; iLink < mDeletedLinks.size(); iLink++)
+    for (SDeletedLink& rLink : mDeletedLinks)
     {
-        SDeletedLink& rLink = mDeletedLinks[iLink];
-
         if (*rLink.pReceiver)
         {
             CLink *pLink = (*rLink.pSender ? rLink.pSender->Link(ELinkType::Outgoing, rLink.SenderIndex) : new CLink(rLink.pReceiver->Area(), rLink.State, rLink.Message, rLink.SenderID, rLink.ReceiverID));
@@ -156,9 +151,8 @@ void CDeleteSelectionCommand::redo()
 {
     mpEditor->Selection()->SetSelectedNodes(mNewSelection.DereferenceList());
 
-    for (int iNode = 0; iNode < mDeletedNodes.size(); iNode++)
+    for (SDeletedNode& rNode : mDeletedNodes)
     {
-        SDeletedNode& rNode = mDeletedNodes[iNode];
         CSceneNode *pNode = *rNode.NodePtr;
         CScriptObject *pInst = static_cast<CScriptNode*>(pNode)->Instance();
 
