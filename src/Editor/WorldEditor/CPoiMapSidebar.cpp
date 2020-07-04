@@ -77,20 +77,20 @@ void CPoiMapSidebar::HighlightPoiModels(const QModelIndex& rkIndex)
     bool Important = IsImportant(SourceIndex);
 
     // Highlight the meshes
-    for (int iMdl = 0; iMdl < rkModels.size(); iMdl++)
+    for (auto& model : rkModels)
     {
-        rkModels[iMdl]->SetScanOverlayEnabled(true);
-        rkModels[iMdl]->SetScanOverlayColor(Important ? skImportantColor : skNormalColor);
+        model->SetScanOverlayEnabled(true);
+        model->SetScanOverlayColor(Important ? skImportantColor : skNormalColor);
     }
 }
 
 void CPoiMapSidebar::UnhighlightPoiModels(const QModelIndex& rkIndex)
 {
-    QModelIndex SourceIndex = mModel.mapToSource(rkIndex);
+    const QModelIndex SourceIndex = mModel.mapToSource(rkIndex);
     const QList<CModelNode*>& rkModels = mSourceModel.GetPoiMeshList(SourceIndex);
 
-    for (int iMdl = 0; iMdl < rkModels.size(); iMdl++)
-        RevertModelOverlay(rkModels[iMdl]);
+    for (const auto& model : rkModels)
+        RevertModelOverlay(model);
 }
 
 void CPoiMapSidebar::HighlightModel(const QModelIndex& rkIndex, CModelNode *pNode)
@@ -115,8 +115,9 @@ void CPoiMapSidebar::RevertModelOverlay(CModelNode *pModel)
             QModelIndex Selected = GetSelectedRow();
 
             if (mSourceModel.IsModelMapped(Selected, pModel))
+            {
                 HighlightModel(Selected, pModel);
-
+            }
             // If it's not mapped to the selected POI, then check whether it's mapped to any others.
             else
             {
@@ -134,7 +135,6 @@ void CPoiMapSidebar::RevertModelOverlay(CModelNode *pModel)
                 UnhighlightModel(pModel);
             }
         }
-
         else if (mHighlightMode == EHighlightMode::HighlightSelected)
         {
             QModelIndex Index = GetSelectedRow();
@@ -144,9 +144,10 @@ void CPoiMapSidebar::RevertModelOverlay(CModelNode *pModel)
             else
                 UnhighlightModel(pModel);
         }
-
         else
+        {
             UnhighlightModel(pModel);
+        }
     }
 }
 
@@ -241,14 +242,14 @@ void CPoiMapSidebar::OnSelectionChanged(const QItemSelection& rkSelected, const 
         // Clear highlight on deselected models
         QModelIndexList DeselectedIndices = rkDeselected.indexes();
 
-        for (int iIdx = 0; iIdx < DeselectedIndices.size(); iIdx++)
-            UnhighlightPoiModels(DeselectedIndices[iIdx]);
+        for (const auto& index : DeselectedIndices)
+            UnhighlightPoiModels(index);
 
         // Highlight newly selected models
-        QModelIndexList SelectedIndices = rkSelected.indexes();
+        const QModelIndexList SelectedIndices = rkSelected.indexes();
 
-        for (int iIdx = 0; iIdx < SelectedIndices.size(); iIdx++)
-            HighlightPoiModels(SelectedIndices[iIdx]);
+        for (const auto& index : SelectedIndices)
+            HighlightPoiModels(index);
     }
 }
 
@@ -375,38 +376,40 @@ void CPoiMapSidebar::OnPoiPicked(const SRayIntersection& rkIntersect, QMouseEven
 
 void CPoiMapSidebar::OnModelPicked(const SRayIntersection& rkRayIntersect, QMouseEvent* pEvent)
 {
-    if (!rkRayIntersect.pNode) return;
+    if (!rkRayIntersect.pNode)
+        return;
 
     // Check for valid selection
-    QModelIndexList Indices = ui->ListView->selectionModel()->selectedRows();
-    if (Indices.isEmpty()) return;
+    const QModelIndexList Indices = ui->ListView->selectionModel()->selectedRows();
+    if (Indices.isEmpty())
+        return;
 
     // Map selection to source model
     QModelIndexList SourceIndices;
-    for (auto it = Indices.begin(); it != Indices.end(); it++)
-        SourceIndices << mModel.mapToSource(*it);
+    SourceIndices.reserve(Indices.size());
+    for (const auto& index : Indices)
+        SourceIndices.push_back(mModel.mapToSource(index));
 
     // If alt is pressed, invert the pick mode
     CModelNode *pModel = static_cast<CModelNode*>(rkRayIntersect.pNode);
 
-    bool AltPressed = (pEvent->modifiers() & Qt::AltModifier) != 0;
-    EPickType PickType = GetRealPickType(AltPressed);
+    const bool AltPressed = (pEvent->modifiers() & Qt::AltModifier) != 0;
+    const EPickType PickType = GetRealPickType(AltPressed);
 
     // Add meshes
     if (PickType == EPickType::AddMeshes)
     {
-        for (auto it = SourceIndices.begin(); it != SourceIndices.end(); it++)
-            mSourceModel.AddMapping(*it, pModel);
+        for (const auto& index : SourceIndices)
+            mSourceModel.AddMapping(index, pModel);
 
         if (mHighlightMode != EHighlightMode::HighlightNone)
             HighlightModel(SourceIndices.front(), pModel);
     }
-
     // Remove meshes
     else if (PickType == EPickType::RemoveMeshes)
     {
-        for (auto it = SourceIndices.begin(); it != SourceIndices.end(); it++)
-            mSourceModel.RemoveMapping(*it, pModel);
+        for (const auto& index : SourceIndices)
+            mSourceModel.RemoveMapping(index, pModel);
 
         if (mHighlightMode != EHighlightMode::HighlightNone)
             RevertModelOverlay(mpHoverModel);
@@ -425,10 +428,10 @@ void CPoiMapSidebar::OnModelHover(const SRayIntersection& rkIntersect, QMouseEve
 
     // If the left mouse button is pressed, treat this as a click.
     if (pEvent->buttons() & Qt::LeftButton)
+    {
         OnModelPicked(rkIntersect, pEvent);
-
-    // Otherwise, process as a mouseover
-    else
+    }
+    else // Otherwise, process as a mouseover
     {
         QModelIndex Index = GetSelectedRow();
 
