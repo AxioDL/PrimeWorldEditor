@@ -5,7 +5,6 @@
 #include <Core/Render/CRenderer.h>
 #include <Common/Log.h>
 
-#include <iostream>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QScreen>
