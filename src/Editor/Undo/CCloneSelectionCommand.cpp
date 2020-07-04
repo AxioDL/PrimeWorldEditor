@@ -11,7 +11,7 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
     {
         if (It->NodeType() == ENodeType::Script)
         {
-            mNodesToClone << *It;
+            mNodesToClone.push_back(*It);
 
             // Fetch linked objects
             CScriptNode *pScript = static_cast<CScriptNode*>(*It);
@@ -22,7 +22,7 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
                 CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pInst->Link(ELinkType::Outgoing, iLink)->Receiver());
 
                 if (!pNode->IsSelected())
-                    mLinkedInstances << pNode->Instance();
+                    mLinkedInstances.push_back(pNode->Instance());
             }
         }
     }
@@ -72,10 +72,10 @@ void CCloneSelectionCommand::redo()
         pCloneNode->SetRotation(pScript->LocalRotation());
         pCloneNode->SetScale(pScript->LocalScale());
 
-        ToCloneInstanceIDs << pInstance->InstanceID();
-        ClonedInstanceIDs << pCloneInst->InstanceID();
-        ClonedNodes << pCloneNode;
-        mClonedNodes << pCloneNode;
+        ToCloneInstanceIDs.push_back(pInstance->InstanceID());
+        ClonedInstanceIDs.push_back(pCloneInst->InstanceID());
+        ClonedNodes.push_back(pCloneNode);
+        mClonedNodes.push_back(pCloneNode);
         mpEditor->NotifyNodeSpawned(pCloneNode);
     }
 
