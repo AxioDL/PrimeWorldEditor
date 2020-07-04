@@ -360,15 +360,15 @@ CScriptObject* CInstancesModel::IndexObject(const QModelIndex& rkIndex) const
 // ************ PUBLIC SLOTS ************
 void CInstancesModel::OnActiveProjectChanged(CGameProject *pProj)
 {
-    if (mModelType == EInstanceModelType::Types)
-    {
-        if (pProj)
-            mpCurrentGame = NGameList::GetGameTemplate( pProj->Game() );
-        else
-            mpCurrentGame = nullptr;
+    if (mModelType != EInstanceModelType::Types)
+        return;
 
-        GenerateList();
-    }
+    if (pProj != nullptr)
+        mpCurrentGame = NGameList::GetGameTemplate( pProj->Game() );
+    else
+        mpCurrentGame = nullptr;
+
+    GenerateList();
 }
 
 void CInstancesModel::OnMapChange()
@@ -387,11 +387,11 @@ void CInstancesModel::OnMapChange()
 
 void CInstancesModel::NodeAboutToBeCreated()
 {
-    if (!mChangingLayout)
-    {
-        emit layoutAboutToBeChanged();
-        mChangingLayout = true;
-    }
+    if (mChangingLayout)
+        return;
+
+    emit layoutAboutToBeChanged();
+    mChangingLayout = true;
 }
 
 void CInstancesModel::NodeCreated(CSceneNode *pNode)
@@ -412,7 +412,7 @@ void CInstancesModel::NodeCreated(CSceneNode *pNode)
 
             if (pObj->Template()->NumObjects() == 1)
             {
-                QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
+                const QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
                 int NewIndex = 0;
 
                 for (; NewIndex < mTemplateList.size(); NewIndex++)
@@ -431,27 +431,21 @@ void CInstancesModel::NodeCreated(CSceneNode *pNode)
 
 void CInstancesModel::NodeAboutToBeDeleted(CSceneNode *pNode)
 {
-    if (pNode->NodeType() == ENodeType::Script)
+    if (pNode->NodeType() != ENodeType::Script)
+        return;
+
+    if (mModelType == EInstanceModelType::Types)
     {
-        if (mModelType == EInstanceModelType::Types)
+        const auto *pScript = static_cast<CScriptNode*>(pNode);
+        const CScriptObject *pObj = pScript->Instance();
+
+        if (pObj->Template()->NumObjects() <= 1)
         {
-            CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
-            CScriptObject *pObj = pScript->Instance();
-
-            if (pObj->Template()->NumObjects() <= 1)
-            {
-                QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
-                int TempIdx = mTemplateList.indexOf(pObj->Template());
-                beginRemoveRows(ScriptRootIdx, TempIdx, TempIdx);
-                mTemplateList.removeOne(pObj->Template());
-                endRemoveRows();
-            }
-
-            else if (!mChangingLayout)
-            {
-                emit layoutAboutToBeChanged();
-                mChangingLayout = true;
-            }
+            const QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
+            const int TempIdx = mTemplateList.indexOf(pObj->Template());
+            beginRemoveRows(ScriptRootIdx, TempIdx, TempIdx);
+            mTemplateList.removeOne(pObj->Template());
+            endRemoveRows();
         }
 
         else if (!mChangingLayout)
@@ -460,40 +454,45 @@ void CInstancesModel::NodeAboutToBeDeleted(CSceneNode *pNode)
             mChangingLayout = true;
         }
     }
+    else if (!mChangingLayout)
+    {
+        emit layoutAboutToBeChanged();
+        mChangingLayout = true;
+    }
 }
 
 void CInstancesModel::NodeDeleted()
 {
-    if (mChangingLayout)
-    {
-        emit layoutChanged();
-        mChangingLayout = false;
-    }
+    if (!mChangingLayout)
+        return;
+
+    emit layoutChanged();
+    mChangingLayout = false;
 }
 
 void CInstancesModel::PropertyModified(IProperty *pProp, CScriptObject *pInst)
 {
-    if (pProp->Name() == "Name")
+    if (pProp->Name() != "Name")
+        return;
+
+    const QModelIndex ScriptRoot = index(0, 0, QModelIndex());
+
+    if (mModelType == EInstanceModelType::Layers)
     {
-        QModelIndex ScriptRoot = index(0, 0, QModelIndex());
+        const uint32 Index = pInst->Layer()->AreaIndex();
+        const QModelIndex LayerIndex = index(Index, 0, ScriptRoot);
+        const QModelIndex InstIndex = index(pInst->LayerIndex(), 0, LayerIndex);
+        emit dataChanged(InstIndex, InstIndex);
+    }
+    else
+    {
+        const uint32 Index = mTemplateList.indexOf(pInst->Template());
+        const QModelIndex TempIndex = index(Index, 0, ScriptRoot);
 
-        if (mModelType == EInstanceModelType::Layers)
-        {
-            uint32 Index = pInst->Layer()->AreaIndex();
-            QModelIndex LayerIndex = index(Index, 0, ScriptRoot);
-            QModelIndex InstIndex = index(pInst->LayerIndex(), 0, LayerIndex);
-            emit dataChanged(InstIndex, InstIndex);
-        }
-        else
-        {
-            uint32 Index = mTemplateList.indexOf(pInst->Template());
-            QModelIndex TempIndex = index(Index, 0, ScriptRoot);
-
-            QList<CScriptObject*> InstList = QList<CScriptObject*>::fromStdList(pInst->Template()->ObjectList());
-            uint32 InstIdx = InstList.indexOf(pInst);
-            QModelIndex InstIndex = index(InstIdx, 0, TempIndex);
-            emit dataChanged(InstIndex, InstIndex);
-        }
+        const QList<CScriptObject*> InstList = QList<CScriptObject*>::fromStdList(pInst->Template()->ObjectList());
+        const uint32 InstIdx = InstList.indexOf(pInst);
+        const QModelIndex InstIndex = index(InstIdx, 0, TempIndex);
+        emit dataChanged(InstIndex, InstIndex);
     }
 }
 
@@ -508,21 +507,22 @@ void CInstancesModel::InstancesLayerPreChange()
 void CInstancesModel::InstancesLayerPostChange(const QList<CScriptNode*>& rkInstanceList)
 {
     QList<CScriptObject*> InstanceList;
+    InstanceList.reserve(rkInstanceList.size());
     for (CScriptNode *pNode : rkInstanceList)
-        InstanceList << pNode->Instance();
+        InstanceList.push_back(pNode->Instance());
 
-    QModelIndex ScriptIdx = index(0, 0, QModelIndex());
+    const QModelIndex ScriptIdx = index(0, 0, QModelIndex());
 
     // For types, just find the instances that have changed layers and emit dataChanged for column 1.
     if (mModelType == EInstanceModelType::Types)
     {
         for (int iType = 0; iType < rowCount(ScriptIdx); iType++)
         {
-            QModelIndex TypeIdx = index(iType, 0, ScriptIdx);
+            const QModelIndex TypeIdx = index(iType, 0, ScriptIdx);
 
             for (int iInst = 0; iInst < rowCount(TypeIdx); iInst++)
             {
-                QModelIndex InstIdx = index(iInst, 1, TypeIdx);
+                const QModelIndex InstIdx = index(iInst, 1, TypeIdx);
                 CScriptObject *pInst = IndexObject(InstIdx);
 
                 if (InstanceList.contains(pInst))
@@ -553,15 +553,15 @@ CInstancesModel::EIndexType CInstancesModel::IndexType(const QModelIndex& rkInde
 
 ENodeType CInstancesModel::IndexNodeType(const QModelIndex& rkIndex)
 {
-    EIndexType type = IndexType(rkIndex);
-    const ENodeType kTypes[] = { ENodeType::Script, ENodeType::Light };
+    const EIndexType type = IndexType(rkIndex);
+    const std::array kTypes{ENodeType::Script, ENodeType::Light};
 
     switch (type)
     {
     case EIndexType::Root:       return ENodeType::None;
-    case EIndexType::NodeType:   return (ENodeType) kTypes[ rkIndex.row() ];
-    case EIndexType::ObjectType: return (ENodeType) kTypes[ rkIndex.parent().row() ];
-    case EIndexType::Instance:   return (ENodeType) kTypes[ rkIndex.parent().parent().row() ];
+    case EIndexType::NodeType:   return kTypes[rkIndex.row()];
+    case EIndexType::ObjectType: return kTypes[rkIndex.parent().row()];
+    case EIndexType::Instance:   return kTypes[rkIndex.parent().parent().row()];
     default:                     return ENodeType::None;
     }
 }
@@ -575,18 +575,18 @@ void CInstancesModel::GenerateList()
 
     if (mpCurrentGame)
     {
-        uint32 NumTemplates = mpCurrentGame->NumScriptTemplates();
+        const uint32 NumTemplates = mpCurrentGame->NumScriptTemplates();
 
         for (uint32 iTemp = 0; iTemp < NumTemplates; iTemp++)
         {
             CScriptTemplate *pTemp = mpCurrentGame->TemplateByIndex(iTemp);
 
             if (pTemp->NumObjects() > 0)
-                mTemplateList << pTemp;
+                mTemplateList.push_back(pTemp);
         }
 
-        std::sort(mTemplateList.begin(), mTemplateList.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
-            return (pLeft->Name() < pRight->Name());
+        std::sort(mTemplateList.begin(), mTemplateList.end(), [](const CScriptTemplate *pLeft, const CScriptTemplate *pRight) {
+            return pLeft->Name() < pRight->Name();
         });
     }
 
