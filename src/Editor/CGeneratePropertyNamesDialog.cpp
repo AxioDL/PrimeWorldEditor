@@ -14,7 +14,7 @@ CGeneratePropertyNamesDialog::CGeneratePropertyNamesDialog(QWidget* pParent)
     , mFutureWatcher(this)
 {
     mpUI->setupUi(this);
-    mNotifier.SetProgressBar( mpUI->ProgressBar );
+    mNotifier.SetProgressBar(mpUI->ProgressBar);
 
     connect(mpUI->AddSuffixButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::AddSuffix);
     connect(mpUI->RemoveSuffixButton, &QPushButton::pressed, this, &CGeneratePropertyNamesDialog::DeleteSuffix);
@@ -50,12 +50,12 @@ void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
         return;
     }
 
-    uint32 ID = pProperty->ID();
+    const uint32 ID = pProperty->ID();
     const char* pkTypeName = pProperty->HashableTypeName();
-    mIdPairs << SPropertyIdTypePair { ID, pkTypeName };
+    mIdPairs.push_back(SPropertyIdTypePair{ID, pkTypeName});
 
     const QString ItemText = tr("%1 [%2]").arg(*TString::HexString(pProperty->ID(), 8, false)).arg(pkTypeName);
-    mpUI->IdPoolList->addItem( ItemText );
+    mpUI->IdPoolList->addItem(ItemText);
 
     // We probably don't want to call UpdateUI every single time we add a property, but
     // we do need to call it somewhere to make sure the ID list shows up on the UI...
@@ -115,11 +115,11 @@ void CGeneratePropertyNamesDialog::AddSuffix()
 /** Deletes an item from the suffix list */
 void CGeneratePropertyNamesDialog::DeleteSuffix()
 {
-    if (mpUI->TypeSuffixesListWidget->selectedItems().size() > 0)
-    {
-        int Row = mpUI->TypeSuffixesListWidget->currentRow();
-        delete mpUI->TypeSuffixesListWidget->takeItem(Row);
-    }
+    if (mpUI->TypeSuffixesListWidget->selectedItems().empty())
+        return;
+
+    const int Row = mpUI->TypeSuffixesListWidget->currentRow();
+    delete mpUI->TypeSuffixesListWidget->takeItem(Row);
 }
 
 /** Clear the ID pool */
@@ -148,13 +148,13 @@ void CGeneratePropertyNamesDialog::StartGeneration()
 
     for (int RowIdx = 0; RowIdx < mpUI->TypeSuffixesListWidget->count(); RowIdx++)
     {
-        QString ItemText = mpUI->TypeSuffixesListWidget->item(RowIdx)->text();
-        Params.TypeNames.push_back( TO_TSTRING(ItemText) );
+        const QString ItemText = mpUI->TypeSuffixesListWidget->item(RowIdx)->text();
+        Params.TypeNames.push_back(TO_TSTRING(ItemText));
     }
 
     Params.MaxWords = mpUI->NumWordsSpinBox->value();
-    Params.Prefix = TO_TSTRING( mpUI->PrefixLineEdit->text() );
-    Params.Suffix = TO_TSTRING( mpUI->SuffixLineEdit->text() );
+    Params.Prefix = TO_TSTRING(mpUI->PrefixLineEdit->text());
+    Params.Suffix = TO_TSTRING(mpUI->SuffixLineEdit->text());
     Params.Casing = mpUI->CasingComboBox->currentEnum();
     Params.ValidIdPairs = mIdPairs.toStdVector();
     Params.ExcludeAccuratelyNamedProperties = mpUI->UnnamedOnlyCheckBox->isChecked();
@@ -167,7 +167,7 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     mFutureWatcher.setFuture(mFuture);
 
     mUpdateTimer.start(500);
-    connect( &mUpdateTimer, &QTimer::timeout, this, &CGeneratePropertyNamesDialog::CheckForNewResults);
+    connect(&mUpdateTimer, &QTimer::timeout, this, &CGeneratePropertyNamesDialog::CheckForNewResults);
 
     UpdateUI();
 }
@@ -188,14 +188,12 @@ void CGeneratePropertyNamesDialog::GenerationComplete()
     mNotifier.SetCanceled(false);
     mUpdateTimer.stop();
 
-    mTaskOutput = QList<SGeneratedPropertyName>::fromStdList(
-                    mGenerator.GetOutput()
-                );
+    mTaskOutput = QList<SGeneratedPropertyName>::fromStdList(mGenerator.GetOutput());
 
-    mpUI->ProgressBar->setValue( mpUI->ProgressBar->maximum() );
+    mpUI->ProgressBar->setValue(mpUI->ProgressBar->maximum());
 
-    disconnect( &mFutureWatcher, 0, this, 0 );
-    disconnect( &mUpdateTimer, 0, this, 0 );
+    disconnect(&mFutureWatcher, nullptr, this, nullptr);
+    disconnect(&mUpdateTimer, nullptr, this, nullptr);
     UpdateUI();
 }
 
@@ -214,18 +212,18 @@ void CGeneratePropertyNamesDialog::OnTreeItemChecked(QTreeWidgetItem* pItem)
 void CGeneratePropertyNamesDialog::OnTreeItemDoubleClicked(QTreeWidgetItem* pItem)
 {
     // Check whether this is an XML path
-    if (pItem->parent() != nullptr)
-    {
-        QString Text = pItem->text(0);
+    if (pItem->parent() == nullptr)
+        return;
 
-        if (Text.endsWith(".xml"))
-        {
-            TString TStrText = TO_TSTRING(Text);
-            TString DirPath = gDataDir + "templates/" + TStrText.GetFileDirectory();
-            TString AbsPath = FileUtil::MakeAbsolute(DirPath) + TStrText.GetFileName();
-            UICommon::OpenInExternalApplication( TO_QSTRING(AbsPath) );
-        }
-    }
+    const QString Text = pItem->text(0);
+
+    if (!Text.endsWith(".xml"))
+        return;
+
+    const TString TStrText = TO_TSTRING(Text);
+    const TString DirPath = gDataDir + "templates/" + TStrText.GetFileDirectory();
+    const TString AbsPath = FileUtil::MakeAbsolute(DirPath) + TStrText.GetFileName();
+    UICommon::OpenInExternalApplication( TO_QSTRING(AbsPath) );
 }
 
 /** Check all items in the output tree */
@@ -238,8 +236,8 @@ void CGeneratePropertyNamesDialog::CheckAll()
     for (int RowIdx = 0; RowIdx < mpUI->OutputTreeWidget->topLevelItemCount(); RowIdx++)
     {
         QTreeWidgetItem* pItem = mpUI->OutputTreeWidget->topLevelItem(RowIdx);
-        pItem->setCheckState( 0, Qt::Checked );
-        mCheckedItems << pItem;
+        pItem->setCheckState(0, Qt::Checked);
+        mCheckedItems.push_back(pItem);
     }
 
     mpUI->OutputTreeWidget->blockSignals(false);
@@ -279,15 +277,14 @@ void CGeneratePropertyNamesDialog::ApplyChanges()
     }
 
     // Perform rename operation
-    for (int ItemIdx = 0; ItemIdx < mCheckedItems.size(); ItemIdx++)
+    for (QTreeWidgetItem* pItem : mCheckedItems)
     {
-        QTreeWidgetItem* pItem = mCheckedItems[ItemIdx];
-        uint32 ID = TO_TSTRING( pItem->text(2) ).ToInt32(16);
-        TString Type = TO_TSTRING( pItem->text(1) );
-        TString NewName = TO_TSTRING( pItem->text(0) );
+        const uint32 ID = TO_TSTRING(pItem->text(2)).ToInt32(16);
+        const TString Type = TO_TSTRING(pItem->text(1));
+        const TString NewName = TO_TSTRING(pItem->text(0));
 
-        NPropertyMap::SetPropertyName( ID, *Type, *NewName );
-        pItem->setText( 3, TO_QSTRING(NewName) );
+        NPropertyMap::SetPropertyName(ID, *Type, *NewName);
+        pItem->setText(3, TO_QSTRING(NewName));
     }
 
     NPropertyMap::SaveMap();
@@ -299,40 +296,41 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
     const std::list<SGeneratedPropertyName>& rkOutput = mGenerator.GetOutput();
 
     QTreeWidget* pTreeWidget = mpUI->OutputTreeWidget;
-    int CurItemCount = pTreeWidget->topLevelItemCount();
+    const int CurItemCount = pTreeWidget->topLevelItemCount();
 
     // Add new items to the tree
-    if (rkOutput.size() > CurItemCount)
+    if (static_cast<int>(rkOutput.size()) > CurItemCount)
     {
         auto Iter = rkOutput.cbegin();
         auto End = rkOutput.cend();
         std::advance(Iter, CurItemCount);
 
-        for (; Iter != End; Iter++)
+        for (; Iter != End; ++Iter)
         {
             const SGeneratedPropertyName& rkName = *Iter;
 
             // Add an item to the tree for this name
-            QStringList ColumnText;
-            ColumnText << TO_QSTRING(rkName.Name)
-                       << TO_QSTRING(rkName.Type)
-                       << TO_QSTRING(TString::HexString(rkName.ID))
-                       << TO_QSTRING(NPropertyMap::GetPropertyName(rkName.ID, *rkName.Type));
+            QStringList ColumnText{
+                TO_QSTRING(rkName.Name),
+                TO_QSTRING(rkName.Type),
+                TO_QSTRING(TString::HexString(rkName.ID)),
+                TO_QSTRING(NPropertyMap::GetPropertyName(rkName.ID, *rkName.Type)),
+            };
 
-            QTreeWidgetItem* pItem = new CCheckableTreeWidgetItem(pTreeWidget, ColumnText);
+            auto* pItem = new CCheckableTreeWidgetItem(pTreeWidget, ColumnText);
             pItem->setFlags(Qt::ItemIsEnabled |
                             Qt::ItemIsSelectable |
                             Qt::ItemIsUserCheckable);
             pItem->setCheckState(0, Qt::Unchecked);
 
             // Add children items
-            for (auto Iter = rkName.XmlList.begin(); Iter != rkName.XmlList.end(); Iter++)
+            for (const auto& name : rkName.XmlList)
             {
-                QString XmlName = TO_QSTRING( *Iter );
+                QString XmlName = TO_QSTRING(name);
                 ColumnText.clear();
-                ColumnText << XmlName;
+                ColumnText.push_back(XmlName);
 
-                QTreeWidgetItem* pChild = new QTreeWidgetItem(pItem, ColumnText);
+                auto* pChild = new QTreeWidgetItem(pItem, ColumnText);
                 pChild->setFlags(Qt::ItemIsEnabled);
                 pChild->setFirstColumnSpanned(true);
             }
@@ -345,13 +343,13 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
 /** Updates the enabled status of various widgets */
 void CGeneratePropertyNamesDialog::UpdateUI()
 {
-    mpUI->SettingsGroupBox->setEnabled( !mRunningNameGeneration );
-    mpUI->TypeSuffixesGroupBox->setEnabled( !mRunningNameGeneration );
-    mpUI->TypeSuffixesGroupBox->setHidden( !mIdPairs.isEmpty() );
-    mpUI->IdPoolGroupBox->setEnabled( !mRunningNameGeneration );
-    mpUI->IdPoolGroupBox->setHidden( mIdPairs.isEmpty() );
-    mpUI->StartButton->setEnabled( !mRunningNameGeneration );
-    mpUI->CancelButton->setEnabled( mRunningNameGeneration && !mCanceledNameGeneration );
+    mpUI->SettingsGroupBox->setEnabled(!mRunningNameGeneration);
+    mpUI->TypeSuffixesGroupBox->setEnabled(!mRunningNameGeneration);
+    mpUI->TypeSuffixesGroupBox->setHidden(!mIdPairs.isEmpty());
+    mpUI->IdPoolGroupBox->setEnabled(!mRunningNameGeneration);
+    mpUI->IdPoolGroupBox->setHidden(mIdPairs.isEmpty());
+    mpUI->StartButton->setEnabled(!mRunningNameGeneration);
+    mpUI->CancelButton->setEnabled(mRunningNameGeneration && !mCanceledNameGeneration);
 
     const int TotalItems = mpUI->OutputTreeWidget->topLevelItemCount();
     const bool HasResults = TotalItems > 0;
