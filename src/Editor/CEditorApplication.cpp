@@ -226,28 +226,27 @@ bool CEditorApplication::CookAllDirtyPackages()
 
 bool CEditorApplication::CookPackageList(QList<CPackage*> PackageList)
 {
-    if (!PackageList.isEmpty())
+    if (PackageList.isEmpty())
+        return true;
+
+    CProgressDialog Dialog(tr("Cooking package%1)").arg(PackageList.size() > 1  ? tr("s") : QString{}), false, true, mpWorldEditor);
+
+    QFuture<void> Future = QtConcurrent::run([&]()
     {
-        CProgressDialog Dialog("Cooking package" + QString(PackageList.size() > 1  ? "s" : ""), false, true, mpWorldEditor);
+        Dialog.SetNumTasks(PackageList.size());
 
-        QFuture<void> Future = QtConcurrent::run([&]()
+        for (int PkgIdx = 0; PkgIdx < PackageList.size() && !Dialog.ShouldCancel(); PkgIdx++)
         {
-            Dialog.SetNumTasks(PackageList.size());
+            CPackage *pPkg = PackageList[PkgIdx];
+            Dialog.SetTask(PkgIdx, "Cooking " + pPkg->Name() + ".pak...");
+            pPkg->Cook(&Dialog);
+        }
+    });
 
-            for (int PkgIdx = 0; PkgIdx < PackageList.size() && !Dialog.ShouldCancel(); PkgIdx++)
-            {
-                CPackage *pPkg = PackageList[PkgIdx];
-                Dialog.SetTask(PkgIdx, "Cooking " + pPkg->Name() + ".pak...");
-                pPkg->Cook(&Dialog);
-            }
-        });
+    Dialog.WaitForResults(Future);
 
-        Dialog.WaitForResults(Future);
-
-        emit PackagesCooked();
-        return !Dialog.ShouldCancel();
-    }
-    else return true;
+    emit PackagesCooked();
+    return !Dialog.ShouldCancel();
 }
 
 bool CEditorApplication::HasAnyDirtyPackages()
