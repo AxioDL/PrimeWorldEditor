@@ -290,7 +290,7 @@ float CExportGameDialog::FindBuildVersion()
     uint32 DolSize = (uint32) mpDisc->getDataPartition()->getDOLSize();
 
     // Find build info string
-    const char *pkSearchText = "!#$MetroidBuildInfo!#$";
+    constexpr char pkSearchText[] = "!#$MetroidBuildInfo!#$";
     const int SearchTextSize = strlen(pkSearchText);
 
     for (uint32 SearchIdx = 0; SearchIdx < DolSize - SearchTextSize + 1; SearchIdx++)
