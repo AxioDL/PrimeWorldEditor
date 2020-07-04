@@ -5,11 +5,11 @@ CDeleteLinksCommand::CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *p
     : IUndoCommand("Delete Links")
     , mpEditor(pEditor)
 {
-    mAffectedInstances << pObject;
+    mAffectedInstances.push_back(pObject);
 
-    for (int iIdx = 0; iIdx < rkIndices.size(); iIdx++)
+    for (const auto index : rkIndices)
     {
-        CLink *pLink = pObject->Link(Type, rkIndices[iIdx]);
+        const CLink *pLink = pObject->Link(Type, index);
 
         SDeletedLink DelLink;
         DelLink.State = pLink->State();
@@ -18,17 +18,17 @@ CDeleteLinksCommand::CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *p
         DelLink.pReceiver = pLink->Receiver();
         DelLink.SenderIndex = pLink->SenderIndex();
         DelLink.ReceiverIndex = pLink->ReceiverIndex();
-        mLinks << DelLink;
+        mLinks.push_back(DelLink);
 
         if (Type == ELinkType::Outgoing)
         {
             if (!mAffectedInstances.contains(DelLink.pReceiver))
-                mAffectedInstances << DelLink.pReceiver;
+                mAffectedInstances.push_back(DelLink.pReceiver);
         }
         else
         {
             if (!mAffectedInstances.contains(DelLink.pSender))
-                mAffectedInstances << DelLink.pSender;
+                mAffectedInstances.push_back(DelLink.pSender);
         }
     }
 }
@@ -42,31 +42,31 @@ void CDeleteLinksCommand::undo()
     };
     QVector<SNewLink> NewLinks;
 
-    for (int iLink = 0; iLink < mLinks.size(); iLink++)
+    for (SDeletedLink& rDelLink : mLinks)
     {
-        SDeletedLink& rDelLink = mLinks[iLink];
-
         SNewLink Link;
-        Link.pDelLink = &mLinks[iLink];
+        Link.pDelLink = &rDelLink;
         Link.pLink = new CLink(mpEditor->ActiveArea(), rDelLink.State, rDelLink.Message, rDelLink.pSender.InstanceID(), rDelLink.pReceiver.InstanceID());
-        NewLinks << Link;
+        NewLinks.push_back(Link);
     }
 
     // Add to senders
-    std::sort(NewLinks.begin(), NewLinks.end(), [](SNewLink& rLinkA, SNewLink& rLinkB) { return rLinkA.pDelLink->SenderIndex < rLinkB.pDelLink->SenderIndex; });
+    std::sort(NewLinks.begin(), NewLinks.end(), [](const SNewLink& rLinkA, const SNewLink& rLinkB) {
+        return rLinkA.pDelLink->SenderIndex < rLinkB.pDelLink->SenderIndex;
+    });
 
-    for (int iLink = 0; iLink < NewLinks.size(); iLink++)
+    for (SNewLink& rNew : NewLinks)
     {
-        SNewLink& rNew = NewLinks[iLink];
         rNew.pDelLink->pSender->AddLink(ELinkType::Outgoing, rNew.pLink, rNew.pDelLink->SenderIndex);
     }
 
     // Add to receivers
-    std::sort(NewLinks.begin(), NewLinks.end(), [](SNewLink& rLinkA, SNewLink& rLinkB) { return rLinkA.pDelLink->ReceiverIndex < rLinkB.pDelLink->ReceiverIndex; });
+    std::sort(NewLinks.begin(), NewLinks.end(), [](const SNewLink& rLinkA, const SNewLink& rLinkB) {
+        return rLinkA.pDelLink->ReceiverIndex < rLinkB.pDelLink->ReceiverIndex;
+    });
 
-    for (int iLink = 0; iLink < NewLinks.size(); iLink++)
+    for (SNewLink& rNew : NewLinks)
     {
-        SNewLink& rNew = NewLinks[iLink];
         rNew.pDelLink->pReceiver->AddLink(ELinkType::Incoming, rNew.pLink, rNew.pDelLink->ReceiverIndex);
     }
 
@@ -78,15 +78,13 @@ void CDeleteLinksCommand::redo()
 {
     QVector<CLink*> Links;
 
-    for (int iLink = 0; iLink < mLinks.size(); iLink++)
+    for (const auto& rLink : mLinks)
     {
-        SDeletedLink& rLink = mLinks[iLink];
-        Links << rLink.pSender->Link(ELinkType::Outgoing, rLink.SenderIndex);
+        Links.push_back(rLink.pSender->Link(ELinkType::Outgoing, rLink.SenderIndex));
     }
 
-    for (int iLink = 0; iLink < Links.size(); iLink++)
+    for (auto* pLink : Links)
     {
-        CLink *pLink = Links[iLink];
         pLink->Sender()->RemoveLink(ELinkType::Outgoing, pLink);
         pLink->Receiver()->RemoveLink(ELinkType::Incoming, pLink);
         delete pLink;
