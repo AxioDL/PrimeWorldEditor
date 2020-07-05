@@ -52,10 +52,12 @@ public:
     bool IsRoot() const                  { return !mpParent; }
     TString Name() const                 { return mName; }
 
-    uint32 NumSubdirectories() const                         { return mSubdirectories.size(); }
-    CVirtualDirectory* SubdirectoryByIndex(uint32 Index)     { return mSubdirectories[Index]; }
-    uint32 NumResources() const                              { return mResources.size(); }
-    CResourceEntry* ResourceByIndex(uint32 Index)            { return mResources[Index]; }
+    uint32 NumSubdirectories() const                                 { return mSubdirectories.size(); }
+    CVirtualDirectory* SubdirectoryByIndex(uint32 Index)             { return mSubdirectories[Index]; }
+    const CVirtualDirectory* SubdirectoryByIndex(uint32 Index) const { return mSubdirectories[Index]; }
+    uint32 NumResources() const                                      { return mResources.size(); }
+    CResourceEntry* ResourceByIndex(uint32 Index)                    { return mResources[Index]; }
+    const CResourceEntry* ResourceByIndex(uint32 Index) const        { return mResources[Index]; }
 };
 
 #endif // CVIRTUALDIRECTORY
