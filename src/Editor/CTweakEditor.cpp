@@ -116,9 +116,12 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
     // Create tweak list
     if (pNewProject != nullptr)
     {
-        for (CTweakData* pTweakData : pNewProject->TweakManager()->TweakObjects())
+        const auto& tweakObjects = pNewProject->TweakManager()->TweakObjects();
+        mTweakAssets.reserve(static_cast<int>(tweakObjects.size()));
+
+        for (CTweakData* tweakData : tweakObjects)
         {
-            mTweakAssets << pTweakData;
+            mTweakAssets.push_back(tweakData);
         }
     }
 

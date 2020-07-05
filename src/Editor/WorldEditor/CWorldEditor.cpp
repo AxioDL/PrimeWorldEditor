@@ -59,8 +59,11 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->ResourceBrowserContainer->setLayout(pLayout);
 
     // Initialize splitter
-    QList<int> SplitterSizes;
-    SplitterSizes << width() * 0.25 << width() * 0.53 << width() * 0.22;
+    const QList<int> SplitterSizes{
+        static_cast<int>(width() * 0.25),
+        static_cast<int>(width() * 0.53),
+        static_cast<int>(width() * 0.22),
+    };
     ui->splitter->setSizes(SplitterSizes);
 
     // Initialize UI stuff
