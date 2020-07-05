@@ -37,11 +37,11 @@ public:
     void SetRoot(CVirtualDirectory *pDir);
 
 protected:
-    bool GetProposedIndex(QString Path, QModelIndex& rOutParent, int& rOutRow);
+    bool GetProposedIndex(const QString& Path, QModelIndex& rOutParent, int& rOutRow);
 
 public slots:
-    void OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, QString NewPath);
-    void OnDirectoryAboutToBeCreated(QString DirPath);
+    void OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, const QString& NewPath);
+    void OnDirectoryAboutToBeCreated(const QString& DirPath);
     void OnDirectoryAboutToBeDeleted(CVirtualDirectory *pDir);
     void FinishModelChanges();
 };

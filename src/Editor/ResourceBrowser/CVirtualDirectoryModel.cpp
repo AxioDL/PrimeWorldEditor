@@ -169,15 +169,12 @@ bool CVirtualDirectoryModel::dropMimeData(const QMimeData *pkData, Qt::DropActio
 
 QMimeData* CVirtualDirectoryModel::mimeData(const QModelIndexList& rkIndexes) const
 {
-    if (rkIndexes.size() == 1)
-    {
-        QModelIndex Index = rkIndexes.front();
-        CVirtualDirectory *pDir = IndexDirectory(Index);
-        CResourceMimeData *pMimeData = new CResourceMimeData(pDir);
-        return pMimeData;
-    }
-    else
+    if (rkIndexes.size() != 1)
         return nullptr;
+
+    const QModelIndex Index = rkIndexes.front();
+    CVirtualDirectory *pDir = IndexDirectory(Index);
+    return new CResourceMimeData(pDir);
 }
 
 Qt::DropActions CVirtualDirectoryModel::supportedDragActions() const
@@ -231,7 +228,9 @@ QModelIndex CVirtualDirectoryModel::GetIndexForDirectory(CVirtualDirectory *pDir
 
 CVirtualDirectory* CVirtualDirectoryModel::IndexDirectory(const QModelIndex& rkIndex) const
 {
-    if (!rkIndex.isValid()) return nullptr;
+    if (!rkIndex.isValid())
+        return nullptr;
+
     return static_cast<CVirtualDirectory*>(rkIndex.internalPointer());
 }
 
@@ -242,7 +241,7 @@ void CVirtualDirectoryModel::SetRoot(CVirtualDirectory *pDir)
     endResetModel();
 }
 
-bool CVirtualDirectoryModel::GetProposedIndex(QString Path, QModelIndex& rOutParent, int& rOutRow)
+bool CVirtualDirectoryModel::GetProposedIndex(const QString& Path, QModelIndex& rOutParent, int& rOutRow)
 {
     // Get parent path
     TString FullPath = TO_TSTRING(Path);
@@ -279,31 +278,31 @@ bool CVirtualDirectoryModel::GetProposedIndex(QString Path, QModelIndex& rOutPar
     return true;
 }
 
-void CVirtualDirectoryModel::OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, QString NewPath)
+void CVirtualDirectoryModel::OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, const QString& NewPath)
 {
     QModelIndex Parent;
     int Row;
 
-    if (GetProposedIndex(NewPath, Parent, Row))
-    {
-        QModelIndex OldIndex = GetIndexForDirectory(pDir);
-        QModelIndex OldParent = OldIndex.parent();
-        int OldRow = OldIndex.row();
+    if (!GetProposedIndex(NewPath, Parent, Row))
+        return;
 
-        if (OldParent == Parent && (Row == OldRow || Row == OldRow + 1))
-        {
-            emit layoutAboutToBeChanged();
-            mChangingLayout = true;
-        }
-        else
-        {
-            beginMoveRows(OldParent, OldRow, OldRow, Parent, Row);
-            mMovingRows = true;
-        }
+    const QModelIndex OldIndex = GetIndexForDirectory(pDir);
+    const QModelIndex OldParent = OldIndex.parent();
+    const int OldRow = OldIndex.row();
+
+    if (OldParent == Parent && (Row == OldRow || Row == OldRow + 1))
+    {
+        emit layoutAboutToBeChanged();
+        mChangingLayout = true;
+    }
+    else
+    {
+        beginMoveRows(OldParent, OldRow, OldRow, Parent, Row);
+        mMovingRows = true;
     }
 }
 
-void CVirtualDirectoryModel::OnDirectoryAboutToBeCreated(QString DirPath)
+void CVirtualDirectoryModel::OnDirectoryAboutToBeCreated(const QString& DirPath)
 {
     QModelIndex Parent;
     int Row;
@@ -317,7 +316,7 @@ void CVirtualDirectoryModel::OnDirectoryAboutToBeCreated(QString DirPath)
 
 void CVirtualDirectoryModel::OnDirectoryAboutToBeDeleted(CVirtualDirectory *pDir)
 {
-    QModelIndex Index = GetIndexForDirectory(pDir);
+    const QModelIndex Index = GetIndexForDirectory(pDir);
 
     if (Index.isValid())
     {
