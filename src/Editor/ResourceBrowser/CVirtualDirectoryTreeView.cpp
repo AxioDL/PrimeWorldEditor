@@ -47,31 +47,31 @@ void CVirtualDirectoryTreeView::setModel(QAbstractItemModel *pModel)
     }
 }
 
-void CVirtualDirectoryTreeView::OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir)
+void CVirtualDirectoryTreeView::OnDirectoryAboutToBeMoved(const CVirtualDirectory *pDir)
 {
-    if (mpModel)
-    {
-        QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
+    if (mpModel == nullptr)
+        return;
 
-        if (selectionModel()->currentIndex() == Index)
-            mTransferSelectionPostMove = true;
-    }
+    const QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
+
+    if (selectionModel()->currentIndex() == Index)
+        mTransferSelectionPostMove = true;
 }
 
-void CVirtualDirectoryTreeView::OnDirectoryMoved(CVirtualDirectory *pDir)
+void CVirtualDirectoryTreeView::OnDirectoryMoved(const CVirtualDirectory *pDir)
 {
-    if (mTransferSelectionPostMove)
-    {
-        // Make sure the model has updated first
-        mpModel->FinishModelChanges();
+    if (!mTransferSelectionPostMove)
+        return;
 
-        QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
+    // Make sure the model has updated first
+    mpModel->FinishModelChanges();
 
-        blockSignals(true);
-        expand(Index.parent());
-        selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
-        blockSignals(false);
+    const QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
 
-        mTransferSelectionPostMove = false;
-    }
+    blockSignals(true);
+    expand(Index.parent());
+    selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
+    blockSignals(false);
+
+    mTransferSelectionPostMove = false;
 }

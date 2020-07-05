@@ -19,8 +19,8 @@ public:
     void setModel(QAbstractItemModel *pModel) override;
 
 public slots:
-    void OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir);
-    void OnDirectoryMoved(CVirtualDirectory *pDir);
+    void OnDirectoryAboutToBeMoved(const CVirtualDirectory *pDir);
+    void OnDirectoryMoved(const CVirtualDirectory *pDir);
 };
 
 #endif // CVIRTUALDIRECTORYTREEVIEW_H

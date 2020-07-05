@@ -35,17 +35,17 @@ public:
     Qt::DropActions supportedDragActions() const override;
     Qt::DropActions supportedDropActions() const override;
 
-    QModelIndex GetIndexForDirectory(CVirtualDirectory *pDir);
+    QModelIndex GetIndexForDirectory(const CVirtualDirectory *pDir) const;
     CVirtualDirectory* IndexDirectory(const QModelIndex& rkIndex) const;
     void SetRoot(CVirtualDirectory *pDir);
 
 protected:
-    std::optional<std::pair<QModelIndex, int>> GetProposedIndex(const QString& Path);
+    std::optional<std::pair<QModelIndex, int>> GetProposedIndex(const QString& Path) const;
 
 public slots:
-    void OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, const QString& NewPath);
+    void OnDirectoryAboutToBeMoved(const CVirtualDirectory *pDir, const QString& NewPath);
     void OnDirectoryAboutToBeCreated(const QString& DirPath);
-    void OnDirectoryAboutToBeDeleted(CVirtualDirectory *pDir);
+    void OnDirectoryAboutToBeDeleted(const CVirtualDirectory *pDir);
     void FinishModelChanges();
 };
 

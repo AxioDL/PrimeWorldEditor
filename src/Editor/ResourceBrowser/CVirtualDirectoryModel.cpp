@@ -190,17 +190,17 @@ Qt::DropActions CVirtualDirectoryModel::supportedDropActions() const
     return Qt::MoveAction;
 }
 
-QModelIndex CVirtualDirectoryModel::GetIndexForDirectory(CVirtualDirectory *pDir)
+QModelIndex CVirtualDirectoryModel::GetIndexForDirectory(const CVirtualDirectory *pDir) const
 {
-    if (!pDir)
+    if (pDir == nullptr)
         return QModelIndex();
 
     QVector<int> Indices;
-    CVirtualDirectory *pOriginal = pDir;
-    CVirtualDirectory *pParent = pDir->Parent();
+    const CVirtualDirectory* pOriginal = pDir;
+    const CVirtualDirectory* pParent = pDir->Parent();
 
     // Get index list
-    while (pParent)
+    while (pParent != nullptr)
     {
         bool Found = false;
 
@@ -244,7 +244,7 @@ void CVirtualDirectoryModel::SetRoot(CVirtualDirectory *pDir)
     endResetModel();
 }
 
-std::optional<std::pair<QModelIndex, int>> CVirtualDirectoryModel::GetProposedIndex(const QString& Path)
+std::optional<std::pair<QModelIndex, int>> CVirtualDirectoryModel::GetProposedIndex(const QString& Path) const
 {
     // Get parent path
     TString FullPath = TO_TSTRING(Path);
@@ -256,7 +256,7 @@ std::optional<std::pair<QModelIndex, int>> CVirtualDirectoryModel::GetProposedIn
     const TString ParentPath = FullPath.ChopBack( FullPath.Size() - LastSlash );
 
     // Find parent index
-    CVirtualDirectory* pParent = (ParentPath.IsEmpty() ? mpRoot : mpRoot->FindChildDirectory(ParentPath, false));
+    const CVirtualDirectory* pParent = (ParentPath.IsEmpty() ? mpRoot : mpRoot->FindChildDirectory(ParentPath, false));
     if (pParent == nullptr)
         return std::nullopt;
 
@@ -281,7 +281,7 @@ std::optional<std::pair<QModelIndex, int>> CVirtualDirectoryModel::GetProposedIn
     return std::make_pair(ParentIndex, RowIdx);
 }
 
-void CVirtualDirectoryModel::OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, const QString& NewPath)
+void CVirtualDirectoryModel::OnDirectoryAboutToBeMoved(const CVirtualDirectory *pDir, const QString& NewPath)
 {
     const auto indexOptional = GetProposedIndex(NewPath);
 
@@ -317,7 +317,7 @@ void CVirtualDirectoryModel::OnDirectoryAboutToBeCreated(const QString& DirPath)
     mInsertingRows = true;
 }
 
-void CVirtualDirectoryModel::OnDirectoryAboutToBeDeleted(CVirtualDirectory *pDir)
+void CVirtualDirectoryModel::OnDirectoryAboutToBeDeleted(const CVirtualDirectory *pDir)
 {
     const QModelIndex Index = GetIndexForDirectory(pDir);
 
