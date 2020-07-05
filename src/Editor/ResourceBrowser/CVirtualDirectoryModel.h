@@ -6,6 +6,9 @@
 #include <QAbstractItemModel>
 #include <QIcon>
 
+#include <optional>
+#include <utility>
+
 class CVirtualDirectoryModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -37,7 +40,7 @@ public:
     void SetRoot(CVirtualDirectory *pDir);
 
 protected:
-    bool GetProposedIndex(const QString& Path, QModelIndex& rOutParent, int& rOutRow);
+    std::optional<std::pair<QModelIndex, int>> GetProposedIndex(const QString& Path);
 
 public slots:
     void OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, const QString& NewPath);
