@@ -69,7 +69,7 @@ CSceneNode* CSceneViewport::HoverNode()
     return mpHoverNode;
 }
 
-CVector3f CSceneViewport::HoverPoint()
+CVector3f CSceneViewport::HoverPoint() const
 {
     return mHoverPoint;
 }

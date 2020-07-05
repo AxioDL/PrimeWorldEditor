@@ -61,7 +61,7 @@ public:
     FShowFlags ShowFlags() const;
     CRenderer* Renderer();
     CSceneNode* HoverNode();
-    CVector3f HoverPoint();
+    CVector3f HoverPoint() const;
     void CheckGizmoInput(const CRay& rkRay);
     SRayIntersection SceneRayCast(const CRay& rkRay);
     void ResetHover();
