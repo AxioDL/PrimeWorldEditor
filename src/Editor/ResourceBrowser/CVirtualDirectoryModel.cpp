@@ -22,10 +22,10 @@ QModelIndex CVirtualDirectoryModel::index(int Row, int Column, const QModelIndex
 
     CVirtualDirectory *pDir = IndexDirectory(rkParent);
 
-    if (pDir && pDir->NumSubdirectories() > (uint32) Row)
+    if (pDir != nullptr && pDir->NumSubdirectories() > static_cast<uint32>(Row))
         return createIndex(Row, Column, pDir->SubdirectoryByIndex(Row));
 
-    else if (!pDir)
+    if (pDir == nullptr)
         return createIndex(Row, Column, mpRoot);
 
     return QModelIndex();
@@ -42,14 +42,16 @@ QModelIndex CVirtualDirectoryModel::parent(const QModelIndex& rkChild) const
 
         if (pGrandparent)
         {
-            for (uint32 iSub = 0; iSub < pGrandparent->NumSubdirectories(); iSub++)
+            for (size_t iSub = 0; iSub < pGrandparent->NumSubdirectories(); iSub++)
             {
                 if (pGrandparent->SubdirectoryByIndex(iSub) == pParent)
-                    return createIndex(iSub, 0, pParent);
+                    return createIndex(static_cast<int>(iSub), 0, pParent);
             }
         }
-
-        else return createIndex(0, 0, mpRoot);
+        else
+        {
+            return createIndex(0, 0, mpRoot);
+        }
     }
 
     return QModelIndex();
@@ -57,9 +59,10 @@ QModelIndex CVirtualDirectoryModel::parent(const QModelIndex& rkChild) const
 
 int CVirtualDirectoryModel::rowCount(const QModelIndex& rkParent) const
 {
-    CVirtualDirectory *pDir = IndexDirectory(rkParent);
-    if (pDir) return pDir->NumSubdirectories();
-    else return mpRoot ? 1 : 0;
+    if (const CVirtualDirectory* pDir = IndexDirectory(rkParent))
+        return static_cast<int>(pDir->NumSubdirectories());
+
+    return mpRoot ? 1 : 0;
 }
 
 int CVirtualDirectoryModel::columnCount(const QModelIndex&) const
@@ -201,11 +204,11 @@ QModelIndex CVirtualDirectoryModel::GetIndexForDirectory(CVirtualDirectory *pDir
     {
         bool Found = false;
 
-        for (uint32 iDir = 0; iDir < pParent->NumSubdirectories(); iDir++)
+        for (size_t iDir = 0; iDir < pParent->NumSubdirectories(); iDir++)
         {
             if (pParent->SubdirectoryByIndex(iDir) == pDir)
             {
-                Indices.push_front(iDir);
+                Indices.push_front(static_cast<int>(iDir));
                 pDir = pParent;
                 pParent = pParent->Parent();
                 Found = true;

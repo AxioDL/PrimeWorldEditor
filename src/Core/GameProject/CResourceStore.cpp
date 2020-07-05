@@ -49,7 +49,7 @@ void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rO
     }
     else
     {
-        for (uint32 SubIdx = 0; SubIdx < pDir->NumSubdirectories(); SubIdx++)
+        for (size_t SubIdx = 0; SubIdx < pDir->NumSubdirectories(); SubIdx++)
             RecursiveGetListOfEmptyDirectories(pDir->SubdirectoryByIndex(SubIdx), rOutList);
     }
 }

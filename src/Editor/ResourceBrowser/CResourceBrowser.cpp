@@ -700,14 +700,14 @@ bool CResourceBrowser::Delete(QVector<CResourceEntry*> Resources, QVector<CVirtu
     for (int DirIdx = 0; DirIdx < Directories.size(); DirIdx++)
     {
         CVirtualDirectory* pDir = Directories[DirIdx];
-        Resources.reserve( Resources.size() + pDir->NumResources() );
-        Directories.reserve( Directories.size() + pDir->NumSubdirectories() );
+        Resources.reserve(Resources.size() + static_cast<int>(pDir->NumResources()));
+        Directories.reserve(Directories.size() + static_cast<int>(pDir->NumSubdirectories()));
 
-        for (uint ResourceIdx = 0; ResourceIdx < pDir->NumResources(); ResourceIdx++)
-            Resources << pDir->ResourceByIndex(ResourceIdx);
+        for (size_t ResourceIdx = 0; ResourceIdx < pDir->NumResources(); ResourceIdx++)
+            Resources.push_back(pDir->ResourceByIndex(ResourceIdx));
 
-        for (uint SubdirIdx = 0; SubdirIdx < pDir->NumSubdirectories(); SubdirIdx++)
-            Directories << pDir->SubdirectoryByIndex(SubdirIdx);
+        for (size_t SubdirIdx = 0; SubdirIdx < pDir->NumSubdirectories(); SubdirIdx++)
+            Directories.push_back(pDir->SubdirectoryByIndex(SubdirIdx));
     }
 
     // Exit if we have nothing to do.

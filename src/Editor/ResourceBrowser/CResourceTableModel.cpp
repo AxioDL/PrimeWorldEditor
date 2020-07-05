@@ -219,12 +219,12 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
         if (!mIsAssetListMode)
         {
             if (!pDir->IsRoot())
-                mDirectories << pDir->Parent();
+                mDirectories.push_back(pDir->Parent());
 
-            for (uint32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
-                mDirectories << pDir->SubdirectoryByIndex(iDir);
+            for (size_t iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
+                mDirectories.push_back(pDir->SubdirectoryByIndex(iDir));
 
-            for (uint32 iRes = 0; iRes < pDir->NumResources(); iRes++)
+            for (size_t iRes = 0; iRes < pDir->NumResources(); iRes++)
             {
                 CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
 
@@ -235,10 +235,11 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
                 }
             }
         }
-
         // In asset list mode, do not show subdirectories and show all assets in current directory + all subdirectories.
         else
+        {
             RecursiveAddDirectoryContents(pDir);
+        }
     }
 
     if (pDir)
@@ -262,7 +263,7 @@ void CResourceTableModel::DisplayEntryList(QList<CResourceEntry*>& rkEntries, co
 
 void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
 {
-    for (uint32 iRes = 0; iRes < pDir->NumResources(); iRes++)
+    for (size_t iRes = 0; iRes < pDir->NumResources(); iRes++)
     {
         CResourceEntry *pEntry = pDir->ResourceByIndex(iRes);
 
@@ -273,7 +274,7 @@ void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
         }
     }
 
-    for (uint32 iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
+    for (size_t iDir = 0; iDir < pDir->NumSubdirectories(); iDir++)
         RecursiveAddDirectoryContents(pDir->SubdirectoryByIndex(iDir));
 }
 
