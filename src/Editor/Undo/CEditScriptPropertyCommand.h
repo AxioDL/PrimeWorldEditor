@@ -33,7 +33,7 @@ public:
         if (mIndex.isValid())
         {
             ASSERT(mInstances.size() == 1);
-            OutPointers << mInstances[0]->PropertyData();
+            OutPointers.push_back(mInstances[0]->PropertyData());
             return;
         }
 
