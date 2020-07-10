@@ -62,21 +62,21 @@ public:
     CNodePtr()                  { SetNode(nullptr); }
     CNodePtr(CSceneNode *pNode) { SetNode(pNode); }
 
-    inline void SetNode(CSceneNode *pNode)
+    void SetNode(CSceneNode *pNode)
     {
         mNodeID = pNode ? pNode->ID() : 0;
         mpScene = pNode ? pNode->Scene() : nullptr;
         mValid = pNode ? true : false;
     }
 
-    inline bool Valid() const       { return mValid; }
-    inline uint32 NodeID() const    { return mNodeID; }
-    inline CScene* Scene() const    { return mpScene; }
-    inline CSceneNode* operator* () const { return mValid ? mpScene->NodeByID(mNodeID) : nullptr; }
-    inline CSceneNode* operator->() const { return mValid ? mpScene->NodeByID(mNodeID) : nullptr; }
-    inline CNodePtr& operator=(CSceneNode *pNode) { SetNode(pNode); return *this; }
+    bool Valid() const       { return mValid; }
+    uint32 NodeID() const    { return mNodeID; }
+    CScene* Scene() const    { return mpScene; }
+    CSceneNode* operator* () const { return mValid ? mpScene->NodeByID(mNodeID) : nullptr; }
+    CSceneNode* operator->() const { return mValid ? mpScene->NodeByID(mNodeID) : nullptr; }
+    CNodePtr& operator=(CSceneNode *pNode) { SetNode(pNode); return *this; }
 
-    inline bool operator==(const CNodePtr& rkOther) const
+    bool operator==(const CNodePtr& rkOther) const
     {
         return (mNodeID == rkOther.mNodeID && mpScene == rkOther.mpScene);
     }
@@ -92,20 +92,20 @@ public:
     CInstancePtr()                      { SetInstance(nullptr); }
     CInstancePtr(CScriptObject *pInst)  { SetInstance(pInst); }
 
-    inline void SetInstance(CScriptObject *pInst)
+    void SetInstance(CScriptObject *pInst)
     {
         mInstanceID = pInst ? pInst->InstanceID() : CInstanceID();
         mpArea = pInst ? pInst->Area() : nullptr;
         mValid = pInst ? true : false;
     }
 
-    inline CInstanceID InstanceID() const   { return mInstanceID; }
-    inline CGameArea* Area() const  { return mpArea; }
-    inline CScriptObject* operator* () const { return mValid ? mpArea->InstanceByID(mInstanceID) : nullptr; }
-    inline CScriptObject* operator->() const { return mValid ? mpArea->InstanceByID(mInstanceID) : nullptr; }
-    inline CInstancePtr& operator=(CScriptObject *pInst) { SetInstance(pInst); return *this; }
+    CInstanceID InstanceID() const   { return mInstanceID; }
+    CGameArea* Area() const  { return mpArea; }
+    CScriptObject* operator* () const { return mValid ? mpArea->InstanceByID(mInstanceID) : nullptr; }
+    CScriptObject* operator->() const { return mValid ? mpArea->InstanceByID(mInstanceID) : nullptr; }
+    CInstancePtr& operator=(CScriptObject *pInst) { SetInstance(pInst); return *this; }
 
-    inline bool operator==(const CInstancePtr& rkOther) const
+    bool operator==(const CInstancePtr& rkOther) const
     {
         return (mInstanceID == rkOther.mInstanceID && mpArea == rkOther.mpArea);
     }
@@ -121,19 +121,19 @@ public:
     CLinkPtr()              { SetLink(nullptr); }
     CLinkPtr(CLink *pLink)  { SetLink(pLink); }
 
-    inline void SetLink(CLink *pLink)
+    void SetLink(CLink *pLink)
     {
         mpInstance = pLink ? pLink->Sender() : 0;
         mLinkIndex = pLink ? pLink->SenderIndex() : 0;
         mValid = pLink ? true : false;
     }
 
-    inline uint32 LinkIndex() const     { return mLinkIndex; }
-    inline CLink* operator* () const    { return mValid ? mpInstance->Link(ELinkType::Outgoing, mLinkIndex) : nullptr; }
-    inline CLink* operator->() const    { return mValid ? mpInstance->Link(ELinkType::Outgoing, mLinkIndex) : nullptr; }
-    inline CLinkPtr& operator=(CLink *pLink) { SetLink(pLink); return *this; }
+    uint32 LinkIndex() const     { return mLinkIndex; }
+    CLink* operator* () const    { return mValid ? mpInstance->Link(ELinkType::Outgoing, mLinkIndex) : nullptr; }
+    CLink* operator->() const    { return mValid ? mpInstance->Link(ELinkType::Outgoing, mLinkIndex) : nullptr; }
+    CLinkPtr& operator=(CLink *pLink) { SetLink(pLink); return *this; }
 
-    inline bool operator==(const CLinkPtr& rkOther) const
+    bool operator==(const CLinkPtr& rkOther) const
     {
         return (mpInstance == rkOther.mpInstance && mLinkIndex == rkOther.mLinkIndex);
     }
