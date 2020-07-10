@@ -6,19 +6,19 @@
 class CSelectionIterator
 {
     CNodeSelection *mpSelection;
-    uint32 mCurrentIndex;
+    uint32 mCurrentIndex = 0;
 
 public:
-    CSelectionIterator(CNodeSelection *pSelection)
-        : mpSelection(pSelection), mCurrentIndex(0) {}
+    explicit CSelectionIterator(CNodeSelection *pSelection)
+        : mpSelection(pSelection) {}
 
-    inline void Next()                          { mCurrentIndex++; }
-    inline bool DoneIterating() const           { return (mCurrentIndex == mpSelection->Size()); }
-    inline operator bool() const                { return !DoneIterating(); }
-    inline CSceneNode* operator*() const        { return mpSelection->At(mCurrentIndex); }
-    inline CSceneNode* operator->() const       { return mpSelection->At(mCurrentIndex); }
-    inline CSelectionIterator& operator++()     { Next(); return *this; }
-    inline CSelectionIterator operator++(int)   { CSelectionIterator Copy = *this; Next(); return Copy; }
+    void Next()                          { mCurrentIndex++; }
+    bool DoneIterating() const           { return (mCurrentIndex == mpSelection->Size()); }
+    explicit operator bool() const       { return !DoneIterating(); }
+    CSceneNode* operator*() const        { return mpSelection->At(mCurrentIndex); }
+    CSceneNode* operator->() const       { return mpSelection->At(mCurrentIndex); }
+    CSelectionIterator& operator++()     { Next(); return *this; }
+    CSelectionIterator operator++(int)   { CSelectionIterator Copy = *this; Next(); return Copy; }
 };
 
 #endif // CSELECTIONITERATOR
