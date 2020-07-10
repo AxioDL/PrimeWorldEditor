@@ -37,7 +37,7 @@ public:
             CScriptNode *pNode = pScene->NodeForInstance(*it);
 
             if (!pMapModel->IsPoiTracked(pNode))
-                mObjList << pNode;
+                mObjList.push_back(pNode);
         }
     }
 
@@ -129,7 +129,7 @@ public slots:
         for (const QModelIndex& rkIndex : SelectedIndices)
         {
             QModelIndex SourceIndex = mModel.mapToSource(rkIndex);
-            mSelection << mSourceModel.PoiForIndex(SourceIndex);
+            mSelection.push_back(mSourceModel.PoiForIndex(SourceIndex));
         }
 
         close();
