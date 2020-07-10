@@ -14,7 +14,7 @@ class CResourceEntry;
 class CWorldEditor;
 class IEditor;
 
-const int gkTickFrequencyMS = 8;
+constexpr int gkTickFrequencyMS = 8;
 
 class CEditorApplication : public QApplication
 {
