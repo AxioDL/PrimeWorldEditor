@@ -6,10 +6,10 @@ CAddLinkCommand::CAddLinkCommand(CWorldEditor *pEditor, CLink Link)
     , mpEditor(pEditor)
     , mLink(Link)
 {
-    mAffectedInstances << mLink.Sender();
+    mAffectedInstances.push_back(mLink.Sender());
 
     if (mLink.SenderID() != mLink.ReceiverID())
-        mAffectedInstances << mLink.Receiver();
+        mAffectedInstances.push_back(mLink.Receiver());
 }
 
 void CAddLinkCommand::undo()
