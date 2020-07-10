@@ -121,7 +121,7 @@ bool CResourceTableModel::dropMimeData(const QMimeData *pkData, Qt::DropAction A
 
         return gpEdApp->ResourceBrowser()->MoveResources( pkMimeData->Resources(), pkMimeData->Directories(), pDir );
     }
-    else return false;
+    return false;
 }
 
 QMimeData* CResourceTableModel::mimeData(const QModelIndexList& rkIndexes) const
@@ -159,16 +159,13 @@ Qt::DropActions CResourceTableModel::supportedDropActions() const
 // ************ FUNCTIONALITY ************
 QModelIndex CResourceTableModel::GetIndexForEntry(CResourceEntry *pEntry) const
 {
-    auto Iter = std::find(mEntries.begin(), mEntries.end(), pEntry);
+    const auto Iter = std::find(mEntries.begin(), mEntries.end(), pEntry);
 
-    if (Iter == mEntries.end())
+    if (Iter == mEntries.cend())
         return QModelIndex();
 
-    else
-    {
-        int Index = Iter - mEntries.begin();
-        return index(mDirectories.size() + Index, 0, QModelIndex());
-    }
+    const int Index = std::distance(mEntries.begin(), Iter);
+    return index(mDirectories.size() + Index, 0, QModelIndex());
 }
 
 QModelIndex CResourceTableModel::GetIndexForDirectory(CVirtualDirectory *pDir) const
@@ -269,7 +266,7 @@ void CResourceTableModel::RecursiveAddDirectoryContents(CVirtualDirectory *pDir)
 
         if (!pEntry->IsHidden())
         {
-            int Index = EntryListIndex(pEntry);
+            const int Index = EntryListIndex(pEntry);
             mEntries.insert(Index, pEntry);
         }
     }
@@ -285,8 +282,8 @@ int CResourceTableModel::EntryListIndex(CResourceEntry *pEntry)
 
 void CResourceTableModel::RefreshAllIndices()
 {
-    int NumRows = rowCount(QModelIndex());
-    int NumCols = columnCount(QModelIndex());
+    const int NumRows = rowCount(QModelIndex());
+    const int NumCols = columnCount(QModelIndex());
 
     if (NumRows > 0 && NumCols > 0)
     {
@@ -300,7 +297,7 @@ void CResourceTableModel::CheckAddResource(CResourceEntry *pEntry)
          (!mIsAssetListMode && pEntry->Directory() == mpCurrentDir) )
     {
         // Append to the end, let the proxy handle sorting
-        int NumRows = mDirectories.size() + mEntries.size();
+        const int NumRows = mDirectories.size() + mEntries.size();
         beginInsertRows(QModelIndex(), NumRows, NumRows);
         mEntries << pEntry;
         endInsertRows();
@@ -309,73 +306,71 @@ void CResourceTableModel::CheckAddResource(CResourceEntry *pEntry)
 
 void CResourceTableModel::CheckRemoveResource(CResourceEntry *pEntry)
 {
-    int Index = mEntries.indexOf(pEntry);
+    const int Index = mEntries.indexOf(pEntry);
 
-    if (Index != -1)
-    {
-        int RowIndex = Index + mDirectories.size();
-        beginRemoveRows(QModelIndex(), RowIndex, RowIndex);
-        mEntries.removeAt(Index);
-        endRemoveRows();
-    }
+    if (Index == -1)
+        return;
+
+    const int RowIndex = Index + mDirectories.size();
+    beginRemoveRows(QModelIndex(), RowIndex, RowIndex);
+    mEntries.removeAt(Index);
+    endRemoveRows();
 }
 
 void CResourceTableModel::CheckAddDirectory(CVirtualDirectory *pDir)
 {
-    if (pDir->Parent() == mpCurrentDir)
-    {
-        // Just append to the end, let the proxy handle sorting
-        beginInsertRows(QModelIndex(), mDirectories.size(), mDirectories.size());
-        mDirectories << pDir;
-        endInsertRows();
-    }
+    if (pDir->Parent() != mpCurrentDir)
+        return;
+
+    // Just append to the end, let the proxy handle sorting
+    beginInsertRows(QModelIndex(), mDirectories.size(), mDirectories.size());
+    mDirectories << pDir;
+    endInsertRows();
 }
 
 void CResourceTableModel::CheckRemoveDirectory(CVirtualDirectory *pDir)
 {
-    int Index = mDirectories.indexOf(pDir);
+    const int Index = mDirectories.indexOf(pDir);
 
-    if (Index != -1)
-    {
-        beginRemoveRows(QModelIndex(), Index, Index);
-        mDirectories.removeAt(Index);
-        endRemoveRows();
-    }
+    if (Index == -1)
+        return;
+
+    beginRemoveRows(QModelIndex(), Index, Index);
+    mDirectories.removeAt(Index);
+    endRemoveRows();
 }
 
 void CResourceTableModel::OnResourceMoved(CResourceEntry *pEntry, CVirtualDirectory *pOldDir, TString OldName)
 {
     CVirtualDirectory *pNewDir = pEntry->Directory();
-    bool WasInModel = (pOldDir == mpCurrentDir || (mIsAssetListMode && pOldDir->IsDescendantOf(mpCurrentDir)));
-    bool IsInModel = (pNewDir == mpCurrentDir || (mIsAssetListMode && pNewDir->IsDescendantOf(mpCurrentDir)));
+    const bool WasInModel = (pOldDir == mpCurrentDir || (mIsAssetListMode && pOldDir->IsDescendantOf(mpCurrentDir)));
+    const bool IsInModel = (pNewDir == mpCurrentDir || (mIsAssetListMode && pNewDir->IsDescendantOf(mpCurrentDir)));
 
     // Handle rename
     if (WasInModel && IsInModel && pEntry->Name() != OldName)
     {
-        int ResIdx = EntryListIndex(pEntry);
-        int Row = ResIdx + mDirectories.size();
-        QModelIndex Index = index(Row, 0, QModelIndex());
+        const int ResIdx = EntryListIndex(pEntry);
+        const int Row = ResIdx + mDirectories.size();
+        const QModelIndex Index = index(Row, 0, QModelIndex());
         emit dataChanged(Index, Index);
     }
-
     else if (pNewDir != pOldDir)
     {
         // Remove
         if (WasInModel && !IsInModel)
         {
-            int Pos = EntryListIndex(pEntry);
-            int Row = mDirectories.size() + Pos;
+            const int Pos = EntryListIndex(pEntry);
+            const int Row = mDirectories.size() + Pos;
 
             beginRemoveRows(QModelIndex(), Row, Row);
             mEntries.removeAt(Pos);
             endRemoveRows();
         }
-
         // Add
         else if (!WasInModel && IsInModel)
         {
-            int Index = EntryListIndex(pEntry);
-            int Row = mDirectories.size() + Index;
+            const int Index = EntryListIndex(pEntry);
+            const int Row = mDirectories.size() + Index;
 
             beginInsertRows(QModelIndex(), Row, Row);
             mEntries.insert(Index, pEntry);
@@ -387,8 +382,8 @@ void CResourceTableModel::OnResourceMoved(CResourceEntry *pEntry, CVirtualDirect
 void CResourceTableModel::OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, TString OldName)
 {
     CVirtualDirectory *pNewDir = pDir->Parent();
-    bool WasInModel = !mIsAssetListMode && pOldDir == mpCurrentDir;
-    bool IsInModel = !mIsAssetListMode && pNewDir == mpCurrentDir;
+    const bool WasInModel = !mIsAssetListMode && pOldDir == mpCurrentDir;
+    const bool IsInModel = !mIsAssetListMode && pNewDir == mpCurrentDir;
 
     // Handle parent link
     if (pDir == mpCurrentDir)
@@ -400,18 +395,20 @@ void CResourceTableModel::OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDire
     // Handle rename
     if (WasInModel && IsInModel && pDir->Name() != OldName)
     {
-        QModelIndex Index = GetIndexForDirectory(pDir);
+        const QModelIndex Index = GetIndexForDirectory(pDir);
         emit dataChanged(Index, Index);
     }
-
     else if (pNewDir != pOldDir)
     {
         // Remove
         if (WasInModel && !IsInModel)
+        {
             CheckRemoveDirectory(pDir);
-
+        }
         // Add
         else if (!WasInModel && IsInModel)
+        {
             CheckAddDirectory(pDir);
+        }
     }
 }
