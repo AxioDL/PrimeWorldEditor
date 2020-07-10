@@ -43,7 +43,7 @@ public:
     {
     }
 
-    CNodeCopyMimeData(CWorldEditor *pEditor)
+    explicit CNodeCopyMimeData(CWorldEditor *pEditor)
         : mpEditor(pEditor)
         , mAreaID(pEditor->ActiveArea()->ID())
         , mGame(pEditor->CurrentGame())
