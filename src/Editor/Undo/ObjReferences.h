@@ -80,6 +80,11 @@ public:
     {
         return (mNodeID == rkOther.mNodeID && mpScene == rkOther.mpScene);
     }
+
+    bool operator!=(const CNodePtr& other) const
+    {
+        return !operator==(other);
+    }
 };
 
 class CInstancePtr
@@ -109,6 +114,11 @@ public:
     {
         return (mInstanceID == rkOther.mInstanceID && mpArea == rkOther.mpArea);
     }
+
+    bool operator!=(const CInstancePtr& other) const
+    {
+        return !operator==(other);
+    }
 };
 
 class CLinkPtr
@@ -136,6 +146,11 @@ public:
     bool operator==(const CLinkPtr& rkOther) const
     {
         return (mpInstance == rkOther.mpInstance && mLinkIndex == rkOther.mLinkIndex);
+    }
+
+    bool operator!=(const CLinkPtr& other) const
+    {
+        return !operator==(other);
     }
 };
 
