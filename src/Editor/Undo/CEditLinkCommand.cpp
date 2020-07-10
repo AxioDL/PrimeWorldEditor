@@ -10,10 +10,16 @@ CEditLinkCommand::CEditLinkCommand(CWorldEditor *pEditor, CLink *pLink, CLink Ne
     mOldSenderIndex = pLink->SenderIndex();
     mOldReceiverIndex = pLink->ReceiverIndex();
 
-    mAffectedInstances << pLink->Sender();
-    if (pLink->ReceiverID() != pLink->SenderID())       mAffectedInstances << pLink->Receiver();
-    if (NewLink.SenderID() != pLink->SenderID())        mAffectedInstances << NewLink.Sender();
-    if (NewLink.ReceiverID() != pLink->ReceiverID())    mAffectedInstances << NewLink.Receiver();
+    mAffectedInstances.push_back(pLink->Sender());
+
+    if (pLink->ReceiverID() != pLink->SenderID())
+        mAffectedInstances.push_back(pLink->Receiver());
+
+    if (NewLink.SenderID() != pLink->SenderID())
+        mAffectedInstances.push_back(NewLink.Sender());
+
+    if (NewLink.ReceiverID() != pLink->ReceiverID())
+        mAffectedInstances.push_back(NewLink.Receiver());
 }
 
 void CEditLinkCommand::undo()
