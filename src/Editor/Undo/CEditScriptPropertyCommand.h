@@ -21,10 +21,10 @@ public:
         , mIndex(Index)
     {
         // Convert CScriptObject pointers to CInstancePtrs
-        mInstances.reserve( kInstances.size() );
+        mInstances.reserve(kInstances.size());
 
-        for (int i = 0; i < kInstances.size(); i++)
-            mInstances.push_back( CInstancePtr(kInstances[i]) );
+        for (auto* instance : kInstances)
+            mInstances.push_back(CInstancePtr(instance));
     }
 
     void GetObjectDataPointers(QVector<void*>& OutPointers) const override
