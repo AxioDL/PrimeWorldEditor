@@ -172,7 +172,7 @@ void CResourceTableContextMenu::ShowReferencers()
     for (CResourceIterator Iter(mpClickedEntry->ResourceStore()); Iter; ++Iter)
     {
         if (Iter->Dependencies()->HasDependency(mpClickedEntry->ID()))
-            EntryList << *Iter;
+            EntryList.push_back(*Iter);
     }
 
     if (!mpModel->IsDisplayingUserEntryList())
@@ -197,7 +197,7 @@ void CResourceTableContextMenu::ShowDependencies()
         CResourceEntry *pEntry = mpClickedEntry->ResourceStore()->FindEntry(*Iter);
 
         if (pEntry)
-            EntryList << pEntry;
+            EntryList.push_back(pEntry);
     }
 
     if (!mpModel->IsDisplayingUserEntryList())
@@ -217,9 +217,9 @@ void CResourceTableContextMenu::Delete()
     for (const QModelIndex& kIndex : mSelectedIndexes)
     {
         if (mpModel->IsIndexDirectory(kIndex))
-            Directories << mpModel->IndexDirectory(kIndex);
+            Directories.push_back(mpModel->IndexDirectory(kIndex));
         else
-            Resources << mpModel->IndexEntry(kIndex);
+            Resources.push_back(mpModel->IndexEntry(kIndex));
     }
 
     mpBrowser->Delete(Resources, Directories);
