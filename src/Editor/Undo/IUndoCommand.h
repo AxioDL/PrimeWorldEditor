@@ -6,10 +6,10 @@
 class IUndoCommand : public QUndoCommand
 {
 public:
-    IUndoCommand(QUndoCommand *pParent = 0)
+    explicit IUndoCommand(QUndoCommand *pParent = nullptr)
         : QUndoCommand(pParent) {}
 
-    IUndoCommand(const QString& rkText, QUndoCommand *pParent = 0)
+    explicit IUndoCommand(const QString& rkText, QUndoCommand *pParent = nullptr)
         : QUndoCommand(rkText, pParent) {}
 
     virtual bool AffectsCleanState() const = 0;
