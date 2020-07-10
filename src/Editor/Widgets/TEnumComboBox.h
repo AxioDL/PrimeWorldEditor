@@ -23,8 +23,8 @@ public:
         {
             if (It.Value() != TEnumReflection<EnumT>::ErrorValue())
             {
-                addItem( It.Name() );
-                mValueList << It.Value();
+                addItem(It.Name());
+                mValueList.push_back(It.Value());
             }
         }
     }
