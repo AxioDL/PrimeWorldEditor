@@ -31,7 +31,7 @@ public:
             }
         }
 
-        std::sort(mEntries.begin(), mEntries.end(), [](CResourceEntry *pA, CResourceEntry *pB) -> bool {
+        std::sort(mEntries.begin(), mEntries.end(), [](const CResourceEntry* pA, const CResourceEntry* pB) {
             return pA->UppercaseName() < pB->UppercaseName();
         });
 
