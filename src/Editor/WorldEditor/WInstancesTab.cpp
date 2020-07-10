@@ -59,12 +59,17 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     mpUnhideAllTypes = new QAction(tr("UnhideAllTypes"), this);
     mpUnhideAll = new QAction(tr("Unhide all"), this);
 
-    QList<QAction*> ActionList;
-    ActionList << mpHideInstance << mpHideType << mpHideAllTypes << mpHideAllExceptType << mpSeparator
-               << mpUnhideAllTypes << mpUnhideAll;
 
     mpTreeContextMenu = new QMenu(this);
-    mpTreeContextMenu->addActions(ActionList);
+    mpTreeContextMenu->addActions({
+        mpHideInstance,
+        mpHideType,
+        mpHideAllTypes,
+        mpHideAllExceptType,
+        mpSeparator,
+        mpUnhideAllTypes,
+        mpUnhideAll,
+    });
 
     connect(mpHideInstance, &QAction::triggered, this, &WInstancesTab::OnHideInstanceAction);
     connect(mpHideType, &QAction::triggered, this, &WInstancesTab::OnHideTypeAction);
