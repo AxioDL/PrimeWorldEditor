@@ -75,13 +75,14 @@ void CPasteNodesCommand::redo()
             pNewNode->SetRotation(rkNode.Rotation);
             pNewNode->SetScale(rkNode.Scale);
 
-            PastedNodes << pNewNode;
+            PastedNodes.push_back(pNewNode);
             mpEditor->NotifyNodeSpawned(pNewNode);
         }
-
         // If we didn't paste a valid node, add a null node so that the indices still match up with the indices from the mime data.
         else
-            PastedNodes << nullptr;
+        {
+            PastedNodes.push_back(nullptr);
+        }
     }
 
     // Fix links. This is how fixes are prioritized:
@@ -118,7 +119,7 @@ void CPasteNodesCommand::redo()
                 {
                     CScriptObject *pReceiver = pLink->Receiver();
                     pReceiver->AddLink(ELinkType::Incoming, pLink);
-                    mLinkedInstances << pReceiver;
+                    mLinkedInstances.push_back(pReceiver);
                 }
             }
         }
