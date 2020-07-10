@@ -68,10 +68,11 @@ void CVirtualDirectoryTreeView::OnDirectoryMoved(const CVirtualDirectory *pDir)
 
     const QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
 
-    blockSignals(true);
-    expand(Index.parent());
-    selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
-    blockSignals(false);
+    {
+        [[maybe_unused]] const QSignalBlocker blocker{this};
+        expand(Index.parent());
+        selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
+    }
 
     mTransferSelectionPostMove = false;
 }
