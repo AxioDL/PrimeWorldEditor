@@ -72,7 +72,7 @@ public:
             for (uint32 iState = 0; iState < pGame->NumStates(); iState++)
             {
                 SState State = pGame->StateByIndex(iState);
-                mEntries << SEntry(State.ID, TO_QSTRING(State.Name));
+                mEntries.push_back(SEntry(State.ID, TO_QSTRING(State.Name)));
             }
         }
 
@@ -81,7 +81,7 @@ public:
             for (uint32 iMsg = 0; iMsg < pGame->NumMessages(); iMsg++)
             {
                 SMessage Message = pGame->MessageByIndex(iMsg);
-                mEntries << SEntry(Message.ID, TO_QSTRING(Message.Name));
+                mEntries.push_back(SEntry(Message.ID, TO_QSTRING(Message.Name)));
             }
         }
 
