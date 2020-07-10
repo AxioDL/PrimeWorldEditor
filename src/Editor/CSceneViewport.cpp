@@ -200,12 +200,20 @@ void CSceneViewport::CreateContextMenu()
     mpPlayFromHereAction = new QAction(tr("Play from here"), this);
     connect(mpPlayFromHereAction, &QAction::triggered, this, &CSceneViewport::OnPlayFromHere);
 
-    QList<QAction*> Actions;
-    Actions << mpToggleSelectAction
-            << mpHideSelectionSeparator << mpHideSelectionAction << mpHideUnselectedAction
-            << mpHideHoverSeparator << mpHideHoverNodeAction << mpHideHoverTypeAction << mpHideHoverLayerAction
-            << mpUnhideSeparator << mpUnhideAllAction << mpPlayFromHereSeparator << mpPlayFromHereAction;
-
+    const QList<QAction*> Actions{
+        mpToggleSelectAction,
+        mpHideSelectionSeparator,
+        mpHideSelectionAction,
+        mpHideUnselectedAction,
+        mpHideHoverSeparator,
+        mpHideHoverNodeAction,
+        mpHideHoverTypeAction,
+        mpHideHoverLayerAction,
+        mpUnhideSeparator,
+        mpUnhideAllAction,
+        mpPlayFromHereSeparator,
+        mpPlayFromHereAction,
+    };
     mpContextMenu->addActions(Actions);
 
     // Select Connected menu
@@ -220,9 +228,11 @@ void CSceneViewport::CreateContextMenu()
     mpSelectConnectedAllAction = new QAction(tr("...via all links"), this);
     connect(mpSelectConnectedAllAction, &QAction::triggered, this, &CSceneViewport::OnSelectConnected);
 
-    QList<QAction*> SelectConnectedActions;
-    SelectConnectedActions << mpSelectConnectedOutgoingAction << mpSelectConnectedIncomingAction << mpSelectConnectedAllAction;
-    mpSelectConnectedMenu->addActions(SelectConnectedActions);
+    mpSelectConnectedMenu->addActions({
+        mpSelectConnectedOutgoingAction,
+        mpSelectConnectedIncomingAction,
+        mpSelectConnectedAllAction,
+    });
     mpContextMenu->insertMenu(mpHideSelectionSeparator, mpSelectConnectedMenu);
 }
 
@@ -237,7 +247,7 @@ void CSceneViewport::FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing
     if (!pScript) return;
 
     CScriptObject *pInst = pScript->Instance();
-    rIDList << InstanceID;
+    rIDList.push_back(InstanceID);
 
     if (SearchOutgoing)
     {
@@ -438,8 +448,9 @@ void CSceneViewport::OnSelectConnected()
     FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Instance()->InstanceID(), SearchOutgoing, SearchIncoming, InstanceIDs);
 
     QList<CSceneNode*> Nodes;
+    Nodes.reserve(InstanceIDs.size());
     for (const uint32 ID : InstanceIDs)
-        Nodes << mpScene->NodeForInstanceID(ID);
+        Nodes.push_back(mpScene->NodeForInstanceID(ID));
 
     const bool ShouldClear = ((qApp->keyboardModifiers() & Qt::ControlModifier) == 0);
     mpEditor->BatchSelectNodes(Nodes, ShouldClear, tr("Select Connected"));
