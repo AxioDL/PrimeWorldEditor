@@ -27,7 +27,7 @@ public:
         {
             if (rkFilter.Accepts(*It))
             {
-                mEntries << *It;
+                mEntries.push_back(*It);
             }
         }
 
