@@ -58,7 +58,7 @@ QVariant CLinkModel::data(const QModelIndex& rkIndex, int Role) const
             {
                 QString StrID = QString::number(TargetID, 16).toUpper();
                 while (StrID.length() < 8)
-                    StrID = "0" + StrID;
+                    StrID = QLatin1Char{'0'} + StrID;
                 return tr("External: %1").arg(StrID);
             }
         }
