@@ -630,7 +630,7 @@ void CWorldEditor::SetSelectionActive(bool Active)
         {
             CScriptNode* pScript = static_cast<CScriptNode*>(*It);
             CScriptObject* pInst = pScript->Instance();
-            Objects << pInst;
+            Objects.push_back(pInst);
         }
     }
 
@@ -648,7 +648,7 @@ void CWorldEditor::SetSelectionActive(bool Active)
             {
                 if (Objects[ObjIdx]->Template() == pTemplate)
                 {
-                    CommandObjects << Objects[ObjIdx];
+                    CommandObjects.push_back(Objects[ObjIdx]);
                     Objects.removeAt(ObjIdx);
                     ObjIdx--;
                 }
@@ -707,7 +707,7 @@ void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)
     for (CSelectionIterator It(mpSelection); It; ++It)
     {
         if (It->NodeType() == ENodeType::Script)
-            ScriptNodes << static_cast<CScriptNode*>(*It);
+            ScriptNodes.push_back(static_cast<CScriptNode*>(*It));
     }
 
     if (!ScriptNodes.isEmpty())
@@ -1125,7 +1125,7 @@ void CWorldEditor::OnUnlinkClicked()
                 {
                     QVector<uint32> LinkIndices;
                     for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Incoming); iLink++)
-                        LinkIndices << iLink;
+                        LinkIndices.push_back(iLink);
 
                     CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, ELinkType::Incoming, LinkIndices);
                     UndoStack().push(pCmd);
@@ -1135,7 +1135,7 @@ void CWorldEditor::OnUnlinkClicked()
                 {
                     QVector<uint32> LinkIndices;
                     for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
-                        LinkIndices << iLink;
+                        LinkIndices.push_back(iLink);
 
                     CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, ELinkType::Outgoing, LinkIndices);
                     UndoStack().push(pCmd);
