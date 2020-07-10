@@ -1103,7 +1103,7 @@ void CWorldEditor::OnUnlinkClicked()
     for (CSelectionIterator It(mpSelection); It; ++It)
     {
         if (It->NodeType() == ENodeType::Script)
-            SelectedScriptNodes << static_cast<CScriptNode*>(*It);
+            SelectedScriptNodes.push_back(static_cast<CScriptNode*>(*It));
     }
 
     if (!SelectedScriptNodes.isEmpty())
