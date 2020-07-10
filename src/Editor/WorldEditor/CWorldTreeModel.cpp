@@ -242,10 +242,10 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
                             CAssetID AreaID = pWorld->AreaResourceID(iArea);
                             CResourceEntry *pAreaEntry = pWorld->Entry()->ResourceStore()->FindEntry(AreaID);
                             ASSERT(pAreaEntry);
-                            Info.Areas << pAreaEntry;
+                            Info.Areas.push_back(pAreaEntry);
                         }
 
-                        mWorldList << Info;
+                        mWorldList.push_back(Info);
                     }
                 }
             }
@@ -301,12 +301,12 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
 
                         if (!pInfo || pInfo->WorldName != WorldNameQ)
                         {
-                            mWorldList << SWorldInfo();
+                            mWorldList.push_back(SWorldInfo());
                             pInfo = &mWorldList.back();
                             pInfo->WorldName = WorldNameQ;
                         }
 
-                        pInfo->Areas << pEntry;
+                        pInfo->Areas.push_back(pEntry);
                         UsedWorlds.insert(pEntry->ID());
                     }
                 }
@@ -321,7 +321,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
             for (TResourceIterator<EResourceType::World> It; It; ++It)
             {
                 if (UsedWorlds.find(It->ID()) == UsedWorlds.end())
-                    pInfo->Areas << *It;
+                    pInfo->Areas.push_back(*It);
             }
 
             // Sort FrontEnd world
