@@ -143,7 +143,7 @@ QMimeData* CResourceTableModel::mimeData(const QModelIndexList& rkIndexes) const
             Dirs.push_back(pDir);
     }
 
-    return new CResourceMimeData(Resources, Dirs);
+    return new CResourceMimeData(std::move(Resources), std::move(Dirs));
 }
 
 Qt::DropActions CResourceTableModel::supportedDragActions() const
