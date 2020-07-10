@@ -18,7 +18,7 @@ public:
           mpSelection(pSelection)
     {
         for (CSelectionIterator It(pSelection); It; ++It)
-            mOldSelection << *It;
+            mOldSelection.push_back(*It);
     }
 
     void undo() override { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
