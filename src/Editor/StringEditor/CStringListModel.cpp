@@ -25,8 +25,7 @@ void CStringListModel::SetPreviewLanguage(ELanguage InLanguage)
     if (NumStrings == 0)
         return;
 
-    QVector<int> Roles;
-    Roles << Qt::UserRole;
+    const QVector<int> Roles{Qt::UserRole};
     emit dataChanged(index(0), index(NumStrings - 1), Roles);
 }
 
