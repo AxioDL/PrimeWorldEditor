@@ -96,8 +96,8 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
         std::set<TString> Templates;
         NPropertyMap::RetrieveXMLsWithProperty( pProperty->ID(), pProperty->HashableTypeName(), Templates );
 
-        for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)
-            mpUI->TemplatesListWidget->addItem(TO_QSTRING(*Iter));
+        for (const auto& Template : Templates)
+            mpUI->TemplatesListWidget->addItem(TO_QSTRING(Template));
 
         mpUI->ValidityLabel->SetValidityText(tr("Hash match! Property name is likely correct."), tr("Hash mismatch! Property name is likely wrong."));
         connect(mpUI->NameLineEdit, &CSoftValidatorLineEdit::SoftValidityChanged, mpUI->ValidityLabel, &CValidityLabel::SetValid);
@@ -229,19 +229,17 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     mpProperty->SetDescription(rkNewDesc);
 
     // Update all copies of this property in memory with the new description
-    TString SourceFile = mpProperty->GetTemplateFileName();
+    const TString SourceFile = mpProperty->GetTemplateFileName();
 
     if (!SourceFile.IsEmpty())
     {
         std::vector<IProperty*> Templates;
         NPropertyMap::RetrievePropertiesWithID(mpProperty->ID(), mpProperty->HashableTypeName(), Templates);
 
-        for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)
+        for (auto* property : Templates)
         {
-            IProperty* pProperty = *Iter;
-
-            if (pProperty->GetTemplateFileName() == SourceFile && pProperty->Description() == mOriginalDescription)
-                pProperty->SetDescription(rkNewDesc);
+            if (property->GetTemplateFileName() == SourceFile && property->Description() == mOriginalDescription)
+                property->SetDescription(rkNewDesc);
         }
     }
 
