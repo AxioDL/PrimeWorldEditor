@@ -69,7 +69,7 @@ public:
             for (uint32 iTemp = 0; iTemp < mpGame->NumScriptTemplates(); iTemp++)
                 mTemplates.push_back(mpGame->TemplateByIndex(iTemp));
 
-            std::sort(mTemplates.begin(), mTemplates.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
+            std::sort(mTemplates.begin(), mTemplates.end(), [](const CScriptTemplate *pLeft, const CScriptTemplate *pRight) {
                 return pLeft->Name() < pRight->Name();
             });
         }
