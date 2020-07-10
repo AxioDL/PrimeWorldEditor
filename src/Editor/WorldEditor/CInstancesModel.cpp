@@ -32,7 +32,7 @@ CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
     , mpEditor(pEditor)
     , mpScene(pEditor->Scene())
 {
-    mBaseItems << "Script";
+    mBaseItems.push_back(QStringLiteral("Script"));
 
     connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CInstancesModel::OnActiveProjectChanged);
     connect(mpEditor, &CWorldEditor::MapChanged, this, &CInstancesModel::OnMapChange);
