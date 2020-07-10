@@ -137,7 +137,10 @@ CResourceBrowser::CResourceBrowser(QWidget *pParent)
 #endif
 
     // Resize splitter
-    mpUI->splitter->setSizes( QList<int>() << width() * 0.4 << width() * 0.6 );
+    mpUI->splitter->setSizes({
+        static_cast<int>(width() * 0.4),
+        static_cast<int>(width() * 0.6),
+    });
 
     // Create context menu for the resource table
     new CResourceTableContextMenu(this, mpUI->ResourceTableView, mpModel, mpProxyModel);
