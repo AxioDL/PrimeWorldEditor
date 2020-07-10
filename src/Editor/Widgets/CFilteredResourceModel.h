@@ -64,7 +64,7 @@ public:
         {
             if (Role == Qt::DisplayRole)
             {
-                return TO_QSTRING( pEntry->Name() + "." + pEntry->CookedExtension() );
+                return TO_QSTRING(pEntry->Name() + '.' + pEntry->CookedExtension());
             }
             else if (Role == Qt::ToolTipRole)
             {
@@ -72,7 +72,7 @@ public:
             }
             else if (Role == Qt::DecorationRole)
             {
-                return QIcon(":/icons/Sphere Preview.svg");
+                return QIcon(QStringLiteral(":/icons/Sphere Preview.svg"));
             }
         }
         else
