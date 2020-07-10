@@ -65,7 +65,7 @@ public:
     void CheckGizmoInput(const CRay& rkRay);
     SRayIntersection SceneRayCast(const CRay& rkRay);
     void ResetHover();
-    bool IsHoveringGizmo();
+    bool IsHoveringGizmo() const;
 
     void keyPressEvent(QKeyEvent* pEvent) override;
     void keyReleaseEvent(QKeyEvent* pEvent) override;

@@ -132,7 +132,7 @@ void CSceneViewport::ResetHover()
     mpHoverNode = nullptr;
 }
 
-bool CSceneViewport::IsHoveringGizmo()
+bool CSceneViewport::IsHoveringGizmo() const
 {
     return mGizmoHovering;
 }
