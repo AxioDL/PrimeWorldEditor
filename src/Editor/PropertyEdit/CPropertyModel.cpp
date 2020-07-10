@@ -25,7 +25,7 @@ int CPropertyModel::RecursiveBuildArrays(IProperty* pProperty, int ParentID)
     else
     {
         MyID = mProperties.size();
-        mProperties << SProperty();
+        mProperties.push_back(SProperty());
     }
 
     mProperties[MyID].pProperty = pProperty;
