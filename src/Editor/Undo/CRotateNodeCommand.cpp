@@ -41,9 +41,7 @@ CRotateNodeCommand::CRotateNodeCommand(
     mpEditor->NotifySelectionTransformed();
 }
 
-CRotateNodeCommand::~CRotateNodeCommand()
-{
-}
+CRotateNodeCommand::~CRotateNodeCommand() = default;
 
 int CRotateNodeCommand::id() const
 {
