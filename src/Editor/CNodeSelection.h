@@ -32,7 +32,7 @@ public:
         if (IsAllowedType(pNode->NodeType()) && !pNode->IsSelected())
         {
             pNode->SetSelected(true);
-            mSelectedNodes << pNode;
+            mSelectedNodes.push_back(pNode);
             mCachedBounds.ExpandBounds(pNode->AABox());
             emit Modified();
         }
