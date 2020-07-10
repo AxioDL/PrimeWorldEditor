@@ -205,7 +205,7 @@ void CEditorApplication::NotifyAssetsModified()
 
 bool CEditorApplication::CookPackage(CPackage *pPkg)
 {
-    return CookPackageList(QList<CPackage*>() << pPkg);
+    return CookPackageList({pPkg});
 }
 
 bool CEditorApplication::CookAllDirtyPackages()
@@ -218,10 +218,10 @@ bool CEditorApplication::CookAllDirtyPackages()
         CPackage *pPackage = mpActiveProject->PackageByIndex(iPkg);
 
         if (pPackage->NeedsRecook())
-            PackageList << pPackage;
+            PackageList.push_back(pPackage);
     }
 
-    return CookPackageList(PackageList);
+    return CookPackageList(std::move(PackageList));
 }
 
 bool CEditorApplication::CookPackageList(QList<CPackage*> PackageList)
@@ -299,7 +299,7 @@ bool CEditorApplication::RebuildResourceDatabase()
 // ************ SLOTS ************
 void CEditorApplication::AddEditor(IEditor *pEditor)
 {
-    mEditorWindows << pEditor;
+    mEditorWindows.push_back(pEditor);
     connect(pEditor, &IEditor::Closed, this, &CEditorApplication::OnEditorClose);
 }
 
