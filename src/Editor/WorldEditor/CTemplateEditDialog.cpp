@@ -342,7 +342,7 @@ void CTemplateEditDialog::FindEquivalentProperties(IProperty* pProperty)
 
             if (pEquivalentProperty)
             {
-                mEquivalentProperties << pEquivalentProperty;
+                mEquivalentProperties.push_back(pEquivalentProperty);
             }
         }
     }
