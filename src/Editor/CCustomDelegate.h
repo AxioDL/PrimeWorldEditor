@@ -15,8 +15,8 @@ struct SDelegateFontInfo
     QFontMetrics InfoFontMetrics;
     QPen NamePen;
     QPen InfoPen;
-    int Margin;
-    int Spacing;
+    int Margin = 0;
+    int Spacing = 0;
 
     SDelegateFontInfo()
         : NameFontMetrics(NameFont), InfoFontMetrics(InfoFont) {}
@@ -28,7 +28,7 @@ class CCustomDelegate : public QStyledItemDelegate
     Q_OBJECT
 
 public:
-    explicit CCustomDelegate(QObject* pParent = 0)
+    explicit CCustomDelegate(QObject* pParent = nullptr)
         : QStyledItemDelegate(pParent)
     {}
 
