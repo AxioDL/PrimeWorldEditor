@@ -191,17 +191,17 @@ void CPoiMapSidebar::UpdateModelHighlights()
         {
         case EHighlightMode::HighlightSelected:
             if (kSelection.contains(Index))
-                SelectedIndices << Index;
+                SelectedIndices.push_back(Index);
             else
-                UnselectedIndices << Index;
+                UnselectedIndices.push_back(Index);
             break;
 
         case EHighlightMode::HighlightAll:
-            SelectedIndices << Index;
+            SelectedIndices.push_back(Index);
             break;
 
         case EHighlightMode::HighlightNone:
-            UnselectedIndices << Index;
+            UnselectedIndices.push_back(Index);
             break;
         }
     }
