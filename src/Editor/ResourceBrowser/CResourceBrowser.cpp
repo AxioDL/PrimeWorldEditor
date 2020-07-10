@@ -256,7 +256,7 @@ void CResourceBrowser::CreateFilterCheckboxes()
             QCheckBox *pCheck = new QCheckBox(this);
             pCheck->setFont(mFilterBoxFont);
             pCheck->setText(TO_QSTRING(type->TypeName()));
-            mTypeList << SResourceType{type, pCheck};
+            mTypeList.push_back(SResourceType{type, pCheck});
         }
 
         std::sort(mTypeList.begin(), mTypeList.end(), [](const SResourceType& rkLeft, const SResourceType& rkRight) {
@@ -387,9 +387,9 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
         if (pConflict != pEntry)
         {
             if (pConflict != nullptr)
-                ConflictingResources << pEntry;
+                ConflictingResources.push_back(pEntry);
             else
-                ValidResources << pEntry;
+                ValidResources.push_back(pEntry);
         }
     }
 
@@ -403,9 +403,9 @@ bool CResourceBrowser::MoveResources(const QList<CResourceEntry*>& rkResources, 
         if (pConflict != pDir)
         {
             if (pConflict != nullptr)
-                ConflictingDirs << pDir;
+                ConflictingDirs.push_back(pDir);
             else
-                ValidDirs << pDir;
+                ValidDirs.push_back(pDir);
         }
     }
 
