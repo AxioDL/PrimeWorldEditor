@@ -6,6 +6,7 @@
 #include <Core/Scene/CScriptNode.h>
 #include <QList>
 #include <QObject>
+#include <QSignalBlocker>
 
 class CNodeSelection : public QObject
 {
@@ -61,20 +62,23 @@ public:
     void ClearAndSelectNode(CSceneNode *pNode)
     {
         // Block signals for Clear so that Modified only emits once.
-        blockSignals(true);
-        Clear();
-        blockSignals(false);
+        {
+            [[maybe_unused]] const QSignalBlocker blocker{this};
+            Clear();
+        }
+
         SelectNode(pNode);
     }
 
     void SetSelectedNodes(const QList<CSceneNode*>& rkList)
     {
-        blockSignals(true);
-        Clear();
+        {
+            [[maybe_unused]] const QSignalBlocker blocker{this};
+            Clear();
 
-        for (CSceneNode *pNode : rkList)
-            SelectNode(pNode);
-        blockSignals(false);
+            for (CSceneNode* pNode : rkList)
+                SelectNode(pNode);
+        }
 
         mBoundsDirty = true;
         emit Modified();
