@@ -219,23 +219,23 @@ void WModifyTab::OnPickModeExit()
 
 void WModifyTab::OnDeleteLinksClicked()
 {
-    if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
-    {
-        ELinkType Type = (sender() == ui->DeleteOutgoingConnectionButton ? ELinkType::Outgoing : ELinkType::Incoming);
-        QModelIndexList SelectedIndices = (Type == ELinkType::Outgoing ? ui->OutLinksTableView->selectionModel()->selectedRows() : ui->InLinksTableView->selectionModel()->selectedRows());
+    if (mpSelectedNode == nullptr || mpSelectedNode->NodeType() != ENodeType::Script)
+        return;
 
-        if (!SelectedIndices.isEmpty())
-        {
-            QVector<uint32> Indices;
+    const ELinkType Type = (sender() == ui->DeleteOutgoingConnectionButton ? ELinkType::Outgoing : ELinkType::Incoming);
+    const QModelIndexList SelectedIndices = (Type == ELinkType::Outgoing ? ui->OutLinksTableView->selectionModel()->selectedRows() : ui->InLinksTableView->selectionModel()->selectedRows());
 
-            for (int iIdx = 0; iIdx < SelectedIndices.size(); iIdx++)
-                Indices << SelectedIndices[iIdx].row();
+    if (SelectedIndices.isEmpty())
+        return;
 
-            CScriptObject *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
-            CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(mpWorldEditor, pInst, Type, Indices);
-            mpWorldEditor->UndoStack().push(pCmd);
-        }
-    }
+    QVector<uint32> Indices;
+    Indices.reserve(SelectedIndices.size());
+    for (const auto& index : SelectedIndices)
+        Indices.push_back(index.row());
+
+    auto *pInst = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
+    auto *pCmd = new CDeleteLinksCommand(mpWorldEditor, pInst, Type, Indices);
+    mpWorldEditor->UndoStack().push(pCmd);
 }
 
 void WModifyTab::OnEditLinkClicked()
