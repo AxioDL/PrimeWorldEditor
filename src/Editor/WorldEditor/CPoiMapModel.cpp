@@ -70,7 +70,7 @@ void CPoiMapModel::AddPOI(CScriptNode *pPOI)
     const int NewIndex = static_cast<int>(mpPoiToWorld->NumMappedPOIs());
     beginInsertRows(QModelIndex(), NewIndex, NewIndex);
 
-    QList<CModelNode*> *pList = new QList<CModelNode*>;
+    auto* pList = new QList<CModelNode*>();
     mModelMap[pPOI] = pList;
     mpPoiToWorld->AddPoi(pPOI->Instance()->InstanceID());
 
@@ -115,7 +115,9 @@ void CPoiMapModel::RemoveMapping(const QModelIndex& rkIndex, CModelNode *pNode)
         mpPoiToWorld->RemovePoiMeshMap(pPOI->Instance()->InstanceID(), pNode->FindMeshID());
     }
     else
+    {
         mpPoiToWorld->RemovePoiMeshMap(pPOI->Instance()->InstanceID(), pNode->FindMeshID());
+    }
 }
 
 bool CPoiMapModel::IsPoiTracked(CScriptNode *pPOI) const
@@ -125,7 +127,8 @@ bool CPoiMapModel::IsPoiTracked(CScriptNode *pPOI) const
 
 bool CPoiMapModel::IsModelMapped(const QModelIndex& rkIndex, CModelNode *pNode) const
 {
-    if (!pNode) return false;
+    if (!pNode)
+        return false;
 
     CScriptNode *pPOI = PoiNodePointer(rkIndex);
 
@@ -134,7 +137,8 @@ bool CPoiMapModel::IsModelMapped(const QModelIndex& rkIndex, CModelNode *pNode) 
         QList<CModelNode*> *pList = mModelMap[pPOI];
         return (pList->contains(pNode));
     }
-    else return false;
+
+    return false;
 }
 
 CScriptNode* CPoiMapModel::PoiNodePointer(const QModelIndex& rkIndex) const
@@ -186,25 +190,24 @@ void CPoiMapModel::OnMapChange(CWorld*, CGameArea *pArea)
 
             if (pPoiNode)
             {
-                QList<CModelNode*> *pModelList = new QList<CModelNode*>;
+                auto* pModelList = new QList<CModelNode*>();
 
                 for (const auto modelID : pkMap->ModelIDs)
                 {
                     if (NodeMap.contains(modelID))
-                        *pModelList << NodeMap[modelID];
+                        pModelList->push_back(NodeMap[modelID]);
                 }
 
                 mModelMap[pPoiNode] = pModelList;
             }
         }
     }
-
     else
     {
         QList<QList<CModelNode*>*> Lists = mModelMap.values();
 
-        for (auto it = Lists.begin(); it != Lists.end(); it++)
-            delete *it;
+        for (auto* list : Lists)
+            delete list;
 
         mModelMap.clear();
     }
