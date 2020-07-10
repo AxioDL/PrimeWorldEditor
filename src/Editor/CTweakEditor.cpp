@@ -61,39 +61,39 @@ bool CTweakEditor::Save()
 
 void CTweakEditor::SetActiveTweakData(CTweakData* pTweakData)
 {
-    for( int TweakIdx = 0; TweakIdx < mTweakAssets.size(); TweakIdx++ )
+    for (int TweakIdx = 0; TweakIdx < mTweakAssets.size(); TweakIdx++)
     {
-        if (mTweakAssets[TweakIdx] == pTweakData)
-        {
-            CSetTweakIndexCommand* pCommand = new CSetTweakIndexCommand(this, mCurrentTweakIndex, TweakIdx);
-            UndoStack().push(pCommand);
-            break;
-        }
+        if (mTweakAssets[TweakIdx] != pTweakData)
+            continue;
+
+        auto* pCommand = new CSetTweakIndexCommand(this, mCurrentTweakIndex, TweakIdx);
+        UndoStack().push(pCommand);
+        break;
     }
 }
 
 void CTweakEditor::SetActiveTweakIndex(int Index)
 {
-    if( mCurrentTweakIndex != Index )
-    {
-        mCurrentTweakIndex = Index;
+    if (mCurrentTweakIndex == Index)
+        return;
 
-        CTweakData* pTweakData = mTweakAssets[Index];
-        mpUI->PropertyView->SetIntrinsicProperties(pTweakData->TweakData());
+    mCurrentTweakIndex = Index;
 
-        mpUI->TweakTabs->blockSignals(true);
-        mpUI->TweakTabs->setCurrentIndex(Index);
-        mpUI->TweakTabs->blockSignals(false);
-    }
+    CTweakData* pTweakData = mTweakAssets[Index];
+    mpUI->PropertyView->SetIntrinsicProperties(pTweakData->TweakData());
+
+    mpUI->TweakTabs->blockSignals(true);
+    mpUI->TweakTabs->setCurrentIndex(Index);
+    mpUI->TweakTabs->blockSignals(false);
 }
 
 void CTweakEditor::OnTweakTabClicked(int Index)
 {
-    if (Index != mCurrentTweakIndex)
-    {
-        CSetTweakIndexCommand* pCommand = new CSetTweakIndexCommand(this, mCurrentTweakIndex, Index);
-        UndoStack().push(pCommand);
-    }
+    if (Index == mCurrentTweakIndex)
+        return;
+
+    auto* pCommand = new CSetTweakIndexCommand(this, mCurrentTweakIndex, Index);
+    UndoStack().push(pCommand);
 }
 
 void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
@@ -144,5 +144,5 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
     mpUI->TweakTabs->blockSignals(false);
 
     // Hide "save and repack" button for MP2+ as it doesn't do anything different from the regular Save button
-    mpUI->ActionSaveAndRepack->setVisible( !pNewProject || pNewProject->Game() <= EGame::Prime );
+    mpUI->ActionSaveAndRepack->setVisible(!pNewProject || pNewProject->Game() <= EGame::Prime);
 }
