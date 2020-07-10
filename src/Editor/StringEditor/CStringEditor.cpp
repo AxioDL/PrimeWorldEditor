@@ -228,9 +228,11 @@ void CStringEditor::UpdateUI()
 
     if (OldStringIndex != NewStringIndex)
     {
-        pSelectionModel->blockSignals(true);
-        pSelectionModel->setCurrentIndex(NewStringIndex, QItemSelectionModel::ClearAndSelect);
-        pSelectionModel->blockSignals(false);
+        {
+            [[maybe_unused]] const QSignalBlocker blocker{pSelectionModel};
+            pSelectionModel->setCurrentIndex(NewStringIndex, QItemSelectionModel::ClearAndSelect);
+        }
+
         mpUI->StringNameListView->scrollTo(NewStringIndex);
         mpUI->StringNameListView->update(OldStringIndex);
     }
@@ -247,9 +249,8 @@ void CStringEditor::UpdateUI()
         {
             if (mpStringTable->LanguageByIndex(LangIdx) == mCurrentLanguage)
             {
-                mpUI->EditLanguageTabBar->blockSignals(true);
+                [[maybe_unused]] const QSignalBlocker blocker{mpUI->EditLanguageTabBar};
                 mpUI->EditLanguageTabBar->setCurrentIndex(static_cast<int>(LangIdx));
-                mpUI->EditLanguageTabBar->blockSignals(false);
                 break;
             }
         }
@@ -261,16 +262,14 @@ void CStringEditor::UpdateUI()
 
     if (StringName != mpUI->StringNameLineEdit->text())
     {
-        mpUI->StringNameLineEdit->blockSignals(true);
+        [[maybe_unused]] const QSignalBlocker blocker{mpUI->StringNameLineEdit};
         mpUI->StringNameLineEdit->setText(StringName);
-        mpUI->StringNameLineEdit->blockSignals(false);
     }
 
     if (StringData != mpUI->StringTextEdit->toPlainText())
     {
-        mpUI->StringTextEdit->blockSignals(true);
+        [[maybe_unused]] const QSignalBlocker blocker{mpUI->StringTextEdit};
         mpUI->StringTextEdit->setPlainText(StringData);
-        mpUI->StringTextEdit->blockSignals(false);
     }
 
     UpdateStatusBar();
