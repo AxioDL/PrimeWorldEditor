@@ -138,9 +138,9 @@ QMimeData* CResourceTableModel::mimeData(const QModelIndexList& rkIndexes) const
         CVirtualDirectory *pDir = IndexDirectory(Index);
 
         if (pEntry)
-            Resources << pEntry;
+            Resources.push_back(pEntry);
         else
-            Dirs << pDir;
+            Dirs.push_back(pDir);
     }
 
     return new CResourceMimeData(Resources, Dirs);
@@ -181,7 +181,7 @@ QModelIndex CResourceTableModel::GetIndexForDirectory(CVirtualDirectory *pDir) c
 
 CResourceEntry* CResourceTableModel::IndexEntry(const QModelIndex& rkIndex) const
 {
-    int Index = rkIndex.row() - mDirectories.size();
+    const int Index = rkIndex.row() - mDirectories.size();
     return (Index >= 0 ? mEntries[Index] : nullptr);
 }
 
@@ -227,7 +227,7 @@ void CResourceTableModel::FillEntryList(CVirtualDirectory *pDir, bool AssetListM
 
                 if (!pEntry->IsHidden())
                 {
-                    int Index = EntryListIndex(pEntry);
+                    const int Index = EntryListIndex(pEntry);
                     mEntries.insert(Index, pEntry);
                 }
             }
@@ -299,7 +299,7 @@ void CResourceTableModel::CheckAddResource(CResourceEntry *pEntry)
         // Append to the end, let the proxy handle sorting
         const int NumRows = mDirectories.size() + mEntries.size();
         beginInsertRows(QModelIndex(), NumRows, NumRows);
-        mEntries << pEntry;
+        mEntries.push_back(pEntry);
         endInsertRows();
     }
 }
@@ -324,7 +324,7 @@ void CResourceTableModel::CheckAddDirectory(CVirtualDirectory *pDir)
 
     // Just append to the end, let the proxy handle sorting
     beginInsertRows(QModelIndex(), mDirectories.size(), mDirectories.size());
-    mDirectories << pDir;
+    mDirectories.push_back(pDir);
     endInsertRows();
 }
 
