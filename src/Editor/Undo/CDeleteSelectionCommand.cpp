@@ -13,7 +13,7 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
 
     for (CSelectionIterator It(pEditor->Selection()); It; ++It)
     {
-        mOldSelection << *It;
+        mOldSelection.push_back(*It);
 
         if (It->NodeType() == ENodeType::Script)
         {
@@ -52,13 +52,13 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
                         Link.ReceiverIndex = pLink->ReceiverIndex();
                         Link.pSender = pLink->Sender();
                         Link.pReceiver = pLink->Receiver();
-                        mDeletedLinks << Link;
-                        Links << pLink;
+                        mDeletedLinks.push_back(Link);
+                        Links.insert(pLink);
 
                         if (!LinkedInstances.contains(pLink->Sender()))
-                            LinkedInstances << pLink->Sender();
+                            LinkedInstances.push_back(pLink->Sender());
                         if (!LinkedInstances.contains(pLink->Receiver()))
-                            LinkedInstances << pLink->Receiver();
+                            LinkedInstances.push_back(pLink->Receiver());
                     }
                 }
             }
@@ -67,9 +67,10 @@ CDeleteSelectionCommand::CDeleteSelectionCommand(CWorldEditor *pEditor, const QS
             CScriptCooker Cooker(pEditor->CurrentGame());
             Cooker.WriteInstance(PropertyDataOut, pInst);
         }
-
         else
-            mNewSelection << *It;
+        {
+            mNewSelection.push_back(*It);
+        }
     }
 
     // Remove selected objects from the linked instances list.
