@@ -103,7 +103,7 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
     mpUI->PropertyView->ClearProperties();
     close();
 
-    mpUI->TweakTabs->blockSignals(true);
+    [[maybe_unused]] const QSignalBlocker tweakBlocker{mpUI->TweakTabs};
 
     while (mpUI->TweakTabs->count() > 0)
     {
@@ -140,8 +140,6 @@ void CTweakEditor::OnProjectChanged(CGameProject* pNewProject)
 
         SetActiveTweakIndex(0);
     }
-
-    mpUI->TweakTabs->blockSignals(false);
 
     // Hide "save and repack" button for MP2+ as it doesn't do anything different from the regular Save button
     mpUI->ActionSaveAndRepack->setVisible(!pNewProject || pNewProject->Game() <= EGame::Prime);
