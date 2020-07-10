@@ -52,9 +52,9 @@ void CResourceTableView::DeleteSelected()
         const QModelIndex SourceIndex = pProxy->mapToSource(Index);
 
         if (pModel->IsIndexDirectory(SourceIndex))
-            DirsToDelete << pModel->IndexDirectory(SourceIndex);
+            DirsToDelete.push_back(pModel->IndexDirectory(SourceIndex));
         else
-            ResourcesToDelete << pModel->IndexEntry(SourceIndex);
+            ResourcesToDelete.push_back(pModel->IndexEntry(SourceIndex));
 
     }
 
