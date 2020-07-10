@@ -20,9 +20,9 @@ public:
         for (CSceneIterator It(pScene, NodeFlags); It; ++It)
         {
             if (It->IsSelected())
-                mOldSelection << *It;
+                mOldSelection.push_back(*It);
             else
-                mNewSelection << *It;
+                mNewSelection.push_back(*It);
         }
     }
 
