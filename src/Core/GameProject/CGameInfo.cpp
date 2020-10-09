@@ -89,7 +89,7 @@ TString CGameInfo::GetDefaultGameInfoPath(EGame Game)
         return "";
 
     const TString GameName = GetGameShortName(Game);
-    return TString::Format("%s/%s/GameInfo%s.%s", *gDataDir, *gkGameInfoDir, *GameName, *gkGameInfoExt);
+    return TString::Format("%s/%s/GameInfo%s.%s", gDataDir.ToStdString().c_str(), gkGameInfoDir, GameName.ToStdString().c_str(), gkGameInfoExt);
 }
 
 TString CGameInfo::GetExtension()

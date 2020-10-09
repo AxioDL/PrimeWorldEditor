@@ -444,12 +444,12 @@ bool CPackage::ContainsAsset(const CAssetID& rkID) const
 
 TString CPackage::DefinitionPath(bool Relative) const
 {
-    const TString RelPath = mPakPath + mPakName + ".pkd";
+    TString RelPath = mPakPath + mPakName + ".pkd";
     return Relative ? RelPath : mpProject->PackagesDir(false) + RelPath;
 }
 
 TString CPackage::CookedPackagePath(bool Relative) const
 {
-    const TString RelPath = mPakPath + mPakName + ".pak";
+    TString RelPath = mPakPath + mPakName + ".pak";
     return Relative ? RelPath : mpProject->DiscFilesystemRoot(false) + RelPath;
 }

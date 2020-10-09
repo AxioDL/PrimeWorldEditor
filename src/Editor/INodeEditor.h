@@ -16,15 +16,14 @@
 class INodeEditor : public IEditor
 {
     Q_OBJECT
-
-protected:
+public:
     enum class ECloneState
     {
         NotCloning,
         ReadyToClone,
         Cloning
     };
-
+protected:
     // Node management
     CScene mScene;
     CNodeSelection *mpSelection;

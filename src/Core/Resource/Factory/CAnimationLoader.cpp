@@ -1,6 +1,7 @@
 #include "CAnimationLoader.h"
 #include <Common/Macros.h>
 #include <Common/Log.h>
+#include <cmath>
 #include <Common/Math/MathUtil.h>
 
 bool CAnimationLoader::UncompressedCheckEchoes()
@@ -236,8 +237,10 @@ void CAnimationLoader::ReadCompressedANIM()
     {
         CBitStreamInWrapper BitStream(mpInput);
 
-        for (auto& flag : mKeyFlags)
-            flag = BitStream.ReadBit();
+        for (size_t i = 0; i < mKeyFlags.size(); ++i)
+        {
+            mKeyFlags[i] = BitStream.ReadBit();
+        }
     }
     mpInput->Seek(mGame == EGame::Prime ? 0x8 : 0x4, SEEK_CUR);
 
@@ -462,9 +465,9 @@ CQuaternion CAnimationLoader::DequantizeRotation(bool Sign, int16 X, int16 Y, in
     const float Multiplier = Math::skHalfPi / static_cast<float>(mRotationDivisor);
 
     CQuaternion Out;
-    Out.X = std::sinf(static_cast<float>(X) * Multiplier);
-    Out.Y = std::sinf(static_cast<float>(Y) * Multiplier);
-    Out.Z = std::sinf(static_cast<float>(Z) * Multiplier);
+    Out.X = sinf(static_cast<float>(X) * Multiplier);
+    Out.Y = sinf(static_cast<float>(Y) * Multiplier);
+    Out.Z = sinf(static_cast<float>(Z) * Multiplier);
     Out.W = Math::Sqrt(std::fmax(1.f - ((Out.X * Out.X) + (Out.Y * Out.Y) + (Out.Z * Out.Z)), 0.f));
 
     if (Sign)

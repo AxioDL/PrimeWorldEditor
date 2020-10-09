@@ -73,7 +73,7 @@ public:
     }
     friend bool operator!=(const IProperty* pLeft, const TPropertyRef& kRight)
     {
-        return !operator==(pLeft, kRight);
+        return !(*pLeft == *kRight);
     }
 
     friend bool operator==(const TPropertyRef& left, const IProperty* right)
@@ -82,7 +82,7 @@ public:
     }
     friend bool operator!=(const TPropertyRef& left, const IProperty* right)
     {
-        return !operator==(left, right);
+        return !(left.Property() == right);
     }
 };
 

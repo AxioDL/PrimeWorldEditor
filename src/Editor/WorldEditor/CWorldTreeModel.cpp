@@ -222,7 +222,7 @@ void CWorldTreeModel::OnProjectChanged(CGameProject *pProj)
             // Metroid Prime series; fetch all world assets
             std::list<CAssetID> WorldIDs;
             pProj->GetWorldList(WorldIDs);
-            QList<CAssetID> QWorldIDs = QList<CAssetID>::fromStdList(WorldIDs);
+            QList<CAssetID> QWorldIDs = QList<CAssetID>(WorldIDs.begin(), WorldIDs.end());
 
             for (const CAssetID& rkID : QWorldIDs)
             {
