@@ -18,100 +18,119 @@
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 1</Name>
+                <Name>AggressionCheck</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>CoverCheck</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>SearchRadius</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 4</Name>
+                <Name>FallbackCheck</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 5</Name>
+                <Name>FallbackRadius</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 6</Name>
+                <Name>HearingRadius</Name>
             </Element>
-            <Element Type="Int" ID="0xC">
-                <Name>Unknown 7</Name>
+            <Element Type="Flags" ID="0xC">
+                <Name>Flags</Name>
+                <Flags>
+                    <Element Name="PendingAmbush" Mask="0x1"/>
+                    <Element Name="CeilingAmbush" Mask="0x2"/>
+                    <Element Name="NonAggressive" Mask="0x4"/>
+                    <Element Name="Melee" Mask="0x8"/>
+                    <Element Name="NoShuffleCloseCheck" Mask="0x10"/>
+                    <Element Name="OnlyAttackInRange" Mask="0x20"/>
+                    <Element Name="Unknown" Mask="0x40"/>
+                    <Element Name="NoKnockbackImpulseReset" Mask="0x80"/>
+                    <Element Name="NoMeleeAttack" Mask="0x200"/>
+                    <Element Name="BreakAttack" Mask="0x400"/>
+                    <Element Name="Seated" Mask="0x1000"/>
+                    <Element Name="ShadowPirate" Mask="0x2000"/>
+                    <Element Name="AlertBeforeCloak" Mask="0x4000"/>
+                    <Element Name="NoBreakDamage" Mask="0x8000"/>
+                    <Element Name="FloatingCorpse" Mask="0x10000"/>
+                    <Element Name="RagdollNoAiCollision" Mask="0x20000"/>
+                    <Element Name="Trooper" Mask="0x40000"/>
+                </Flags>
             </Element>
             <Element Type="Bool" ID="0xD">
                 <Name>Unknown 8</Name>
             </Element>
             <Element Type="Asset" ID="0xE">
-                <Name>WPSC 1</Name>
+                <Name>Projectile</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0xF" Archetype="DamageInfo">
-                <Name>DamageInfo 1</Name>
+                <Name>ProjectileDamage</Name>
             </Element>
             <Element Type="Sound" ID="0x10">
-                <Name>Sound ID 1</Name>
+                <Name>Sound_Projectile</Name>
             </Element>
             <Element Type="Struct" ID="0x11" Archetype="DamageInfo">
-                <Name>DamageInfo 2</Name>
+                <Name>BladeDamage</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 9</Name>
+                <Name>KneelAttackChance</Name>
             </Element>
             <Element Type="Asset" ID="0x13">
-                <Name>WPSC 2</Name>
+                <Name>KneelAttackShot</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x14" Archetype="DamageInfo">
-                <Name>DamageInfo 3</Name>
+                <Name>KneelAttackDamage</Name>
             </Element>
             <Element Type="Float" ID="0x15">
-                <Name>Unknown 10</Name>
+                <Name>DodgeCheck</Name>
             </Element>
             <Element Type="Sound" ID="0x16">
-                <Name>Sound ID 2</Name>
+                <Name>Sound_Impact</Name>
             </Element>
             <Element Type="Float" ID="0x17">
-                <Name>Unknown 11</Name>
+                <Name>AverageNextShotTime</Name>
             </Element>
             <Element Type="Float" ID="0x18">
-                <Name>Unknown 12</Name>
+                <Name>NextShotTimeVariation</Name>
             </Element>
             <Element Type="Sound" ID="0x19">
-                <Name>Sound ID 3</Name>
+                <Name>Sound_Alert</Name>
             </Element>
             <Element Type="Float" ID="0x1A">
-                <Name>Unknown 13</Name>
+                <Name>GunTrackDelay</Name>
             </Element>
             <Element Type="Int" ID="0x1B">
-                <Name>Unknown 14</Name>
+                <Name>FirstBurstCount</Name>
             </Element>
             <Element Type="Float" ID="0x1C">
-                <Name>Unknown 15</Name>
+                <Name>CloakOpacity</Name>
             </Element>
             <Element Type="Float" ID="0x1D">
-                <Name>Unknown 16</Name>
+                <Name>MaxCloakOpacity</Name>
             </Element>
             <Element Type="Float" ID="0x1E">
-                <Name>Unknown 17</Name>
+                <Name>DodgeDelayTimeMin</Name>
             </Element>
             <Element Type="Float" ID="0x1F">
-                <Name>Unknown 18</Name>
+                <Name>DodgeDelayTimeMax</Name>
             </Element>
             <Element Type="Sound" ID="0x20">
-                <Name>Sound ID 4</Name>
+                <Name>Sound_Hurled</Name>
             </Element>
             <Element Type="Sound" ID="0x21">
-                <Name>Sound ID 5</Name>
+                <Name>Sound_Death</Name>
             </Element>
             <Element Type="Float" ID="0x22">
                 <Name>Unknown 19</Name>
             </Element>
             <Element Type="Float" ID="0x23">
-                <Name>Unknown 20</Name>
+                <Name>AvoidDistance</Name>
             </Element>
         </SubProperties>
     </Properties>
