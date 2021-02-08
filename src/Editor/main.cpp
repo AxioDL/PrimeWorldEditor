@@ -81,6 +81,12 @@ public:
     /** Main function */
     int Main(int argc, char *argv[])
     {
+        // Default OpenGL format
+        QSurfaceFormat glFormat;
+        glFormat.setVersion(3, 3);
+        glFormat.setProfile(QSurfaceFormat::CoreProfile);
+        QSurfaceFormat::setDefaultFormat(glFormat);
+
         // Create application
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
         QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -88,17 +94,17 @@ public:
 #endif
         QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
         CEditorApplication App(argc, argv);
-        App.setApplicationName( APP_NAME );
+        App.setApplicationName(QStringLiteral("PrimeWorldEditor"));
         App.setApplicationVersion( APP_VERSION );
-        App.setOrganizationName("Aruki");
-        App.setWindowIcon(QIcon(":/icons/win/AppIcon.ico"));
+        App.setOrganizationName(QStringLiteral("Aruki"));
+        App.setWindowIcon(QIcon(QStringLiteral(":/icons/win/AppIcon.ico")));
 
         // Create UI relay
         CUIRelay UIRelay(&App);
         gpUIRelay = &UIRelay;
 
         // Set up dark theme
-        qApp->setStyle(QStyleFactory::create("Fusion"));
+        qApp->setStyle(QStyleFactory::create(QStringLiteral("Fusion")));
         SetupPalette();
 #ifdef __APPLE__
         MacOSSetDarkAppearance();
@@ -107,15 +113,10 @@ public:
         qApp->installNativeEventFilter(gpMouseDragCocoaEventFilter);
 #endif
 
-        // Default OpenGL format
-        QSurfaceFormat glFormat;
-        glFormat.setVersion(3, 3);
-        glFormat.setProfile(QSurfaceFormat::CoreProfile);
-        QSurfaceFormat::setDefaultFormat(glFormat);
-
         // Init log
         bool Initialized = NLog::InitLog(LocateLogPath());
-        if (!Initialized) UICommon::ErrorMsg(0, "Couldn't open log file. Logging will not work for this session.");
+        if (!Initialized)
+            UICommon::ErrorMsg(nullptr, "Couldn't open log file. Logging will not work for this session.");
         qInstallMessageHandler(QtLogRedirect);
 
         // Locate data directory and check write permissions
@@ -128,7 +129,7 @@ public:
 
         if (!gpEditorStore->DatabasePathExists())
         {
-            UICommon::ErrorMsg(0, "Unable to locate PWE resources directory; "
+            UICommon::ErrorMsg(nullptr, "Unable to locate PWE resources directory; "
                                   "PWE's executable must remain as deployed.");
             return 1;
         }

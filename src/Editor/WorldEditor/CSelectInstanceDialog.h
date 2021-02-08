@@ -6,6 +6,8 @@
 #include <QDialog>
 #include <QSortFilterProxyModel>
 
+#include <memory>
+
 namespace Ui {
 class CSelectInstanceDialog;
 }
@@ -20,15 +22,15 @@ class CSelectInstanceDialog : public QDialog
     CInstancesProxyModel mLayersProxyModel;
     CInstancesProxyModel mTypesProxyModel;
 
-    bool mValidSelection;
-    CScriptObject *mpLayersInst;
-    CScriptObject *mpTypesInst;
+    bool mValidSelection = false;
+    CScriptObject *mpLayersInst = nullptr;
+    CScriptObject *mpTypesInst = nullptr;
 
-    Ui::CSelectInstanceDialog *ui;
+    std::unique_ptr<Ui::CSelectInstanceDialog> ui;
 
 public:
-    explicit CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pParent = 0);
-    ~CSelectInstanceDialog();
+    explicit CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pParent = nullptr);
+    ~CSelectInstanceDialog() override;
 
     CScriptObject* SelectedInstance() const;
 

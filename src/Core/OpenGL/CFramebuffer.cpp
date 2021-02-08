@@ -1,23 +1,9 @@
 #include "CFramebuffer.h"
 #include <Common/Log.h>
 
-CFramebuffer::CFramebuffer()
-    : mpRenderbuffer(nullptr)
-    , mpTexture(nullptr)
-    , mWidth(0)
-    , mHeight(0)
-    , mEnableMultisampling(false)
-    , mInitialized(false)
-{
-}
+CFramebuffer::CFramebuffer() = default;
 
 CFramebuffer::CFramebuffer(uint32 Width, uint32 Height)
-    : mpRenderbuffer(nullptr)
-    , mpTexture(nullptr)
-    , mWidth(0)
-    , mHeight(0)
-    , mEnableMultisampling(false)
-    , mInitialized(false)
 {
     Resize(Width, Height);
 }

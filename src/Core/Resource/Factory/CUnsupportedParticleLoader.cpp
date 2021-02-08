@@ -999,7 +999,7 @@ void CUnsupportedParticleLoader::ParseIntFunction(IInputStream& rFile)
 
     case FOURCC('CNST'):
     {
-        uint32 Value = rFile.ReadLong();
+        [[maybe_unused]] const uint32 Value = rFile.ReadULong();
         ASSERT(gpResourceStore->FindEntry(CAssetID(Value)) == nullptr);
         break;
     }
@@ -1763,10 +1763,10 @@ void CUnsupportedParticleLoader::ParseKeyframeEmitterData(IInputStream& rFile, c
 }
 
 // ************ STATIC ************
-CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, CResourceEntry *pEntry)
+std::unique_ptr<CDependencyGroup> CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, CResourceEntry *pEntry)
 {
     CUnsupportedParticleLoader Loader;
-    Loader.mpGroup = new CDependencyGroup(pEntry);
+    Loader.mpGroup = std::make_unique<CDependencyGroup>(pEntry);
 
     // Validate DKCR asset header
     if (pEntry->Game() == EGame::DKCReturns)
@@ -1776,7 +1776,7 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
         if (AssetHeader != 0x6E190001)
         {
             errorf("Invalid DKCR particle header: %08X", AssetHeader);
-            return Loader.mpGroup;
+            return std::move(Loader.mpGroup);
         }
     }
 
@@ -1810,5 +1810,5 @@ CDependencyGroup* CUnsupportedParticleLoader::LoadParticle(IInputStream& rFile, 
         if (!ShouldContinue) break;
     }
 
-    return Loader.mpGroup;
+    return std::move(Loader.mpGroup);
 }

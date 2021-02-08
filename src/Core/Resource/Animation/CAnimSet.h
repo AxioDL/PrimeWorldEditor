@@ -14,6 +14,8 @@
 #include "Core/Resource/Model/CModel.h"
 #include <Common/BasicTypes.h>
 
+#include <memory>
+#include <set>
 #include <vector>
 
 // Animation structures
@@ -27,7 +29,7 @@ struct SAdditiveAnim
 struct SAnimation
 {
     TString Name;
-    IMetaAnimation *pMetaAnim;
+    std::unique_ptr<IMetaAnimation> pMetaAnim;
 };
 
 struct STransition
@@ -35,13 +37,13 @@ struct STransition
     uint32 Unknown;
     uint32 AnimIdA;
     uint32 AnimIdB;
-    IMetaTransition *pMetaTrans;
+    std::unique_ptr<IMetaTransition> pMetaTrans;
 };
 
 struct SHalfTransition
 {
     uint32 AnimID;
-    IMetaTransition *pMetaTrans;
+    std::unique_ptr<IMetaTransition> pMetaTrans;
 };
 
 // Character structures
@@ -94,50 +96,37 @@ class CAnimSet : public CResource
     std::vector<CAnimPrimitive> mAnimPrimitives;
     std::vector<SAnimation> mAnimations;
     std::vector<STransition> mTransitions;
-    IMetaTransition *mpDefaultTransition;
+    std::unique_ptr<IMetaTransition> mpDefaultTransition;
     std::vector<SAdditiveAnim> mAdditiveAnims;
-    float mDefaultAdditiveFadeIn;
-    float mDefaultAdditiveFadeOut;
+    float mDefaultAdditiveFadeIn = 0.0f;
+    float mDefaultAdditiveFadeOut = 0.0f;
     std::vector<SHalfTransition> mHalfTransitions;
-    std::vector<CAnimEventData*> mAnimEvents; // note: these are for MP2, where event data isn't a standalone resource; these are owned by the animset
+    std::vector<std::unique_ptr<CAnimEventData>> mAnimEvents; // note: these are for MP2, where event data isn't a standalone resource; these are owned by the animset
 
 public:
-    CAnimSet(CResourceEntry *pEntry = 0)
+    explicit CAnimSet(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
-        , mpDefaultTransition(nullptr)
     {}
 
-    ~CAnimSet()
+    ~CAnimSet() override
     {
-        for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
-            delete mAnimations[iAnim].pMetaAnim;
-
-        for (uint32 iTrans = 0; iTrans < mTransitions.size(); iTrans++)
-            delete mTransitions[iTrans].pMetaTrans;
-
-        for (uint32 iHalf = 0; iHalf < mHalfTransitions.size(); iHalf++)
-            delete mHalfTransitions[iHalf].pMetaTrans;
-
-        delete mpDefaultTransition;
-
         // For MP2, anim events need to be cleaned up manually
-        for (uint32 iEvent = 0; iEvent < mAnimEvents.size(); iEvent++)
+        for ([[maybe_unused]] const auto& event : mAnimEvents)
         {
-            ASSERT(mAnimEvents[iEvent] && !mAnimEvents[iEvent]->Entry());
-            delete mAnimEvents[iEvent];
+            ASSERT(event != nullptr && !event->Entry());
         }
     }
 
-    CDependencyTree* BuildDependencyTree() const
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
-        CDependencyTree *pTree = new CDependencyTree();
+        auto pTree = std::make_unique<CDependencyTree>();
 
         // Character dependencies
-        for (uint32 iChar = 0; iChar < mCharacters.size(); iChar++)
+        for (const auto& character : mCharacters)
         {
-            CSetCharacterDependency *pCharTree = CSetCharacterDependency::BuildTree( mCharacters[iChar] );
+            auto pCharTree = CSetCharacterDependency::BuildTree(character);
             ASSERT(pCharTree);
-            pTree->AddChild(pCharTree);
+            pTree->AddChild(std::move(pCharTree));
         }
 
         // Animation dependencies
@@ -145,58 +134,52 @@ public:
         {
             for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
             {
-                CSetAnimationDependency *pAnimTree = CSetAnimationDependency::BuildTree(this, iAnim);
+                auto pAnimTree = CSetAnimationDependency::BuildTree(this, iAnim);
                 ASSERT(pAnimTree);
-                pTree->AddChild(pAnimTree);
+                pTree->AddChild(std::move(pAnimTree));
             }
         }
-
         else if (Game() <= EGame::Corruption)
         {
             const SSetCharacter& rkChar = mCharacters[0];
             std::set<CAnimPrimitive> PrimitiveSet;
 
             // Animations
-            for (uint32 iAnim = 0; iAnim < mAnimations.size(); iAnim++)
+            for (const auto& anim : mAnimations)
             {
-                const SAnimation& rkAnim = mAnimations[iAnim];
-                rkAnim.pMetaAnim->GetUniquePrimitives(PrimitiveSet);
+                anim.pMetaAnim->GetUniquePrimitives(PrimitiveSet);
             }
 
-            CSourceAnimData *pAnimData = gpResourceStore->LoadResource<CSourceAnimData>(rkChar.AnimDataID);
-            if (pAnimData)
-                pAnimData->AddTransitionDependencies(pTree);
+            if (auto* pAnimData = gpResourceStore->LoadResource<CSourceAnimData>(rkChar.AnimDataID))
+                pAnimData->AddTransitionDependencies(pTree.get());
 
-            for (auto Iter = PrimitiveSet.begin(); Iter != PrimitiveSet.end(); Iter++)
+            for (const auto& prim : PrimitiveSet)
             {
-                const CAnimPrimitive& rkPrim = *Iter;
-                pTree->AddDependency(rkPrim.Animation());
+                pTree->AddDependency(prim.Animation());
             }
 
             // Event sounds
-            for (uint32 iSound = 0; iSound < rkChar.SoundEffects.size(); iSound++)
+            for (const auto& effect : rkChar.SoundEffects)
             {
-                pTree->AddDependency(rkChar.SoundEffects[iSound]);
+                pTree->AddDependency(effect);
             }
         }
-
         else
         {
             const SSetCharacter& rkChar = mCharacters[0];
 
-            for (uint32 iDep = 0; iDep < rkChar.DKDependencies.size(); iDep++)
-                pTree->AddDependency(rkChar.DKDependencies[iDep]);
+            for (const auto& dep : rkChar.DKDependencies)
+                pTree->AddDependency(dep);
         }
 
         return pTree;
     }
 
-    CAnimation* FindAnimationAsset(uint32 AnimID) const
+    CAnimation* FindAnimationAsset(size_t AnimID) const
     {
-        if (AnimID >= 0 && AnimID < mAnimPrimitives.size())
+        if (AnimID < mAnimPrimitives.size())
         {
-            CAnimPrimitive Prim = mAnimPrimitives[AnimID];
-            return Prim.Animation();
+            return mAnimPrimitives[AnimID].Animation();
         }
 
         return nullptr;
@@ -204,39 +187,37 @@ public:
 
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const
     {
-        for (uint32 iAnim = 0; iAnim < mAnimPrimitives.size(); iAnim++)
-            rPrimSet.insert(mAnimPrimitives[iAnim]);
+        rPrimSet.insert(mAnimPrimitives.cbegin(), mAnimPrimitives.cend());
     }
 
     // Accessors
-    inline uint32 NumCharacters() const        { return mCharacters.size(); }
-    inline uint32 NumAnimations() const        { return mAnimations.size(); }
+    size_t NumCharacters() const        { return mCharacters.size(); }
+    size_t NumAnimations() const        { return mAnimations.size(); }
 
-    inline const SSetCharacter* Character(uint32 Index) const
+    const SSetCharacter* Character(size_t Index) const
     {
-        ASSERT(Index >= 0 && Index < NumCharacters());
+        ASSERT(Index < NumCharacters());
         return &mCharacters[Index];
     }
 
-    inline const SAnimation* Animation(uint32 Index) const
+    const SAnimation* Animation(size_t Index) const
     {
-        ASSERT(Index >= 0 && Index < NumAnimations());
+        ASSERT(Index < NumAnimations());
         return &mAnimations[Index];
     }
 
-    CAnimEventData* AnimationEventData(uint32 Index) const
+    CAnimEventData* AnimationEventData(size_t Index) const
     {
-        ASSERT(Index >= 0 && Index < NumAnimations());
+        ASSERT(Index < NumAnimations());
 
         if (Game() <= EGame::Prime)
         {
             const CAnimPrimitive& rkPrim = mAnimPrimitives[Index];
-            return rkPrim.Animation() ? rkPrim.Animation()->EventData() : nullptr;
+            return rkPrim.Animation() != nullptr ? rkPrim.Animation()->EventData() : nullptr;
         }
-
         else
         {
-            return (Index < mAnimEvents.size() ? mAnimEvents[Index] : nullptr);
+            return (Index < mAnimEvents.size() ? mAnimEvents[Index].get() : nullptr);
         }
     }
 };

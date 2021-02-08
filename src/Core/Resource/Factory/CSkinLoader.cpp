@@ -2,31 +2,33 @@
 #include <Common/Macros.h>
 
 // ************ STATIC ************
-CSkin* CSkinLoader::LoadCSKR(IInputStream& rCSKR, CResourceEntry *pEntry)
+std::unique_ptr<CSkin> CSkinLoader::LoadCSKR(IInputStream& rCSKR, CResourceEntry *pEntry)
 {
-    if (!rCSKR.IsValid()) return nullptr;
-    CSkin *pSkin = new CSkin(pEntry);
+    if (!rCSKR.IsValid())
+        return nullptr;
+
+    auto pSkin = std::make_unique<CSkin>(pEntry);
 
     // We don't support MP3/DKCR CSKR yet
     if (rCSKR.PeekLong() == FOURCC('SKIN'))
         return pSkin;
 
-    uint32 NumVertexGroups = rCSKR.ReadLong();
+    const uint32 NumVertexGroups = rCSKR.ReadULong();
     pSkin->mVertGroups.resize(NumVertexGroups);
 
-    for (uint32 iGrp = 0; iGrp < NumVertexGroups; iGrp++)
+    for (size_t iGrp = 0; iGrp < NumVertexGroups; iGrp++)
     {
         CSkin::SVertGroup& rGroup = pSkin->mVertGroups[iGrp];
-        uint32 NumWeights = rCSKR.ReadLong();
+        const uint32 NumWeights = rCSKR.ReadULong();
         ASSERT(NumWeights <= 4);
 
-        for (uint32 iWgt = 0; iWgt < NumWeights; iWgt++)
+        for (size_t iWgt = 0; iWgt < NumWeights; iWgt++)
         {
-            rGroup.Weights.Indices[iWgt] = (uint8) rCSKR.ReadLong();
+            rGroup.Weights.Indices[iWgt] = static_cast<uint8>(rCSKR.ReadULong());
             rGroup.Weights.Weights[iWgt] = rCSKR.ReadFloat();
         }
 
-        rGroup.NumVertices = rCSKR.ReadLong();
+        rGroup.NumVertices = rCSKR.ReadULong();
     }
 
     return pSkin;

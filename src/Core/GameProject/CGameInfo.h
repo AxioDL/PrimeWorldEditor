@@ -8,14 +8,11 @@
 #include <Common/Serialization/XML.h>
 #include <map>
 
-const TString gkGameInfoDir = "resources/gameinfo";
-const TString gkGameInfoExt = "xml";
-
 //@todo merge this class into CGameTemplate
 // they serve similar purposes, no real reason for them to be different classes
 class CGameInfo
 {
-    EGame mGame;
+    EGame mGame{EGame::Invalid};
 
     // List of known builds of each game
     struct SBuildInfo
@@ -37,12 +34,10 @@ class CGameInfo
     std::map<CAssetID, TString> mAreaNameMap;
 
 public:
-    CGameInfo()
-        : mGame(EGame::Invalid)
-    {}
+    CGameInfo() = default;
 
     bool LoadGameInfo(EGame Game);
-    bool LoadGameInfo(TString Path);
+    bool LoadGameInfo(const TString& Path);
     bool SaveGameInfo(TString Path = "");
     void Serialize(IArchive& rArc);
 
@@ -50,14 +45,14 @@ public:
     TString GetAreaName(const CAssetID& rkID) const;
 
     // Accessors
-    inline EGame Game() const   { return mGame; }
+    EGame Game() const   { return mGame; }
 
     // Static
     static CGameInfo* GetGameInfo(EGame Game);
     static EGame RoundGame(EGame Game);
     static TString GetDefaultGameInfoPath(EGame Game);
 
-    inline static TString GetExtension()    { return gkGameInfoExt; }
+    static TString GetExtension();
 };
 
 #endif // CGAMEINFO

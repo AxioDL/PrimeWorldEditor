@@ -6,11 +6,7 @@
 
 CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
-    , mpMat(nullptr)
 {
-    for (uint32 iTex = 0; iTex < 3; iTex++)
-        mpTextures[iTex] = nullptr;
-
     SetInheritance(true, false, false);
     CreateMaterial();
 
@@ -18,36 +14,36 @@ CDamageableTriggerExtra::CDamageableTriggerExtra(CScriptObject *pInstance, CScen
 
     // Fetch render side
     mRenderSide = TEnumRef<ERenderSide>(pInstance->PropertyData(), pProperties->ChildByIndex(5));
-    if (mRenderSide.IsValid()) PropertyModified(mRenderSide.Property());
+    if (mRenderSide.IsValid())
+        PropertyModified(mRenderSide.Property());
 
     // Fetch scale
     mPlaneSize = CVectorRef(pInstance->PropertyData(), pProperties->ChildByIndex(2));
-    if (mPlaneSize.IsValid()) PropertyModified(mPlaneSize.Property());
+    if (mPlaneSize.IsValid())
+        PropertyModified(mPlaneSize.Property());
 
     // Fetch textures
-    for (uint32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
+    for (size_t TextureIdx = 0; TextureIdx < mTextureAssets.size(); TextureIdx++)
     {
         mTextureAssets[TextureIdx] = CAssetRef(pInstance->PropertyData(), pProperties->ChildByIndex(6 + TextureIdx));
-        if (mTextureAssets[TextureIdx].IsValid()) PropertyModified(mTextureAssets[TextureIdx].Property());
+        if (mTextureAssets[TextureIdx].IsValid())
+            PropertyModified(mTextureAssets[TextureIdx].Property());
     }
 }
 
-CDamageableTriggerExtra::~CDamageableTriggerExtra()
-{
-    delete mpMat;
-}
+CDamageableTriggerExtra::~CDamageableTriggerExtra() = default;
 
 void CDamageableTriggerExtra::CreateMaterial()
 {
     ASSERT(!mpMat);
-    mpMat = new CMaterial(mGame, EVertexAttribute::Position | EVertexAttribute::Normal | EVertexAttribute::Tex0);
+    mpMat = std::make_unique<CMaterial>(mGame, EVertexAttribute::Position | EVertexAttribute::Normal | EVertexAttribute::Tex0);
 
     // Most values/TEV setup were found from the executable + from graphics debuggers
     // Animation parameters are estimates from eyeballing the values ingame
     mpMat->SetBlendMode(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     mpMat->SetLightingEnabled(true);
     mpMat->SetOptions(EMaterialOption::Transparent);
-    mpMat->SetKonst(CColor((float) 1.f, 1.f, 1.f, 0.2f), 0);
+    mpMat->SetKonst(CColor(1.f, 1.f, 1.f, 0.2f), 0);
     mpMat->SetNumPasses(3);
 
     CMaterialPass *pPassA = mpMat->Pass(0);
@@ -79,14 +75,14 @@ void CDamageableTriggerExtra::CreateMaterial()
 
 void CDamageableTriggerExtra::UpdatePlaneTransform()
 {
-    CVector3f Extent = mPlaneSize.Get() / 2.f;
+    const CVector3f Extent = mPlaneSize.Get() / 2.f;
 
     switch (mRenderSide)
     {
     case ERenderSide::North:
     case ERenderSide::South:
     {
-        float Scalar = (mRenderSide == ERenderSide::North ? 1.f : -1.f);
+        const float Scalar = (mRenderSide == ERenderSide::North ? 1.f : -1.f);
 
         mPosition = CVector3f(0.f, Extent.Y * Scalar, 0.f);
         mRotation = CQuaternion::FromEuler(CVector3f(90.f * Scalar, 0.f, 0.f));
@@ -98,7 +94,7 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     case ERenderSide::West:
     case ERenderSide::East:
     {
-        float Scalar = (mRenderSide == ERenderSide::West ? 1.f : -1.f);
+        const float Scalar = (mRenderSide == ERenderSide::West ? 1.f : -1.f);
 
         mPosition = CVector3f(-Extent.X * Scalar, 0.f, 0.f);
         mRotation = CQuaternion::FromEuler(CVector3f(0.f, 90.f * Scalar, 0.f));
@@ -110,8 +106,8 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     case ERenderSide::Up:
     case ERenderSide::Down:
     {
-        float Scalar = (mRenderSide == ERenderSide::Up ? 1.f : -1.f);
-        float RotAngle = (mRenderSide == ERenderSide::Up ? 180.f : 0.f);
+        const float Scalar = (mRenderSide == ERenderSide::Up ? 1.f : -1.f);
+        const float RotAngle = (mRenderSide == ERenderSide::Up ? 180.f : 0.f);
 
         mPosition = CVector3f(0.f, 0.f, Extent.Z * Scalar);
         mRotation = CQuaternion::FromEuler(CVector3f(0.f, RotAngle, 0.f));
@@ -123,36 +119,36 @@ void CDamageableTriggerExtra::UpdatePlaneTransform()
     }
 
     if (mRenderSide == ERenderSide::NoRender)
-        mLocalAABox = CAABox::skZero;
+        mLocalAABox = CAABox::Zero();
     else
         mLocalAABox = CAABox(CVector3f(-1.f, -1.f, 0.f), CVector3f(1.f, 1.f, 0.f));
 
     MarkTransformChanged();
 }
 
-CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::RenderSideForDirection(const CVector3f& rkDir)
+CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::RenderSideForDirection(const CVector3f& rkDir) const 
 {
     // Get the index of the largest XYZ component
-    CVector3f AbsDir(Math::Abs(rkDir.X), Math::Abs(rkDir.Y), Math::Abs(rkDir.Z));
+    const CVector3f AbsDir(Math::Abs(rkDir.X), Math::Abs(rkDir.Y), Math::Abs(rkDir.Z));
     uint32 Max = (AbsDir.X > AbsDir.Y ? 0 : 1);
     Max = (AbsDir[Max] > AbsDir.Z ? Max : 2);
 
     // Check whether the direction is positive or negative. If the absolute value of the component matches the input one, then it's positive.
-    bool Positive = (rkDir[Max] == AbsDir[Max]);
+    const bool Positive = (rkDir[Max] == AbsDir[Max]);
 
     // Return corresponding side for direction
-    if (Max == 0)       return (Positive ? ERenderSide::East : ERenderSide::West);
-    else if (Max == 1)  return (Positive ? ERenderSide::North : ERenderSide::South);
-    else if (Max == 2)  return (Positive ? ERenderSide::Up : ERenderSide::Down);
+    if (Max == 0) return (Positive ? ERenderSide::East : ERenderSide::West);
+    if (Max == 1) return (Positive ? ERenderSide::North : ERenderSide::South);
+    if (Max == 2) return (Positive ? ERenderSide::Up : ERenderSide::Down);
 
     return ERenderSide::NoRender;
 }
 
-CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::TransformRenderSide(ERenderSide Side)
+CDamageableTriggerExtra::ERenderSide CDamageableTriggerExtra::TransformRenderSide(ERenderSide Side) const
 {
     // DamageableTrigger has a convenience feature implemented that changes the
     // render side when the area's been rotated, so we need to replicate it here.
-    CQuaternion AreaRotation = mpScriptNode->Instance()->Area()->Transform().ExtractRotation();
+    const CQuaternion AreaRotation = mpScriptNode->Instance()->Area()->Transform().ExtractRotation();
 
     switch (Side)
     {
@@ -184,7 +180,6 @@ void CDamageableTriggerExtra::PropertyModified(IProperty* pProperty)
     {
         UpdatePlaneTransform();
     }
-
     else
     {
         for (uint32 TextureIdx = 0; TextureIdx < 3; TextureIdx++)
@@ -232,10 +227,10 @@ void CDamageableTriggerExtra::Draw(FRenderOptions Options, int /*ComponentIndex*
     mpMat->SetCurrent(Options);
 
     // Note: The plane the game renders this onto is 5x4.5, which is why we divide the tex coords by this value
-    CVector2f TexUL(0.f, mCoordScale.Y / 4.5f);
-    CVector2f TexUR(mCoordScale.X / 5.f, mCoordScale.Y / 4.5f);
-    CVector2f TexBR(mCoordScale.X / 5.f, 0.f);
-    CVector2f TexBL(0.f, 0.f);
+    const CVector2f TexUL(0.f, mCoordScale.Y / 4.5f);
+    const CVector2f TexUR(mCoordScale.X / 5.f, mCoordScale.Y / 4.5f);
+    const CVector2f TexBR(mCoordScale.X / 5.f, 0.f);
+    const CVector2f TexBL(0.f, 0.f);
     CDrawUtil::DrawSquare(TexUL, TexUR, TexBR, TexBL);
 }
 
@@ -251,12 +246,15 @@ void CDamageableTriggerExtra::DrawSelection()
 
 void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo)
 {
-    if (mRenderSide == ERenderSide::NoRender) return;
-    if (rkViewInfo.GameMode && !mpInstance->IsActive()) return;
+    if (mRenderSide == ERenderSide::NoRender)
+        return;
+
+    if (rkViewInfo.GameMode && !mpInstance->IsActive())
+        return;
 
     const CRay& rkRay = rTester.Ray();
 
-    if (rkViewInfo.pRenderer->RenderOptions() & ERenderOption::EnableBackfaceCull)
+    if ((rkViewInfo.pRenderer->RenderOptions() & ERenderOption::EnableBackfaceCull) != 0)
     {
         // We're guaranteed to be axis-aligned, so we can take advantage of that
         // to perform a very simple backface check.
@@ -272,12 +270,12 @@ void CDamageableTriggerExtra::RayAABoxIntersectTest(CRayCollisionTester& rTester
         }
     }
 
-    std::pair<bool,float> Result = AABox().IntersectsRay(rkRay);
+    const auto [intersects, distance] = AABox().IntersectsRay(rkRay);
 
-    if (Result.first)
+    if (intersects)
     {
-        rTester.AddNode(this, -1, Result.second);
-        mCachedRayDistance = Result.second;
+        rTester.AddNode(this, UINT32_MAX, distance);
+        mCachedRayDistance = distance;
     }
 }
 
@@ -285,5 +283,5 @@ SRayIntersection CDamageableTriggerExtra::RayNodeIntersectTest(const CRay& rkRay
 {
     // The bounding box and all other tests already passed in RayAABoxIntersectTest, so we
     // already know that we have a positive.
-    return SRayIntersection(true, mCachedRayDistance, rkRay.PointOnRay(mCachedRayDistance), mpParent, -1);
+    return SRayIntersection(true, mCachedRayDistance, rkRay.PointOnRay(mCachedRayDistance), mpParent, UINT32_MAX);
 }

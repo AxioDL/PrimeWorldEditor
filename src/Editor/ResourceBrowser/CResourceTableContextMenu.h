@@ -19,8 +19,8 @@ class CResourceTableContextMenu : public QMenu
     QModelIndexList mSelectedIndexes;
     QModelIndex mClickedIndex;
     QModelIndex mClickedProxyIndex;
-    CResourceEntry *mpClickedEntry;
-    CVirtualDirectory *mpClickedDirectory;
+    CResourceEntry *mpClickedEntry = nullptr;
+    CVirtualDirectory *mpClickedDirectory = nullptr;
 
 public:
     CResourceTableContextMenu(CResourceBrowser *pBrowser, QTableView *pView, CResourceTableModel *pModel, CResourceProxyModel *pProxy);

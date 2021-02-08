@@ -14,13 +14,13 @@ class CSoftValidatorLineEdit : public CTimedLineEdit
     Q_OBJECT
 
     /** The validator that input is checked against */
-    QValidator* mpSoftValidator;
+    QValidator* mpSoftValidator = nullptr;
 
     /** Whether to only validate when the user stops typing. Good for slow validators. */
-    bool mOnlyValidateOnFinishedTyping;
+    bool mOnlyValidateOnFinishedTyping = false;
 
     /** Whether the current input is valid */
-    bool mInputIsValid;
+    bool mInputIsValid = true;
 
 signals:
     /** Emitted when the validity of the input changes */
@@ -62,11 +62,8 @@ protected slots:
     }
 
 public:
-    CSoftValidatorLineEdit(QWidget *pParent = 0)
+    explicit CSoftValidatorLineEdit(QWidget *pParent = nullptr)
         : CTimedLineEdit(pParent)
-        , mpSoftValidator(nullptr)
-        , mOnlyValidateOnFinishedTyping(false)
-        , mInputIsValid(true)
     {}
 
     /** Set the soft validator to use */
@@ -81,7 +78,7 @@ public:
         if (pValidator)
         {
             mpSoftValidator = pValidator;
-            connect(mpSoftValidator, SIGNAL(changed()), this, SLOT(InternalUpdate()));
+            connect(mpSoftValidator, &QValidator::changed, this, &CSoftValidatorLineEdit::InternalUpdate);
         }
 
         InternalUpdate();
@@ -97,13 +94,13 @@ public:
     }
 
     /** Check whether the input is valid */
-    inline bool IsInputValid() const
+    bool IsInputValid() const
     {
         return mInputIsValid;
     }
 
 public slots:
-    virtual void OnTextChanged()
+    void OnTextChanged() override
     {
         CTimedLineEdit::OnTextChanged();
 
@@ -113,7 +110,7 @@ public slots:
         }
     }
 
-    virtual void OnTimeout()
+    void OnTimeout() override
     {
         CTimedLineEdit::OnTimeout();
 

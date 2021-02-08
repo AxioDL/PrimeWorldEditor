@@ -2,28 +2,25 @@
 #include "Editor/Undo/CEditScriptPropertyCommand.h"
 #include <Core/Resource/Script/CScriptLayer.h>
 
-WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
+WEditorProperties::WEditorProperties(QWidget *pParent)
     : QWidget(pParent)
-    , mpEditor(nullptr)
-    , mpDisplayNode(nullptr)
-    , mHasEditedName(false)
 {
     mpInstanceInfoLabel = new QLabel;
-    mpInstanceInfoLabel->setText("<i>[No selection]</i>");
+    mpInstanceInfoLabel->setText(tr("<i>[No selection]</i>"));
     mpInstanceInfoLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
     mpInstanceInfoLayout = new QHBoxLayout;
     mpInstanceInfoLayout->addWidget(mpInstanceInfoLabel);
 
     mpActiveCheckBox = new QCheckBox;
-    mpActiveCheckBox->setToolTip("Active");
+    mpActiveCheckBox->setToolTip(tr("Active"));
     mpInstanceNameLineEdit = new QLineEdit;
-    mpInstanceNameLineEdit->setToolTip("Instance Name");
+    mpInstanceNameLineEdit->setToolTip(tr("Instance Name"));
     mpNameLayout = new QHBoxLayout;
     mpNameLayout->addWidget(mpActiveCheckBox);
     mpNameLayout->addWidget(mpInstanceNameLineEdit);
 
     mpLayersLabel = new QLabel;
-    mpLayersLabel->setText("Layer:");
+    mpLayersLabel->setText(tr("Layer:"));
     mpLayersLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     mpLayersComboBox = new QComboBox;
     mpLayersComboBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -51,22 +48,22 @@ WEditorProperties::WEditorProperties(QWidget *pParent /*= 0*/)
     ComboFont.setPointSize(10);
     mpLayersComboBox->setFont(ComboFont);
 
-    connect(mpActiveCheckBox, SIGNAL(clicked()), this, SLOT(OnActiveChanged()));
-    connect(mpInstanceNameLineEdit, SIGNAL(textEdited(QString)), this, SLOT(OnInstanceNameEdited()));
-    connect(mpInstanceNameLineEdit, SIGNAL(editingFinished()), this, SLOT(OnInstanceNameEditFinished()));
-    connect(mpLayersComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnLayerChanged()));
+    connect(mpActiveCheckBox, &QCheckBox::clicked, this, &WEditorProperties::OnActiveChanged);
+    connect(mpInstanceNameLineEdit, &QLineEdit::textEdited, this, &WEditorProperties::OnInstanceNameEdited);
+    connect(mpInstanceNameLineEdit, &QLineEdit::editingFinished, this, &WEditorProperties::OnInstanceNameEditFinished);
+    connect(mpLayersComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &WEditorProperties::OnLayerChanged);
 }
 
 void WEditorProperties::SyncToEditor(CWorldEditor *pEditor)
 {
     if (mpEditor)
-        disconnect(mpEditor, 0, this, 0);
+        disconnect(mpEditor, nullptr, this, nullptr);
 
     mpEditor = pEditor;
-    connect(mpEditor, SIGNAL(SelectionModified()), this, SLOT(OnSelectionModified()));
-    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersModified()));
-    connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(OnInstancesLayerChanged(QList<CScriptNode*>)));
-    connect(mpEditor, SIGNAL(PropertyModified(IProperty*,CScriptObject*)), this, SLOT(OnPropertyModified(IProperty*,CScriptObject*)));
+    connect(mpEditor, &CWorldEditor::SelectionModified, this, &WEditorProperties::OnSelectionModified);
+    connect(mpEditor, &CWorldEditor::LayersModified, this, &WEditorProperties::OnLayersModified);
+    connect(mpEditor, &CWorldEditor::InstancesLayerChanged, this, &WEditorProperties::OnInstancesLayerChanged);
+    connect(mpEditor, &CWorldEditor::PropertyModified, this, &WEditorProperties::OnPropertyModified);
 
     OnLayersModified();
 }
@@ -79,11 +76,11 @@ void WEditorProperties::SetLayerComboBox()
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
         CScriptLayer *pLayer = pScript->Instance()->Layer();
-        for (uint32 iLyr = 0; iLyr < mpEditor->ActiveArea()->NumScriptLayers(); iLyr++)
+        for (size_t iLyr = 0; iLyr < mpEditor->ActiveArea()->NumScriptLayers(); iLyr++)
         {
             if (mpEditor->ActiveArea()->ScriptLayer(iLyr) == pLayer)
             {
-                mpLayersComboBox->setCurrentIndex(iLyr);
+                mpLayersComboBox->setCurrentIndex(static_cast<int>(iLyr));
                 break;
             }
         }
@@ -112,12 +109,12 @@ void WEditorProperties::OnSelectionModified()
 
         if (pSelection->IsEmpty())
         {
-            mpInstanceInfoLabel->setText("<i>[No selection]</i>");
+            mpInstanceInfoLabel->setText(tr("<i>[No selection]</i>"));
             mpInstanceNameLineEdit->clear();
         }
         else if (mpDisplayNode)
         {
-            mpInstanceInfoLabel->setText("[Light]");
+            mpInstanceInfoLabel->setText(tr("[Light]"));
             mpInstanceNameLineEdit->setText(TO_QSTRING(mpDisplayNode->Name()));
         }
         else
@@ -134,13 +131,13 @@ void WEditorProperties::OnSelectionModified()
         CScriptNode *pScript = static_cast<CScriptNode*>(mpDisplayNode);
         CInstanceID InstanceID = pScript->Instance()->InstanceID();
         TString ObjectType = pScript->Template()->Name();
-        mpInstanceInfoLabel->setText(QString("[%1] [%2]").
-                                     arg( TO_QSTRING(ObjectType) ).
-                                     arg( TO_QSTRING(TString::HexString(InstanceID, 8, false)) ));
-        mpInstanceInfoLabel->setToolTip(QString("[Layer: %1] [Area: %2] [ID: %3]").
-                                        arg( InstanceID.Layer() ).
-                                        arg( InstanceID.Area() ).
-                                        arg( TO_QSTRING(TString::HexString(InstanceID.Id(), 4, false)) ));
+        mpInstanceInfoLabel->setText(tr("[%1] [%2]")
+                                         .arg(TO_QSTRING(ObjectType))
+                                         .arg(TO_QSTRING(TString::HexString(InstanceID, 8, false))));
+        mpInstanceInfoLabel->setToolTip(tr("[Layer: %1] [Area: %2] [ID: %3]")
+                                            .arg(InstanceID.Layer())
+                                            .arg(InstanceID.Area())
+                                            .arg(TO_QSTRING(TString::HexString(InstanceID.Id(), 4, false))));
 
         UpdatePropertyValues();
     }
@@ -170,7 +167,7 @@ void WEditorProperties::OnLayersModified()
 
      if (pArea)
      {
-         for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+         for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
              mpLayersComboBox->addItem(TO_QSTRING(pArea->ScriptLayer(iLyr)->Name()));
      }
 
@@ -215,12 +212,12 @@ void WEditorProperties::OnInstanceNameEditFinished()
 
 void WEditorProperties::OnLayerChanged()
 {
-    int Index = mpLayersComboBox->currentIndex();
+    const int Index = mpLayersComboBox->currentIndex();
 
-    if (Index >= 0)
-    {
-        CScriptLayer *pLayer = mpEditor->ActiveArea()->ScriptLayer(Index);
-        mpEditor->SetSelectionLayer(pLayer);
-    }
+    if (Index < 0)
+        return;
+
+    CScriptLayer *pLayer = mpEditor->ActiveArea()->ScriptLayer(static_cast<size_t>(Index));
+    mpEditor->SetSelectionLayer(pLayer);
 }
 

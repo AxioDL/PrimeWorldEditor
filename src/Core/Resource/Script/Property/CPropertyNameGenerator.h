@@ -63,16 +63,16 @@ struct SGeneratedPropertyName
 class CPropertyNameGenerator
 {
     /** Whether we have started loading the word list */
-    bool mWordListLoadStarted;
+    bool mWordListLoadStarted = false;
 
     /** Whether the word list has been fully loaded */
-    bool mWordListLoadFinished;
+    bool mWordListLoadFinished = false;
 
     /** Whether the generation process is running */
-    bool mIsRunning;
+    bool mIsRunning = false;
 
     /** Whether the generation process finished running */
-    bool mFinishedRunning;
+    bool mFinishedRunning = false;
 
     /** List of valid property types to check against */
     std::vector<TString> mTypeNames;

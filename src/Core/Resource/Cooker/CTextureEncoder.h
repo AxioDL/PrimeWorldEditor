@@ -8,9 +8,9 @@
 // More advanced functions (including actual encoding!) coming later
 class CTextureEncoder
 {
-    TResPtr<CTexture> mpTexture;
-    ETexelFormat mSourceFormat;
-    ETexelFormat mOutputFormat;
+    TResPtr<CTexture> mpTexture{nullptr};
+    ETexelFormat mSourceFormat{};
+    ETexelFormat mOutputFormat{};
 
     CTextureEncoder();
     void WriteTXTR(IOutputStream& rTXTR);

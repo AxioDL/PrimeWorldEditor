@@ -9,33 +9,30 @@
 class CAreaCooker
 {
     TResPtr<CGameArea> mpArea;
-    EGame mVersion;
+    EGame mVersion{};
 
     std::vector<uint32> mSectionSizes;
 
-    uint32 mGeometrySecNum;
-    uint32 mSCLYSecNum;
-    uint32 mSCGNSecNum;
-    uint32 mCollisionSecNum;
-    uint32 mUnknownSecNum;
-    uint32 mLightsSecNum;
-    uint32 mVISISecNum;
-    uint32 mPATHSecNum;
-    uint32 mAROTSecNum;
-    uint32 mFFFFSecNum;
-    uint32 mPTLASecNum;
-    uint32 mEGMCSecNum;
-    uint32 mDepsSecNum;
-    uint32 mModulesSecNum;
+    uint32 mGeometrySecNum = UINT32_MAX;
+    uint32 mSCLYSecNum = UINT32_MAX;
+    uint32 mSCGNSecNum = UINT32_MAX;
+    uint32 mCollisionSecNum = UINT32_MAX;
+    uint32 mUnknownSecNum = UINT32_MAX;
+    uint32 mLightsSecNum = UINT32_MAX;
+    uint32 mVISISecNum = UINT32_MAX;
+    uint32 mPATHSecNum = UINT32_MAX;
+    uint32 mAROTSecNum = UINT32_MAX;
+    uint32 mFFFFSecNum = UINT32_MAX;
+    uint32 mPTLASecNum = UINT32_MAX;
+    uint32 mEGMCSecNum = UINT32_MAX;
+    uint32 mDepsSecNum = UINT32_MAX;
+    uint32 mModulesSecNum = UINT32_MAX;
 
     struct SCompressedBlock
     {
-        uint32 CompressedSize;
-        uint32 DecompressedSize;
-        uint32 NumSections;
-
-        SCompressedBlock()
-            : CompressedSize(0), DecompressedSize(0), NumSections(0) {}
+        uint32 CompressedSize = 0;
+        uint32 DecompressedSize = 0;
+        uint32 NumSections = 0;
     };
 
     SCompressedBlock mCurBlock;

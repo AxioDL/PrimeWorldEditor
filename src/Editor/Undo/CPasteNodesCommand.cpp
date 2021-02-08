@@ -25,7 +25,7 @@ void CPasteNodesCommand::undo()
     mpEditor->Selection()->SetSelectedNodes(mOriginalSelection.DereferenceList());
     QList<CSceneNode*> PastedNodes = mPastedNodes.DereferenceList();
 
-    foreach (CSceneNode *pNode, PastedNodes)
+    for (CSceneNode *pNode : PastedNodes)
     {
         CScriptObject *pInst = (pNode->NodeType() == ENodeType::Script ? static_cast<CScriptNode*>(pNode)->Instance() : nullptr);
         mpEditor->NotifyNodeAboutToBeDeleted(pNode);
@@ -41,14 +41,15 @@ void CPasteNodesCommand::undo()
 
 void CPasteNodesCommand::redo()
 {
-    if (!mpMimeData) return;
+    if (!mpMimeData)
+        return;
 
     const QVector<CNodeCopyMimeData::SCopiedNode>& rkNodes = mpMimeData->CopiedNodes();
     CScene *pScene = mpEditor->Scene();
     CGameArea *pArea = mpEditor->ActiveArea();
     QList<CSceneNode*> PastedNodes;
 
-    foreach (const CNodeCopyMimeData::SCopiedNode& rkNode, rkNodes)
+    for (const CNodeCopyMimeData::SCopiedNode& rkNode : rkNodes)
     {
         CSceneNode *pNewNode = nullptr;
 
@@ -74,26 +75,27 @@ void CPasteNodesCommand::redo()
             pNewNode->SetRotation(rkNode.Rotation);
             pNewNode->SetScale(rkNode.Scale);
 
-            PastedNodes << pNewNode;
+            PastedNodes.push_back(pNewNode);
             mpEditor->NotifyNodeSpawned(pNewNode);
         }
-
         // If we didn't paste a valid node, add a null node so that the indices still match up with the indices from the mime data.
         else
-            PastedNodes << nullptr;
+        {
+            PastedNodes.push_back(nullptr);
+        }
     }
 
     // Fix links. This is how fixes are prioritized:
     // 1. If the link receiver has also been copied then redirect to the copied version.
     // 2. If we're pasting into the same area that this data was copied from and the receiver still exists, connect to original receiver.
     // 3. If neither of those things is true, then delete the link.
-    foreach (CSceneNode *pNode, PastedNodes)
+    for (CSceneNode *pNode : PastedNodes)
     {
         if (pNode && pNode->NodeType() == ENodeType::Script)
         {
             CScriptObject *pInstance = static_cast<CScriptNode*>(pNode)->Instance();
 
-            for (uint32 iLink = 0; iLink < pInstance->NumLinks(ELinkType::Outgoing); iLink++)
+            for (size_t iLink = 0; iLink < pInstance->NumLinks(ELinkType::Outgoing); iLink++)
             {
                 CLink *pLink = pInstance->Link(ELinkType::Outgoing, iLink);
                 int Index = mpMimeData->IndexOfInstanceID(pLink->ReceiverID());
@@ -103,7 +105,6 @@ void CPasteNodesCommand::redo()
                     CScriptObject *pNewTarget = static_cast<CScriptNode*>(PastedNodes[Index])->Instance();
                     pLink->SetReceiver(pNewTarget->InstanceID());
                 }
-
                 else if (mpMimeData->AreaID() != pArea->ID() || pArea->InstanceByID(pLink->ReceiverID()) == nullptr)
                 {
                     CScriptObject *pSender = pLink->Sender();
@@ -114,12 +115,11 @@ void CPasteNodesCommand::redo()
                     delete pLink;
                     iLink--;
                 }
-
                 else
                 {
                     CScriptObject *pReceiver = pLink->Receiver();
                     pReceiver->AddLink(ELinkType::Incoming, pLink);
-                    mLinkedInstances << pReceiver;
+                    mLinkedInstances.push_back(pReceiver);
                 }
             }
         }
@@ -128,7 +128,7 @@ void CPasteNodesCommand::redo()
     // Call PostLoad on all new nodes and select them
     PastedNodes.removeAll(nullptr);
 
-    foreach (CSceneNode *pNode, PastedNodes)
+    for (CSceneNode *pNode : PastedNodes)
         pNode->OnLoadFinished();
 
     mpEditor->Selection()->SetSelectedNodes(PastedNodes);

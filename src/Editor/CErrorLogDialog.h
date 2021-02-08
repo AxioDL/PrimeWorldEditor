@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include <memory>
+
 namespace Ui {
 class CErrorLogDialog;
 }
@@ -12,12 +14,13 @@ class CErrorLogDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit CErrorLogDialog(QWidget *pParent = 0);
-    ~CErrorLogDialog();
+    explicit CErrorLogDialog(QWidget *pParent = nullptr);
+    ~CErrorLogDialog() override;
+
     bool GatherErrors();
 
 private:
-    Ui::CErrorLogDialog *ui;
+    std::unique_ptr<Ui::CErrorLogDialog> ui;
 };
 
 #endif // CERRORLOGDIALOG_H

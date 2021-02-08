@@ -15,6 +15,7 @@
 #include <Common/Math/CTransform4f.h>
 #include <Common/Math/CVector3f.h>
 #include <Common/Math/ETransformSpace.h>
+#include <array>
 
 class CRenderer;
 class CScene;
@@ -71,11 +72,11 @@ class CSceneNode : public IRenderable
 private:
     mutable CTransform4f _mCachedTransform;
     mutable CAABox _mCachedAABox;
-    mutable bool _mTransformDirty;
+    mutable bool _mTransformDirty = true;
 
-    bool _mInheritsPosition;
-    bool _mInheritsRotation;
-    bool _mInheritsScale;
+    bool _mInheritsPosition = true;
+    bool _mInheritsRotation = true;
+    bool _mInheritsScale = true;
 
     uint32 _mID;
 
@@ -85,29 +86,29 @@ protected:
     CSceneNode *mpParent;
     CScene *mpScene;
 
-    CVector3f mPosition;
-    CQuaternion mRotation;
-    CVector3f mScale;
+    CVector3f mPosition{CVector3f::Zero()};
+    CQuaternion mRotation{CQuaternion::Identity()};
+    CVector3f mScale{CVector3f::One()};
     CAABox mLocalAABox;
 
-    bool mMouseHovering;
-    bool mSelected;
-    bool mVisible;
+    bool mMouseHovering = false;
+    bool mSelected = false;
+    bool mVisible = true;
     std::list<CSceneNode*> mChildren;
 
-    uint32 mLightLayerIndex;
-    uint32 mLightCount;
-    CLight* mLights[8];
+    uint32 mLightLayerIndex = 0;
+    uint32 mLightCount = 0;
+    std::array<CLight*, 8> mLights{};
     CColor mAmbientColor;
 
 public:
-    explicit CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0);
-    virtual ~CSceneNode();
+    explicit CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = nullptr);
+    ~CSceneNode() override;
     virtual ENodeType NodeType() = 0;
     virtual void PostLoad() {}
     virtual void OnTransformed() {}
-    virtual void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*rkViewInfo*/) {}
-    virtual void DrawSelection();
+    void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*rkViewInfo*/) override {}
+    void DrawSelection() override;
     virtual void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
     virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo) = 0;
     virtual bool AllowsTranslate() const { return true; }
@@ -127,8 +128,8 @@ public:
     void LoadModelMatrix();
     void BuildLightList(CGameArea *pArea);
     void LoadLights(const SViewInfo& rkViewInfo);
-    void AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32 MatSet);
-    void DrawModelParts(CModel *pModel, FRenderOptions Options, uint32 MatSet, ERenderCommand RenderCommand);
+    void AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, size_t MatSet);
+    void DrawModelParts(CModel *pModel, FRenderOptions Options, size_t MatSet, ERenderCommand RenderCommand);
     void DrawBoundingBox() const;
     void DrawRotationArrow() const;
 
@@ -168,7 +169,7 @@ public:
     bool InheritsScale() const              { return _mInheritsScale; }
 
     // Setters
-    void SetName(const TString& rkName)             { mName = rkName; }
+    void SetName(TString rkName)                    { mName = std::move(rkName); }
     void SetPosition(const CVector3f& rkPosition)   { mPosition = rkPosition; MarkTransformChanged(); }
     void SetRotation(const CQuaternion& rkRotation) { mRotation = rkRotation; MarkTransformChanged(); }
     void SetRotation(const CVector3f& rkRotEuler)   { mRotation = CQuaternion::FromEuler(rkRotEuler); MarkTransformChanged(); }
@@ -179,7 +180,7 @@ public:
     void SetVisible(bool Visible)                   { mVisible = Visible; }
 
     // Static
-    inline static int NumNodes() { return smNumNodes; }
+    static int NumNodes() { return smNumNodes; }
     static CColor skSelectionTint;
 };
 

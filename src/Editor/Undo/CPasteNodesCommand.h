@@ -19,11 +19,12 @@ class CPasteNodesCommand : public IUndoCommand
 
 public:
     CPasteNodesCommand(CWorldEditor *pEditor, CScriptLayer *pLayer, CVector3f PastePoint);
-    ~CPasteNodesCommand();
-    void undo();
-    void redo();
+    ~CPasteNodesCommand() override;
 
-    bool AffectsCleanState() const { return true; }
+    void undo() override;
+    void redo() override;
+
+    bool AffectsCleanState() const override { return true; }
 };
 
 #endif // CPASTENODESCOMMAND

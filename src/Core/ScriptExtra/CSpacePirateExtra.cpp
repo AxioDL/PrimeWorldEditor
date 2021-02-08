@@ -19,16 +19,16 @@ CColor CSpacePirateExtra::TevColor()
 {
     // Priority: Plasma -> Ice -> Power -> Wave
     if (mPlasmaVulnerability.IsValid() && mPlasmaVulnerability.Get() == EVulnerabilityTypeMP1::Normal)
-        return CColor::skRed;
+        return CColor::Red();
 
     if (mIceVulnerability.IsValid() && mIceVulnerability.Get() == EVulnerabilityTypeMP1::Normal)
-        return CColor::skWhite;
+        return CColor::White();
 
     if (mPowerVulnerability.IsValid() && mPowerVulnerability.Get() == EVulnerabilityTypeMP1::Normal)
-        return CColor::skYellow;
+        return CColor::Yellow();
 
     if (mWaveVulnerability.IsValid() && mWaveVulnerability.Get() == EVulnerabilityTypeMP1::Normal)
-        return CColor::skPurple;
+        return CColor::Purple();
 
-    return CColor::skWhite;
+    return CColor::White();
 }

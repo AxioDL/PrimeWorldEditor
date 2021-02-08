@@ -6,16 +6,17 @@
 /** NPropertyMap: Namespace for property ID -> name mappings */
 namespace NPropertyMap
 {
-
+namespace
+{
 /** Path to the property map file */
-const char* gpkLegacyMapPath = "templates/PropertyMapLegacy.xml";
-const char* gpkMapPath = "templates/PropertyMap.xml";
+constexpr char gpkLegacyMapPath[] = "templates/PropertyMapLegacy.xml";
+constexpr char gpkMapPath[] = "templates/PropertyMap.xml";
 
 /** Whether to do name lookups from the legacy map */
-const bool gkUseLegacyMapForNameLookups = false;
+constexpr bool gkUseLegacyMapForNameLookups = false;
 
 /** Whether to update names in the legacy map */
-const bool gkUseLegacyMapForUpdates = false;
+constexpr bool gkUseLegacyMapForUpdates = false;
 
 /** Whether the map is dirty (has unsaved changes */
 bool gMapIsDirty = false;
@@ -27,10 +28,10 @@ bool gMapIsLoaded = false;
 std::unordered_map<uint32, TString> gHashToTypeName;
 
 /** Register a hash -> name mapping */
-inline void RegisterTypeName(uint32 TypeHash, TString TypeName)
+void RegisterTypeName(uint32 TypeHash, TString TypeName)
 {
-    ASSERT( !TypeName.IsEmpty() );
-    ASSERT( TypeName != "Unknown" );
+    ASSERT(!TypeName.IsEmpty());
+    ASSERT(TypeName != "Unknown");
     gHashToTypeName.emplace( std::make_pair<uint32, TString>(std::move(TypeHash), std::move(TypeName)) );
 }
 
@@ -49,7 +50,7 @@ struct SNameKey
     };
 
     SNameKey()
-        : TypeHash(-1), ID(-1)
+        : TypeHash(UINT32_MAX), ID(UINT32_MAX)
     {}
 
     SNameKey(uint32 InTypeHash, uint32 InID)
@@ -90,7 +91,7 @@ struct SNameKey
 /** Hasher for name keys for use in std::unordered_map */
 struct KeyHash
 {
-    inline size_t operator()(const SNameKey& kKey) const
+    size_t operator()(const SNameKey& kKey) const noexcept
     {
         return std::hash<uint64>()(kKey.Key);
     }
@@ -133,22 +134,23 @@ SNameKey CreateKey(IProperty* pProperty)
 {
     SNameKey Key;
     Key.ID = pProperty->ID();
-    Key.TypeHash = CCRC32::StaticHashString( pProperty->HashableTypeName() );
+    Key.TypeHash = CCRC32::StaticHashString(pProperty->HashableTypeName());
     return Key;
 }
 
 SNameKey CreateKey(uint32 ID, const char* pkTypeName)
 {
-    return SNameKey( CCRC32::StaticHashString(pkTypeName), ID );
+    return SNameKey(CCRC32::StaticHashString(pkTypeName), ID);
 }
+} // Anonymous namespace
 
 /** Loads property names into memory */
 void LoadMap()
 {
-    ASSERT( !gMapIsLoaded );
+    ASSERT(!gMapIsLoaded);
     debugf("Loading property map");
 
-    if ( gkUseLegacyMapForNameLookups )
+    if constexpr (gkUseLegacyMapForNameLookups)
     {
         CXMLReader Reader(gDataDir + gpkLegacyMapPath);
         ASSERT(Reader.IsValid());
@@ -161,42 +163,43 @@ void LoadMap()
         Reader << SerialParameter("PropertyMap", gNameMap, SH_HexDisplay);
 
         // Iterate over the map and set up the valid flags
-        for (auto Iter = gNameMap.begin(); Iter != gNameMap.end(); Iter++)
+        for (auto& [key, value] : gNameMap)
         {
-            const SNameKey& kKey = Iter->first;
-            SNameValue& Value = Iter->second;
-            Value.IsValid = (CalculatePropertyID(*Value.Name, *gHashToTypeName[kKey.TypeHash]) == kKey.ID);
+            value.IsValid = CalculatePropertyID(*value.Name, *gHashToTypeName[key.TypeHash]) == key.ID;
         }
     }
 
     gMapIsLoaded = true;
 }
 
-inline void ConditionalLoadMap()
+static void ConditionalLoadMap()
 {
-    if( !gMapIsLoaded )
+    if (!gMapIsLoaded)
     {
         LoadMap();
     }
 }
 
 /** Saves property names back out to the template file */
-void SaveMap(bool Force /*= false*/)
+void SaveMap(bool Force)
 {
-    if( !gMapIsLoaded )
+    if (!gMapIsLoaded)
     {
         if (Force)
         {
             LoadMap();
         }
-        else return;
+        else
+        {
+            return;
+        }
     }
 
     debugf("Saving property map");
 
-    if( gMapIsDirty || Force )
+    if (gMapIsDirty || Force)
     {
-        if( gkUseLegacyMapForUpdates )
+        if constexpr (gkUseLegacyMapForUpdates)
         {
             CXMLWriter Writer(gDataDir + gpkLegacyMapPath, "PropertyMap");
             ASSERT(Writer.IsValid());
@@ -208,7 +211,7 @@ void SaveMap(bool Force /*= false*/)
             // This mostly occurs when type names are changed - unneeded pairings with the old type can be left in the map
             NGameList::LoadAllGameTemplates();
 
-            for (auto Iter = gNameMap.begin(); Iter != gNameMap.end(); Iter++)
+            for (auto Iter = gNameMap.begin(); Iter != gNameMap.end(); ++Iter)
             {
                 SNameValue& Value = Iter->second;
 
@@ -232,16 +235,16 @@ const char* GetPropertyName(IProperty* pInProperty)
 {
     ConditionalLoadMap();
 
-    if (gkUseLegacyMapForNameLookups)
+    if constexpr (gkUseLegacyMapForNameLookups)
     {
-        auto MapFind = gLegacyNameMap.find( pInProperty->ID() );
-        return (MapFind == gLegacyNameMap.end() ? "Unknown" : *MapFind->second);
+        const auto MapFind = gLegacyNameMap.find(pInProperty->ID());
+        return MapFind == gLegacyNameMap.cend() ? "Unknown" : *MapFind->second;
     }
     else
     {
-        SNameKey Key = CreateKey(pInProperty);
-        auto MapFind = gNameMap.find(Key);
-        return (MapFind == gNameMap.end() ? "Unknown" : *MapFind->second.Name);
+        const SNameKey Key = CreateKey(pInProperty);
+        const auto MapFind = gNameMap.find(Key);
+        return MapFind == gNameMap.end() ? "Unknown" : *MapFind->second.Name;
     }
 }
 
@@ -253,9 +256,9 @@ const char* GetPropertyName(uint32 ID, const char* pkTypeName)
     // Does not support legacy map
     ConditionalLoadMap();
 
-    SNameKey Key = CreateKey(ID, pkTypeName);
-    auto MapFind = gNameMap.find(Key);
-    return MapFind == gNameMap.end() ? "Unknown" : *MapFind->second.Name;
+    const SNameKey Key = CreateKey(ID, pkTypeName);
+    const auto MapFind = gNameMap.find(Key);
+    return MapFind == gNameMap.cend() ? "Unknown" : *MapFind->second.Name;
 }
 
 /** Calculate the property ID of a given name/type. */
@@ -270,10 +273,10 @@ uint32 CalculatePropertyID(const char* pkName, const char* pkTypeName)
 /** Returns whether the specified ID is in the map. */
 bool IsValidPropertyID(uint32 ID, const char* pkTypeName, bool* pOutIsValid /*= nullptr*/)
 {
-    SNameKey Key = CreateKey(ID, pkTypeName);
-    auto MapFind = gNameMap.find(Key);
+    const SNameKey Key = CreateKey(ID, pkTypeName);
+    const auto MapFind = gNameMap.find(Key);
 
-    if (MapFind != gNameMap.end())
+    if (MapFind != gNameMap.cend())
     {
         if (pOutIsValid != nullptr)
         {
@@ -282,49 +285,49 @@ bool IsValidPropertyID(uint32 ID, const char* pkTypeName, bool* pOutIsValid /*= 
         }
         return true;
     }
-    else return false;
+
+    return false;
 }
 
 /** Retrieves a list of all properties that match the requested property ID. */
 void RetrievePropertiesWithID(uint32 ID, const char* pkTypeName, std::vector<IProperty*>& OutList)
 {
-    SNameKey Key = CreateKey(ID, pkTypeName);
-    auto MapFind = gNameMap.find(Key);
+    const SNameKey Key = CreateKey(ID, pkTypeName);
+    const auto MapFind = gNameMap.find(Key);
 
-    if (MapFind != gNameMap.end())
+    if (MapFind == gNameMap.cend())
+        return;
+
+    SNameValue& Value = MapFind->second;
+    OutList.reserve(Value.PropertyList.size());
+
+    for (auto* property : Value.PropertyList)
     {
-        SNameValue& Value = MapFind->second;
-        OutList.reserve(Value.PropertyList.size());
-
-        for (auto Iter = Value.PropertyList.begin(); Iter != Value.PropertyList.end(); Iter++)
-        {
-            OutList.push_back(*Iter);
-        }
+        OutList.push_back(property);
     }
 }
 
 /** Retrieves a list of all XML templates that contain a given property ID. */
 void RetrieveXMLsWithProperty(uint32 ID, const char* pkTypeName, std::set<TString>& OutSet)
 {
-    SNameKey Key = CreateKey(ID, pkTypeName);
-    auto MapFind = gNameMap.find(Key);
+    const SNameKey Key = CreateKey(ID, pkTypeName);
+    const auto MapFind = gNameMap.find(Key);
 
-    if (MapFind != gNameMap.end())
+    if (MapFind == gNameMap.cend())
+        return;
+
+    SNameValue& NameValue = MapFind->second;
+
+    for (auto* pProperty : NameValue.PropertyList)
     {
-        SNameValue& NameValue = MapFind->second;
-
-        for (auto ListIter = NameValue.PropertyList.begin(); ListIter != NameValue.PropertyList.end(); ListIter++)
-        {
-            IProperty* pProperty = *ListIter;
-            OutSet.insert( pProperty->GetTemplateFileName() );
-        }
+        OutSet.insert(pProperty->GetTemplateFileName());
     }
 }
 
 /** Updates the name of a given property in the map */
 void SetPropertyName(uint32 ID, const char* pkTypeName, const char* pkNewName)
 {
-    if( gkUseLegacyMapForUpdates )
+    if constexpr (gkUseLegacyMapForUpdates)
     {
         auto Iter = gLegacyNameMap.find(ID);
 
@@ -336,30 +339,28 @@ void SetPropertyName(uint32 ID, const char* pkTypeName, const char* pkNewName)
     }
     else
     {
-        SNameKey Key = CreateKey(ID, pkTypeName);
+        const SNameKey Key = CreateKey(ID, pkTypeName);
         auto MapFind = gNameMap.find(Key);
 
-        if (MapFind != gNameMap.end())
+        if (MapFind == gNameMap.cend())
+            return;
+
+        SNameValue& Value = MapFind->second;
+
+        if (Value.Name == pkNewName)
+            return;
+
+        const TString OldName = std::move(Value.Name);
+        Value.Name = pkNewName;
+        gMapIsDirty = true;
+
+        // Update all properties with this ID with the new name
+        for (IProperty* pIterProperty : Value.PropertyList)
         {
-            SNameValue& Value = MapFind->second;
-
-            if (Value.Name != pkNewName)
+            // If the property overrides the name, then don't change it.
+            if (pIterProperty->Name() == OldName)
             {
-                TString OldName = Value.Name;
-                Value.Name = pkNewName;
-                gMapIsDirty = true;
-
-                // Update all properties with this ID with the new name
-                for (auto Iter = Value.PropertyList.begin(); Iter != Value.PropertyList.end(); Iter++)
-                {
-                    // If the property overrides the name, then don't change it.
-                    IProperty* pIterProperty = *Iter;
-
-                    if (pIterProperty->Name() == OldName)
-                    {
-                        pIterProperty->SetName(Value.Name);
-                    }
-                }
+                pIterProperty->SetName(Value.Name);
             }
         }
     }
@@ -368,8 +369,8 @@ void SetPropertyName(uint32 ID, const char* pkTypeName, const char* pkNewName)
 /** Change a type name of a property. */
 void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char* pkNewTypeName)
 {
-    uint32 OldTypeHash = CCRC32::StaticHashString(pkOldTypeName);
-    uint32 NewTypeHash = CCRC32::StaticHashString(pkNewTypeName);
+    const uint32 OldTypeHash = CCRC32::StaticHashString(pkOldTypeName);
+    const uint32 NewTypeHash = CCRC32::StaticHashString(pkNewTypeName);
 
     if (OldTypeHash == NewTypeHash)
     {
@@ -381,37 +382,36 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
     IProperty* pArchetype = pProperty->RootArchetype();
     pArchetype->GatherAllSubInstances(Properties, true);
 
-    for (auto Iter = Properties.begin(); Iter != Properties.end(); Iter++)
+    for (auto* property : Properties)
     {
-        pProperty = *Iter;
+        pProperty = property;
 
         if (pProperty->UsesNameMap())
         {
-            SNameKey OldKey(OldTypeHash, pProperty->ID());
-            SNameKey NewKey(NewTypeHash, pProperty->ID());
+            const SNameKey OldKey(OldTypeHash, pProperty->ID());
+            const SNameKey NewKey(NewTypeHash, pProperty->ID());
 
             // Disassociate this property from the old mapping.
             bool WasRegistered = false;
             auto Find = gNameMap.find(OldKey);
 
-            if (Find != gNameMap.end())
+            if (Find != gNameMap.cend())
             {
                 SNameValue& Value = Find->second;
-                WasRegistered = (Value.PropertyList.find(pProperty) != Value.PropertyList.end());
+                WasRegistered = Value.PropertyList.find(pProperty) != Value.PropertyList.cend();
             }
 
             // Create a key for the new property and add it to the list.
             Find = gNameMap.find(NewKey);
 
-            if (Find == gNameMap.end())
+            if (Find == gNameMap.cend())
             {
                 SNameValue Value;
                 Value.Name = pProperty->Name();
-                Value.IsValid = ( CalculatePropertyID(*Value.Name, pkNewTypeName) == pProperty->ID() );
-                gNameMap[NewKey] = Value;
-                Find = gNameMap.find(NewKey);
+                Value.IsValid = CalculatePropertyID(*Value.Name, pkNewTypeName) == pProperty->ID();
+                Find = gNameMap.insert_or_assign(NewKey, std::move(Value)).first;
             }
-            ASSERT(Find != gNameMap.end());
+            ASSERT(Find != gNameMap.cend());
 
             if (WasRegistered)
             {
@@ -428,8 +428,8 @@ void ChangeTypeName(IProperty* pProperty, const char* pkOldTypeName, const char*
 /** Change a type name. */
 void ChangeTypeNameGlobally(const char* pkOldTypeName, const char* pkNewTypeName)
 {
-    uint32 OldTypeHash = CCRC32::StaticHashString(pkOldTypeName);
-    uint32 NewTypeHash = CCRC32::StaticHashString(pkNewTypeName);
+    const uint32 OldTypeHash = CCRC32::StaticHashString(pkOldTypeName);
+    const uint32 NewTypeHash = CCRC32::StaticHashString(pkNewTypeName);
 
     if (OldTypeHash == NewTypeHash)
     {
@@ -441,19 +441,19 @@ void ChangeTypeNameGlobally(const char* pkOldTypeName, const char* pkNewTypeName
     // way to go about doing it. From what I understand, insert() does not invalidate
     // iterators, and extract() only invalidates the iterator being extracted. So this
     // implementation should work correctly.
-    for (auto MapIter = gNameMap.begin(); MapIter != gNameMap.end(); MapIter++)
+    for (auto MapIter = gNameMap.begin(); MapIter != gNameMap.end(); ++MapIter)
     {
         if (MapIter->first.TypeHash == OldTypeHash)
         {
             auto PrevIter = MapIter;
-            PrevIter--;
+            --PrevIter;
 
             auto MapNode = gNameMap.extract(MapIter);
             MapIter = PrevIter;
 
             SNameKey& Key = MapNode.key();
             Key.TypeHash = NewTypeHash;
-            gNameMap.insert( std::move(MapNode) );
+            gNameMap.insert(std::move(MapNode));
             gMapIsDirty = true;
         }
     }
@@ -468,14 +468,14 @@ void RegisterProperty(IProperty* pProperty)
     ConditionalLoadMap();
 
     // Sanity checks to make sure we don't accidentally add non-hash property IDs to the map.
-    ASSERT( pProperty->UsesNameMap() );
-    ASSERT( pProperty->ID() > 0xFF && pProperty->ID() != 0xFFFFFFFF );
+    ASSERT(pProperty->UsesNameMap());
+    ASSERT(pProperty->ID() > 0xFF && pProperty->ID() != 0xFFFFFFFF);
 
     // Just need to register the property in the list.
     SNameKey Key = CreateKey(pProperty);
     auto MapFind = gNameMap.find(Key);
 
-    if( gkUseLegacyMapForNameLookups )
+    if constexpr (gkUseLegacyMapForNameLookups)
     {
         // If we are using the legacy map, gNameMap may be empty. We need to retrieve the name
         // from the legacy map, and create an entry in gNameMap with it.
@@ -483,17 +483,16 @@ void RegisterProperty(IProperty* pProperty)
         //@todo this prob isn't the most efficient way to do this
         if (MapFind == gNameMap.end())
         {
-            auto LegacyMapFind = gLegacyNameMap.find( pProperty->ID() );
-            ASSERT( LegacyMapFind != gLegacyNameMap.end() );
+            const auto LegacyMapFind = gLegacyNameMap.find(pProperty->ID());
+            ASSERT(LegacyMapFind != gLegacyNameMap.cend());
 
             SNameValue Value;
             Value.Name = LegacyMapFind->second;
-            Value.IsValid = ( CalculatePropertyID(*Value.Name, pProperty->HashableTypeName()) == pProperty->ID() );
+            Value.IsValid = (CalculatePropertyID(*Value.Name, pProperty->HashableTypeName()) == pProperty->ID());
             pProperty->SetName(Value.Name);
 
-            gNameMap[Key] = Value;
-            MapFind = gNameMap.find(Key);
-            ASSERT(MapFind != gNameMap.end());
+            MapFind = gNameMap.insert_or_assign(Key, Value).first;
+            ASSERT(MapFind != gNameMap.cend());
 
             RegisterTypeName(Key.TypeHash, pProperty->HashableTypeName());
         }
@@ -501,56 +500,53 @@ void RegisterProperty(IProperty* pProperty)
     else
     {
         // If we didn't find the property name, check for int<->choice conversions
-        if (MapFind == gNameMap.end())
+        if (MapFind == gNameMap.cend())
         {
             if (pProperty->Type() == EPropertyType::Int)
             {
-                uint32 ChoiceHash = CCRC32::StaticHashString("choice");
-                SNameKey ChoiceKey(ChoiceHash, pProperty->ID());
+                const uint32 ChoiceHash = CCRC32::StaticHashString("choice");
+                const SNameKey ChoiceKey(ChoiceHash, pProperty->ID());
                 MapFind = gNameMap.find(ChoiceKey);
             }
             else if (pProperty->Type() == EPropertyType::Choice)
             {
-                uint32 IntHash = CCRC32::StaticHashString("int");
-                SNameKey IntKey(IntHash, pProperty->ID());
+                const uint32 IntHash = CCRC32::StaticHashString("int");
+                const SNameKey IntKey(IntHash, pProperty->ID());
                 MapFind = gNameMap.find(IntKey);
             }
         }
 
         // If we still didn't find it, register the property name in the map
-        if (MapFind == gNameMap.end())
+        if (MapFind == gNameMap.cend())
         {
-            SNameValue Value;
-            Value.Name = "Unknown";
-            Value.IsValid = false;
-            gNameMap[Key] = Value;
-            MapFind = gNameMap.find(Key);
+            SNameValue Value{"Unknown", false, {}};
+            MapFind = gNameMap.insert_or_assign(Key, std::move(Value)).first;
             RegisterTypeName(Key.TypeHash, pProperty->HashableTypeName());
         }
 
         // We should have a valid iterator at this point no matter what.
-        ASSERT(MapFind != gNameMap.end());
-        pProperty->SetName( MapFind->second.Name );
+        ASSERT(MapFind != gNameMap.cend());
+        pProperty->SetName(MapFind->second.Name);
     }
 
     MapFind->second.PropertyList.insert(pProperty);
 
     // Update the property's Name field to match the mapped name.
-    pProperty->SetName( MapFind->second.Name );
+    pProperty->SetName(MapFind->second.Name);
 }
 
 /** Unregisters a property from the name map. Should be called on all properties that use the map on destruction. */
 void UnregisterProperty(IProperty* pProperty)
 {
-    SNameKey Key = CreateKey(pProperty);
-    auto Iter = gNameMap.find(Key);
+    const SNameKey Key = CreateKey(pProperty);
+    const auto Iter = gNameMap.find(Key);
 
-    if (Iter != gNameMap.end())
-    {
-        // Found the value, now remove the element from the list.
-        SNameValue& Value = Iter->second;
-        Value.PropertyList.erase(pProperty);
-    }
+    if (Iter == gNameMap.cend())
+        return;
+
+    // Found the value, now remove the element from the list.
+    SNameValue& Value = Iter->second;
+    Value.PropertyList.erase(pProperty);
 }
 
 /** Class for iterating through the map */

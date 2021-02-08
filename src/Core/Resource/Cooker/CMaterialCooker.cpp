@@ -1,10 +1,7 @@
 #include "CMaterialCooker.h"
 #include <algorithm>
 
-CMaterialCooker::CMaterialCooker()
-    : mpMat(nullptr)
-{
-}
+CMaterialCooker::CMaterialCooker() = default;
 
 uint32 CMaterialCooker::ConvertFromVertexDescription(FVertexDescription VtxDesc)
 {
@@ -36,17 +33,16 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
 {
     // Gather texture list from the materials before starting
     mTextureIDs.clear();
-    uint32 NumMats = mpSet->mMaterials.size();
+    const size_t NumMats = mpSet->mMaterials.size();
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
     {
-        CMaterial *pMat = mpSet->mMaterials[iMat].get();
+        const CMaterial *pMat = mpSet->mMaterials[iMat].get();
 
-        uint32 NumPasses  = pMat->PassCount();
-        for (uint32 iPass = 0; iPass < NumPasses; iPass++)
+        const size_t NumPasses  = pMat->PassCount();
+        for (size_t iPass = 0; iPass < NumPasses; iPass++)
         {
-            CTexture *pTex = pMat->Pass(iPass)->Texture();
-            if (pTex)
+            if (const CTexture* pTex = pMat->Pass(iPass)->Texture())
                 mTextureIDs.push_back(pTex->ID().ToLong());
         }
     }
@@ -56,23 +52,23 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
     mTextureIDs.erase(std::unique(mTextureIDs.begin(), mTextureIDs.end()), mTextureIDs.end());
 
     // Write texture IDs
-    rOut.WriteLong(mTextureIDs.size());
+    rOut.WriteULong(static_cast<uint32>(mTextureIDs.size()));
 
-    for (uint32 iTex = 0; iTex < mTextureIDs.size(); iTex++)
-        rOut.WriteLong(mTextureIDs[iTex]);
+    for (const auto id : mTextureIDs)
+        rOut.WriteULong(id);
 
     // Write material offset filler
-    rOut.WriteLong(NumMats);
-    uint32 MatOffsetsStart = rOut.Tell();
+    rOut.WriteULong(static_cast<uint32>(NumMats));
+    const uint32 MatOffsetsStart = rOut.Tell();
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
-        rOut.WriteLong(0);
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
+        rOut.WriteULong(0);
 
     // Write materials
-    uint32 MatsStart = rOut.Tell();
+    const uint32 MatsStart = rOut.Tell();
     std::vector<uint32> MatEndOffsets(NumMats);
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
     {
         mpMat = mpSet->mMaterials[iMat].get();
         WriteMaterialPrime(rOut);
@@ -80,11 +76,11 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
     }
 
     // Write material offsets
-    uint32 MatsEnd = rOut.Tell();
+    const uint32 MatsEnd = rOut.Tell();
     rOut.Seek(MatOffsetsStart, SEEK_SET);
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
-        rOut.WriteLong(MatEndOffsets[iMat]);
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
+        rOut.WriteULong(MatEndOffsets[iMat]);
 
     // Done!
     rOut.Seek(MatsEnd, SEEK_SET);
@@ -137,11 +133,11 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
     }
 
     // Get group index
-    uint32 GroupIndex;
-    uint64 MatHash = mpMat->HashParameters();
+    size_t GroupIndex = 0;
+    const uint64 MatHash = mpMat->HashParameters();
     bool NewHash = true;
 
-    for (uint32 iHash = 0; iHash < mMaterialHashes.size(); iHash++)
+    for (size_t iHash = 0; iHash < mMaterialHashes.size(); iHash++)
     {
         if (mMaterialHashes[iHash] == MatHash)
         {
@@ -159,7 +155,7 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
 
     // Start writing!
     // Generate flags value
-    bool HasKonst = (NumKonst > 0);
+    const bool HasKonst = NumKonst > 0;
     uint32 Flags;
 
     if (mVersion <= EGame::Prime)
@@ -169,112 +165,114 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
 
     Flags |= (HasKonst ? 0x8 : 0x0) | (mpMat->Options() & ~0x8) | (TexFlags << 16);
 
-    rOut.WriteLong(Flags);
+    rOut.WriteULong(Flags);
 
     // Texture indices
-    rOut.WriteLong(TexIndices.size());
-    for (uint32 iTex = 0; iTex < TexIndices.size(); iTex++)
-        rOut.WriteLong(TexIndices[iTex]);
+    rOut.WriteULong(static_cast<uint32>(TexIndices.size()));
+    for (const auto index : TexIndices)
+        rOut.WriteULong(index);
 
     // Vertex description
-    uint32 VtxFlags = ConvertFromVertexDescription( mpMat->VtxDesc() );
+    uint32 VtxFlags = ConvertFromVertexDescription(mpMat->VtxDesc());
 
     if (mVersion < EGame::Echoes)
         VtxFlags &= 0x00FFFFFF;
 
-    rOut.WriteLong(VtxFlags);
+    rOut.WriteULong(VtxFlags);
 
     // Echoes unknowns
     if (mVersion == EGame::Echoes)
     {
-        rOut.WriteLong(mpMat->EchoesUnknownA());
-        rOut.WriteLong(mpMat->EchoesUnknownB());
+        rOut.WriteULong(mpMat->EchoesUnknownA());
+        rOut.WriteULong(mpMat->EchoesUnknownB());
     }
 
     // Group index
-    rOut.WriteLong(GroupIndex);
+    rOut.WriteULong(static_cast<uint32>(GroupIndex));
 
     // Konst
     if (HasKonst)
     {
-        rOut.WriteLong(NumKonst);
-        for (uint32 iKonst = 0; iKonst < NumKonst; iKonst++)
-            rOut.WriteLong( mpMat->Konst(iKonst).ToLongRGBA() );
+        rOut.WriteULong(NumKonst);
+        for (size_t iKonst = 0; iKonst < NumKonst; iKonst++)
+            rOut.WriteLong(mpMat->Konst(iKonst).ToLongRGBA());
     }
 
     // Blend Mode
     // Some modifications are done to convert the GLenum to the corresponding GX enum
-    uint16 BlendSrcFac = (uint16) mpMat->BlendSrcFac();
-    uint16 BlendDstFac = (uint16) mpMat->BlendDstFac();
+    auto BlendSrcFac = static_cast<uint16>(mpMat->BlendSrcFac());
+    auto BlendDstFac = static_cast<uint16>(mpMat->BlendDstFac());
     if (BlendSrcFac >= 0x300) BlendSrcFac -= 0x2FE;
     if (BlendDstFac >= 0x300) BlendDstFac -= 0x2FE;
-    rOut.WriteShort(BlendDstFac);
-    rOut.WriteShort(BlendSrcFac);
+    rOut.WriteUShort(BlendDstFac);
+    rOut.WriteUShort(BlendSrcFac);
 
     // Color Channels
     rOut.WriteLong(1);
     rOut.WriteLong(0x3000 | (mpMat->IsLightingEnabled() ? 1 : 0));
 
     // TEV
-    uint32 NumPasses = mpMat->PassCount();
-    rOut.WriteLong(NumPasses);
+    const uint32 NumPasses = mpMat->PassCount();
+    rOut.WriteULong(NumPasses);
 
     for (uint32 iPass = 0; iPass < NumPasses; iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
 
-        uint32 ColorInputFlags = ((pPass->ColorInput(0)) |
-                               (pPass->ColorInput(1) << 5) |
-                               (pPass->ColorInput(2) << 10) |
-                               (pPass->ColorInput(3) << 15));
-        uint32 AlphaInputFlags = ((pPass->AlphaInput(0)) |
-                               (pPass->AlphaInput(1) << 5) |
-                               (pPass->AlphaInput(2) << 10) |
-                               (pPass->AlphaInput(3) << 15));
+        const uint32 ColorInputFlags = ((pPass->ColorInput(0)) |
+                                        (pPass->ColorInput(1) << 5) |
+                                        (pPass->ColorInput(2) << 10) |
+                                        (pPass->ColorInput(3) << 15));
+        const uint32 AlphaInputFlags = ((pPass->AlphaInput(0)) |
+                                        (pPass->AlphaInput(1) << 5) |
+                                        (pPass->AlphaInput(2) << 10) |
+                                        (pPass->AlphaInput(3) << 15));
 
-        uint32 ColorOpFlags = 0x100 | (pPass->ColorOutput() << 9);
-        uint32 AlphaOpFlags = 0x100 | (pPass->AlphaOutput() << 9);
+        const uint32 ColorOpFlags = 0x100 | (pPass->ColorOutput() << 9);
+        const uint32 AlphaOpFlags = 0x100 | (pPass->AlphaOutput() << 9);
 
-        rOut.WriteLong(ColorInputFlags);
-        rOut.WriteLong(AlphaInputFlags);
-        rOut.WriteLong(ColorOpFlags);
-        rOut.WriteLong(AlphaOpFlags);
-        rOut.WriteByte(0); // Padding
-        rOut.WriteByte(pPass->KAlphaSel());
-        rOut.WriteByte(pPass->KColorSel());
-        rOut.WriteByte(pPass->RasSel());
+        rOut.WriteULong(ColorInputFlags);
+        rOut.WriteULong(AlphaInputFlags);
+        rOut.WriteULong(ColorOpFlags);
+        rOut.WriteULong(AlphaOpFlags);
+        rOut.WriteUByte(0); // Padding
+        rOut.WriteUByte(static_cast<uint8>(pPass->KAlphaSel()));
+        rOut.WriteUByte(static_cast<uint8>(pPass->KColorSel()));
+        rOut.WriteUByte(static_cast<uint8>(pPass->RasSel()));
     }
 
     // TEV Tex/UV input selection
     uint32 CurTexIdx = 0;
 
-    for (uint32 iPass = 0; iPass < NumPasses; iPass++)
+    for (size_t iPass = 0; iPass < NumPasses; iPass++)
     {
-        rOut.WriteShort(0); // Padding
+        rOut.WriteUShort(0); // Padding
 
-        if (mpMat->Pass(iPass)->Texture())
+        if (mpMat->Pass(iPass)->Texture() != nullptr)
         {
-            rOut.WriteByte((uint8) CurTexIdx);
-            rOut.WriteByte((uint8) CurTexIdx);
+            rOut.WriteUByte(static_cast<uint8>(CurTexIdx));
+            rOut.WriteUByte(static_cast<uint8>(CurTexIdx));
             CurTexIdx++;
         }
-
         else
-            rOut.WriteShort((uint16) 0xFFFF);
+        {
+            rOut.WriteUShort(static_cast<uint16>(0xFFFF));
+        }
     }
 
     // TexGen
-    uint32 NumTexCoords = CurTexIdx; // TexIdx is currently equal to the tex coord count
-    rOut.WriteLong(NumTexCoords);
+    const uint32 NumTexCoords = CurTexIdx; // TexIdx is currently equal to the tex coord count
+    rOut.WriteULong(NumTexCoords);
     uint32 CurTexMtx = 0;
 
-    for (uint32 iPass = 0; iPass < NumPasses; iPass++)
+    for (size_t iPass = 0; iPass < NumPasses; iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
-        if (pPass->Texture() == nullptr) continue;
+        if (pPass->Texture() == nullptr)
+            continue;
 
-        EUVAnimMode AnimType = pPass->AnimMode();
-        uint32 CoordSource = pPass->TexCoordSource();
+        const EUVAnimMode AnimType = pPass->AnimMode();
+        const uint32 CoordSource = pPass->TexCoordSource();
 
         uint32 TexMtxIdx, PostMtxIdx;
         bool Normalize;
@@ -286,13 +284,11 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
             PostMtxIdx = 61;
             Normalize = false;
         }
-
-        // Animation - set parameters as the animation mode needs them
-        else
+        else // Animation - set parameters as the animation mode needs them
         {
             TexMtxIdx = CurTexMtx;
 
-            if ((AnimType <= EUVAnimMode::InverseMVTranslated) || (AnimType >= EUVAnimMode::ModelMatrix))
+            if (AnimType <= EUVAnimMode::InverseMVTranslated || AnimType >= EUVAnimMode::ModelMatrix)
             {
                 PostMtxIdx = CurTexMtx;
                 Normalize = true;
@@ -305,24 +301,25 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
             CurTexMtx += 3;
         }
 
-        uint32 TexGenFlags = (CoordSource << 4) | (TexMtxIdx << 9) | (Normalize << 14) | (PostMtxIdx << 15);
-        rOut.WriteLong(TexGenFlags);
+        const uint32 TexGenFlags = (CoordSource << 4) | (TexMtxIdx << 9) | (Normalize << 14) | (PostMtxIdx << 15);
+        rOut.WriteULong(TexGenFlags);
     }
 
     // Animations
-    uint32 AnimSizeOffset = rOut.Tell();
-    uint32 NumAnims = CurTexMtx; // CurTexMtx is currently equal to the anim count
-    rOut.WriteLong(0);         // Anim size filler
-    uint32 AnimsStart = rOut.Tell();
-    rOut.WriteLong(NumAnims);
+    const uint32 AnimSizeOffset = rOut.Tell();
+    const uint32 NumAnims = CurTexMtx; // CurTexMtx is currently equal to the anim count
+    rOut.WriteULong(0);         // Anim size filler
+    const uint32 AnimsStart = rOut.Tell();
+    rOut.WriteULong(NumAnims);
 
     for (uint32 iPass = 0; iPass < NumPasses; iPass++)
     {
         CMaterialPass *pPass = mpMat->Pass(iPass);
         EUVAnimMode AnimMode = pPass->AnimMode();
-        if (AnimMode == EUVAnimMode::NoUVAnim) continue;
+        if (AnimMode == EUVAnimMode::NoUVAnim)
+            continue;
 
-        rOut.WriteLong((int) AnimMode);
+        rOut.WriteLong(static_cast<int>(AnimMode));
 
         if ((AnimMode >= EUVAnimMode::UVScroll) && (AnimMode != EUVAnimMode::ModelMatrix))
         {
@@ -337,10 +334,10 @@ void CMaterialCooker::WriteMaterialPrime(IOutputStream& rOut)
         }
     }
 
-    uint32 AnimsEnd = rOut.Tell();
-    uint32 AnimsSize = AnimsEnd - AnimsStart;
+    const uint32 AnimsEnd = rOut.Tell();
+    const uint32 AnimsSize = AnimsEnd - AnimsStart;
     rOut.Seek(AnimSizeOffset, SEEK_SET);
-    rOut.WriteLong(AnimsSize);
+    rOut.WriteULong(AnimsSize);
     rOut.Seek(AnimsEnd, SEEK_SET);
 
     // Done!

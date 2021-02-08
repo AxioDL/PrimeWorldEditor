@@ -13,14 +13,14 @@ class CSaveStoreCommand : public IUndoCommand
     CResourceStore* mpStore;
 
 public:
-    CSaveStoreCommand(CResourceStore* pInStore)
+    explicit CSaveStoreCommand(CResourceStore* pInStore)
         : IUndoCommand("Save Store")
         , mpStore(pInStore)
     {}
 
-    virtual void undo() override { mpStore->ConditionalSaveStore(); }
-    virtual void redo() override { mpStore->ConditionalSaveStore(); }
-    virtual bool AffectsCleanState() const override { return false; }
+    void undo() override { mpStore->ConditionalSaveStore(); }
+    void redo() override { mpStore->ConditionalSaveStore(); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 #endif // CSAVESTORECOMMAND_H

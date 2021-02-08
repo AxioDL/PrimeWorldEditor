@@ -6,11 +6,10 @@
 #include <QSlider>
 #include <QSpacerItem>
 
-CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget* pParent /*= 0*/)
+CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget* pParent)
     : IEditor(pParent)
-    , mpUI(new Ui::CCollisionEditor)
+    , mpUI(std::make_unique<Ui::CCollisionEditor>())
 {
-    mpUI = std::make_unique<Ui::CCollisionEditor>();
     mpUI->setupUi(this);
 
     mpCollisionMesh = pCollisionMesh;
@@ -28,14 +27,14 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
 
     // Add depth widgets to the toolbar
     mpUI->ToolBar->addSeparator();
-    mpUI->ToolBar->addWidget( new QLabel("OBBTree: ", this) );
+    mpUI->ToolBar->addWidget(new QLabel(tr("OBBTree: "), this));
 
     int MaxDepth = 0;
-    for (uint MeshIdx = 0; MeshIdx < pCollisionMesh->NumMeshes(); MeshIdx++)
+    for (size_t MeshIdx = 0; MeshIdx < pCollisionMesh->NumMeshes(); MeshIdx++)
     {
-        CCollisionMesh* pMesh = pCollisionMesh->MeshByIndex(MeshIdx);
-        int MeshDepth = pMesh->GetRenderData().MaxBoundingHierarchyDepth();
-        MaxDepth = Math::Max(MeshDepth, MaxDepth);
+        const CCollisionMesh* pMesh = pCollisionMesh->MeshByIndex(MeshIdx);
+        const int MeshDepth = pMesh->GetRenderData().MaxBoundingHierarchyDepth();
+        MaxDepth = std::max(MeshDepth, MaxDepth);
     }
 
     QSlider* pOBBTreeSlider = new QSlider(this);
@@ -44,8 +43,8 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     pOBBTreeSlider->setOrientation(Qt::Horizontal);
     pOBBTreeSlider->setMaximumWidth(100);
 
-    connect(pOBBTreeSlider, SIGNAL(valueChanged(int)),
-            this,           SLOT(OnOBBTreeDepthChanged(int)));
+    connect(pOBBTreeSlider, &QSlider::valueChanged,
+            this, &CCollisionEditor::OnOBBTreeDepthChanged);
 
     mpUI->ToolBar->addWidget(pOBBTreeSlider);
 
@@ -54,19 +53,19 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     mpUI->ToolBar->addWidget(pSpacerWidget);
 
     // Connections
-    connect(mpUI->ActionToggleGrid, SIGNAL(toggled(bool)),
-            this,                   SLOT(OnGridToggled(bool)));
+    connect(mpUI->ActionToggleGrid, &QAction::toggled,
+            this, &CCollisionEditor::OnGridToggled);
 
-    connect(mpUI->ActionToggleOrbit,    SIGNAL(toggled(bool)),
-            this,                       SLOT(OnOrbitToggled(bool)));
+    connect(mpUI->ActionToggleOrbit, &QAction::toggled,
+            this, &CCollisionEditor::OnOrbitToggled);
 
     // Update window title
-    QString WindowTitle = "%APP_FULL_NAME% - Collision Editor - %1[*]";
-    WindowTitle = WindowTitle.arg( TO_QSTRING(mpCollisionMesh->Entry()->CookedAssetPath(true).GetFileName()) );
+    const QString WindowTitle = tr("%APP_FULL_NAME% - Collision Editor - %1[*]")
+                                    .arg(TO_QSTRING(mpCollisionMesh->Entry()->CookedAssetPath(true).GetFileName()));
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 }
 
-CCollisionEditor::~CCollisionEditor() {}
+CCollisionEditor::~CCollisionEditor() = default;
 
 CCollisionEditorViewport* CCollisionEditor::Viewport() const
 {

@@ -1,149 +1,148 @@
 #include "CShaderGenerator.h"
 #include <Common/Macros.h>
-#include <iostream>
+#include <array>
 #include <fstream>
 #include <sstream>
+#include <string_view>
 #include <GL/glew.h>
 
-const TString gkCoordSrc[] = {
-    "ModelSpacePos.xyz",
-    "ModelSpaceNormal.xyz",
-    "0.0, 0.0, 0.0",
-    "0.0, 0.0, 0.0",
-    "RawTex0.xy, 1.0",
-    "RawTex1.xy, 1.0",
-    "RawTex2.xy, 1.0",
-    "RawTex3.xy, 1.0",
-    "RawTex4.xy, 1.0",
-    "RawTex5.xy, 1.0",
-    "RawTex6.xy, 1.0",
-    "RawTex7.xy, 1.0"
+using namespace std::string_view_literals;
+
+constexpr std::array gkCoordSrc{
+    "ModelSpacePos.xyz"sv,
+    "ModelSpaceNormal.xyz"sv,
+    "0.0, 0.0, 0.0"sv,
+    "0.0, 0.0, 0.0"sv,
+    "RawTex0.xy, 1.0"sv,
+    "RawTex1.xy, 1.0"sv,
+    "RawTex2.xy, 1.0"sv,
+    "RawTex3.xy, 1.0"sv,
+    "RawTex4.xy, 1.0"sv,
+    "RawTex5.xy, 1.0"sv,
+    "RawTex6.xy, 1.0"sv,
+    "RawTex7.xy, 1.0"sv,
 };
 
-const TString gkRasSel[] = {
-    "vec4(COLOR0A0.rgb, 1.0)",
-    "vec4(COLOR1A1.rgb, 1.0)",
-    "vec4(0.0, 0.0, 0.0, COLOR0A0.a)",
-    "vec4(0.0, 0.0, 0.0, COLOR1A1.a)",
-    "COLOR0A0",
-    "COLOR1A1",
-    "vec4(0.0, 0.0, 0.0, 0.0)"
+constexpr std::array gkRasSel{
+    "vec4(COLOR0A0.rgb, 1.0)"sv,
+    "vec4(COLOR1A1.rgb, 1.0)"sv,
+    "vec4(0.0, 0.0, 0.0, COLOR0A0.a)"sv,
+    "vec4(0.0, 0.0, 0.0, COLOR1A1.a)"sv,
+    "COLOR0A0"sv,
+    "COLOR1A1"sv,
+    "vec4(0.0, 0.0, 0.0, 0.0)"sv,
 };
 
-const TString gkKonstColor[] = {
-    "1.0, 1.0, 1.0",
-    "0.875, 0.875, 0.875",
-    "0.75, 0.75, 0.75",
-    "0.625, 0.625, 0.625",
-    "0.5, 0.5, 0.5",
-    "0.375, 0.375, 0.375",
-    "0.25, 0.25, 0.25",
-    "0.125, 0.125, 0.125",
-    "",
-    "",
-    "",
-    "",
-    "KonstColors[0].rgb",
-    "KonstColors[1].rgb",
-    "KonstColors[2].rgb",
-    "KonstColors[3].rgb",
-    "KonstColors[0].rrr",
-    "KonstColors[1].rrr",
-    "KonstColors[2].rrr",
-    "KonstColors[3].rrr",
-    "KonstColors[0].ggg",
-    "KonstColors[1].ggg",
-    "KonstColors[2].ggg",
-    "KonstColors[3].ggg",
-    "KonstColors[0].bbb",
-    "KonstColors[1].bbb",
-    "KonstColors[2].bbb",
-    "KonstColors[3].bbb",
-    "KonstColors[0].aaa",
-    "KonstColors[1].aaa",
-    "KonstColors[2].aaa",
-    "KonstColors[3].aaa"
+constexpr std::array gkKonstColor{
+    "1.0, 1.0, 1.0"sv,
+    "0.875, 0.875, 0.875"sv,
+    "0.75, 0.75, 0.75"sv,
+    "0.625, 0.625, 0.625"sv,
+    "0.5, 0.5, 0.5"sv,
+    "0.375, 0.375, 0.375"sv,
+    "0.25, 0.25, 0.25"sv,
+    "0.125, 0.125, 0.125"sv,
+    ""sv,
+    ""sv,
+    ""sv,
+    ""sv,
+    "KonstColors[0].rgb"sv,
+    "KonstColors[1].rgb"sv,
+    "KonstColors[2].rgb"sv,
+    "KonstColors[3].rgb"sv,
+    "KonstColors[0].rrr"sv,
+    "KonstColors[1].rrr"sv,
+    "KonstColors[2].rrr"sv,
+    "KonstColors[3].rrr"sv,
+    "KonstColors[0].ggg"sv,
+    "KonstColors[1].ggg"sv,
+    "KonstColors[2].ggg"sv,
+    "KonstColors[3].ggg"sv,
+    "KonstColors[0].bbb"sv,
+    "KonstColors[1].bbb"sv,
+    "KonstColors[2].bbb"sv,
+    "KonstColors[3].bbb"sv,
+    "KonstColors[0].aaa"sv,
+    "KonstColors[1].aaa"sv,
+    "KonstColors[2].aaa"sv,
+    "KonstColors[3].aaa"sv,
 };
 
-const TString gkKonstAlpha[] = {
-    "1.0",
-    "0.875",
-    "0.75",
-    "0.625",
-    "0.5",
-    "0.375",
-    "0.25",
-    "0.125",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "KonstColors[0].r",
-    "KonstColors[1].r",
-    "KonstColors[2].r",
-    "KonstColors[3].r",
-    "KonstColors[0].g",
-    "KonstColors[1].g",
-    "KonstColors[2].g",
-    "KonstColors[3].g",
-    "KonstColors[0].b",
-    "KonstColors[1].b",
-    "KonstColors[2].b",
-    "KonstColors[3].b",
-    "KonstColors[0].a",
-    "KonstColors[1].a",
-    "KonstColors[2].a",
-    "KonstColors[3].a"
+constexpr std::array gkKonstAlpha{
+    "1.0"sv,
+    "0.875"sv,
+    "0.75"sv,
+    "0.625"sv,
+    "0.5"sv,
+    "0.375"sv,
+    "0.25"sv,
+    "0.125"sv,
+    ""sv,
+    ""sv,
+    ""sv,
+    ""sv,
+    ""sv,
+    ""sv,
+    ""sv,
+    ""sv,
+    "KonstColors[0].r"sv,
+    "KonstColors[1].r"sv,
+    "KonstColors[2].r"sv,
+    "KonstColors[3].r"sv,
+    "KonstColors[0].g"sv,
+    "KonstColors[1].g"sv,
+    "KonstColors[2].g"sv,
+    "KonstColors[3].g"sv,
+    "KonstColors[0].b"sv,
+    "KonstColors[1].b"sv,
+    "KonstColors[2].b"sv,
+    "KonstColors[3].b"sv,
+    "KonstColors[0].a"sv,
+    "KonstColors[1].a"sv,
+    "KonstColors[2].a"sv,
+    "KonstColors[3].a"sv,
 };
 
-const TString gkTevColor[] = {
-    "Prev.rgb",
-    "Prev.aaa",
-    "C0.rgb",
-    "C0.aaa",
-    "C1.rgb",
-    "C1.aaa",
-    "C2.rgb",
-    "C2.aaa",
-    "Tex.rgb",
-    "Tex.aaa",
-    "Ras.rgb",
-    "Ras.aaa",
-    "1.0, 1.0, 1.0",
-    "0.5, 0.5, 0.5",
-    "Konst.rgb",
-    "0.0, 0.0, 0.0"
+constexpr std::array gkTevColor{
+    "Prev.rgb"sv,
+    "Prev.aaa"sv,
+    "C0.rgb"sv,
+    "C0.aaa"sv,
+    "C1.rgb"sv,
+    "C1.aaa"sv,
+    "C2.rgb"sv,
+    "C2.aaa"sv,
+    "Tex.rgb"sv,
+    "Tex.aaa"sv,
+    "Ras.rgb"sv,
+    "Ras.aaa"sv,
+    "1.0, 1.0, 1.0"sv,
+    "0.5, 0.5, 0.5"sv,
+    "Konst.rgb"sv,
+    "0.0, 0.0, 0.0"sv,
 };
 
-const TString gkTevAlpha[] = {
-    "Prev.a",
-    "C0.a",
-    "C1.a",
-    "C2.a",
-    "Tex.a",
-    "Ras.a",
-    "Konst.a",
-    "0.0"
+constexpr std::array gkTevAlpha{
+    "Prev.a"sv,
+    "C0.a"sv,
+    "C1.a"sv,
+    "C2.a"sv,
+    "Tex.a"sv,
+    "Ras.a"sv,
+    "Konst.a"sv,
+    "0.0"sv,
 };
 
-const TString gkTevRigid[] = {
-    "Prev",
-    "C0",
-    "C1",
-    "C2"
+constexpr std::array gkTevRigid{
+    "Prev"sv,
+    "C0"sv,
+    "C1"sv,
+    "C2"sv,
 };
 
-CShaderGenerator::CShaderGenerator()
-{
-}
+CShaderGenerator::CShaderGenerator() = default;
 
-CShaderGenerator::~CShaderGenerator()
-{
-}
+CShaderGenerator::~CShaderGenerator() = default;
 
 bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
 {
@@ -366,34 +365,34 @@ bool CShaderGenerator::CreateVertexShader(const CMaterial& rkMat)
     return mpShader->CompileVertexSource(ShaderCode.str().c_str());
 }
 
-static TString GetColorInputExpression(const CMaterialPass* pPass, ETevColorInput iInput)
+static std::string GetColorInputExpression(const CMaterialPass* pPass, ETevColorInput iInput)
 {
     if (iInput == ETevColorInput::kTextureRGB)
     {
-        TString Ret("Tex.");
+        std::string Ret("Tex.");
         for (uint32 i = 0; i < 3; ++i)
             Ret += pPass->TexSwapComp(i);
         return Ret;
     }
     else if (iInput == ETevColorInput::kTextureAAA)
     {
-        TString Ret("Tex.");
+        std::string Ret("Tex.");
         for (uint32 i = 0; i < 3; ++i)
             Ret += pPass->TexSwapComp(3);
         return Ret;
     }
-    return gkTevColor[iInput];
+    return std::string(gkTevColor[iInput]);
 }
 
-static TString GetAlphaInputExpression(const CMaterialPass* pPass, ETevAlphaInput iInput)
+static std::string GetAlphaInputExpression(const CMaterialPass* pPass, ETevAlphaInput iInput)
 {
     if (iInput == ETevAlphaInput::kTextureAlpha)
     {
-        TString Ret("Tex.");
+        std::string Ret("Tex.");
         Ret += pPass->TexSwapComp(3);
         return Ret;
     }
-    return gkTevAlpha[iInput];
+    return std::string(gkTevAlpha[iInput]);
 }
 
 bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)

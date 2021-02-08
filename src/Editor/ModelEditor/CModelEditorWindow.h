@@ -13,6 +13,8 @@
 #include <QMainWindow>
 #include <QTimer>
 
+#include <memory>
+
 namespace Ui {
 class CModelEditorWindow;
 }
@@ -22,21 +24,22 @@ class CModelEditorWindow : public IEditor
 {
     Q_OBJECT
 
-    Ui::CModelEditorWindow *ui;
-    CScene *mpScene;
+    std::unique_ptr<Ui::CModelEditorWindow> ui;
+    std::unique_ptr<CScene> mpScene;
     QString mOutputFilename;
     TResPtr<CModel> mpCurrentModel;
-    CModelNode *mpCurrentModelNode;
-    CMaterial *mpCurrentMat;
-    CMaterialPass *mpCurrentPass;
-    bool mIgnoreSignals;
+    std::unique_ptr<CModelNode> mpCurrentModelNode;
+    CMaterial *mpCurrentMat = nullptr;
+    CMaterialPass *mpCurrentPass = nullptr;
+    bool mIgnoreSignals = false;
 
 public:
-    explicit CModelEditorWindow(CModel *pModel, QWidget *pParent = 0);
-    ~CModelEditorWindow();
-    bool Save();
+    explicit CModelEditorWindow(CModel *pModel, QWidget *pParent = nullptr);
+    ~CModelEditorWindow() override;
+
+    bool Save() override;
     void SetActiveModel(CModel *pModel);
-    CModelEditorViewport* Viewport() const;
+    CModelEditorViewport* Viewport() const override;
 
     enum class EModelEditorWidget
     {

@@ -15,7 +15,7 @@ signals:
     void CheckStateChanged(QTreeWidgetItem* pItem);
     
 public:
-    CCheckableTreeWidget(QWidget* pParent = 0)
+    explicit CCheckableTreeWidget(QWidget* pParent = nullptr)
         : QTreeWidget(pParent) {}
 };
 

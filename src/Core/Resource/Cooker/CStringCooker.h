@@ -9,7 +9,7 @@ class CStringCooker
 {
     TResPtr<CStringTable> mpStringTable;
 
-    CStringCooker(CStringTable* pStringTable)
+    explicit CStringCooker(CStringTable* pStringTable)
         : mpStringTable(pStringTable) {}
 
 public:

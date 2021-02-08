@@ -17,25 +17,25 @@ class CStringListModel : public QAbstractListModel
     TResPtr<CStringTable> mpStringTable;
 
     /** Language to use for the string preview for modes that support it */
-    ELanguage mStringPreviewLanguage;
+    ELanguage mStringPreviewLanguage{ELanguage::English};
 
 public:
-    CStringListModel(CStringEditor* pInEditor);
+    explicit CStringListModel(CStringEditor* pInEditor);
 
     /** Change the preview language display */
     void SetPreviewLanguage(ELanguage InLanguage);
 
     /** QAbstractListModel interface */
-    virtual int rowCount(const QModelIndex& kParent) const override;
-    virtual QVariant data(const QModelIndex& kIndex, int Role) const override;
-    virtual Qt::ItemFlags flags(const QModelIndex& kIndex) const override;
+    int rowCount(const QModelIndex& kParent) const override;
+    QVariant data(const QModelIndex& kIndex, int Role) const override;
+    Qt::ItemFlags flags(const QModelIndex& kIndex) const override;
 
     /** Drag & Drop support */
-    virtual Qt::DropActions supportedDragActions() const override;
-    virtual Qt::DropActions supportedDropActions() const override;
-    virtual QMimeData* mimeData(const QModelIndexList& kIndexes) const override;
-    virtual bool canDropMimeData(const QMimeData* pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& kParent) const override;
-    virtual bool dropMimeData(const QMimeData* pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& kParent) override;
+    Qt::DropActions supportedDragActions() const override;
+    Qt::DropActions supportedDropActions() const override;
+    QMimeData* mimeData(const QModelIndexList& kIndexes) const override;
+    bool canDropMimeData(const QMimeData* pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& kParent) const override;
+    bool dropMimeData(const QMimeData* pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& kParent) override;
 };
 
 #endif // CSTRINGLISTMODEL_H

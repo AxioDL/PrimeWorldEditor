@@ -2,33 +2,16 @@
 #include "CAnimSet.h"
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
-#include <iostream>
 
-CAnimationParameters::CAnimationParameters()
-    : mGame(EGame::Prime)
-    , mCharIndex(0)
-    , mAnimIndex(0)
-    , mUnknown2(0)
-    , mUnknown3(0)
-{
-}
+CAnimationParameters::CAnimationParameters() = default;
 
 CAnimationParameters::CAnimationParameters(EGame Game)
-    : mGame(Game)
-    , mCharacterID( CAssetID::InvalidID(Game) )
-    , mCharIndex(0)
-    , mAnimIndex(0)
-    , mUnknown2(0)
-    , mUnknown3(0)
+    : mGame(Game), mCharacterID(CAssetID::InvalidID(Game))
 {
 }
 
 CAnimationParameters::CAnimationParameters(IInputStream& rSCLY, EGame Game)
     : mGame(Game)
-    , mCharIndex(0)
-    , mAnimIndex(0)
-    , mUnknown2(0)
-    , mUnknown3(0)
 {
     if (Game <= EGame::Echoes)
     {
@@ -156,36 +139,36 @@ void CAnimationParameters::Serialize(IArchive& rArc)
     }
 }
 
-const SSetCharacter* CAnimationParameters::GetCurrentSetCharacter(int32 NodeIndex /*= -1*/)
+const SSetCharacter* CAnimationParameters::GetCurrentSetCharacter(int32 NodeIndex) const
 {
-    CAnimSet *pSet = AnimSet();
+    const CAnimSet *pSet = AnimSet();
 
-    if (pSet && (pSet->Type() == EResourceType::AnimSet || pSet->Type() == EResourceType::Character))
+    if (pSet != nullptr && (pSet->Type() == EResourceType::AnimSet || pSet->Type() == EResourceType::Character))
     {
         if (NodeIndex == -1)
             NodeIndex = mCharIndex;
 
-        if (mCharIndex != -1 && pSet->NumCharacters() > (uint32) NodeIndex)
+        if (mCharIndex != UINT32_MAX && pSet->NumCharacters() > static_cast<uint32>(NodeIndex))
             return pSet->Character(NodeIndex);
     }
 
     return nullptr;
 }
 
-CModel* CAnimationParameters::GetCurrentModel(int32 NodeIndex /*= -1*/)
+CModel* CAnimationParameters::GetCurrentModel(int32 NodeIndex)
 {
     const SSetCharacter *pkChar = GetCurrentSetCharacter(NodeIndex);
-    return pkChar ? pkChar->pModel : nullptr;
+    return pkChar != nullptr ? pkChar->pModel : nullptr;
 }
 
-TString CAnimationParameters::GetCurrentCharacterName(int32 NodeIndex /*= -1*/)
+TString CAnimationParameters::GetCurrentCharacterName(int32 NodeIndex) const
 {
     const SSetCharacter *pkChar = GetCurrentSetCharacter(NodeIndex);
-    return pkChar ? pkChar->Name : "";
+    return pkChar != nullptr ? pkChar->Name : "";
 }
 
 // ************ ACCESSORS ************
-uint32 CAnimationParameters::Unknown(uint32 Index)
+uint32 CAnimationParameters::Unknown(uint32 Index) const
 {
     // mAnimIndex isn't unknown, but I'm too lazy to move it because there's a lot
     // of UI stuff that depends on these functions atm for accessing and editing parameters.
@@ -225,8 +208,14 @@ void CAnimationParameters::SetUnknown(uint32 Index, uint32 Value)
 {
     switch (Index)
     {
-    case 0: mAnimIndex = Value;
-    case 1: mUnknown2 = Value;
-    case 2: mUnknown3 = Value;
+    case 0:
+        mAnimIndex = Value;
+        break;
+    case 1:
+        mUnknown2 = Value;
+        break;
+    case 2:
+        mUnknown3 = Value;
+        break;
     }
 }

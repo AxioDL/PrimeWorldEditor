@@ -4,41 +4,38 @@
 // ************ CMetaTransFactory ************
 CMetaTransFactory gMetaTransFactory;
 
-IMetaTransition* CMetaTransFactory::LoadFromStream(IInputStream& rInput, EGame Game)
+std::unique_ptr<IMetaTransition> CMetaTransFactory::LoadFromStream(IInputStream& rInput, EGame Game) const
 {
-    EMetaTransType Type = (EMetaTransType) rInput.ReadLong();
+    const auto Type = static_cast<EMetaTransType>(rInput.ReadLong());
 
     switch (Type)
     {
     case EMetaTransType::MetaAnim:
-        return new CMetaTransMetaAnim(rInput, Game);
+        return std::make_unique<CMetaTransMetaAnim>(rInput, Game);
 
     case EMetaTransType::Trans:
     case EMetaTransType::PhaseTrans:
-        return new CMetaTransTrans(Type, rInput, Game);
+        return std::make_unique<CMetaTransTrans>(Type, rInput, Game);
 
     case EMetaTransType::Snap:
-        return new CMetaTransSnap(rInput, Game);
+        return std::make_unique<CMetaTransSnap>(rInput, Game);
 
     case EMetaTransType::Type4:
-        return new CMetaTransType4(rInput, Game);
+        return std::make_unique<CMetaTransType4>(rInput, Game);
 
     default:
-        errorf("Unrecognized meta-transition type: %d", Type);
+        errorf("Unrecognized meta-transition type: %d", static_cast<int>(Type));
         return nullptr;
     }
 }
 
 // ************ CMetaTransMetaAnim ************
 CMetaTransMetaAnim::CMetaTransMetaAnim(IInputStream& rInput, EGame Game)
+    : mpAnim{gMetaAnimFactory.LoadFromStream(rInput, Game)}
 {
-    mpAnim = gMetaAnimFactory.LoadFromStream(rInput, Game);
 }
 
-CMetaTransMetaAnim::~CMetaTransMetaAnim()
-{
-    delete mpAnim;
-}
+CMetaTransMetaAnim::~CMetaTransMetaAnim() = default;
 
 EMetaTransType CMetaTransMetaAnim::Type() const
 {

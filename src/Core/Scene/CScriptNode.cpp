@@ -13,11 +13,7 @@
 
 CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CScriptObject *pInstance)
     : CSceneNode(pScene, NodeID, pParent)
-    , mGameModeVisibility(EGameModeVisibility::Untested)
-    , mpVolumePreviewNode(nullptr)
-    , mHasVolumePreview(false)
     , mpInstance(pInstance)
-    , mpExtra(nullptr)
 {
     ASSERT(pInstance);
 
@@ -26,9 +22,9 @@ CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CSc
     mpCollisionNode = new CCollisionNode(pScene, -1, this);
     mpCollisionNode->SetInheritance(true, true, false);
 
-    if (mpInstance)
+    if (mpInstance != nullptr)
     {
-        CScriptTemplate *pTemp = Template();
+        const CScriptTemplate* pTemp = Template();
 
         // Determine transform
         mHasValidPosition = pTemp->PositionProperty() != nullptr;
@@ -58,18 +54,16 @@ CScriptNode::CScriptNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent, CSc
         }
 
         // Create attachment nodes
-        for (uint32 iAttach = 0; iAttach < pTemp->NumAttachments(); iAttach++)
+        for (size_t iAttach = 0; iAttach < pTemp->NumAttachments(); iAttach++)
         {
             const SAttachment& rkAttach = pTemp->Attachment(iAttach);
-            CScriptAttachNode *pAttach = new CScriptAttachNode(pScene, rkAttach, this);
-            mAttachments.push_back(pAttach);
+            mAttachments.push_back(new CScriptAttachNode(pScene, rkAttach, this));
         }
 
         // Fetch LightParameters
         mpLightParameters = std::make_unique<CLightParameters>(mpInstance->LightParameters(), mpInstance->GameTemplate()->Game());
         SetLightLayerIndex(mpLightParameters->LightLayerIndex());
     }
-
     else
     {
         // Shouldn't ever happen
@@ -86,18 +80,18 @@ ENodeType CScriptNode::NodeType()
 
 void CScriptNode::PostLoad()
 {
-    CModel *pModel = ActiveModel();
+    CModel* pModel = ActiveModel();
 
-    if (pModel)
-    {
-        pModel->BufferGL();
-        pModel->GenerateMaterialShaders();
-    }
+    if (pModel == nullptr)
+        return;
+
+    pModel->BufferGL();
+    pModel->GenerateMaterialShaders();
 }
 
 void CScriptNode::OnTransformed()
 {
-    if (mpInstance)
+    if (mpInstance != nullptr)
     {
         if (LocalPosition() != mpInstance->Position())
             mpInstance->SetPosition(LocalPosition());
@@ -109,16 +103,18 @@ void CScriptNode::OnTransformed()
             mpInstance->SetScale(LocalScale());
     }
 
-    if (mpExtra)
+    if (mpExtra != nullptr)
         mpExtra->OnTransformed();
 }
 
-void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
+void CScriptNode::AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo)
 {
-    if (!mpInstance) return;
+    if (mpInstance == nullptr)
+        return;
 
     // Add script extra to renderer first
-    if (mpExtra) mpExtra->AddToRenderer(pRenderer, rkViewInfo);
+    if (mpExtra != nullptr)
+        mpExtra->AddToRenderer(pRenderer, rkViewInfo);
 
     // If we're in game mode, then override other visibility settings.
     if (rkViewInfo.GameMode)
@@ -131,27 +127,25 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
     }
 
     // Check whether the script extra wants us to render before we render.
-    bool ShouldDraw = (!mpExtra || mpExtra->ShouldDrawNormalAssets());
+    const bool ShouldDraw = mpExtra == nullptr || mpExtra->ShouldDrawNormalAssets();
 
     if (ShouldDraw)
     {
         // Otherwise, we proceed as normal
-        if ((rkViewInfo.ShowFlags & EShowFlag::ObjectCollision) && (!rkViewInfo.GameMode))
+        if ((rkViewInfo.ShowFlags & EShowFlag::ObjectCollision) != 0 && !rkViewInfo.GameMode)
             mpCollisionNode->AddToRenderer(pRenderer, rkViewInfo);
 
-        if (rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry || rkViewInfo.GameMode)
+        if ((rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry) != 0 || rkViewInfo.GameMode)
         {
-            for (uint32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
-                mAttachments[iAttach]->AddToRenderer(pRenderer, rkViewInfo);
+            for (auto& attachment : mAttachments)
+                attachment->AddToRenderer(pRenderer, rkViewInfo);
 
             if (rkViewInfo.ViewFrustum.BoxInFrustum(AABox()))
             {
-                CModel *pModel = ActiveModel();
-
-                if (!pModel)
-                    pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
-                else
+                if (CModel* pModel = ActiveModel())
                     AddModelToRenderer(pRenderer, pModel, 0);
+                else
+                    pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
             }
         }
     }
@@ -163,29 +157,29 @@ void CScriptNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
        if (ShouldDraw)
            pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawSelection);
 
-        if (mHasVolumePreview && (!mpExtra || mpExtra->ShouldDrawVolume()))
+        if (mHasVolumePreview && (mpExtra == nullptr || mpExtra->ShouldDrawVolume()))
             mpVolumePreviewNode->AddToRenderer(pRenderer, rkViewInfo);
     }
 }
 
 void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCommand Command, const SViewInfo& rkViewInfo)
 {
-    if (!mpInstance) return;
+    if (mpInstance == nullptr)
+        return;
 
     // Draw model
     if (UsesModel())
     {
-        EWorldLightingOptions LightingOptions = (mpLightParameters ? mpLightParameters->WorldLightingOptions() : eNormalLighting);
+        const auto LightingOptions = (mpLightParameters ? mpLightParameters->WorldLightingOptions() : EWorldLightingOptions::NormalLighting);
 
-        if (CGraphics::sLightMode == CGraphics::ELightingMode::World && LightingOptions == eDisableWorldLighting)
+        if (CGraphics::sLightMode == CGraphics::ELightingMode::World && LightingOptions == EWorldLightingOptions::DisableWorldLighting)
         {
             CGraphics::sNumLights = 0;
-            CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentBlack;
-            CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+            CGraphics::sVertexBlock.COLOR0_Amb = CColor::TransparentBlack();
+            CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
             CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
             CGraphics::UpdateLightBlock();
         }
-
         else
         {
             // DKCR doesn't support world lighting yet, so light nodes that don't have ingame models with default lighting
@@ -193,41 +187,40 @@ void CScriptNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERenderCo
             {
                 CGraphics::SetDefaultLighting();
                 CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
-                CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+                CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
             }
-
             else
+            {
                 LoadLights(rkViewInfo);
+            }
         }
 
         LoadModelMatrix();
 
         // Draw model if possible!
-        CModel *pModel = ActiveModel();
-
-        if (pModel)
+        if (CModel* pModel = ActiveModel())
         {
-            if (pModel->IsSkinned()) CGraphics::LoadIdentityBoneTransforms();
+            if (pModel->IsSkinned())
+                CGraphics::LoadIdentityBoneTransforms();
 
-            if (mpExtra) CGraphics::sPixelBlock.SetAllTevColors(mpExtra->TevColor());
-            else CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
+            if (mpExtra != nullptr)
+                CGraphics::sPixelBlock.SetAllTevColors(mpExtra->TevColor());
+            else
+                CGraphics::sPixelBlock.SetAllTevColors(CColor::White());
 
             CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
             CGraphics::UpdatePixelBlock();
             DrawModelParts(pModel, Options, 0, Command);
         }
-
-        // If no model or billboard, default to drawing a purple box
-        else
+        else // If no model or billboard, default to drawing a purple box
         {
             glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ZERO, GL_ZERO);
             glDepthMask(GL_TRUE);
             CGraphics::UpdateVertexBlock();
             CGraphics::UpdatePixelBlock();
-            CDrawUtil::DrawShadedCube(CColor::skTransparentPurple * TintColor(rkViewInfo));
+            CDrawUtil::DrawShadedCube(CColor::TransparentPurple() * TintColor(rkViewInfo));
         }
     }
-
     // Draw billboard
     else if (mpDisplayAsset->Type() == EResourceType::Texture)
     {
@@ -243,8 +236,10 @@ void CScriptNode::DrawSelection()
     // Draw wireframe for models
     if (UsesModel())
     {
-        CModel *pModel = ActiveModel();
-        if (!pModel) pModel = CDrawUtil::GetCubeModel();
+        CModel* pModel = ActiveModel();
+        if (pModel == nullptr)
+            pModel = CDrawUtil::GetCubeModel();
+
         pModel->DrawWireframe(ERenderOption::None, WireframeColor());
     }
 
@@ -258,41 +253,43 @@ void CScriptNode::DrawSelection()
         CGraphics::sMVPBlock.ModelMatrix = Transform;
         CGraphics::UpdateMVPBlock();
 
-        CGraphics::sPixelBlock.TintColor = CColor::skWhite;
+        CGraphics::sPixelBlock.TintColor = CColor::White();
         CGraphics::UpdatePixelBlock();
 
         DrawRotationArrow();
     }
 
-    if (mpInstance)
+    if (mpInstance != nullptr)
     {
         CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();
 
-        for (uint32 iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
+        for (size_t iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
         {
             // Don't draw in links if the other object is selected.
-            CLink *pLink = mpInstance->Link(ELinkType::Incoming, iIn);
-            CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->SenderID());
-            if (pLinkNode && !pLinkNode->IsSelected()) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentRed);
+            const CLink* pLink = mpInstance->Link(ELinkType::Incoming, iIn);
+            const CScriptNode* pLinkNode = mpScene->NodeForInstanceID(pLink->SenderID());
+            if (pLinkNode != nullptr && !pLinkNode->IsSelected())
+                CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::TransparentRed());
         }
 
-        for (uint32 iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
+        for (size_t iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
         {
-            CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iOut);
-            CScriptNode *pLinkNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
-            if (pLinkNode) CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::skTransparentGreen);
+            const CLink* pLink = mpInstance->Link(ELinkType::Outgoing, iOut);
+            const CScriptNode* pLinkNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
+            if (pLinkNode != nullptr)
+                CDrawUtil::DrawLine(CenterPoint(), pLinkNode->CenterPoint(), CColor::TransparentGreen());
         }
     }
 }
 
 void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo)
 {
-    if (!mpInstance)
+    if (mpInstance == nullptr)
         return;
 
     // Let script extra do ray check first
-    if (mpExtra)
+    if (mpExtra != nullptr)
     {
         mpExtra->RayAABoxIntersectTest(rTester, rkViewInfo);
 
@@ -316,39 +313,41 @@ void CScriptNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SVie
 
     if (UsesModel())
     {
-        std::pair<bool,float> BoxResult = AABox().IntersectsRay(rkRay);
+        const auto [intersects, distance] = AABox().IntersectsRay(rkRay);
 
-        if (BoxResult.first)
+        if (intersects)
         {
-            CModel *pModel = ActiveModel();
-            if (pModel) rTester.AddNodeModel(this, pModel);
-            else rTester.AddNode(this, 0, BoxResult.second);
+            if (CModel* pModel = ActiveModel())
+                rTester.AddNodeModel(this, pModel);
+            else
+                rTester.AddNode(this, 0, distance);
         }
     }
 
     else
     {
         // Because the billboard rotates a lot, expand the AABox on the X/Y axes to cover any possible orientation
-        CVector2f BillScale = BillboardScale();
-        float ScaleXY = (BillScale.X > BillScale.Y ? BillScale.X : BillScale.Y);
+        const CVector2f BillScale = BillboardScale();
+        const float ScaleXY = (BillScale.X > BillScale.Y ? BillScale.X : BillScale.Y);
 
-        CAABox BillBox = CAABox(mPosition + CVector3f(-ScaleXY, -ScaleXY, -BillScale.Y),
-                                mPosition + CVector3f( ScaleXY,  ScaleXY,  BillScale.Y));
+        const CAABox BillBox = CAABox(mPosition + CVector3f(-ScaleXY, -ScaleXY, -BillScale.Y),
+                                      mPosition + CVector3f(ScaleXY, ScaleXY, BillScale.Y));
 
-        std::pair<bool,float> BoxResult = BillBox.IntersectsRay(rkRay);
-        if (BoxResult.first) rTester.AddNode(this, 0, BoxResult.second);
+        const auto [intersects, distance] = BillBox.IntersectsRay(rkRay);
+        if (intersects)
+            rTester.AddNode(this, 0, distance);
     }
 
     // Run ray check on child nodes as well
     mpCollisionNode->RayAABoxIntersectTest(rTester, rkViewInfo);
 
-    for (uint32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
-        mAttachments[iAttach]->RayAABoxIntersectTest(rTester, rkViewInfo);
+    for (auto& attachment : mAttachments)
+        attachment->RayAABoxIntersectTest(rTester, rkViewInfo);
 }
 
 SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo)
 {
-    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
+    const FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
     SRayIntersection Out;
     Out.pNode = this;
@@ -357,46 +356,47 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
     // Model test
     if (UsesModel())
     {
-        CModel *pModel = ActiveModel();
-        if (!pModel) pModel = CDrawUtil::GetCubeModel();
+        CModel* pModel = ActiveModel();
+        if (!pModel)
+            pModel = CDrawUtil::GetCubeModel();
 
-        CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
-        std::pair<bool,float> Result = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
+        const CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
+        const auto [intersects, distance] = pModel->GetSurface(AssetID)->IntersectsRay(TransformedRay, ((Options & ERenderOption::EnableBackfaceCull) == 0));
 
-        if (Result.first)
+        if (intersects)
         {
             Out.Hit = true;
 
-            CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
-            CVector3f WorldHitPoint = Transform() * HitPoint;
+            const CVector3f HitPoint = TransformedRay.PointOnRay(distance);
+            const CVector3f WorldHitPoint = Transform() * HitPoint;
             Out.Distance = Math::Distance(rkRay.Origin(), WorldHitPoint);
         }
-
         else
+        {
             Out.Hit = false;
+        }
     }
-
     // Billboard test
     // todo: come up with a better way to share this code between CScriptNode and CLightNode
     else
     {
         // Step 1: check whether the ray intersects with the plane the billboard is on
-        CPlane BillboardPlane(-rkViewInfo.pCamera->Direction(), mPosition);
-        std::pair<bool,float> PlaneTest = Math::RayPlaneIntersection(rkRay, BillboardPlane);
+        const CPlane BillboardPlane(-rkViewInfo.pCamera->Direction(), mPosition);
+        const auto [intersects, distance] = Math::RayPlaneIntersection(rkRay, BillboardPlane);
 
-        if (PlaneTest.first)
+        if (intersects)
         {
             // Step 2: transform the hit point into the plane's local space
-            CVector3f PlaneHitPoint = rkRay.PointOnRay(PlaneTest.second);
-            CVector3f RelHitPoint = PlaneHitPoint - mPosition;
+            const CVector3f PlaneHitPoint = rkRay.PointOnRay(distance);
+            const CVector3f RelHitPoint = PlaneHitPoint - mPosition;
 
-            CVector3f PlaneForward = -rkViewInfo.pCamera->Direction();
-            CVector3f PlaneRight = -rkViewInfo.pCamera->RightVector();
-            CVector3f PlaneUp = rkViewInfo.pCamera->UpVector();
-            CQuaternion PlaneRot = CQuaternion::FromAxes(PlaneRight, PlaneForward, PlaneUp);
+            const CVector3f PlaneForward = -rkViewInfo.pCamera->Direction();
+            const CVector3f PlaneRight = -rkViewInfo.pCamera->RightVector();
+            const CVector3f PlaneUp = rkViewInfo.pCamera->UpVector();
+            const CQuaternion PlaneRot = CQuaternion::FromAxes(PlaneRight, PlaneForward, PlaneUp);
 
-            CVector3f RotatedHitPoint = PlaneRot.Inverse() * RelHitPoint;
-            CVector2f LocalHitPoint = RotatedHitPoint.XZ() / BillboardScale();
+            const CVector3f RotatedHitPoint = PlaneRot.Inverse() * RelHitPoint;
+            const CVector2f LocalHitPoint = RotatedHitPoint.XZ() / BillboardScale();
 
             // Step 3: check whether the transformed hit point is in the -1 to 1 range
             if ((LocalHitPoint.X >= -1.f) && (LocalHitPoint.X <= 1.f) && (LocalHitPoint.Y >= -1.f) && (LocalHitPoint.Y <= 1.f))
@@ -404,25 +404,28 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
                 // Step 4: look up the hit texel and check whether it's transparent or opaque
                 CVector2f TexCoord = (LocalHitPoint + CVector2f(1.f)) * 0.5f;
                 TexCoord.X = -TexCoord.X + 1.f;
-                float TexelAlpha = ActiveBillboard()->ReadTexelAlpha(TexCoord);
+                const float TexelAlpha = ActiveBillboard()->ReadTexelAlpha(TexCoord);
 
                 if (TexelAlpha < 0.25f)
+                {
                     Out.Hit = false;
-
+                }
                 else
                 {
                     // It's opaque... we have a hit!
                     Out.Hit = true;
-                    Out.Distance = PlaneTest.second;
+                    Out.Distance = distance;
                 }
             }
-
             else
+            {
                 Out.Hit = false;
+            }
         }
-
         else
+        {
             Out.Hit = false;
+        }
     }
 
     return Out;
@@ -430,30 +433,36 @@ SRayIntersection CScriptNode::RayNodeIntersectTest(const CRay& rkRay, uint32 Ass
 
 bool CScriptNode::AllowsRotate() const
 {
-    return (Template()->RotationType() == CScriptTemplate::ERotationType::RotationEnabled);
+    return Template()->RotationType() == CScriptTemplate::ERotationType::RotationEnabled;
 }
 
 bool CScriptNode::AllowsScale() const
 {
-    return (Template()->ScaleType() != CScriptTemplate::EScaleType::ScaleDisabled);
+    return Template()->ScaleType() != CScriptTemplate::EScaleType::ScaleDisabled;
 }
 
 bool CScriptNode::IsVisible() const
 {
     // Reimplementation of CSceneNode::IsVisible() to allow for layer and template visiblity to be taken into account
-    return (mVisible && mpInstance->Layer()->IsVisible() && Template()->IsVisible());
+    return mVisible && mpInstance->Layer()->IsVisible() && Template()->IsVisible();
 }
 
-CColor CScriptNode::TintColor(const SViewInfo &ViewInfo) const
+CColor CScriptNode::TintColor(const SViewInfo& ViewInfo) const
 {
     CColor BaseColor = CSceneNode::TintColor(ViewInfo);
-    if (mpExtra) mpExtra->ModifyTintColor(BaseColor);
+
+    if (mpExtra != nullptr)
+        mpExtra->ModifyTintColor(BaseColor);
+
     return BaseColor;
 }
 
 void CScriptNode::LinksModified()
 {
-    if (mpExtra) mpExtra->LinksModified();
+    if (mpExtra == nullptr)
+        return;
+
+    mpExtra->LinksModified();
 }
 
 CStructRef CScriptNode::GetProperties() const
@@ -464,25 +473,23 @@ CStructRef CScriptNode::GetProperties() const
 void CScriptNode::PropertyModified(IProperty* pProp)
 {
     // Update volume
-    EPropertyType Type = pProp->Type();
+    const EPropertyType Type = pProp->Type();
 
-    if ( Type == EPropertyType::Bool || Type == EPropertyType::Byte || Type == EPropertyType::Short ||
-         Type == EPropertyType::Int || Type == EPropertyType::Choice || Type == EPropertyType::Enum )
+    if (Type == EPropertyType::Bool || Type == EPropertyType::Byte || Type == EPropertyType::Short ||
+        Type == EPropertyType::Int || Type == EPropertyType::Choice || Type == EPropertyType::Enum)
     {
         mpInstance->EvaluateVolume();
         UpdatePreviewVolume();
     }
-
     // Update resources
     else if (Type == EPropertyType::AnimationSet)
     {
         mpInstance->EvaluateDisplayAsset();
         SetDisplayAsset(mpInstance->DisplayAsset());
     }
-
     else if (Type == EPropertyType::Asset)
     {
-        CAssetProperty* pAssetProperty = TPropCast<CAssetProperty>(pProp);
+        const auto* pAssetProperty = TPropCast<CAssetProperty>(pProp);
         const CResTypeFilter& rkFilter = pAssetProperty->GetTypeFilter();
 
         if (rkFilter.Accepts(EResourceType::Model) || rkFilter.Accepts(EResourceType::Texture) ||
@@ -499,17 +506,14 @@ void CScriptNode::PropertyModified(IProperty* pProp)
     }
 
     // Update other editor properties
-    CScriptTemplate *pTemplate = Template();
+    const CScriptTemplate* pTemplate = Template();
 
     if (pProp == pTemplate->NameProperty())
         SetName("[" + mpInstance->Template()->Name() + "] " + mpInstance->InstanceName());
-
     else if (pProp == pTemplate->PositionProperty() || pProp->Parent() == pTemplate->PositionProperty())
         mPosition = mpInstance->Position();
-
     else if (pProp == pTemplate->RotationProperty() || pProp->Parent() == pTemplate->RotationProperty())
         mRotation = CQuaternion::FromEuler(mpInstance->Rotation());
-
     else if (pProp == pTemplate->ScaleProperty() || pProp->Parent() == pTemplate->ScaleProperty())
         mScale = mpInstance->Scale();
 
@@ -517,26 +521,25 @@ void CScriptNode::PropertyModified(IProperty* pProp)
     SetLightLayerIndex(mpLightParameters->LightLayerIndex());
 
     // Notify attachments
-    for (uint32 AttachIdx = 0; AttachIdx < mAttachments.size(); AttachIdx++)
+    for (auto* pAttachNode : mAttachments)
     {
-        CScriptAttachNode* pAttachNode = mAttachments[AttachIdx];
-
         if (pAttachNode->AttachProperty() == pProp)
             pAttachNode->AttachPropertyModified();
     }
 
     // Notify script extra
-    if (mpExtra) mpExtra->PropertyModified(pProp);
+    if (mpExtra != nullptr)
+        mpExtra->PropertyModified(pProp);
 
     // Update game mode visibility
-    if (pProp && pProp == pTemplate->ActiveProperty())
+    if (pProp != nullptr && pProp == pTemplate->ActiveProperty())
         TestGameModeVisibility();
 }
 
 void CScriptNode::UpdatePreviewVolume()
 {
-    EVolumeShape Shape = mpInstance->VolumeShape();
-    TResPtr<CModel> pVolumeModel = nullptr;
+    const EVolumeShape Shape = mpInstance->VolumeShape();
+    TResPtr<CModel> pVolumeModel;
 
     switch (Shape)
     {
@@ -552,10 +555,12 @@ void CScriptNode::UpdatePreviewVolume()
     case EVolumeShape::CylinderShape:
         pVolumeModel = gpEditorStore->LoadResource("VolumeCylinder.CMDL");
         break;
-    default: break;
+
+    default:
+        break;
     }
 
-    mHasVolumePreview = (pVolumeModel != nullptr);
+    mHasVolumePreview = pVolumeModel != nullptr;
 
     if (mHasVolumePreview)
     {
@@ -569,55 +574,54 @@ void CScriptNode::GeneratePosition()
     if (!mHasValidPosition)
     {
         // Default to center of the active area; this is to prevent recursion issues
-        CTransform4f AreaTransform = mpScene->ActiveArea()->Transform();
+        const CTransform4f AreaTransform = mpScene->ActiveArea()->Transform();
         mPosition = CVector3f(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
         mHasValidPosition = true;
         MarkTransformChanged();
 
         // Ideal way to generate the position is to find a spot close to where it's being used.
         // To do this I check the location of the objects that this one is linked to.
-        uint32 NumLinks = mpInstance->NumLinks(ELinkType::Incoming) + mpInstance->NumLinks(ELinkType::Outgoing);
+        const size_t NumLinks = mpInstance->NumLinks(ELinkType::Incoming) + mpInstance->NumLinks(ELinkType::Outgoing);
 
         // In the case of one link, apply an offset so the new position isn't the same place as the object it's linked to
         if (NumLinks == 1)
         {
-            uint32 LinkedID = (mpInstance->NumLinks(ELinkType::Incoming) > 0 ? mpInstance->Link(ELinkType::Incoming, 0)->SenderID() : mpInstance->Link(ELinkType::Outgoing, 0)->ReceiverID());
-            CScriptNode *pNode = mpScene->NodeForInstanceID(LinkedID);
+            const uint32 LinkedID = (mpInstance->NumLinks(ELinkType::Incoming) > 0 ? mpInstance->Link(ELinkType::Incoming, 0)->SenderID() : mpInstance->Link(ELinkType::Outgoing, 0)->ReceiverID());
+            CScriptNode* pNode = mpScene->NodeForInstanceID(LinkedID);
             pNode->GeneratePosition();
             mPosition = pNode->AbsolutePosition();
             mPosition.Z += (pNode->AABox().Size().Z / 2.f);
             mPosition.Z += (AABox().Size().Z / 2.f);
             mPosition.Z += 2.f;
         }
-
         // For two or more links, average out the position of the connected objects.
         else if (NumLinks >= 2)
         {
-            CVector3f NewPos = CVector3f::skZero;
+            CVector3f NewPos = CVector3f::Zero();
 
-            for (uint32 iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
+            for (size_t iIn = 0; iIn < mpInstance->NumLinks(ELinkType::Incoming); iIn++)
             {
-                CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(ELinkType::Incoming, iIn)->SenderID());
+                CScriptNode* pNode = mpScene->NodeForInstanceID(mpInstance->Link(ELinkType::Incoming, iIn)->SenderID());
 
-                if (pNode)
+                if (pNode != nullptr)
                 {
                     pNode->GeneratePosition();
                     NewPos += pNode->AABox().Center();
                 }
             }
 
-            for (uint32 iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
+            for (size_t iOut = 0; iOut < mpInstance->NumLinks(ELinkType::Outgoing); iOut++)
             {
-                CScriptNode *pNode = mpScene->NodeForInstanceID(mpInstance->Link(ELinkType::Outgoing, iOut)->ReceiverID());
+                CScriptNode* pNode = mpScene->NodeForInstanceID(mpInstance->Link(ELinkType::Outgoing, iOut)->ReceiverID());
 
-                if (pNode)
+                if (pNode != nullptr)
                 {
                     pNode->GeneratePosition();
                     NewPos += pNode->AABox().Center();
                 }
             }
 
-            mPosition = NewPos / (float) NumLinks;
+            mPosition = NewPos / static_cast<float>(NumLinks);
             mPosition.X += 2.f;
         }
 
@@ -629,11 +633,13 @@ void CScriptNode::TestGameModeVisibility()
 {
     // Don't render if we don't have an ingame model, or if this is the Prime series and the instance is not active.
     if ((Template()->Game() < EGame::DKCReturns && !mpInstance->IsActive()) || !mpInstance->HasInGameModel())
+    {
         mGameModeVisibility = EGameModeVisibility::NotVisible;
-
-    // If this is Returns, only render if the instance is active OR if it has a near visible activation.
-    else
+    }
+    else // If this is Returns, only render if the instance is active OR if it has a near visible activation.
+    {
         mGameModeVisibility = (mpInstance->IsActive() || mpInstance->HasNearVisibleActivation()) ? EGameModeVisibility::Visible : EGameModeVisibility::NotVisible;
+    }
 }
 
 CColor CScriptNode::WireframeColor() const
@@ -658,11 +664,11 @@ CScriptExtra* CScriptNode::Extra() const
 
 CModel* CScriptNode::ActiveModel() const
 {
-    if (mpDisplayAsset)
+    if (mpDisplayAsset != nullptr)
     {
         if (mpDisplayAsset->Type() == EResourceType::Model)
             return static_cast<CModel*>(mpDisplayAsset.RawPointer());
-        else if (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character)
+        if (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character)
             return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer())->Character(mCharIndex)->pModel;
     }
 
@@ -671,36 +677,39 @@ CModel* CScriptNode::ActiveModel() const
 
 CAnimSet* CScriptNode::ActiveAnimSet() const
 {
-    if (mpDisplayAsset && (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character))
+    if (mpDisplayAsset != nullptr && (mpDisplayAsset->Type() == EResourceType::AnimSet || mpDisplayAsset->Type() == EResourceType::Character))
         return static_cast<CAnimSet*>(mpDisplayAsset.RawPointer());
-    else
-        return nullptr;
+
+    return nullptr;
 }
 
 CSkeleton* CScriptNode::ActiveSkeleton() const
 {
-    CAnimSet *pSet = ActiveAnimSet();
-    if (pSet) return pSet->Character(mCharIndex)->pSkeleton;
-    else return nullptr;
+    if (const CAnimSet* pSet = ActiveAnimSet())
+        return pSet->Character(mCharIndex)->pSkeleton;
+
+    return nullptr;
 }
 
 CAnimation* CScriptNode::ActiveAnimation() const
 {
-    CAnimSet *pSet = ActiveAnimSet();
-    return pSet ? pSet->FindAnimationAsset(mAnimIndex) : nullptr;
+    if (const CAnimSet* pSet = ActiveAnimSet())
+        return pSet->FindAnimationAsset(mAnimIndex);
+
+    return nullptr;
 }
 
 CTexture* CScriptNode::ActiveBillboard() const
 {
-    if (mpDisplayAsset && mpDisplayAsset->Type() == EResourceType::Texture)
+    if (mpDisplayAsset != nullptr && mpDisplayAsset->Type() == EResourceType::Texture)
         return static_cast<CTexture*>(mpDisplayAsset.RawPointer());
-    else
-        return nullptr;
+
+    return nullptr;
 }
 
 bool CScriptNode::UsesModel() const
 {
-    return (mpDisplayAsset == nullptr || ActiveModel() != nullptr);
+    return mpDisplayAsset == nullptr || ActiveModel() != nullptr;
 }
 
 bool CScriptNode::HasPreviewVolume() const
@@ -711,32 +720,34 @@ bool CScriptNode::HasPreviewVolume() const
 CAABox CScriptNode::PreviewVolumeAABox() const
 {
     if (!mHasVolumePreview)
-        return CAABox::skZero;
-    else
-        return mpVolumePreviewNode->AABox();
+        return CAABox::Zero();
+
+    return mpVolumePreviewNode->AABox();
 }
 
 CVector2f CScriptNode::BillboardScale() const
 {
-    CVector2f Out = (Template()->ScaleType() == CScriptTemplate::EScaleType::ScaleEnabled ? AbsoluteScale().XZ() : CVector2f(1.f));
+    const CVector2f Out = (Template()->ScaleType() == CScriptTemplate::EScaleType::ScaleEnabled ? AbsoluteScale().XZ() : CVector2f(1.f));
     return Out * 0.5f * Template()->PreviewScale();
 }
 
 CTransform4f CScriptNode::BoneTransform(uint32 BoneID, EAttachType AttachType, bool Absolute) const
 {
     CTransform4f Out;
-    CSkeleton *pSkel = ActiveSkeleton();
 
-    if (pSkel)
+    if (const CSkeleton* pSkel = ActiveSkeleton())
     {
-        CBone *pBone = pSkel->BoneByID(BoneID);
+        const CBone* pBone = pSkel->BoneByID(BoneID);
         ASSERT(pBone);
 
-        if (AttachType == eAttach) Out.Rotate(pBone->Rotation());
+        if (AttachType == EAttachType::Attach)
+            Out.Rotate(pBone->Rotation());
+
         Out.Translate(pBone->Position());
     }
 
-    if (Absolute) Out = Transform() * Out;
+    if (Absolute)
+        Out = Transform() * Out;
 
     return Out;
 }
@@ -746,28 +757,28 @@ void CScriptNode::SetDisplayAsset(CResource *pRes)
 {
     mpDisplayAsset = pRes;
 
-    bool IsAnimSet = (pRes && (pRes->Type() == EResourceType::AnimSet || pRes->Type() == EResourceType::Character));
-    mCharIndex = (IsAnimSet ? mpInstance->ActiveCharIndex() : -1);
-    mAnimIndex = (IsAnimSet ? mpInstance->ActiveAnimIndex() : -1);
+    const bool IsAnimSet = pRes != nullptr && (pRes->Type() == EResourceType::AnimSet || pRes->Type() == EResourceType::Character);
+    mCharIndex = IsAnimSet ? mpInstance->ActiveCharIndex() : UINT32_MAX;
+    mAnimIndex = IsAnimSet ? mpInstance->ActiveAnimIndex() : UINT32_MAX;
 
-    CModel *pModel = ActiveModel();
-    mLocalAABox = (pModel ? pModel->AABox() : CAABox::skOne);
+    const CModel* pModel = ActiveModel();
+    mLocalAABox = pModel != nullptr ? pModel->AABox() : CAABox::One();
     MarkTransformChanged();
 
-    for (uint32 iAttach = 0; iAttach < mAttachments.size(); iAttach++)
-        mAttachments[iAttach]->ParentDisplayAssetChanged(pRes);
+    for (auto& attachment : mAttachments)
+        attachment->ParentDisplayAssetChanged(pRes);
 
-    if (mpExtra)
+    if (mpExtra != nullptr)
         mpExtra->DisplayAssetChanged(pRes);
 }
 
 void CScriptNode::CalculateTransform(CTransform4f& rOut) const
 {
-    CScriptTemplate *pTemp = Template();
+    const CScriptTemplate* pTemp = Template();
 
     if (pTemp->ScaleType() != CScriptTemplate::EScaleType::ScaleDisabled)
     {
-        CVector3f Scale = (HasPreviewVolume() ? CVector3f::skOne : AbsoluteScale());
+        const CVector3f Scale = (HasPreviewVolume() ? CVector3f::One() : AbsoluteScale());
         rOut.Scale(Scale * pTemp->PreviewScale());
     }
 

@@ -15,16 +15,16 @@ class CSplinePathExtra : public CScriptExtra
     std::list<CWaypointExtra*> mWaypoints;
 
 public:
-    explicit CSplinePathExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent = 0);
-    ~CSplinePathExtra()             { ClearWaypoints(); }
-    inline CColor PathColor() const { return (mPathColor.IsValid() ? mPathColor.Get() : CColor::skBlack); }
+    explicit CSplinePathExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent = nullptr);
+    ~CSplinePathExtra() override { ClearWaypoints(); }
+    CColor PathColor() const { return mPathColor.IsValid() ? mPathColor.Get() : CColor::Black(); }
 
-    void PostLoad();
-    void PropertyModified(IProperty* pProperty);
+    void PostLoad() override;
+    void PropertyModified(IProperty* pProperty) override;
 
     void FindAttachedWaypoints(std::set<CWaypointExtra*>& rChecked, CWaypointExtra* pWaypoint);
     void AddWaypoints();
-    void RemoveWaypoint(CWaypointExtra* pWaypoint);
+    void RemoveWaypoint(const CWaypointExtra* pWaypoint);
     void ClearWaypoints();
 };
 

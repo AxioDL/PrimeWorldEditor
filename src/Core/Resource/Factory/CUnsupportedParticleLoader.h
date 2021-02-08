@@ -2,13 +2,14 @@
 #define CUNSUPPORTEDPARTICLELOADER_H
 
 #include "Core/Resource/CDependencyGroup.h"
+#include <memory>
 
 // This class is responsible for loading particle formats that aren't yet fully supported.
 // Used for finding dependencies. Split from CUnsupportedFormatLoader for being too big.
 class CUnsupportedParticleLoader
 {
-    CDependencyGroup *mpGroup;
-    CUnsupportedParticleLoader() {}
+    std::unique_ptr<CDependencyGroup> mpGroup;
+    CUnsupportedParticleLoader() = default;
 
     // Format-Specific Parameter Loading
     bool ParseParticleParameter(IInputStream& rPART);
@@ -41,7 +42,7 @@ class CUnsupportedParticleLoader
     void ParseKeyframeEmitterData(IInputStream& rFile, const CFourCC& rkFunc, uint32 ElemSize);
 
 public:
-    static CDependencyGroup* LoadParticle(IInputStream& rPART, CResourceEntry *pEntry);
+    static std::unique_ptr<CDependencyGroup> LoadParticle(IInputStream& rPART, CResourceEntry *pEntry);
 };
 
 #endif // CUNSUPPORTEDPARTICLELOADER_H

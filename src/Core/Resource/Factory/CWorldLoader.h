@@ -5,11 +5,12 @@
 #include "Core/Resource/CWorld.h"
 #include <Common/EGame.h>
 #include <Common/FileIO.h>
+#include <memory>
 
 class CWorldLoader
 {
     TResPtr<CWorld> mpWorld;
-    EGame mVersion;
+    EGame mVersion{};
 
     CWorldLoader();
     void LoadPrimeMLVL(IInputStream& rMLVL);
@@ -17,7 +18,7 @@ class CWorldLoader
     void GenerateEditorData();
 
 public:
-    static CWorld* LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry);
+    static std::unique_ptr<CWorld> LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry);
     static EGame GetFormatVersion(uint32 Version);
 };
 

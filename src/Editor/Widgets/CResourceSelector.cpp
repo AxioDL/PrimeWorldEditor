@@ -16,11 +16,8 @@
 #include <QDropEvent>
 #include <QMenu>
 
-CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
+CResourceSelector::CResourceSelector(QWidget *pParent)
     : QWidget(pParent)
-    , mpResEntry(nullptr)
-    , mIsEditable(true)
-    , mIsDragging(false)
 {
     setAcceptDrops(true);
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -28,17 +25,17 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     // Set up UI
     mpResNameButton = new QPushButton(this);
     mpResNameButton->setFlat(true);
-    mpResNameButton->setStyleSheet("text-align:left; font-size:10pt; margin:0px; padding-left:2px");
+    mpResNameButton->setStyleSheet(QStringLiteral("text-align:left; font-size:10pt; margin:0px; padding-left:2px"));
     
     mpSelectButton = new QPushButton(this);
-    mpSelectButton->setToolTip("Select Resource");
-    mpSelectButton->setIcon(QIcon(":/icons/ArrowD_16px.svg"));
+    mpSelectButton->setToolTip(tr("Select Resource"));
+    mpSelectButton->setIcon(QIcon(QStringLiteral(":/icons/ArrowD_16px.svg")));
     mpSelectButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpSelectButton->setFixedSize(16, 16);
 
     mpClearButton = new QPushButton(this);
-    mpClearButton->setToolTip("Clear");
-    mpClearButton->setIcon(QIcon(":/icons/X_16px.svg"));
+    mpClearButton->setToolTip(tr("Clear"));
+    mpClearButton->setIcon(QIcon(QStringLiteral(":/icons/X_16px.svg")));
     mpClearButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     mpClearButton->setFixedSize(16, 16);
     
@@ -62,21 +59,21 @@ CResourceSelector::CResourceSelector(QWidget *pParent /*= 0*/)
     mpResNameButton->installEventFilter(this);
 
     // UI Connections
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
-    connect(mpResNameButton, SIGNAL(clicked()), this, SLOT(Find()));
-    connect(mpSelectButton, SIGNAL(clicked()), this, SLOT(Select()));
-    connect(mpClearButton, SIGNAL(clicked()), this, SLOT(Clear()));
-    connect(gpEdApp->ResourceBrowser(), SIGNAL(ResourceMoved(CResourceEntry*,CVirtualDirectory*,TString)), this, SLOT(OnResourceMoved(CResourceEntry*)));
+    connect(this, &CResourceSelector::customContextMenuRequested, this, &CResourceSelector::CreateContextMenu);
+    connect(mpResNameButton, &QPushButton::clicked, this, &CResourceSelector::Find);
+    connect(mpSelectButton, &QPushButton::clicked, this, &CResourceSelector::Select);
+    connect(mpClearButton, &QPushButton::clicked, this, &CResourceSelector::Clear);
+    connect(gpEdApp->ResourceBrowser(), &CResourceBrowser::ResourceMoved, this, &CResourceSelector::OnResourceMoved);
 
     // Set up context menu
-    mpEditAssetAction = new QAction("Edit", this);
-    mpCopyNameAction = new QAction("Copy name", this);
-    mpCopyPathAction = new QAction("Copy path", this);
+    mpEditAssetAction = new QAction(tr("Edit"), this);
+    mpCopyNameAction = new QAction(tr("Copy name"), this);
+    mpCopyPathAction = new QAction(tr("Copy path"), this);
 
     // Context menu connections
-    connect(mpEditAssetAction, SIGNAL(triggered()), this, SLOT(EditAsset()));
-    connect(mpCopyNameAction, SIGNAL(triggered()), this, SLOT(CopyName()));
-    connect(mpCopyPathAction, SIGNAL(triggered()), this, SLOT(CopyPath()));
+    connect(mpEditAssetAction, &QAction::triggered, this, &CResourceSelector::EditAsset);
+    connect(mpCopyNameAction, &QAction::triggered, this, &CResourceSelector::CopyName);
+    connect(mpCopyPathAction, &QAction::triggered, this, &CResourceSelector::CopyPath);
 
     UpdateUI();
 }

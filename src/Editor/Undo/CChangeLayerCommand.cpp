@@ -5,13 +5,13 @@ CChangeLayerCommand::CChangeLayerCommand(CWorldEditor *pEditor, const QList<CScr
     , mpNewLayer(pNewLayer)
     , mpEditor(pEditor)
 {
-    foreach (CScriptNode *pNode, rkNodeList)
+    for (CScriptNode *pNode : rkNodeList)
     {
         CScriptLayer *pLayer = pNode->Instance()->Layer();
 
         if (pLayer != pNewLayer && !mNodes.contains(pNode))
         {
-            mNodes << pNode;
+            mNodes.push_back(pNode);
             mOldLayers[pNode->ID()] = pLayer;
         }
     }
@@ -23,9 +23,10 @@ void CChangeLayerCommand::undo()
     QList<CSceneNode*> Nodes = mNodes.DereferenceList();
 
     QList<CScriptNode*> ScriptNodes;
-    foreach (CSceneNode *pNode, Nodes) ScriptNodes << static_cast<CScriptNode*>(pNode);
+    for (CSceneNode* pNode : Nodes)
+        ScriptNodes.push_back(static_cast<CScriptNode*>(pNode));
 
-    foreach (CScriptNode *pNode, ScriptNodes)
+    for (CScriptNode *pNode : ScriptNodes)
         pNode->Instance()->SetLayer(mOldLayers[pNode->ID()]);
 
     mpEditor->InstancesLayerChanged(ScriptNodes);
@@ -37,9 +38,10 @@ void CChangeLayerCommand::redo()
     QList<CSceneNode*> Nodes = mNodes.DereferenceList();
 
     QList<CScriptNode*> ScriptNodes;
-    foreach (CSceneNode *pNode, Nodes) ScriptNodes << static_cast<CScriptNode*>(pNode);
+    for (CSceneNode* pNode : Nodes)
+        ScriptNodes.push_back(static_cast<CScriptNode*>(pNode));
 
-    foreach (CScriptNode *pNode, ScriptNodes)
+    for (CScriptNode *pNode : ScriptNodes)
         pNode->Instance()->SetLayer(mpNewLayer);
 
     mpEditor->InstancesLayerChanged(ScriptNodes);

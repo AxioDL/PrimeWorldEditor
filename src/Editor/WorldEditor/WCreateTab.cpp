@@ -5,25 +5,21 @@
 #include "Editor/Undo/UndoCommands.h"
 #include <Core/Resource/Script/NGameList.h>
 
-WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
+WCreateTab::WCreateTab(CWorldEditor *pEditor, QWidget *pParent)
     : QWidget(pParent)
-    , ui(new Ui::WCreateTab)
-    , mpSpawnLayer(nullptr)
+    , ui(std::make_unique<Ui::WCreateTab>())
 {
     ui->setupUi(this);
 
     mpEditor = pEditor;
     mpEditor->Viewport()->installEventFilter(this);
 
-    connect(mpEditor, SIGNAL(LayersModified()), this, SLOT(OnLayersChanged()));
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
-    connect(ui->SpawnLayerComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(OnSpawnLayerChanged(int)));
+    connect(mpEditor, &CWorldEditor::LayersModified, this, &WCreateTab::OnLayersChanged);
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &WCreateTab::OnActiveProjectChanged);
+    connect(ui->SpawnLayerComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &WCreateTab::OnSpawnLayerChanged);
 }
 
-WCreateTab::~WCreateTab()
-{
-    delete ui;
-}
+WCreateTab::~WCreateTab() = default;
 
 bool WCreateTab::eventFilter(QObject *pObj, QEvent *pEvent)
 {
@@ -76,7 +72,7 @@ void WCreateTab::OnLayersChanged()
     ui->SpawnLayerComboBox->blockSignals(true);
     ui->SpawnLayerComboBox->clear();
 
-    for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+    for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
         ui->SpawnLayerComboBox->addItem(TO_QSTRING(pArea->ScriptLayer(iLyr)->Name()));
 
     ui->SpawnLayerComboBox->setCurrentIndex(0);
@@ -88,5 +84,5 @@ void WCreateTab::OnLayersChanged()
 void WCreateTab::OnSpawnLayerChanged(int LayerIndex)
 {
     CGameArea *pArea = mpEditor->ActiveArea();
-    mpSpawnLayer = pArea->ScriptLayer(LayerIndex);
+    mpSpawnLayer = pArea->ScriptLayer(static_cast<size_t>(LayerIndex));
 }

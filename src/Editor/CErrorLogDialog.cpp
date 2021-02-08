@@ -5,42 +5,40 @@
 
 CErrorLogDialog::CErrorLogDialog(QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::CErrorLogDialog)
+    , ui(std::make_unique<Ui::CErrorLogDialog>())
 {
     ui->setupUi(this);
-    connect(ui->CloseButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(ui->CloseButton, &QPushButton::clicked, this, &CErrorLogDialog::close);
 }
 
-CErrorLogDialog::~CErrorLogDialog()
-{
-    delete ui;
-}
+CErrorLogDialog::~CErrorLogDialog() = default;
 
 bool CErrorLogDialog::GatherErrors()
 {
     const TStringList& rkErrors = NLog::GetErrorLog();
-    if (rkErrors.empty()) return false;
+    if (rkErrors.empty())
+        return false;
 
     QString DialogString;
 
-    for (auto it = rkErrors.begin(); it != rkErrors.end(); it++)
+    for (const auto& rkError : rkErrors)
     {
-        QString Error = TO_QSTRING(*it);
+        QString Error = TO_QSTRING(rkError);
         QString LineColor;
 
-        if (Error.startsWith("ERROR: "))
-            LineColor = "#ff0000";
-        else if (Error.startsWith("Warning: "))
-            LineColor = "#ff8000";
+        if (Error.startsWith(QStringLiteral("ERROR: ")))
+            LineColor = QStringLiteral("#ff0000");
+        else if (Error.startsWith(QStringLiteral("Warning: ")))
+            LineColor = QStringLiteral("#ff8000");
 
         QString FullLine = Error;
 
         if (!LineColor.isEmpty())
         {
-            FullLine.prepend(QString("<font color=\"%1\">").arg(LineColor));
-            FullLine.append("</font>");
+            FullLine.prepend(QStringLiteral("<font color=\"%1\">").arg(LineColor));
+            FullLine.append(QStringLiteral("</font>"));
         }
-        FullLine.append("<br />");
+        FullLine.append(QStringLiteral("<br />"));
 
         DialogString += FullLine;
     }

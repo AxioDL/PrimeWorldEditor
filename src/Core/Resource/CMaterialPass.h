@@ -7,6 +7,7 @@
 #include "Core/Render/FRenderOptions.h"
 #include <Common/CFourCC.h>
 #include <Common/Hash/CFNV1A.h>
+#include <array>
 
 class CMaterial;
 
@@ -24,34 +25,34 @@ class CMaterialPass
     friend class CMaterialLoader;
     friend class CMaterialCooker;
 
-    CMaterial *mpParentMat;
-    CFourCC mPassType;
-    FPassSettings mSettings;
+    CMaterial *mpParentMat = nullptr;
+    CFourCC mPassType{"CUST"};
+    FPassSettings mSettings{EPassSettings::None};
 
-    ETevColorInput mColorInputs[4];
-    ETevAlphaInput mAlphaInputs[4];
-    ETevOutput mColorOutput;
-    ETevOutput mAlphaOutput;
-    ETevKSel mKColorSel;
-    ETevKSel mKAlphaSel;
-    ETevRasSel mRasSel;
-    float mTevColorScale;
-    float mTevAlphaScale;
-    uint32 mTexCoordSource; // Should maybe be an enum but worried about conflicts with EVertexDescriptionn
-    TResPtr<CTexture> mpTexture;
-    EUVAnimMode mAnimMode;
-    EUVConvolutedModeBType mAnimConvolutedModeBType;
-    float mAnimParams[8];
-    char mTexSwapComps[4];
-    bool mEnabled;
+    std::array<ETevColorInput, 4> mColorInputs{kZeroRGB, kZeroRGB, kZeroRGB, kZeroRGB};
+    std::array<ETevAlphaInput, 4> mAlphaInputs{kZeroAlpha, kZeroAlpha, kZeroAlpha, kZeroAlpha};
+    ETevOutput mColorOutput{kPrevReg};
+    ETevOutput mAlphaOutput{kPrevReg};
+    ETevKSel mKColorSel{kKonstOne};
+    ETevKSel mKAlphaSel{kKonstOne};
+    ETevRasSel mRasSel{kRasColorNull};
+    float mTevColorScale = 1.0f;
+    float mTevAlphaScale = 1.0f;
+    uint32 mTexCoordSource = 0xFF; // Should maybe be an enum but worried about conflicts with EVertexDescriptionn
+    TResPtr<CTexture> mpTexture{nullptr};
+    EUVAnimMode mAnimMode{EUVAnimMode::NoUVAnim};
+    EUVConvolutedModeBType mAnimConvolutedModeBType{};
+    std::array<float, 8> mAnimParams{};
+    std::array<char, 4> mTexSwapComps{'r', 'g', 'b', 'a'};
+    bool mEnabled = true;
 
 public:
-    CMaterialPass(CMaterial *pParent);
+    explicit CMaterialPass(CMaterial *pParent);
     ~CMaterialPass();
-    std::unique_ptr<CMaterialPass> Clone(CMaterial *pParent);
+    std::unique_ptr<CMaterialPass> Clone(CMaterial *pParent) const;
     void HashParameters(CFNV1A& rHash);
     void LoadTexture(uint32 PassIndex);
-    void SetAnimCurrent(FRenderOptions Options, uint32 PassIndex);
+    void SetAnimCurrent(FRenderOptions Options, size_t PassIndex);
 
     // Setters
     void SetType(CFourCC Type);
@@ -67,28 +68,28 @@ public:
     void SetTexCoordSource(uint32 Source);
     void SetTexture(CTexture *pTex);
     void SetAnimMode(EUVAnimMode Mode);
-    void SetAnimParam(uint32 ParamIndex, float Value);
-    void SetTexSwapComp(uint32 Comp, char Value);
+    void SetAnimParam(size_t ParamIndex, float Value);
+    void SetTexSwapComp(size_t Comp, char Value);
     void SetEnabled(bool Enabled);
 
     // Getters
-    inline CFourCC Type() const                             { return mPassType; }
-    inline TString NamedType() const                        { return PassTypeName(mPassType); }
-    inline ETevColorInput ColorInput(uint32 Input) const    { return mColorInputs[Input]; }
-    inline ETevAlphaInput AlphaInput(uint32 Input) const    { return mAlphaInputs[Input]; }
-    inline ETevOutput ColorOutput() const                   { return mColorOutput; }
-    inline ETevOutput AlphaOutput() const                   { return mAlphaOutput; }
-    inline ETevKSel KColorSel() const                       { return mKColorSel; }
-    inline ETevKSel KAlphaSel() const                       { return mKAlphaSel; }
-    inline ETevRasSel RasSel() const                        { return mRasSel; }
-    inline float TevColorScale() const                      { return mTevColorScale; }
-    inline float TevAlphaScale() const                      { return mTevAlphaScale; }
-    inline uint32 TexCoordSource() const                    { return mTexCoordSource; }
-    inline CTexture* Texture() const                        { return mpTexture; }
-    inline EUVAnimMode AnimMode() const                     { return mAnimMode; }
-    inline float AnimParam(uint32 ParamIndex) const         { return mAnimParams[ParamIndex]; }
-    inline char TexSwapComp(uint32 Comp) const              { return mTexSwapComps[Comp]; }
-    inline bool IsEnabled() const                           { return mEnabled; }
+    CFourCC Type() const                             { return mPassType; }
+    TString NamedType() const                        { return PassTypeName(mPassType); }
+    ETevColorInput ColorInput(size_t Input) const    { return mColorInputs[Input]; }
+    ETevAlphaInput AlphaInput(size_t Input) const    { return mAlphaInputs[Input]; }
+    ETevOutput ColorOutput() const                   { return mColorOutput; }
+    ETevOutput AlphaOutput() const                   { return mAlphaOutput; }
+    ETevKSel KColorSel() const                       { return mKColorSel; }
+    ETevKSel KAlphaSel() const                       { return mKAlphaSel; }
+    ETevRasSel RasSel() const                        { return mRasSel; }
+    float TevColorScale() const                      { return mTevColorScale; }
+    float TevAlphaScale() const                      { return mTevAlphaScale; }
+    uint32 TexCoordSource() const                    { return mTexCoordSource; }
+    CTexture* Texture() const                        { return mpTexture; }
+    EUVAnimMode AnimMode() const                     { return mAnimMode; }
+    float AnimParam(size_t ParamIndex) const         { return mAnimParams[ParamIndex]; }
+    char TexSwapComp(size_t Comp) const              { return mTexSwapComps[Comp]; }
+    bool IsEnabled() const                           { return mEnabled; }
 
     // Static
     static TString PassTypeName(CFourCC Type);

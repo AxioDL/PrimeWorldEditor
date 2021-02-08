@@ -61,19 +61,19 @@ struct SQuickplayParameters
     void Write(const TString& kPath) const
     {
         CFileOutStream Stream(kPath, EEndian::BigEndian);
-        ASSERT( Stream.IsValid() );
+        ASSERT(Stream.IsValid());
 
         // Magic/Version
-        Stream.WriteLong(kParmsMagic);
-        Stream.WriteLong(kParmsVersion);
+        Stream.WriteULong(kParmsMagic);
+        Stream.WriteULong(kParmsVersion);
 
         // Parameters
-        Stream.WriteLong( Features.ToInt32() );
-        Stream.WriteLong( BootWorldAssetID );
-        Stream.WriteLong( BootAreaAssetID );
-        Stream.WriteLong( 0 );
-        Stream.WriteLongLong( BootAreaLayerFlags );
-        SpawnTransform.Write( Stream );
+        Stream.WriteULong(Features.ToInt32());
+        Stream.WriteULong(BootWorldAssetID);
+        Stream.WriteULong(BootAreaAssetID);
+        Stream.WriteULong(0);
+        Stream.WriteULongLong(BootAreaLayerFlags);
+        SpawnTransform.Write(Stream);
 
         Stream.Close();
     }
@@ -88,7 +88,8 @@ class CQuickplayRelay : public QObject
     Q_OBJECT
 
 public:
-    CQuickplayRelay() {}
+    CQuickplayRelay() = default;
+
 public slots:
     void QuickplayStarted();
     void QuickplayFinished(int ReturnCode);
@@ -115,6 +116,9 @@ bool SetDolphinPath(QWidget* pParentWidget,
 
 /** Retrieves the user path to Dolphin. */
 QString GetDolphinPath();
+
+/** Prompt user to select dolphin binary. */
+QString AskForDolphinPath(QWidget* pParentWidget);
 
 /** Saves/retrieves the given quickplay settings to/from QSettings. */
 void SaveQuickplayParameters(const SQuickplayParameters& kParms);

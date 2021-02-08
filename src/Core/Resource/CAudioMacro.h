@@ -12,24 +12,24 @@ class CAudioMacro : public CResource
     std::vector<CAssetID> mSamples;
 
 public:
-    CAudioMacro(CResourceEntry *pEntry = 0)
+    explicit CAudioMacro(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
     {}
 
-    virtual CDependencyTree* BuildDependencyTree() const
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
-        CDependencyTree *pTree = new CDependencyTree();
+        auto pTree = std::make_unique<CDependencyTree>();
 
-        for (uint32 iSamp = 0; iSamp < mSamples.size(); iSamp++)
-            pTree->AddDependency(mSamples[iSamp]);
+        for (const auto& sample : mSamples)
+            pTree->AddDependency(sample);
 
         return pTree;
     }
 
     // Accessors
-    inline TString MacroName() const                    { return mMacroName; }
-    inline uint32 NumSamples() const                    { return mSamples.size(); }
-    inline CAssetID SampleByIndex(uint32 Index) const   { return mSamples[Index]; }
+    TString MacroName() const                    { return mMacroName; }
+    size_t NumSamples() const                    { return mSamples.size(); }
+    CAssetID SampleByIndex(size_t Index) const   { return mSamples[Index]; }
 };
 
 #endif // CAUDIOMACRO_H

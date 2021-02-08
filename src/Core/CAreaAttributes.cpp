@@ -7,9 +7,7 @@ CAreaAttributes::CAreaAttributes(CScriptObject *pObj)
     SetObject(pObj);
 }
 
-CAreaAttributes::~CAreaAttributes()
-{
-}
+CAreaAttributes::~CAreaAttributes() = default;
 
 void CAreaAttributes::SetObject(CScriptObject *pObj)
 {

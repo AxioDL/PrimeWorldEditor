@@ -9,7 +9,8 @@
 #include <Common/Flags.h>
 #include <Common/TString.h>
 #include <map>
-#include <nod/nod.hpp>
+#include <memory>
+#include <nod/DiscBase.hpp>
 
 enum class EDiscType
 {
@@ -21,7 +22,7 @@ enum class EDiscType
 class CGameExporter
 {
     // Project Data
-    CGameProject *mpProject;
+    std::unique_ptr<CGameProject> mpProject;
     TString mProjectPath;
     CResourceStore *mpStore;
     EGame mGame;
@@ -38,15 +39,15 @@ class CGameExporter
     TString mWorldsDirName;
 
     // Files
-    nod::DiscBase *mpDisc;
+    nod::DiscBase *mpDisc = nullptr;
     EDiscType mDiscType;
     bool mFrontEnd;
 
     // Resources
     TStringList mPaks;
     std::map<CAssetID, bool> mAreaDuplicateMap;
-    CAssetNameMap *mpNameMap;
-    CGameInfo *mpGameInfo;
+    CAssetNameMap *mpNameMap = nullptr;
+    CGameInfo *mpGameInfo = nullptr;
 
     struct SResourceInstance
     {
@@ -61,7 +62,7 @@ class CGameExporter
     std::map<CAssetID, SResourceInstance> mResourceMap;
 
     // Progress
-    IProgressNotifier *mpProgress;
+    IProgressNotifier *mpProgress = nullptr;
 
 public:
     enum EExportStep
@@ -76,9 +77,9 @@ public:
     CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
     bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress);
     void LoadResource(const CAssetID& rkID, std::vector<uint8>& rBuffer);
-    bool ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot);
+    bool ShouldExportDiscNode(const nod::Node *pkNode, bool IsInRoot) const;
 
-    inline TString ProjectPath() const  { return mProjectPath; }
+    TString ProjectPath() const  { return mProjectPath; }
 
 protected:
     bool ExtractDiscData();
@@ -91,7 +92,7 @@ protected:
     TString MakeWorldName(CAssetID WorldID);
 
     // Convenience Functions
-    inline SResourceInstance* FindResourceInstance(const CAssetID& rkID)
+    SResourceInstance* FindResourceInstance(const CAssetID& rkID)
     {
         uint64 IntegralID = rkID.ToLongLong();
         auto Found = mResourceMap.find(IntegralID);

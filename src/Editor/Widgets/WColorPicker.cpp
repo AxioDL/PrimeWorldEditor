@@ -6,7 +6,6 @@
 
 WColorPicker::WColorPicker(QWidget *parent)
     : QWidget(parent)
-    , mColor(Qt::transparent)
 {
 }
 
@@ -67,8 +66,8 @@ void WColorPicker::mouseReleaseEvent(QMouseEvent *pEvent)
         QColorDialog ColorPick(this);
         ColorPick.setOptions(QColorDialog::ShowAlphaChannel);
         ColorPick.setCurrentColor(mColor);
-        connect(&ColorPick, SIGNAL(currentColorChanged(QColor)), this, SLOT(DialogColorChanged(QColor)));
-        connect(&ColorPick, SIGNAL(rejected()), this, SLOT(DialogRejected()));
+        connect(&ColorPick, &QColorDialog::currentColorChanged, this, &WColorPicker::DialogColorChanged);
+        connect(&ColorPick, &QColorDialog::rejected, this, &WColorPicker::DialogRejected);
         int Result = ColorPick.exec();
 
         if (Result)
@@ -79,7 +78,7 @@ void WColorPicker::mouseReleaseEvent(QMouseEvent *pEvent)
     }
 }
 
-QColor WColorPicker::Color()
+QColor WColorPicker::Color() const
 {
     return mColor;
 }

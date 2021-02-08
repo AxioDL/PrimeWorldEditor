@@ -3,24 +3,24 @@
 
 #include "IProperty.h"
 
-class CAnimationProperty : public TSerializeableTypedProperty< uint32, EPropertyType::Animation >
+class CAnimationProperty : public TSerializeableTypedProperty<uint32, EPropertyType::Animation>
 {
     friend class IProperty;
 
 protected:
-    CAnimationProperty(EGame Game)
+    explicit CAnimationProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
     {}
 
 public:
-    virtual void SerializeValue(void* pData, IArchive& rArc) const
+    void SerializeValue(void* pData, IArchive& rArc) const override
     {
-        rArc.SerializePrimitive( (uint32&) ValueRef(pData), SH_HexDisplay );
+        rArc.SerializePrimitive((uint32&)ValueRef(pData), SH_HexDisplay);
     }
 
-    virtual TString ValueAsString(void* pData) const
+    TString ValueAsString(void* pData) const override
     {
-        return TString::HexString( (uint32) Value(pData) );
+        return TString::HexString(static_cast<uint32>(Value(pData)));
     }
 };
 

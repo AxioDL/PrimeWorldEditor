@@ -3,9 +3,7 @@
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
-CWorldLoader::CWorldLoader()
-{
-}
+CWorldLoader::CWorldLoader() = default;
 
 void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 {
@@ -16,41 +14,48 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     // Header
     if (mVersion < EGame::CorruptionProto)
     {
-        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), EResourceType::StringTable);
-        if (mVersion == EGame::Echoes) mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadLong(), EResourceType::StringTable);
-        if (mVersion >= EGame::Echoes) mpWorld->mTempleKeyWorldIndex = rMLVL.ReadLong();
-        if (mVersion >= EGame::Prime) mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLong(), EResourceType::SaveWorld);
-        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLong(), EResourceType::Model);
+        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadULong(), EResourceType::StringTable);
+
+        if (mVersion == EGame::Echoes)
+            mpWorld->mpDarkWorldName = gpResourceStore->LoadResource(rMLVL.ReadULong(), EResourceType::StringTable);
+
+        if (mVersion >= EGame::Echoes)
+            mpWorld->mTempleKeyWorldIndex = rMLVL.ReadULong();
+
+        if (mVersion >= EGame::Prime)
+            mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadULong(), EResourceType::SaveWorld);
+
+        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadULong(), EResourceType::Model);
     }
 
     else
     {
-        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), EResourceType::StringTable);
+        mpWorld->mpWorldName = gpResourceStore->LoadResource(rMLVL.ReadULongLong(), EResourceType::StringTable);
         rMLVL.Seek(0x4, SEEK_CUR); // Skipping unknown value
-        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), EResourceType::SaveWorld);
-        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), EResourceType::Model);
+        mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadULongLong(), EResourceType::SaveWorld);
+        mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource(rMLVL.ReadULongLong(), EResourceType::Model);
     }
 
     // Memory relays - only in MP1
     if (mVersion == EGame::Prime)
     {
-        uint32 NumMemoryRelays = rMLVL.ReadLong();
+        const uint32 NumMemoryRelays = rMLVL.ReadULong();
         mpWorld->mMemoryRelays.reserve(NumMemoryRelays);
 
         for (uint32 iMem = 0; iMem < NumMemoryRelays; iMem++)
         {
-            CWorld::SMemoryRelay MemRelay;
-            MemRelay.InstanceID = rMLVL.ReadLong();
-            MemRelay.TargetID = rMLVL.ReadLong();
-            MemRelay.Message = rMLVL.ReadShort();
+            auto& MemRelay = mpWorld->mMemoryRelays.emplace_back();
+            MemRelay.InstanceID = rMLVL.ReadULong();
+            MemRelay.TargetID = rMLVL.ReadULong();
+            MemRelay.Message = rMLVL.ReadUShort();
             MemRelay.Active = rMLVL.ReadBool();
-            mpWorld->mMemoryRelays.push_back(MemRelay);
         }
     }
 
     // Areas - here's the real meat of the file
-    uint32 NumAreas = rMLVL.ReadLong();
-    if (mVersion == EGame::Prime) rMLVL.Seek(0x4, SEEK_CUR);
+    const uint32 NumAreas = rMLVL.ReadULong();
+    if (mVersion == EGame::Prime)
+        rMLVL.Seek(0x4, SEEK_CUR);
     mpWorld->mAreas.resize(NumAreas);
 
     for (uint32 iArea = 0; iArea < NumAreas; iArea++)
@@ -64,65 +69,65 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
         pArea->AreaID = CAssetID(rMLVL, mVersion);
 
         // Attached areas
-        uint32 NumAttachedAreas = rMLVL.ReadLong();
+        const uint32 NumAttachedAreas = rMLVL.ReadULong();
         pArea->AttachedAreaIDs.reserve(NumAttachedAreas);
         for (uint32 iAttached = 0; iAttached < NumAttachedAreas; iAttached++)
-            pArea->AttachedAreaIDs.push_back( rMLVL.ReadShort() );
+            pArea->AttachedAreaIDs.push_back(rMLVL.ReadUShort());
 
         // Skip dependency list - this is very fast to regenerate so there's no use in caching it
         if (mVersion < EGame::CorruptionProto)
         {
             rMLVL.Seek(0x4, SEEK_CUR);
-            uint32 NumDependencies = rMLVL.ReadLong();
+            const uint32 NumDependencies = rMLVL.ReadULong();
             rMLVL.Seek(NumDependencies * 8, SEEK_CUR);
 
-            uint32 NumDependencyOffsets = rMLVL.ReadLong();
+            const uint32 NumDependencyOffsets = rMLVL.ReadULong();
             rMLVL.Seek(NumDependencyOffsets * 4, SEEK_CUR);
         }
 
         // Docks
-        uint32 NumDocks = rMLVL.ReadLong();
+        const uint32 NumDocks = rMLVL.ReadULong();
         pArea->Docks.resize(NumDocks);
 
         for (uint32 iDock = 0; iDock < NumDocks; iDock++)
         {
-            uint32 NumConnectingDocks = rMLVL.ReadLong();
+            const uint32 NumConnectingDocks = rMLVL.ReadULong();
 
             CWorld::SArea::SDock* pDock = &pArea->Docks[iDock];
             pDock->ConnectingDocks.reserve(NumConnectingDocks);
 
             for (uint32 iConnect = 0; iConnect < NumConnectingDocks; iConnect++)
             {
-                CWorld::SArea::SDock::SConnectingDock ConnectingDock;
-                ConnectingDock.AreaIndex = rMLVL.ReadLong();
-                ConnectingDock.DockIndex = rMLVL.ReadLong();
-                pDock->ConnectingDocks.push_back(ConnectingDock);
+                auto& ConnectingDock = pDock->ConnectingDocks.emplace_back();
+                ConnectingDock.AreaIndex = rMLVL.ReadULong();
+                ConnectingDock.DockIndex = rMLVL.ReadULong();
+               
             }
 
-            uint32 NumCoordinates = rMLVL.ReadLong();
+            const uint32 NumCoordinates = rMLVL.ReadULong();
             ASSERT(NumCoordinates == 4);
             pDock->DockCoordinates.resize(NumCoordinates);
 
-            for (uint32 iCoord = 0; iCoord < NumCoordinates; iCoord++)
-                pDock->DockCoordinates[iCoord] = CVector3f(rMLVL);
+            for (auto& coordinate : pDock->DockCoordinates)
+                coordinate = CVector3f(rMLVL);
         }
 
         // Rels
-        if ( (mVersion == EGame::EchoesDemo) || (mVersion == EGame::Echoes) )
+        if (mVersion == EGame::EchoesDemo || mVersion == EGame::Echoes)
         {
-            uint32 NumRels = rMLVL.ReadLong();
+            const uint32 NumRels = rMLVL.ReadULong();
             pArea->RelFilenames.resize(NumRels);
 
-            for (uint32 iRel = 0; iRel < NumRels; iRel++)
-                pArea->RelFilenames[iRel] = rMLVL.ReadString();
+            for (auto& filename : pArea->RelFilenames)
+                filename = rMLVL.ReadString();
 
             if (mVersion == EGame::Echoes)
             {
-                uint32 NumRelOffsets = rMLVL.ReadLong(); // Don't know what these offsets correspond to
+                const uint32 NumRelOffsets = rMLVL.ReadULong(); // Don't know what these offsets correspond to
                 pArea->RelOffsets.resize(NumRelOffsets);
 
-                for (uint32 iOff = 0; iOff < NumRelOffsets; iOff++)
-                    pArea->RelOffsets[iOff] = rMLVL.ReadLong();
+                for (auto& offset : pArea->RelOffsets)
+                    offset = rMLVL.ReadULong();
             }
         }
 
@@ -132,13 +137,13 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     }
 
     // MapWorld
-    mpWorld->mpMapWorld = gpResourceStore->LoadResource( CAssetID(rMLVL, mVersion), EResourceType::MapWorld );
+    mpWorld->mpMapWorld = gpResourceStore->LoadResource(CAssetID(rMLVL, mVersion), EResourceType::MapWorld);
     rMLVL.Seek(0x5, SEEK_CUR); // Unknown values which are always 0
 
     // Audio Groups - we don't need this info as we regenerate it on cook
     if (mVersion == EGame::Prime)
     {
-        uint32 NumAudioGrps = rMLVL.ReadLong();
+        const uint32 NumAudioGrps = rMLVL.ReadULong();
         rMLVL.Seek(0x8 * NumAudioGrps, SEEK_CUR);
         rMLVL.Seek(0x1, SEEK_CUR); // Unknown values which are always 0
     }
@@ -148,22 +153,23 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     for (uint32 iArea = 0; iArea < NumAreas; iArea++)
     {
         CWorld::SArea* pArea = &mpWorld->mAreas[iArea];
-        uint32 NumLayers = rMLVL.ReadLong();
-        if (NumLayers != pArea->Layers.size()) pArea->Layers.resize(NumLayers);
+        const uint32 NumLayers = rMLVL.ReadULong();
+        if (NumLayers != pArea->Layers.size())
+            pArea->Layers.resize(NumLayers);
 
-        uint64 LayerFlags = rMLVL.ReadLongLong();
+        const uint64 LayerFlags = rMLVL.ReadULongLong();
         for (uint32 iLayer = 0; iLayer < NumLayers; iLayer++)
             pArea->Layers[iLayer].Active = (((LayerFlags >> iLayer) & 0x1) == 1);
     }
 
     // Layer names
     rMLVL.Seek(0x4, SEEK_CUR); // Skipping redundant layer count
-    for (uint32 iArea = 0; iArea < NumAreas; iArea++)
+    for (size_t iArea = 0; iArea < NumAreas; iArea++)
     {
         CWorld::SArea* pArea = &mpWorld->mAreas[iArea];
-        uint32 NumLayers = pArea->Layers.size();
+        const size_t NumLayers = pArea->Layers.size();
 
-        for (uint32 iLayer = 0; iLayer < NumLayers; iLayer++)
+        for (size_t iLayer = 0; iLayer < NumLayers; iLayer++)
             pArea->Layers[iLayer].LayerName = rMLVL.ReadString();
     }
 
@@ -171,12 +177,12 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
     if (mVersion >= EGame::Corruption)
     {
         rMLVL.Seek(0x4, SEEK_CUR); // Skipping redundant layer count
-        for (uint32 iArea = 0; iArea < NumAreas; iArea++)
+        for (size_t iArea = 0; iArea < NumAreas; iArea++)
         {
             CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
-            uint32 NumLayers = pArea->Layers.size();
+            const size_t NumLayers = pArea->Layers.size();
 
-            for (uint32 iLayer = 0; iLayer < NumLayers; iLayer++)
+            for (size_t iLayer = 0; iLayer < NumLayers; iLayer++)
                 pArea->Layers[iLayer].LayerStateID = CSavedStateID(rMLVL);
         }
     }
@@ -186,7 +192,7 @@ void CWorldLoader::LoadPrimeMLVL(IInputStream& rMLVL)
 
 void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
 {
-    mpWorld->mpWorldName = gpResourceStore->LoadResource<CStringTable>(rMLVL.ReadLongLong());
+    mpWorld->mpWorldName = gpResourceStore->LoadResource<CStringTable>(rMLVL.ReadULongLong());
 
     CWorld::STimeAttackData& rData = mpWorld->mTimeAttackData;
     rData.HasTimeAttack = rMLVL.ReadBool();
@@ -200,62 +206,57 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
         rData.ShinyGoldTime = rMLVL.ReadFloat();
     }
 
-    mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadLongLong(), EResourceType::SaveWorld);
-    mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource<CModel>(rMLVL.ReadLongLong());
+    mpWorld->mpSaveWorld = gpResourceStore->LoadResource(rMLVL.ReadULongLong(), EResourceType::SaveWorld);
+    mpWorld->mpDefaultSkybox = gpResourceStore->LoadResource<CModel>(rMLVL.ReadULongLong());
 
     // Areas
-    uint32 NumAreas = rMLVL.ReadLong();
+    const uint32 NumAreas = rMLVL.ReadULong();
     mpWorld->mAreas.resize(NumAreas);
 
-    for (uint32 iArea = 0; iArea < NumAreas; iArea++)
+    for (auto& area : mpWorld->mAreas)
     {
         // Area header
-        CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
-
-        pArea->pAreaName = gpResourceStore->LoadResource<CStringTable>(rMLVL.ReadLongLong());
-        pArea->Transform = CTransform4f(rMLVL);
-        pArea->AetherBox = CAABox(rMLVL);
-        pArea->AreaResID = rMLVL.ReadLongLong();
-        pArea->AreaID = rMLVL.ReadLongLong();
+        area.pAreaName = gpResourceStore->LoadResource<CStringTable>(rMLVL.ReadULongLong());
+        area.Transform = CTransform4f(rMLVL);
+        area.AetherBox = CAABox(rMLVL);
+        area.AreaResID = rMLVL.ReadULongLong();
+        area.AreaID = rMLVL.ReadULongLong();
 
         rMLVL.Seek(0x4, SEEK_CUR);
-        pArea->InternalName = rMLVL.ReadString();
+        area.InternalName = rMLVL.ReadString();
     }
 
     // Layer flags
     rMLVL.Seek(0x4, SEEK_CUR); // Skipping redundant area count
 
-    for (uint32 iArea = 0; iArea < NumAreas; iArea++)
+    for (auto& area : mpWorld->mAreas)
     {
-        CWorld::SArea* pArea = &mpWorld->mAreas[iArea];
-        uint32 NumLayers = rMLVL.ReadLong();
-        pArea->Layers.resize(NumLayers);
+        const uint32 NumLayers = rMLVL.ReadULong();
+        area.Layers.resize(NumLayers);
 
-        uint64 LayerFlags = rMLVL.ReadLongLong();
+        const uint64 LayerFlags = rMLVL.ReadULongLong();
         for (uint32 iLayer = 0; iLayer < NumLayers; iLayer++)
-            pArea->Layers[iLayer].Active = (((LayerFlags >> iLayer) & 0x1) == 1);
+            area.Layers[iLayer].Active = (((LayerFlags >> iLayer) & 0x1) == 1);
     }
 
     // Layer names
     rMLVL.Seek(0x4, SEEK_CUR); // Skipping redundant layer count
-    for (uint32 iArea = 0; iArea < NumAreas; iArea++)
+    for (auto& area : mpWorld->mAreas)
     {
-        CWorld::SArea* pArea = &mpWorld->mAreas[iArea];
-        uint32 NumLayers = pArea->Layers.size();
+        const size_t NumLayers = area.Layers.size();
 
-        for (uint32 iLayer = 0; iLayer < NumLayers; iLayer++)
-            pArea->Layers[iLayer].LayerName = rMLVL.ReadString();
+        for (size_t iLayer = 0; iLayer < NumLayers; iLayer++)
+            area.Layers[iLayer].LayerName = rMLVL.ReadString();
     }
 
     // Layer state IDs
     rMLVL.Seek(0x4, SEEK_CUR); // Skipping redundant layer count
-    for (uint32 iArea = 0; iArea < NumAreas; iArea++)
+    for (auto& area : mpWorld->mAreas)
     {
-        CWorld::SArea *pArea = &mpWorld->mAreas[iArea];
-        uint32 NumLayers = pArea->Layers.size();
+        const size_t NumLayers = area.Layers.size();
 
         for (uint32 iLayer = 0; iLayer < NumLayers; iLayer++)
-            pArea->Layers[iLayer].LayerStateID = CSavedStateID(rMLVL);
+            area.Layers[iLayer].LayerStateID = CSavedStateID(rMLVL);
     }
 
     // Last part of the file is layer name offsets, but we don't need it
@@ -263,32 +264,33 @@ void CWorldLoader::LoadReturnsMLVL(IInputStream& rMLVL)
 
 void CWorldLoader::GenerateEditorData()
 {
-    CGameInfo *pGameInfo = mpWorld->Entry()->ResourceStore()->Project()->GameInfo();
+    const CGameInfo *pGameInfo = mpWorld->Entry()->ResourceStore()->Project()->GameInfo();
 
-    if (mVersion <= EGame::Prime)
+    if (mVersion > EGame::Prime)
+        return;
+
+    for (size_t iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
     {
-        for (uint32 iArea = 0; iArea < mpWorld->NumAreas(); iArea++)
-        {
-            CWorld::SArea& rArea = mpWorld->mAreas[iArea];
-            rArea.InternalName = pGameInfo->GetAreaName(rArea.AreaResID);
-            ASSERT(!rArea.InternalName.IsEmpty());
-        }
+        CWorld::SArea& rArea = mpWorld->mAreas[iArea];
+        rArea.InternalName = pGameInfo->GetAreaName(rArea.AreaResID);
+        ASSERT(!rArea.InternalName.IsEmpty());
     }
 }
 
-CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
+std::unique_ptr<CWorld> CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
 {
-    if (!rMLVL.IsValid()) return nullptr;
+    if (!rMLVL.IsValid())
+        return nullptr;
 
-    uint32 Magic = rMLVL.ReadLong();
+    const uint32 Magic = rMLVL.ReadULong();
     if (Magic != 0xDEAFBABE)
     {
         errorf("%s: Invalid MLVL magic: 0x%08X", *rMLVL.GetSourceString(), Magic);
         return nullptr;
     }
 
-    uint32 FileVersion = rMLVL.ReadLong();
-    EGame Version = GetFormatVersion(FileVersion);
+    const uint32 FileVersion = rMLVL.ReadULong();
+    const EGame Version = GetFormatVersion(FileVersion);
     if (Version == EGame::Invalid)
     {
         errorf("%s: Unsupported MLVL version: 0x%X", *rMLVL.GetSourceString(), FileVersion);
@@ -296,8 +298,10 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
     }
 
     // Filestream is valid, magic+version are valid; everything seems good!
+    auto ptr = std::make_unique<CWorld>(pEntry);
+
     CWorldLoader Loader;
-    Loader.mpWorld = new CWorld(pEntry);
+    Loader.mpWorld = ptr.get();
     Loader.mVersion = Version;
 
     if (Version != EGame::DKCReturns)
@@ -306,7 +310,7 @@ CWorld* CWorldLoader::LoadMLVL(IInputStream& rMLVL, CResourceEntry *pEntry)
         Loader.LoadReturnsMLVL(rMLVL);
 
     Loader.GenerateEditorData();
-    return Loader.mpWorld;
+    return ptr;
 }
 
 EGame CWorldLoader::GetFormatVersion(uint32 Version)

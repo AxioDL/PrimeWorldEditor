@@ -7,6 +7,7 @@
 #include "Core/Resource/Script/CLink.h"
 #include <Common/EGame.h>
 #include <Common/FileIO.h>
+#include <memory>
 
 class CAreaLoader
 {
@@ -14,41 +15,44 @@ class CAreaLoader
 
     // Area data
     TResPtr<CGameArea> mpArea;
-    IInputStream *mpMREA;
-    CSectionMgrIn *mpSectionMgr;
-    EGame mVersion;
-    uint32 mNumMeshes;
-    uint32 mNumLayers;
+    IInputStream *mpMREA = nullptr;
+    CSectionMgrIn *mpSectionMgr = nullptr;
+    EGame mVersion{};
+    uint32 mNumMeshes = 0;
+    uint32 mNumLayers = 0;
 
     // Object connections
     std::unordered_map<uint32, std::vector<CLink*>> mConnectionMap;
 
     // Compression
-    uint8 *mpDecmpBuffer;
-    bool mHasDecompressedBuffer;
+    uint8 *mpDecmpBuffer = nullptr;
+    bool mHasDecompressedBuffer = false;
     std::vector<SCompressedCluster> mClusters;
-    uint32 mTotalDecmpSize;
+    uint32 mTotalDecmpSize = 0;
 
     // Block numbers
-    uint32 mGeometryBlockNum;
-    uint32 mScriptLayerBlockNum;
-    uint32 mCollisionBlockNum;
-    uint32 mUnknownBlockNum;
-    uint32 mLightsBlockNum;
-    uint32 mVisiBlockNum;
-    uint32 mPathBlockNum;
-    uint32 mOctreeBlockNum;
-    uint32 mScriptGeneratorBlockNum;
-    uint32 mFFFFBlockNum;
-    uint32 mPTLABlockNum;
-    uint32 mEGMCBlockNum;
-    uint32 mBoundingBoxesBlockNum;
-    uint32 mDependenciesBlockNum;
-    uint32 mGPUBlockNum;
-    uint32 mRSOBlockNum;
+    uint32 mGeometryBlockNum = UINT32_MAX;
+    uint32 mScriptLayerBlockNum = UINT32_MAX;
+    uint32 mCollisionBlockNum = UINT32_MAX;
+    uint32 mUnknownBlockNum = UINT32_MAX;
+    uint32 mLightsBlockNum = UINT32_MAX;
+    uint32 mVisiBlockNum = UINT32_MAX;
+    uint32 mPathBlockNum = UINT32_MAX;
+    uint32 mOctreeBlockNum = UINT32_MAX;
+    uint32 mScriptGeneratorBlockNum = UINT32_MAX;
+    uint32 mFFFFBlockNum = UINT32_MAX;
+    uint32 mPTLABlockNum = UINT32_MAX;
+    uint32 mEGMCBlockNum = UINT32_MAX;
+    uint32 mBoundingBoxesBlockNum = UINT32_MAX;
+    uint32 mDependenciesBlockNum = UINT32_MAX;
+    uint32 mGPUBlockNum = UINT32_MAX;
+    uint32 mRSOBlockNum = UINT32_MAX;
 
     struct SCompressedCluster {
-        uint32 BufferSize, DecompressedSize, CompressedSize, NumSections;
+        uint32 BufferSize;
+        uint32 DecompressedSize;
+        uint32 CompressedSize;
+        uint32 NumSections;
     };
 
     CAreaLoader();
@@ -81,7 +85,7 @@ class CAreaLoader
     void SetUpObjects(CScriptLayer *pGenLayer);
 
 public:
-    static CGameArea* LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry);
+    static std::unique_ptr<CGameArea> LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry);
     static EGame GetFormatVersion(uint32 Version);
 };
 

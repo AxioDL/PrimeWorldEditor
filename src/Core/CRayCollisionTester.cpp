@@ -6,14 +6,11 @@ CRayCollisionTester::CRayCollisionTester(const CRay& rkRay)
 {
 }
 
-CRayCollisionTester::~CRayCollisionTester()
-{
-}
+CRayCollisionTester::~CRayCollisionTester() = default;
 
 void CRayCollisionTester::AddNode(CSceneNode *pNode, uint32 ComponentIndex, float Distance)
 {
-    mBoxIntersectList.emplace_back(SRayIntersection());
-    SRayIntersection& rIntersection = mBoxIntersectList.back();
+    SRayIntersection& rIntersection = mBoxIntersectList.emplace_back();
     rIntersection.pNode = pNode;
     rIntersection.ComponentIndex = ComponentIndex;
     rIntersection.Distance = Distance;
@@ -24,46 +21,44 @@ void CRayCollisionTester::AddNodeModel(CSceneNode *pNode, CBasicModel *pModel)
     // Check each of the model's surfaces and queue them for further testing if they hit
     for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
     {
-        std::pair<bool,float> SurfResult = pModel->GetSurfaceAABox(iSurf).Transformed(pNode->Transform()).IntersectsRay(mRay);
+        const auto [intersects, distance] = pModel->GetSurfaceAABox(iSurf).Transformed(pNode->Transform()).IntersectsRay(mRay);
 
-        if (SurfResult.first)
-            AddNode(pNode, iSurf, SurfResult.second);
+        if (intersects)
+            AddNode(pNode, iSurf, distance);
     }
 }
 
 SRayIntersection CRayCollisionTester::TestNodes(const SViewInfo& rkViewInfo)
 {
     // Sort nodes by distance from ray
-    mBoxIntersectList.sort(
-        [](const SRayIntersection& rkLeft, const SRayIntersection& rkRight) -> bool
-    {
-        return (rkLeft.Distance < rkRight.Distance);
+    mBoxIntersectList.sort([](const auto& rkLeft, const auto& rkRight) {
+        return rkLeft.Distance < rkRight.Distance;
     });
 
     // Now do more precise intersection tests on geometry
     SRayIntersection Result;
     Result.Hit = false;
 
-    for (auto iNode = mBoxIntersectList.begin(); iNode != mBoxIntersectList.end(); iNode++)
+    for (const auto& rIntersection : mBoxIntersectList)
     {
-        SRayIntersection& rIntersection = *iNode;
-
         // If we have a result, and the distance for the bounding box hit is further than the current result distance
         // then we know that every remaining node is further away and there is no chance of finding a closer hit.
-        if ((Result.Hit) && (Result.Distance < rIntersection.Distance))
+        if (Result.Hit && Result.Distance < rIntersection.Distance)
             break;
 
         // Otherwise, more intersection tests...
         CSceneNode *pNode = rIntersection.pNode;
-        SRayIntersection MidResult = pNode->RayNodeIntersectTest(mRay, rIntersection.ComponentIndex, rkViewInfo);
+        const SRayIntersection MidResult = pNode->RayNodeIntersectTest(mRay, rIntersection.ComponentIndex, rkViewInfo);
 
         if (MidResult.Hit)
         {
-            if ((!Result.Hit) || (MidResult.Distance <= Result.Distance))
+            if (!Result.Hit || MidResult.Distance <= Result.Distance)
                 Result = MidResult;
         }
     }
 
-    if (Result.Hit) Result.HitPoint = mRay.PointOnRay(Result.Distance);
+    if (Result.Hit)
+        Result.HitPoint = mRay.PointOnRay(Result.Distance);
+
     return Result;
 }

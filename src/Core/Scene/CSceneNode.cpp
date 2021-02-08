@@ -13,21 +13,9 @@ uint32 CSceneNode::smNumNodes = 0;
 CColor CSceneNode::skSelectionTint = CColor::Integral(39, 154, 167);
 
 CSceneNode::CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent)
-    : mpScene(pScene)
+    : _mID(NodeID)
     , mpParent(pParent)
-    , _mID(NodeID)
-    , mPosition(CVector3f::skZero)
-    , mRotation(CQuaternion::skIdentity)
-    , mScale(CVector3f::skOne)
-    , _mTransformDirty(true)
-    , _mInheritsPosition(true)
-    , _mInheritsRotation(true)
-    , _mInheritsScale(true)
-    , mLightLayerIndex(0)
-    , mLightCount(0)
-    , mMouseHovering(false)
-    , mSelected(false)
-    , mVisible(true)
+    , mpScene(pScene)
 {
     smNumNodes++;
 
@@ -38,15 +26,14 @@ CSceneNode::CSceneNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent)
 CSceneNode::~CSceneNode()
 {
     smNumNodes--;
-    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-        delete (*it);
+    DeleteChildren();
 }
 
 // ************ VIRTUAL ************
 void CSceneNode::DrawSelection()
 {
     // Default implementation for virtual function
-    CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
+    CDrawUtil::DrawWireCube(AABox(), CColor::White());
 }
 
 void CSceneNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& /*rkViewInfo*/)
@@ -67,13 +54,13 @@ bool CSceneNode::IsVisible() const
 CColor CSceneNode::TintColor(const SViewInfo& rkViewInfo) const
 {
     // Default implementation for virtual function
-    return (IsSelected() && !rkViewInfo.GameMode ? skSelectionTint : CColor::skWhite);
+    return (IsSelected() && !rkViewInfo.GameMode ? skSelectionTint : CColor::White());
 }
 
 CColor CSceneNode::WireframeColor() const
 {
     // Default implementation for virtual function
-    return CColor::skWhite;
+    return CColor::White();
 }
 
 // ************ MAIN FUNCTIONALITY ************
@@ -81,8 +68,8 @@ void CSceneNode::OnLoadFinished()
 {
     PostLoad();
 
-    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-        (*it)->OnLoadFinished();
+    for (auto* child : mChildren)
+        child->OnLoadFinished();
 }
 
 void CSceneNode::Unparent()
@@ -97,7 +84,7 @@ void CSceneNode::Unparent()
 
 void CSceneNode::RemoveChild(CSceneNode *pChild)
 {
-    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
+    for (auto it = mChildren.begin(); it != mChildren.end(); ++it)
     {
         if (*it == pChild)
         {
@@ -109,8 +96,8 @@ void CSceneNode::RemoveChild(CSceneNode *pChild)
 
 void CSceneNode::DeleteChildren()
 {
-    for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-        delete *it;
+    for (auto* child : mChildren)
+        delete child;
 
     mChildren.clear();
 }
@@ -132,10 +119,11 @@ void CSceneNode::LoadModelMatrix()
 void CSceneNode::BuildLightList(CGameArea *pArea)
 {
     mLightCount = 0;
-    mAmbientColor = CColor::skTransparentBlack;
+    mAmbientColor = CColor::TransparentBlack();
 
-    uint32 Index = mLightLayerIndex;
-    if ((pArea->NumLightLayers() <= Index) || (pArea->NumLights(Index) == 0)) Index = 0;
+    size_t Index = mLightLayerIndex;
+    if (pArea->NumLightLayers() <= Index || pArea->NumLights(Index) == 0)
+        Index = 0;
 
     struct SLightEntry {
         CLight *pLight;
@@ -151,25 +139,26 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     std::vector<SLightEntry> LightEntries;
 
     // Default ambient color to white if there are no lights on the selected layer
-    uint32 NumLights = pArea->NumLights(Index);
-    if (NumLights == 0) mAmbientColor = CColor::skTransparentWhite;
+    const size_t NumLights = pArea->NumLights(Index);
+    if (NumLights == 0)
+        mAmbientColor = CColor::TransparentWhite();
 
-    for (uint32 iLight = 0; iLight < NumLights; iLight++)
+    for (size_t iLight = 0; iLight < NumLights; iLight++)
     {
         CLight* pLight = pArea->Light(Index, iLight);
 
         // Ambient lights should only be present one per layer; need to check how the game deals with multiple ambients
         if (pLight->Type() == ELightType::LocalAmbient)
-            mAmbientColor = pLight->Color();
-
-        // Other lights will be used depending which are closest to the node
-        else
         {
-            bool IsInRange = AABox().IntersectsSphere(pLight->Position(), pLight->GetRadius());
+            mAmbientColor = pLight->Color();
+        }
+        else // Other lights will be used depending which are closest to the node
+        {
+            const bool IsInRange = AABox().IntersectsSphere(pLight->Position(), pLight->GetRadius());
 
             if (IsInRange)
             {
-                float Dist = mPosition.Distance(pLight->Position());
+                const float Dist = mPosition.Distance(pLight->Position());
                 LightEntries.push_back(SLightEntry(pLight, Dist));
             }
         }
@@ -192,7 +181,7 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
     {
     case CGraphics::ELightingMode::None:
         // No lighting: full white ambient, no dynamic lights
-        CGraphics::sVertexBlock.COLOR0_Amb = CColor::skTransparentWhite;
+        CGraphics::sVertexBlock.COLOR0_Amb = CColor::TransparentWhite();
         break;
 
     case CGraphics::ELightingMode::Basic:
@@ -210,19 +199,20 @@ void CSceneNode::LoadLights(const SViewInfo& rkViewInfo)
         break;
     }
 
-    CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+    CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
 
     CGraphics::sPixelBlock.LightmapMultiplier = (Mode == CGraphics::ELightingMode::World ? 1.f : 0.f);
     CGraphics::UpdateLightBlock();
 }
 
-void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32 MatSet)
+void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, size_t MatSet)
 {
     ASSERT(pModel);
 
     if (!pModel->HasTransparency(MatSet))
+    {
         pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawMesh);
-
+    }
     else
     {
         pRenderer->AddMesh(this, -1, AABox(), false, ERenderCommand::DrawOpaqueParts);
@@ -230,22 +220,23 @@ void CSceneNode::AddModelToRenderer(CRenderer *pRenderer, CModel *pModel, uint32
     }
 }
 
-void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, uint32 MatSet, ERenderCommand RenderCommand)
+void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, size_t MatSet, ERenderCommand RenderCommand)
 {
     // Common rendering functionality
     if (RenderCommand == ERenderCommand::DrawMesh)
+    {
         pModel->Draw(Options, MatSet);
-
+    }
     else
     {
-        bool DrawOpaque = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawOpaqueParts);
-        bool DrawTransparent = (RenderCommand == ERenderCommand::DrawMesh || RenderCommand == ERenderCommand::DrawTransparentParts);
+        const bool DrawOpaque = RenderCommand == ERenderCommand::DrawOpaqueParts;
+        const bool DrawTransparent = RenderCommand == ERenderCommand::DrawTransparentParts;
 
-        for (uint32 iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
+        for (size_t iSurf = 0; iSurf < pModel->GetSurfaceCount(); iSurf++)
         {
-            bool ShouldRender = ( (DrawOpaque && DrawTransparent) ||
-                                  (DrawOpaque && !pModel->IsSurfaceTransparent(iSurf, MatSet)) ||
-                                  (DrawTransparent && pModel->IsSurfaceTransparent(iSurf, MatSet)) );
+            const bool ShouldRender = (DrawOpaque && DrawTransparent) ||
+                                      (DrawOpaque && !pModel->IsSurfaceTransparent(iSurf, MatSet)) ||
+                                      (DrawTransparent && pModel->IsSurfaceTransparent(iSurf, MatSet));
 
             if (ShouldRender)
                 pModel->DrawSurface(Options, iSurf, MatSet);
@@ -255,7 +246,7 @@ void CSceneNode::DrawModelParts(CModel *pModel, FRenderOptions Options, uint32 M
 
 void CSceneNode::DrawBoundingBox() const
 {
-    CDrawUtil::DrawWireCube(AABox(), CColor::skWhite);
+    CDrawUtil::DrawWireCube(AABox(), CColor::White());
 }
 
 void CSceneNode::DrawRotationArrow() const
@@ -329,8 +320,8 @@ void CSceneNode::ForceRecalculateTransform() const
     // If so, the children will already be marked
     if (!_mTransformDirty)
     {
-        for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-            (*it)->MarkTransformChanged();
+        for (auto* child : mChildren)
+            child->MarkTransformChanged();
     }
     _mTransformDirty = false;
 }
@@ -339,8 +330,8 @@ void CSceneNode::MarkTransformChanged() const
 {
     if (!_mTransformDirty)
     {
-        for (auto it = mChildren.begin(); it != mChildren.end(); it++)
-            (*it)->MarkTransformChanged();
+        for (auto* child : mChildren)
+            child->MarkTransformChanged();
     }
 
     _mTransformDirty = true;
@@ -367,7 +358,7 @@ CVector3f CSceneNode::AbsolutePosition() const
 {
     CVector3f ret = mPosition;
 
-    if ((mpParent) && (InheritsPosition()))
+    if (mpParent != nullptr && InheritsPosition())
         ret += mpParent->AbsolutePosition();
 
     return ret;
@@ -377,7 +368,7 @@ CQuaternion CSceneNode::AbsoluteRotation() const
 {
     CQuaternion ret = mRotation;
 
-    if ((mpParent) && (InheritsRotation()))
+    if (mpParent != nullptr && InheritsRotation())
         ret *= mpParent->AbsoluteRotation();
 
     return ret;
@@ -387,7 +378,7 @@ CVector3f CSceneNode::AbsoluteScale() const
 {
     CVector3f ret = mScale;
 
-    if ((mpParent) && (InheritsScale()))
+    if (mpParent != nullptr && InheritsScale())
         ret *= mpParent->AbsoluteScale();
 
     return ret;

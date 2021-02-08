@@ -20,9 +20,6 @@ CResourceStore *gpEditorStore = nullptr;
 
 // Constructor for editor store
 CResourceStore::CResourceStore(const TString& rkDatabasePath)
-    : mpProj(nullptr)
-    , mGame(EGame::Prime)
-    , mDatabaseCacheDirty(false)
 {
     mpDatabaseRoot = new CVirtualDirectory(this);
     mDatabasePath = FileUtil::MakeAbsolute(rkDatabasePath.GetFileDirectory());
@@ -32,10 +29,7 @@ CResourceStore::CResourceStore(const TString& rkDatabasePath)
 
 // Main constructor for game projects and game exporter
 CResourceStore::CResourceStore(CGameProject *pProject)
-    : mpProj(nullptr)
-    , mGame(EGame::Invalid)
-    , mpDatabaseRoot(nullptr)
-    , mDatabaseCacheDirty(false)
+    : mGame(EGame::Invalid)
 {
     SetProject(pProject);
 }
@@ -44,9 +38,6 @@ CResourceStore::~CResourceStore()
 {
     CloseProject();
     DestroyUnreferencedResources();
-
-    for (auto It = mResourceEntries.begin(); It != mResourceEntries.end(); It++)
-        delete It->second;
 }
 
 void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rOutList)
@@ -58,7 +49,7 @@ void RecursiveGetListOfEmptyDirectories(CVirtualDirectory *pDir, TStringList& rO
     }
     else
     {
-        for (uint32 SubIdx = 0; SubIdx < pDir->NumSubdirectories(); SubIdx++)
+        for (size_t SubIdx = 0; SubIdx < pDir->NumSubdirectories(); SubIdx++)
             RecursiveGetListOfEmptyDirectories(pDir->SubdirectoryByIndex(SubIdx), rOutList);
     }
 }
@@ -75,11 +66,9 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
         {
             // Make sure deleted resources aren't included in the count.
             // We can't use CResourceIterator because it skips MarkedForDeletion resources.
-            for (auto Iter = mResourceEntries.begin(); Iter != mResourceEntries.end(); Iter++)
+            for (const auto& entry : mResourceEntries)
             {
-                CResourceEntry* pEntry = Iter->second;
-
-                if (pEntry->IsMarkedForDeletion())
+                if (entry.second->IsMarkedForDeletion())
                 {
                     ResourceCount--;
                 }
@@ -94,9 +83,9 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
             {
                 if (rArc.ParamBegin("Resource", 0))
                 {
-                    CResourceEntry *pEntry = CResourceEntry::BuildFromArchive(this, rArc);
-                    ASSERT( FindEntry(pEntry->ID()) == nullptr );
-                    mResourceEntries[pEntry->ID()] = pEntry;
+                    auto pEntry = CResourceEntry::BuildFromArchive(this, rArc);
+                    ASSERT(FindEntry(pEntry->ID()) == nullptr);
+                    mResourceEntries.insert_or_assign(pEntry->ID(), std::move(pEntry));
                     rArc.ParamEnd();
                 }
             }
@@ -128,13 +117,13 @@ bool CResourceStore::SerializeDatabaseCache(IArchive& rArc)
 
     if (rArc.IsReader())
     {
-        for (auto Iter = EmptyDirectories.begin(); Iter != EmptyDirectories.end(); Iter++)
+        for (const auto& dir : EmptyDirectories)
         {
             // Don't create empty virtual directories that don't actually exist in the filesystem
-            TString AbsPath = ResourcesDir() + *Iter;
+            const TString AbsPath = ResourcesDir() + dir;
 
             if (FileUtil::Exists(AbsPath))
-                CreateVirtualDirectory(*Iter);
+                CreateVirtualDirectory(dir);
         }
     }
 
@@ -159,7 +148,10 @@ bool CResourceStore::LoadDatabaseCache()
             if (!BuildFromDirectory(true))
                 return false;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
     else
     {
@@ -192,31 +184,33 @@ bool CResourceStore::SaveDatabaseCache()
 
 void CResourceStore::ConditionalSaveStore()
 {
-    if (mDatabaseCacheDirty) SaveDatabaseCache();
+    if (mDatabaseCacheDirty)
+        SaveDatabaseCache();
 }
 
 void CResourceStore::SetProject(CGameProject *pProj)
 {
-    if (mpProj == pProj) return;
+    if (mpProj == pProj)
+        return;
 
     if (mpProj)
         CloseProject();
 
     mpProj = pProj;
 
-    if (mpProj)
+    if (!mpProj)
+        return;
+
+    mDatabasePath = mpProj->ProjectRoot();
+    mpDatabaseRoot = new CVirtualDirectory(this);
+    mGame = mpProj->Game();
+
+    // Clear deleted files from previous runs
+    const TString DeletedPath = DeletedResourcePath();
+
+    if (FileUtil::Exists(DeletedPath))
     {
-        mDatabasePath = mpProj->ProjectRoot();
-        mpDatabaseRoot = new CVirtualDirectory(this);
-        mGame = mpProj->Game();
-
-        // Clear deleted files from previous runs
-        TString DeletedPath = DeletedResourcePath();
-
-        if (FileUtil::Exists(DeletedPath))
-        {
-            FileUtil::ClearDirectory(DeletedPath);
-        }
+        FileUtil::ClearDirectory(DeletedPath);
     }
 }
 
@@ -232,9 +226,9 @@ void CResourceStore::CloseProject()
     {
         warnf("%d resources still loaded on project close:", mLoadedResources.size());
 
-        for (auto Iter = mLoadedResources.begin(); Iter != mLoadedResources.end(); Iter++)
+        for (const auto& entry : mLoadedResources)
         {
-            CResourceEntry *pEntry = Iter->second;
+            const CResourceEntry *pEntry = entry.second;
             warnf("\t%s.%s", *pEntry->Name(), *pEntry->CookedExtension().ToString());
         }
 
@@ -242,16 +236,10 @@ void CResourceStore::CloseProject()
     }
 
     // Delete all entries from old project
-    auto It = mResourceEntries.begin();
-
-    while (It != mResourceEntries.end())
-    {
-        delete It->second;
-        It = mResourceEntries.erase(It);
-    }
+    mResourceEntries.clear();
 
     // Clear deleted files from previous runs
-    TString DeletedPath = DeletedResourcePath();
+    const TString DeletedPath = DeletedResourcePath();
 
     if (FileUtil::Exists(DeletedPath))
     {
@@ -268,10 +256,11 @@ CVirtualDirectory* CResourceStore::GetVirtualDirectory(const TString& rkPath, bo
 {
     if (rkPath.IsEmpty())
         return mpDatabaseRoot;
-    else if (mpDatabaseRoot)
+
+    if (mpDatabaseRoot)
         return mpDatabaseRoot->FindChildDirectory(rkPath, AllowCreate);
-    else
-        return nullptr;
+
+    return nullptr;
 }
 
 void CResourceStore::CreateVirtualDirectory(const TString& rkPath)
@@ -308,14 +297,14 @@ CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
 {
     if (rkID.IsValid())
     {
-        auto Found = mResourceEntries.find(rkID);
+        const auto Found = mResourceEntries.find(rkID);
 
-        if (Found != mResourceEntries.end())
+        if (Found != mResourceEntries.cend())
         {
-            CResourceEntry* pEntry = Found->second;
+            const auto& pEntry = Found->second;
 
             if (!pEntry->IsMarkedForDeletion())
-                return pEntry;
+                return pEntry.get();
         }
     }
 
@@ -324,7 +313,7 @@ CResourceEntry* CResourceStore::FindEntry(const CAssetID& rkID) const
 
 CResourceEntry* CResourceStore::FindEntry(const TString& rkPath) const
 {
-    return (mpDatabaseRoot ? mpDatabaseRoot->FindChildResource(rkPath) : nullptr);
+    return mpDatabaseRoot ? mpDatabaseRoot->FindChildResource(rkPath) : nullptr;
 }
 
 bool CResourceStore::AreAllEntriesValid() const
@@ -346,14 +335,12 @@ void CResourceStore::ClearDatabase()
     if (!mLoadedResources.empty())
     {
         debugf("ERROR: Resources still loaded:");
-        for (auto Iter = mLoadedResources.begin(); Iter != mLoadedResources.end(); Iter++)
-            debugf("\t[%s] %s", *Iter->first.ToString(), *Iter->second->CookedAssetPath(true));
+        for (const auto& [asset, entry] : mLoadedResources)
+            debugf("\t[%s] %s", *asset.ToString(), *entry->CookedAssetPath(true));
         ASSERT(false);
     }
 
     // Clear out existing resource entries and directories
-    for (auto Iter = mResourceEntries.begin(); Iter != mResourceEntries.end(); Iter++)
-        delete Iter->second;
     mResourceEntries.clear();
 
     delete mpDatabaseRoot;
@@ -371,10 +358,9 @@ bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
     TStringList ResourceList;
     FileUtil::GetDirectoryContents(ResDir, ResourceList);
 
-    for (auto Iter = ResourceList.begin(); Iter != ResourceList.end(); Iter++)
+    for (const auto& Path : ResourceList)
     {
-        TString Path = *Iter;
-        TString RelPath = Path.ChopFront( ResDir.Size() );
+        TString RelPath = Path.ChopFront(ResDir.Size());
 
         if (FileUtil::IsFile(Path) && Path.EndsWith(".rsmeta"))
         {
@@ -382,11 +368,11 @@ bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
             TString DirPath = RelPath.GetFileDirectory();
             TString CookedFilename = RelPath.GetFileName(false); // This call removes the .rsmeta extension
             TString ResName = CookedFilename.GetFileName(false); // This call removes the cooked extension
-            ASSERT( IsValidResourcePath(DirPath, ResName) );
+            ASSERT(IsValidResourcePath(DirPath, ResName));
 
             // Determine resource type
             TString CookedExtension = CookedFilename.GetFileExtension();
-            CResTypeInfo *pTypeInfo = CResTypeInfo::TypeForCookedExtension( Game(), CFourCC(CookedExtension) );
+            CResTypeInfo* pTypeInfo = CResTypeInfo::TypeForCookedExtension(Game(), CFourCC(CookedExtension));
 
             if (!pTypeInfo)
             {
@@ -395,18 +381,19 @@ bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
             }
 
             // Create resource entry
-            CResourceEntry *pEntry = CResourceEntry::BuildFromDirectory(this, pTypeInfo, DirPath, ResName);
+            auto pEntry = CResourceEntry::BuildFromDirectory(this, pTypeInfo, DirPath, ResName);
 
             // Validate the entry
-            CAssetID ID = pEntry->ID();
-            ASSERT( mResourceEntries.find(ID) == mResourceEntries.end() );
-            ASSERT( ID.Length() == CAssetID::GameIDLength(mGame) );
+            const CAssetID ID = pEntry->ID();
+            ASSERT(mResourceEntries.find(ID) == mResourceEntries.cend());
+            ASSERT(ID.Length() == CAssetID::GameIDLength(mGame));
 
-            mResourceEntries[ID] = pEntry;
+            mResourceEntries.insert_or_assign(ID, std::move(pEntry));
         }
-
         else if (FileUtil::IsDirectory(Path))
+        {
             CreateVirtualDirectory(RelPath);
+        }
     }
 
     // Generate new cache file
@@ -454,30 +441,34 @@ CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourc
     CResourceEntry *pEntry = FindEntry(rkID);
 
     if (pEntry)
+    {
         errorf("Attempted to register resource that's already tracked in the database: %s / %s / %s", *rkID.ToString(), *rkDir, *rkName);
-
+    }
     else
     {
         // Validate directory
         if (IsValidResourcePath(rkDir, rkName))
         {
-            pEntry = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type, ExistingResource);
-            mResourceEntries[rkID] = pEntry;
+            auto res = CResourceEntry::CreateNewResource(this, rkID, rkDir, rkName, Type, ExistingResource);
+            auto* resPtr = res.get();
+
+            mResourceEntries.insert_or_assign(rkID, std::move(res));
             mDatabaseCacheDirty = true;
 
-            if (pEntry->IsLoaded())
+            if (resPtr->IsLoaded())
             {
-                TrackLoadedResource(pEntry);
+                TrackLoadedResource(resPtr);
             }
 
             if (!ExistingResource)
             {
-                debugf("CREATED NEW RESOURCE: [%s] %s", *rkID.ToString(), *pEntry->CookedAssetPath());
+                debugf("CREATED NEW RESOURCE: [%s] %s", *rkID.ToString(), *resPtr->CookedAssetPath());
             }
+
+            return resPtr;
         }
 
-        else
-            errorf("Invalid resource path, failed to register: %s%s", *rkDir, *rkName);
+        errorf("Invalid resource path, failed to register: %s%s", *rkDir, *rkName);
     }
 
     return pEntry;
@@ -485,19 +476,18 @@ CResourceEntry* CResourceStore::CreateNewResource(const CAssetID& rkID, EResourc
 
 CResource* CResourceStore::LoadResource(const CAssetID& rkID)
 {
-    if (!rkID.IsValid()) return nullptr;
+    if (!rkID.IsValid())
+        return nullptr;
 
     CResourceEntry *pEntry = FindEntry(rkID);
-
-    if (pEntry)
-        return pEntry->Load();
-
-    else
+    if (!pEntry)
     {
         // Resource doesn't seem to exist
         warnf("Can't find requested resource with ID \"%s\"", *rkID.ToString());
         return nullptr;
     }
+
+    return pEntry->Load();
 }
 
 CResource* CResourceStore::LoadResource(const CAssetID& rkID, EResourceType Type)
@@ -521,8 +511,7 @@ CResource* CResourceStore::LoadResource(const CAssetID& rkID, EResourceType Type
         }
     }
 
-    else
-        return nullptr;
+    return nullptr;
 }
 
 CResource* CResourceStore::LoadResource(const TString& rkPath)
@@ -533,7 +522,7 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
     if (pEntry)
     {
         // Verify extension matches the entry + load resource
-        TString Ext = rkPath.GetFileExtension();
+        const TString Ext = rkPath.GetFileExtension();
 
         if (!Ext.IsEmpty())
         {
@@ -550,14 +539,14 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
         return pEntry->Load();
     }
 
-    else return nullptr;
+    return nullptr;
 }
 
 void CResourceStore::TrackLoadedResource(CResourceEntry *pEntry)
 {
     ASSERT(pEntry->IsLoaded());
     ASSERT(mLoadedResources.find(pEntry->ID()) == mLoadedResources.end());
-    mLoadedResources[pEntry->ID()] = pEntry;
+    mLoadedResources.insert_or_assign(pEntry->ID(), pEntry);
 }
 
 void CResourceStore::DestroyUnreferencedResources()
@@ -579,22 +568,24 @@ void CResourceStore::DestroyUnreferencedResources()
                 It = mLoadedResources.erase(It);
                 NumDeleted++;
             }
-
-            else It++;
+            else
+            {
+                ++It;
+            }
         }
     } while (NumDeleted > 0);
 }
 
 bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
 {
-    CAssetID ID = pEntry->ID();
+    const CAssetID ID = pEntry->ID();
 
     if (pEntry->IsLoaded())
     {
         if (!pEntry->Unload())
             return false;
 
-        auto It = mLoadedResources.find(ID);
+        const auto It = mLoadedResources.find(ID);
         ASSERT(It != mLoadedResources.end());
         mLoadedResources.erase(It);
     }
@@ -602,7 +593,7 @@ bool CResourceStore::DeleteResourceEntry(CResourceEntry *pEntry)
     if (pEntry->Directory())
         pEntry->Directory()->RemoveChildResource(pEntry);
 
-    auto It = mResourceEntries.find(ID);
+    const auto It = mResourceEntries.find(ID);
     ASSERT(It != mResourceEntries.end());
     mResourceEntries.erase(It);
 
@@ -667,7 +658,7 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
             // Chop name to just after "x_rep"
             uint32 RepStart = Path.IndexOfPhrase("_rep");
 
-            if (RepStart != -1)
+            if (RepStart != UINT32_MAX)
                 Path = Path.ChopFront(RepStart + 5);
 
             // If the "x_rep" folder doesn't exist in this path for some reason, but this is still a path, then just chop off the drive letter.
@@ -675,24 +666,24 @@ void CResourceStore::ImportNamesFromPakContentsTxt(const TString& rkTxtPath, boo
             else if (Path[1] == ':')
                 Path = Path.ChopFront(3);
 
-            PathMap[pEntry] = Path;
+            PathMap.insert_or_assign(pEntry, std::move(Path));
         }
     }
 
     fclose(pContentsFile);
 
     // Assign names
-    for (auto Iter = PathMap.begin(); Iter != PathMap.end(); Iter++)
+    for (auto& [entry, path] : PathMap)
     {
-        CResourceEntry *pEntry = Iter->first;
-        if (UnnamedOnly && pEntry->IsNamed()) continue;
+        if (UnnamedOnly && entry->IsNamed())
+            continue;
 
-        TString Path = Iter->second;
-        TString Dir = Path.GetFileDirectory();
-        TString Name = Path.GetFileName(false);
-        if (Dir.IsEmpty()) Dir = pEntry->DirectoryPath();
+        TString Dir = path.GetFileDirectory();
+        TString Name = path.GetFileName(false);
+        if (Dir.IsEmpty())
+            Dir = entry->DirectoryPath();
 
-        pEntry->MoveAndRename(Dir, Name);
+        entry->MoveAndRename(Dir, Name);
     }
 
     // Save
@@ -703,13 +694,13 @@ bool CResourceStore::IsValidResourcePath(const TString& rkPath, const TString& r
 {
     // Path must not be an absolute path and must not go outside the project structure.
     // Name must not be a path.
-    return ( CVirtualDirectory::IsValidDirectoryPath(rkPath) &&
-             FileUtil::IsValidName(rkName, false) &&
-             !rkName.Contains('/') &&
-             !rkName.Contains('\\') );
+    return CVirtualDirectory::IsValidDirectoryPath(rkPath) &&
+           FileUtil::IsValidName(rkName, false) &&
+           !rkName.Contains('/') &&
+           !rkName.Contains('\\');
 }
 
 TString CResourceStore::StaticDefaultResourceDirPath(EGame Game)
 {
-    return (Game < EGame::CorruptionProto ? "Uncategorized/" : "uncategorized/");
+    return Game < EGame::CorruptionProto ? "Uncategorized/" : "uncategorized/";
 }

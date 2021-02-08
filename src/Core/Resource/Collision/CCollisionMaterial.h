@@ -51,7 +51,7 @@ enum ECollisionFlag
 class CCollisionMaterial : public TFlags<ECollisionFlag>
 {
     friend class CCollisionLoader;
-    uint64 mRawFlags;
+    uint64 mRawFlags = 0;
 
 public:
     ECollisionFlag SurfaceType(EGame Game) const;
@@ -59,7 +59,7 @@ public:
     bool IsFloor() const;
     bool IsUnstandable(EGame Game) const;
 
-    inline uint64 RawFlags() const { return mRawFlags; }
+    uint64 RawFlags() const { return mRawFlags; }
 };
 
 #endif // CCOLLISIONMATERIAL

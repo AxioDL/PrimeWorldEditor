@@ -5,8 +5,9 @@
 #include "Core/Resource/ETexelFormat.h"
 #include <Common/BasicTypes.h>
 #include <Common/CColor.h>
-
 #include <Common/FileIO.h>
+
+#include <memory>
 
 class CTextureDecoder
 {
@@ -36,7 +37,7 @@ class CTextureDecoder
     // Private Functions
     CTextureDecoder();
     ~CTextureDecoder();
-    CTexture* CreateTexture();
+    std::unique_ptr<CTexture> CreateTexture();
 
     // Read
     void ReadTXTR(IInputStream& rTXTR);
@@ -68,7 +69,6 @@ class CTextureDecoder
     CColor DecodePixelC8(uint8 Byte, IInputStream& rPaletteStream);
     CColor DecodePixelRGB565(uint16 Short);
     CColor DecodePixelRGB5A3(uint16 Short);
-    CColor DecodePixelRGBA8(IInputStream& rSrc, IOutputStream& rDst);
     void DecodeSubBlockCMPR(IInputStream& rSrc, IOutputStream& rDst, uint16 Width);
 
     void DecodeBlockBC1(IInputStream& rSrc, IOutputStream& rDst, uint32 Width);
@@ -78,18 +78,10 @@ class CTextureDecoder
 
     // Static
 public:
-    static CTexture* LoadTXTR(IInputStream& rTXTR, CResourceEntry *pEntry);
-    static CTexture* LoadDDS(IInputStream& rDDS, CResourceEntry *pEntry);
-    static CTexture* DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEntry);
+    static std::unique_ptr<CTexture> LoadTXTR(IInputStream& rTXTR, CResourceEntry *pEntry);
+    static std::unique_ptr<CTexture> LoadDDS(IInputStream& rDDS, CResourceEntry *pEntry);
+    static std::unique_ptr<CTexture> DoFullDecode(IInputStream& rTXTR, CResourceEntry *pEntry);
     static CTexture* DoFullDecode(CTexture *pTexture);
-
-    // Utility
-    static uint8 Extend3to8(uint8 In);
-    static uint8 Extend4to8(uint8 In);
-    static uint8 Extend5to8(uint8 In);
-    static uint8 Extend6to8(uint8 In);
-    static uint32 CalculateShiftForMask(uint32 BitMask);
-    static uint32 CalculateMaskBitCount(uint32 BitMask);
 };
 
 #endif // CTEXTUREDECODER_H

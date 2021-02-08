@@ -3,15 +3,14 @@
 
 #include "Core/Resource/CPoiToWorld.h"
 #include "Core/Resource/TResPtr.h"
+#include <memory>
 
 class CPoiToWorldLoader
 {
-    TResPtr<CPoiToWorld> mpPoiToWorld;
-
-    CPoiToWorldLoader() {}
+    CPoiToWorldLoader() = default;
 
 public:
-    static CPoiToWorld* LoadEGMC(IInputStream& rEGMC, CResourceEntry *pEntry);
+    static std::unique_ptr<CPoiToWorld> LoadEGMC(IInputStream& rEGMC, CResourceEntry *pEntry);
 };
 
 #endif // CPOITOWORLDLOADER_H

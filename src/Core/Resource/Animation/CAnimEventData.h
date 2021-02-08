@@ -2,6 +2,8 @@
 #define CANIMEVENTDATA
 
 #include "Core/Resource/CResource.h"
+#include <memory>
+#include <vector>
 
 class CAnimEventData : public CResource
 {
@@ -16,38 +18,36 @@ class CAnimEventData : public CResource
     std::vector<SEvent> mEvents;
 
 public:
-    CAnimEventData(CResourceEntry *pEntry = 0)
+    explicit CAnimEventData(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
     {
     }
 
-    CDependencyTree* BuildDependencyTree() const
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
-        CDependencyTree *pTree = new CDependencyTree();
-        AddDependenciesToTree(pTree);
+        auto pTree = std::make_unique<CDependencyTree>();
+        AddDependenciesToTree(pTree.get());
         return pTree;
     }
 
     void AddDependenciesToTree(CDependencyTree *pTree) const
     {
-        for (uint32 iEvt = 0; iEvt < mEvents.size(); iEvt++)
+        for (const SEvent& event : mEvents)
         {
-            const SEvent& rkEvent = mEvents[iEvt];
-            CAssetID ID = rkEvent.mAssetRef;
+            CAssetID ID = event.mAssetRef;
 
             if (ID.IsValid() && !pTree->HasDependency(ID))
             {
-                CAnimEventDependency *pDep = new CAnimEventDependency(ID, rkEvent.mCharacterIndex);
-                pTree->AddChild(pDep);
+                pTree->AddChild(std::make_unique<CAnimEventDependency>(ID, event.mCharacterIndex));
             }
         }
     }
 
-    inline uint32 NumEvents() const                             { return mEvents.size(); }
-    inline uint32 EventCharacterIndex(uint32 EventIdx) const    { return mEvents[EventIdx].mCharacterIndex; }
-    inline CAssetID EventAssetRef(uint32 EventIdx) const        { return mEvents[EventIdx].mAssetRef; }
+    size_t NumEvents() const                             { return mEvents.size(); }
+    uint32 EventCharacterIndex(size_t EventIdx) const    { return mEvents[EventIdx].mCharacterIndex; }
+    CAssetID EventAssetRef(size_t EventIdx) const        { return mEvents[EventIdx].mAssetRef; }
 
-    inline void AddEvent(uint32 CharIdx, CAssetID AssetID)      { mEvents.push_back( SEvent { CharIdx, AssetID } ); }
+    void AddEvent(uint32 CharIdx, CAssetID AssetID)      { mEvents.push_back(SEvent{CharIdx, AssetID}); }
 };
 
 #endif // CANIMEVENTDATA

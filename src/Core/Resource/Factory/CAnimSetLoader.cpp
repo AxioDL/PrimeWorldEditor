@@ -3,34 +3,31 @@
 #include "Core/GameProject/CResourceStore.h"
 #include <Common/Log.h>
 
-CAnimSetLoader::CAnimSetLoader()
-{
-}
+CAnimSetLoader::CAnimSetLoader() = default;
 
-CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
+void CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
 {
-    pSet->mCharacters.emplace_back( SSetCharacter() );;
-    SSetCharacter& rChar = pSet->mCharacters.back();
+    SSetCharacter& rChar = pSet->mCharacters.emplace_back();
 
     // Character Header
-    rChar.ID = rCHAR.ReadByte();
+    rChar.ID = rCHAR.ReadUByte();
     rChar.Name = rCHAR.ReadString();
-    rChar.pModel = gpResourceStore->LoadResource<CModel>(rCHAR.ReadLongLong());
-    rChar.pSkin = gpResourceStore->LoadResource<CSkin>(rCHAR.ReadLongLong());
+    rChar.pModel = gpResourceStore->LoadResource<CModel>(rCHAR.ReadULongLong());
+    rChar.pSkin = gpResourceStore->LoadResource<CSkin>(rCHAR.ReadULongLong());
 
-    uint32 NumOverlays = rCHAR.ReadLong();
+    const uint32 NumOverlays = rCHAR.ReadULong();
 
     for (uint32 iOverlay = 0; iOverlay < NumOverlays; iOverlay++)
     {
         SOverlayModel Overlay;
-        Overlay.Type = (EOverlayType) rCHAR.ReadLong();
-        Overlay.ModelID = CAssetID(rCHAR, k64Bit);
-        Overlay.SkinID = CAssetID(rCHAR, k64Bit);
+        Overlay.Type = static_cast<EOverlayType>(rCHAR.ReadULong());
+        Overlay.ModelID = CAssetID(rCHAR, EIDLength::k64Bit);
+        Overlay.SkinID = CAssetID(rCHAR, EIDLength::k64Bit);
         rChar.OverlayModels.push_back(Overlay);
     }
 
     rChar.pSkeleton = gpResourceStore->LoadResource<CSkeleton>(rCHAR.ReadLongLong());
-    rChar.AnimDataID = CAssetID(rCHAR, k64Bit);
+    rChar.AnimDataID = CAssetID(rCHAR, EIDLength::k64Bit);
 
     // PAS Database
     LoadPASDatabase(rCHAR);
@@ -39,41 +36,40 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
     LoadParticleResourceData(rCHAR, &rChar, 10);
 
     // Events
-    uint32 NumEventSets = rCHAR.ReadLong();
+    const uint32 NumEventSets = rCHAR.ReadULong();
 
     for (uint32 iSet = 0; iSet < NumEventSets; iSet++)
     {
-        CAnimEventData *pEvents = CAnimEventLoader::LoadCorruptionCharacterEventSet(rCHAR);
-        pSet->mAnimEvents.push_back(pEvents);
+        pSet->mAnimEvents.push_back(CAnimEventLoader::LoadCorruptionCharacterEventSet(rCHAR));
     }
 
     // Animations
-    uint32 NumAnimations = rCHAR.ReadLong();
+    const uint32 NumAnimations = rCHAR.ReadULong();
 
     for (uint32 AnimIdx = 0; AnimIdx < NumAnimations; AnimIdx++)
     {
         SAnimation Anim;
         Anim.Name = rCHAR.ReadString();
         Anim.pMetaAnim = gMetaAnimFactory.LoadFromStream(rCHAR, mGame);
-        pSet->mAnimations.push_back(Anim);
+        pSet->mAnimations.push_back(std::move(Anim));
     }
 
     // Animation Bounds
-    uint32 NumAnimationBounds = rCHAR.ReadLong();
+    const uint32 NumAnimationBounds = rCHAR.ReadULong();
     rCHAR.Skip(NumAnimationBounds * 0x20);
     rCHAR.Skip(1);
 
     // Bool Array
-    uint32 BoolArraySize = rCHAR.ReadLong();
+    const uint32 BoolArraySize = rCHAR.ReadULong();
     rCHAR.Skip(BoolArraySize);
 
     // Collision Primitives
-    uint32 NumPrimitiveSets = rCHAR.ReadLong();
+    const uint32 NumPrimitiveSets = rCHAR.ReadULong();
 
     for (uint32 SetIdx = 0; SetIdx < NumPrimitiveSets; SetIdx++)
     {
         rCHAR.ReadString();
-        uint32 NumPrimitives = rCHAR.ReadLong();
+        const uint32 NumPrimitives = rCHAR.ReadULong();
 
         for (uint32 PrimIdx = 0; PrimIdx < NumPrimitives; PrimIdx++)
         {
@@ -84,26 +80,24 @@ CAnimSet* CAnimSetLoader::LoadCorruptionCHAR(IInputStream& rCHAR)
     }
 
     // Sound Resources
-    uint32 NumSounds = rCHAR.ReadLong();
+    const uint32 NumSounds = rCHAR.ReadULong();
 
     for (uint32 SoundIdx = 0; SoundIdx < NumSounds; SoundIdx++)
     {
-        CAssetID SoundID(rCHAR, k64Bit);
+        const CAssetID SoundID(rCHAR, EIDLength::k64Bit);
         rChar.SoundEffects.push_back(SoundID);
     }
 
     ProcessPrimitives();
-    return pSet;
 }
 
-CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
+void CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 {
     rCHAR.Skip(0x14);
-    uint8 Flag = rCHAR.ReadByte();
+    const uint8 Flag = rCHAR.ReadUByte();
     rCHAR.Skip(1);
 
-    pSet->mCharacters.emplace_back( SSetCharacter() );;
-    SSetCharacter& rChar = pSet->mCharacters.back();
+    SSetCharacter& rChar = pSet->mCharacters.emplace_back();
 
     // Character Header
     rChar.ID = 0;
@@ -111,13 +105,13 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     rChar.pSkeleton = gpResourceStore->LoadResource<CSkeleton>( rCHAR.ReadLongLong() );
     rChar.CollisionPrimitivesID = rCHAR.ReadLongLong();
 
-    uint32 NumModels = rCHAR.ReadLong();
+    const uint32 NumModels = rCHAR.ReadULong();
 
     for (uint32 ModelIdx = 0; ModelIdx < NumModels; ModelIdx++)
     {
         rCHAR.ReadString();
-        CAssetID ModelID(rCHAR, EGame::DKCReturns);
-        CAssetID SkinID(rCHAR, EGame::DKCReturns);
+        const CAssetID ModelID(rCHAR, EGame::DKCReturns);
+        const CAssetID SkinID(rCHAR, EGame::DKCReturns);
         rCHAR.Skip(0x18);
 
         if (ModelIdx == 0)
@@ -133,44 +127,44 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
     }
 
     // Animations
-    uint32 NumAnims = rCHAR.ReadLong();
+    const uint32 NumAnims = rCHAR.ReadULong();
 
     for (uint32 AnimIdx = 0; AnimIdx < NumAnims; AnimIdx++)
     {
         TString AnimName = rCHAR.ReadString();
-        CAssetID AnimID(rCHAR, EGame::DKCReturns);
+        const CAssetID AnimID(rCHAR, EGame::DKCReturns);
         rCHAR.Skip(0x25);
         rChar.DKDependencies.push_back(AnimID);
 
         // small hack - create a meta-anim for it so we can generate asset names for the ANIM files correctly
         SAnimation Anim;
-        Anim.Name = AnimName;
-        Anim.pMetaAnim = new CMetaAnimPlay( CAnimPrimitive(AnimID, AnimIdx, AnimName), 0.f, 0 );
-        pSet->mAnimations.push_back(Anim);
+        Anim.pMetaAnim = std::make_unique<CMetaAnimPlay>(CAnimPrimitive(AnimID, AnimIdx, AnimName), 0.f, 0);
+        Anim.Name = std::move(AnimName);
+        pSet->mAnimations.push_back(std::move(Anim));
     }
 
     // The only other thing we care about right now is the dependency list. If this file doesn't have a dependency list, exit out.
     if ((Flag & 0x10) == 0)
-        return pSet;
+        return;
 
     // Anim ID Map
-    if (Flag & 0x20)
+    if ((Flag & 0x20) != 0)
     {
         uint32 NumIDs = rCHAR.ReadLong();
         rCHAR.Skip(NumIDs * 4);
     }
 
     // Transitions
-    if (Flag & 0x80)
+    if ((Flag & 0x80) != 0)
     {
-        uint32 NumAdditiveAnims = rCHAR.ReadLong();
+        const uint32 NumAdditiveAnims = rCHAR.ReadULong();
         rCHAR.Skip(NumAdditiveAnims * 0x10);
 
-        uint32 NumTransitionTypes = rCHAR.ReadLong();
+        const uint32 NumTransitionTypes = rCHAR.ReadULong();
 
         for (uint32 TypeIdx = 0; TypeIdx < NumTransitionTypes; TypeIdx++)
         {
-            uint16 Type = rCHAR.ReadShort();
+            const uint16 Type = rCHAR.ReadUShort();
 
             switch (Type)
             {
@@ -184,93 +178,94 @@ CAnimSet* CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
                 rCHAR.Skip(0xC);
                 break;
             default:
-                errorf("%s [0x%X]: Invalid transition type: %d", *rCHAR.GetSourceString(), rCHAR.Tell() - 2, Type);
-                return pSet;
+                errorf("%s [0x%X]: Invalid transition type: %u", *rCHAR.GetSourceString(), rCHAR.Tell() - 2, Type);
+                return;
             }
         }
 
-        uint32 NumFullTransitions = rCHAR.ReadLong();
+        const uint32 NumFullTransitions = rCHAR.ReadULong();
         rCHAR.Skip(NumFullTransitions * 0xC);
 
-        uint32 NumHalfTransitions = rCHAR.ReadLong();
+        const uint32 NumHalfTransitions = rCHAR.ReadULong();
         rCHAR.Skip(NumHalfTransitions * 0x8);
 
         rCHAR.Skip(0x8);
     }
 
     // Transform Bits
-    if (Flag & 0x40)
+    if ((Flag & 0x40) != 0)
     {
-        uint32 NumTransformBits = rCHAR.ReadLong();
+        const uint32 NumTransformBits = rCHAR.ReadULong();
         rCHAR.Skip(NumTransformBits);
     }
 
-    uint32 NumUnknown = rCHAR.ReadLong();
+    const uint32 NumUnknown = rCHAR.ReadULong();
     rCHAR.Skip(NumUnknown * 4);
 
     // Skel Joint Sets
-    uint32 NumSkelJointSets = rCHAR.ReadLong();
+    const uint32 NumSkelJointSets = rCHAR.ReadULong();
 
     for (uint32 SetIdx = 0; SetIdx < NumSkelJointSets; SetIdx++)
     {
         rCHAR.Skip(4);
-        uint32 NumUnknown2 = rCHAR.ReadLong();
+        const uint32 NumUnknown2 = rCHAR.ReadULong();
         rCHAR.Skip(0x20 + NumUnknown2);
     }
 
     // Resources
-    if (Flag & 0x10)
+    if ((Flag & 0x10) != 0)
     {
         // Don't need the extensions
-        uint32 NumExtensions = rCHAR.ReadLong();
+        const uint32 NumExtensions = rCHAR.ReadULong();
         rCHAR.Skip(NumExtensions * 4);
 
-        uint32 NumResources = rCHAR.ReadLong();
+        const uint32 NumResources = rCHAR.ReadULong();
 
         for (uint32 ResIdx = 0; ResIdx < NumResources; ResIdx++)
         {
-            CAssetID ResID(rCHAR, EGame::DKCReturns);
+            const CAssetID ResID(rCHAR, EGame::DKCReturns);
             rCHAR.Skip(3);
             rChar.DKDependencies.push_back(ResID);
         }
     }
 
     ProcessPrimitives();
-    return pSet;
 }
 
 void CAnimSetLoader::LoadPASDatabase(IInputStream& rPAS4)
 {
     // For now, just parse the data; don't store it
-    uint32 Magic = rPAS4.ReadLong();
-    uint32 AnimStateCount = rPAS4.ReadLong();
+    [[maybe_unused]] const uint32 Magic = rPAS4.ReadULong();
+    const uint32 AnimStateCount = rPAS4.ReadULong();
     rPAS4.Seek(0x4, SEEK_CUR); // Skipping default anim state
     ASSERT(Magic == FOURCC('PAS4'));
 
     for (uint32 iState = 0; iState < AnimStateCount; iState++)
     {
         rPAS4.Seek(0x4, SEEK_CUR); // Skipping unknown value
-        uint32 ParmInfoCount = rPAS4.ReadLong();
-        uint32 AnimInfoCount = rPAS4.ReadLong();
+        const uint32 ParmInfoCount = rPAS4.ReadULong();
+        const uint32 AnimInfoCount = rPAS4.ReadULong();
 
         uint32 Skip = 0;
         for (uint32 iParm = 0; iParm < ParmInfoCount; iParm++)
         {
-            uint32 Type = rPAS4.ReadLong();
+            const uint32 Type = rPAS4.ReadULong();
             rPAS4.Seek(0x8, SEEK_CUR);
 
             switch (Type) {
-                case 0: // Int32
-                case 1: // Uint32
-                case 2: // Real32
-                case 4: // Enum
-                    rPAS4.Seek(0x8, SEEK_CUR);
-                    Skip += 4;
-                    break;
-                case 3: // Bool
-                    rPAS4.Seek(0x2, SEEK_CUR);
-                    Skip++;
-                    break;
+            case 0: // Int32
+            case 1: // Uint32
+            case 2: // Real32
+            case 4: // Enum
+                rPAS4.Seek(0x8, SEEK_CUR);
+                Skip += 4;
+                break;
+            case 3: // Bool
+                rPAS4.Seek(0x2, SEEK_CUR);
+                Skip++;
+                break;
+            default:
+                break;
             }
         }
 
@@ -281,45 +276,46 @@ void CAnimSetLoader::LoadPASDatabase(IInputStream& rPAS4)
 
 void CAnimSetLoader::LoadParticleResourceData(IInputStream& rFile, SSetCharacter *pChar, uint16 CharVersion)
 {
-    uint32 ParticleCount = rFile.ReadLong();
+    const uint32 ParticleCount = rFile.ReadULong();
     pChar->GenericParticles.reserve(ParticleCount);
 
     for (uint32 iPart = 0; iPart < ParticleCount; iPart++)
-        pChar->GenericParticles.push_back( CAssetID(rFile, mGame) );
+        pChar->GenericParticles.emplace_back(rFile, mGame);
 
-    uint32 SwooshCount = rFile.ReadLong();
+    const uint32 SwooshCount = rFile.ReadULong();
     pChar->SwooshParticles.reserve(SwooshCount);
 
     for (uint32 iSwoosh = 0; iSwoosh < SwooshCount; iSwoosh++)
-        pChar->SwooshParticles.push_back( CAssetID(rFile, mGame) );
+        pChar->SwooshParticles.emplace_back(rFile, mGame);
 
     if (CharVersion >= 6 && mGame <= EGame::Echoes) rFile.Seek(0x4, SEEK_CUR);
 
-    uint32 ElectricCount = rFile.ReadLong();
+    const uint32 ElectricCount = rFile.ReadULong();
     pChar->ElectricParticles.reserve(ElectricCount);
 
     for (uint32 iElec = 0; iElec < ElectricCount; iElec++)
-        pChar->ElectricParticles.push_back( CAssetID(rFile, mGame) );
+        pChar->ElectricParticles.emplace_back(rFile, mGame);
 
     if (mGame >= EGame::Echoes)
     {
-        uint32 SpawnCount = rFile.ReadLong();
+        const uint32 SpawnCount = rFile.ReadULong();
         pChar->SpawnParticles.reserve(SpawnCount);
 
         for (uint32 iSpawn = 0; iSpawn < SpawnCount; iSpawn++)
-            pChar->SpawnParticles.push_back( CAssetID(rFile, mGame) );
+            pChar->SpawnParticles.emplace_back(rFile, mGame);
     }
 
     rFile.Seek(0x4, SEEK_CUR);
-    if (mGame >= EGame::Echoes) rFile.Seek(0x4, SEEK_CUR);
+    if (mGame >= EGame::Echoes)
+        rFile.Seek(0x4, SEEK_CUR);
 }
 
 void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
 {
-    uint16 Version = rANCS.ReadShort();
+    const uint16 Version = rANCS.ReadUShort();
 
     // Animations
-    uint32 NumAnims = rANCS.ReadLong();
+    const uint32 NumAnims = rANCS.ReadULong();
     pSet->mAnimations.reserve(NumAnims);
 
     for (uint32 iAnim = 0; iAnim < NumAnims; iAnim++)
@@ -327,35 +323,36 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
         SAnimation Anim;
         Anim.Name = rANCS.ReadString();
         Anim.pMetaAnim = gMetaAnimFactory.LoadFromStream(rANCS, mGame);
-        pSet->mAnimations.push_back(Anim);
+        pSet->mAnimations.push_back(std::move(Anim));
     }
 
     // Transitions
-    uint32 NumTransitions = rANCS.ReadLong();
+    const uint32 NumTransitions = rANCS.ReadULong();
     pSet->mTransitions.reserve(NumTransitions);
 
     for (uint32 iTrans = 0; iTrans < NumTransitions; iTrans++)
     {
         STransition Trans;
-        Trans.Unknown = rANCS.ReadLong();
-        Trans.AnimIdA = rANCS.ReadLong();
-        Trans.AnimIdB = rANCS.ReadLong();
+        Trans.Unknown = rANCS.ReadULong();
+        Trans.AnimIdA = rANCS.ReadULong();
+        Trans.AnimIdB = rANCS.ReadULong();
         Trans.pMetaTrans = gMetaTransFactory.LoadFromStream(rANCS, mGame);
-        pSet->mTransitions.push_back(Trans);
+        pSet->mTransitions.push_back(std::move(Trans));
     }
 
     pSet->mpDefaultTransition = gMetaTransFactory.LoadFromStream(rANCS, mGame);
 
     // Additive Animations
-    uint32 NumAdditive = rANCS.ReadLong();
+    const uint32 NumAdditive = rANCS.ReadULong();
     pSet->mAdditiveAnims.reserve(NumAdditive);
 
     for (uint32 iAdd = 0; iAdd < NumAdditive; iAdd++)
     {
-        SAdditiveAnim Anim;
-        Anim.AnimID = rANCS.ReadLong();
-        Anim.FadeInTime = rANCS.ReadFloat();
-        Anim.FadeOutTime = rANCS.ReadFloat();
+        const SAdditiveAnim Anim{
+            rANCS.ReadULong(),
+            rANCS.ReadFloat(),
+            rANCS.ReadFloat(),
+        };
         pSet->mAdditiveAnims.push_back(Anim);
     }
 
@@ -365,15 +362,15 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
     // Half Transitions
     if (Version > 2)
     {
-        uint32 NumHalfTransitions = rANCS.ReadLong();
+        const uint32 NumHalfTransitions = rANCS.ReadULong();
         pSet->mHalfTransitions.reserve(NumHalfTransitions);
 
         for (uint32 iTrans = 0; iTrans < NumHalfTransitions; iTrans++)
         {
             SHalfTransition Trans;
-            Trans.AnimID = rANCS.ReadLong();
+            Trans.AnimID = rANCS.ReadULong();
             Trans.pMetaTrans = gMetaTransFactory.LoadFromStream(rANCS, mGame);
-            pSet->mHalfTransitions.push_back(Trans);
+            pSet->mHalfTransitions.push_back(std::move(Trans));
         }
     }
 
@@ -381,14 +378,13 @@ void CAnimSetLoader::LoadAnimationSet(IInputStream& rANCS)
     // Events
     if (mGame >= EGame::EchoesDemo)
     {
-        uint32 EventDataCount = rANCS.ReadLong();
+        const uint32 EventDataCount = rANCS.ReadULong();
         pSet->mAnimEvents.reserve(EventDataCount);
         ASSERT(EventDataCount == NumAnims);
 
         for (uint32 iEvent = 0; iEvent < EventDataCount; iEvent++)
         {
-            CAnimEventData *pData = CAnimEventLoader::LoadAnimSetEvents(rANCS);
-            pSet->mAnimEvents.push_back(pData);
+            pSet->mAnimEvents.push_back(CAnimEventLoader::LoadAnimSetEvents(rANCS));
         }
     }
 }
@@ -398,36 +394,35 @@ void CAnimSetLoader::ProcessPrimitives()
     // Find all unique anim primitives
     std::set<CAnimPrimitive> UniquePrimitives;
 
-    for (uint32 iAnim = 0; iAnim < pSet->mAnimations.size(); iAnim++)
-        pSet->mAnimations[iAnim].pMetaAnim->GetUniquePrimitives(UniquePrimitives);
+    for (const auto& anim : pSet->mAnimations)
+        anim.pMetaAnim->GetUniquePrimitives(UniquePrimitives);
 
-    for (uint32 iTrans = 0; iTrans < pSet->mTransitions.size(); iTrans++)
-        pSet->mTransitions[iTrans].pMetaTrans->GetUniquePrimitives(UniquePrimitives);
+    for (const auto& transition : pSet->mTransitions)
+        transition.pMetaTrans->GetUniquePrimitives(UniquePrimitives);
 
     if (pSet->mpDefaultTransition)
         pSet->mpDefaultTransition->GetUniquePrimitives(UniquePrimitives);
 
-    for (uint32 iTrans = 0; iTrans < pSet->mHalfTransitions.size(); iTrans++)
-        pSet->mHalfTransitions[iTrans].pMetaTrans->GetUniquePrimitives(UniquePrimitives);
+    for (const auto& halfTransition : pSet->mHalfTransitions)
+        halfTransition.pMetaTrans->GetUniquePrimitives(UniquePrimitives);
 
     if (mGame == EGame::CorruptionProto || mGame == EGame::Corruption)
     {
         CSourceAnimData *pAnimData = gpResourceStore->LoadResource<CSourceAnimData>( pSet->mCharacters[0].AnimDataID );
 
-        if (pAnimData)
+        if (pAnimData != nullptr)
             pAnimData->GetUniquePrimitives(UniquePrimitives);
     }
 
     // Copy anim primitives into the animset
-    for (auto Iter = UniquePrimitives.begin(); Iter != UniquePrimitives.end(); Iter++)
+    for (const auto& primitive : UniquePrimitives)
     {
-        const CAnimPrimitive& rkPrim = *Iter;
-        uint32 ID = rkPrim.ID();
+        const uint32 ID = primitive.ID();
 
         if (ID >= pSet->mAnimPrimitives.size())
             pSet->mAnimPrimitives.resize(ID + 1);
 
-        pSet->mAnimPrimitives[ID] = rkPrim;
+        pSet->mAnimPrimitives[ID] = primitive;
     }
 
     // Add used animation indices from the animset to the character's list
@@ -439,22 +434,18 @@ void CAnimSetLoader::ProcessPrimitives()
             std::set<CAnimPrimitive> DefaultTransPrimitives;
             pSet->mpDefaultTransition->GetUniquePrimitives(DefaultTransPrimitives);
 
-            for (uint32 iChar = 0; iChar < pSet->mCharacters.size(); iChar++)
+            for (auto& character : pSet->mCharacters)
             {
-                SSetCharacter& rChar = pSet->mCharacters[iChar];
-
-                for (auto Iter = DefaultTransPrimitives.begin(); Iter != DefaultTransPrimitives.end(); Iter++)
+                for (const auto& primitive : DefaultTransPrimitives)
                 {
-                    const CAnimPrimitive& rkPrim = *Iter;
-                    rChar.UsedAnimationIndices.insert(rkPrim.ID());
+                    character.UsedAnimationIndices.insert(primitive.ID());
                 }
             }
         }
 
         // Add animations referenced by used transitions
-        for (uint32 iChar = 0; iChar < pSet->mCharacters.size(); iChar++)
+        for (auto& character : pSet->mCharacters)
         {
-            SSetCharacter& rChar = pSet->mCharacters[iChar];
             bool AddedNewAnims = true;
 
             // Loop this until we run out of new animations. This is in case any animations
@@ -463,47 +454,41 @@ void CAnimSetLoader::ProcessPrimitives()
             {
                 AddedNewAnims = false;
 
-                for (uint32 iTrans = 0; iTrans < pSet->mTransitions.size(); iTrans++)
+                for (auto& transition : pSet->mTransitions)
                 {
-                    STransition& rTrans = pSet->mTransitions[iTrans];
-
-                    if ( rChar.UsedAnimationIndices.find(rTrans.AnimIdA) != rChar.UsedAnimationIndices.end() &&
-                         rChar.UsedAnimationIndices.find(rTrans.AnimIdB) != rChar.UsedAnimationIndices.end() )
+                    if (character.UsedAnimationIndices.find(transition.AnimIdA) == character.UsedAnimationIndices.cend() ||
+                        character.UsedAnimationIndices.find(transition.AnimIdB) == character.UsedAnimationIndices.cend())
                     {
-                        std::set<CAnimPrimitive> Primitives;
-                        rTrans.pMetaTrans->GetUniquePrimitives(Primitives);
+                        continue;
+                    }
 
-                        for (auto Iter = Primitives.begin(); Iter != Primitives.end(); Iter++)
+                    std::set<CAnimPrimitive> Primitives;
+                    transition.pMetaTrans->GetUniquePrimitives(Primitives);
+
+                    for (const auto& primitive : Primitives)
+                    {
+                        if (character.UsedAnimationIndices.find(primitive.ID()) == character.UsedAnimationIndices.cend())
                         {
-                            const CAnimPrimitive& rkPrim = *Iter;
-
-                            if (rChar.UsedAnimationIndices.find(rkPrim.ID()) == rChar.UsedAnimationIndices.end())
-                            {
-                                rChar.UsedAnimationIndices.insert(rkPrim.ID());
-                                AddedNewAnims = true;
-                            }
+                            character.UsedAnimationIndices.insert(primitive.ID());
+                            AddedNewAnims = true;
                         }
                     }
                 }
 
-                for (uint32 iHalf = 0; iHalf < pSet->mHalfTransitions.size(); iHalf++)
+                for (SHalfTransition& trans : pSet->mHalfTransitions)
                 {
-                    SHalfTransition& rTrans = pSet->mHalfTransitions[iHalf];
+                    if (character.UsedAnimationIndices.find(trans.AnimID) == character.UsedAnimationIndices.cend())
+                        continue;
 
-                    if (rChar.UsedAnimationIndices.find(rTrans.AnimID) != rChar.UsedAnimationIndices.end())
+                    std::set<CAnimPrimitive> Primitives;
+                    trans.pMetaTrans->GetUniquePrimitives(Primitives);
+
+                    for (const auto& primitive : Primitives)
                     {
-                        std::set<CAnimPrimitive> Primitives;
-                        rTrans.pMetaTrans->GetUniquePrimitives(Primitives);
-
-                        for (auto Iter = Primitives.begin(); Iter != Primitives.end(); Iter++)
+                        if (character.UsedAnimationIndices.find(primitive.ID()) == character.UsedAnimationIndices.cend())
                         {
-                            const CAnimPrimitive& rkPrim = *Iter;
-
-                            if (rChar.UsedAnimationIndices.find(rkPrim.ID()) == rChar.UsedAnimationIndices.end())
-                            {
-                                rChar.UsedAnimationIndices.insert(rkPrim.ID());
-                                AddedNewAnims = true;
-                            }
+                            character.UsedAnimationIndices.insert(primitive.ID());
+                            AddedNewAnims = true;
                         }
                     }
                 }
@@ -513,48 +498,53 @@ void CAnimSetLoader::ProcessPrimitives()
 }
 
 // ************ STATIC ************
-CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
+std::unique_ptr<CAnimSet> CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
 {
-    if (!rANCS.IsValid()) return nullptr;
+    if (!rANCS.IsValid())
+        return nullptr;
 
-    uint32 Magic = rANCS.ReadLong();
+    const uint32 Magic = rANCS.ReadULong();
     if (Magic != 0x00010001)
     {
         errorf("%s: Invalid ANCS magic: 0x%08X", *rANCS.GetSourceString(), Magic);
         return nullptr;
     }
 
+    auto ptr = std::make_unique<CAnimSet>(pEntry);
+
     CAnimSetLoader Loader;
-    Loader.pSet = new CAnimSet(pEntry);
+    Loader.pSet = ptr.get();
     Loader.mGame = pEntry->Game();
 
-    uint32 NodeCount = rANCS.ReadLong();
+    const uint32 NodeCount = rANCS.ReadULong();
     Loader.pSet->mCharacters.resize(NodeCount);
 
     for (uint32 iNode = 0; iNode < NodeCount; iNode++)
     {
         SSetCharacter *pChar = &Loader.pSet->mCharacters[iNode];
 
-        pChar->ID = rANCS.ReadLong();
-        uint16 CharVersion = rANCS.ReadShort();
+        pChar->ID = rANCS.ReadULong();
+        const uint16 CharVersion = rANCS.ReadUShort();
         if (iNode == 0 && Loader.mGame == EGame::Invalid)
         {
             Loader.mGame = (CharVersion == 0xA) ? EGame::Echoes : EGame::Prime;
         }
         pChar->Name = rANCS.ReadString();
-        pChar->pModel = gpResourceStore->LoadResource<CModel>(rANCS.ReadLong());
-        pChar->pSkin = gpResourceStore->LoadResource<CSkin>(rANCS.ReadLong());
-        pChar->pSkeleton = gpResourceStore->LoadResource<CSkeleton>(rANCS.ReadLong());
-        if (pChar->pModel) pChar->pModel->SetSkin(pChar->pSkin);
+        pChar->pModel = gpResourceStore->LoadResource<CModel>(rANCS.ReadULong());
+        pChar->pSkin = gpResourceStore->LoadResource<CSkin>(rANCS.ReadULong());
+        pChar->pSkeleton = gpResourceStore->LoadResource<CSkeleton>(rANCS.ReadULong());
+        if (pChar->pModel != nullptr)
+            pChar->pModel->SetSkin(pChar->pSkin);
 
         // Unfortunately that's all that's actually supported at the moment. Hope to expand later.
         // Since there's no size value I have to actually read the rest of the node to reach the next one
-        uint32 AnimCount = rANCS.ReadLong();
+        const uint32 AnimCount = rANCS.ReadULong();
 
         for (uint32 iAnim = 0; iAnim < AnimCount; iAnim++)
         {
             rANCS.Seek(0x4, SEEK_CUR);
-            if (Loader.mGame == EGame::Prime) rANCS.Seek(0x1, SEEK_CUR);
+            if (Loader.mGame == EGame::Prime)
+                rANCS.Seek(0x1, SEEK_CUR);
             rANCS.ReadString();
         }
 
@@ -564,51 +554,55 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
         // Particles
         Loader.LoadParticleResourceData(rANCS, pChar, CharVersion);
 
-        uint32 AnimCount2 = rANCS.ReadLong();
+        const uint32 AnimCount2 = rANCS.ReadULong();
         for (uint32 iAnim = 0; iAnim < AnimCount2; iAnim++)
         {
             rANCS.ReadString();
             rANCS.Seek(0x18, SEEK_CUR);
         }
 
-        uint32 EffectGroupCount = rANCS.ReadLong();
+        const uint32 EffectGroupCount = rANCS.ReadULong();
         for (uint32 iGrp = 0; iGrp < EffectGroupCount; iGrp++)
         {
             rANCS.ReadString();
-            uint32 EffectCount = rANCS.ReadLong();
+            const uint32 EffectCount = rANCS.ReadULong();
 
             for (uint32 iEffect = 0; iEffect < EffectCount; iEffect++)
             {
                 rANCS.ReadString();
                 rANCS.Seek(0x4, SEEK_CUR);
-                CAssetID ParticleID(rANCS, k32Bit);
-                if (ParticleID.IsValid()) pChar->EffectParticles.push_back(ParticleID);
+                const CAssetID ParticleID(rANCS, EIDLength::k32Bit);
+                if (ParticleID.IsValid())
+                    pChar->EffectParticles.push_back(ParticleID);
 
-                if (Loader.mGame == EGame::Prime) rANCS.ReadString();
-                if (Loader.mGame == EGame::Echoes) rANCS.Seek(0x4, SEEK_CUR);
+                if (Loader.mGame == EGame::Prime)
+                    rANCS.ReadString();
+                if (Loader.mGame == EGame::Echoes)
+                    rANCS.Seek(0x4, SEEK_CUR);
+
                 rANCS.Seek(0xC, SEEK_CUR);
             }
         }
 
         SOverlayModel Overlay;
         Overlay.Type = EOverlayType::Frozen;
-        Overlay.ModelID = CAssetID(rANCS, k32Bit);
-        Overlay.SkinID = CAssetID(rANCS, k32Bit);
+        Overlay.ModelID = CAssetID(rANCS, EIDLength::k32Bit);
+        Overlay.SkinID = CAssetID(rANCS, EIDLength::k32Bit);
         pChar->OverlayModels.push_back(Overlay);
 
-        uint32 AnimIndexCount = rANCS.ReadLong();
+        const uint32 AnimIndexCount = rANCS.ReadULong();
 
         for (uint32 iAnim = 0; iAnim < AnimIndexCount; iAnim++)
         {
-            uint32 AnimIndex = rANCS.ReadLong();
+            const uint32 AnimIndex = rANCS.ReadULong();
             pChar->UsedAnimationIndices.insert(AnimIndex);
         }
 
         if (Loader.mGame == EGame::Echoes)
         {
-            pChar->SpatialPrimitives = rANCS.ReadLong();
+            pChar->SpatialPrimitives = rANCS.ReadULong();
             rANCS.Seek(0x1, SEEK_CUR);
-            uint32 UnknownCount2 = rANCS.ReadLong();
+            const uint32 UnknownCount2 = rANCS.ReadULong();
             rANCS.Seek(UnknownCount2 * 0x1C, SEEK_CUR);
         }
     }
@@ -617,71 +611,81 @@ CAnimSet* CAnimSetLoader::LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry)
     Loader.LoadAnimationSet(rANCS);
     Loader.ProcessPrimitives();
 
-    return Loader.pSet;
+    return ptr;
 }
 
-CAnimSet* CAnimSetLoader::LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry)
+std::unique_ptr<CAnimSet> CAnimSetLoader::LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry)
 {
-    if (!rCHAR.IsValid()) return nullptr;
+    if (!rCHAR.IsValid())
+        return nullptr;
 
     CAnimSetLoader Loader;
-    uint8 Check = rCHAR.ReadByte();
+    const uint8 Check = rCHAR.ReadUByte();
 
     if (Check == 0x5 || Check == 0x3)
     {
+        auto ptr = std::make_unique<CAnimSet>(pEntry);
+
         Loader.mGame = EGame::Corruption;
-        Loader.pSet = new CAnimSet(pEntry);
-        return Loader.LoadCorruptionCHAR(rCHAR);
+        Loader.pSet = ptr.get();
+        Loader.LoadCorruptionCHAR(rCHAR);
+
+        return ptr;
     }
 
     if (Check == 0x59)
     {
+        auto ptr = std::make_unique<CAnimSet>(pEntry);
+
         Loader.mGame = EGame::DKCReturns;
-        Loader.pSet = new CAnimSet(pEntry);
-        return Loader.LoadReturnsCHAR(rCHAR);
+        Loader.pSet = ptr.get();
+        Loader.LoadReturnsCHAR(rCHAR);
+
+        return ptr;
     }
 
     errorf("%s: CHAR has invalid first byte: 0x%02X", *rCHAR.GetSourceString(), Check);
     return nullptr;
 }
 
-CSourceAnimData* CAnimSetLoader::LoadSAND(IInputStream& rSAND, CResourceEntry *pEntry)
+std::unique_ptr<CSourceAnimData> CAnimSetLoader::LoadSAND(IInputStream& rSAND, CResourceEntry *pEntry)
 {
-    if (!rSAND.IsValid()) return nullptr;
+    if (!rSAND.IsValid())
+        return nullptr;
 
     // We only care about the transitions right now
-    CSourceAnimData *pData = new CSourceAnimData(pEntry);
+    auto pData = std::make_unique<CSourceAnimData>(pEntry);
 
-    uint16 Unknown = rSAND.ReadShort(); // probably version
+    [[maybe_unused]] const uint16 Unknown = rSAND.ReadUShort(); // probably version
     ASSERT(Unknown == 0);
 
     // Transitions
-    uint32 NumTransitions = rSAND.ReadLong();
+    const uint32 NumTransitions = rSAND.ReadULong();
 
     for (uint32 TransitionIdx = 0; TransitionIdx < NumTransitions; TransitionIdx++)
     {
-        uint8 UnkByte = rSAND.ReadByte();
+        [[maybe_unused]] const uint8 UnkByte = rSAND.ReadUByte();
         ASSERT(UnkByte == 0);
 
         CSourceAnimData::STransition Transition;
-        Transition.AnimA = CAssetID(rSAND, k64Bit);
-        Transition.AnimB = CAssetID(rSAND, k64Bit);
+        Transition.AnimA = CAssetID(rSAND, EIDLength::k64Bit);
+        Transition.AnimB = CAssetID(rSAND, EIDLength::k64Bit);
         Transition.pTransition = gMetaTransFactory.LoadFromStream(rSAND, pEntry->Game());
-        pData->mTransitions.push_back(Transition);
+        pData->mTransitions.push_back(std::move(Transition));
     }
 
     // Half Transitions
-    uint32 NumHalfTransitions = rSAND.ReadLong();
+    const uint32 NumHalfTransitions = rSAND.ReadULong();
 
     for (uint32 HalfIdx = 0; HalfIdx < NumHalfTransitions; HalfIdx++)
     {
-        uint8 UnkByte = rSAND.ReadByte();
+        [[maybe_unused]] const uint8 UnkByte = rSAND.ReadUByte();
         ASSERT(UnkByte == 0);
 
         CSourceAnimData::SHalfTransition HalfTrans;
-        HalfTrans.Anim = CAssetID(rSAND, k64Bit);
+        HalfTrans.Anim = CAssetID(rSAND, EIDLength::k64Bit);
         HalfTrans.pTransition = gMetaTransFactory.LoadFromStream(rSAND, pEntry->Game());
-        pData->mHalfTransitions.push_back(HalfTrans);
+        pData->mHalfTransitions.push_back(std::move(HalfTrans));
     }
 
     // Default Transition

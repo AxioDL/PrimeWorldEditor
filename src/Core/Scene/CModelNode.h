@@ -7,39 +7,39 @@
 class CModelNode : public CSceneNode
 {
     TResPtr<CModel> mpModel;
-    uint32 mActiveMatSet;
-    bool mWorldModel;
-    bool mForceAlphaOn;
-    CColor mTintColor;
-    bool mEnableScanOverlay;
+    uint32 mActiveMatSet = 0;
+    bool mWorldModel = false;
+    bool mForceAlphaOn = false;
+    CColor mTintColor{CColor::White()};
+    bool mEnableScanOverlay = false;
     CColor mScanOverlayColor;
 
 public:
-    explicit CModelNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = 0, CModel *pModel = 0);
+    explicit CModelNode(CScene *pScene, uint32 NodeID, CSceneNode *pParent = nullptr, CModel *pModel = nullptr);
 
-    virtual ENodeType NodeType();
-    virtual void PostLoad();
-    virtual void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    virtual void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
-    virtual void DrawSelection();
-    virtual void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& rkViewInfo);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay &Ray, uint32 AssetID, const SViewInfo& rkViewInfo);
-    virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
+    ENodeType NodeType() override;
+    void PostLoad() override;
+    void AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo) override;
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo) override;
+    void DrawSelection() override;
+    void RayAABoxIntersectTest(CRayCollisionTester& Tester, const SViewInfo& rkViewInfo) override;
+    SRayIntersection RayNodeIntersectTest(const CRay& Ray, uint32 AssetID, const SViewInfo& rkViewInfo) override;
+    CColor TintColor(const SViewInfo& rkViewInfo) const override;
 
     // Setters
     void SetModel(CModel *pModel);
 
-    inline void SetMatSet(uint32 MatSet)                    { mActiveMatSet = MatSet; }
-    inline void SetWorldModel(bool World)                   { mWorldModel = World; }
-    inline void ForceAlphaEnabled(bool Enable)              { mForceAlphaOn = Enable; }
-    inline void SetTintColor(const CColor& rkTintColor)     { mTintColor = rkTintColor; }
-    inline void ClearTintColor()                            { mTintColor = CColor::skWhite; }
-    inline void SetScanOverlayEnabled(bool Enable)          { mEnableScanOverlay = Enable; }
-    inline void SetScanOverlayColor(const CColor& rkColor)  { mScanOverlayColor = rkColor; }
-    inline CModel* Model() const                            { return mpModel; }
-    inline uint32 MatSet() const                            { return mActiveMatSet; }
-    inline bool IsWorldModel() const                        { return mWorldModel; }
-    inline uint32 FindMeshID() const                        { return mpModel->GetSurface(0)->MeshID; }
+    void SetMatSet(uint32 MatSet)                    { mActiveMatSet = MatSet; }
+    void SetWorldModel(bool World)                   { mWorldModel = World; }
+    void ForceAlphaEnabled(bool Enable)              { mForceAlphaOn = Enable; }
+    void SetTintColor(const CColor& rkTintColor)     { mTintColor = rkTintColor; }
+    void ClearTintColor()                            { mTintColor = CColor::White(); }
+    void SetScanOverlayEnabled(bool Enable)          { mEnableScanOverlay = Enable; }
+    void SetScanOverlayColor(const CColor& rkColor)  { mScanOverlayColor = rkColor; }
+    CModel* Model() const                            { return mpModel; }
+    uint32 MatSet() const                            { return mActiveMatSet; }
+    bool IsWorldModel() const                        { return mWorldModel; }
+    uint32 FindMeshID() const                        { return mpModel->GetSurface(0)->MeshID; }
 };
 
 #endif // CMODELNODE_H

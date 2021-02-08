@@ -4,28 +4,30 @@
 #include "Editor/CBasicViewport.h"
 #include "Editor/CGridRenderable.h"
 #include <Core/Scene/CCharacterNode.h>
+#include <memory>
 
 class CCharacterEditorViewport : public CBasicViewport
 {
     Q_OBJECT
 
-    CCharacterNode *mpCharNode;
+    CCharacterNode *mpCharNode = nullptr;
     CGridRenderable mGrid;
-    CRenderer *mpRenderer;
-    uint32 mHoverBone;
-    bool mGridEnabled;
+    std::unique_ptr<CRenderer> mpRenderer;
+    uint32 mHoverBone = 0;
+    bool mGridEnabled = true;
 
 public:
-    CCharacterEditorViewport(QWidget *pParent = 0);
-    ~CCharacterEditorViewport();
-    void SetNode(CCharacterNode *pNode);
-    void CheckUserInput();
-    void Paint();
-    void OnResize();
-    void OnMouseClick(QMouseEvent *pEvent);
+    explicit CCharacterEditorViewport(QWidget* pParent = nullptr);
+    ~CCharacterEditorViewport() override;
 
-    inline uint32 HoverBoneID() const       { return mHoverBone; }
-    inline void SetGridEnabled(bool Enable) { mGridEnabled = Enable; }
+    void SetNode(CCharacterNode *pNode);
+    void CheckUserInput() override;
+    void Paint() override;
+    void OnResize() override;
+    void OnMouseClick(QMouseEvent *pEvent) override;
+
+    uint32 HoverBoneID() const       { return mHoverBone; }
+    void SetGridEnabled(bool Enable) { mGridEnabled = Enable; }
 
 signals:
     void HoverBoneChanged(uint32 BoneID);

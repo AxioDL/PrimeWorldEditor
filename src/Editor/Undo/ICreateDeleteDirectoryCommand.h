@@ -57,7 +57,7 @@ protected:
         }
     }
 
-    bool AffectsCleanState() const { return false; }
+    bool AffectsCleanState() const override { return false; }
 };
 
 class CCreateDirectoryCommand : public ICreateDeleteDirectoryCommand
@@ -67,8 +67,8 @@ public:
         : ICreateDeleteDirectoryCommand("Create Directory", pStore, ParentPath, DirName)
     {}
 
-    void undo() { DoDelete(); }
-    void redo() { DoCreate(); }
+    void undo() override { DoDelete(); }
+    void redo() override { DoCreate(); }
 };
 
 class CDeleteDirectoryCommand : public ICreateDeleteDirectoryCommand
@@ -82,8 +82,8 @@ public:
         ASSERT(!mpDir->IsRoot());
     }
 
-    void undo() { DoCreate(); }
-    void redo() { DoDelete(); }
+    void undo() override { DoCreate(); }
+    void redo() override { DoDelete(); }
 };
 
 #endif // CCREATEDIRECTORYCOMMAND_H

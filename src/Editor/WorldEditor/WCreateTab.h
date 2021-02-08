@@ -5,6 +5,8 @@
 #include <Core/Resource/Script/CGameTemplate.h>
 #include <QWidget>
 
+#include <memory>
+
 namespace Ui {
 class WCreateTab;
 }
@@ -13,15 +15,16 @@ class WCreateTab : public QWidget
 {
     Q_OBJECT
     CWorldEditor *mpEditor;
-    CScriptLayer *mpSpawnLayer;
+    CScriptLayer *mpSpawnLayer = nullptr;
 
 public:
-    explicit WCreateTab(CWorldEditor *pEditor, QWidget *parent = 0);
-    ~WCreateTab();
-    bool eventFilter(QObject *, QEvent *);
+    explicit WCreateTab(CWorldEditor *pEditor, QWidget *parent = nullptr);
+    ~WCreateTab() override;
+
+    bool eventFilter(QObject *, QEvent *) override;
 
     // Accessors
-    inline CScriptLayer* SpawnLayer() const { return mpSpawnLayer; }
+    CScriptLayer* SpawnLayer() const { return mpSpawnLayer; }
 
 public slots:
     void OnActiveProjectChanged(CGameProject *pProj);
@@ -29,7 +32,7 @@ public slots:
     void OnSpawnLayerChanged(int LayerIndex);
 
 private:
-    Ui::WCreateTab *ui;
+    std::unique_ptr<Ui::WCreateTab> ui;
 };
 
 #endif // WCREATETAB_H

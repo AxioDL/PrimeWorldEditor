@@ -16,17 +16,18 @@ class CTranslateNodeCommand : public IUndoCommand
         CVector3f NewPos;
     };
     QList<SNodeTranslate> mNodeList;
-    INodeEditor *mpEditor;
-    bool mCommandEnded;
+    INodeEditor *mpEditor = nullptr;
+    bool mCommandEnded = false;
 
 public:
     CTranslateNodeCommand();
     CTranslateNodeCommand(INodeEditor *pEditor, const QList<CSceneNode*>& rkNodes, const CVector3f& rkDelta, ETransformSpace TransformSpace);
-    int id() const;
-    bool mergeWith(const QUndoCommand *pkOther);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+
+    int id() const override;
+    bool mergeWith(const QUndoCommand *pkOther) override;
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
     static CTranslateNodeCommand* End();
 };
 

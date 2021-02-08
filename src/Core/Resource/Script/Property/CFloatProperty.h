@@ -3,24 +3,24 @@
 
 #include "IProperty.h"
 
-class CFloatProperty : public TNumericalProperty< float, EPropertyType::Float >
+class CFloatProperty : public TNumericalProperty<float, EPropertyType::Float>
 {
     friend class IProperty;
 
 protected:
-    CFloatProperty(EGame Game)
+    explicit CFloatProperty(EGame Game)
         : TNumericalProperty(Game)
     {}
 
 public:
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
-        Arc.SerializePrimitive( (float&) ValueRef(pData), 0 );
+        Arc.SerializePrimitive((float&)ValueRef(pData), 0);
     }
 
-    virtual TString ValueAsString(void* pData) const
+    TString ValueAsString(void* pData) const override
     {
-        return TString::FromFloat( Value(pData) );
+        return TString::FromFloat(Value(pData));
     }
 };
 

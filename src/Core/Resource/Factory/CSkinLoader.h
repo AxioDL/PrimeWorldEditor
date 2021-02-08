@@ -3,12 +3,14 @@
 
 #include "Core/Resource/Animation/CSkin.h"
 #include "Core/Resource/TResPtr.h"
+#include <memory>
 
 class CSkinLoader
 {
-    CSkinLoader() {}
+    CSkinLoader() = default;
+
 public:
-    static CSkin* LoadCSKR(IInputStream& rCSKR, CResourceEntry *pEntry);
+    static std::unique_ptr<CSkin> LoadCSKR(IInputStream& rCSKR, CResourceEntry *pEntry);
 };
 
 #endif // CSKINLOADER_H

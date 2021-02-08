@@ -42,29 +42,29 @@ public:
         gpEdApp->ResourceBrowser()->ResourceDeleted();
     }
 
-    bool AffectsCleanState() const { return false; }
+    bool AffectsCleanState() const override { return false; }
 };
 
 class CCreateResourceCommand : public ICreateDeleteResourceCommand
 {
 public:
-    CCreateResourceCommand(CResourceEntry* pEntry)
+    explicit CCreateResourceCommand(CResourceEntry* pEntry)
         : ICreateDeleteResourceCommand("Create Resource", pEntry)
     {}
 
-    void undo() { DoDelete(); }
-    void redo() { DoCreate(); }
+    void undo() override { DoDelete(); }
+    void redo() override { DoCreate(); }
 };
 
 class CDeleteResourceCommand : public ICreateDeleteResourceCommand
 {
 public:
-    CDeleteResourceCommand(CResourceEntry* pEntry)
+    explicit CDeleteResourceCommand(CResourceEntry* pEntry)
         : ICreateDeleteResourceCommand("Delete Resource", pEntry)
     {}
 
-    void undo() { DoCreate(); }
-    void redo() { DoDelete(); }
+    void undo() override { DoCreate(); }
+    void redo() override { DoDelete(); }
 };
 
 #endif // ICREATEDELETERESOURCECOMMAND_H

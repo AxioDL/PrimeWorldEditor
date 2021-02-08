@@ -20,45 +20,29 @@
 
 CExportGameDialog::CExportGameDialog(const QString& rkIsoPath, const QString& rkExportDir, QWidget *pParent /*= 0*/)
     : QDialog(pParent)
-    , mpUI(new Ui::CExportGameDialog)
-    , mpDisc(nullptr)
-    , mpExporter(nullptr)
-    , mDiscType(EDiscType::Normal)
-    , mGame(EGame::Invalid)
-    , mRegion(ERegion::Unknown)
-    , mBuildVer(0.f)
-    , mWiiFrontend(false)
-    , mExportSuccess(false)
+    , mpUI(std::make_unique<Ui::CExportGameDialog>())
 {
     mpUI->setupUi(this);
 
     // Set up disc
-    mpDisc = nod::OpenDiscFromImage(QStringToNodString(rkIsoPath)).release();
+    mpDisc = nod::OpenDiscFromImage(QStringToNodString(rkIsoPath));
 
     if (ValidateGame())
     {
         mBuildVer = FindBuildVersion();
-        mpExporter = new CGameExporter(mDiscType, mGame, mWiiFrontend, mRegion, mGameTitle, mGameID, mBuildVer);
+        mpExporter = std::make_unique<CGameExporter>(mDiscType, mGame, mWiiFrontend, mRegion, mGameTitle, mGameID, mBuildVer);
         InitUI(rkExportDir);
 
         TString IsoName = TO_TSTRING(rkIsoPath).GetFileName();
-        setWindowTitle(QString("Export Settings - %1").arg( TO_QSTRING(IsoName) ));
+        setWindowTitle(tr("Export Settings - %1").arg(TO_QSTRING(IsoName)));
     }
     else
     {
-        delete mpDisc;
         mpDisc = nullptr;
     }
 }
 
-CExportGameDialog::~CExportGameDialog()
-{
-    delete mpUI;
-    delete mpDisc;
-    delete mpExporter;
-}
-
-void RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetItem *pParent);
+CExportGameDialog::~CExportGameDialog() = default;
 
 void CExportGameDialog::InitUI(QString ExportDir)
 {
@@ -83,28 +67,28 @@ void CExportGameDialog::InitUI(QString ExportDir)
     // Info boxes
     mpUI->GameTitleLineEdit->setText( TO_QSTRING(mGameTitle) );
     mpUI->GameIdLineEdit->setText( TO_QSTRING(mGameID) );
-    mpUI->BuildVersionLineEdit->setText( QString("%1 (%2)").arg(mBuildVer).arg( TO_QSTRING(GameInfo.GetBuildName(mBuildVer, mRegion)) ));
-    mpUI->RegionLineEdit->setText( TEnumReflection<ERegion>::ConvertValueToString(mRegion) );
+    mpUI->BuildVersionLineEdit->setText(tr("%1 (%2)").arg(mBuildVer).arg(TO_QSTRING(GameInfo.GetBuildName(mBuildVer, mRegion))));
+    mpUI->RegionLineEdit->setText(TEnumReflection<ERegion>::ConvertValueToString(mRegion));
 
     // Disc tree widget
     nod::IPartition *pPartition = mpDisc->getDataPartition();
     ASSERT(pPartition);
 
-    QTreeWidgetItem *pTreeRoot = new QTreeWidgetItem((QTreeWidgetItem*) nullptr, QStringList(QString("Disc")));
+    auto* pTreeRoot = new QTreeWidgetItem((QTreeWidgetItem*)nullptr, QStringList(tr("Disc")));
     mpUI->DiscFstTreeWidget->addTopLevelItem(pTreeRoot);
 
     const nod::Node *pkDiscRoot = &pPartition->getFSTRoot();
     RecursiveAddToTree(pkDiscRoot, pTreeRoot);
 
-    pTreeRoot->setIcon(0, QIcon(":/icons/Disc_16px.svg"));
+    pTreeRoot->setIcon(0, QIcon(QStringLiteral(":/icons/Disc_16px.svg")));
     pTreeRoot->setExpanded(true);
 
     // Signals and slots
-    connect(mpUI->OutputDirectoryBrowseButton, SIGNAL(pressed()), this, SLOT(BrowseOutputDirectory()));
-    connect(mpUI->AssetNameMapBrowseButton, SIGNAL(pressed()), this, SLOT(BrowseAssetNameMap()));
-    connect(mpUI->GameEditorInfoBrowseButton, SIGNAL(pressed()), this, SLOT(BrowseGameEditorInfo()));
-    connect(mpUI->CancelButton, SIGNAL(pressed()), this, SLOT(close()));
-    connect(mpUI->ExportButton, SIGNAL(pressed()), this, SLOT(Export()));
+    connect(mpUI->OutputDirectoryBrowseButton, &QPushButton::pressed, this, &CExportGameDialog::BrowseOutputDirectory);
+    connect(mpUI->AssetNameMapBrowseButton, &QPushButton::pressed, this, &CExportGameDialog::BrowseAssetNameMap);
+    connect(mpUI->GameEditorInfoBrowseButton, &QPushButton::pressed, this, &CExportGameDialog::BrowseGameEditorInfo);
+    connect(mpUI->CancelButton, &QPushButton::pressed, this, &CExportGameDialog::close);
+    connect(mpUI->ExportButton, &QPushButton::pressed, this, &CExportGameDialog::Export);
 }
 
 bool CExportGameDialog::ValidateGame()
@@ -228,7 +212,7 @@ bool CExportGameDialog::ValidateGame()
     if (mGame == EGame::PrimeDemo || mGame == EGame::EchoesDemo || mGame == EGame::CorruptionProto)
     {
         // we cannot parent the error message box to ourselves because this window hasn't been shown
-        UICommon::ErrorMsg(parentWidget(), "The demo builds are currently not supported.");
+        UICommon::ErrorMsg(parentWidget(), tr("The demo builds are currently not supported."));
         return false;
     }
 
@@ -238,25 +222,25 @@ bool CExportGameDialog::ValidateGame()
 bool CExportGameDialog::RequestWiiPortGame()
 {
     QDialog Dialog;
-    Dialog.setWindowTitle("Select Game");
+    Dialog.setWindowTitle(tr("Select Game"));
 
-    bool IsTrilogy = (mGame == EGame::Invalid);
-    bool HasMP1 = (IsTrilogy || mGame == EGame::Prime);
-    bool HasMP2 = (IsTrilogy || mGame == EGame::Echoes);
-    bool HasMP3 = IsTrilogy;
+    const bool IsTrilogy = (mGame == EGame::Invalid);
+    const bool HasMP1 = (IsTrilogy || mGame == EGame::Prime);
+    const bool HasMP2 = (IsTrilogy || mGame == EGame::Echoes);
+    const bool HasMP3 = IsTrilogy;
 
-    QString GameName = (IsTrilogy ? "Metroid Prime: Trilogy" : "Wii de Asobu");
-    QString LabelText = QString("You have selected a %1 ISO. Please pick a game to export:").arg(GameName);
+    const QString GameName = (IsTrilogy ? tr("Metroid Prime: Trilogy") : tr("Wii de Asobu"));
+    const QString LabelText = tr("You have selected a %1 ISO. Please pick a game to export:").arg(GameName);
     QLabel Label(LabelText, &Dialog);
 
     QComboBox ComboBox(&Dialog);
-    ComboBox.addItem("Front End");
-    if (HasMP1) ComboBox.addItem("Metroid Prime");
-    if (HasMP2) ComboBox.addItem("Metroid Prime 2: Echoes");
-    if (HasMP3) ComboBox.addItem("Metroid Prime 3: Corruption");
+    ComboBox.addItem(tr("Front End"));
+    if (HasMP1) ComboBox.addItem(tr("Metroid Prime"));
+    if (HasMP2) ComboBox.addItem(tr("Metroid Prime 2: Echoes"));
+    if (HasMP3) ComboBox.addItem(tr("Metroid Prime 3: Corruption"));
     QDialogButtonBox ButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &Dialog);
-    connect(&ButtonBox, SIGNAL(accepted()), &Dialog, SLOT(accept()));
-    connect(&ButtonBox, SIGNAL(rejected()), &Dialog, SLOT(reject()));
+    connect(&ButtonBox, &QDialogButtonBox::accepted, &Dialog, &QDialog::accept);
+    connect(&ButtonBox, &QDialogButtonBox::rejected, &Dialog, &QDialog::reject);
 
     QVBoxLayout Layout;
     Layout.addWidget(&Label);
@@ -264,7 +248,7 @@ bool CExportGameDialog::RequestWiiPortGame()
     Layout.addWidget(&ButtonBox);
     Dialog.setLayout(&Layout);
 
-    int Result = Dialog.exec();
+    const int Result = Dialog.exec();
 
     if (Result == QDialog::Accepted)
     {
@@ -290,7 +274,8 @@ bool CExportGameDialog::RequestWiiPortGame()
 
         return true;
     }
-    else return false;
+
+    return false;
 }
 
 float CExportGameDialog::FindBuildVersion()
@@ -305,7 +290,7 @@ float CExportGameDialog::FindBuildVersion()
     uint32 DolSize = (uint32) mpDisc->getDataPartition()->getDOLSize();
 
     // Find build info string
-    const char *pkSearchText = "!#$MetroidBuildInfo!#$";
+    constexpr char pkSearchText[] = "!#$MetroidBuildInfo!#$";
     const int SearchTextSize = strlen(pkSearchText);
 
     for (uint32 SearchIdx = 0; SearchIdx < DolSize - SearchTextSize + 1; SearchIdx++)
@@ -334,8 +319,8 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
 {
     // Get sorted list of nodes
     std::list<const nod::Node*> NodeList;
-    for (nod::Node::DirectoryIterator Iter = pkNode->begin(); Iter != pkNode->end(); ++Iter)
-        NodeList.push_back(&*Iter);
+    for (const nod::Node& Iter : *pkNode)
+        NodeList.push_back(&Iter);
 
     NodeList.sort([](const nod::Node *pkLeft, const nod::Node *pkRight) -> bool
     {
@@ -346,8 +331,8 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
     });
 
     // Add nodes to tree
-    static const QIcon skFileIcon = QIcon(":/icons/New_16px.svg");
-    static const QIcon skDirIcon = QIcon(":/icons/Open_16px.svg");
+    static const QIcon skFileIcon{QStringLiteral(":/icons/New_16px.svg")};
+    static const QIcon skDirIcon{QStringLiteral(":/icons/Open_16px.svg")};
 
     for (auto Iter = NodeList.begin(); Iter != NodeList.end(); Iter++)
     {
@@ -356,9 +341,9 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
         if (!mpExporter->ShouldExportDiscNode(pkNode, pParent->parent() == nullptr))
             continue;
 
-        bool IsDir = pkNode->getKind() == nod::Node::Kind::Directory;
+        const bool IsDir = pkNode->getKind() == nod::Node::Kind::Directory;
 
-        QTreeWidgetItem *pItem = new QTreeWidgetItem(pParent, QStringList(QString::fromStdString(pkNode->getName().data())) );
+        auto* pItem = new QTreeWidgetItem(pParent, QStringList(QString::fromStdString(pkNode->getName().data())));
         pItem->setIcon(0, QIcon(IsDir ? skDirIcon : skFileIcon));
 
         if (IsDir)
@@ -368,47 +353,50 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
 
 void CExportGameDialog::BrowseOutputDirectory()
 {
-    QString NewOutputDir = UICommon::OpenDirDialog(this, "Choose export directory");
-    if (!NewOutputDir.isEmpty()) mpUI->OutputDirectoryLineEdit->setText(NewOutputDir);
+    const QString NewOutputDir = UICommon::OpenDirDialog(this, tr("Choose export directory"));
+    if (!NewOutputDir.isEmpty())
+        mpUI->OutputDirectoryLineEdit->setText(NewOutputDir);
 }
 
 void CExportGameDialog::BrowseAssetNameMap()
 {
-    QString Filter = "*." + TO_QSTRING(CAssetNameMap::GetExtension());
-    QString NewNameMap = UICommon::OpenFileDialog(this, "Choose Asset Name Map", Filter);
-    if (!NewNameMap.isEmpty()) mpUI->AssetNameMapLineEdit->setText(NewNameMap);
+    const QString Filter = QStringLiteral("*.") + TO_QSTRING(CAssetNameMap::GetExtension());
+    const QString NewNameMap = UICommon::OpenFileDialog(this, tr("Choose Asset Name Map"), Filter);
+    if (!NewNameMap.isEmpty())
+        mpUI->AssetNameMapLineEdit->setText(NewNameMap);
 }
 
 void CExportGameDialog::BrowseGameEditorInfo()
 {
-    QString Filter = "*." + TO_QSTRING(CGameInfo::GetExtension());
-    QString NewGameInfo = UICommon::OpenFileDialog(this, "Choose Game Editor Info", Filter);
-    if (!NewGameInfo.isEmpty()) mpUI->GameEditorInfoLineEdit->setText(NewGameInfo);
+    const QString Filter = QStringLiteral("*.") + TO_QSTRING(CGameInfo::GetExtension());
+    const QString NewGameInfo = UICommon::OpenFileDialog(this, tr("Choose Game Editor Info"), Filter);
+    if (!NewGameInfo.isEmpty())
+        mpUI->GameEditorInfoLineEdit->setText(NewGameInfo);
 }
 
 void CExportGameDialog::Export()
 {
-    QString ExportDir = mpUI->OutputDirectoryLineEdit->text();
-    QString NameMapPath = mpUI->AssetNameMapLineEdit->text();
-    QString GameInfoPath = mpUI->GameEditorInfoLineEdit->text();
+    const QString ExportDir = mpUI->OutputDirectoryLineEdit->text();
+    const QString NameMapPath = mpUI->AssetNameMapLineEdit->text();
+    const QString GameInfoPath = mpUI->GameEditorInfoLineEdit->text();
 
     // Validate export dir
     if (ExportDir.isEmpty())
     {
-        UICommon::ErrorMsg(this, "Please specify an empty output directory!");
+        UICommon::ErrorMsg(this, tr("Please specify an empty output directory!"));
         return;
     }
 
-    else if (!FileUtil::IsEmpty( TO_TSTRING(ExportDir) ))
+    if (!FileUtil::IsEmpty(TO_TSTRING(ExportDir)))
     {
-        UICommon::ErrorMsg(this, "The output directory is not empty!");
+        UICommon::ErrorMsg(this, tr("The output directory is not empty!"));
         return;
     }
 
     // Verify name map is valid
     if (!NameMapPath.isEmpty() && !FileUtil::Exists(TO_TSTRING(NameMapPath)))
     {
-        UICommon::ErrorMsg(this, "The Asset Name Map path is invalid!");
+        UICommon::ErrorMsg(this, tr("The Asset Name Map path is invalid!"));
         return;
     }
 
@@ -416,17 +404,17 @@ void CExportGameDialog::Export()
 
     if (!NameMapPath.isEmpty())
     {
-        bool LoadSuccess = NameMap.LoadAssetNames( TO_TSTRING(NameMapPath) );
+        const bool LoadSuccess = NameMap.LoadAssetNames( TO_TSTRING(NameMapPath) );
 
         if (!LoadSuccess)
         {
-            UICommon::ErrorMsg(this, "Failed to load the asset name map!");
+            UICommon::ErrorMsg(this, tr("Failed to load the asset name map!"));
             return;
         }
 
-        else if (!NameMap.IsValid())
+        if (!NameMap.IsValid())
         {
-            UICommon::ErrorMsg(this, "The Asset Name Map is invalid and cannot be used! See the log for more information.");
+            UICommon::ErrorMsg(this, tr("The Asset Name Map is invalid and cannot be used! See the log for more information."));
             return;
         }
     }
@@ -434,18 +422,18 @@ void CExportGameDialog::Export()
     // Verify game info is valid
     if (!GameInfoPath.isEmpty() && !FileUtil::Exists(TO_TSTRING(GameInfoPath)))
     {
-        UICommon::ErrorMsg(this, "The Game Editor Info path is invalid!");
+        UICommon::ErrorMsg(this, tr("The Game Editor Info path is invalid!"));
         return;
     }
 
     CGameInfo GameInfo;
     if (!GameInfoPath.isEmpty())
     {
-        bool LoadSuccess = GameInfo.LoadGameInfo( TO_TSTRING(GameInfoPath) );
+        const bool LoadSuccess = GameInfo.LoadGameInfo(TO_TSTRING(GameInfoPath));
 
         if (!LoadSuccess)
         {
-            UICommon::ErrorMsg(this, "Failed to load game info!");
+            UICommon::ErrorMsg(this, tr("Failed to load game info!"));
             return;
         }
     }
@@ -456,15 +444,17 @@ void CExportGameDialog::Export()
     TString StrExportDir = TO_TSTRING(ExportDir);
     StrExportDir.EnsureEndsWith('/');
 
-    CProgressDialog Dialog("Creating new game project", false, true, parentWidget());
-    QFuture<bool> Future = QtConcurrent::run(mpExporter, &CGameExporter::Export, mpDisc, StrExportDir, &NameMap, &GameInfo, &Dialog);
+    CProgressDialog Dialog(tr("Creating new game project"), false, true, parentWidget());
+    QFuture<bool> Future = QtConcurrent::run(mpExporter.get(), &CGameExporter::Export, mpDisc.get(), StrExportDir, &NameMap, &GameInfo, &Dialog);
     mExportSuccess = Dialog.WaitForResults(Future);
 
     if (!mExportSuccess)
     {
         if (!Dialog.ShouldCancel())
-            UICommon::ErrorMsg(this, "Export failed!");
+            UICommon::ErrorMsg(this, tr("Export failed!"));
     }
     else
+    {
         mNewProjectPath = TO_QSTRING(mpExporter->ProjectPath());
+    }
 }

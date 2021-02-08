@@ -5,25 +5,25 @@
 #include <algorithm>
 
 CVirtualDirectory::CVirtualDirectory(CResourceStore *pStore)
-    : mpParent(nullptr), mpStore(pStore)
+    : mpStore(pStore)
 {}
 
 CVirtualDirectory::CVirtualDirectory(const TString& rkName, CResourceStore *pStore)
-    : mpParent(nullptr), mName(rkName), mpStore(pStore)
+    : mpStore(pStore), mName(rkName)
 {
     ASSERT(!mName.IsEmpty() && FileUtil::IsValidName(mName, true));
 }
 
 CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, const TString& rkName, CResourceStore *pStore)
-    : mpParent(pParent), mName(rkName), mpStore(pStore)
+    : mpParent(pParent), mpStore(pStore), mName(rkName)
 {
     ASSERT(!mName.IsEmpty() && FileUtil::IsValidName(mName, true));
 }
 
 CVirtualDirectory::~CVirtualDirectory()
 {
-    for (uint32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
-        delete mSubdirectories[iSub];
+    for (auto* subdirectory : mSubdirectories)
+        delete subdirectory;
 }
 
 bool CVirtualDirectory::IsEmpty(bool CheckFilesystem) const
@@ -31,9 +31,11 @@ bool CVirtualDirectory::IsEmpty(bool CheckFilesystem) const
     if (!mResources.empty())
         return false;
 
-    for (uint32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
-        if (!mSubdirectories[iSub]->IsEmpty(CheckFilesystem))
+    for (auto* subdirectory : mSubdirectories)
+    {
+        if (!subdirectory->IsEmpty(CheckFilesystem))
             return false;
+    }
 
     if (CheckFilesystem && !FileUtil::IsEmpty( AbsolutePath() ))
         return false;
@@ -43,7 +45,7 @@ bool CVirtualDirectory::IsEmpty(bool CheckFilesystem) const
 
 bool CVirtualDirectory::IsDescendantOf(CVirtualDirectory *pDir) const
 {
-    return (this == pDir) || (mpParent && pDir && (mpParent == pDir || mpParent->IsDescendantOf(pDir)));
+    return (this == pDir) || (mpParent != nullptr && pDir != nullptr && (mpParent == pDir || mpParent->IsDescendantOf(pDir)));
 }
 
 bool CVirtualDirectory::IsSafeToDelete() const
@@ -72,8 +74,8 @@ TString CVirtualDirectory::FullPath() const
 {
     if (IsRoot())
         return "";
-    else
-        return (mpParent ? mpParent->FullPath() + mName : static_cast<TString::BaseClass>(mName)) + '/';
+
+    return (mpParent != nullptr ? mpParent->FullPath() + mName : static_cast<TString::BaseClass>(mName)) + '/';
 }
 
 TString CVirtualDirectory::AbsolutePath() const
@@ -83,40 +85,35 @@ TString CVirtualDirectory::AbsolutePath() const
 
 CVirtualDirectory* CVirtualDirectory::GetRoot()
 {
-    return (mpParent ? mpParent->GetRoot() : this);
+    return mpParent != nullptr ? mpParent->GetRoot() : this;
 }
 
 CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TString& rkName, bool AllowCreate)
 {
-    uint32 SlashIdx = rkName.IndexOf("\\/");
-    TString DirName = (SlashIdx == -1 ? static_cast<TString::BaseClass>(rkName) : rkName.SubString(0, SlashIdx));
+    const uint32 SlashIdx = rkName.IndexOf("\\/");
+    const TString DirName = (SlashIdx == UINT32_MAX ? static_cast<TString::BaseClass>(rkName) : rkName.SubString(0, SlashIdx));
 
-    for (uint32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
+    for (auto* child : mSubdirectories)
     {
-        CVirtualDirectory *pChild = mSubdirectories[iSub];
-
-        if (pChild->Name().CaseInsensitiveCompare(DirName))
+        if (child->Name().CaseInsensitiveCompare(DirName))
         {
-            if (SlashIdx == -1)
-                return pChild;
+            if (SlashIdx == UINT32_MAX)
+                return child;
 
-            else
-            {
-                TString Remaining = rkName.SubString(SlashIdx + 1, rkName.Size() - SlashIdx);
+            const TString Remaining = rkName.SubString(SlashIdx + 1, rkName.Size() - SlashIdx);
 
-                if (Remaining.IsEmpty())
-                    return pChild;
-                else
-                    return pChild->FindChildDirectory(Remaining, AllowCreate);
-            }
+            if (Remaining.IsEmpty())
+                return child;
+
+            return child->FindChildDirectory(Remaining, AllowCreate);
         }
     }
 
     if (AllowCreate)
     {
-        if ( AddChild(rkName, nullptr) )
+        if (AddChild(rkName, nullptr))
         {
-            CVirtualDirectory *pOut = FindChildDirectory(rkName, false);
+            CVirtualDirectory* pOut = FindChildDirectory(rkName, false);
             ASSERT(pOut != nullptr);
             return pOut;
         }
@@ -127,19 +124,19 @@ CVirtualDirectory* CVirtualDirectory::FindChildDirectory(const TString& rkName, 
 
 CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkPath)
 {
-    TString Dir = rkPath.GetFileDirectory();
-    TString Name = rkPath.GetFileName();
+    const TString Dir = rkPath.GetFileDirectory();
+    const TString Name = rkPath.GetFileName();
 
     if (!Dir.IsEmpty())
     {
-        CVirtualDirectory *pDir = FindChildDirectory(Dir, false);
-        if (pDir) return pDir->FindChildResource(Name);
+        CVirtualDirectory* pDir = FindChildDirectory(Dir, false);
+        if (pDir != nullptr)
+            return pDir->FindChildResource(Name);
     }
-
     else if (!Name.IsEmpty())
     {
-        TString Ext = Name.GetFileExtension();
-        EResourceType Type = CResTypeInfo::TypeForCookedExtension(mpStore->Game(), Ext)->Type();
+        const TString Ext = Name.GetFileExtension();
+        const EResourceType Type = CResTypeInfo::TypeForCookedExtension(mpStore->Game(), Ext)->Type();
         return FindChildResource(Name.GetFileName(false), Type);
     }
 
@@ -148,47 +145,48 @@ CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkPath)
 
 CResourceEntry* CVirtualDirectory::FindChildResource(const TString& rkName, EResourceType Type)
 {
-    for (uint32 iRes = 0; iRes < mResources.size(); iRes++)
-    {
-        if (rkName.CaseInsensitiveCompare(mResources[iRes]->Name()) && mResources[iRes]->ResourceType() == Type)
-            return mResources[iRes];
-    }
+    const auto it = std::find_if(mResources.begin(), mResources.end(), [&](const auto* resource) {
+        return rkName.CaseInsensitiveCompare(resource->Name()) && resource->ResourceType() == Type;
+    });
 
-    return nullptr;
+    if (it == mResources.cend())
+        return nullptr;
+
+    return *it;
 }
 
 bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
 {
     if (rkPath.IsEmpty())
     {
-        if (pEntry)
+        if (pEntry != nullptr)
         {
             mResources.push_back(pEntry);
             return true;
         }
-        else
-            return false;
+
+        return false;
     }
 
-    else if (IsValidDirectoryPath(rkPath))
+    if (IsValidDirectoryPath(rkPath))
     {
-        uint32 SlashIdx = rkPath.IndexOf("\\/");
-        TString DirName = (SlashIdx == -1 ? static_cast<TString::BaseClass>(rkPath) : rkPath.SubString(0, SlashIdx));
-        TString Remaining = (SlashIdx == -1 ? "" : rkPath.SubString(SlashIdx + 1, rkPath.Size() - SlashIdx));
+        const uint32 SlashIdx = rkPath.IndexOf("\\/");
+        const TString DirName = (SlashIdx == UINT32_MAX ? static_cast<TString::BaseClass>(rkPath) : rkPath.SubString(0, SlashIdx));
+        const TString Remaining = (SlashIdx == UINT32_MAX ? "" : rkPath.SubString(SlashIdx + 1, rkPath.Size() - SlashIdx));
 
         // Check if this subdirectory already exists
-        CVirtualDirectory *pSubdir = nullptr;
+        CVirtualDirectory* pSubdir = nullptr;
 
-        for (uint32 iSub = 0; iSub < mSubdirectories.size(); iSub++)
+        for (auto* subdirectory : mSubdirectories)
         {
-            if (mSubdirectories[iSub]->Name() == DirName)
+            if (subdirectory->Name() == DirName)
             {
-                pSubdir = mSubdirectories[iSub];
+                pSubdir = subdirectory;
                 break;
             }
         }
 
-        if (!pSubdir)
+        if (pSubdir == nullptr)
         {
             // Create new subdirectory
             pSubdir = new CVirtualDirectory(this, DirName, mpStore);
@@ -206,9 +204,9 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
             // We also know none of the remaining directories already exist because this is a new, empty directory.
             TStringList Components = Remaining.Split("/\\");
 
-            for (auto Iter = Components.begin(); Iter != Components.end(); Iter++)
+            for (const auto& component : Components)
             {
-                pSubdir = new CVirtualDirectory(pSubdir, *Iter, mpStore);
+                pSubdir = new CVirtualDirectory(pSubdir, component, mpStore);
 
                 if (!pSubdir->CreateFilesystemDirectory())
                 {
@@ -219,29 +217,30 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
                 pSubdir->Parent()->mSubdirectories.push_back(pSubdir);
             }
 
-            if (pEntry)
+            if (pEntry != nullptr)
                 pSubdir->mResources.push_back(pEntry);
 
             return true;
         }
 
         // If we have another valid child to add, return whether that operation completed successfully
-        else if (!Remaining.IsEmpty() || pEntry)
+        if (!Remaining.IsEmpty() || pEntry != nullptr)
             return pSubdir->AddChild(Remaining, pEntry);
 
         // Otherwise, we're done, so just return true
-        else
-            return true;
+        return true;
     }
 
-    else
-        return false;
+    return false;
 }
 
 bool CVirtualDirectory::AddChild(CVirtualDirectory *pDir)
 {
-    if (pDir->Parent() != this) return false;
-    if (FindChildDirectory(pDir->Name(), false) != nullptr) return false;
+    if (pDir->Parent() != this)
+        return false;
+
+    if (FindChildDirectory(pDir->Name(), false) != nullptr)
+        return false;
 
     mSubdirectories.push_back(pDir);
     SortSubdirectories();
@@ -251,36 +250,32 @@ bool CVirtualDirectory::AddChild(CVirtualDirectory *pDir)
 
 bool CVirtualDirectory::RemoveChildDirectory(CVirtualDirectory *pSubdir)
 {
-    for (auto It = mSubdirectories.begin(); It != mSubdirectories.end(); It++)
-    {
-        if (*It == pSubdir)
-        {
-            mSubdirectories.erase(It);
-            return true;
-        }
-    }
+    const auto it = std::find_if(mSubdirectories.cbegin(), mSubdirectories.cend(),
+                                 [pSubdir](const auto* dir) { return dir == pSubdir; });
 
-    return false;
+    if (it == mSubdirectories.cend())
+        return false;
+
+    mSubdirectories.erase(it);
+    return true;
 }
 
 bool CVirtualDirectory::RemoveChildResource(CResourceEntry *pEntry)
 {
-    for (auto It = mResources.begin(); It != mResources.end(); It++)
-    {
-        if (*It == pEntry)
-        {
-            mResources.erase(It);
-            return true;
-        }
-    }
+    const auto it = std::find_if(mResources.cbegin(), mResources.cend(),
+                                 [pEntry](const auto* resource) { return resource == pEntry; });
 
-    return false;
+    if (it == mResources.cend())
+        return false;
+
+    mResources.erase(it);
+    return true;
 }
 
 void CVirtualDirectory::SortSubdirectories()
 {
-    std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](CVirtualDirectory *pLeft, CVirtualDirectory *pRight) -> bool {
-        return (pLeft->Name().ToUpper() < pRight->Name().ToUpper());
+    std::sort(mSubdirectories.begin(), mSubdirectories.end(), [](const auto* pLeft, const auto* pRight) {
+        return pLeft->Name().ToUpper() < pRight->Name().ToUpper();
     });
 }
 
@@ -290,10 +285,10 @@ bool CVirtualDirectory::Rename(const TString& rkNewName)
 
     if (!IsRoot())
     {
-        if (!mpParent->FindChildDirectory(rkNewName, false))
+        if (mpParent->FindChildDirectory(rkNewName, false) == nullptr)
         {
-            TString AbsPath = AbsolutePath();
-            TString NewPath = mpParent->AbsolutePath() + rkNewName + "/";
+            const TString AbsPath = AbsolutePath();
+            const TString NewPath = mpParent->AbsolutePath() + rkNewName + "/";
 
             if (FileUtil::MoveDirectory(AbsPath, NewPath))
             {
@@ -317,7 +312,7 @@ bool CVirtualDirectory::Delete()
     {
         if (FileUtil::DeleteDirectory(AbsolutePath(), true))
         {
-            if (!mpParent || mpParent->RemoveChildDirectory(this))
+            if (mpParent == nullptr || mpParent->RemoveChildDirectory(this))
             {
                 mpStore->SetCacheDirty();
                 delete this;
@@ -331,7 +326,7 @@ bool CVirtualDirectory::Delete()
 
 void CVirtualDirectory::DeleteEmptySubdirectories()
 {
-    for (uint32 SubdirIdx = 0; SubdirIdx < mSubdirectories.size(); SubdirIdx++)
+    for (size_t SubdirIdx = 0; SubdirIdx < mSubdirectories.size(); SubdirIdx++)
     {
         CVirtualDirectory *pDir = mSubdirectories[SubdirIdx];
 
@@ -341,17 +336,19 @@ void CVirtualDirectory::DeleteEmptySubdirectories()
             SubdirIdx--;
         }
         else
+        {
             pDir->DeleteEmptySubdirectories();
+        }
     }
 }
 
 bool CVirtualDirectory::CreateFilesystemDirectory()
 {
-    TString AbsPath = AbsolutePath();
+    const TString AbsPath = AbsolutePath();
 
     if (!FileUtil::Exists(AbsPath))
     {
-        bool CreateSuccess = FileUtil::MakeDirectory(AbsPath);
+        const bool CreateSuccess = FileUtil::MakeDirectory(AbsPath);
 
         if (!CreateSuccess)
             errorf("FAILED to create filesystem directory: %s", *AbsPath);
@@ -365,22 +362,23 @@ bool CVirtualDirectory::CreateFilesystemDirectory()
 bool CVirtualDirectory::SetParent(CVirtualDirectory *pParent)
 {
     ASSERT(!pParent->IsDescendantOf(this));
-    if (mpParent == pParent) return true;
+    if (mpParent == pParent)
+        return true;
 
     debugf("MOVING DIRECTORY: %s -> %s", *FullPath(), *(pParent->FullPath() + mName + '/'));
 
     // Check for a conflict
     CVirtualDirectory *pConflictDir = pParent->FindChildDirectory(mName, false);
 
-    if (pConflictDir)
+    if (pConflictDir != nullptr)
     {
         errorf("DIRECTORY MOVE FAILED: Conflicting directory exists at the destination path!");
         return false;
     }
 
     // Move filesystem contents to new path
-    TString AbsOldPath = mpStore->ResourcesDir() + FullPath();
-    TString AbsNewPath = mpStore->ResourcesDir() + pParent->FullPath() + mName + '/';
+    const TString AbsOldPath = mpStore->ResourcesDir() + FullPath();
+    const TString AbsNewPath = mpStore->ResourcesDir() + pParent->FullPath() + mName + '/';
 
     if (mpParent->RemoveChildDirectory(this) && FileUtil::MoveDirectory(AbsOldPath, AbsNewPath))
     {
@@ -400,9 +398,9 @@ bool CVirtualDirectory::SetParent(CVirtualDirectory *pParent)
 // ************ STATIC ************
 bool CVirtualDirectory::IsValidDirectoryName(const TString& rkName)
 {
-    return ( rkName != "." &&
-             rkName != ".." &&
-             FileUtil::IsValidName(rkName, true) );
+    return rkName != "." &&
+           rkName != ".." &&
+           FileUtil::IsValidName(rkName, true);
 }
 
 bool CVirtualDirectory::IsValidDirectoryPath(TString Path)
@@ -415,13 +413,6 @@ bool CVirtualDirectory::IsValidDirectoryPath(TString Path)
     if (Path.EndsWith('/') || Path.EndsWith('\\'))
         Path = Path.ChopBack(1);
 
-    TStringList Parts = Path.Split("/\\", true);
-
-    for (auto Iter = Parts.begin(); Iter != Parts.end(); Iter++)
-    {
-        if (!IsValidDirectoryName(*Iter))
-            return false;
-    }
-
-    return true;
+    const TStringList Parts = Path.Split("/\\", true);
+    return std::all_of(Parts.cbegin(), Parts.cend(), IsValidDirectoryPath);
 }

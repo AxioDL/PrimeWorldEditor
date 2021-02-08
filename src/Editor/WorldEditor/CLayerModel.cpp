@@ -4,17 +4,14 @@
 
 CLayerModel::CLayerModel(QObject *pParent)
     : QAbstractListModel(pParent)
-    , mpArea(nullptr)
 {
 }
 
-CLayerModel::~CLayerModel()
-{
-}
+CLayerModel::~CLayerModel() = default;
 
 int CLayerModel::rowCount(const QModelIndex& /*parent*/) const
 {
-    return mpArea ? mpArea->NumScriptLayers() : 0;
+    return mpArea ? static_cast<int>(mpArea->NumScriptLayers()) : 0;
 }
 
 QVariant CLayerModel::data(const QModelIndex &index, int role) const
@@ -33,11 +30,13 @@ void CLayerModel::SetArea(CGameArea *pArea)
 
 CScriptLayer* CLayerModel::Layer(const QModelIndex& index) const
 {
-    if (!mpArea) return nullptr;
-    uint32 NumLayers = mpArea->NumScriptLayers();
+    if (!mpArea)
+        return nullptr;
 
-    if (index.row() < (int) NumLayers)
-        return mpArea->ScriptLayer(index.row());
+    const size_t NumLayers = mpArea->NumScriptLayers();
+
+    if (index.row() < static_cast<int>(NumLayers))
+        return mpArea->ScriptLayer(static_cast<size_t>(index.row()));
 
     return nullptr;
 }

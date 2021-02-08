@@ -10,14 +10,12 @@
 
 CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     : QDialog(pParent)
-    , mpUI(new Ui::CTemplateEditDialog)
+    , mpUI(std::make_unique<Ui::CTemplateEditDialog>())
     , mpValidator(new CPropertyNameValidator(this))
     , mpProperty(pProperty)
     , mGame(pProperty->Game())
     , mOriginalName(pProperty->Name())
     , mOriginalDescription(pProperty->Description())
-    , mOriginalAllowTypeNameOverride(false)
-    , mOriginalNameWasValid(true)
 {
     mpUI->setupUi(this);
 
@@ -34,9 +32,9 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
 
     if (AllowTypeNameEdit)
     {
-        connect( mpUI->TypenameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(RefreshTypeNameOverride()) );
+        connect(mpUI->TypenameLineEdit, &QLineEdit::textChanged, this, &CTemplateEditDialog::RefreshTypeNameOverride);
         mOriginalTypeName = pProperty->RootArchetype()->Name();
-        mpUI->TypenameLineEdit->setText( TO_QSTRING(mOriginalTypeName) );
+        mpUI->TypenameLineEdit->setText(TO_QSTRING(mOriginalTypeName));
     }
     else
     {
@@ -49,8 +47,8 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     {
         CEnumProperty* pEnum = TPropCast<CEnumProperty>(pProperty);
         mOriginalAllowTypeNameOverride = pEnum->OverridesTypeName();
-        mpUI->OverrideTypeNameCheckBox->setChecked( mOriginalAllowTypeNameOverride );
-        connect( mpUI->OverrideTypeNameCheckBox, SIGNAL(toggled(bool)), this, SLOT(RefreshTypeNameOverride()) );
+        mpUI->OverrideTypeNameCheckBox->setChecked(mOriginalAllowTypeNameOverride);
+        connect(mpUI->OverrideTypeNameCheckBox, &QCheckBox::toggled, this, &CTemplateEditDialog::RefreshTypeNameOverride);
     }
     else
     {
@@ -63,10 +61,19 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     if (Type == EPropertyType::Int || Type == EPropertyType::Choice || Type == EPropertyType::Flags || Type == EPropertyType::Sound)
     {
         QMenu* pConvertMenu = new QMenu(this);
-        if (Type != EPropertyType::Int)    pConvertMenu->addAction("Int", this, SLOT(ConvertToInt()));
-        if (Type != EPropertyType::Choice) pConvertMenu->addAction("Choice", this, SLOT(ConvertToChoice()));
-        if (Type != EPropertyType::Flags)  pConvertMenu->addAction("Flags", this, SLOT(ConvertToFlags()));
-        if (Type != EPropertyType::Sound)  pConvertMenu->addAction("Sound", this, SLOT(ConvertToSound()));
+
+        if (Type != EPropertyType::Int)
+            pConvertMenu->addAction(tr("Int"), this, &CTemplateEditDialog::ConvertToInt);
+
+        if (Type != EPropertyType::Choice)
+            pConvertMenu->addAction(tr("Choice"), this, &CTemplateEditDialog::ConvertToChoice);
+
+        if (Type != EPropertyType::Flags)
+            pConvertMenu->addAction(tr("Flags"), this, &CTemplateEditDialog::ConvertToFlags);
+
+        if (Type != EPropertyType::Sound)
+            pConvertMenu->addAction(tr("Sound"), this, &CTemplateEditDialog::ConvertToSound);
+
         mpUI->TypeConversionButton->setMenu(pConvertMenu);
     }
     else
@@ -78,11 +85,10 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
     if (mGame <= EGame::Prime)
     {
         mpUI->TemplatesGroupBox->hide();
-        mpUI->RenameAllCheckBox->setText("Rename all copies of this property");
+        mpUI->RenameAllCheckBox->setText(tr("Rename all copies of this property"));
         mpUI->ValidityLabel->hide();
         resize(width(), minimumHeight());
     }
-
     else
     {
         NGameList::LoadAllGameTemplates();
@@ -90,11 +96,11 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
         std::set<TString> Templates;
         NPropertyMap::RetrieveXMLsWithProperty( pProperty->ID(), pProperty->HashableTypeName(), Templates );
 
-        for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)
-            mpUI->TemplatesListWidget->addItem(TO_QSTRING(*Iter));
+        for (const auto& Template : Templates)
+            mpUI->TemplatesListWidget->addItem(TO_QSTRING(Template));
 
-        mpUI->ValidityLabel->SetValidityText("Hash match! Property name is likely correct.", "Hash mismatch! Property name is likely wrong.");
-        connect(mpUI->NameLineEdit, SIGNAL( SoftValidityChanged(bool) ), mpUI->ValidityLabel, SLOT( SetValid(bool) ) );
+        mpUI->ValidityLabel->SetValidityText(tr("Hash match! Property name is likely correct."), tr("Hash mismatch! Property name is likely wrong."));
+        connect(mpUI->NameLineEdit, &CSoftValidatorLineEdit::SoftValidityChanged, mpUI->ValidityLabel, &CValidityLabel::SetValid);
 
         mpValidator->SetProperty(pProperty);
         mpUI->NameLineEdit->SetSoftValidator(mpValidator);
@@ -108,14 +114,11 @@ CTemplateEditDialog::CTemplateEditDialog(IProperty *pProperty, QWidget *pParent)
 
     mpUI->SourceFileDisplayLabel->setText(TO_QSTRING(Source));
 
-    connect(mpUI->ButtonBox, SIGNAL(accepted()), this, SLOT(ApplyChanges()));
-    connect(mpUI->ButtonBox, SIGNAL(rejected()), this, SLOT(close()));
+    connect(mpUI->ButtonBox, &QDialogButtonBox::accepted, this, &CTemplateEditDialog::ApplyChanges);
+    connect(mpUI->ButtonBox, &QDialogButtonBox::rejected, this, &CTemplateEditDialog::close);
 }
 
-CTemplateEditDialog::~CTemplateEditDialog()
-{
-    delete mpUI;
-}
+CTemplateEditDialog::~CTemplateEditDialog() = default;
 
 // ************ PUBLIC SLOTS ************
 void CTemplateEditDialog::ApplyChanges()
@@ -123,8 +126,8 @@ void CTemplateEditDialog::ApplyChanges()
     // Make sure the user *really* wants to change the property if the hash used to be correct and now isn't...
     if (mOriginalNameWasValid && !mpUI->NameLineEdit->IsInputValid())
     {
-        bool ReallyApply = UICommon::YesNoQuestion(this, "Name mismatch",
-            "The new property name does not match the property ID. It is very likely that the original name was correct and the new one isn't. Are you sure you want to change it?");
+        const bool ReallyApply = UICommon::YesNoQuestion(this, tr("Name mismatch"),
+                                                         tr("The new property name does not match the property ID. It is very likely that the original name was correct and the new one isn't. Are you sure you want to change it?"));
 
         if (!ReallyApply)
             return;
@@ -181,14 +184,13 @@ void CTemplateEditDialog::ConvertPropertyType(EPropertyType Type)
     const char* pkNewType = TEnumReflection<EPropertyType>::ConvertValueToString(Type);
 
     if (
-        UICommon::YesNoQuestion(this, "Warning",
-            QString("You are converting %1 %2 property to %3. This cannot be undone. Are you sure?")
-            .arg( TString::IsVowel(pkCurType[0]) ? "an" : "a" )
-            .arg( pkCurType )
-            .arg( pkNewType ) )
-        )
+        UICommon::YesNoQuestion(this, tr("Warning"),
+                                tr("You are converting %1 %2 property to %3. This cannot be undone. Are you sure?")
+                                    .arg(TString::IsVowel(pkCurType[0]) ? tr("an") : tr("a"))
+                                    .arg(pkCurType)
+                                    .arg(pkNewType)))
     {
-        if( mpProperty->ConvertType(Type) )
+        if (mpProperty->ConvertType(Type))
         {
             mpProperty = nullptr;
             emit PerformedTypeConversion();
@@ -196,7 +198,7 @@ void CTemplateEditDialog::ConvertPropertyType(EPropertyType Type)
         }
         else
         {
-            UICommon::ErrorMsg(this, "Type conversion failed; conversion between these types is not supported.");
+            UICommon::ErrorMsg(this, tr("Type conversion failed; conversion between these types is not supported."));
         }
     }
 }
@@ -227,24 +229,22 @@ void CTemplateEditDialog::UpdateDescription(const TString& rkNewDesc)
     mpProperty->SetDescription(rkNewDesc);
 
     // Update all copies of this property in memory with the new description
-    TString SourceFile = mpProperty->GetTemplateFileName();
+    const TString SourceFile = mpProperty->GetTemplateFileName();
 
     if (!SourceFile.IsEmpty())
     {
         std::vector<IProperty*> Templates;
         NPropertyMap::RetrievePropertiesWithID(mpProperty->ID(), mpProperty->HashableTypeName(), Templates);
 
-        for (auto Iter = Templates.begin(); Iter != Templates.end(); Iter++)
+        for (auto* property : Templates)
         {
-            IProperty* pProperty = *Iter;
-
-            if (pProperty->GetTemplateFileName() == SourceFile && pProperty->Description() == mOriginalDescription)
-                pProperty->SetDescription(rkNewDesc);
+            if (property->GetTemplateFileName() == SourceFile && property->Description() == mOriginalDescription)
+                property->SetDescription(rkNewDesc);
         }
     }
 
     // Update equivalent properties with new description
-    foreach (IProperty* pProperty, mEquivalentProperties)
+    for (IProperty* pProperty : mEquivalentProperties)
     {
         pProperty->SetDescription(rkNewDesc);
     }
@@ -285,7 +285,7 @@ void CTemplateEditDialog::UpdateTypeName(const TString& kNewTypeName, bool Allow
         }
         else if (mOriginalTypeName != kNewTypeName)
         {
-            UICommon::ErrorMsg(this, QString("Type rename failed because the name you entered \"%1\" is invalid.").arg(TO_QSTRING(kNewTypeName)));
+            UICommon::ErrorMsg(this, tr("Type rename failed because the name you entered \"%1\" is invalid.").arg(TO_QSTRING(kNewTypeName)));
         }
     }
 }
@@ -340,7 +340,7 @@ void CTemplateEditDialog::FindEquivalentProperties(IProperty* pProperty)
 
             if (pEquivalentProperty)
             {
-                mEquivalentProperties << pEquivalentProperty;
+                mEquivalentProperties.push_back(pEquivalentProperty);
             }
         }
     }

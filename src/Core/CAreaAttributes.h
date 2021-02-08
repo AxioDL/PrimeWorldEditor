@@ -13,14 +13,14 @@ class CAreaAttributes
     CAssetRef mOverrideSky;
 
 public:
-    CAreaAttributes(CScriptObject *pObj);
+    explicit CAreaAttributes(CScriptObject *pObj);
     ~CAreaAttributes();
     void SetObject(CScriptObject *pObj);
     bool IsLayerEnabled() const;
     bool IsSkyEnabled() const;
     CModel* SkyModel() const;
 
-    inline CScriptObject* Instance() const { return mpObject; }
+    CScriptObject* Instance() const { return mpObject; }
 };
 
 #endif // CAREAATTRIBUTES_H

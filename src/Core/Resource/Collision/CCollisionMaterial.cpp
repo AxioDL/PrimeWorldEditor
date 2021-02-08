@@ -1,17 +1,18 @@
 #include "CCollisionMaterial.h"
 #include <Common/Macros.h>
 #include <unordered_map>
+#include <array>
 
 ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
 {
     // Arrays determining the type hierarchy for each game.
     // Flags earlier in the list take priority over flags later in the list.
-    static const ECollisionFlag skPrimeTypeHierarchy[] = {
+    static constexpr std::array skPrimeTypeHierarchy{
         eCF_Organic, eCF_Wood, eCF_Sand, eCF_Shield, eCF_Glass, eCF_Mud, eCF_SlowMud,
         eCF_Snow, eCF_Lava, eCF_Dirt, eCF_Phazon, eCF_MetalGrating, eCF_Ice, eCF_Grass,
         eCF_Metal, eCF_Stone
     };
-    static const ECollisionFlag skEchoesTypeHierarchy[] = {
+    static constexpr std::array skEchoesTypeHierarchy{
         eCF_Rubber, eCF_Organic, eCF_Wood, eCF_Web, eCF_MothSeedOrganics, eCF_Sand,
         eCF_Shield, eCF_Fabric, eCF_Snow, eCF_Glass, eCF_AltMetal, eCF_Dirt, eCF_Phazon,
         eCF_MetalGrating, eCF_Ice, eCF_Grass, eCF_Metal, eCF_Stone
@@ -19,21 +20,21 @@ ECollisionFlag CCollisionMaterial::SurfaceType(EGame Game) const
 
     // Determine which list we should use.
     const ECollisionFlag* pkFlagArray;
-    uint32 Num;
+    size_t Num;
 
     if (Game <= EGame::Prime)
     {
-        pkFlagArray = skPrimeTypeHierarchy;
-        Num = sizeof(skPrimeTypeHierarchy) / sizeof(ECollisionFlag);
+        pkFlagArray = skPrimeTypeHierarchy.data();
+        Num = skPrimeTypeHierarchy.size();
     }
     else
     {
-        pkFlagArray = skEchoesTypeHierarchy;
-        Num = sizeof(skEchoesTypeHierarchy) / sizeof(ECollisionFlag);
+        pkFlagArray = skEchoesTypeHierarchy.data();
+        Num = skEchoesTypeHierarchy.size();
     }
 
     // Locate type.
-    for (uint32 iType = 0; iType < Num; iType++)
+    for (size_t iType = 0; iType < Num; iType++)
     {
         if (*this & pkFlagArray[iType])
             return pkFlagArray[iType];
@@ -67,9 +68,9 @@ const std::unordered_map<ECollisionFlag, CColor> gkTypeToColor = {
 };
 CColor CCollisionMaterial::SurfaceColor(EGame Game) const
 {
-    ECollisionFlag SurfType = SurfaceType(Game);
-    auto FindColor = gkTypeToColor.find(SurfType);
-    return (FindColor == gkTypeToColor.end() ? CColor::skWhite : FindColor->second);
+    const ECollisionFlag SurfType = SurfaceType(Game);
+    const auto FindColor = gkTypeToColor.find(SurfType);
+    return (FindColor == gkTypeToColor.end() ? CColor::White() : FindColor->second);
 }
 
 bool CCollisionMaterial::IsFloor() const

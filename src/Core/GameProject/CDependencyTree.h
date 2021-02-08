@@ -5,6 +5,7 @@
 #include <Common/CAssetID.h>
 #include <Common/FileIO.h>
 #include <Common/Macros.h>
+#include <memory>
 
 class CScriptLayer;
 class CScriptObject;
@@ -31,34 +32,34 @@ enum class EDependencyNodeType
 class IDependencyNode
 {
 protected:
-    std::vector<IDependencyNode*> mChildren;
+    std::vector<std::unique_ptr<IDependencyNode>> mChildren;
 
 public:
     virtual ~IDependencyNode();
     virtual EDependencyNodeType Type() const = 0;
     virtual void Serialize(IArchive& rArc) = 0;
     virtual void GetAllResourceReferences(std::set<CAssetID>& rOutSet) const;
-    virtual bool HasDependency(const CAssetID& rkID) const;
+    virtual bool HasDependency(const CAssetID& id) const;
     void ParseProperties(CResourceEntry* pParentEntry, CStructProperty* pProperties, void* pData);
 
     // Serialization constructor
     static IDependencyNode* ArchiveConstructor(EDependencyNodeType Type);
 
     // Accessors
-    inline uint NumChildren() const                         { return mChildren.size(); }
-    inline IDependencyNode* ChildByIndex(uint Index) const  { return mChildren[Index]; }
+    size_t NumChildren() const                         { return mChildren.size(); }
+    IDependencyNode* ChildByIndex(size_t Index) const  { return mChildren[Index].get(); }
 };
 
 // Basic dependency tree; this class is sufficient for most resource types.
 class CDependencyTree : public IDependencyNode
 {
 public:
-    CDependencyTree() {}
+    CDependencyTree() = default;
 
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
 
-    void AddChild(IDependencyNode *pNode);
+    void AddChild(std::unique_ptr<IDependencyNode>&& pNode);
     void AddDependency(const CAssetID& rkID, bool AvoidDuplicates = true);
     void AddDependency(CResource *pRes, bool AvoidDuplicates = true);
     void AddCharacterDependency(const CAnimationParameters& rkAnimParams);
@@ -71,17 +72,17 @@ protected:
     CAssetID mID;
 
 public:
-    CResourceDependency() {}
-    CResourceDependency(const CAssetID& rkID) : mID(rkID) {}
+    CResourceDependency() = default;
+    explicit CResourceDependency(const CAssetID& rkID) : mID(rkID) {}
 
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
-    virtual void GetAllResourceReferences(std::set<CAssetID>& rOutSet) const;
-    virtual bool HasDependency(const CAssetID& rkID) const;
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
+    void GetAllResourceReferences(std::set<CAssetID>& rOutSet) const override;
+    bool HasDependency(const CAssetID& rkID) const override;
 
     // Accessors
-    inline CAssetID ID() const              { return mID; }
-    inline void SetID(const CAssetID& rkID) { mID = rkID; }
+    CAssetID ID() const              { return mID; }
+    void SetID(const CAssetID& rkID) { mID = rkID; }
 };
 
 // Node representing a single resource dependency referenced by a script property.
@@ -90,81 +91,76 @@ class CPropertyDependency : public CResourceDependency
     TString mIDString;
 
 public:
-    CPropertyDependency()
-        : CResourceDependency()
-    {}
+    CPropertyDependency() = default;
 
-    CPropertyDependency(const TString& rkPropID, const CAssetID& rkAssetID)
+    CPropertyDependency(TString rkPropID, const CAssetID& rkAssetID)
         : CResourceDependency(rkAssetID)
-        , mIDString(rkPropID)
+        , mIDString(std::move(rkPropID))
     {}
 
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
 
     // Accessors
-    inline TString PropertyID() const   { return mIDString; }
+    TString PropertyID() const   { return mIDString; }
 };
 
 // Node representing a single animset dependency referenced by a script property. Indicates which character is being used.
 class CCharPropertyDependency : public CPropertyDependency
 {
 protected:
-    int mUsedChar;
+    int mUsedChar = -1;
 
 public:
-    CCharPropertyDependency()
-        : CPropertyDependency()
-        , mUsedChar(-1)
-    {}
+    CCharPropertyDependency() = default;
 
-    CCharPropertyDependency(const TString& rkPropID, const CAssetID& rkAssetID, int UsedChar)
-        : CPropertyDependency(rkPropID, rkAssetID)
+    CCharPropertyDependency(TString rkPropID, const CAssetID& rkAssetID, int UsedChar)
+        : CPropertyDependency(std::move(rkPropID), rkAssetID)
         , mUsedChar(UsedChar)
     {}
 
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
 
     // Accessors
-    inline int UsedChar() const                 { return mUsedChar; }
+    int UsedChar() const                 { return mUsedChar; }
 };
 
 // Node representing a script object. Indicates the type of object.
 class CScriptInstanceDependency : public IDependencyNode
 {
 protected:
-    uint mObjectType;
+    uint32 mObjectType = 0;
 
 public:
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
 
     // Accessors
-    inline uint ObjectType() const       { return mObjectType; }
+    uint32 ObjectType() const       { return mObjectType; }
 
     // Static
-    static CScriptInstanceDependency* BuildTree(CScriptObject *pInstance);
+    static std::unique_ptr<CScriptInstanceDependency> BuildTree(CScriptObject *pInstance);
 };
 
 // Node representing an animset character. Indicates what index the character is within the animset.
 class CSetCharacterDependency : public CDependencyTree
 {
 protected:
-    uint32 mCharSetIndex;
+    uint32 mCharSetIndex = 0;
 
 public:
-    CSetCharacterDependency() : CDependencyTree() {}
-    CSetCharacterDependency(uint32 SetIndex) : CDependencyTree(), mCharSetIndex(SetIndex) {}
+    CSetCharacterDependency() = default;
+    explicit CSetCharacterDependency(uint32 SetIndex) : mCharSetIndex(SetIndex) {}
 
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
 
     // Accessors
-    inline uint32 CharSetIndex() const { return mCharSetIndex; }
+    uint32 CharSetIndex() const { return mCharSetIndex; }
 
     // Static
-    static CSetCharacterDependency* BuildTree(const SSetCharacter& rkChar);
+    static std::unique_ptr<CSetCharacterDependency> BuildTree(const SSetCharacter& rkChar);
 };
 
 // Node representing a character animation. Indicates which character indices use this animation.
@@ -174,35 +170,35 @@ protected:
     std::set<uint32> mCharacterIndices;
 
 public:
-    CSetAnimationDependency() : CDependencyTree() {}
+    CSetAnimationDependency() = default;
 
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
 
     // Accessors
-    inline bool IsUsedByCharacter(uint32 CharIdx) const { return mCharacterIndices.find(CharIdx) != mCharacterIndices.end(); }
-    inline bool IsUsedByAnyCharacter() const            { return !mCharacterIndices.empty(); }
+    bool IsUsedByCharacter(uint32 CharIdx) const { return mCharacterIndices.find(CharIdx) != mCharacterIndices.end(); }
+    bool IsUsedByAnyCharacter() const            { return !mCharacterIndices.empty(); }
 
     // Static
-    static CSetAnimationDependency* BuildTree(const CAnimSet *pkOwnerSet, uint32 AnimIndex);
+    static std::unique_ptr<CSetAnimationDependency> BuildTree(const CAnimSet *pkOwnerSet, uint32 AnimIndex);
 };
 
 // Node representing an animation event. Indicates which character index uses this event.
 class CAnimEventDependency : public CResourceDependency
 {
 protected:
-    uint32 mCharIndex;
+    uint32 mCharIndex = 0;
 
 public:
-    CAnimEventDependency() : CResourceDependency() {}
+    CAnimEventDependency() = default;
     CAnimEventDependency(const CAssetID& rkID, uint32 CharIndex)
         : CResourceDependency(rkID), mCharIndex(CharIndex) {}
 
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
 
     // Accessors
-    inline uint32 CharIndex() const    { return mCharIndex; }
+    uint32 CharIndex() const    { return mCharIndex; }
 };
 
 // Node representing an area. Tracks dependencies on a per-instance basis and can separate dependencies of different script layers.
@@ -212,17 +208,17 @@ protected:
     std::vector<uint32> mLayerOffsets;
 
 public:
-    CAreaDependencyTree() : CDependencyTree() {}
+    CAreaDependencyTree() = default;
 
-    virtual EDependencyNodeType Type() const;
-    virtual void Serialize(IArchive& rArc);
+    EDependencyNodeType Type() const override;
+    void Serialize(IArchive& rArc) override;
 
     void AddScriptLayer(CScriptLayer *pLayer, const std::vector<CAssetID>& rkExtraDeps);
     void GetModuleDependencies(EGame Game, std::vector<TString>& rModuleDepsOut, std::vector<uint32>& rModuleLayerOffsetsOut) const;
 
     // Accessors
-    inline uint32 NumScriptLayers() const                   { return mLayerOffsets.size(); }
-    inline uint32 ScriptLayerOffset(uint32 LayerIdx) const  { return mLayerOffsets[LayerIdx]; }
+    size_t NumScriptLayers() const                   { return mLayerOffsets.size(); }
+    uint32 ScriptLayerOffset(size_t LayerIdx) const  { return mLayerOffsets[LayerIdx]; }
 };
 
 #endif // CDEPENDENCYTREE

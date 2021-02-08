@@ -9,28 +9,19 @@
 
 struct SCollisionRenderSettings
 {
-    uint64 HighlightMask;
-    uint64 HideMask;
-    int BoundingHierarchyRenderDepth;
+    uint64 HighlightMask = 0;
+    uint64 HideMask = 0;
+    int BoundingHierarchyRenderDepth = 0;
 
     CCollisionMaterial HideMaterial;
-    bool DrawWireframe;
-    bool DrawBackfaces;
-    bool DrawAreaCollisionBounds;
-    bool DrawBoundingHierarchy;
-    bool TintWithSurfaceColor;
-    bool TintUnwalkableTris;
+    bool DrawWireframe = true;
+    bool DrawBackfaces = false;
+    bool DrawAreaCollisionBounds = true;
+    bool DrawBoundingHierarchy = false;
+    bool TintWithSurfaceColor = true;
+    bool TintUnwalkableTris = true;
 
-    SCollisionRenderSettings()
-        : HighlightMask(0)
-        , HideMask(0)
-        , BoundingHierarchyRenderDepth(0)
-        , DrawWireframe(true)
-        , DrawBackfaces(false)
-        , DrawAreaCollisionBounds(true)
-        , DrawBoundingHierarchy(false)
-        , TintWithSurfaceColor(true)
-        , TintUnwalkableTris(true) {}
+    SCollisionRenderSettings() = default;
 };
 
 struct SViewInfo

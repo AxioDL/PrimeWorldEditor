@@ -6,6 +6,8 @@
 #include <Core/Resource/CWorld.h>
 #include <QDialog>
 
+#include <memory>
+
 namespace Ui {
 class CProjectSettingsDialog;
 }
@@ -13,16 +15,16 @@ class CProjectSettingsDialog;
 class CProjectSettingsDialog : public QDialog
 {
     Q_OBJECT
-    Ui::CProjectSettingsDialog *mpUI;
-    CGameProject *mpProject;
+    std::unique_ptr<Ui::CProjectSettingsDialog> mpUI;
+    CGameProject *mpProject = nullptr;
 
     QVector<CResourceEntry*> mWorldEntries;
     QVector<CResourceEntry*> mAreaEntries;
     TResPtr<CWorld> mpWorld;
 
 public:
-    explicit CProjectSettingsDialog(QWidget *pParent = 0);
-    ~CProjectSettingsDialog();
+    explicit CProjectSettingsDialog(QWidget *pParent = nullptr);
+    ~CProjectSettingsDialog() override;
 
 public slots:
     void ActiveProjectChanged(CGameProject *pProj);

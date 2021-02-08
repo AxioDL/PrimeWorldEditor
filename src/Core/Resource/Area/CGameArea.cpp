@@ -2,37 +2,26 @@
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Render/CRenderer.h"
 
-CGameArea::CGameArea(CResourceEntry *pEntry /*= 0*/)
+CGameArea::CGameArea(CResourceEntry *pEntry)
     : CResource(pEntry)
-    , mWorldIndex(-1)
-    , mVertexCount(0)
-    , mTriangleCount(0)
-    , mTerrainMerged(false)
-    , mOriginalWorldMeshCount(0)
-    , mUsesCompression(false)
-    , mpMaterialSet(nullptr)
-    , mpCollision(nullptr)
 {
 }
 
 CGameArea::~CGameArea()
 {
     ClearTerrain();
-
-    for (uint32 iSCLY = 0; iSCLY < mScriptLayers.size(); iSCLY++)
-        delete mScriptLayers[iSCLY];
 }
 
-CDependencyTree* CGameArea::BuildDependencyTree() const
+std::unique_ptr<CDependencyTree> CGameArea::BuildDependencyTree() const
 {
     // Base dependencies
-    CAreaDependencyTree *pTree = new CAreaDependencyTree();
+    auto pTree = std::make_unique<CAreaDependencyTree>();
 
     std::set<CAssetID> MatTextures;
     mpMaterialSet->GetUsedTextureIDs(MatTextures);
 
-    for (auto Iter = MatTextures.begin(); Iter != MatTextures.end(); Iter++)
-        pTree->AddDependency(*Iter);
+    for (const auto& id : MatTextures)
+        pTree->AddDependency(id);
 
     pTree->AddDependency(mPathID);
 
@@ -43,8 +32,8 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
     }
     
     // Extra deps
-    for (uint32 iDep = 0; iDep < mExtraAreaDeps.size(); iDep++)
-        pTree->AddDependency(mExtraAreaDeps[iDep]);
+    for (const auto& dep : mExtraAreaDeps)
+        pTree->AddDependency(dep);
 
     // Layer dependencies
     std::vector<CAssetID> DummyDeps;
@@ -52,18 +41,19 @@ CDependencyTree* CGameArea::BuildDependencyTree() const
     for (uint32 iLayer = 0; iLayer < mScriptLayers.size(); iLayer++)
     {
         const std::vector<CAssetID>& rkExtras = (mExtraLayerDeps.size() > iLayer ? mExtraLayerDeps[iLayer] : DummyDeps);
-        pTree->AddScriptLayer(mScriptLayers[iLayer], rkExtras);
+        pTree->AddScriptLayer(mScriptLayers[iLayer].get(), rkExtras);
     }
 
     return pTree;
 }
 
-void CGameArea::AddWorldModel(CModel *pModel)
+void CGameArea::AddWorldModel(std::unique_ptr<CModel>&& pModel)
 {
-    mWorldModels.push_back(pModel);
     mVertexCount += pModel->GetVertexCount();
     mTriangleCount += pModel->GetTriangleCount();
     mAABox.ExpandBounds(pModel->AABox());
+
+    mWorldModels.push_back(std::move(pModel));
 }
 
 void CGameArea::MergeTerrain()
@@ -71,18 +61,17 @@ void CGameArea::MergeTerrain()
     if (mTerrainMerged) return;
 
     // Nothing really complicated here - iterate through every terrain submesh, add each to a static model
-    for (uint32 iMdl = 0; iMdl < mWorldModels.size(); iMdl++)
+    for (auto& pMdl : mWorldModels)
     {
-        CModel *pMdl = mWorldModels[iMdl];
-        uint32 SubmeshCount = pMdl->GetSurfaceCount();
+        const size_t SubmeshCount = pMdl->GetSurfaceCount();
 
-        for (uint32 iSurf = 0; iSurf < SubmeshCount; iSurf++)
+        for (size_t iSurf = 0; iSurf < SubmeshCount; iSurf++)
         {
             SSurface *pSurf = pMdl->GetSurface(iSurf);
             CMaterial *pMat = mpMaterialSet->MaterialByIndex(pSurf->MaterialID, false);
 
             bool NewMat = true;
-            for (std::vector<CStaticModel*>::iterator it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); it++)
+            for (auto it = mStaticWorldModels.begin(); it != mStaticWorldModels.end(); ++it)
             {
                 if ((*it)->GetMaterial() == pMat)
                 {
@@ -91,10 +80,10 @@ void CGameArea::MergeTerrain()
                     // (particularly with multi-layered transparent meshes)
                     // so we need to at least try to maintain it.
                     // This is maybe not the most efficient way to do this, but it works.
-                    CStaticModel *pStatic = *it;
+                    auto pStatic = std::move(*it);
                     pStatic->AddSurface(pSurf);
                     mStaticWorldModels.erase(it);
-                    mStaticWorldModels.push_back(pStatic);
+                    mStaticWorldModels.push_back(std::move(pStatic));
                     NewMat = false;
                     break;
                 }
@@ -102,9 +91,9 @@ void CGameArea::MergeTerrain()
 
             if (NewMat)
             {
-                CStaticModel *pStatic = new CStaticModel(pMat);
+                auto pStatic = std::make_unique<CStaticModel>(pMat);
                 pStatic->AddSurface(pSurf);
-                mStaticWorldModels.push_back(pStatic);
+                mStaticWorldModels.push_back(std::move(pStatic));
             }
         }
     }
@@ -112,44 +101,41 @@ void CGameArea::MergeTerrain()
 
 void CGameArea::ClearTerrain()
 {
-    for (uint32 iModel = 0; iModel < mWorldModels.size(); iModel++)
-        delete mWorldModels[iModel];
     mWorldModels.clear();
-
-    for (uint32 iStatic = 0; iStatic < mStaticWorldModels.size(); iStatic++)
-        delete mStaticWorldModels[iStatic];
     mStaticWorldModels.clear();
 
-    if (mpMaterialSet) delete mpMaterialSet;
+    if (mpMaterialSet)
+        delete mpMaterialSet;
 
     mVertexCount = 0;
     mTriangleCount = 0;
     mTerrainMerged = false;
-    mAABox = CAABox::skInfinite;
+    mAABox = CAABox::Infinite();
 }
 
 void CGameArea::ClearScriptLayers()
 {
-    for (auto it = mScriptLayers.begin(); it != mScriptLayers.end(); it++)
-        delete *it;
     mScriptLayers.clear();
 }
 
-uint32 CGameArea::TotalInstanceCount() const
+size_t CGameArea::TotalInstanceCount() const
 {
-    uint32 Num = 0;
+    size_t Num = 0;
 
-    for (uint32 iLyr = 0; iLyr < mScriptLayers.size(); iLyr++)
-        Num += mScriptLayers[iLyr]->NumInstances();
+    for (const auto& layer : mScriptLayers)
+        Num += layer->NumInstances();
 
     return Num;
 }
 
 CScriptObject* CGameArea::InstanceByID(uint32 InstanceID)
 {
-    auto it = mObjectMap.find(InstanceID);
-    if (it != mObjectMap.end()) return it->second;
-    else return nullptr;
+    const auto it = mObjectMap.find(InstanceID);
+
+    if (it != mObjectMap.cend())
+        return it->second;
+
+    return nullptr;
 }
 
 uint32 CGameArea::FindUnusedInstanceID() const
@@ -178,30 +164,30 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
                                         uint32 SuggestedLayerIndex /*= -1*/ )
 {
     // Verify we can fit another instance in this area.
-    uint32 NumInstances = TotalInstanceCount();
+    const size_t NumInstances = TotalInstanceCount();
 
     if (NumInstances >= 0xFFFF)
     {
-        errorf("Unable to spawn a new script instance; too many instances in area (%d)", NumInstances);
+        errorf("Unable to spawn a new script instance; too many instances in area (%zu)", NumInstances);
         return nullptr;
     }
 
     // Check whether the suggested instance ID is valid
     uint32 InstanceID = SuggestedID;
 
-    if (InstanceID != -1)
+    if (InstanceID != UINT32_MAX)
     {
-        if (mObjectMap.find(InstanceID) == mObjectMap.end())
-            InstanceID = -1;
+        if (mObjectMap.find(InstanceID) == mObjectMap.cend())
+            InstanceID = UINT32_MAX;
     }
 
     // If not valid (or if there's no suggested ID) then determine a new instance ID
-    if (InstanceID == -1)
+    if (InstanceID == UINT32_MAX)
     {
         // Determine layer index
-        uint32 LayerIndex = pLayer->AreaIndex();
+        const uint32 LayerIndex = pLayer->AreaIndex();
 
-        if (LayerIndex == -1)
+        if (LayerIndex == UINT32_MAX)
         {
             errorf("Unable to spawn a new script instance; invalid script layer passed in");
             return nullptr;
@@ -212,13 +198,14 @@ CScriptObject* CGameArea::SpawnInstance(CScriptTemplate *pTemplate,
     }
 
     // Spawn instance
-    CScriptObject *pInstance = new CScriptObject(InstanceID, this, pLayer, pTemplate);
+    auto* pInstance = new CScriptObject(InstanceID, this, pLayer, pTemplate);
     pInstance->EvaluateProperties();
     pInstance->SetPosition(rkPosition);
     pInstance->SetRotation(rkRotation.ToEuler());
     pInstance->SetScale(rkScale);
     pInstance->SetName(pTemplate->Name());
-    if (pTemplate->Game() < EGame::EchoesDemo) pInstance->SetActive(true);
+    if (pTemplate->Game() < EGame::EchoesDemo)
+        pInstance->SetActive(true);
     pLayer->AddInstance(pInstance, SuggestedLayerIndex);
     mObjectMap[InstanceID] = pInstance;
     return pInstance;

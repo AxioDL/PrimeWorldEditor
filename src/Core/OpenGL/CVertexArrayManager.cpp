@@ -22,8 +22,10 @@ CVertexArrayManager::~CVertexArrayManager()
     sVAManagers.erase(sVAManagers.begin() + mVectorIndex);
 
     if (sVAManagers.size() > mVectorIndex)
+    {
         for (auto it = sVAManagers.begin() + mVectorIndex; it != sVAManagers.end(); it++)
             (*it)->mVectorIndex--;
+    }
 }
 
 // ************ PUBLIC ************
@@ -34,15 +36,16 @@ void CVertexArrayManager::SetCurrent()
 
 void CVertexArrayManager::BindVAO(CVertexBuffer *pVBO)
 {
-    auto it = mVBOMap.find(pVBO);
+    const auto it = mVBOMap.find(pVBO);
 
-    if (it != mVBOMap.end())
+    if (it != mVBOMap.cend())
+    {
         glBindVertexArray(it->second);
-
+    }
     else
     {
-        GLuint VAO = pVBO->CreateVAO();
-        mVBOMap[pVBO] = VAO;
+        const GLuint VAO = pVBO->CreateVAO();
+        mVBOMap.insert_or_assign(pVBO, VAO);
         glBindVertexArray(VAO);
     }
 }
@@ -50,40 +53,41 @@ void CVertexArrayManager::BindVAO(CVertexBuffer *pVBO)
 void CVertexArrayManager::BindVAO(CDynamicVertexBuffer *pVBO)
 {
     // Overload for CDynamicVertexBuffer
-    auto it = mDynamicVBOMap.find(pVBO);
+    const auto it = mDynamicVBOMap.find(pVBO);
 
-    if (it != mDynamicVBOMap.end())
+    if (it != mDynamicVBOMap.cend())
+    {
         glBindVertexArray(it->second);
-
+    }
     else
     {
-        GLuint VAO = pVBO->CreateVAO();
-        mDynamicVBOMap[pVBO] = VAO;
+        const GLuint VAO = pVBO->CreateVAO();
+        mDynamicVBOMap.insert_or_assign(pVBO, VAO);
         glBindVertexArray(VAO);
     }
 }
 
 void CVertexArrayManager::DeleteVAO(CVertexBuffer *pVBO)
 {
-    auto it = mVBOMap.find(pVBO);
+    const auto it = mVBOMap.find(pVBO);
 
-    if (it != mVBOMap.end())
-    {
-        glDeleteVertexArrays(1, &it->second);
-        mVBOMap.erase(it);
-    }
+    if (it == mVBOMap.cend())
+        return;
+
+    glDeleteVertexArrays(1, &it->second);
+    mVBOMap.erase(it);
 }
 
 void CVertexArrayManager::DeleteVAO(CDynamicVertexBuffer *pVBO)
 {
     // Overload for CDynamicVertexBuffer
-    auto it = mDynamicVBOMap.find(pVBO);
+    const auto it = mDynamicVBOMap.find(pVBO);
 
-    if (it != mDynamicVBOMap.end())
-    {
-        glDeleteVertexArrays(1, &it->second);
-        mDynamicVBOMap.erase(it);
-    }
+    if (it == mDynamicVBOMap.cend())
+        return;
+
+    glDeleteVertexArrays(1, &it->second);
+    mDynamicVBOMap.erase(it);
 }
 
 // ************ STATIC ************
@@ -94,12 +98,12 @@ CVertexArrayManager* CVertexArrayManager::Current()
 
 void CVertexArrayManager::DeleteAllArraysForVBO(CVertexBuffer *pVBO)
 {
-    for (uint32 iVAM = 0; iVAM < sVAManagers.size(); iVAM++)
-        sVAManagers[iVAM]->DeleteVAO(pVBO);
+    for (auto* vam : sVAManagers)
+        vam->DeleteVAO(pVBO);
 }
 
 void CVertexArrayManager::DeleteAllArraysForVBO(CDynamicVertexBuffer *pVBO)
 {
-    for (uint32 iVAM = 0; iVAM < sVAManagers.size(); iVAM++)
-        sVAManagers[iVAM]->DeleteVAO(pVBO);
+    for (auto* vam : sVAManagers)
+        vam->DeleteVAO(pVBO);
 }

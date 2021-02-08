@@ -10,20 +10,20 @@ class CSceneViewport : public CBasicViewport
 {
     Q_OBJECT
 
-    INodeEditor *mpEditor;
-    CScene *mpScene;
-    CRenderer *mpRenderer;
-    bool mRenderingMergedWorld;
+    INodeEditor *mpEditor = nullptr;
+    CScene *mpScene = nullptr;
+    std::unique_ptr<CRenderer> mpRenderer;
+    bool mRenderingMergedWorld = true;
 
     // Scene interaction
-    bool mGizmoHovering;
-    bool mGizmoTransforming;
+    bool mGizmoHovering = false;
+    bool mGizmoTransforming = false;
     SRayIntersection mRayIntersection;
-    CSceneNode *mpHoverNode;
-    CVector3f mHoverPoint;
+    CSceneNode *mpHoverNode = nullptr;
+    CVector3f mHoverPoint{CVector3f::Zero()};
 
     // Context Menu
-    QMenu *mpContextMenu;
+    QMenu *mpContextMenu = nullptr;
     QAction *mpToggleSelectAction;
     QAction *mpHideSelectionSeparator;
     QAction *mpHideSelectionAction;
@@ -36,7 +36,7 @@ class CSceneViewport : public CBasicViewport
     QAction *mpUnhideAllAction;
     QAction *mpPlayFromHereSeparator;
     QAction *mpPlayFromHereAction;
-    CSceneNode *mpMenuNode;
+    CSceneNode *mpMenuNode = nullptr;
     CVector3f mMenuPoint;
 
     QMenu *mpSelectConnectedMenu;
@@ -52,25 +52,26 @@ class CSceneViewport : public CBasicViewport
     CLineRenderable mLinkLine;
 
 public:
-    CSceneViewport(QWidget *pParent = 0);
-    ~CSceneViewport();
+    explicit CSceneViewport(QWidget *pParent = nullptr);
+    ~CSceneViewport() override;
+
     void SetScene(INodeEditor *pEditor, CScene *pScene);
     void SetShowWorld(bool Visible);
     void SetRenderMergedWorld(bool RenderMerged);
     FShowFlags ShowFlags() const;
     CRenderer* Renderer();
     CSceneNode* HoverNode();
-    CVector3f HoverPoint();
+    CVector3f HoverPoint() const;
     void CheckGizmoInput(const CRay& rkRay);
     SRayIntersection SceneRayCast(const CRay& rkRay);
     void ResetHover();
-    bool IsHoveringGizmo();
+    bool IsHoveringGizmo() const;
 
-    void keyPressEvent(QKeyEvent* pEvent);
-    void keyReleaseEvent(QKeyEvent* pEvent);
+    void keyPressEvent(QKeyEvent* pEvent) override;
+    void keyReleaseEvent(QKeyEvent* pEvent) override;
 
-    inline void SetLinkLineEnabled(bool Enable)                                     { mLinkLineEnabled = Enable; }
-    inline void SetLinkLine(const CVector3f& rkPointA, const CVector3f& rkPointB)   { mLinkLine.SetPoints(rkPointA, rkPointB); }
+    void SetLinkLineEnabled(bool Enable)                                     { mLinkLineEnabled = Enable; }
+    void SetLinkLine(const CVector3f& rkPointA, const CVector3f& rkPointB)   { mLinkLine.SetPoints(rkPointA, rkPointB); }
 
 protected:
     void CreateContextMenu();
@@ -84,12 +85,12 @@ signals:
     void CameraOrbit();
 
 protected slots:
-    void CheckUserInput();
-    void Paint();
-    void ContextMenu(QContextMenuEvent *pEvent);
-    void OnResize();
-    void OnMouseClick(QMouseEvent *pEvent);
-    void OnMouseRelease(QMouseEvent *pEvent);
+    void CheckUserInput() override;
+    void Paint() override;
+    void ContextMenu(QContextMenuEvent *pEvent) override;
+    void OnResize() override;
+    void OnMouseClick(QMouseEvent *pEvent) override;
+    void OnMouseRelease(QMouseEvent *pEvent) override;
 
     // Menu Actions
     void OnToggleSelect();

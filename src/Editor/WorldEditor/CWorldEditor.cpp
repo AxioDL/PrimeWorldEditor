@@ -37,15 +37,10 @@
 
 CWorldEditor::CWorldEditor(QWidget *parent)
     : INodeEditor(parent)
-    , ui(new Ui::CWorldEditor)
-    , mpArea(nullptr)
-    , mpWorld(nullptr)
+    , ui(std::make_unique<Ui::CWorldEditor>())
     , mpLinkDialog(new CLinkDialog(this, this))
     , mpGeneratePropertyNamesDialog(new CGeneratePropertyNamesDialog(this))
     , mpTweakEditor(new CTweakEditor(this))
-    , mIsMakingLink(false)
-    , mpNewLinkSender(nullptr)
-    , mpNewLinkReceiver(nullptr)
 {
     debugf("Creating World Editor");
     ui->setupUi(this);
@@ -64,8 +59,11 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     ui->ResourceBrowserContainer->setLayout(pLayout);
 
     // Initialize splitter
-    QList<int> SplitterSizes;
-    SplitterSizes << width() * 0.25 << width() * 0.53 << width() * 0.22;
+    const QList<int> SplitterSizes{
+        static_cast<int>(width() * 0.25),
+        static_cast<int>(width() * 0.53),
+        static_cast<int>(width() * 0.22),
+    };
     ui->splitter->setSizes(SplitterSizes);
 
     // Initialize UI stuff
@@ -96,9 +94,9 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     mpEditModeButtonGroup = new QButtonGroup(this);
     connect(mpEditModeButtonGroup, SIGNAL(buttonClicked(int)), this, SLOT(ChangeEditMode(int)));
 
-    AddEditModeButton( QIcon(":/icons/World.svg"), "Edit World Info",eWEM_EditWorldInfo );
-    AddEditModeButton( QIcon(":/icons/Modify.svg"), "Edit Script", eWEM_EditScript );
-    mpPoiMapAction = AddEditModeButton( QIcon(":/icons/PoiSymbol_24px.svg"), "Edit POI Mappings", eWEM_EditPOIMappings );
+    AddEditModeButton(QIcon(QStringLiteral(":/icons/World.svg")), tr("Edit World Info"), eWEM_EditWorldInfo);
+    AddEditModeButton(QIcon(QStringLiteral(":/icons/Modify.svg")), tr("Edit Script"), eWEM_EditScript);
+    mpPoiMapAction = AddEditModeButton(QIcon(QStringLiteral(":/icons/PoiSymbol_24px.svg")), tr("Edit POI Mappings"), eWEM_EditPOIMappings);
     mpPoiMapAction->setVisible(false);
 
     ChangeEditMode(eWEM_EditWorldInfo);
@@ -123,10 +121,10 @@ CWorldEditor::CWorldEditor(QWidget *parent)
 
     // Quickplay buttons
     QToolButton* pQuickplayButton = new QToolButton(this);
-    pQuickplayButton->setIcon( QIcon(":/icons/Play_32px.svg") );
-    pQuickplayButton->setPopupMode( QToolButton::MenuButtonPopup );
-    pQuickplayButton->setMenu( new CQuickplayPropertyEditor(mQuickplayParms, this) );
-    pQuickplayButton->setToolTip( "Quickplay" );
+    pQuickplayButton->setIcon(QIcon(QStringLiteral(":/icons/Play_32px.svg")));
+    pQuickplayButton->setPopupMode(QToolButton::MenuButtonPopup);
+    pQuickplayButton->setMenu(new CQuickplayPropertyEditor(mQuickplayParms, this));
+    pQuickplayButton->setToolTip(tr("Quickplay"));
 
     ui->MainToolBar->addSeparator();
     mpQuickplayAction = ui->MainToolBar->addWidget(pQuickplayButton);
@@ -226,7 +224,6 @@ CWorldEditor::~CWorldEditor()
         gpResourceStore->DestroyUnreferencedResources(); // this should destroy the area!
 
     delete mpScriptSidebar; // For some reason WCreateTab filters an event during the viewport's destructor
-    delete ui;
 }
 
 bool CWorldEditor::CloseWorld()
@@ -384,7 +381,7 @@ bool CWorldEditor::Save()
     }
     else
     {
-        UICommon::ErrorMsg(this, "Area failed to save!");
+        UICommon::ErrorMsg(this, tr("Area failed to save!"));
         return false;
     }
 }
@@ -394,7 +391,7 @@ void CWorldEditor::Cut()
     if (!mpSelection->IsEmpty())
     {
         Copy();
-        UndoStack().push(new CDeleteSelectionCommand(this, "Cut"));
+        UndoStack().push(new CDeleteSelectionCommand(this, tr("Cut")));
     }
 }
 
@@ -448,7 +445,7 @@ void CWorldEditor::OpenRecentProject()
     if (pSender)
     {
         QSettings Settings;
-        QStringList RecentProjectsList = Settings.value("WorldEditor/RecentProjectsList").toStringList();
+        QStringList RecentProjectsList = Settings.value(QStringLiteral("WorldEditor/RecentProjectsList")).toStringList();
 
         int ProjIndex = pSender->data().toInt();
         QString ProjPath = RecentProjectsList[ProjIndex];
@@ -458,18 +455,20 @@ void CWorldEditor::OpenRecentProject()
 
 void CWorldEditor::ExportGame()
 {
-    QString IsoPath = UICommon::OpenFileDialog(this, "Select ISO", "*.iso *.gcm *.tgc *.wbfs");
-    if (IsoPath.isEmpty()) return;
+    const QString IsoPath = UICommon::OpenFileDialog(this, tr("Select ISO"), QStringLiteral("*.iso *.gcm *.tgc *.wbfs *.nfs"));
+    if (IsoPath.isEmpty())
+        return;
 
-    QString ExportDir = UICommon::OpenDirDialog(this, "Select output export directory");
-    if (ExportDir.isEmpty()) return;
+    const QString ExportDir = UICommon::OpenDirDialog(this, tr("Select output export directory"));
+    if (ExportDir.isEmpty())
+        return;
 
     CExportGameDialog ExportDialog(IsoPath, ExportDir, this);
     if (ExportDialog.HasValidDisc()) ExportDialog.exec();
 
     if (ExportDialog.ExportSucceeded())
     {
-        int OpenChoice = QMessageBox::information(this, "Export complete", "Export finished successfully! Open new project?", QMessageBox::Yes, QMessageBox::No);
+        const int OpenChoice = QMessageBox::information(this, tr("Export complete"), tr("Export finished successfully! Open new project?"), QMessageBox::Yes, QMessageBox::No);
 
         if (OpenChoice == QMessageBox::Yes)
             gpEdApp->OpenProject(ExportDialog.ProjectPath());
@@ -479,7 +478,7 @@ void CWorldEditor::ExportGame()
 void CWorldEditor:: CloseProject()
 {
     gpEdApp->CloseProject();
-    SET_WINDOWTITLE_APPVARS( QString("%APP_FULL_NAME%") );
+    SET_WINDOWTITLE_APPVARS(QStringLiteral("%APP_FULL_NAME%"));
 }
 
 void CWorldEditor::About()
@@ -561,7 +560,7 @@ void CWorldEditor::OnActiveProjectChanged(CGameProject *pProj)
 
 void CWorldEditor::OnLinksModified(const QList<CScriptObject*>& rkInstances)
 {
-    foreach (CScriptObject *pInstance, rkInstances)
+    for (CScriptObject *pInstance : rkInstances)
     {
         CScriptNode *pNode = mScene.NodeForInstance(pInstance);
         pNode->LinksModified();
@@ -631,13 +630,13 @@ void CWorldEditor::SetSelectionActive(bool Active)
         {
             CScriptNode* pScript = static_cast<CScriptNode*>(*It);
             CScriptObject* pInst = pScript->Instance();
-            Objects << pInst;
+            Objects.push_back(pInst);
         }
     }
 
     if (!Objects.isEmpty())
     {
-        UndoStack().beginMacro("Toggle Active");
+        UndoStack().beginMacro(tr("Toggle Active"));
 
         while (!Objects.isEmpty())
         {
@@ -649,7 +648,7 @@ void CWorldEditor::SetSelectionActive(bool Active)
             {
                 if (Objects[ObjIdx]->Template() == pTemplate)
                 {
-                    CommandObjects << Objects[ObjIdx];
+                    CommandObjects.push_back(Objects[ObjIdx]);
                     Objects.removeAt(ObjIdx);
                     ObjIdx--;
                 }
@@ -669,7 +668,7 @@ void CWorldEditor::SetSelectionActive(bool Active)
 
                 pCommand->SaveOldData();
 
-                foreach (CScriptObject* pInstance, CommandObjects)
+                for (CScriptObject* pInstance : CommandObjects)
                     pInstance->SetActive(Active);
 
                 pCommand->SaveNewData();
@@ -708,7 +707,7 @@ void CWorldEditor::SetSelectionLayer(CScriptLayer *pLayer)
     for (CSelectionIterator It(mpSelection); It; ++It)
     {
         if (It->NodeType() == ENodeType::Script)
-            ScriptNodes << static_cast<CScriptNode*>(*It);
+            ScriptNodes.push_back(static_cast<CScriptNode*>(*It));
     }
 
     if (!ScriptNodes.isEmpty())
@@ -727,7 +726,7 @@ void CWorldEditor::DeleteSelection()
 void CWorldEditor::UpdateOpenRecentActions()
 {
     QSettings Settings;
-    QStringList RecentProjectsList = Settings.value("WorldEditor/RecentProjectsList").toStringList();
+    QStringList RecentProjectsList = Settings.value(QStringLiteral("WorldEditor/RecentProjectsList")).toStringList();
 
     // Bump the current project to the front
     CGameProject *pProj = gpEdApp->ActiveProject();
@@ -740,13 +739,13 @@ void CWorldEditor::UpdateOpenRecentActions()
     }
 
     // Remove projects that don't exist anymore
-    foreach (const QString& rkProj, RecentProjectsList)
+    for (const QString& rkProj : RecentProjectsList)
     {
         if (!FileUtil::Exists( TO_TSTRING(rkProj) ) || rkProj.contains('\\') )
             RecentProjectsList.removeAll(rkProj);
     }
 
-    Settings.setValue("WorldEditor/RecentProjectsList", RecentProjectsList);
+    Settings.setValue(QStringLiteral("WorldEditor/RecentProjectsList"), RecentProjectsList);
 
     // Set up the menu actions
     for (int iProj = 0; iProj < mskMaxRecentProjects; iProj++)
@@ -755,7 +754,7 @@ void CWorldEditor::UpdateOpenRecentActions()
 
         if (iProj < RecentProjectsList.size())
         {
-            QString ActionText = QString("&%1 %2").arg(iProj).arg(RecentProjectsList[iProj]);
+            QString ActionText = tr("&%1 %2").arg(iProj).arg(RecentProjectsList[iProj]);
             pAction->setText(ActionText);
             pAction->setVisible(true);
         }
@@ -767,7 +766,7 @@ void CWorldEditor::UpdateOpenRecentActions()
 
 void CWorldEditor::UpdateWindowTitle()
 {
-    QString WindowTitle = "%APP_FULL_NAME%";
+    QString WindowTitle = QStringLiteral("%APP_FULL_NAME%");
     CGameProject *pProj = gpEdApp->ActiveProject();
 
     if (pProj)
@@ -783,14 +782,14 @@ void CWorldEditor::UpdateWindowTitle()
         }
     }
 
-    WindowTitle += "[*]";
+    WindowTitle += QStringLiteral("[*]");
     SET_WINDOWTITLE_APPVARS(WindowTitle);
 }
 
 void CWorldEditor::UpdateStatusBar()
 {
     // Would be cool to do more frequent status bar updates with more info. Unfortunately, this causes lag.
-    QString StatusText = "";
+    QString StatusText;
 
     if (!mGizmoHovering)
     {
@@ -812,7 +811,7 @@ void CWorldEditor::UpdateGizmoUI()
     // Update transform XYZ spin boxes
     if (!ui->TransformSpinBox->IsBeingEdited())
     {
-        CVector3f SpinBoxValue = CVector3f::skZero;
+        CVector3f SpinBoxValue = CVector3f::Zero();
 
         // If the gizmo is transforming, use the total transform amount
         // Otherwise, use the first selected node transform, or 0 if no selection
@@ -871,7 +870,7 @@ void CWorldEditor::UpdateSelectionUI()
     if (mpSelection->Size() == 1)
         SelectionText = TO_QSTRING(mpSelection->Front()->Name());
     else if (mpSelection->Size() > 1)
-        SelectionText = QString("%1 objects selected").arg(mpSelection->Size());
+        SelectionText = tr("%1 objects selected").arg(mpSelection->Size());
 
     QFontMetrics Metrics(ui->SelectionInfoLabel->font());
     SelectionText = Metrics.elidedText(SelectionText, Qt::ElideRight, ui->SelectionInfoFrame->width() - 10);
@@ -993,7 +992,7 @@ QAction* CWorldEditor::AddEditModeButton(QIcon Icon, QString ToolTip, EWorldEdit
 {
     ASSERT(mpEditModeButtonGroup->button(Mode) == nullptr);
 
-    QPushButton *pButton = new QPushButton(Icon, "", this);
+    QPushButton* pButton = new QPushButton(Icon, {}, this);
     pButton->setCheckable(true);
     pButton->setToolTip(ToolTip);
     pButton->setIconSize(QSize(24, 24));
@@ -1104,7 +1103,7 @@ void CWorldEditor::OnUnlinkClicked()
     for (CSelectionIterator It(mpSelection); It; ++It)
     {
         if (It->NodeType() == ENodeType::Script)
-            SelectedScriptNodes << static_cast<CScriptNode*>(*It);
+            SelectedScriptNodes.push_back(static_cast<CScriptNode*>(*It));
     }
 
     if (!SelectedScriptNodes.isEmpty())
@@ -1114,11 +1113,11 @@ void CWorldEditor::OnUnlinkClicked()
 
         if (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::Cancel)
         {
-            UndoStack().beginMacro("Unlink");
+            UndoStack().beginMacro(tr("Unlink"));
             bool UnlinkIncoming = (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::OutgoingOnly);
             bool UnlinkOutgoing = (Dialog.UserChoice() != CConfirmUnlinkDialog::EChoice::IncomingOnly);
 
-            foreach (CScriptNode *pNode, SelectedScriptNodes)
+            for (CScriptNode *pNode : SelectedScriptNodes)
             {
                 CScriptObject *pInst = pNode->Instance();
 
@@ -1126,7 +1125,7 @@ void CWorldEditor::OnUnlinkClicked()
                 {
                     QVector<uint32> LinkIndices;
                     for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Incoming); iLink++)
-                        LinkIndices << iLink;
+                        LinkIndices.push_back(iLink);
 
                     CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, ELinkType::Incoming, LinkIndices);
                     UndoStack().push(pCmd);
@@ -1136,7 +1135,7 @@ void CWorldEditor::OnUnlinkClicked()
                 {
                     QVector<uint32> LinkIndices;
                     for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
-                        LinkIndices << iLink;
+                        LinkIndices.push_back(iLink);
 
                     CDeleteLinksCommand *pCmd = new CDeleteLinksCommand(this, pInst, ELinkType::Outgoing, LinkIndices);
                     UndoStack().push(pCmd);

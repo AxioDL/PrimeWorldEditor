@@ -11,20 +11,20 @@
 class CTemplateListModel : public QAbstractListModel
 {
     Q_OBJECT
-    CGameTemplate *mpGame;
+    CGameTemplate *mpGame = nullptr;
     QList<CScriptTemplate*> mTemplates;
 
 public:
-    CTemplateListModel(QObject *pParent = 0)
+    explicit CTemplateListModel(QObject *pParent = nullptr)
         : QAbstractListModel(pParent)
     {}
 
-    int rowCount(const QModelIndex&) const
+    int rowCount(const QModelIndex&) const override
     {
         return mTemplates.size();
     }
 
-    QVariant data(const QModelIndex& rkIndex, int Role) const
+    QVariant data(const QModelIndex& rkIndex, int Role) const override
     {
         if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
             return TO_QSTRING(mTemplates[rkIndex.row()]->Name());
@@ -32,25 +32,27 @@ public:
             return QVariant::Invalid;
     }
 
-    Qt::DropActions supportedDropActions() const
+    Qt::DropActions supportedDropActions() const override
     {
         return Qt::IgnoreAction;
     }
 
-    Qt::DropActions supportedDragActions() const
+    Qt::DropActions supportedDragActions() const override
     {
         return Qt::MoveAction;
     }
 
-    QMimeData* mimeData(const QModelIndexList& rkIndices) const
+    QMimeData* mimeData(const QModelIndexList& rkIndices) const override
     {
-        if (rkIndices.size() != 1) return nullptr;
+        if (rkIndices.size() != 1)
+            return nullptr;
+
         QModelIndex Index = rkIndices.front();
         CScriptTemplate *pTemp = TemplateForIndex(Index);
         return new CTemplateMimeData(pTemp);
     }
 
-    Qt::ItemFlags flags(const QModelIndex&) const
+    Qt::ItemFlags flags(const QModelIndex&) const override
     {
         return Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled;
     }
@@ -65,9 +67,9 @@ public:
         if (mpGame)
         {
             for (uint32 iTemp = 0; iTemp < mpGame->NumScriptTemplates(); iTemp++)
-                mTemplates << mpGame->TemplateByIndex(iTemp);
+                mTemplates.push_back(mpGame->TemplateByIndex(iTemp));
 
-            std::sort(mTemplates.begin(), mTemplates.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
+            std::sort(mTemplates.begin(), mTemplates.end(), [](const CScriptTemplate *pLeft, const CScriptTemplate *pRight) {
                 return pLeft->Name() < pRight->Name();
             });
         }
@@ -75,7 +77,7 @@ public:
         endResetModel();
     }
 
-    inline CScriptTemplate* TemplateForIndex(const QModelIndex& rkIndex) const
+    CScriptTemplate* TemplateForIndex(const QModelIndex& rkIndex) const
     {
         return mTemplates[rkIndex.row()];
     }
@@ -84,16 +86,16 @@ public:
 class CTemplateListView : public QListView
 {
     Q_OBJECT
-    CTemplateListModel *mpModel;
+    CTemplateListModel *mpModel = nullptr;
 
 public:
-    CTemplateListView(QWidget *pParent = 0)
+    explicit CTemplateListView(QWidget *pParent = nullptr)
         : QListView(pParent)
     {
-        setModel(new CTemplateListModel(this));
+        CTemplateListView::setModel(new CTemplateListModel(this));
     }
 
-    void setModel(QAbstractItemModel *pModel)
+    void setModel(QAbstractItemModel* pModel) override
     {
         if (CTemplateListModel *pTempModel = qobject_cast<CTemplateListModel*>(pModel))
             mpModel = pTempModel;
@@ -103,13 +105,14 @@ public:
         QListView::setModel(mpModel);
     }
 
-    inline void SetGame(CGameTemplate *pGame)
+    void SetGame(CGameTemplate *pGame)
     {
-        if (mpModel) mpModel->SetGame(pGame);
+        if (mpModel)
+            mpModel->SetGame(pGame);
     }
 
 protected:
-    void startDrag(Qt::DropActions)
+    void startDrag(Qt::DropActions) override
     {
         QModelIndexList Selection = selectionModel()->selectedRows();
 

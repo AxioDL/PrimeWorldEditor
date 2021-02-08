@@ -2,29 +2,21 @@
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 
-CWorld::CWorld(CResourceEntry *pEntry /*= 0*/)
+CWorld::CWorld(CResourceEntry *pEntry)
     : CResource(pEntry)
-    , mpWorldName(nullptr)
-    , mpDarkWorldName(nullptr)
-    , mpSaveWorld(nullptr)
-    , mpDefaultSkybox(nullptr)
-    , mpMapWorld(nullptr)
-    , mTempleKeyWorldIndex(0)
 {
 }
 
-CWorld::~CWorld()
-{
-}
+CWorld::~CWorld() = default;
 
-CDependencyTree* CWorld::BuildDependencyTree() const
+std::unique_ptr<CDependencyTree> CWorld::BuildDependencyTree() const
 {
-    CDependencyTree *pTree = new CDependencyTree();
+    auto pTree = std::make_unique<CDependencyTree>();
 
-    for (uint32 iArea = 0; iArea < mAreas.size(); iArea++)
+    for (const auto& area : mAreas)
     {
-        pTree->AddDependency(mAreas[iArea].AreaResID);
-        pTree->AddDependency(mAreas[iArea].pAreaName);
+        pTree->AddDependency(area.AreaResID);
+        pTree->AddDependency(area.pAreaName);
     }
     
     pTree->AddDependency(mpWorldName);
@@ -49,9 +41,11 @@ void CWorld::SetAreaLayerInfo(CGameArea *pArea)
 
     SArea& AreaInfo = mAreas[pArea->WorldIndex()];
 
-    for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+    for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
     {
-        if (AreaInfo.Layers.size() <= iLyr) break;
+        if (AreaInfo.Layers.size() <= iLyr)
+            break;
+
         CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
         SArea::SLayer& rLayerInfo = AreaInfo.Layers[iLyr];
 
@@ -86,7 +80,7 @@ uint32 CWorld::AreaIndex(CAssetID AreaID) const
             return AreaIdx;
     }
 
-    return -1;
+    return UINT32_MAX;
 }
 
 // ************ SERIALIZATION ************

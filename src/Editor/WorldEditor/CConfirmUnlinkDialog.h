@@ -29,18 +29,17 @@ private:
     QHBoxLayout *mpButtonLayout;
     QVBoxLayout *mpDialogLayout;
 
-    EChoice mChoice;
+    EChoice mChoice{EChoice::Cancel};
 
 public:
-    explicit CConfirmUnlinkDialog(QWidget *pParent = 0)
+    explicit CConfirmUnlinkDialog(QWidget *pParent = nullptr)
         : QDialog(pParent)
-        , mChoice(EChoice::Cancel)
     {
-        mpLabel = new QLabel("Which links should be removed from the selected instances?");
-        mpAllButton = new QPushButton("All");
-        mpIncomingButton = new QPushButton("Incoming Links");
-        mpOutgoingButton = new QPushButton("Outgoing Links");
-        mpCancelButton = new QPushButton("Cancel");
+        mpLabel = new QLabel(tr("Which links should be removed from the selected instances?"));
+        mpAllButton = new QPushButton(tr("All"));
+        mpIncomingButton = new QPushButton(tr("Incoming Links"));
+        mpOutgoingButton = new QPushButton(tr("Outgoing Links"));
+        mpCancelButton = new QPushButton(tr("Cancel"));
 
         mpButtonLayout = new QHBoxLayout();
         mpButtonLayout->addWidget(mpAllButton);
@@ -53,13 +52,13 @@ public:
         mpDialogLayout->addLayout(mpButtonLayout);
         setLayout(mpDialogLayout);
 
-        connect(mpAllButton, SIGNAL(clicked()), this, SLOT(OnAllClicked()));
-        connect(mpIncomingButton, SIGNAL(clicked()), this, SLOT(OnIncomingClicked()));
-        connect(mpOutgoingButton, SIGNAL(clicked()), this, SLOT(OnOutgoingClicked()));
-        connect(mpCancelButton, SIGNAL(clicked()), this, SLOT(OnCancelClicked()));
+        connect(mpAllButton, &QPushButton::clicked, this, &CConfirmUnlinkDialog::OnAllClicked);
+        connect(mpIncomingButton, &QPushButton::clicked, this, &CConfirmUnlinkDialog::OnIncomingClicked);
+        connect(mpOutgoingButton, &QPushButton::clicked, this, &CConfirmUnlinkDialog::OnOutgoingClicked);
+        connect(mpCancelButton, &QPushButton::clicked, this, &CConfirmUnlinkDialog::OnCancelClicked);
     }
 
-    inline EChoice UserChoice() const { return mChoice; }
+    EChoice UserChoice() const { return mChoice; }
 
 protected slots:
     void OnAllClicked()

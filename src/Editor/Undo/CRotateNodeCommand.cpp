@@ -3,9 +3,7 @@
 #include "Editor/INodeEditor.h"
 
 CRotateNodeCommand::CRotateNodeCommand()
-    : IUndoCommand("Rotate"),
-      mpEditor(nullptr),
-      mCommandEnded(false)
+    : IUndoCommand("Rotate")
 {
 }
 
@@ -19,12 +17,11 @@ CRotateNodeCommand::CRotateNodeCommand(
         ETransformSpace TransformSpace
     )
     : IUndoCommand("Rotate"),
-      mpEditor(pEditor),
-      mCommandEnded(false)
+      mpEditor(pEditor)
 {
     mNodeList.reserve(rkNodes.size());
 
-    foreach (CSceneNode *pNode, rkNodes)
+    for (CSceneNode *pNode : rkNodes)
     {
         SNodeRotate Rotate;
         Rotate.pNode = pNode;
@@ -44,9 +41,7 @@ CRotateNodeCommand::CRotateNodeCommand(
     mpEditor->NotifySelectionTransformed();
 }
 
-CRotateNodeCommand::~CRotateNodeCommand()
-{
-}
+CRotateNodeCommand::~CRotateNodeCommand() = default;
 
 int CRotateNodeCommand::id() const
 {
@@ -86,7 +81,7 @@ void CRotateNodeCommand::undo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeRotate Rotate, mNodeList)
+    for (SNodeRotate& Rotate : mNodeList)
     {
         Rotate.pNode->SetPosition(Rotate.InitialPos);
         Rotate.pNode->SetRotation(Rotate.InitialRot);
@@ -100,7 +95,7 @@ void CRotateNodeCommand::redo()
 {
     if (!mpEditor) return;
 
-    foreach (SNodeRotate Rotate, mNodeList)
+    for (SNodeRotate& Rotate : mNodeList)
     {
         Rotate.pNode->SetPosition(Rotate.NewPos);
         Rotate.pNode->SetRotation(Rotate.NewRot);

@@ -11,6 +11,7 @@
 #include <Core/Render/IRenderable.h>
 #include <Core/Resource/Model/CModel.h>
 #include <Core/Resource/TResPtr.h>
+#include <array>
 
 #define CGIZMO_TRANSLATE_X 0
 #define CGIZMO_TRANSLATE_Y 1
@@ -49,44 +50,44 @@ public:
     };
 
 private:
-    EGizmoMode mMode;
-    FAxes mSelectedAxes;
-    ETransformSpace mTransformSpace;
+    EGizmoMode mMode{EGizmoMode::Off};
+    FAxes mSelectedAxes{EAxis::None};
+    ETransformSpace mTransformSpace{ETransformSpace::World};
     CQuaternion mBillboardRotation;
-    float mGizmoSize;
-    float mCameraDist;
-    bool mIsTransforming;
-    bool mHasTransformed;
-    CVector2f mWrapOffset;
-    bool mEnableCursorWrap;
+    float mGizmoSize = 1.0f;
+    float mCameraDist = 0.0f;
+    bool mIsTransforming = false;
+    bool mHasTransformed = false;
+    CVector2f mWrapOffset{0.0f};
+    bool mEnableCursorWrap = true;
 
     // Transform
     CTransform4f mTransform;
     CTransform4f mBillboardTransform;
     CTransform4f mScaledTransform;
-    CVector3f mPosition;
-    CQuaternion mRotation;
-    CQuaternion mLocalRotation;
-    CVector3f mScale;
-    bool mFlipScaleX;
-    bool mFlipScaleY;
-    bool mFlipScaleZ;
+    CVector3f mPosition{CVector3f::Zero()};
+    CQuaternion mRotation{CQuaternion::Identity()};
+    CQuaternion mLocalRotation{CQuaternion::Identity()};
+    CVector3f mScale{CVector3f::One()};
+    bool mFlipScaleX = false;
+    bool mFlipScaleY = false;
+    bool mFlipScaleZ = false;
 
     // Delta transform
-    CVector3f mDeltaTranslation;
+    CVector3f mDeltaTranslation{CVector3f::Zero()};
     CVector3f mTotalTranslation;
-    CQuaternion mDeltaRotation;
+    CQuaternion mDeltaRotation{CQuaternion::Identity()};
     CQuaternion mCurrentRotation;
     CVector3f mTotalRotation; // This is a CVector3f because this value displays on the UI and a quat would cause rollover
-    CVector3f mDeltaScale;
-    CVector3f mTotalScale;
+    CVector3f mDeltaScale{CVector3f::One()};
+    CVector3f mTotalScale{CVector3f::One()};
 
     // Transform helpers
     CPlane mTranslatePlane;
     CVector3f mTranslateOffset;
-    float mRotateOffset;
-    float mScaleOffset;
-    bool mSetOffset;
+    float mRotateOffset = 0.0f;
+    float mScaleOffset = 0.0f;
+    bool mSetOffset = false;
     CVector3f mHitPoint;
     CVector3f mMoveDir;
 
@@ -94,57 +95,91 @@ private:
     struct SModelPart
     {
         FAxes ModelAxes;
-        bool EnableRayCast;
-        bool IsBillboard;
+        bool EnableRayCast = false;
+        bool IsBillboard = false;
         TResPtr<CModel> pModel;
 
-        SModelPart() {}
+        SModelPart() :
+                ModelAxes(EAxis::None)
+        {};
+
         SModelPart(FAxes Axes, bool RayCastOn, bool Billboard, TResPtr<CModel> _pModel) :
-            ModelAxes(Axes), EnableRayCast(RayCastOn), IsBillboard(Billboard), pModel(_pModel) {}
+                ModelAxes(Axes), EnableRayCast(RayCastOn), IsBillboard(Billboard), pModel(_pModel)
+        {}
     };
-    SModelPart *mpCurrentParts;
-    uint32 mNumCurrentParts;
+
+    SModelPart* mpCurrentParts = nullptr;
+    uint32 mNumCurrentParts = 0;
 
     // Static
-    static bool smModelsLoaded;
-    static SModelPart smTranslateModels[CGIZMO_TRANSLATE_NUM];
-    static SModelPart smRotateModels[CGIZMO_ROTATE_NUM];
-    static SModelPart smScaleModels[CGIZMO_SCALE_NUM];
+    static inline bool smModelsLoaded = false;
+    static inline std::array<SModelPart, CGIZMO_TRANSLATE_NUM> smTranslateModels;
+    static inline std::array<SModelPart, CGIZMO_ROTATE_NUM> smRotateModels;
+    static inline std::array<SModelPart, CGIZMO_SCALE_NUM> smScaleModels;
 
 public:
     CGizmo();
-    ~CGizmo();
+    ~CGizmo() override;
 
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
+    void AddToRenderer(CRenderer* pRenderer, const SViewInfo& rkViewInfo) override;
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo) override;
 
     void IncrementSize();
     void DecrementSize();
     void UpdateForCamera(const CCamera& rkCamera);
     bool CheckSelectedAxes(const CRay& rkRay);
-    uint32 NumSelectedAxes();
+    uint32 NumSelectedAxes() const;
     void ResetSelectedAxes();
     void StartTransform();
     bool TransformFromInput(const CRay& rkRay, CCamera& rkCamera);
     void EndTransform();
 
     // Accessors
-    inline EGizmoMode Mode() const                  { return mMode; }
-    inline ETransformSpace TransformSpace() const   { return mTransformSpace; }
-    inline CVector3f Position() const               { return mPosition; }
-    inline CVector3f DeltaTranslation() const       { return mDeltaTranslation; }
-    inline CVector3f TotalTranslation() const       { return mTotalTranslation; }
-    inline CQuaternion Rotation() const             { return mRotation; }
-    inline CQuaternion DeltaRotation() const        { return mDeltaRotation; }
-    inline CVector3f TotalRotation() const          { return mTotalRotation; }
-    inline CVector3f Scale() const                  { return mScale; }
-    inline CVector3f DeltaScale() const             { return mDeltaScale; }
-    inline CVector3f TotalScale() const             { return mTotalScale; }
-    inline bool IsTransforming() const              { return mIsTransforming; }
-    inline bool HasTransformed() const              { return mHasTransformed; }
+    EGizmoMode Mode() const
+    { return mMode; }
 
-    inline void SetPosition(const CVector3f& rkPosition)    { mPosition = rkPosition; }
-    inline void EnableCursorWrap(bool Enable)               { mEnableCursorWrap = Enable; }
+    ETransformSpace TransformSpace() const
+    { return mTransformSpace; }
+
+    CVector3f Position() const
+    { return mPosition; }
+
+    CVector3f DeltaTranslation() const
+    { return mDeltaTranslation; }
+
+    CVector3f TotalTranslation() const
+    { return mTotalTranslation; }
+
+    CQuaternion Rotation() const
+    { return mRotation; }
+
+    CQuaternion DeltaRotation() const
+    { return mDeltaRotation; }
+
+    CVector3f TotalRotation() const
+    { return mTotalRotation; }
+
+    CVector3f Scale() const
+    { return mScale; }
+
+    CVector3f DeltaScale() const
+    { return mDeltaScale; }
+
+    CVector3f TotalScale() const
+    { return mTotalScale; }
+
+    bool IsTransforming() const
+    { return mIsTransforming; }
+
+    bool HasTransformed() const
+    { return mHasTransformed; }
+
+    void SetPosition(const CVector3f& rkPosition)
+    { mPosition = rkPosition; }
+
+    void EnableCursorWrap(bool Enable)
+    { mEnableCursorWrap = Enable; }
+
     void SetMode(EGizmoMode mode);
     void SetTransformSpace(ETransformSpace Space);
     void SetLocalRotation(const CQuaternion& rkOrientation);

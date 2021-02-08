@@ -10,11 +10,11 @@ class CTemplateMimeData : public QMimeData
     CScriptTemplate *mpTemplate;
 
 public:
-    CTemplateMimeData(CScriptTemplate *pTemplate)
+    explicit CTemplateMimeData(CScriptTemplate *pTemplate)
         : mpTemplate(pTemplate)
     {}
 
-    inline CScriptTemplate* Template() const { return mpTemplate; }
+    CScriptTemplate* Template() const { return mpTemplate; }
 };
 
 #endif // CTEMPLATEMIMEDATA_H

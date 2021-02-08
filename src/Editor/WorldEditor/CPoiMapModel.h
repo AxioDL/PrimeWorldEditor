@@ -16,16 +16,17 @@ class CPoiMapModel : public QAbstractListModel
     Q_OBJECT
 
     CWorldEditor *mpEditor;
-    CGameArea *mpArea;
+    CGameArea *mpArea = nullptr;
     TResPtr<CPoiToWorld> mpPoiToWorld;
 
     QMap<CScriptNode*, QList<CModelNode*>*> mModelMap;
 
 public:
-    explicit CPoiMapModel(CWorldEditor *pEditor, QObject *pParent = 0);
-    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const;
-    int rowCount(const QModelIndex& rkParent) const;
-    QVariant data(const QModelIndex& rkIndex, int Role) const;
+    explicit CPoiMapModel(CWorldEditor *pEditor, QObject *pParent = nullptr);
+
+    QVariant headerData(int Section, Qt::Orientation Orientation, int Role) const override;
+    int rowCount(const QModelIndex& rkParent) const override;
+    QVariant data(const QModelIndex& rkIndex, int Role) const override;
 
     void AddPOI(CScriptNode *pPOI);
     void AddMapping(const QModelIndex& rkIndex, CModelNode *pNode);

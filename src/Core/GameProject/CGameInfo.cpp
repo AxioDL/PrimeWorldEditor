@@ -1,6 +1,10 @@
 #include "CGameInfo.h"
 #include "CResourceStore.h"
 #include <Common/FileUtil.h>
+#include <algorithm>
+
+constexpr char gkGameInfoDir[] = "resources/gameinfo";
+constexpr char gkGameInfoExt[] = "xml";
 
 bool CGameInfo::LoadGameInfo(EGame Game)
 {
@@ -11,7 +15,7 @@ bool CGameInfo::LoadGameInfo(EGame Game)
     return LoadGameInfo(Path);
 }
 
-bool CGameInfo::LoadGameInfo(TString Path)
+bool CGameInfo::LoadGameInfo(const TString& Path)
 {
     CXMLReader Reader(Path);
 
@@ -20,14 +24,17 @@ bool CGameInfo::LoadGameInfo(TString Path)
         Serialize(Reader);
         return true;
     }
-    else return false;
+
+    return false;
 }
 
-bool CGameInfo::SaveGameInfo(TString Path /*= ""*/)
+bool CGameInfo::SaveGameInfo(TString Path)
 {
     ASSERT(mGame != EGame::Invalid); // can't save game info that was never loaded
 
-    if (Path.IsEmpty()) Path = GetDefaultGameInfoPath(mGame);
+    if (Path.IsEmpty())
+        Path = GetDefaultGameInfoPath(mGame);
+
     CXMLWriter Writer(Path, "GameInfo", 0, mGame);
     Serialize(Writer);
     return Writer.Save();
@@ -50,21 +57,19 @@ void CGameInfo::Serialize(IArchive& rArc)
 
 TString CGameInfo::GetBuildName(float BuildVer, ERegion Region) const
 {
-    for (uint32 iBuild = 0; iBuild < mBuilds.size(); iBuild++)
-    {
-        const SBuildInfo& rkBuildInfo = mBuilds[iBuild];
+    const auto it = std::find_if(mBuilds.cbegin(), mBuilds.cend(),
+                                 [=](const auto& entry) { return entry.Version == BuildVer && entry.Region == Region; });
 
-        if (rkBuildInfo.Version == BuildVer && rkBuildInfo.Region == Region)
-            return rkBuildInfo.Name;
-    }
+    if (it == mBuilds.cend())
+        return "Unknown Build";
 
-    return "Unknown Build";
+    return it->Name;
 }
 
 TString CGameInfo::GetAreaName(const CAssetID &rkID) const
 {
-    auto Iter = mAreaNameMap.find(rkID);
-    return (Iter == mAreaNameMap.end() ? "" : Iter->second);
+    const auto Iter = mAreaNameMap.find(rkID);
+    return Iter == mAreaNameMap.cend() ? "" : Iter->second;
 }
 
 // ************ STATIC ************
@@ -83,6 +88,11 @@ TString CGameInfo::GetDefaultGameInfoPath(EGame Game)
     if (Game == EGame::Invalid)
         return "";
 
-    TString GameName = GetGameShortName(Game);
-    return TString::Format("%s/%s/GameInfo%s.%s", *gDataDir, *gkGameInfoDir, *GameName, *gkGameInfoExt);
+    const TString GameName = GetGameShortName(Game);
+    return TString::Format("%s/%s/GameInfo%s.%s", gDataDir.ToStdString().c_str(), gkGameInfoDir, GameName.ToStdString().c_str(), gkGameInfoExt);
+}
+
+TString CGameInfo::GetExtension()
+{
+    return gkGameInfoExt;
 }

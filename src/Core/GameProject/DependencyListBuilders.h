@@ -12,21 +12,21 @@ class CCharacterUsageMap
 {
     std::map<CAssetID, std::vector<bool>> mUsageMap;
     std::set<CAssetID> mStillLookingIDs;
-    CResourceStore *mpStore;
-    uint32 mLayerIndex;
-    bool mIsInitialArea;
-    bool mCurrentAreaAllowsDupes;
+    CResourceStore *mpStore = nullptr;
+    uint32 mLayerIndex = UINT32_MAX;
+    bool mIsInitialArea = true;
+    bool mCurrentAreaAllowsDupes = false;
 
 public:
-    CCharacterUsageMap(CResourceStore *pStore)
-        : mpStore(pStore), mLayerIndex(-1), mIsInitialArea(true), mCurrentAreaAllowsDupes(false)
+    explicit CCharacterUsageMap(CResourceStore *pStore)
+        : mpStore(pStore)
     {}
 
-    bool IsCharacterUsed(const CAssetID& rkID, uint32 CharacterIndex) const;
+    bool IsCharacterUsed(const CAssetID& rkID, size_t CharacterIndex) const;
     bool IsAnimationUsed(const CAssetID& rkID, CSetAnimationDependency *pAnim) const;
     void FindUsagesForAsset(CResourceEntry *pEntry);
     void FindUsagesForArea(CWorld *pWorld, CResourceEntry *pEntry);
-    void FindUsagesForArea(CWorld *pWorld, uint32 AreaIndex);
+    void FindUsagesForArea(CWorld *pWorld, size_t AreaIndex);
     void FindUsagesForLayer(CResourceEntry *pAreaEntry, uint32 LayerIndex);
     void Clear();
     void DebugPrintContents();
@@ -47,19 +47,17 @@ class CPackageDependencyListBuilder
     std::set<CAssetID> mPackageUsedAssets;
     std::set<CAssetID> mAreaUsedAssets;
     std::set<CAssetID> mUniversalAreaAssets;
-    bool mEnableDuplicates;
-    bool mCurrentAreaHasDuplicates;
-    bool mIsUniversalAreaAsset;
-    bool mIsPlayerActor;
+    bool mEnableDuplicates = false;
+    bool mCurrentAreaHasDuplicates = false;
+    bool mIsUniversalAreaAsset = false;
+    bool mIsPlayerActor = false;
 
 public:
-    CPackageDependencyListBuilder(const CPackage *pkPackage)
+    explicit CPackageDependencyListBuilder(const CPackage *pkPackage)
         : mpkPackage(pkPackage)
-        , mGame(pkPackage->Project()->Game())
         , mpStore(pkPackage->Project()->ResourceStore())
+        , mGame(pkPackage->Project()->Game())
         , mCharacterUsageMap(pkPackage->Project()->ResourceStore())
-        , mCurrentAreaHasDuplicates(false)
-        , mIsPlayerActor(false)
     {
     }
 
@@ -79,10 +77,10 @@ class CAreaDependencyListBuilder
     CCharacterUsageMap mCharacterUsageMap;
     std::set<CAssetID> mBaseUsedAssets;
     std::set<CAssetID> mLayerUsedAssets;
-    bool mIsPlayerActor;
+    bool mIsPlayerActor = false;
 
 public:
-    CAreaDependencyListBuilder(CResourceEntry *pAreaEntry)
+    explicit CAreaDependencyListBuilder(CResourceEntry *pAreaEntry)
         : mpAreaEntry(pAreaEntry)
         , mpStore(pAreaEntry->ResourceStore())
         , mGame(pAreaEntry->Game())
@@ -106,7 +104,7 @@ class CAssetDependencyListBuilder
     CAssetID mCurrentAnimSetID;
 
 public:
-    CAssetDependencyListBuilder(CResourceEntry* pEntry)
+    explicit CAssetDependencyListBuilder(CResourceEntry* pEntry)
         : mpResourceEntry(pEntry)
         , mCharacterUsageMap(pEntry->ResourceStore())
     {}

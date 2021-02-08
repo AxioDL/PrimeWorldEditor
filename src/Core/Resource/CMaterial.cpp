@@ -6,45 +6,18 @@
 #include "Core/OpenGL/CShaderGenerator.h"
 #include <Common/Hash/CFNV1A.h>
 
-#include <iostream>
 #include <GL/glew.h>
 
 uint64 CMaterial::sCurrentMaterial = 0;
-CColor CMaterial::sCurrentTint = CColor::skWhite;
+CColor CMaterial::sCurrentTint = CColor::White();
 std::map<uint64, CMaterial::SMaterialShader> CMaterial::smShaderMap;
 
-CMaterial::CMaterial()
-    : mpShader(nullptr)
-    , mShaderStatus(EShaderStatus::NoShader)
-    , mRecalcHash(true)
-    , mVersion(EGame::Invalid)
-    , mOptions(EMaterialOption::None)
-    , mVtxDesc(EVertexAttribute::None)
-    , mBlendSrcFac(GL_ONE)
-    , mBlendDstFac(GL_ZERO)
-    , mLightingEnabled(true)
-    , mEchoesUnknownA(0)
-    , mEchoesUnknownB(0)
-    , mpIndirectTexture(nullptr)
-    , mpNextDrawPassMaterial(nullptr)
-    , mpBloomMaterial(nullptr)
-{}
+CMaterial::CMaterial() = default;
 
 CMaterial::CMaterial(EGame Version, FVertexDescription VtxDesc)
-    : mpShader(nullptr)
-    , mShaderStatus(EShaderStatus::NoShader)
-    , mRecalcHash(true)
-    , mVersion(Version)
+    : mVersion(Version)
     , mOptions(EMaterialOption::DepthWrite | EMaterialOption::ColorWrite)
     , mVtxDesc(VtxDesc)
-    , mBlendSrcFac(GL_ONE)
-    , mBlendDstFac(GL_ZERO)
-    , mLightingEnabled(true)
-    , mEchoesUnknownA(0)
-    , mEchoesUnknownB(0)
-    , mpIndirectTexture(nullptr)
-    , mpNextDrawPassMaterial(nullptr)
-    , mpBloomMaterial(nullptr)
 {}
 
 CMaterial::~CMaterial()
@@ -59,10 +32,8 @@ std::unique_ptr<CMaterial> CMaterial::Clone()
     pOut->mVersion = mVersion;
     pOut->mOptions = mOptions;
     pOut->mVtxDesc = mVtxDesc;
-    for (uint32 iKonst = 0; iKonst < 4; iKonst++)
-        pOut->mKonstColors[iKonst] = mKonstColors[iKonst];
-    for (uint32 iTev = 0; iTev < 4; iTev++)
-        pOut->mTevColors[iTev] = mTevColors[iTev];
+    pOut->mKonstColors = mKonstColors;
+    pOut->mTevColors = mTevColors;
     pOut->mBlendSrcFac = mBlendSrcFac;
     pOut->mBlendDstFac = mBlendDstFac;
     pOut->mLightingEnabled = mLightingEnabled;
@@ -126,25 +97,25 @@ void CMaterial::GenerateShader(bool AllowRegen /*= true*/)
 
 void CMaterial::ClearShader()
 {
-    if (mpShader)
+    if (mpShader == nullptr)
+        return;
+
+    const auto Find = smShaderMap.find(mParametersHash);
+    ASSERT(Find != smShaderMap.cend());
+
+    SMaterialShader& rShader = Find->second;
+    ASSERT(rShader.pShader == mpShader);
+
+    rShader.NumReferences--;
+
+    if (rShader.NumReferences == 0)
     {
-        auto Find = smShaderMap.find(mParametersHash);
-        ASSERT(Find != smShaderMap.end());
-
-        SMaterialShader& rShader = Find->second;
-        ASSERT(rShader.pShader == mpShader);
-
-        rShader.NumReferences--;
-
-        if (rShader.NumReferences == 0)
-        {
-            delete mpShader;
-            smShaderMap.erase(Find);
-        }
-
-        mpShader = nullptr;
-        mShaderStatus = EShaderStatus::NoShader;
+        delete mpShader;
+        smShaderMap.erase(Find);
     }
+
+    mpShader = nullptr;
+    mShaderStatus = EShaderStatus::NoShader;
 }
 
 bool CMaterial::SetCurrent(FRenderOptions Options)
@@ -162,7 +133,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         // Set RGB blend equation - force to ZERO/ONE if alpha is disabled
         GLenum srcRGB, dstRGB, srcAlpha, dstAlpha;
 
-        if (Options & ERenderOption::NoAlpha) {
+        if ((Options & ERenderOption::NoAlpha) != 0) {
             srcRGB = GL_ONE;
             dstRGB = GL_ZERO;
         } else {
@@ -170,7 +141,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
             dstRGB = mBlendDstFac;
         }
 
-        if (mOptions & EMaterialOption::ZeroDestAlpha) {
+        if ((mOptions & EMaterialOption::ZeroDestAlpha) != 0) {
             srcAlpha = GL_ZERO;
             dstAlpha = GL_ZERO;
         } else {
@@ -181,43 +152,45 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         glBlendFuncSeparate(srcRGB, dstRGB, srcAlpha, dstAlpha);
 
         // Set konst inputs
-        for (uint32 iKonst = 0; iKonst < 4; iKonst++)
-            CGraphics::sPixelBlock.Konst[iKonst] = mKonstColors[iKonst];
+        CGraphics::sPixelBlock.Konst = mKonstColors;
 
         // Set TEV registers
         if (mVersion >= EGame::Corruption)
-            for (uint32 iTev = 0; iTev < 4; iTev++)
-                CGraphics::sPixelBlock.TevColor[iTev] = mTevColors[iTev];
+        {
+            CGraphics::sPixelBlock.TevColor = mTevColors;
+        }
 
         // Set color channels
         // COLOR0_Amb,Mat is initialized by the node instead of by the material
 
         // Set depth write - force on if alpha is disabled (lots of weird depth issues otherwise)
-        if ((mOptions & EMaterialOption::DepthWrite) || (Options & ERenderOption::NoAlpha)) glDepthMask(GL_TRUE);
-        else glDepthMask(GL_FALSE);
+        if ((mOptions & EMaterialOption::DepthWrite) != 0 || (Options & ERenderOption::NoAlpha) != 0)
+            glDepthMask(GL_TRUE);
+        else
+            glDepthMask(GL_FALSE);
 
         // Set color/alpha write
-        GLboolean bColorWrite = mOptions.HasFlag(EMaterialOption::ColorWrite);
-        GLboolean bAlphaWrite = mOptions.HasFlag(EMaterialOption::AlphaWrite);
+        const GLboolean bColorWrite = mOptions.HasFlag(EMaterialOption::ColorWrite);
+        const GLboolean bAlphaWrite = mOptions.HasFlag(EMaterialOption::AlphaWrite);
         glColorMask(bColorWrite, bColorWrite, bColorWrite, bAlphaWrite);
 
         // Load uniforms
-        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
+        for (size_t iPass = 0; iPass < mPasses.size(); iPass++)
             mPasses[iPass]->SetAnimCurrent(Options, iPass);
 
         sCurrentMaterial = HashParameters();
     }
-
-    // If the passes are otherwise the same, update UV anims that use the model matrix
-    else
+    else // If the passes are otherwise the same, update UV anims that use the model matrix
     {
-        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
+        for (size_t iPass = 0; iPass < mPasses.size(); iPass++)
         {
-            EUVAnimMode mode = mPasses[iPass]->AnimMode();
+            const EUVAnimMode mode = mPasses[iPass]->AnimMode();
 
-            if ((mode == EUVAnimMode::InverseMV) || (mode == EUVAnimMode::InverseMVTranslated) ||
-                (mode == EUVAnimMode::ModelMatrix) || (mode == EUVAnimMode::SimpleMode))
+            if (mode == EUVAnimMode::InverseMV || mode == EUVAnimMode::InverseMVTranslated ||
+                mode == EUVAnimMode::ModelMatrix || mode == EUVAnimMode::SimpleMode)
+            {
                 mPasses[iPass]->SetAnimCurrent(Options, iPass);
+            }
         }
     }
 
@@ -240,23 +213,23 @@ uint64 CMaterial::HashParameters()
 {
     if (mRecalcHash)
     {
-        CFNV1A Hash(CFNV1A::k64Bit);
+        CFNV1A Hash(CFNV1A::EHashLength::k64Bit);
 
-        Hash.HashLong((int) mVersion);
+        Hash.HashLong(static_cast<int>(mVersion));
         Hash.HashLong(mOptions);
         Hash.HashLong(mVtxDesc);
-        Hash.HashData(mKonstColors, sizeof(CColor) * 4);
-        Hash.HashData(mTevColors, sizeof(CColor) * 4);
+        Hash.HashData(mKonstColors.data(), sizeof(mKonstColors));
+        Hash.HashData(mTevColors.data(), sizeof(mTevColors));
         Hash.HashLong(mBlendSrcFac);
         Hash.HashLong(mBlendDstFac);
         Hash.HashByte(mLightingEnabled);
         Hash.HashLong(mEchoesUnknownA);
         Hash.HashLong(mEchoesUnknownB);
 
-        for (uint32 iPass = 0; iPass < mPasses.size(); iPass++)
-            mPasses[iPass]->HashParameters(Hash);
+        for (auto& pass : mPasses)
+            pass->HashParameters(Hash);
 
-        uint64 NewHash = Hash.GetHash64();
+        const uint64 NewHash = Hash.GetHash64();
 
         if (mParametersHash != NewHash)
             ClearShader();
@@ -274,15 +247,15 @@ void CMaterial::Update()
     mShaderStatus = EShaderStatus::NoShader;
 }
 
-void CMaterial::SetNumPasses(uint32 NumPasses)
+void CMaterial::SetNumPasses(size_t NumPasses)
 {
-    uint32 OldCount = mPasses.size();
+    const size_t OldCount = mPasses.size();
     mPasses.resize(NumPasses);
 
     if (NumPasses > OldCount)
     {
-        for (uint32 iPass = OldCount; iPass < NumPasses; iPass++)
-            mPasses[iPass] = std::make_unique<CMaterialPass>(this);
+        for (size_t i = OldCount; i < NumPasses; i++)
+            mPasses[i] = std::make_unique<CMaterialPass>(this);
     }
 
     mRecalcHash = true;

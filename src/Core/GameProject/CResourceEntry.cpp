@@ -11,23 +11,17 @@
 #include <Common/Serialization/CXMLWriter.h>
 
 CResourceEntry::CResourceEntry(CResourceStore *pStore)
-    : mpResource(nullptr)
-    , mpTypeInfo(nullptr)
-    , mpStore(pStore)
-    , mpDependencies(nullptr)
-    , mID( CAssetID::InvalidID(pStore->Game()) )
-    , mpDirectory(nullptr)
-    , mMetadataDirty(false)
-    , mCachedSize(-1)
+    : mpStore(pStore)
+    , mID(CAssetID::InvalidID(pStore->Game()))
 {}
 
 // Static constructors
-CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
-                                                    const TString& rkDir, const TString& rkName,
-                                                    EResourceType Type, bool ExistingResource /*= false*/)
+std::unique_ptr<CResourceEntry> CResourceEntry::CreateNewResource(CResourceStore *pStore, const CAssetID& rkID,
+                                                                  const TString& rkDir, const TString& rkName,
+                                                                  EResourceType Type, bool ExistingResource)
 {
     // Initialize all entry info with the input data.
-    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    auto pEntry = std::unique_ptr<CResourceEntry>(new CResourceEntry(pStore));
     pEntry->mID = rkID;
     pEntry->mName = rkName;
     pEntry->mCachedUppercaseName = rkName.ToUpper();
@@ -37,7 +31,7 @@ CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const 
 
     pEntry->mpDirectory = pStore->GetVirtualDirectory(rkDir, true);
     ASSERT(pEntry->mpDirectory);
-    pEntry->mpDirectory->AddChild("", pEntry);
+    pEntry->mpDirectory->AddChild("", pEntry.get());
 
     pEntry->mMetadataDirty = true;
 
@@ -45,7 +39,7 @@ CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const 
     // then instantiate the new resource data so it can be saved as soon as possible.
     if (!ExistingResource)
     {
-        pEntry->mpResource = CResourceFactory::CreateResource(pEntry);
+        pEntry->mpResource = CResourceFactory::CreateResource(pEntry.get());
 
         if (pEntry->mpResource)
         {
@@ -56,30 +50,30 @@ CResourceEntry* CResourceEntry::CreateNewResource(CResourceStore *pStore, const 
     return pEntry;
 }
 
-CResourceEntry* CResourceEntry::BuildFromArchive(CResourceStore *pStore, IArchive& rArc)
+std::unique_ptr<CResourceEntry> CResourceEntry::BuildFromArchive(CResourceStore *pStore, IArchive& rArc)
 {
     // Load all entry info from the archive.
-    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    auto pEntry = std::unique_ptr<CResourceEntry>(new CResourceEntry(pStore));
     pEntry->SerializeEntryInfo(rArc, false);
     ASSERT(pEntry->mpTypeInfo);
     ASSERT(pEntry->mpDirectory);
     return pEntry;
 }
 
-CResourceEntry* CResourceEntry::BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
-                                                   const TString& rkDirPath, const TString& rkName)
+std::unique_ptr<CResourceEntry> CResourceEntry::BuildFromDirectory(CResourceStore *pStore, CResTypeInfo *pTypeInfo,
+                                                                   const TString& rkDirPath, const TString& rkName)
 {
     // Initialize as much entry info as possible from the input data, then load the rest from the metadata file.
     ASSERT(pTypeInfo);
 
-    CResourceEntry *pEntry = new CResourceEntry(pStore);
+    auto pEntry = std::unique_ptr<CResourceEntry>(new CResourceEntry(pStore));
     pEntry->mpTypeInfo = pTypeInfo;
     pEntry->mName = rkName;
     pEntry->mCachedUppercaseName = rkName.ToUpper();
 
     pEntry->mpDirectory = pStore->GetVirtualDirectory(rkDirPath, true);
     ASSERT(pEntry->mpDirectory);
-    pEntry->mpDirectory->AddChild("", pEntry);
+    pEntry->mpDirectory->AddChild("", pEntry.get());
 
     // Make sure we're valid, then load the remaining data from the metadata file
     ASSERT(pEntry->HasCookedVersion() || pEntry->HasRawVersion());
@@ -89,11 +83,7 @@ CResourceEntry* CResourceEntry::BuildFromDirectory(CResourceStore *pStore, CResT
     return pEntry;
 }
 
-CResourceEntry::~CResourceEntry()
-{
-    if (mpResource) delete mpResource;
-    if (mpDependencies) delete mpDependencies;
-}
+CResourceEntry::~CResourceEntry() = default;
 
 bool CResourceEntry::LoadMetadata()
 {
@@ -171,15 +161,11 @@ void CResourceEntry::SerializeEntryInfo(IArchive& rArc, bool MetadataOnly)
 
 void CResourceEntry::UpdateDependencies()
 {
-    if (mpDependencies)
-    {
-        delete mpDependencies;
-        mpDependencies = nullptr;
-    }
+    mpDependencies.reset();
 
     if (!mpTypeInfo->CanHaveDependencies())
     {
-        mpDependencies = new CDependencyTree();
+        mpDependencies = std::make_unique<CDependencyTree>();
         return;
     }
 
@@ -191,7 +177,7 @@ void CResourceEntry::UpdateDependencies()
     if (!mpResource)
     {
         errorf("Unable to update cached dependencies; failed to load resource");
-        mpDependencies = new CDependencyTree();
+        mpDependencies = std::make_unique<CDependencyTree>();
         return;
     }
 
@@ -255,7 +241,7 @@ bool CResourceEntry::IsInDirectory(CVirtualDirectory *pDir) const
 
 uint64 CResourceEntry::Size() const
 {
-    if (mCachedSize == -1)
+    if (mCachedSize == UINT64_MAX)
     {
         if (HasCookedVersion())
             mCachedSize = FileUtil::FileSize(CookedAssetPath());
@@ -344,7 +330,7 @@ bool CResourceEntry::Save(bool SkipCacheSave /*= false*/, bool FlagForRecook /*=
     // Flag dirty any packages that contain this resource.
     if (FlagForRecook)
     {
-        for (uint32 iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
+        for (size_t iPkg = 0; iPkg < mpStore->Project()->NumPackages(); iPkg++)
         {
             CPackage *pPkg = mpStore->Project()->PackageByIndex(iPkg);
 
@@ -391,7 +377,8 @@ bool CResourceEntry::Cook()
 CResource* CResourceEntry::Load()
 {
     // If the asset is already loaded then just return it immediately
-    if (mpResource) return mpResource;
+    if (mpResource)
+        return mpResource.get();
 
     // Always try to load raw version as the raw version contains extra editor-only data.
     // If there is no raw version (which will be the case for resource types that don't
@@ -411,8 +398,7 @@ CResource* CResourceEntry::Load()
             if (!Reader.IsValid())
             {
                 errorf("Failed to load raw resource; falling back on cooked. Raw path: %s", *RawAssetPath());
-                delete mpResource;
-                mpResource = nullptr;
+                mpResource.reset();
             }
 
             else
@@ -424,7 +410,7 @@ CResource* CResourceEntry::Load()
         }
 
         if (mpResource)
-            return mpResource;
+            return mpResource.get();
     }
 
     ASSERT(!mpResource);
@@ -451,8 +437,11 @@ CResource* CResourceEntry::Load()
 CResource* CResourceEntry::LoadCooked(IInputStream& rInput)
 {
     // Overload to allow for load from an arbitrary input stream.
-    if (mpResource) return mpResource;
-    if (!rInput.IsValid()) return nullptr;
+    if (mpResource)
+        return mpResource.get();
+
+    if (!rInput.IsValid())
+        return nullptr;
 
     // Set gpResourceStore to ensure the correct resource store is accessed by loader functions
     CResourceStore *pOldStore = gpResourceStore;
@@ -463,22 +452,22 @@ CResource* CResourceEntry::LoadCooked(IInputStream& rInput)
         mpStore->TrackLoadedResource(this);
 
     gpResourceStore = pOldStore;
-    return mpResource;
+    return mpResource.get();
 }
 
 bool CResourceEntry::Unload()
 {
     ASSERT(mpResource != nullptr);
     ASSERT(!mpResource->IsReferenced());
-    delete mpResource;
-    mpResource = nullptr;
+    mpResource.reset();
     return true;
 }
 
 bool CResourceEntry::CanMoveTo(const TString& rkDir, const TString& rkName)
 {
     // Validate that the path/name are valid
-    if (!mpStore->IsValidResourcePath(rkDir, rkName)) return false;
+    if (!CResourceStore::IsValidResourcePath(rkDir, rkName))
+        return false;
 
     // We need to validate the path isn't taken already - either the directory doesn't exist, or doesn't have a resource by this name
     CVirtualDirectory *pDir = mpStore->GetVirtualDirectory(rkDir, false);

@@ -26,11 +26,11 @@ class CAudioManager
     std::unordered_map<uint16, CAudioGroup*> mSfxIdMap;
 
 public:
-    CAudioManager(CGameProject *pProj);
+    explicit CAudioManager(CGameProject *pProj);
     void LoadAssets();
     void ClearAssets();
-    SSoundInfo GetSoundInfo(uint32 SoundID);
-    void LogSoundInfo(uint32 SoundID);
+    SSoundInfo GetSoundInfo(uint32 SoundID) const;
+    void LogSoundInfo(uint32 SoundID) const;
 };
 
 #endif // CAUDIOMANAGER

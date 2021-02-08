@@ -9,26 +9,26 @@ class CAnimationSetProperty : public TSerializeableTypedProperty< CAnimationPara
     friend class IProperty;
 
 protected:
-    CAnimationSetProperty(EGame Game)
+    explicit CAnimationSetProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
     {
         mDefaultValue.SetGame(Game);
     }
 
 public:
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
         ValueRef(pData).Serialize(Arc);
     }
 
-    virtual const char* HashableTypeName() const
+    const char* HashableTypeName() const override
     {
-        return (Game() <= EGame::Echoes ? "AnimationSet" : "CharacterAnimationSet");
+        return Game() <= EGame::Echoes ? "AnimationSet" : "CharacterAnimationSet";
     }
 
-    virtual CAnimationParameters GetSerializationDefaultValue()
+    CAnimationParameters GetSerializationDefaultValue() override
     {
-        return CAnimationParameters( Game() );
+        return CAnimationParameters(Game());
     }
 };
 

@@ -8,6 +8,8 @@
 
 #include <QMainWindow>
 
+#include <memory>
+
 namespace Ui {
 class CStringEditor;
 }
@@ -18,33 +20,33 @@ class CStringEditor : public IEditor
     Q_OBJECT
 
     /** Qt UI */
-    Ui::CStringEditor* mpUI;
+    std::unique_ptr<Ui::CStringEditor> mpUI;
 
     /** String table asset being edited */
     TResPtr<CStringTable> mpStringTable;
 
     /** Language being edited */
-    ELanguage mCurrentLanguage;
+    ELanguage mCurrentLanguage{ELanguage::English};
 
     /** Index of the string being edited */
-    uint mCurrentStringIndex;
+    uint32 mCurrentStringIndex = UINT32_MAX;
 
     /** Current string count */
-    uint mCurrentStringCount;
+    uint32 mCurrentStringCount = 0;
 
     /** Model for the string list view */
-    CStringListModel* mpListModel;
+    CStringListModel* mpListModel = nullptr;
 
     /** Editor state flags */
-    bool mIsEditingStringName;
-    bool mIsEditingStringData;
+    bool mIsEditingStringName = false;
+    bool mIsEditingStringData = false;
 
 public:
-    explicit CStringEditor(CStringTable* pStringTable, QWidget* pParent = 0);
-    ~CStringEditor();
+    explicit CStringEditor(CStringTable* pStringTable, QWidget* pParent = nullptr);
+    ~CStringEditor() override;
 
-    virtual bool Save() override;
-    virtual bool eventFilter(QObject* pWatched, QEvent* pEvent) override;
+    bool Save() override;
+    bool eventFilter(QObject* pWatched, QEvent* pEvent) override;
 
     void InitUI();
     void UpdateStatusBar();
@@ -55,7 +57,7 @@ public:
     void SaveSettings();
 
     // Accessors
-    inline CStringTable* StringTable() const { return mpStringTable; }
+    CStringTable* StringTable() const { return mpStringTable; }
 
 public slots:
     void UpdateUI();

@@ -13,33 +13,33 @@ class CGameTemplate;
 class CScriptTemplate;
 class CStructProperty;
 
-/** Typedefs */
-typedef TString TIDString;
+/** Aliases */
+using TIDString = TString;
 
 /** Property flags */
 enum class EPropertyFlag : uint32
 {
     /** Property has been fully initialized and has had PostLoad called */
-    IsInitialized               = 0x1,
+    IsInitialized          = 0x1,
     /** Property is an archetype (a template for other properties to copy from) */
-    IsArchetype					= 0x2,
+    IsArchetype            = 0x2,
     /** Property is an array archetype (a template for elements of an array property) */
-    IsArrayArchetype			= 0x4,
+    IsArrayArchetype       = 0x4,
     /** This property and all its children are a single unit and do not have individual property IDs, sizes, etc. */
-    IsAtomic					= 0x8,
+    IsAtomic               = 0x8,
     /** This is a property of a C++ class, not a script object */
-    IsIntrinsic                 = 0x10,
+    IsIntrinsic            = 0x10,
     /** Property has been modified, and needs to be resaved. Only valid on archetypes */
-    IsDirty                     = 0x20,
+    IsDirty                = 0x20,
     /** We have cached whether the property name is correct */
-    HasCachedNameCheck			= 0x40000000,
+    HasCachedNameCheck     = 0x40000000,
     /** The name of the property is a match for the property ID hash */
-    HasCorrectPropertyName 		= 0x80000000,
+    HasCorrectPropertyName = 0x80000000,
 
     /** Flags that are left intact when copying from an archetype */
-    ArchetypeCopyFlags 			= EPropertyFlag::IsAtomic,
+    ArchetypeCopyFlags     = IsAtomic,
     /** Flags that are inheritable from parent */
-    InheritableFlags 			= EPropertyFlag::IsArchetype | EPropertyFlag::IsArrayArchetype | EPropertyFlag::IsAtomic,
+    InheritableFlags       = IsArchetype | IsArrayArchetype | IsAtomic,
 };
 DECLARE_FLAGS_ENUMCLASS(EPropertyFlag, FPropertyFlags)
 
@@ -117,14 +117,14 @@ protected:
     FPropertyFlags mFlags;
 
     /** Parent property */
-    IProperty* mpParent;
+    IProperty* mpParent = nullptr;
 
     /** Pointer parent; if non-null, this parent needs to be dereferenced to access the correct
      *  memory region that our property data is stored in */
-    IProperty* mpPointerParent;
+    IProperty* mpPointerParent = nullptr;
 
     /** Archetype property; source property that we copied metadata from */
-    IProperty* mpArchetype;
+    IProperty* mpArchetype = nullptr;
 
     /** Sub-instances of archetype properties. For non-archetypes, will be empty.
      *  @todo this really oughta be a linked list */
@@ -137,29 +137,29 @@ protected:
     EGame mGame;
 
     /** Script template that this property belongs to. Null for struct/enum/flag archetypes. */
-    CScriptTemplate* mpScriptTemplate;
+    CScriptTemplate* mpScriptTemplate = nullptr;
 
     /** Offset of this property within the property block */
-    uint32 mOffset;
+    uint32 mOffset = UINT32_MAX;
 
     /** Property ID. This ID is used to uniquely identify this property within this struct. */
-    uint32 mID;
+    uint32 mID = UINT32_MAX;
 
     /** Property metadata */
     TString mName;
     TString mDescription;
     TString mSuffix;
-    ECookPreference mCookPreference;
+    ECookPreference mCookPreference{ECookPreference::Default};
 
     /** Min/max allowed version number. These numbers correspond to the game's internal build number.
      *  This is not used yet but in the future it can be used to configure certain properties to only
      *  show up when certain versions of the game are being edited. The default values allow the
      *  property to show up in all versions. */
-    float mMinVersion;
-    float mMaxVersion;
+    float mMinVersion = 0.0f;
+    float mMaxVersion = FLT_MAX;
 
     /** Private constructor - use static methods to instantiate */
-    IProperty(EGame Game);
+    explicit IProperty(EGame Game);
     void _ClearChildren();
 
 public:
@@ -202,34 +202,74 @@ public:
     void MarkDirty();
     void ClearDirtyFlag();
     bool ConvertType(EPropertyType NewType, IProperty* pNewArchetype = nullptr);
-    bool UsesNameMap();
+    bool UsesNameMap() const;
     bool HasAccurateName();
 
     /** Accessors */
     EGame Game() const;
-    inline ECookPreference CookPreference() const;
-    inline uint32 NumChildren() const;
-    inline IProperty* ChildByIndex(uint32 ChildIndex) const;
-    inline IProperty* Parent() const;
-    inline IProperty* RootParent();
-    inline IProperty* Archetype() const;
-    inline IProperty* RootArchetype();
-    inline CScriptTemplate* ScriptTemplate() const;
-    inline TString Name() const;
-    inline TString Description() const;
-    inline TString Suffix() const;
-    inline TIDString IDString(bool FullyQualified) const;
-    inline uint32 Offset() const;
-    inline uint32 ID() const;
+    ECookPreference CookPreference() const { return mCookPreference; }
+    size_t NumChildren() const { return mChildren.size(); }
 
-    inline bool IsInitialized() const       { return mFlags.HasFlag(EPropertyFlag::IsInitialized); }
-    inline bool IsArchetype() const         { return mFlags.HasFlag(EPropertyFlag::IsArchetype); }
-    inline bool IsArrayArchetype() const    { return mFlags.HasFlag(EPropertyFlag::IsArrayArchetype); }
-    inline bool IsAtomic() const            { return mFlags.HasFlag(EPropertyFlag::IsAtomic); }
-    inline bool IsIntrinsic() const         { return mFlags.HasFlag(EPropertyFlag::IsIntrinsic); }
-    inline bool IsDirty() const             { return mFlags.HasFlag(EPropertyFlag::IsDirty); }
-    inline bool IsRootParent() const        { return mpParent == nullptr; }
-    inline bool IsRootArchetype() const     { return mpArchetype == nullptr; }
+    IProperty* ChildByIndex(size_t ChildIndex) const
+    {
+        ASSERT(ChildIndex < mChildren.size());
+        return mChildren[ChildIndex];
+    }
+
+    IProperty* Parent() const { return mpParent; }
+    IProperty* RootParent()
+    {
+        IProperty* pParent = Parent();
+        IProperty* pOut = this;
+
+        while (pParent)
+        {
+            pOut = pParent;
+            pParent = pParent->Parent();
+        }
+
+        return pOut;
+    }
+
+    IProperty* Archetype() const { return mpArchetype; }
+    IProperty* RootArchetype()
+    {
+        IProperty* pArchetype = Archetype();
+        IProperty* pOut = this;
+
+        while (pArchetype)
+        {
+            pOut = pArchetype;
+            pArchetype = pArchetype->Archetype();
+        }
+
+        return pOut;
+    }
+
+    CScriptTemplate* ScriptTemplate() const { return mpScriptTemplate; }
+    TString Name() const { return mName; }
+    TString Description() const { return mDescription; }
+    TString Suffix() const { return mSuffix; }
+
+    TIDString IDString(bool FullyQualified) const
+    {
+        if (FullyQualified && mpParent != nullptr && mpParent->Parent() != nullptr)
+            return mpParent->IDString(FullyQualified) + ":" + TString::HexString(mID);
+        else
+            return TString::HexString(mID);
+    }
+
+    uint32 Offset() const { return mOffset; }
+    uint32 ID() const { return mID; }
+
+    bool IsInitialized() const       { return mFlags.HasFlag(EPropertyFlag::IsInitialized); }
+    bool IsArchetype() const         { return mFlags.HasFlag(EPropertyFlag::IsArchetype); }
+    bool IsArrayArchetype() const    { return mFlags.HasFlag(EPropertyFlag::IsArrayArchetype); }
+    bool IsAtomic() const            { return mFlags.HasFlag(EPropertyFlag::IsAtomic); }
+    bool IsIntrinsic() const         { return mFlags.HasFlag(EPropertyFlag::IsIntrinsic); }
+    bool IsDirty() const             { return mFlags.HasFlag(EPropertyFlag::IsDirty); }
+    bool IsRootParent() const        { return mpParent == nullptr; }
+    bool IsRootArchetype() const     { return mpArchetype == nullptr; }
 
     /** Create */
     static IProperty* Create(EPropertyType Type,
@@ -238,110 +278,18 @@ public:
     static IProperty* CreateCopy(IProperty* pArchetype);
 
     static IProperty* CreateIntrinsic(EPropertyType Type,
-                                         EGame Game,
-                                         uint32 Offset,
-                                         const TString& rkName);
+                                      EGame Game,
+                                      uint32 Offset,
+                                      const TString& rkName);
 
     static IProperty* CreateIntrinsic(EPropertyType Type,
-                                         IProperty* pParent,
-                                         uint32 Offset,
-                                         const TString& rkName);
+                                      IProperty* pParent,
+                                      uint32 Offset,
+                                      const TString& rkName);
 
     static IProperty* ArchiveConstructor(EPropertyType Type,
-                                           const IArchive& Arc);
+                                         const IArchive& Arc);
 };
-
-inline ECookPreference IProperty::CookPreference() const
-{
-    return mCookPreference;
-}
-
-inline uint32 IProperty::NumChildren() const
-{
-    return mChildren.size();
-}
-
-inline IProperty* IProperty::ChildByIndex(uint32 ChildIndex) const
-{
-    ASSERT(ChildIndex >= 0 && ChildIndex < mChildren.size());
-    return mChildren[ChildIndex];
-}
-
-inline IProperty* IProperty::Parent() const
-{
-    return mpParent;
-}
-
-inline IProperty* IProperty::RootParent()
-{
-    IProperty* pParent = Parent();
-    IProperty* pOut = this;
-
-    while (pParent)
-    {
-        pOut = pParent;
-        pParent = pParent->Parent();
-    }
-
-    return pOut;
-}
-
-inline IProperty* IProperty::Archetype() const
-{
-    return mpArchetype;
-}
-
-inline IProperty* IProperty::RootArchetype()
-{
-    IProperty* pArchetype = Archetype();
-    IProperty* pOut = this;
-
-    while (pArchetype)
-    {
-        pOut = pArchetype;
-        pArchetype = pArchetype->Archetype();
-    }
-
-    return pOut;
-}
-
-inline CScriptTemplate* IProperty::ScriptTemplate() const
-{
-    return mpScriptTemplate;
-}
-
-inline TString IProperty::Name() const
-{
-    return mName;
-}
-
-inline TString IProperty::Description() const
-{
-    return mDescription;
-}
-
-inline TString IProperty::Suffix() const
-{
-    return mSuffix;
-}
-
-inline TString IProperty::IDString(bool FullyQualified) const
-{
-    if (FullyQualified && mpParent != nullptr && mpParent->Parent() != nullptr)
-        return mpParent->IDString(FullyQualified) + ":" + TString::HexString(mID);
-    else
-        return TString::HexString(mID);
-}
-
-inline uint32 IProperty::Offset() const
-{
-    return mOffset;
-}
-
-inline uint32 IProperty::ID() const
-{
-    return mID;
-}
 
 template<typename PropType, EPropertyType PropEnum>
 class TTypedProperty : public IProperty
@@ -349,32 +297,36 @@ class TTypedProperty : public IProperty
     friend class IProperty;
     friend class CTemplateLoader;
 public:
-    typedef PropType ValueType;
+    using ValueType = PropType;
     
 protected:
     PropType mDefaultValue = {};
 
-    TTypedProperty(EGame Game) : IProperty(Game) {}
+    explicit TTypedProperty(EGame Game) : IProperty(Game) {}
 
 public:
-    virtual EPropertyType Type() const              { return PropEnum; }
-    virtual uint32 DataSize() const                 { return sizeof(PropType); }
-    virtual uint32 DataAlignment() const            { return alignof(PropType); }
-    virtual void Construct(void* pData) const       { new(ValuePtr(pData)) PropType(mDefaultValue); }
-    virtual void Destruct(void* pData) const        { ValueRef(pData).~PropType(); }
-    virtual bool MatchesDefault(void* pData) const  { return ValueRef(pData) == mDefaultValue; }
-    virtual void RevertToDefault(void* pData) const { ValueRef(pData) = mDefaultValue; }
-    virtual void SetDefaultFromData(void* pData)    { mDefaultValue = ValueRef(pData); MarkDirty(); }
+    EPropertyType Type() const override              { return PropEnum; }
+    uint32 DataSize() const override                 { return sizeof(PropType); }
+    uint32 DataAlignment() const override            { return alignof(PropType); }
+    void Construct(void* pData) const override       { new (ValuePtr(pData)) PropType(mDefaultValue); }
+    void Destruct(void* pData) const override        { ValueRef(pData).~PropType(); }
+    bool MatchesDefault(void* pData) const override  { return ValueRef(pData) == mDefaultValue; }
+    void RevertToDefault(void* pData) const override { ValueRef(pData) = mDefaultValue; }
+    void SetDefaultFromData(void* pData) override
+    {
+        mDefaultValue = ValueRef(pData);
+        MarkDirty();
+    }
 
     virtual bool CanHaveDefault() const { return true; }
 
-    virtual void InitFromArchetype(IProperty* pOther)
+    void InitFromArchetype(IProperty* pOther) override
     {
         IProperty::InitFromArchetype(pOther);
         mDefaultValue = static_cast<TTypedProperty*>(pOther)->mDefaultValue;
     }
 
-    virtual void CopyDefaultValueTo(IProperty* pOtherProperty)
+    void CopyDefaultValueTo(IProperty* pOtherProperty) override
     {
         // WARNING: We don't do any type checking here because this function is used for type conversion,
         // which necessitates that the property class is allowed to be different. The underlying type is
@@ -384,32 +336,32 @@ public:
         pTypedOther->mDefaultValue = mDefaultValue;
     }
 
-    inline PropType* ValuePtr(void* pData) const
+    PropType* ValuePtr(void* pData) const
     {
         return (PropType*) RawValuePtr(pData);
     }
 
-    inline PropType& ValueRef(void* pData) const
+    PropType& ValueRef(void* pData) const
     {
         return *ValuePtr(pData);
     }
 
-    inline PropType Value(void* pData) const
+    PropType Value(void* pData) const
     {
         return *ValuePtr(pData);
     }
 
-    inline const PropType& DefaultValue() const
+    const PropType& DefaultValue() const
     {
         return mDefaultValue;
     }
 
-    inline void SetDefaultValue(const PropType& kInDefaultValue)
+    void SetDefaultValue(const PropType& kInDefaultValue)
     {
         mDefaultValue = kInDefaultValue;
     }
 
-    inline static EPropertyType StaticType()     { return PropEnum; }
+    static constexpr EPropertyType StaticType()     { return PropEnum; }
 };
 
 template<typename PropType, EPropertyType PropEnum>
@@ -417,12 +369,12 @@ class TSerializeableTypedProperty : public TTypedProperty<PropType, PropEnum>
 {
   using base = TTypedProperty<PropType, PropEnum>;
 protected:
-    TSerializeableTypedProperty(EGame Game)
+    explicit TSerializeableTypedProperty(EGame Game)
         : base(Game)
     {}
 
 public:
-    virtual void Serialize(IArchive& rArc)
+    void Serialize(IArchive& rArc) override
     {
         base::Serialize(rArc);
         TSerializeableTypedProperty* pArchetype = static_cast<TSerializeableTypedProperty*>(base::mpArchetype);
@@ -462,7 +414,7 @@ public:
             rArc << SerialParameter("DefaultValue", base::mDefaultValue);
     }
 
-    virtual bool ShouldSerialize() const
+    bool ShouldSerialize() const override
     {
         base* pArchetype = static_cast<base*>(base::mpArchetype);
 
@@ -485,17 +437,15 @@ class TNumericalProperty : public TSerializeableTypedProperty<PropType, PropEnum
     friend class CTemplateLoader;
 
 protected:
-    PropType mMinValue;
-    PropType mMaxValue;
+    PropType mMinValue = -1;
+    PropType mMaxValue = -1;
 
-    TNumericalProperty(EGame Game)
+    explicit TNumericalProperty(EGame Game)
         : base(Game)
-        , mMinValue( -1 )
-        , mMaxValue( -1 )
     {}
 
 public:
-    virtual void Serialize(IArchive& rArc)
+    void Serialize(IArchive& rArc) override
     {
         base::Serialize(rArc);
         TNumericalProperty* pArchetype = static_cast<TNumericalProperty*>(base::mpArchetype);
@@ -504,7 +454,7 @@ public:
              << SerialParameter("Max", mMaxValue, SH_Optional, pArchetype ? pArchetype->mMaxValue : (PropType) -1);
     }
 
-    virtual bool ShouldSerialize() const
+    bool ShouldSerialize() const override
     {
         TNumericalProperty* pArchetype = static_cast<TNumericalProperty*>(base::mpArchetype);
         return base::ShouldSerialize() ||
@@ -512,7 +462,7 @@ public:
                 mMaxValue != pArchetype->mMaxValue;
     }
 
-    virtual void InitFromArchetype(IProperty* pOther)
+    void InitFromArchetype(IProperty* pOther) override
     {
         base::InitFromArchetype(pOther);
         TNumericalProperty* pCastOther = static_cast<TNumericalProperty*>(pOther);
@@ -520,7 +470,7 @@ public:
         mMaxValue = pCastOther->mMaxValue;
     }
 
-    virtual void PropertyValueChanged(void* pPropertyData)
+    void PropertyValueChanged(void* pPropertyData) override
     {
         base::PropertyValueChanged(pPropertyData);
 
@@ -534,7 +484,7 @@ public:
 
 /** Property casting with dynamic type checking */
 template<class PropertyClass>
-inline PropertyClass* TPropCast(IProperty* pProperty)
+PropertyClass* TPropCast(IProperty* pProperty)
 {
     if (pProperty && pProperty->Type() == PropertyClass::StaticType())
     {

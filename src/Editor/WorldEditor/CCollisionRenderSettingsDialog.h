@@ -2,6 +2,7 @@
 #define CCOLLISIONRENDERSETTINGSDIALOG_H
 
 #include <QDialog>
+#include <memory>
 
 class CWorldEditor;
 
@@ -12,13 +13,13 @@ class CCollisionRenderSettingsDialog;
 class CCollisionRenderSettingsDialog : public QDialog
 {
     Q_OBJECT
-    Ui::CCollisionRenderSettingsDialog *mpUi;
+    std::unique_ptr<Ui::CCollisionRenderSettingsDialog> mpUi;
 
     CWorldEditor *mpEditor;
 
 public:
-    explicit CCollisionRenderSettingsDialog(CWorldEditor *pEditor, QWidget *pParent = 0);
-    ~CCollisionRenderSettingsDialog();
+    explicit CCollisionRenderSettingsDialog(CWorldEditor *pEditor, QWidget *pParent = nullptr);
+    ~CCollisionRenderSettingsDialog() override;
 
 public slots:
     void SetupWidgets();

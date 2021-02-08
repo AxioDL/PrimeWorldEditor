@@ -1,20 +1,14 @@
 #include "CLight.h"
 #include "Core/Render/CGraphics.h"
 #include <Common/Common.h>
+#include <cfloat>
 #include <cmath>
-#include <float.h>
 
-#define CLIGHT_NO_RADIUS 0x40
-#define CLIGHT_NO_INTENSITY 0x80
+constexpr uint32_t CLIGHT_NO_RADIUS = 0x40;
+constexpr uint32_t CLIGHT_NO_INTENSITY = 0x80;
 
 CLight::CLight()
-    : mPosition(skDefaultLightPos)
-    , mDirection(skDefaultLightDir)
-    , mDistAttenCoefficients(0.f, 1.f, 0.f)
-    , mAngleAttenCoefficients(0.f, 1.f, 0.f)
-    , mCachedRadius(0.f)
-    , mCachedIntensity(0.f)
-    , mDirtyFlags(CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY)
+    : mDirtyFlags(CLIGHT_NO_RADIUS | CLIGHT_NO_INTENSITY)
 {
 }
 
@@ -76,7 +70,7 @@ float CLight::CalculateIntensity() const
     if (mType == ELightType::Custom)
         coef = mAngleAttenCoefficients.X;
 
-    return coef * std::max(mColor.R, std::max(mColor.G, mColor.B));
+    return coef * std::max({mColor.R, mColor.G, mColor.B});
 #if 0
     // Get the color component with the greatest numeric value
     float Greatest = (mColor.G >= mColor.B) ? mColor.G : mColor.B;
@@ -88,13 +82,14 @@ float CLight::CalculateIntensity() const
 }
 
 // As is this one... partly
-CVector3f CLight::CalculateSpotAngleAtten()
+CVector3f CLight::CalculateSpotAngleAtten() const
 {
-    if (mType != ELightType::Spot) return CVector3f(1.f, 0.f, 0.f);
+    if (mType != ELightType::Spot)
+        return CVector3f(1.f, 0.f, 0.f);
 
-    float RadianCutoff = mSpotCutoff * (3.1415927f / 180.f);
-    float RadianCosine = cosf(RadianCutoff);
-    float InvCosine = 1.f - RadianCosine;
+    const float RadianCutoff = mSpotCutoff * (3.1415927f / 180.f);
+    const float RadianCosine = cosf(RadianCutoff);
+    const float InvCosine = 1.f - RadianCosine;
 
     return CVector3f(0.f, -RadianCosine / InvCosine, 1.f / InvCosine);
 }
@@ -102,7 +97,7 @@ CVector3f CLight::CalculateSpotAngleAtten()
 // ************ ACCESSORS ************
 float CLight::GetRadius() const
 {
-    if (mDirtyFlags & CLIGHT_NO_RADIUS)
+    if ((mDirtyFlags & CLIGHT_NO_RADIUS) != 0)
     {
         mCachedRadius = CalculateRadius();
         mDirtyFlags &= ~CLIGHT_NO_RADIUS;
@@ -113,7 +108,7 @@ float CLight::GetRadius() const
 
 float CLight::GetIntensity() const
 {
-    if (mDirtyFlags & CLIGHT_NO_INTENSITY)
+    if ((mDirtyFlags & CLIGHT_NO_INTENSITY) != 0)
     {
         mCachedIntensity = CalculateIntensity();
         mDirtyFlags &= ~CLIGHT_NO_INTENSITY;
@@ -131,7 +126,7 @@ void CLight::SetColor(const CColor& rkColor)
 void CLight::SetSpotCutoff(float Cutoff)
 {
     mSpotCutoff = Cutoff * 0.5f;
-    CalculateSpotAngleAtten();
+    mAngleAttenCoefficients = CalculateSpotAngleAtten();
 }
 
 void CLight::SetDistAtten(float DistCoefA, float DistCoefB, float DistCoefC)
@@ -198,8 +193,9 @@ CStructProperty* CLight::GetProperties() const
 // ************ OTHER ************
 void CLight::Load() const
 {
-    uint8 Index = (uint8) CGraphics::sNumLights;
-    if (Index >= 8) return;
+    const auto Index = static_cast<uint8>(CGraphics::sNumLights);
+    if (Index >= CGraphics::sLightBlock.Lights.size())
+        return;
 
     CGraphics::SLightBlock::SGXLight *pLight = &CGraphics::sLightBlock.Lights[Index];
 
@@ -288,7 +284,3 @@ CLight CLight::BuildCustom(const CVector3f& rkPosition, const CVector3f& rkDirec
     pLight.mAngleAttenCoefficients.Z = AngleAttenC * AngleAttenC;
     return pLight;
 }
-
-// ************ CONSTANTS ************
-const CVector3f CLight::skDefaultLightPos(0.f, 0.f, 0.f);
-const CVector3f CLight::skDefaultLightDir(0.f,-1.f, 0.f);

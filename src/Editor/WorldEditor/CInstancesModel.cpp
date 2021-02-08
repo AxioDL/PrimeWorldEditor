@@ -31,28 +31,21 @@ CInstancesModel::CInstancesModel(CWorldEditor *pEditor, QObject *pParent)
     : QAbstractItemModel(pParent)
     , mpEditor(pEditor)
     , mpScene(pEditor->Scene())
-    , mpArea(nullptr)
-    , mpCurrentGame(nullptr)
-    , mModelType(EInstanceModelType::Layers)
-    , mShowColumnEnabled(true)
-    , mChangingLayout(false)
 {
-    mBaseItems << "Script";
+    mBaseItems.push_back(QStringLiteral("Script"));
 
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
-    connect(mpEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)), this, SLOT(OnMapChange()));
-    connect(mpEditor, SIGNAL(NodeAboutToBeSpawned()), this, SLOT(NodeAboutToBeCreated()));
-    connect(mpEditor, SIGNAL(NodeSpawned(CSceneNode*)), this, SLOT(NodeCreated(CSceneNode*)));
-    connect(mpEditor, SIGNAL(NodeAboutToBeDeleted(CSceneNode*)), this, SLOT(NodeAboutToBeDeleted(CSceneNode*)));
-    connect(mpEditor, SIGNAL(NodeDeleted()), this, SLOT(NodeDeleted()));
-    connect(mpEditor, SIGNAL(PropertyModified(IProperty*,CScriptObject*)), this, SLOT(PropertyModified(IProperty*,CScriptObject*)));
-    connect(mpEditor, SIGNAL(InstancesLayerAboutToChange()), this, SLOT(InstancesLayerPreChange()));
-    connect(mpEditor, SIGNAL(InstancesLayerChanged(QList<CScriptNode*>)), this, SLOT(InstancesLayerPostChange(QList<CScriptNode*>)));
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CInstancesModel::OnActiveProjectChanged);
+    connect(mpEditor, &CWorldEditor::MapChanged, this, &CInstancesModel::OnMapChange);
+    connect(mpEditor, &CWorldEditor::NodeAboutToBeSpawned, this, &CInstancesModel::NodeAboutToBeCreated);
+    connect(mpEditor, &CWorldEditor::NodeSpawned, this, &CInstancesModel::NodeCreated);
+    connect(mpEditor, &CWorldEditor::NodeAboutToBeDeleted, this, &CInstancesModel::NodeAboutToBeDeleted);
+    connect(mpEditor, &CWorldEditor::NodeDeleted, this, &CInstancesModel::NodeDeleted);
+    connect(mpEditor, &CWorldEditor::PropertyModified, this, &CInstancesModel::PropertyModified);
+    connect(mpEditor, &CWorldEditor::InstancesLayerAboutToChange, this, &CInstancesModel::InstancesLayerPreChange);
+    connect(mpEditor, &CWorldEditor::InstancesLayerChanged, this, &CInstancesModel::InstancesLayerPostChange);
 }
 
-CInstancesModel::~CInstancesModel()
-{
-}
+CInstancesModel::~CInstancesModel() = default;
 
 QVariant CInstancesModel::headerData(int Section, Qt::Orientation Orientation, int Role) const
 {
@@ -60,9 +53,9 @@ QVariant CInstancesModel::headerData(int Section, Qt::Orientation Orientation, i
     {
         switch (Section)
         {
-        case 0: return "Name";
-        case 1: return (mModelType == EInstanceModelType::Layers ? "Type" : "Layer");
-        case 2: return "Show";
+        case 0: return tr("Name");
+        case 1: return (mModelType == EInstanceModelType::Layers ? tr("Type") : tr("Layer"));
+        case 2: return tr("Show");
         }
     }
     return QVariant::Invalid;
@@ -73,43 +66,45 @@ QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkPar
     if (!hasIndex(Row, Column, rkParent))
         return QModelIndex();
 
-    EIndexType Type = IndexType(rkParent);
+    const EIndexType Type = IndexType(rkParent);
 
     // Parent is root - child is Node type index
     if (Type == EIndexType::Root)
     {
         if (Row < mBaseItems.count())
             return createIndex(Row, Column, quint64(0));
-        else
-            return QModelIndex();
+        
+        return QModelIndex();
     }
 
     // Parent is node - child is Object type index
-    else if (Type == EIndexType::NodeType)
+    if (Type == EIndexType::NodeType)
         return createIndex(Row, Column, ((Row << TYPES_ROW_INDEX_SHIFT) | (rkParent.row() << TYPES_NODE_TYPE_SHIFT) | 1));
 
     // Parent is object - child is Instance index
-    else if (Type == EIndexType::ObjectType)
+    if (Type == EIndexType::ObjectType)
     {
-        uint32 RootRow = rkParent.parent().row();
+        const uint32 RootRow = rkParent.parent().row();
 
         // Object
         if (RootRow == 0)
         {
             if (mModelType == EInstanceModelType::Layers)
             {
-                CScriptLayer *pLayer = mpArea->ScriptLayer(rkParent.row());
-                if ((uint32) Row >= pLayer->NumInstances())
+                CScriptLayer *pLayer = mpArea->ScriptLayer(static_cast<size_t>(rkParent.row()));
+                if (static_cast<size_t>(Row) >= pLayer->NumInstances())
                     return QModelIndex();
-                else
-                    return createIndex(Row, Column, (*pLayer)[Row]);
+
+                return createIndex(Row, Column, (*pLayer)[Row]);
             }
 
-            else if (mModelType == EInstanceModelType::Types)
+            if (mModelType == EInstanceModelType::Types)
             {
                 const std::list<CScriptObject*>& list = mTemplateList[rkParent.row()]->ObjectList();
-                if ((uint32) Row >= list.size())
+                if (static_cast<size_t>(Row) >= list.size())
+                {
                     return QModelIndex();
+                }
                 else
                 {
                     auto it = std::next(list.begin(), Row);
@@ -126,7 +121,7 @@ QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkPar
 
 QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
 {
-    EIndexType Type = IndexType(rkChild);
+    const EIndexType Type = IndexType(rkChild);
 
     // Root parent
     if (Type == EIndexType::NodeType)
@@ -135,12 +130,12 @@ QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
     // Node type parent
     if (Type == EIndexType::ObjectType)
     {
-        uint32 NodeTypeRow = (rkChild.internalId() & TYPES_NODE_TYPE_MASK) >> TYPES_NODE_TYPE_SHIFT;
+        const uint32 NodeTypeRow = (rkChild.internalId() & TYPES_NODE_TYPE_MASK) >> TYPES_NODE_TYPE_SHIFT;
         return createIndex(NodeTypeRow, 0, quint64(0));
     }
 
     // Object type parent
-    else if (Type == EIndexType::Instance)
+    if (Type == EIndexType::Instance)
     {
         CScriptObject *pObj = static_cast<CScriptObject*>   (rkChild.internalPointer());
 
@@ -148,21 +143,20 @@ QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
         {
             CScriptLayer *pLayer = pObj->Layer();
 
-            for (uint32 iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
+            for (size_t iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
             {
                 if (mpArea->ScriptLayer(iLyr) == pLayer)
                     return createIndex(iLyr, 0, (iLyr << TYPES_ROW_INDEX_SHIFT) | 1);
             }
         }
-
         else if (mModelType == EInstanceModelType::Types)
         {
             CScriptTemplate *pTemp = pObj->Template();
 
-            for (int iTemp = 0; iTemp < mTemplateList.size(); iTemp++)
+            for (size_t iTemp = 0; iTemp < mTemplateList.size(); iTemp++)
             {
                 if (mTemplateList[iTemp] == pTemp)
-                    return createIndex(iTemp, 0, (iTemp << TYPES_ROW_INDEX_SHIFT) | 1);
+                    return createIndex(static_cast<int>(iTemp), 0, static_cast<quintptr>((iTemp << TYPES_ROW_INDEX_SHIFT) | 1));
             }
         }
     }
@@ -172,39 +166,40 @@ QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
 
 int CInstancesModel::rowCount(const QModelIndex& rkParent) const
 {
-    EIndexType Type = IndexType(rkParent);
+    const EIndexType Type = IndexType(rkParent);
 
     // Node types
     if (Type == EIndexType::Root)
+    {
         return mBaseItems.count();
+    }
 
     // Object types
-    else if (Type == EIndexType::NodeType)
+    if (Type == EIndexType::NodeType)
     {
         // Script Objects
         if (rkParent.row() == 0)
         {
             if (mModelType == EInstanceModelType::Layers)
-                return (mpArea ? mpArea->NumScriptLayers() : 0);
-            else
-                return mTemplateList.size();
+                return mpArea ? static_cast<int>(mpArea->NumScriptLayers()) : 0;
+
+            return static_cast<int>(mTemplateList.size());
         }
-        else
-            return 0;
+
+        return 0;
     }
 
     // Instances
-    else if (Type == EIndexType::ObjectType)
+    if (Type == EIndexType::ObjectType)
     {
-        uint32 RowIndex = ((rkParent.internalId() & TYPES_ROW_INDEX_MASK) >> TYPES_ROW_INDEX_SHIFT);
+        const uint32 RowIndex = ((rkParent.internalId() & TYPES_ROW_INDEX_MASK) >> TYPES_ROW_INDEX_SHIFT);
         if (mModelType == EInstanceModelType::Layers)
-            return (mpArea ? mpArea->ScriptLayer(RowIndex)->NumInstances() : 0);
-        else
-            return mTemplateList[RowIndex]->NumObjects();
+            return mpArea ? static_cast<int>(mpArea->ScriptLayer(RowIndex)->NumInstances()) : 0;
+
+        return static_cast<int>(mTemplateList[RowIndex]->NumObjects());
     }
 
-    else
-        return 0;
+    return 0;
 }
 
 int CInstancesModel::columnCount(const QModelIndex& /*rkParent*/) const
@@ -214,7 +209,7 @@ int CInstancesModel::columnCount(const QModelIndex& /*rkParent*/) const
 
 QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
 {
-    EIndexType Type = IndexType(rkIndex);
+    const EIndexType Type = IndexType(rkIndex);
 
     // Name/Layer
     if ((Role == Qt::DisplayRole) || (Role == Qt::ToolTipRole))
@@ -225,54 +220,55 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
             if (rkIndex.column() == 0)
                 return mBaseItems[rkIndex.row()];
 
-            else
-                return QVariant::Invalid;
+            return QVariant::Invalid;
         }
 
         // Object types
-        else if (Type == EIndexType::ObjectType)
+        if (Type == EIndexType::ObjectType)
         {
             if (rkIndex.column() == 0)
             {
                 if (mModelType == EInstanceModelType::Layers)
-                    return TO_QSTRING(mpEditor->ActiveArea()->ScriptLayer(rkIndex.row())->Name());
+                    return TO_QSTRING(mpEditor->ActiveArea()->ScriptLayer(static_cast<size_t>(rkIndex.row()))->Name());
                 else
                     return TO_QSTRING(mTemplateList[rkIndex.row()]->Name());
             }
+
             // todo: show/hide button in column 2
-            else
-                return QVariant::Invalid;
+            return QVariant::Invalid;
         }
 
         // Instances
-        else if (Type == EIndexType::Instance)
+        if (Type == EIndexType::Instance)
         {
             // todo: show/hide button
-            CScriptObject *pObj = static_cast<CScriptObject*>(rkIndex.internalPointer());
+            const CScriptObject *pObj = static_cast<CScriptObject*>(rkIndex.internalPointer());
 
             if (rkIndex.column() == 0)
                 return TO_QSTRING(pObj->InstanceName());
 
-            else if (rkIndex.column() == 1)
+            if (rkIndex.column() == 1)
             {
                 if (mModelType == EInstanceModelType::Layers)
                     return TO_QSTRING(pObj->Template()->Name());
-                else if (mModelType == EInstanceModelType::Types)
+                if (mModelType == EInstanceModelType::Types)
                     return TO_QSTRING(pObj->Layer()->Name());
             }
-
             else
+            {
                 return QVariant::Invalid;
+            }
         }
     }
 
     // Show/Hide Buttons
     else if ((Role == Qt::DecorationRole) && (rkIndex.column() == 2))
     {
-        if (!mpScene) return QVariant::Invalid;
+        if (!mpScene)
+            return QVariant::Invalid;
 
-        static QIcon Visible(":/icons/Show.svg");
-        static QIcon Invisible(":/icons/Hide.svg");
+        static const QIcon Visible(QStringLiteral(":/icons/Show.svg"));
+        static const QIcon Invisible(QStringLiteral(":/icons/Hide.svg"));
 
         // Show/Hide Node Types
         if (Type == EIndexType::NodeType)
@@ -296,26 +292,28 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
         {
             if (mModelType == EInstanceModelType::Layers)
             {
-                CScriptLayer *pLayer = IndexLayer(rkIndex);
-                if (pLayer->IsVisible()) return Visible;
-                else return Invisible;
+                const CScriptLayer *pLayer = IndexLayer(rkIndex);
+                if (pLayer->IsVisible())
+                    return Visible;
+                return Invisible;
             }
 
-            else if (mModelType == EInstanceModelType::Types)
+            if (mModelType == EInstanceModelType::Types)
             {
-                CScriptTemplate *pTemp = IndexTemplate(rkIndex);
-                if (pTemp->IsVisible()) return Visible;
-                else return Invisible;
+                const CScriptTemplate *pTemp = IndexTemplate(rkIndex);
+                if (pTemp->IsVisible())
+                    return Visible;
+                return Invisible;
             }
         }
-
         // Show/Hide Instance
         else if (Type == EIndexType::Instance)
         {
             CScriptObject *pObj = IndexObject(rkIndex);
-            CScriptNode *pNode = mpScene->NodeForInstance(pObj);
-            if (pNode->MarkedVisible()) return Visible;
-            else return Invisible;
+            const CScriptNode *pNode = mpScene->NodeForInstance(pObj);
+            if (pNode->MarkedVisible())
+                return Visible;
+            return Invisible;
         }
     }
 
@@ -338,7 +336,7 @@ CScriptLayer* CInstancesModel::IndexLayer(const QModelIndex& rkIndex) const
     if ((mModelType != EInstanceModelType::Layers) || (IndexNodeType(rkIndex) != ENodeType::Script) || (IndexType(rkIndex) != EIndexType::ObjectType))
         return nullptr;
 
-    uint32 RowIndex = ((rkIndex.internalId() & TYPES_ROW_INDEX_MASK) >> TYPES_ROW_INDEX_SHIFT);
+    const uint32 RowIndex = ((rkIndex.internalId() & TYPES_ROW_INDEX_MASK) >> TYPES_ROW_INDEX_SHIFT);
     return mpArea->ScriptLayer(RowIndex);
 }
 
@@ -347,7 +345,7 @@ CScriptTemplate* CInstancesModel::IndexTemplate(const QModelIndex& rkIndex) cons
     if ((mModelType != EInstanceModelType::Types) || (IndexNodeType(rkIndex) != ENodeType::Script) || (IndexType(rkIndex) != EIndexType::ObjectType))
         return nullptr;
 
-    uint32 RowIndex = ((rkIndex.internalId() & TYPES_ROW_INDEX_MASK) >> TYPES_ROW_INDEX_SHIFT);
+    const uint32 RowIndex = ((rkIndex.internalId() & TYPES_ROW_INDEX_MASK) >> TYPES_ROW_INDEX_SHIFT);
     return mTemplateList[RowIndex];
 }
 
@@ -362,22 +360,23 @@ CScriptObject* CInstancesModel::IndexObject(const QModelIndex& rkIndex) const
 // ************ PUBLIC SLOTS ************
 void CInstancesModel::OnActiveProjectChanged(CGameProject *pProj)
 {
-    if (mModelType == EInstanceModelType::Types)
-    {
-        if (pProj)
-            mpCurrentGame = NGameList::GetGameTemplate( pProj->Game() );
-        else
-            mpCurrentGame = nullptr;
+    if (mModelType != EInstanceModelType::Types)
+        return;
 
-        GenerateList();
-    }
+    if (pProj != nullptr)
+        mpCurrentGame = NGameList::GetGameTemplate( pProj->Game() );
+    else
+        mpCurrentGame = nullptr;
+
+    GenerateList();
 }
 
 void CInstancesModel::OnMapChange()
 {
     if (mModelType == EInstanceModelType::Types)
+    {
         GenerateList();
-
+    }
     else
     {
         beginResetModel();
@@ -388,11 +387,11 @@ void CInstancesModel::OnMapChange()
 
 void CInstancesModel::NodeAboutToBeCreated()
 {
-    if (!mChangingLayout)
-    {
-        emit layoutAboutToBeChanged();
-        mChangingLayout = true;
-    }
+    if (mChangingLayout)
+        return;
+
+    emit layoutAboutToBeChanged();
+    mChangingLayout = true;
 }
 
 void CInstancesModel::NodeCreated(CSceneNode *pNode)
@@ -413,7 +412,7 @@ void CInstancesModel::NodeCreated(CSceneNode *pNode)
 
             if (pObj->Template()->NumObjects() == 1)
             {
-                QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
+                const QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
                 int NewIndex = 0;
 
                 for (; NewIndex < mTemplateList.size(); NewIndex++)
@@ -432,27 +431,21 @@ void CInstancesModel::NodeCreated(CSceneNode *pNode)
 
 void CInstancesModel::NodeAboutToBeDeleted(CSceneNode *pNode)
 {
-    if (pNode->NodeType() == ENodeType::Script)
+    if (pNode->NodeType() != ENodeType::Script)
+        return;
+
+    if (mModelType == EInstanceModelType::Types)
     {
-        if (mModelType == EInstanceModelType::Types)
+        const auto *pScript = static_cast<CScriptNode*>(pNode);
+        const CScriptObject *pObj = pScript->Instance();
+
+        if (pObj->Template()->NumObjects() <= 1)
         {
-            CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
-            CScriptObject *pObj = pScript->Instance();
-
-            if (pObj->Template()->NumObjects() <= 1)
-            {
-                QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
-                int TempIdx = mTemplateList.indexOf(pObj->Template());
-                beginRemoveRows(ScriptRootIdx, TempIdx, TempIdx);
-                mTemplateList.removeOne(pObj->Template());
-                endRemoveRows();
-            }
-
-            else if (!mChangingLayout)
-            {
-                emit layoutAboutToBeChanged();
-                mChangingLayout = true;
-            }
+            const QModelIndex ScriptRootIdx = index(0, 0, QModelIndex());
+            const int TempIdx = mTemplateList.indexOf(pObj->Template());
+            beginRemoveRows(ScriptRootIdx, TempIdx, TempIdx);
+            mTemplateList.removeOne(pObj->Template());
+            endRemoveRows();
         }
 
         else if (!mChangingLayout)
@@ -461,41 +454,45 @@ void CInstancesModel::NodeAboutToBeDeleted(CSceneNode *pNode)
             mChangingLayout = true;
         }
     }
+    else if (!mChangingLayout)
+    {
+        emit layoutAboutToBeChanged();
+        mChangingLayout = true;
+    }
 }
 
 void CInstancesModel::NodeDeleted()
 {
-    if (mChangingLayout)
-    {
-        emit layoutChanged();
-        mChangingLayout = false;
-    }
+    if (!mChangingLayout)
+        return;
+
+    emit layoutChanged();
+    mChangingLayout = false;
 }
 
 void CInstancesModel::PropertyModified(IProperty *pProp, CScriptObject *pInst)
 {
-    if (pProp->Name() == "Name")
+    if (pProp->Name() != "Name")
+        return;
+
+    const QModelIndex ScriptRoot = index(0, 0, QModelIndex());
+
+    if (mModelType == EInstanceModelType::Layers)
     {
-        QModelIndex ScriptRoot = index(0, 0, QModelIndex());
+        const uint32 Index = pInst->Layer()->AreaIndex();
+        const QModelIndex LayerIndex = index(Index, 0, ScriptRoot);
+        const QModelIndex InstIndex = index(pInst->LayerIndex(), 0, LayerIndex);
+        emit dataChanged(InstIndex, InstIndex);
+    }
+    else
+    {
+        const uint32 Index = mTemplateList.indexOf(pInst->Template());
+        const QModelIndex TempIndex = index(Index, 0, ScriptRoot);
 
-        if (mModelType == EInstanceModelType::Layers)
-        {
-            uint32 Index = pInst->Layer()->AreaIndex();
-            QModelIndex LayerIndex = index(Index, 0, ScriptRoot);
-            QModelIndex InstIndex = index(pInst->LayerIndex(), 0, LayerIndex);
-            emit dataChanged(InstIndex, InstIndex);
-        }
-
-        else
-        {
-            uint32 Index = mTemplateList.indexOf(pInst->Template());
-            QModelIndex TempIndex = index(Index, 0, ScriptRoot);
-
-            QList<CScriptObject*> InstList = QList<CScriptObject*>::fromStdList(pInst->Template()->ObjectList());
-            uint32 InstIdx = InstList.indexOf(pInst);
-            QModelIndex InstIndex = index(InstIdx, 0, TempIndex);
-            emit dataChanged(InstIndex, InstIndex);
-        }
+        const QList<CScriptObject*> InstList = QList<CScriptObject*>::fromStdList(pInst->Template()->ObjectList());
+        const uint32 InstIdx = InstList.indexOf(pInst);
+        const QModelIndex InstIndex = index(InstIdx, 0, TempIndex);
+        emit dataChanged(InstIndex, InstIndex);
     }
 }
 
@@ -510,21 +507,22 @@ void CInstancesModel::InstancesLayerPreChange()
 void CInstancesModel::InstancesLayerPostChange(const QList<CScriptNode*>& rkInstanceList)
 {
     QList<CScriptObject*> InstanceList;
-    foreach (CScriptNode *pNode, rkInstanceList)
-        InstanceList << pNode->Instance();
+    InstanceList.reserve(rkInstanceList.size());
+    for (CScriptNode *pNode : rkInstanceList)
+        InstanceList.push_back(pNode->Instance());
 
-    QModelIndex ScriptIdx = index(0, 0, QModelIndex());
+    const QModelIndex ScriptIdx = index(0, 0, QModelIndex());
 
     // For types, just find the instances that have changed layers and emit dataChanged for column 1.
     if (mModelType == EInstanceModelType::Types)
     {
         for (int iType = 0; iType < rowCount(ScriptIdx); iType++)
         {
-            QModelIndex TypeIdx = index(iType, 0, ScriptIdx);
+            const QModelIndex TypeIdx = index(iType, 0, ScriptIdx);
 
             for (int iInst = 0; iInst < rowCount(TypeIdx); iInst++)
             {
-                QModelIndex InstIdx = index(iInst, 1, TypeIdx);
+                const QModelIndex InstIdx = index(iInst, 1, TypeIdx);
                 CScriptObject *pInst = IndexObject(InstIdx);
 
                 if (InstanceList.contains(pInst))
@@ -532,32 +530,38 @@ void CInstancesModel::InstancesLayerPostChange(const QList<CScriptNode*>& rkInst
             }
         }
     }
-
-    // For layers we just need to emit layoutChanged() and done
-    else
+    else // For layers we just need to emit layoutChanged() and done
+    {
         emit layoutChanged();
+    }
 }
 
 // ************ STATIC ************
 CInstancesModel::EIndexType CInstancesModel::IndexType(const QModelIndex& rkIndex)
 {
-    if (!rkIndex.isValid()) return EIndexType::Root;
-    else if (rkIndex.internalId() == 0) return EIndexType::NodeType;
-    else if (((rkIndex.internalId() & TYPES_ITEM_TYPE_MASK) >> TYPES_ITEM_TYPE_SHIFT) == 1) return EIndexType::ObjectType;
-    else return EIndexType::Instance;
+    if (!rkIndex.isValid())
+        return EIndexType::Root;
+
+    if (rkIndex.internalId() == 0)
+        return EIndexType::NodeType;
+
+    if (((rkIndex.internalId() & TYPES_ITEM_TYPE_MASK) >> TYPES_ITEM_TYPE_SHIFT) == 1)
+        return EIndexType::ObjectType;
+
+    return EIndexType::Instance;
 }
 
 ENodeType CInstancesModel::IndexNodeType(const QModelIndex& rkIndex)
 {
-    EIndexType type = IndexType(rkIndex);
-    const ENodeType kTypes[] = { ENodeType::Script, ENodeType::Light };
+    const EIndexType type = IndexType(rkIndex);
+    const std::array kTypes{ENodeType::Script, ENodeType::Light};
 
     switch (type)
     {
     case EIndexType::Root:       return ENodeType::None;
-    case EIndexType::NodeType:   return (ENodeType) kTypes[ rkIndex.row() ];
-    case EIndexType::ObjectType: return (ENodeType) kTypes[ rkIndex.parent().row() ];
-    case EIndexType::Instance:   return (ENodeType) kTypes[ rkIndex.parent().parent().row() ];
+    case EIndexType::NodeType:   return kTypes[rkIndex.row()];
+    case EIndexType::ObjectType: return kTypes[rkIndex.parent().row()];
+    case EIndexType::Instance:   return kTypes[rkIndex.parent().parent().row()];
     default:                     return ENodeType::None;
     }
 }
@@ -571,18 +575,18 @@ void CInstancesModel::GenerateList()
 
     if (mpCurrentGame)
     {
-        uint32 NumTemplates = mpCurrentGame->NumScriptTemplates();
+        const uint32 NumTemplates = mpCurrentGame->NumScriptTemplates();
 
         for (uint32 iTemp = 0; iTemp < NumTemplates; iTemp++)
         {
             CScriptTemplate *pTemp = mpCurrentGame->TemplateByIndex(iTemp);
 
             if (pTemp->NumObjects() > 0)
-                mTemplateList << pTemp;
+                mTemplateList.push_back(pTemp);
         }
 
-        std::sort(mTemplateList.begin(), mTemplateList.end(), [](CScriptTemplate *pLeft, CScriptTemplate *pRight) -> bool {
-            return (pLeft->Name() < pRight->Name());
+        std::sort(mTemplateList.begin(), mTemplateList.end(), [](const CScriptTemplate *pLeft, const CScriptTemplate *pRight) {
+            return pLeft->Name() < pRight->Name();
         });
     }
 

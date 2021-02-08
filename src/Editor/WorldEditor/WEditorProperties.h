@@ -14,8 +14,8 @@
 class WEditorProperties : public QWidget
 {
     Q_OBJECT
-    CWorldEditor* mpEditor;
-    CSceneNode* mpDisplayNode;
+    CWorldEditor* mpEditor = nullptr;
+    CSceneNode* mpDisplayNode = nullptr;
 
     QVBoxLayout* mpMainLayout;
 
@@ -30,10 +30,11 @@ class WEditorProperties : public QWidget
     QComboBox* mpLayersComboBox;
     QHBoxLayout* mpLayersLayout;
 
-    bool mHasEditedName;
+    bool mHasEditedName = false;
 
 public:
-    WEditorProperties(QWidget* pParent = 0);
+    explicit WEditorProperties(QWidget* pParent = nullptr);
+
     void SyncToEditor(CWorldEditor* pEditor);
     void SetLayerComboBox();
 

@@ -3,7 +3,8 @@
 #include "IUIRelay.h"
 #include "Core/Resource/Script/CGameTemplate.h"
 #include <Common/Serialization/XML.h>
-#include <nod/nod.hpp>
+#include <nod/DiscGCN.hpp>
+#include <nod/DiscWii.hpp>
 
 #if NOD_UCS2
 #define TStringToNodString(string) ToWChar(string)
@@ -13,25 +14,22 @@
 
 CGameProject::~CGameProject()
 {
-    if (mpResourceStore)
-    {
-        ASSERT(!mpResourceStore->IsCacheDirty());
+    if (!mpResourceStore)
+        return;
 
-        if (gpResourceStore == mpResourceStore.get())
-            gpResourceStore = nullptr;
-    }
+    ASSERT(!mpResourceStore->IsCacheDirty());
 
-    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
-        delete mPackages[iPkg];
+    if (gpResourceStore == mpResourceStore.get())
+        gpResourceStore = nullptr;
 }
 
 bool CGameProject::Save()
 {
     mProjFileLock.Release();
-    TString ProjPath = ProjectPath();
-    CXMLWriter Writer(ProjPath, "GameProject", (int) EProjectVersion::Current, mGame);
+    const TString ProjPath = ProjectPath();
+    CXMLWriter Writer(ProjPath, "GameProject", static_cast<int>(EProjectVersion::Current), mGame);
     Serialize(Writer);
-    bool SaveSuccess = Writer.Save();
+    const bool SaveSuccess = Writer.Save();
     mProjFileLock.Lock(*ProjPath);
     return SaveSuccess;
 }
@@ -48,8 +46,8 @@ bool CGameProject::Serialize(IArchive& rArc)
 
     if (!rArc.IsReader())
     {
-        for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
-            PackageList.push_back( mPackages[iPkg]->DefinitionPath(true) );
+        for (auto& package : mPackages)
+            PackageList.push_back(package->DefinitionPath(true));
     }
 
     rArc << SerialParameter("Packages", PackageList);
@@ -59,15 +57,14 @@ bool CGameProject::Serialize(IArchive& rArc)
     {
         ASSERT(mPackages.empty());
 
-        for (uint32 iPkg = 0; iPkg < PackageList.size(); iPkg++)
+        for (const TString& packagePath : PackageList)
         {
-            const TString& rkPackagePath = PackageList[iPkg];
-            TString PackageName = rkPackagePath.GetFileName(false);
-            TString PackageDir = rkPackagePath.GetFileDirectory();
+            TString PackageName = packagePath.GetFileName(false);
+            TString PackageDir = packagePath.GetFileDirectory();
 
-            CPackage *pPackage = new CPackage(this, PackageName, PackageDir);
-            bool PackageLoadSuccess = pPackage->Load();
-            mPackages.push_back(pPackage);
+            auto pPackage = std::make_unique<CPackage>(this, std::move(PackageName), std::move(PackageDir));
+            const bool PackageLoadSuccess = pPackage->Load();
+            mPackages.push_back(std::move(pPackage));
 
             if (!PackageLoadSuccess)
             {
@@ -81,16 +78,16 @@ bool CGameProject::Serialize(IArchive& rArc)
 
 bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgress)
 {
-    ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
-    ASSERT( !IsWiiDeAsobu() && !IsTrilogy() );
+    ASSERT(FileUtil::IsValidPath(rkIsoPath, false));
+    ASSERT(!IsWiiDeAsobu() && !IsTrilogy());
 
-    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
+    const auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
+        pProgress->Report(static_cast<int>(ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
-    TString DiscRoot = DiscDir(false);
+    const TString DiscRoot = DiscDir(false);
 
     if (!IsWiiBuild())
     {
@@ -106,18 +103,18 @@ bool CGameProject::BuildISO(const TString& rkIsoPath, IProgressNotifier *pProgre
 
 bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso, IProgressNotifier *pProgress)
 {
-    ASSERT( FileUtil::IsValidPath(rkIsoPath, false) );
-    ASSERT( IsWiiDeAsobu() || IsTrilogy() );
-    ASSERT( pOriginalIso != nullptr );
+    ASSERT(FileUtil::IsValidPath(rkIsoPath, false));
+    ASSERT(IsWiiDeAsobu() || IsTrilogy());
+    ASSERT(pOriginalIso != nullptr);
 
-    auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
+    const auto ProgressCallback = [&](float ProgressPercent, const nod::SystemStringView& rkInfoString, size_t)
     {
-        pProgress->Report((int) (ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
+        pProgress->Report(static_cast<int>(ProgressPercent * 10000), 10000, nod::SystemUTF8Conv(rkInfoString).c_str());
     };
 
     pProgress->SetTask(0, "Building " + rkIsoPath.GetFileName());
 
-    TString DiscRoot = DiscFilesystemRoot(false);
+    const TString DiscRoot = DiscFilesystemRoot(false);
 
     nod::DiscMergerWii Merger(TStringToNodString(rkIsoPath), *pOriginalIso, IsTrilogy(), ProgressCallback);
     return Merger.mergeFromDirectory(TStringToNodString(DiscRoot)) == nod::EBuildResult::Success;
@@ -125,15 +122,13 @@ bool CGameProject::MergeISO(const TString& rkIsoPath, nod::DiscWii *pOriginalIso
 
 void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
 {
-    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (const auto& pPkg : mPackages)
     {
-        CPackage *pPkg = mPackages[iPkg];
-
         // Little workaround to fix some of Retro's paks having worlds listed in the wrong order...
         // Construct a sorted list of worlds in this package
         std::list<const SNamedResource*> PackageWorlds;
 
-        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (size_t iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
 
@@ -146,25 +141,22 @@ void CGameProject::GetWorldList(std::list<CAssetID>& rOut) const
         });
 
         // Add sorted worlds to the output world list
-        for (auto Iter = PackageWorlds.begin(); Iter != PackageWorlds.end(); Iter++)
+        for (const auto* res : PackageWorlds)
         {
-            const SNamedResource *pkRes = *Iter;
-            rOut.push_back(pkRes->ID);
+            rOut.push_back(res->ID);
         }
     }
 }
 
-CAssetID CGameProject::FindNamedResource(const TString& rkName) const
+CAssetID CGameProject::FindNamedResource(std::string_view name) const
 {
-    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
+    for (const auto& pkg : mPackages)
     {
-        CPackage *pPkg = mPackages[iPkg];
-
-        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (size_t iRes = 0; iRes < pkg->NumNamedResources(); iRes++)
         {
-            const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
+            const SNamedResource& rkRes = pkg->NamedResourceByIndex(iRes);
 
-            if (rkRes.Name == rkName)
+            if (rkRes.Name == name)
                 return rkRes.ID;
         }
     }
@@ -172,22 +164,18 @@ CAssetID CGameProject::FindNamedResource(const TString& rkName) const
     return CAssetID::InvalidID(mGame);
 }
 
-CPackage* CGameProject::FindPackage(const TString& rkName) const
+CPackage* CGameProject::FindPackage(std::string_view name) const
 {
-    for (uint32 iPkg = 0; iPkg < mPackages.size(); iPkg++)
-    {
-        CPackage *pPackage = mPackages[iPkg];
+    const auto iter = std::find_if(mPackages.begin(), mPackages.end(),
+                                   [name](const auto& package) { return package->Name() == name; });
 
-        if (pPackage->Name() == rkName)
-        {
-            return pPackage;
-        }
-    }
+    if (iter == mPackages.cend())
+        return nullptr;
 
-    return nullptr;
+    return iter->get();
 }
 
-CGameProject* CGameProject::CreateProjectForExport(
+std::unique_ptr<CGameProject> CGameProject::CreateProjectForExport(
         const TString& rkProjRootDir,
         EGame Game,
         ERegion Region,
@@ -195,7 +183,7 @@ CGameProject* CGameProject::CreateProjectForExport(
         float BuildVer
         )
 {
-    CGameProject *pProj = new CGameProject;
+    auto pProj = std::unique_ptr<CGameProject>(new CGameProject());
     pProj->mGame = Game;
     pProj->mRegion = Region;
     pProj->mGameID = rkGameID;
@@ -203,15 +191,15 @@ CGameProject* CGameProject::CreateProjectForExport(
 
     pProj->mProjectRoot = rkProjRootDir;
     pProj->mProjectRoot.Replace("\\", "/");
-    pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
+    pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj.get());
     pProj->mpGameInfo->LoadGameInfo(Game);
     return pProj;
 }
 
-CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress)
+std::unique_ptr<CGameProject> CGameProject::LoadProject(const TString& rkProjPath, IProgressNotifier *pProgress)
 {
     // Init project
-    CGameProject *pProj = new CGameProject;
+    auto pProj = std::unique_ptr<CGameProject>(new CGameProject());
     pProj->mProjectRoot = rkProjPath.GetFileDirectory();
     pProj->mProjectRoot.Replace("\\", "/");
 
@@ -222,12 +210,11 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
     pProgress->Report("Loading project settings");
     bool LoadSuccess = false;
 
-    TString ProjPath = rkProjPath;
+    const TString ProjPath = rkProjPath;
     CXMLReader Reader(ProjPath);
 
     if (!Reader.IsValid())
     {
-        delete pProj;
         return nullptr;
     }
 
@@ -237,7 +224,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
     {
         // Load resource database
         pProgress->Report("Loading resource database");
-        pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj);
+        pProj->mpResourceStore = std::make_unique<CResourceStore>(pProj.get());
         LoadSuccess = pProj->mpResourceStore->LoadDatabaseCache();
 
         // Removed database validation step. We used to do this on project load to make sure all data was correct, but this takes a long
@@ -269,7 +256,6 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
 
     if (!LoadSuccess)
     {
-        delete pProj;
         return nullptr;
     }
 
@@ -277,7 +263,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
     pProj->mpGameInfo->LoadGameInfo(pProj->mGame);
 
     // Perform update
-    if (Reader.FileVersion() < (uint16) EProjectVersion::Current)
+    if (Reader.FileVersion() < static_cast<uint16>(EProjectVersion::Current))
     {
         pProgress->Report("Updating project");
 
@@ -304,7 +290,7 @@ CGameProject* CGameProject::LoadProject(const TString& rkProjPath, IProgressNoti
     }
 
     // Create hidden files directory, if needed
-    TString HiddenDir = pProj->HiddenFilesDir();
+    const TString HiddenDir = pProj->HiddenFilesDir();
 
     if (!FileUtil::Exists(HiddenDir))
     {

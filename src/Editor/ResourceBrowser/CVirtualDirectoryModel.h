@@ -6,43 +6,46 @@
 #include <QAbstractItemModel>
 #include <QIcon>
 
+#include <optional>
+#include <utility>
+
 class CVirtualDirectoryModel : public QAbstractItemModel
 {
     Q_OBJECT
-    CVirtualDirectory *mpRoot;
-    bool mInsertingRows;
-    bool mRemovingRows;
-    bool mMovingRows;
-    bool mChangingLayout;
+    CVirtualDirectory *mpRoot = nullptr;
+    bool mInsertingRows = false;
+    bool mRemovingRows = false;
+    bool mMovingRows = false;
+    bool mChangingLayout = false;
 
 public:
-    CVirtualDirectoryModel(CResourceBrowser *pBrowser, QObject *pParent = 0);
+    explicit CVirtualDirectoryModel(CResourceBrowser *pBrowser, QObject *pParent = nullptr);
 
-    QModelIndex index(int Row, int Column, const QModelIndex& rkParent) const;
-    QModelIndex parent(const QModelIndex& rkChild) const;
-    int rowCount(const QModelIndex& rkParent) const;
-    int columnCount(const QModelIndex& /*rkParent*/) const;
-    QVariant data(const QModelIndex& rkIndex, int Role) const;
-    bool setData(const QModelIndex& rkIndex, const QVariant& rkValue, int Role);
-    Qt::ItemFlags flags(const QModelIndex& rkIndex) const;
+    QModelIndex index(int Row, int Column, const QModelIndex& rkParent) const override;
+    QModelIndex parent(const QModelIndex& rkChild) const override;
+    int rowCount(const QModelIndex& rkParent) const override;
+    int columnCount(const QModelIndex& /*rkParent*/) const override;
+    QVariant data(const QModelIndex& rkIndex, int Role) const override;
+    bool setData(const QModelIndex& rkIndex, const QVariant& rkValue, int Role) override;
+    Qt::ItemFlags flags(const QModelIndex& rkIndex) const override;
 
-    bool canDropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent) const;
-    bool dropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent);
-    QMimeData* mimeData(const QModelIndexList& rkIndexes) const;
-    Qt::DropActions supportedDragActions() const;
-    Qt::DropActions supportedDropActions() const;
+    bool canDropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent) const override;
+    bool dropMimeData(const QMimeData *pkData, Qt::DropAction Action, int Row, int Column, const QModelIndex& rkParent) override;
+    QMimeData* mimeData(const QModelIndexList& rkIndexes) const override;
+    Qt::DropActions supportedDragActions() const override;
+    Qt::DropActions supportedDropActions() const override;
 
-    QModelIndex GetIndexForDirectory(CVirtualDirectory *pDir);
+    QModelIndex GetIndexForDirectory(const CVirtualDirectory *pDir) const;
     CVirtualDirectory* IndexDirectory(const QModelIndex& rkIndex) const;
     void SetRoot(CVirtualDirectory *pDir);
 
 protected:
-    bool GetProposedIndex(QString Path, QModelIndex& rOutParent, int& rOutRow);
+    std::optional<std::pair<QModelIndex, int>> GetProposedIndex(const QString& Path) const;
 
 public slots:
-    void OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir, QString NewPath);
-    void OnDirectoryAboutToBeCreated(QString DirPath);
-    void OnDirectoryAboutToBeDeleted(CVirtualDirectory *pDir);
+    void OnDirectoryAboutToBeMoved(const CVirtualDirectory *pDir, const QString& NewPath);
+    void OnDirectoryAboutToBeCreated(const QString& DirPath);
+    void OnDirectoryAboutToBeDeleted(const CVirtualDirectory *pDir);
     void FinishModelChanges();
 };
 

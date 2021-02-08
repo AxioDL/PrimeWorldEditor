@@ -52,21 +52,21 @@ CColor CRadiusSphereExtra::Color() const
     // Repulsor
     case 0x63:
     case FOURCC('REPL'):
-        return CColor::skGreen;
+        return CColor::Green();
 
     // RadialDamage
     case 0x68:
     case FOURCC('RADD'):
-        return CColor::skRed;
+        return CColor::Red();
 
     default:
-        return CColor::skWhite;
+        return CColor::White();
     }
 }
 
 CAABox CRadiusSphereExtra::Bounds() const
 {
-    CAABox Bounds = CAABox::skOne * 2.f * mRadius;
+    CAABox Bounds = CAABox::One() * 2.f * mRadius;
     Bounds += mpParent->AbsolutePosition();
     return Bounds;
 }

@@ -12,22 +12,22 @@ class CCollisionEditorViewport : public CBasicViewport
     Q_OBJECT
 
     std::unique_ptr<CRenderer>  mpRenderer;
-    CCollisionNode*             mpCollisionNode;
+    CCollisionNode*             mpCollisionNode = nullptr;
     CGridRenderable             mGrid;
-    bool                        mGridEnabled;
+    bool                        mGridEnabled = true;
 
 public:
     /** Constructor */
-    CCollisionEditorViewport(QWidget* pParent = 0);
+    explicit CCollisionEditorViewport(QWidget* pParent = nullptr);
 
     /** CBasicViewport interface */
-    virtual void Paint() override;
-    virtual void OnResize() override;
+    void Paint() override;
+    void OnResize() override;
 
     /** Accessors */
-    inline void SetNode(CCollisionNode* pNode)      { mpCollisionNode = pNode; }
-    inline void SetGridEnabled(bool Enabled)        { mGridEnabled = Enabled; }
-    inline void SetOBBTreeDepth(int Depth)
+    void SetNode(CCollisionNode* pNode)      { mpCollisionNode = pNode; }
+    void SetGridEnabled(bool Enabled)        { mGridEnabled = Enabled; }
+    void SetOBBTreeDepth(int Depth)
     {
         mViewInfo.CollisionSettings.DrawBoundingHierarchy = (Depth > 0);
         mViewInfo.CollisionSettings.BoundingHierarchyRenderDepth = Depth;

@@ -9,35 +9,35 @@ class CCheckableTreeWidgetItem : public QTreeWidgetItem
 {
 public:
     /** Constructors */
-    CCheckableTreeWidgetItem(int type = Type)
+    explicit CCheckableTreeWidgetItem(int type = Type)
         : QTreeWidgetItem(type) {}
 
-    CCheckableTreeWidgetItem(const QStringList& strings, int type = Type)
+    explicit CCheckableTreeWidgetItem(const QStringList& strings, int type = Type)
         : QTreeWidgetItem(strings, type) {}
 
-    CCheckableTreeWidgetItem(QTreeWidget* parent, int type = Type)
+    explicit CCheckableTreeWidgetItem(QTreeWidget* parent, int type = Type)
         : QTreeWidgetItem(parent, type) {}
 
-    CCheckableTreeWidgetItem(QTreeWidget* parent, const QStringList& strings, int type = Type)
+    explicit CCheckableTreeWidgetItem(QTreeWidget* parent, const QStringList& strings, int type = Type)
         : QTreeWidgetItem(parent, strings, type) {}
 
-    CCheckableTreeWidgetItem(QTreeWidget* parent, QTreeWidgetItem* preceding, int type = Type)
+    explicit CCheckableTreeWidgetItem(QTreeWidget* parent, QTreeWidgetItem* preceding, int type = Type)
         : QTreeWidgetItem(parent, preceding, type) {}
 
-    CCheckableTreeWidgetItem(QTreeWidgetItem* parent, int type = Type)
+    explicit CCheckableTreeWidgetItem(QTreeWidgetItem* parent, int type = Type)
         : QTreeWidgetItem(parent, type) {}
 
-    CCheckableTreeWidgetItem(QTreeWidgetItem* parent, const QStringList& strings, int type = Type)
+    explicit CCheckableTreeWidgetItem(QTreeWidgetItem* parent, const QStringList& strings, int type = Type)
         : QTreeWidgetItem(parent, strings, type) {}
 
-    CCheckableTreeWidgetItem(QTreeWidgetItem* parent, QTreeWidgetItem* preceding, int type = Type)
+    explicit CCheckableTreeWidgetItem(QTreeWidgetItem* parent, QTreeWidgetItem* preceding, int type = Type)
         : QTreeWidgetItem(parent, preceding, type) {}
 
-    CCheckableTreeWidgetItem(const QTreeWidgetItem& other)
+    explicit CCheckableTreeWidgetItem(const QTreeWidgetItem& other)
         : QTreeWidgetItem(other) {}
 
     /** setData override to catch check state changes */
-    virtual void setData(int Column, int Role, const QVariant& rkValue)
+    void setData(int Column, int Role, const QVariant& rkValue) override
     {
         Qt::CheckState OldState = checkState(0);
         QTreeWidgetItem::setData(Column, Role, rkValue);

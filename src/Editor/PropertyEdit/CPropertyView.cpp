@@ -9,44 +9,43 @@
 
 CPropertyView::CPropertyView(QWidget *pParent)
     : QTreeView(pParent)
-    , mpMenuProperty(nullptr)
 {
     mpModel = new CPropertyModel(this);
     mpDelegate = new CPropertyDelegate(this);
     setItemDelegateForColumn(1, mpDelegate);
     setEditTriggers(AllEditTriggers);
-    setModel(mpModel);
+    CPropertyView::setModel(mpModel);
 
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-    mpShowNameValidityAction = new QAction("Show whether property name is correct", this);
+    mpShowNameValidityAction = new QAction(tr("Show whether property name is correct"), this);
     mpShowNameValidityAction->setCheckable(true);
     mpShowNameValidityAction->setChecked(false);
-    connect(mpShowNameValidityAction, SIGNAL(triggered(bool)), this, SLOT(ToggleShowNameValidity(bool)));
+    connect(mpShowNameValidityAction, &QAction::triggered, this, &CPropertyView::ToggleShowNameValidity);
 
     if (gTemplatesWritable)
     {
-        mpEditTemplateAction = new QAction("Edit template", this);
-        connect(mpEditTemplateAction, SIGNAL(triggered()), this, SLOT(EditPropertyTemplate()));
+        mpEditTemplateAction = new QAction(tr("Edit template"), this);
+        connect(mpEditTemplateAction, &QAction::triggered, this, &CPropertyView::EditPropertyTemplate);
     }
     else
     {
-        mpEditTemplateAction = new QAction("Template files not writable", this);
+        mpEditTemplateAction = new QAction(tr("Template files not writable"), this);
         mpEditTemplateAction->setEnabled(false);
     }
 
-    mpGenNamesForPropertyAction = new QAction("Generate names for this property", this);
+    mpGenNamesForPropertyAction = new QAction(tr("Generate names for this property"), this);
     mpGenNamesForSiblingsAction = new QAction(this); // Text set in CreateContextMenu()
     mpGenNamesForChildrenAction = new QAction(this); // Text set in CreateContextMenu()
-    connect(mpGenNamesForPropertyAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForProperty()));
-    connect(mpGenNamesForSiblingsAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForSiblings()));
-    connect(mpGenNamesForChildrenAction, SIGNAL(triggered(bool)), this, SLOT(GenerateNamesForChildren()));
+    connect(mpGenNamesForPropertyAction, &QAction::triggered, this, &CPropertyView::GenerateNamesForProperty);
+    connect(mpGenNamesForSiblingsAction, &QAction::triggered, this, &CPropertyView::GenerateNamesForSiblings);
+    connect(mpGenNamesForChildrenAction, &QAction::triggered, this, &CPropertyView::GenerateNamesForChildren);
 
-    connect(this, SIGNAL(expanded(QModelIndex)), this, SLOT(SetPersistentEditors(QModelIndex)));
-    connect(this, SIGNAL(clicked(QModelIndex)), this, SLOT(edit(QModelIndex)));
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(CreateContextMenu(QPoint)));
-    connect(mpModel, SIGNAL(rowsInserted(QModelIndex,int,int)), this, SLOT(SetPersistentEditors(QModelIndex)));
-    connect(mpModel, SIGNAL(PropertyModified(const QModelIndex&)), this, SLOT(OnPropertyModified(const QModelIndex&)));
+    connect(this, &CPropertyView::expanded, this, &CPropertyView::SetPersistentEditors);
+    connect(this, &CPropertyView::clicked, [this](const QModelIndex& index) { edit(index); });
+    connect(this, &CPropertyView::customContextMenuRequested, this, &CPropertyView::CreateContextMenu);
+    connect(mpModel, &CPropertyModel::rowsInserted, [this](const QModelIndex& index, int, int) { SetPersistentEditors(index); });
+    connect(mpModel, &CPropertyModel::PropertyModified, this, &CPropertyView::OnPropertyModified);
 }
 
 void CPropertyView::setModel(QAbstractItemModel *pModel)
@@ -56,24 +55,24 @@ void CPropertyView::setModel(QAbstractItemModel *pModel)
     mpDelegate->SetPropertyModel(pPropModel);
     QTreeView::setModel(pPropModel);
 
-    if (pPropModel)
-    {
-        QModelIndex Root = pPropModel->index(0, 0, QModelIndex());
-        SetPersistentEditors(Root);
-        setExpanded(Root, true);
-    }
+    if (pPropModel == nullptr)
+        return;
+
+    const QModelIndex Root = pPropModel->index(0, 0, QModelIndex());
+    SetPersistentEditors(Root);
+    setExpanded(Root, true);
 }
 
 bool CPropertyView::event(QEvent *pEvent)
 {
     if (pEvent->type() == QEvent::ToolTip)
     {
-        QPoint MousePos = QCursor::pos();
-        QModelIndex Index = indexAt(viewport()->mapFromGlobal(MousePos));
+        const QPoint MousePos = QCursor::pos();
+        const QModelIndex Index = indexAt(viewport()->mapFromGlobal(MousePos));
 
         if (Index.isValid())
         {
-            QString Desc = mpModel->data(Index, Qt::ToolTipRole).toString();
+            const QString Desc = mpModel->data(Index, Qt::ToolTipRole).toString();
 
             if (!Desc.isEmpty())
             {
@@ -87,7 +86,8 @@ bool CPropertyView::event(QEvent *pEvent)
         pEvent->ignore();
         return true;
     }
-    else if (pEvent->type() == QEvent::Resize && !isVisible())
+
+    if (pEvent->type() == QEvent::Resize && !isVisible())
     {
         resizeColumnToContents(0);
     }
@@ -98,9 +98,9 @@ bool CPropertyView::event(QEvent *pEvent)
 int CPropertyView::sizeHintForColumn(int Column) const
 {
     if (Column == 0)
-        return width() * 0.6f;
+        return static_cast<int>(width() * 0.6f);
     else
-        return width() * 0.4f;
+        return static_cast<int>(width() * 0.4f);
 }
 
 void CPropertyView::SetEditor(IEditor* pEditor)
@@ -126,7 +126,7 @@ void CPropertyView::SetInstance(CScriptObject *pObj)
     mpObject = pObj;
     mpModel->SetBoldModifiedProperties(gpEdApp->CurrentGame() > EGame::Prime);
 
-    if (pObj)
+    if (pObj != nullptr)
         mpModel->ConfigureScript(pObj->Area()->Entry()->Project(), pObj->Template()->Properties(), pObj);
     else
         mpModel->ConfigureScript(nullptr, nullptr, nullptr);
@@ -134,50 +134,49 @@ void CPropertyView::SetInstance(CScriptObject *pObj)
     SetPersistentEditors(QModelIndex());
 
     // Auto-expand EditorProperties
-    QModelIndex Index = mpModel->index(0, 0, QModelIndex());
-    IProperty *pProp = mpModel->PropertyForIndex(Index, false);
-    if (pProp && pProp->ID() == 0x255A4580)
+    const QModelIndex Index = mpModel->index(0, 0, QModelIndex());
+    const IProperty *pProp = mpModel->PropertyForIndex(Index, false);
+    if (pProp != nullptr && pProp->ID() == 0x255A4580)
         expand(Index);
 }
 
 void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
 {
     // Check what game this is
-    EGame Game = gpEdApp->CurrentGame();
+    const EGame Game = gpEdApp->CurrentGame();
 
     // Iterate over all properties and update if they're an editor property.
     for (int iRow = 0; iRow < mpModel->rowCount(rkParent); iRow++)
     {
-        QModelIndex Index0 = mpModel->index(iRow, 0, rkParent);
-        QModelIndex Index1 = mpModel->index(iRow, 1, rkParent);
-        IProperty *pProp = mpModel->PropertyForIndex(Index0, false);
+        const QModelIndex Index0 = mpModel->index(iRow, 0, rkParent);
+        const QModelIndex Index1 = mpModel->index(iRow, 1, rkParent);
+        IProperty* pProp = mpModel->PropertyForIndex(Index0, false);
 
-        if (pProp)
+        if (pProp == nullptr)
+            continue;
+
+        // For structs, update sub-properties.
+        if (pProp->Type() == EPropertyType::Struct)
         {
-            // For structs, update sub-properties.
-            if (pProp->Type() == EPropertyType::Struct)
+            const CStructProperty *pStruct = TPropCast<CStructProperty>(pProp);
+
+            // As an optimization, in MP2+, we don't need to update unless this is an atomic struct or if
+            // it's EditorProperties, because other structs never have editor properties in them.
+            // In MP1 this isn't the case so we need to update every struct regardless
+            if (Game <= EGame::Prime || (pStruct->IsAtomic() || pStruct->ID() == 0x255A4580))
+                UpdateEditorProperties(Index0);
+            else
+                continue;
+        }
+        else if (mpObject != nullptr && mpObject->IsEditorProperty(pProp))
+        {
+            mpModel->dataChanged(Index1, Index1);
+
+            if (mpModel->rowCount(Index0) != 0)
             {
-                CStructProperty *pStruct = TPropCast<CStructProperty>(pProp);
-
-                // As an optimization, in MP2+, we don't need to update unless this is an atomic struct or if
-                // it's EditorProperties, because other structs never have editor properties in them.
-                // In MP1 this isn't the case so we need to update every struct regardless
-                if ((Game <= EGame::Prime) || (pStruct->IsAtomic() || pStruct->ID() == 0x255A4580))
-                    UpdateEditorProperties(Index0);
-                else
-                    continue;
-            }
-
-            else if (mpObject && mpObject->IsEditorProperty(pProp))
-            {
-                mpModel->dataChanged(Index1, Index1);
-
-                if (mpModel->rowCount(Index0) != 0)
-                {
-                    QModelIndex SubIndexA = mpModel->index(0, 1, Index0);
-                    QModelIndex SubIndexB = mpModel->index(mpModel->rowCount(Index0) - 1, 1, Index0);
-                    mpModel->dataChanged(SubIndexA, SubIndexB);
-                }
+                const QModelIndex SubIndexA = mpModel->index(0, 1, Index0);
+                const QModelIndex SubIndexB = mpModel->index(mpModel->rowCount(Index0) - 1, 1, Index0);
+                mpModel->dataChanged(SubIndexA, SubIndexB);
             }
         }
     }
@@ -185,17 +184,17 @@ void CPropertyView::UpdateEditorProperties(const QModelIndex& rkParent)
 
 void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
 {
-    uint32 NumChildren = mpModel->rowCount(rkParent);
+    const int NumChildren = mpModel->rowCount(rkParent);
 
-    for (uint32 iChild = 0; iChild < NumChildren; iChild++)
+    for (int iChild = 0; iChild < NumChildren; iChild++)
     {
-        QModelIndex ChildIndex = mpModel->index(iChild, 1, rkParent);
+        const QModelIndex ChildIndex = mpModel->index(iChild, 1, rkParent);
         IProperty *pProp = mpModel->PropertyForIndex(ChildIndex, false);
         EPropertyType Type = (pProp ? pProp->Type() : EPropertyType::Invalid);
         bool IsAnimSet = false;
 
         // Handle persistent editors under character properties
-        if (!pProp && ChildIndex.internalId() & 0x80000000)
+        if (!pProp && (ChildIndex.internalId() & 0x80000000) != 0)
         {
             pProp = mpModel->PropertyForIndex(ChildIndex, true);
 
@@ -227,7 +226,9 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
         case EPropertyType::Struct:
             setFirstColumnSpanned(iChild, rkParent, true);
             break;
-        default: break;
+
+        default:
+            break;
         }
 
         if (isExpanded(ChildIndex))
@@ -237,11 +238,11 @@ void CPropertyView::SetPersistentEditors(const QModelIndex& rkParent)
 
 void CPropertyView::ClosePersistentEditors(const QModelIndex& rkIndex)
 {
-    uint32 NumChildren = mpModel->rowCount(rkIndex);
+    const int NumChildren = mpModel->rowCount(rkIndex);
 
-    for (uint32 iChild = 0; iChild < NumChildren; iChild++)
+    for (int iChild = 0; iChild < NumChildren; iChild++)
     {
-        QModelIndex ChildIndex = mpModel->index(iChild, 1, rkIndex);
+        const QModelIndex ChildIndex = mpModel->index(iChild, 1, rkIndex);
         closePersistentEditor(ChildIndex);
 
         if (mpModel->rowCount(ChildIndex) != 0)
@@ -272,7 +273,7 @@ void CPropertyView::RefreshView()
 
 void CPropertyView::CreateContextMenu(const QPoint& rkPos)
 {
-    QModelIndex Index = indexAt(rkPos);
+    const QModelIndex Index = indexAt(rkPos);
 
     if (Index.isValid() && Index.column() == 0)
     {
@@ -299,15 +300,15 @@ void CPropertyView::CreateContextMenu(const QPoint& rkPos)
 
             if (!pProperty->IsRootParent())
             {
-                QString TypeName = TO_QSTRING( pProperty->Parent()->RootArchetype()->Name() );
-                mpGenNamesForSiblingsAction->setText( QString("Generate names for %1 properties").arg(TypeName) );
+                const QString TypeName = TO_QSTRING(pProperty->Parent()->RootArchetype()->Name());
+                mpGenNamesForSiblingsAction->setText(tr("Generate names for %1 properties").arg(TypeName));
                 Menu.addAction(mpGenNamesForSiblingsAction);
             }
 
             if (pProperty->Type() == EPropertyType::Struct && !pProperty->IsAtomic())
             {
-                QString TypeName = TO_QSTRING( pProperty->RootArchetype()->Name() );
-                mpGenNamesForChildrenAction->setText( QString("Generate names for %1 properties").arg(TypeName) );
+                const QString TypeName = TO_QSTRING(pProperty->RootArchetype()->Name());
+                mpGenNamesForChildrenAction->setText(tr("Generate names for %1 properties").arg(TypeName));
                 Menu.addAction(mpGenNamesForChildrenAction);
             }
         }
@@ -325,7 +326,7 @@ void CPropertyView::EditPropertyTemplate()
 {
     QMainWindow* pParentWindow = UICommon::FindAncestor<QMainWindow>(this);
     CTemplateEditDialog Dialog(mpMenuProperty, pParentWindow);
-    connect(&Dialog, SIGNAL(PerformedTypeConversion()), this, SLOT(RefreshView()));
+    connect(&Dialog, &CTemplateEditDialog::PerformedTypeConversion, this, &CPropertyView::RefreshView);
     Dialog.exec();
 }
 

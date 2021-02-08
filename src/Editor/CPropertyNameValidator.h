@@ -10,16 +10,16 @@ class CPropertyNameValidator : public QValidator
     Q_OBJECT
 
     /** The property being validated against */
-    IProperty* mpProperty;
+    IProperty* mpProperty = nullptr;
 
     /** String to use to override the type name. If empty, the property's normal type name is used. */
     QString mTypeNameOverride;
 
 public:
-    CPropertyNameValidator(QObject* pParent = 0);
+    explicit CPropertyNameValidator(QObject* pParent = nullptr);
 
     /** Perform validation */
-    QValidator::State validate(QString& rInput, int& rPos) const;
+    QValidator::State validate(QString& rInput, int& rPos) const override;
 
 public slots:
     /** Set the property to validate against */

@@ -2,9 +2,13 @@
 #define IMETATRANSITION_H
 
 #include "IMetaAnimation.h"
+#include <memory>
+#include <set>
 
+class IInputStream;
 class IMetaAnimation;
 class IMetaTransition;
+enum class EGame;
 
 enum class EMetaTransType
 {
@@ -19,7 +23,7 @@ enum class EMetaTransType
 class CMetaTransFactory
 {
 public:
-    class IMetaTransition* LoadFromStream(IInputStream& rInput, EGame Game);
+    std::unique_ptr<IMetaTransition> LoadFromStream(IInputStream& rInput, EGame Game) const;
 };
 extern CMetaTransFactory gMetaTransFactory;
 
@@ -27,8 +31,8 @@ extern CMetaTransFactory gMetaTransFactory;
 class IMetaTransition
 {
 public:
-    IMetaTransition() {}
-    virtual ~IMetaTransition() {}
+    IMetaTransition() = default;
+    virtual ~IMetaTransition() = default;
     virtual EMetaTransType Type() const = 0;
     virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const = 0;
 };
@@ -36,29 +40,29 @@ public:
 // CMetaTransMetaAnim
 class CMetaTransMetaAnim : public IMetaTransition
 {
-    IMetaAnimation *mpAnim;
+    std::unique_ptr<IMetaAnimation> mpAnim;
 
 public:
     CMetaTransMetaAnim(IInputStream& rInput, EGame Game);
-    ~CMetaTransMetaAnim();
-    virtual EMetaTransType Type() const;
-    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+    ~CMetaTransMetaAnim() override;
+    EMetaTransType Type() const override;
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
 
 // CMetaTransTrans
 class CMetaTransTrans : public IMetaTransition
 {
     EMetaTransType mType;
-    float mUnknownA;
-    uint32 mUnknownB;
-    bool mUnknownC;
-    bool mUnknownD;
-    uint32 mUnknownE;
+    float mUnknownA = 0.0f;
+    uint32 mUnknownB = 0;
+    bool mUnknownC = false;
+    bool mUnknownD = false;
+    uint32 mUnknownE = 0;
 
 public:
     CMetaTransTrans(EMetaTransType Type, IInputStream& rInput, EGame Game);
-    virtual EMetaTransType Type() const;
-    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+    EMetaTransType Type() const override;
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
 
 // CMetaTransSnap
@@ -66,8 +70,8 @@ class CMetaTransSnap : public IMetaTransition
 {
 public:
     CMetaTransSnap(IInputStream& rInput, EGame Game);
-    virtual EMetaTransType Type() const;
-    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+    EMetaTransType Type() const override;
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
 
 // CMetaTransType4
@@ -75,8 +79,8 @@ class CMetaTransType4 : public IMetaTransition
 {
 public:
     CMetaTransType4(IInputStream& rInput, EGame Game);
-    virtual EMetaTransType Type() const;
-    virtual void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const;
+    EMetaTransType Type() const override;
+    void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;
 };
 
 #endif // IMETATRANSITION_H

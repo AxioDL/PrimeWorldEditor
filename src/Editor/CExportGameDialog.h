@@ -7,6 +7,7 @@
 #include <QDialog>
 #include <QString>
 #include <nod/DiscBase.hpp>
+#include <memory>
 
 namespace Ui {
 class CExportGameDialog;
@@ -16,26 +17,26 @@ class CExportGameDialog : public QDialog
 {
     Q_OBJECT
 
-    Ui::CExportGameDialog *mpUI;
-    nod::DiscBase *mpDisc;
-    CGameExporter *mpExporter;
+    std::unique_ptr<Ui::CExportGameDialog> mpUI;
+    std::unique_ptr<nod::DiscBase> mpDisc;
+    std::unique_ptr<CGameExporter> mpExporter;
 
     TString mGameTitle;
     TString mGameID;
 
     // Build Info
-    EDiscType mDiscType;
-    EGame mGame;
-    ERegion mRegion;
-    float mBuildVer;
-    bool mWiiFrontend;
+    EDiscType mDiscType{EDiscType::Normal};
+    EGame mGame{EGame::Invalid};
+    ERegion mRegion{ERegion::Unknown};
+    float mBuildVer = 0.0f;
+    bool mWiiFrontend = false;
 
-    bool mExportSuccess;
+    bool mExportSuccess = false;
     QString mNewProjectPath;
 
 public:
-    explicit CExportGameDialog(const QString& rkIsoPath, const QString& rkExportDir, QWidget *pParent = 0);
-    ~CExportGameDialog();
+    explicit CExportGameDialog(const QString& rkIsoPath, const QString& rkExportDir, QWidget *pParent = nullptr);
+    ~CExportGameDialog() override;
 
     void InitUI(QString ExportDir);
     bool ValidateGame();
@@ -46,9 +47,9 @@ public:
     void RecursiveAddToTree(const nod::Node *pkNode, class QTreeWidgetItem *pParent);
 
     // Accessors
-    inline bool HasValidDisc() const    { return mpDisc != nullptr; }
-    inline bool ExportSucceeded() const { return mExportSuccess; }
-    inline QString ProjectPath() const  { return mNewProjectPath; }
+    bool HasValidDisc() const    { return mpDisc != nullptr; }
+    bool ExportSucceeded() const { return mExportSuccess; }
+    QString ProjectPath() const  { return mNewProjectPath; }
 
 public slots:
     void BrowseOutputDirectory();

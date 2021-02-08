@@ -6,33 +6,23 @@
 #include "Editor/Undo/CEditLinkCommand.h"
 #include <Core/Resource/Script/CScriptObject.h>
 
-CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent /*= 0*/)
+CLinkDialog::CLinkDialog(CWorldEditor *pEditor, QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::CLinkDialog)
     , mpEditor(pEditor)
-    , mpGame(nullptr)
-    , mpSender(nullptr)
-    , mpReceiver(nullptr)
-    , mSenderStateModel(CStateMessageModel::EType::States, this)
-    , mReceiverMessageModel(CStateMessageModel::EType::Messages, this)
-    , mIsPicking(false)
-    , mpEditLink(nullptr)
+    , ui(std::make_unique<Ui::CLinkDialog>())
 {
     ui->setupUi(this);
     ui->SenderStateComboBox->setModel(&mSenderStateModel);
     ui->ReceiverMessageComboBox->setModel(&mReceiverMessageModel);
 
-    connect(ui->SwapButton, SIGNAL(clicked()), this, SLOT(OnSwapClicked()));
-    connect(ui->SenderPickFromViewport, SIGNAL(clicked()), this, SLOT(OnPickFromViewportClicked()));
-    connect(ui->SenderPickFromList, SIGNAL(clicked()), this, SLOT(OnPickFromListClicked()));
-    connect(ui->ReceiverPickFromViewport, SIGNAL(clicked()), this, SLOT(OnPickFromViewportClicked()));
-    connect(ui->ReceiverPickFromList, SIGNAL(clicked()), this, SLOT(OnPickFromListClicked()));
+    connect(ui->SwapButton, &QPushButton::clicked, this, &CLinkDialog::OnSwapClicked);
+    connect(ui->SenderPickFromViewport, &QPushButton::clicked, this, &CLinkDialog::OnPickFromViewportClicked);
+    connect(ui->SenderPickFromList, &QPushButton::clicked, this, &CLinkDialog::OnPickFromListClicked);
+    connect(ui->ReceiverPickFromViewport, &QPushButton::clicked, this, &CLinkDialog::OnPickFromViewportClicked);
+    connect(ui->ReceiverPickFromList, &QPushButton::clicked, this, &CLinkDialog::OnPickFromListClicked);
 }
 
-CLinkDialog::~CLinkDialog()
-{
-    delete ui;
-}
+CLinkDialog::~CLinkDialog() = default;
 
 void CLinkDialog::resizeEvent(QResizeEvent *)
 {
@@ -144,26 +134,26 @@ void CLinkDialog::UpdateOkEnabled()
 
 void CLinkDialog::UpdateSenderNameLabel()
 {
-    QString Text = (mpSender ? TO_QSTRING(mpSender->InstanceName()) : "<i>No sender</i>");
+    const QString Text = (mpSender ? TO_QSTRING(mpSender->InstanceName()) : tr("<i>No sender</i>"));
     ui->SenderNameLabel->setToolTip(Text);
 
-    QFontMetrics Metrics(ui->SenderNameLabel->font());
-    QString Elided = Metrics.elidedText(Text, Qt::ElideRight, ui->SenderNameLabel->width() - (ui->SenderNameLabel->frameWidth() * 2));
+    const QFontMetrics Metrics(ui->SenderNameLabel->font());
+    const QString Elided = Metrics.elidedText(Text, Qt::ElideRight, ui->SenderNameLabel->width() - (ui->SenderNameLabel->frameWidth() * 2));
     ui->SenderNameLabel->setText(Elided);
 
-    ui->SenderGroupBox->setTitle(mpSender ? "Sender - " + TO_QSTRING(mpSender->Template()->Name()) : "Sender");
+    ui->SenderGroupBox->setTitle(mpSender ? tr("Sender - %1").arg(TO_QSTRING(mpSender->Template()->Name())) : tr("Sender"));
 }
 
 void CLinkDialog::UpdateReceiverNameLabel()
 {
-    QString Text = (mpReceiver ? TO_QSTRING(mpReceiver->InstanceName()) : "<i>No receiver</i>");
+    const QString Text = (mpReceiver ? TO_QSTRING(mpReceiver->InstanceName()) : tr("<i>No receiver</i>"));
     ui->ReceiverNameLabel->setToolTip(Text);
 
-    QFontMetrics Metrics(ui->ReceiverNameLabel->font());
-    QString Elided = Metrics.elidedText(Text, Qt::ElideRight, ui->ReceiverNameLabel->width() - (ui->ReceiverNameLabel->frameWidth() * 2));
+    const QFontMetrics Metrics(ui->ReceiverNameLabel->font());
+    const QString Elided = Metrics.elidedText(Text, Qt::ElideRight, ui->ReceiverNameLabel->width() - (ui->ReceiverNameLabel->frameWidth() * 2));
     ui->ReceiverNameLabel->setText(Elided);
 
-    ui->ReceiverGroupBox->setTitle(mpReceiver ? "Receiver - " + TO_QSTRING(mpReceiver->Template()->Name()) : "Receiver");
+    ui->ReceiverGroupBox->setTitle(mpReceiver ? tr("Receiver - %1").arg(TO_QSTRING(mpReceiver->Template()->Name())) : tr("Receiver"));
 }
 
 // ************ PUBLIC SLOTS ************
@@ -201,17 +191,18 @@ void CLinkDialog::OnPickFromViewportClicked()
     if (pButton && pButton->isChecked())
     {
         mpEditor->EnterPickMode(ENodeType::Script, true, false, false);
-        connect(mpEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, SLOT(OnPickModeClick(SRayIntersection,QMouseEvent*)));
-        connect(mpEditor, SIGNAL(PickModeExited()), this, SLOT(OnPickModeExit()));
+        connect(mpEditor, &CWorldEditor::PickModeClick, this, &CLinkDialog::OnPickModeClick);
+        connect(mpEditor, &CWorldEditor::PickModeExited, this, &CLinkDialog::OnPickModeExit);
 
         QPushButton *pOtherButton = (pButton == ui->SenderPickFromViewport ? ui->ReceiverPickFromViewport : ui->SenderPickFromViewport);
         pOtherButton->setChecked(false);
 
         mIsPicking = true;
     }
-
     else
+    {
         mpEditor->ExitPickMode();
+    }
 }
 
 void CLinkDialog::OnPickModeClick(const SRayIntersection& rkHit, QMouseEvent* /*pEvent*/)
@@ -230,8 +221,8 @@ void CLinkDialog::OnPickModeExit()
 {
     ui->SenderPickFromViewport->setChecked(false);
     ui->ReceiverPickFromViewport->setChecked(false);
-    disconnect(mpEditor, SIGNAL(PickModeClick(SRayIntersection,QMouseEvent*)), this, 0);
-    disconnect(mpEditor, SIGNAL(PickModeExited()), this, 0);
+    disconnect(mpEditor, &CWorldEditor::PickModeClick, this, nullptr);
+    disconnect(mpEditor, &CWorldEditor::PickModeExited, this, nullptr);
     mIsPicking = false;
 }
 

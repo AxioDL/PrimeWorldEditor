@@ -13,11 +13,12 @@ class CLayerEditor : public QDialog
     Q_OBJECT
     TResPtr<CGameArea> mpArea;
     CLayerModel *mpModel;
-    CScriptLayer *mpCurrentLayer;
+    CScriptLayer *mpCurrentLayer = nullptr;
 
 public:
-    explicit CLayerEditor(QWidget *parent = 0);
-    ~CLayerEditor();
+    explicit CLayerEditor(QWidget *parent = nullptr);
+    ~CLayerEditor() override;
+
     void SetArea(CGameArea *pArea);
 
 public slots:
@@ -26,7 +27,7 @@ public slots:
     void EditLayerActive(bool Active);
 
 private:
-    Ui::CLayerEditor *ui;
+    std::unique_ptr<Ui::CLayerEditor> ui;
 };
 
 #endif // CLAYEREDITOR_H

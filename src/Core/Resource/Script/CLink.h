@@ -63,18 +63,14 @@ struct SMessage
 class CLink
 {
     CGameArea *mpArea;
-    uint32 mStateID;
-    uint32 mMessageID;
-    uint32 mSenderID;
-    uint32 mReceiverID;
+    uint32 mStateID = UINT32_MAX;
+    uint32 mMessageID = UINT32_MAX;
+    uint32 mSenderID = UINT32_MAX;
+    uint32 mReceiverID = UINT32_MAX;
 
 public:
-    CLink(CGameArea *pArea)
+    explicit CLink(CGameArea *pArea)
         : mpArea(pArea)
-        , mStateID(-1)
-        , mMessageID(-1)
-        , mSenderID(-1)
-        , mReceiverID(-1)
     {}
 
     CLink(CGameArea *pArea, uint32 StateID, uint32 MessageID, uint32 SenderID, uint32 ReceiverID)
@@ -85,25 +81,31 @@ public:
         , mReceiverID(ReceiverID)
     {}
 
-    void SetSender(uint32 NewSenderID, uint32 Index = -1)
+    void SetSender(uint32 NewSenderID, uint32 Index = UINT32_MAX)
     {
-        uint32 OldSenderID = mSenderID;
+        const uint32 OldSenderID = mSenderID;
         CScriptObject *pOldSender = mpArea->InstanceByID(OldSenderID);
         CScriptObject *pNewSender = mpArea->InstanceByID(NewSenderID);
 
         mSenderID = NewSenderID;
-        if (pOldSender) pOldSender->RemoveLink(ELinkType::Outgoing, this);
+
+        if (pOldSender)
+            pOldSender->RemoveLink(ELinkType::Outgoing, this);
+
         pNewSender->AddLink(ELinkType::Outgoing, this, Index);
     }
 
-    void SetReceiver(uint32 NewReceiverID, uint32 Index = -1)
+    void SetReceiver(uint32 NewReceiverID, uint32 Index = UINT32_MAX)
     {
-        uint32 OldReceiverID = mSenderID;
+        const uint32 OldReceiverID = mSenderID;
         CScriptObject *pOldReceiver = mpArea->InstanceByID(OldReceiverID);
         CScriptObject *pNewReceiver = mpArea->InstanceByID(NewReceiverID);
 
         mReceiverID = NewReceiverID;
-        if (pOldReceiver) pOldReceiver->RemoveLink(ELinkType::Incoming, this);
+
+        if (pOldReceiver)
+            pOldReceiver->RemoveLink(ELinkType::Incoming, this);
+
         pNewReceiver->AddLink(ELinkType::Incoming, this, Index);
     }
 
@@ -120,7 +122,7 @@ public:
             }
         }
 
-        return -1;
+        return UINT32_MAX;
     }
 
     uint32 ReceiverIndex() const
@@ -136,35 +138,35 @@ public:
             }
         }
 
-        return -1;
+        return UINT32_MAX;
     }
 
     // Operators
-    bool operator==(const CLink& rkOther)
+    bool operator==(const CLink& rkOther) const
     {
-        return ( (mpArea == rkOther.mpArea) &&
-                 (mStateID == rkOther.mStateID) &&
-                 (mMessageID == rkOther.mMessageID) &&
-                 (mSenderID == rkOther.mSenderID) &&
-                 (mReceiverID == rkOther.mReceiverID) );
+        return (mpArea == rkOther.mpArea) &&
+               (mStateID == rkOther.mStateID) &&
+               (mMessageID == rkOther.mMessageID) &&
+               (mSenderID == rkOther.mSenderID) &&
+               (mReceiverID == rkOther.mReceiverID);
     }
 
-    bool operator!=(const CLink& rkOther)
+    bool operator!=(const CLink& rkOther) const
     {
         return (!(*this == rkOther));
     }
 
     // Accessors
-    inline CGameArea* Area() const          { return mpArea; }
-    inline uint32 State() const             { return mStateID; }
-    inline uint32 Message() const           { return mMessageID; }
-    inline uint32 SenderID() const          { return mSenderID; }
-    inline uint32 ReceiverID() const        { return mReceiverID; }
-    inline CScriptObject* Sender() const    { return mpArea->InstanceByID(mSenderID); }
-    inline CScriptObject* Receiver() const  { return mpArea->InstanceByID(mReceiverID); }
+    CGameArea* Area() const          { return mpArea; }
+    uint32 State() const             { return mStateID; }
+    uint32 Message() const           { return mMessageID; }
+    uint32 SenderID() const          { return mSenderID; }
+    uint32 ReceiverID() const        { return mReceiverID; }
+    CScriptObject* Sender() const    { return mpArea->InstanceByID(mSenderID); }
+    CScriptObject* Receiver() const  { return mpArea->InstanceByID(mReceiverID); }
 
-    inline void SetState(uint32 StateID)       { mStateID = StateID; }
-    inline void SetMessage(uint32 MessageID)   { mMessageID = MessageID; }
+    void SetState(uint32 StateID)       { mStateID = StateID; }
+    void SetMessage(uint32 MessageID)   { mMessageID = MessageID; }
 };
 
 

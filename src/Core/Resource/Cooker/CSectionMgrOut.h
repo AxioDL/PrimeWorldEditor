@@ -8,17 +8,13 @@
 // Small class to manage file sections for CMDL/MREA output
 class CSectionMgrOut
 {
-    uint32 mSectionCount;
-    uint32 mCurSectionStart;
-    uint32 mCurSectionIndex;
+    uint32 mSectionCount = 0;
+    uint32 mCurSectionStart = 0;
+    uint32 mCurSectionIndex = 0;
     std::vector<uint32> mSectionSizes;
 
 public:
-    CSectionMgrOut()
-        : mSectionCount(0)
-        , mCurSectionStart(0)
-        , mCurSectionIndex(0)
-    {}
+    CSectionMgrOut() = default;
 
     void SetSectionCount(uint32 Count)
     {
@@ -41,8 +37,8 @@ public:
 
     void WriteSizes(IOutputStream& rOut)
     {
-        for (uint32 iSec = 0; iSec < mSectionCount; iSec++)
-            rOut.WriteLong(mSectionSizes[iSec]);
+        for (size_t iSec = 0; iSec < mSectionCount; iSec++)
+            rOut.WriteULong(mSectionSizes[iSec]);
     }
 };
 

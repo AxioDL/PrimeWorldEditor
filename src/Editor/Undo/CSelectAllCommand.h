@@ -19,14 +19,14 @@ public:
         , mpSelection(pSelection)
     {
         for (CSelectionIterator It(pSelection); It; ++It)
-            mOldSelection << *It;
+            mOldSelection.push_back(*It);
         for (CSceneIterator It(pScene, NodeFlags); It; ++It)
-            mNewSelection << *It;
+            mNewSelection.push_back(*It);
     }
 
-    void undo() { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
-    void redo() { mpSelection->SetSelectedNodes(mNewSelection.DereferenceList()); }
-    bool AffectsCleanState() const { return false; }
+    void undo() override { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
+    void redo() override { mpSelection->SetSelectedNodes(mNewSelection.DereferenceList()); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 #endif // CSELECTALLCOMMAND_H

@@ -5,7 +5,7 @@
 
 CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
     : CWorldEditorSidebar(pEditor)
-    , mpUI(new Ui::CWorldInfoSidebar)
+    , mpUI(std::make_unique<Ui::CWorldInfoSidebar>())
     , mModel(pEditor)
 {
     mpUI->setupUi(this);
@@ -16,11 +16,11 @@ CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
     QHeaderView *pHeader = mpUI->WorldTreeView->header();
     pHeader->resizeSection(0, pHeader->width() * 2); // I really have no idea how this works, I just got this from trial & error
 
-    connect(gpEdApp, SIGNAL(ActiveProjectChanged(CGameProject*)), this, SLOT(OnActiveProjectChanged(CGameProject*)));
-    connect(mpUI->ProjectSettingsButton, SIGNAL(pressed()), pEditor, SLOT(OpenProjectSettings()));
-    connect(mpUI->AreaSearchLineEdit, SIGNAL(StoppedTyping(QString)), this, SLOT(OnAreaFilterStringChanged(QString)));
-    connect(mpUI->WorldTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnWorldTreeClicked(QModelIndex)));
-    connect(mpUI->WorldTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnWorldTreeDoubleClicked(QModelIndex)));
+    connect(gpEdApp, &CEditorApplication::ActiveProjectChanged, this, &CWorldInfoSidebar::OnActiveProjectChanged);
+    connect(mpUI->ProjectSettingsButton, &QPushButton::pressed, pEditor, &CWorldEditor::OpenProjectSettings);
+    connect(mpUI->AreaSearchLineEdit, &CTimedLineEdit::StoppedTyping, this, &CWorldInfoSidebar::OnAreaFilterStringChanged);
+    connect(mpUI->WorldTreeView->selectionModel(), &QItemSelectionModel::currentChanged, this, &CWorldInfoSidebar::OnWorldTreeClicked);
+    connect(mpUI->WorldTreeView, &QTreeView::doubleClicked, this, &CWorldInfoSidebar::OnWorldTreeDoubleClicked);
 
     // Set up UI for world/area info; disable editing for now
     mpUI->ProjectInfoWidget->setHidden(true);
@@ -45,21 +45,18 @@ CWorldInfoSidebar::CWorldInfoSidebar(CWorldEditor *pEditor)
     mpUI->AreaNameSelector->SetEditable(false);
 }
 
-CWorldInfoSidebar::~CWorldInfoSidebar()
-{
-    delete mpUI;
-}
+CWorldInfoSidebar::~CWorldInfoSidebar() = default;
 
 // ************ SLOTS ************
 void CWorldInfoSidebar::OnActiveProjectChanged(CGameProject *pProj)
 {
-    mpUI->ProjectInfoWidget->setHidden( pProj == nullptr );
+    mpUI->ProjectInfoWidget->setHidden(pProj == nullptr);
     mpUI->WorldInfoWidget->setHidden(true);
     mpUI->AreaInfoWidget->setHidden(true);
     mpUI->AreaSearchLineEdit->clear();
-    mProxyModel.SetFilterString("");
+    mProxyModel.SetFilterString({});
 
-    mpUI->GameNameLabel->setText( pProj ? TO_QSTRING(pProj->Name()) : "" );
+    mpUI->GameNameLabel->setText(pProj ? TO_QSTRING(pProj->Name()) : QString{});
 
     // Add/remove widgets from the form layout based on the game. This is needed because
     // simply hiding the widgets causes a minor spacing issue. The only fix seems to be
@@ -128,10 +125,10 @@ void CWorldInfoSidebar::OnWorldTreeClicked(QModelIndex Index)
 
         mpUI->AttachedAreasList->clear();
 
-        for (uint32 iAtt = 0; iAtt < pWorld->AreaAttachedCount(AreaIndex); iAtt++)
+        for (size_t iAtt = 0; iAtt < pWorld->AreaAttachedCount(AreaIndex); iAtt++)
         {
-            uint32 AttachedIdx = pWorld->AreaAttachedID(AreaIndex, iAtt);
-            QString Name = TO_QSTRING( pWorld->AreaInGameName(AttachedIdx) );
+            const uint32 AttachedIdx = pWorld->AreaAttachedID(AreaIndex, iAtt);
+            const QString Name = TO_QSTRING(pWorld->AreaInGameName(AttachedIdx));
             mpUI->AttachedAreasList->addItem(Name);
         }
     }
@@ -155,7 +152,7 @@ void CWorldInfoSidebar::OnWorldTreeDoubleClicked(QModelIndex Index)
         }
         else
         {
-            UICommon::ErrorMsg(Editor(), "The MREA asset associated with this area doesn't exist!");
+            UICommon::ErrorMsg(Editor(), tr("The MREA asset associated with this area doesn't exist!"));
         }
     }
 }

@@ -4,103 +4,100 @@
 #include "CScriptObject.h"
 #include "Core/Resource/CDependencyGroup.h"
 #include <Common/BasicTypes.h>
+#include <algorithm>
 #include <string>
 #include <vector>
 
 class CScriptLayer
 {
     CGameArea *mpArea;
-    TString mLayerName;
-    bool mActive;
-    bool mVisible;
+    TString mLayerName{"New Layer"};
+    bool mActive = true;
+    bool mVisible = true;
     std::vector<CScriptObject*> mInstances;
 public:
-    CScriptLayer(CGameArea *pArea)
+    explicit CScriptLayer(CGameArea *pArea)
         : mpArea(pArea)
-        , mLayerName("New Layer")
-        , mActive(true)
-        , mVisible(true)
     {
     }
 
     ~CScriptLayer()
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
-            delete *it;
+        for (auto* instance : mInstances)
+            delete instance;
     }
 
     // Data Manipulation
-    void AddInstance(CScriptObject *pObject, uint32 Index = -1)
+    void AddInstance(CScriptObject *pObject, uint32 Index = UINT32_MAX)
     {
-        if (Index != -1 && Index < mInstances.size())
+        if (Index != UINT32_MAX && Index < mInstances.size())
         {
             auto it = mInstances.begin();
             std::advance(it, Index);
             mInstances.insert(it, pObject);
         }
-
         else
-            mInstances.push_back(pObject);
-    }
-
-    void RemoveInstance(CScriptObject *pInstance)
-    {
-        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
         {
-            if (*it == pInstance)
-            {
-                mInstances.erase(it);
-                break;
-            }
+            mInstances.push_back(pObject);
         }
     }
 
-    void RemoveInstanceByIndex(uint32 Index)
+    void RemoveInstance(const CScriptObject *pInstance)
+    {
+        const auto it = std::find_if(mInstances.cbegin(), mInstances.cend(),
+                                     [pInstance](const auto* instance) { return instance == pInstance; });
+
+        if (it == mInstances.cend())
+            return;
+
+        mInstances.erase(it);
+    }
+
+    void RemoveInstanceByIndex(size_t Index)
     {
         mInstances.erase(mInstances.begin() + Index);
     }
 
     void RemoveInstanceByID(uint32 ID)
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
-        {
-            if ((*it)->InstanceID() == ID)
-            {
-                mInstances.erase(it);
-                break;
-            }
-        }
+        const auto it = std::find_if(mInstances.cbegin(), mInstances.cend(),
+                                     [ID](const auto* instance) { return instance->InstanceID() == ID; });
+
+        if (it == mInstances.cend())
+            return;
+
+        mInstances.erase(it);
     }
 
-    void Reserve(uint32 Amount)
+    void Reserve(size_t Amount)
     {
         mInstances.reserve(Amount);
     }
 
     // Accessors
-    inline CGameArea* Area() const      { return mpArea; }
-    inline TString Name() const         { return mLayerName; }
-    inline bool IsActive() const        { return mActive; }
-    inline bool IsVisible() const       { return mVisible; }
-    inline uint32 NumInstances() const  { return mInstances.size(); }
-    inline CScriptObject* InstanceByIndex(uint32 Index) const { return mInstances[Index]; }
+    CGameArea* Area() const      { return mpArea; }
+    TString Name() const         { return mLayerName; }
+    bool IsActive() const        { return mActive; }
+    bool IsVisible() const       { return mVisible; }
+    size_t NumInstances() const  { return mInstances.size(); }
+    CScriptObject* InstanceByIndex(size_t Index) const { return mInstances[Index]; }
 
-    inline CScriptObject* InstanceByID(uint32 ID) const
+    CScriptObject* InstanceByID(uint32 ID) const
     {
-        for (auto it = mInstances.begin(); it != mInstances.end(); it++)
-        {
-            if ((*it)->InstanceID() == ID)
-                return *it;
-        }
+        const auto it = std::find_if(mInstances.begin(), mInstances.end(),
+                                     [ID](const auto* instance) { return instance->InstanceID() == ID; });
 
-        return nullptr;
+        if (it == mInstances.cbegin())
+            return nullptr;
+
+        return *it;
     }
 
-    inline void SetName(const TString& rkName)  { mLayerName = rkName; }
-    inline void SetActive(bool Active)          { mActive = Active; }
-    inline void SetVisible(bool Visible)        { mVisible = Visible; }
+    void SetName(TString rkName)   { mLayerName = std::move(rkName); }
+    void SetActive(bool Active)    { mActive = Active; }
+    void SetVisible(bool Visible)  { mVisible = Visible; }
 
-    inline uint32 AreaIndex() const
+    uint32 AreaIndex() const
     {
         for (uint32 iLyr = 0; iLyr < mpArea->NumScriptLayers(); iLyr++)
         {
@@ -108,11 +105,12 @@ public:
                 return iLyr;
         }
 
-        return -1;
+        return UINT32_MAX;
     }
 
     // Operators
-    CScriptObject* operator[](uint32 Index) { return InstanceByIndex(Index); }
+    CScriptObject* operator[](size_t Index) { return InstanceByIndex(Index); }
+    const CScriptObject* operator[](size_t Index) const { return InstanceByIndex(Index); }
 };
 
 #endif // CSCRIPTLAYER_H

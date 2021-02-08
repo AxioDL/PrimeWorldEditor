@@ -7,13 +7,14 @@
 
 class CFramebuffer
 {
-    GLuint mFramebuffer;
-    CRenderbuffer *mpRenderbuffer;
-    CTexture *mpTexture;
-    uint32 mWidth, mHeight;
-    bool mEnableMultisampling;
-    bool mInitialized;
-    GLenum mStatus;
+    GLuint mFramebuffer = 0;
+    CRenderbuffer *mpRenderbuffer = nullptr;
+    CTexture *mpTexture = nullptr;
+    uint32 mWidth = 0;
+    uint32 mHeight = 0;
+    bool mEnableMultisampling = false;
+    bool mInitialized = false;
+    GLenum mStatus{};
 
     static GLint smDefaultFramebuffer;
     static bool smStaticsInitialized;
@@ -28,7 +29,7 @@ public:
     void SetMultisamplingEnabled(bool Enable);
 
     // Accessors
-    inline CTexture* Texture() const    { return mpTexture; }
+    CTexture* Texture() const    { return mpTexture; }
 
     // Static
     static void BindDefaultFramebuffer(GLenum Target = GL_FRAMEBUFFER);

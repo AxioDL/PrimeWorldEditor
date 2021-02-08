@@ -19,19 +19,21 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<int32, TypeEnum>
     struct SEnumValue
     {
         TString Name;
-        uint32 ID;
+        uint32 ID = 0;
 
-        SEnumValue()
-            : ID(0)
-        {}
-
-        SEnumValue(const TString& rkInName, uint32 InID)
-            : Name(rkInName), ID(InID) {}
+        SEnumValue() = default;
+        SEnumValue(TString rkInName, uint32 InID)
+            : Name(std::move(rkInName)), ID(InID) {}
 
 
-        inline bool operator==(const SEnumValue& rkOther) const
+        bool operator==(const SEnumValue& other) const
         {
-            return( Name == rkOther.Name && ID == rkOther.ID );
+            return Name == other.Name && ID == other.ID;
+        }
+
+        bool operator!=(const SEnumValue& other) const
+        {
+            return !operator==(other);
         }
 
         void Serialize(IArchive& rArc)
@@ -47,13 +49,13 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<int32, TypeEnum>
 
 protected:
     /** Constructor */
-    TEnumPropertyBase(EGame Game)
+    explicit TEnumPropertyBase(EGame Game)
         : base(Game)
         , mOverrideTypeName(false)
     {}
 
 public:
-    virtual const char* HashableTypeName() const
+    const char* HashableTypeName() const override
     {
         if (base::mpArchetype)
             return base::mpArchetype->HashableTypeName();
@@ -65,7 +67,7 @@ public:
             return "choice";
     }
 
-    virtual void Serialize(IArchive& rArc)
+    void Serialize(IArchive& rArc) override
     {
         // Skip TSerializeableTypedProperty, serialize default value ourselves so we can set SH_HexDisplay
         TTypedProperty<int32, TypeEnum>::Serialize(rArc);
@@ -87,29 +89,29 @@ public:
         }
     }
 
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
-        Arc.SerializePrimitive( (uint32&) base::ValueRef(pData), 0 );
+        Arc.SerializePrimitive((uint32&)base::ValueRef(pData), 0);
     }
 
-    virtual void InitFromArchetype(IProperty* pOther)
+    void InitFromArchetype(IProperty* pOther) override
     {
         TTypedProperty<int32, TypeEnum>::InitFromArchetype(pOther);
         TEnumPropertyBase* pOtherEnum = static_cast<TEnumPropertyBase*>(pOther);
         mValues = pOtherEnum->mValues;
     }
 
-    virtual TString ValueAsString(void* pData) const
+    TString ValueAsString(void* pData) const override
     {
-        return TString::FromInt32( base::Value(pData), 0, 10 );
+        return TString::FromInt32(base::Value(pData), 0, 10);
     }
 
     void AddValue(TString ValueName, uint32 ValueID)
     {
-        mValues.push_back( SEnumValue(ValueName, ValueID) );
+        mValues.emplace_back(std::move(ValueName), ValueID);
     }
 
-    inline uint32 NumPossibleValues() const { return mValues.size(); }
+    size_t NumPossibleValues() const { return mValues.size(); }
 
     uint32 ValueIndex(uint32 ID) const
     {
@@ -120,27 +122,29 @@ public:
                 return ValueIdx;
             }
         }
-        return -1;
+        return UINT32_MAX;
     }
 
-    uint32 ValueID(uint32 Index) const
+    uint32 ValueID(size_t Index) const
     {
-        ASSERT(Index >= 0 && Index < mValues.size());
+        ASSERT(Index < mValues.size());
         return mValues[Index].ID;
     }
 
-    TString ValueName(uint32 Index) const
+    TString ValueName(size_t Index) const
     {
-        ASSERT(Index >= 0 && Index < mValues.size());
+        ASSERT(Index < mValues.size());
         return mValues[Index].Name;
     }
 
     bool HasValidValue(void* pPropertyData)
     {
-        if (mValues.empty()) return true;
-        int ID = base::ValueRef(pPropertyData);
-        uint32 Index = ValueIndex(ID);
-        return Index >= 0 && Index < mValues.size();
+        if (mValues.empty())
+            return true;
+
+        const int ID = base::ValueRef(pPropertyData);
+        const uint32 Index = ValueIndex(ID);
+        return Index < mValues.size();
     }
 
     bool OverridesTypeName() const
@@ -166,8 +170,8 @@ public:
     }
 };
 
-typedef TEnumPropertyBase<EPropertyType::Choice> CChoiceProperty;
-typedef TEnumPropertyBase<EPropertyType::Enum>   CEnumProperty;
+using CChoiceProperty = TEnumPropertyBase<EPropertyType::Choice>;
+using CEnumProperty = TEnumPropertyBase<EPropertyType::Enum>;
 
 // Specialization of TPropCast to allow interchangeable casting, as both types are the same thing
 template<>

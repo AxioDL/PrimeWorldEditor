@@ -310,13 +310,13 @@ void CMayaSpline::CalculateHermiteCoefficients(const std::vector<CVector2f>& kCo
     const CVector2f& kTangentB = kControlPoints[2];
     const CVector2f& kKnotB = kControlPoints[3];
 
-    CVector2f Range = kKnotB - kKnotA;
+    [[maybe_unused]] const CVector2f Range = kKnotB - kKnotA;
 
-    CVector2f KnotAToTangentA = kTangentA - kKnotA;
-    float MulA = (KnotAToTangentA.X == 0 ? 5729578.f : KnotAToTangentA.Y / KnotAToTangentA.X);
+    const CVector2f KnotAToTangentA = kTangentA - kKnotA;
+    const float MulA = (KnotAToTangentA.X == 0 ? 5729578.f : KnotAToTangentA.Y / KnotAToTangentA.X);
 
-    CVector2f KnotBToTangentB = kKnotB - kTangentB;
-    float MulB = (KnotBToTangentB.X == 0 ? 5729578.f : KnotBToTangentB.Y / KnotBToTangentB.X);
+    const CVector2f KnotBToTangentB = kKnotB - kTangentB;
+    [[maybe_unused]] const float MulB = (KnotBToTangentB.X == 0 ? 5729578.f : KnotBToTangentB.Y / KnotBToTangentB.X);
 
 #if 0
     // todo: better organization and better variable names

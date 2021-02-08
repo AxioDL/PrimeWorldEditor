@@ -5,45 +5,20 @@
 #include "Core/Resource/Animation/CAnimSet.h"
 #include <Common/Log.h>
 
-#include <iostream>
+#include <algorithm>
 #include <string>
 
 // Old constructor
 CScriptTemplate::CScriptTemplate(CGameTemplate *pGame)
     : mpGame(pGame)
-    , mpProperties(nullptr)
-    , mVisible(true)
-    , mDirty(false)
-    , mpNameProperty(nullptr)
-    , mpPositionProperty(nullptr)
-    , mpRotationProperty(nullptr)
-    , mpScaleProperty(nullptr)
-    , mpActiveProperty(nullptr)
-    , mpLightParametersProperty(nullptr)
-    , mPreviewScale(1.f)
-    , mVolumeShape(EVolumeShape::NoShape)
-    , mVolumeScale(1.f)
 {
 }
 
 // New constructor
 CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, uint32 InObjectID, const TString& kInFilePath)
-    : mRotationType(ERotationType::RotationEnabled)
-    , mScaleType(EScaleType::ScaleEnabled)
-    , mPreviewScale(1.f)
-    , mVolumeShape(EVolumeShape::NoShape)
-    , mVolumeScale(1.f)
-    , mSourceFile(kInFilePath)
+    : mSourceFile(kInFilePath)
     , mObjectID(InObjectID)
     , mpGame(pInGame)
-    , mpNameProperty(nullptr)
-    , mpPositionProperty(nullptr)
-    , mpRotationProperty(nullptr)
-    , mpScaleProperty(nullptr)
-    , mpActiveProperty(nullptr)
-    , mpLightParametersProperty(nullptr)
-    , mVisible(true)
-    , mDirty(false)
 {
     // Load
     CXMLReader Reader(kInFilePath);
@@ -62,9 +37,7 @@ CScriptTemplate::CScriptTemplate(CGameTemplate* pInGame, uint32 InObjectID, cons
     if (!mLightParametersIDString.IsEmpty())    mpLightParametersProperty = TPropCast<CStructProperty>( mpProperties->ChildByIDString(mLightParametersIDString) );
 }
 
-CScriptTemplate::~CScriptTemplate()
-{
-}
+CScriptTemplate::~CScriptTemplate() = default;
 
 void CScriptTemplate::Serialize(IArchive& Arc)
 {
@@ -121,11 +94,14 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
 
     if (mVolumeShape == EVolumeShape::ConditionalShape)
     {
-        int32 Index = CheckVolumeConditions(pObj, true);
-        if (Index == -1) return EVolumeShape::InvalidShape;
-        else return mVolumeConditions[Index].Shape;
+        const int32 Index = CheckVolumeConditions(pObj, true);
+        if (Index == -1)
+            return EVolumeShape::InvalidShape;
+
+        return mVolumeConditions[Index].Shape;
     }
-    else return mVolumeShape;
+
+    return mVolumeShape;
 }
 
 float CScriptTemplate::VolumeScale(CScriptObject *pObj)
@@ -138,11 +114,14 @@ float CScriptTemplate::VolumeScale(CScriptObject *pObj)
 
     if (mVolumeShape == EVolumeShape::ConditionalShape)
     {
-        int32 Index = CheckVolumeConditions(pObj, false);
-        if (Index == -1) return mVolumeScale;
-        else return mVolumeConditions[Index].Scale;
+        const int32 Index = CheckVolumeConditions(pObj, false);
+        if (Index == -1)
+            return mVolumeScale;
+
+        return mVolumeConditions[Index].Scale;
     }
-    else return mVolumeScale;
+
+    return mVolumeScale;
 }
 
 int32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
@@ -150,12 +129,12 @@ int32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors
     // Private function
     if (mVolumeShape == EVolumeShape::ConditionalShape)
     {
-        TIDString PropID = mVolumeConditionIDString;
-        IProperty* pProp = pObj->Template()->Properties()->ChildByIDString( PropID );
+        const TIDString PropID = mVolumeConditionIDString;
+        IProperty* pProp = pObj->Template()->Properties()->ChildByIDString(PropID);
 
         // Get value of the condition test property (only boolean, integral, and enum types supported)
         void* pData = pObj->PropertyData();
-        int Val;
+        int Val = 0;
 
         switch (pProp->Type())
         {
@@ -164,11 +143,11 @@ int32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors
             break;
 
         case EPropertyType::Byte:
-            Val = (int) TPropCast<CByteProperty>(pProp)->Value(pData);
+            Val = static_cast<int>(TPropCast<CByteProperty>(pProp)->Value(pData));
             break;
 
         case EPropertyType::Short:
-            Val = (int) TPropCast<CShortProperty>(pProp)->Value(pData);
+            Val = static_cast<int>(TPropCast<CShortProperty>(pProp)->Value(pData));
             break;
 
         case EPropertyType::Int:
@@ -191,7 +170,10 @@ int32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors
         }
 
         if (LogErrors)
-            errorf("%s instance %08X has unexpected volume shape value of 0x%X", *pObj->Template()->Name(), pObj->InstanceID(), Val);
+        {
+            errorf("%s instance %08X has unexpected volume shape value of 0x%X", *pObj->Template()->Name(),
+                   static_cast<uint32>(pObj->InstanceID()), Val);
+        }
     }
 
     return -1;
@@ -199,34 +181,36 @@ int32 CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors
 
 CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, uint32& rOutCharIndex, uint32& rOutAnimIndex, bool& rOutIsInGame)
 {
-    rOutCharIndex = -1;
-    rOutAnimIndex = -1;
+    rOutCharIndex = UINT32_MAX;
+    rOutAnimIndex = UINT32_MAX;
     rOutIsInGame = false;
 
-    for (auto it = mAssets.begin(); it != mAssets.end(); it++)
+    for (const auto& asset : mAssets)
     {
-        if (it->AssetType == SEditorAsset::EAssetType::Collision) continue;
+        if (asset.AssetType == SEditorAsset::EAssetType::Collision)
+            continue;
+
         CResource *pRes = nullptr;
 
         // File
-        if (it->AssetSource == SEditorAsset::EAssetSource::File)
-            pRes = gpEditorStore->LoadResource(it->AssetLocation);
-
-        // Property
-        else
+        if (asset.AssetSource == SEditorAsset::EAssetSource::File)
         {
-            IProperty* pProp = mpProperties->ChildByIDString(it->AssetLocation);
+            pRes = gpEditorStore->LoadResource(asset.AssetLocation);
+        }
+        else // Property
+        {
+            IProperty* pProp = mpProperties->ChildByIDString(asset.AssetLocation);
 
-            if (it->AssetType == SEditorAsset::EAssetType::AnimParams && pProp->Type() == EPropertyType::AnimationSet)
+            if (asset.AssetType == SEditorAsset::EAssetType::AnimParams && pProp->Type() == EPropertyType::AnimationSet)
             {
-                CAnimationSetProperty* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
-                CAnimationParameters Params = pAnimSet->Value(pPropertyData);
+                auto* pAnimSet = TPropCast<CAnimationSetProperty>(pProp);
+                const CAnimationParameters Params = pAnimSet->Value(pPropertyData);
                 pRes = Params.AnimSet();
 
-                if (pRes)
+                if (pRes != nullptr)
                 {
-                    uint32 MaxNumChars = static_cast<CAnimSet*>(pRes)->NumCharacters();
-                    rOutCharIndex = (it->ForceNodeIndex >= 0 && it->ForceNodeIndex < (int32) MaxNumChars ? it->ForceNodeIndex : Params.CharacterIndex());
+                    const size_t MaxNumChars = static_cast<const CAnimSet*>(pRes)->NumCharacters();
+                    rOutCharIndex = (asset.ForceNodeIndex >= 0 && asset.ForceNodeIndex < static_cast<int32>(MaxNumChars) ? asset.ForceNodeIndex : Params.CharacterIndex());
                     rOutAnimIndex = Params.AnimIndex();
                 }
             }
@@ -234,17 +218,17 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, uint32& rOutCh
             else
             {
                 ASSERT(pProp->Type() == EPropertyType::Asset);
-                CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProp);
-                CAssetID ID = pAsset->Value(pPropertyData);
-                CResourceEntry *pEntry = gpResourceStore->FindEntry( ID );
-                if (pEntry) pRes = pEntry->Load();
+                auto* pAsset = TPropCast<CAssetProperty>(pProp);
+                const CAssetID ID = pAsset->Value(pPropertyData);
+                if (CResourceEntry* pEntry = gpResourceStore->FindEntry(ID))
+                    pRes = pEntry->Load();
             }
         }
 
         // If we have a valid resource, return
-        if (pRes)
+        if (pRes != nullptr)
         {
-            rOutIsInGame = (pRes->Type() != EResourceType::Texture && it->AssetSource == SEditorAsset::EAssetSource::Property);
+            rOutIsInGame = (pRes->Type() != EResourceType::Texture && asset.AssetSource == SEditorAsset::EAssetSource::Property);
             return pRes;
         }
     }
@@ -255,29 +239,31 @@ CResource* CScriptTemplate::FindDisplayAsset(void* pPropertyData, uint32& rOutCh
 
 CCollisionMeshGroup* CScriptTemplate::FindCollision(void* pPropertyData)
 {
-    for (auto it = mAssets.begin(); it != mAssets.end(); it++)
+    for (const auto& asset : mAssets)
     {
-        if (it->AssetType != SEditorAsset::EAssetType::Collision) continue;
+        if (asset.AssetType != SEditorAsset::EAssetType::Collision)
+            continue;
+
         CResource *pRes = nullptr;
 
         // File
-        if (it->AssetSource == SEditorAsset::EAssetSource::File)
-            pRes = gpResourceStore->LoadResource(it->AssetLocation);
-
-        // Property
-        else
+        if (asset.AssetSource == SEditorAsset::EAssetSource::File)
         {
-            IProperty* pProp = mpProperties->ChildByIDString(it->AssetLocation);
+            pRes = gpResourceStore->LoadResource(asset.AssetLocation);
+        }
+        else // Property
+        {
+            IProperty* pProp = mpProperties->ChildByIDString(asset.AssetLocation);
 
             if (pProp->Type() == EPropertyType::Asset)
             {
-                CAssetProperty* pAsset = TPropCast<CAssetProperty>(pProp);
+                auto* pAsset = TPropCast<CAssetProperty>(pProp);
                 pRes = gpResourceStore->LoadResource( pAsset->Value(pPropertyData), EResourceType::DynamicCollision );
             }
         }
 
         // Verify resource exists + is correct type
-        if (pRes && (pRes->Type() == EResourceType::DynamicCollision))
+        if (pRes != nullptr && (pRes->Type() == EResourceType::DynamicCollision))
             return static_cast<CCollisionMeshGroup*>(pRes);
     }
 
@@ -301,16 +287,15 @@ void CScriptTemplate::AddObject(CScriptObject *pObject)
     mObjectList.push_back(pObject);
 }
 
-void CScriptTemplate::RemoveObject(CScriptObject *pObject)
+void CScriptTemplate::RemoveObject(const CScriptObject *pObject)
 {
-    for (auto it = mObjectList.begin(); it != mObjectList.end(); it++)
-    {
-        if (*it == pObject)
-        {
-            mObjectList.erase(it);
-            break;
-        }
-    }
+    const auto iter = std::find_if(mObjectList.cbegin(), mObjectList.cend(),
+                                   [pObject](const auto* ptr) { return ptr == pObject; });
+
+    if (iter == mObjectList.cend())
+        return;
+
+    mObjectList.erase(iter);
 }
 
 void CScriptTemplate::SortObjects()

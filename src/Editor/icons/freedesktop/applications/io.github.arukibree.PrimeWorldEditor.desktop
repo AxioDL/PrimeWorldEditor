@@ -2,7 +2,7 @@
 Name=Prime World Editor
 GenericName=Game Data Editor
 Comment=Edit world assets from games by Retro Studios
-Exec=PrimeWorldEditor
+Exec=env QT_QPA_PLATFORM=xcb PrimeWorldEditor
 Icon=PrimeWorldEditor
 Terminal=false
 Type=Application

@@ -4,14 +4,14 @@
 #include <QAction>
 #include <QDragEnterEvent>
 
-CResourceTableView::CResourceTableView(QWidget *pParent /*= 0*/)
+CResourceTableView::CResourceTableView(QWidget *pParent)
     : QTableView(pParent)
 {
     // todo: removed delete shortcut because it conflicts with the World Editor delete shortcut
 #if 0
     mpDeleteAction = new QAction(this);
     mpDeleteAction->setShortcut(QKeySequence::Delete);
-    connect(mpDeleteAction, SIGNAL(triggered(bool)), this, SLOT(DeleteSelected()));
+    connect(mpDeleteAction, &QAction::triggered, this, &CResourceTableView::DeleteSelected);
     addAction(mpDeleteAction);
 #endif
 }
@@ -47,14 +47,14 @@ void CResourceTableView::DeleteSelected()
     QVector<CResourceEntry*> ResourcesToDelete;
     QVector<CVirtualDirectory*> DirsToDelete;
 
-    foreach (QModelIndex Index, List)
+    for (const QModelIndex Index : List)
     {
-        QModelIndex SourceIndex = pProxy->mapToSource(Index);
+        const QModelIndex SourceIndex = pProxy->mapToSource(Index);
 
         if (pModel->IsIndexDirectory(SourceIndex))
-            DirsToDelete << pModel->IndexDirectory(SourceIndex);
+            DirsToDelete.push_back(pModel->IndexDirectory(SourceIndex));
         else
-            ResourcesToDelete << pModel->IndexEntry(SourceIndex);
+            ResourcesToDelete.push_back(pModel->IndexEntry(SourceIndex));
 
     }
 

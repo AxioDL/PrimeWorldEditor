@@ -1,5 +1,8 @@
 #include "CAssetNameMap.h"
 
+constexpr char gkAssetMapPath[] = "resources/gameinfo/AssetNameMap";
+constexpr char gkAssetMapExt[] = "xml";
+
 bool CAssetNameMap::LoadAssetNames(TString Path /*= ""*/)
 {
     if (Path.IsEmpty())
@@ -19,8 +22,8 @@ bool CAssetNameMap::LoadAssetNames(TString Path /*= ""*/)
         else
         {
             debugf("Failed to load asset names; expected %s IDs, got %s",
-                   mIDLength    == k32Bit ? "32-bit" : "64-bit",
-                   FileIDLength == k32Bit ? "32-bit" : "64-bit"  );
+                   mIDLength    == EIDLength::k32Bit ? "32-bit" : "64-bit",
+                   FileIDLength == EIDLength::k32Bit ? "32-bit" : "64-bit"  );
             return false;
         }
     }
@@ -36,7 +39,7 @@ bool CAssetNameMap::SaveAssetNames(TString Path /*= ""*/)
     if (Path.IsEmpty())
         Path = DefaultNameMapPath(mIDLength);
 
-    EGame Game = (mIDLength == k32Bit ? EGame::Prime : EGame::Corruption);
+    EGame Game = (mIDLength == EIDLength::k32Bit ? EGame::Prime : EGame::Corruption);
     CXMLWriter Writer(Path, "AssetNameMap", 0, Game);
     Serialize(Writer);
     return Writer.Save();
@@ -58,7 +61,7 @@ bool CAssetNameMap::GetNameInfo(CAssetID ID, TString& rOutDirectory, TString& rO
 
     else
     {
-        EGame Game = (ID.Length() == k32Bit ? EGame::Prime : EGame::Corruption);
+        EGame Game = (ID.Length() == EIDLength::k32Bit ? EGame::Prime : EGame::Corruption);
         rOutDirectory = CResourceStore::StaticDefaultResourceDirPath(Game);
         rOutName = ID.ToString();
         rOutAutoGenDir = true;
@@ -146,13 +149,14 @@ void CAssetNameMap::PostLoadValidate()
     mIsValid = false;
     std::set<SAssetNameInfo> Dupes;
 
-    for (auto Iter = mMap.begin(); Iter != mMap.end(); Iter++)
+    for (auto Iter = mMap.begin(); Iter != mMap.end(); ++Iter)
     {
         const SAssetNameInfo& rkInfo = Iter->second;
 
         if (mUsedSet.find(rkInfo) != mUsedSet.end())
+        {
             Dupes.insert(rkInfo);
-
+        }
         else
         {
             mUsedSet.insert(rkInfo);
@@ -180,25 +184,32 @@ void CAssetNameMap::PostLoadValidate()
     {
         errorf("Asset name map is invalid and cannot be used! Duplicate asset entries detected:");
 
-        for (auto Iter = Dupes.begin(); Iter != Dupes.end(); Iter++)
+        for (const auto& dupe : Dupes)
         {
-            warnf("\t%s", *Iter->FullPath());
+            warnf("\t%s", *dupe.FullPath());
         }
 
         mMap.clear();
     }
     else
+    {
         mIsValid = !FoundErrors;
+    }
 }
 
 TString CAssetNameMap::DefaultNameMapPath(EIDLength IDLength)
 {
     ASSERT(IDLength != kInvalidIDLength);
-    TString Suffix = (IDLength == k32Bit ? "32" : "64");
-    return gDataDir + gkAssetMapPath + Suffix + "." + gkAssetMapExt;
+    const char* const Suffix = (IDLength == EIDLength::k32Bit ? "32" : "64");
+    return gDataDir + gkAssetMapPath + Suffix + '.' + gkAssetMapExt;
 }
 
 TString CAssetNameMap::DefaultNameMapPath(EGame Game)
 {
     return DefaultNameMapPath( CAssetID::GameIDLength(Game) );
+}
+
+TString CAssetNameMap::GetExtension()
+{
+    return gkAssetMapExt;
 }

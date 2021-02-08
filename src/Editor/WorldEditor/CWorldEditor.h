@@ -33,6 +33,9 @@
 #include <QTimer>
 #include <QToolButton>
 
+#include <array>
+#include <memory>
+
 namespace Ui {
 class CWorldEditor;
 }
@@ -47,11 +50,11 @@ enum EWorldEditorMode
 class CWorldEditor : public INodeEditor
 {
     Q_OBJECT
-    static const int mskMaxRecentProjects = 10;
+    static constexpr int mskMaxRecentProjects = 10;
 
-    Ui::CWorldEditor* ui;
+    std::unique_ptr<Ui::CWorldEditor> ui;
     QMenu* mpOpenRecentMenu;
-    QAction* mRecentProjectsActions[ mskMaxRecentProjects ];
+    std::array<QAction*, mskMaxRecentProjects> mRecentProjectsActions;
 
     TResPtr<CWorld> mpWorld;
     TResPtr<CGameArea> mpArea;
@@ -61,9 +64,9 @@ class CWorldEditor : public INodeEditor
     CGeneratePropertyNamesDialog* mpGeneratePropertyNamesDialog;
     CTweakEditor* mpTweakEditor;
 
-    bool mIsMakingLink;
-    CScriptObject* mpNewLinkSender;
-    CScriptObject* mpNewLinkReceiver;
+    bool mIsMakingLink = false;
+    CScriptObject* mpNewLinkSender = nullptr;
+    CScriptObject* mpNewLinkReceiver = nullptr;
 
     // Quickplay
     QAction* mpQuickplayAction;
@@ -81,27 +84,28 @@ class CWorldEditor : public INodeEditor
     QAction* mpPoiMapAction;
 
 public:
-    explicit CWorldEditor(QWidget *parent = 0);
-    ~CWorldEditor();
+    explicit CWorldEditor(QWidget *parent = nullptr);
+    ~CWorldEditor() override;
+
     bool CloseWorld();
     bool SetArea(CWorld *pWorld, int AreaIndex);
     void ResetCamera();
     bool HasAnyScriptNodesSelected() const;
     bool IsQuickplayEnabled() const;
 
-    inline CWorld* ActiveWorld() const      { return mpWorld; }
-    inline CGameArea* ActiveArea() const    { return mpArea; }
-    inline EGame CurrentGame() const        { return gpEdApp->CurrentGame(); }
-    inline CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
-    inline CGeneratePropertyNamesDialog* NameGeneratorDialog() const    { return mpGeneratePropertyNamesDialog; }
-    inline CTweakEditor* TweakEditor()      { return mpTweakEditor; }
+    CWorld* ActiveWorld() const      { return mpWorld; }
+    CGameArea* ActiveArea() const    { return mpArea; }
+    EGame CurrentGame() const        { return gpEdApp->CurrentGame(); }
+    CLinkDialog* LinkDialog() const  { return mpLinkDialog; }
+    CGeneratePropertyNamesDialog* NameGeneratorDialog() const    { return mpGeneratePropertyNamesDialog; }
+    CTweakEditor* TweakEditor()      { return mpTweakEditor; }
     CResourceBrowser* ResourceBrowser() const;
     CSceneViewport* Viewport() const override;
 
 public slots:
-    virtual void EditorTick(float) override;
-    virtual void NotifyNodeAboutToBeDeleted(CSceneNode *pNode) override;
-    virtual bool Save() override;
+    void EditorTick(float) override;
+    void NotifyNodeAboutToBeDeleted(CSceneNode *pNode) override;
+    bool Save() override;
 
     void Cut();
     void Copy();

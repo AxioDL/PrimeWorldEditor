@@ -15,24 +15,25 @@ class CTexture : public CResource
     friend class CTextureDecoder;
     friend class CTextureEncoder;
 
-    ETexelFormat mTexelFormat;          // Format of decoded image data
-    ETexelFormat mSourceTexelFormat;    // Format of input TXTR file
-    uint16 mWidth, mHeight;             // Image dimensions
-    uint32 mNumMipMaps;                 // The number of mipmaps this texture has
-    uint32 mLinearSize;                 // The size of the top level mipmap, in bytes
+    ETexelFormat mTexelFormat{ETexelFormat::RGBA8};       // Format of decoded image data
+    ETexelFormat mSourceTexelFormat{ETexelFormat::RGBA8}; // Format of input TXTR file
+    uint16 mWidth = 0;                                    // Image width
+    uint16 mHeight = 0;                                   // Image height
+    uint32 mNumMipMaps = 0;                               // The number of mipmaps this texture has
+    uint32 mLinearSize = 0;                               // The size of the top level mipmap, in bytes
 
-    bool mEnableMultisampling;  // Whether multisample should be enabled (if this texture is a render target).
-    bool mBufferExists;         // Indicates whether image data buffer has valid data
-    uint8 *mpImgDataBuffer;     // Pointer to image data buffer
-    uint32 mImgDataSize;        // Size of image data buffer
+    bool mEnableMultisampling = false;  // Whether multisample should be enabled (if this texture is a render target).
+    bool mBufferExists = false;         // Indicates whether image data buffer has valid data
+    uint8 *mpImgDataBuffer = nullptr;   // Pointer to image data buffer
+    uint32 mImgDataSize = 0;            // Size of image data buffer
 
-    bool mGLBufferExists; // Indicates whether GL buffer has valid data
-    GLuint mTextureID;    // ID for texture GL buffer
+    bool mGLBufferExists = false; // Indicates whether GL buffer has valid data
+    GLuint mTextureID = 0;        // ID for texture GL buffer
 
 public:
-    CTexture(CResourceEntry *pEntry = 0);
+    explicit CTexture(CResourceEntry *pEntry = nullptr);
     CTexture(uint32 Width, uint32 Height);
-    ~CTexture();
+    ~CTexture() override;
 
     bool BufferGL();
     void Bind(uint32 GLTextureUnit);
@@ -48,7 +49,7 @@ public:
     uint32 NumMipMaps() const               { return mNumMipMaps; }
     GLuint TextureID() const                { return mTextureID; }
 
-    inline void SetMultisamplingEnabled(bool Enable)
+    void SetMultisamplingEnabled(bool Enable)
     {
         if (mEnableMultisampling != Enable)
             DeleteBuffers();
@@ -62,7 +63,7 @@ public:
     // Private
 private:
     void CalcLinearSize();
-    uint32 CalcTotalSize();
+    uint32 CalcTotalSize() const;
     void CopyGLBuffer();
     void DeleteBuffers();
 };

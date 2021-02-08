@@ -6,8 +6,8 @@
 class CResizeScriptArrayCommand : public CEditScriptPropertyCommand
 {
     /** Old/new model row counts; we store this here to support editing arrays on multiple instances at once */
-    int mOldRowCount;
-    int mNewRowCount;
+    int mOldRowCount = -1;
+    int mNewRowCount = -1;
 
 public:
     CResizeScriptArrayCommand(IProperty* pProperty,
@@ -17,8 +17,6 @@ public:
                               const QString& rkCommandName = "Resize Array"
                 )
         :   CEditScriptPropertyCommand(pProperty, rkInstances, pModel, Index, rkCommandName)
-        ,   mOldRowCount(-1)
-        ,   mNewRowCount(-1)
     {
     }
 
@@ -27,7 +25,7 @@ public:
         return false;
     }
 
-    virtual void SaveOldData() override
+    void SaveOldData() override
     {
         CEditScriptPropertyCommand::SaveOldData();
 
@@ -37,7 +35,7 @@ public:
         }
     }
 
-    virtual void SaveNewData() override
+    void SaveNewData() override
     {
         CEditScriptPropertyCommand::SaveNewData();
 

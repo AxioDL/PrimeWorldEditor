@@ -5,13 +5,15 @@
 #include "CResTypeInfo.h"
 #include "Core/GameProject/CResourceEntry.h"
 
+#include <algorithm>
+
 class CResTypeFilter
 {
-    EGame mGame;
+    EGame mGame = EGame::Invalid;
     std::set<EResourceType> mAcceptedTypes;
 
 public:
-    CResTypeFilter() : mGame(EGame::Invalid) { }
+    CResTypeFilter() = default;
     CResTypeFilter(EGame Game, const TString& rkTypeList) { FromString(Game, rkTypeList); }
 
     void SetAcceptedTypes(EGame Game, const TStringList& rkTypes)
@@ -19,9 +21,9 @@ public:
         mAcceptedTypes.clear();
         mGame = Game;
 
-        for (auto Iter = rkTypes.begin(); Iter != rkTypes.end(); Iter++)
+        for (const auto& str : rkTypes)
         {
-            CResTypeInfo *pTypeInfo = CResTypeInfo::TypeForCookedExtension(mGame, CFourCC(*Iter));
+            CResTypeInfo* pTypeInfo = CResTypeInfo::TypeForCookedExtension(mGame, CFourCC(str));
 
             if (pTypeInfo)
                 mAcceptedTypes.insert(pTypeInfo->Type());
@@ -32,10 +34,12 @@ public:
     {
         TString Out;
 
-        for (auto Iter = mAcceptedTypes.begin(); Iter != mAcceptedTypes.end(); Iter++)
+        for (const auto type : mAcceptedTypes)
         {
-            if (!Out.IsEmpty()) Out += ',';
-            CResTypeInfo *pTypeInfo = CResTypeInfo::FindTypeInfo(*Iter);
+            if (!Out.IsEmpty())
+                Out += ',';
+
+            CResTypeInfo *pTypeInfo = CResTypeInfo::FindTypeInfo(type);
             Out += pTypeInfo->CookedExtension(mGame).ToString();
         }
 
@@ -53,38 +57,33 @@ public:
         rArc << SerialParameter("AcceptedTypes", mAcceptedTypes, SH_Proxy);
     }
 
-    inline bool Accepts(EResourceType Type) const
+    bool Accepts(EResourceType Type) const
     {
         return mAcceptedTypes.find(Type) != mAcceptedTypes.end();
     }
 
-    inline bool Accepts(CResTypeInfo *pType) const
+    bool Accepts(const CResTypeInfo *pType) const
     {
-        return pType && Accepts(pType->Type());
+        return pType != nullptr && Accepts(pType->Type());
     }
 
-    inline bool Accepts(CResourceEntry *pEntry) const
+    bool Accepts(const CResourceEntry *pEntry) const
     {
-        return pEntry && Accepts(pEntry->ResourceType());
+        return pEntry != nullptr && Accepts(pEntry->ResourceType());
     }
 
-    inline bool Accepts(const CResTypeFilter& rkFilter) const
+    bool Accepts(const CResTypeFilter& filter) const
     {
-        for (auto Iter = mAcceptedTypes.begin(); Iter != mAcceptedTypes.end(); Iter++)
-        {
-            if (rkFilter.Accepts(*Iter))
-                return true;
-        }
-
-        return false;
+        return std::any_of(mAcceptedTypes.cbegin(), mAcceptedTypes.cend(),
+                           [&filter](const auto& entry) { return filter.Accepts(entry); });
     }
 
-    inline bool operator==(const CResTypeFilter& rkOther) const
+    bool operator==(const CResTypeFilter& rkOther) const
     {
         return mAcceptedTypes == rkOther.mAcceptedTypes;
     }
 
-    inline bool operator!=(const CResTypeFilter& rkOther) const
+    bool operator!=(const CResTypeFilter& rkOther) const
     {
         return !(*this == rkOther);
     }

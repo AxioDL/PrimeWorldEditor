@@ -26,37 +26,37 @@ protected:
     EGame mGame;
 
 public:
-    explicit CScriptExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0)
-        : CSceneNode(pScene, -1, pParent)
+    explicit CScriptExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr)
+        : CSceneNode(pScene, UINT32_MAX, pParent)
         , mpScriptNode(pParent)
         , mpInstance(pInstance)
         , mGame(pInstance->Template()->Game())
     {
     }
 
-    virtual ~CScriptExtra()                 {}
-    inline CScriptObject* Instance() const  { return mpInstance; }
-    inline EGame Game() const               { return mGame; }
+    ~CScriptExtra() override = default;
+    CScriptObject* Instance() const  { return mpInstance; }
+    EGame Game() const               { return mGame; }
 
     // Default implementations for CSceneNode
-    virtual ENodeType NodeType() { return ENodeType::ScriptExtra; }
-    virtual void RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, const SViewInfo& /*rkViewInfo*/) {}
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& /*rkRay*/, uint32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/)
+    ENodeType NodeType() override { return ENodeType::ScriptExtra; }
+    void RayAABoxIntersectTest(CRayCollisionTester& /*rTester*/, const SViewInfo& /*rkViewInfo*/) override {}
+    SRayIntersection RayNodeIntersectTest(const CRay& /*rkRay*/, uint32 /*AssetID*/, const SViewInfo& /*rkViewInfo*/) override
     {
         SRayIntersection out;
         out.Hit = false;
         return out;
     }
-    virtual CColor WireframeColor() const { return mpParent->WireframeColor(); }
+    CColor WireframeColor() const override { return mpParent->WireframeColor(); }
 
     // Virtual CScriptExtra functions
     virtual void InstanceTransformed() {}
-    virtual void PropertyModified(IProperty* /*pProperty*/) {}
+    void PropertyModified(IProperty* /*pProperty*/) override {}
     virtual void DisplayAssetChanged(CResource* /*pNewDisplayAsset*/) {}
     virtual void LinksModified() {}
     virtual bool ShouldDrawNormalAssets() { return true; }
     virtual bool ShouldDrawVolume() { return true; }
-    virtual CColor TevColor() { return CColor::skWhite; }
+    virtual CColor TevColor() { return CColor::White(); }
     virtual void ModifyTintColor(CColor& /*Color*/) {}
 
     // Create Script Extra

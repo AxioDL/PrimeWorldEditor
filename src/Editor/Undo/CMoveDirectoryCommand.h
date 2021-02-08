@@ -23,9 +23,9 @@ public:
         , mNewParent(pNewParent->FullPath())
     {}
 
-    void undo() { DoMove(mOldParent); }
-    void redo() { DoMove(mNewParent); }
-    bool AffectsCleanState() const { return false; }
+    void undo() override { DoMove(mOldParent); }
+    void redo() override { DoMove(mNewParent); }
+    bool AffectsCleanState() const override { return false; }
 
 protected:
     void DoMove(const TString& rkPath)

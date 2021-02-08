@@ -4,15 +4,16 @@
 #include "Core/Resource/Animation/CAnimSet.h"
 #include "Core/Resource/Animation/CSourceAnimData.h"
 #include <Common/EGame.h>
+#include <memory>
 
 class CAnimSetLoader
 {
     TResPtr<CAnimSet> pSet;
-    EGame mGame;
+    EGame mGame{};
 
     CAnimSetLoader();
-    CAnimSet* LoadCorruptionCHAR(IInputStream& rCHAR);
-    CAnimSet* LoadReturnsCHAR(IInputStream& rCHAR);
+    void LoadCorruptionCHAR(IInputStream& rCHAR);
+    void LoadReturnsCHAR(IInputStream& rCHAR);
     void LoadPASDatabase(IInputStream& rPAS4);
     void LoadParticleResourceData(IInputStream& rFile, SSetCharacter *pChar, uint16 Version);
 
@@ -20,9 +21,9 @@ class CAnimSetLoader
     void ProcessPrimitives();
 
 public:
-    static CAnimSet* LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry);
-    static CAnimSet* LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry);
-    static CSourceAnimData* LoadSAND(IInputStream& rSAND, CResourceEntry *pEntry);
+    static std::unique_ptr<CAnimSet> LoadANCS(IInputStream& rANCS, CResourceEntry *pEntry);
+    static std::unique_ptr<CAnimSet> LoadCHAR(IInputStream& rCHAR, CResourceEntry *pEntry);
+    static std::unique_ptr<CSourceAnimData> LoadSAND(IInputStream& rSAND, CResourceEntry *pEntry);
 };
 
 #endif // CCHARACTERLOADER_H

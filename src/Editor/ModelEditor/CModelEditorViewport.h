@@ -4,32 +4,34 @@
 #include "Editor/CBasicViewport.h"
 #include "Editor/CGridRenderable.h"
 #include <Core/Scene/CModelNode.h>
+#include <memory>
 
 class CModelEditorViewport : public CBasicViewport
 {
 public:
     enum class EDrawMode {
-        DrawMesh, DrawSphere, DrawSquare
+        DrawMesh, DrawSphere, DrawSquare,
     };
 
 private:
-    EDrawMode mMode;
+    EDrawMode mMode{EDrawMode::DrawMesh};
     CGridRenderable mGrid;
-    CModelNode *mpModelNode;
-    CMaterial *mpActiveMaterial;
-    CRenderer *mpRenderer;
-    bool mGridEnabled;
+    CModelNode *mpModelNode = nullptr;
+    CMaterial *mpActiveMaterial = nullptr;
+    std::unique_ptr<CRenderer> mpRenderer;
+    bool mGridEnabled = true;
 
 public:
-    CModelEditorViewport(QWidget *pParent = 0);
-    ~CModelEditorViewport();
+    explicit CModelEditorViewport(QWidget *pParent = nullptr);
+    ~CModelEditorViewport() override;
+
     void SetNode(CModelNode *pNode);
     void SetActiveMaterial(CMaterial *pMat);
     void SetDrawMode(EDrawMode Mode);
     void SetClearColor(CColor Color);
     void SetGridEnabled(bool Enable);
-    void Paint();
-    void OnResize();
+    void Paint() override;
+    void OnResize() override;
 };
 
 #endif // CMODELEDITORVIEWPORT_H

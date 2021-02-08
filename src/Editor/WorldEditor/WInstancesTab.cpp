@@ -9,7 +9,7 @@
 
 WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::WInstancesTab)
+    ui(std::make_unique<Ui::WInstancesTab>())
 {
     ui->setupUi(this);
 
@@ -23,8 +23,8 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     mLayersProxyModel.setSourceModel(mpLayersModel);
     mTypesProxyModel.setSourceModel(mpTypesModel);
 
-    connect(mpLayersModel, SIGNAL(modelReset()), this, SLOT(ExpandTopLevelItems()));
-    connect(mpTypesModel, SIGNAL(modelReset()), this, SLOT(ExpandTopLevelItems()));
+    connect(mpLayersModel, &CInstancesModel::modelReset, this, &WInstancesTab::ExpandTopLevelItems);
+    connect(mpTypesModel, &CInstancesModel::modelReset, this, &WInstancesTab::ExpandTopLevelItems);
 
     int ColWidth = ui->LayersTreeView->width() * 0.29;
 
@@ -42,42 +42,44 @@ WInstancesTab::WInstancesTab(CWorldEditor *pEditor, QWidget *parent) :
     ui->TypesTreeView->header()->resizeSection(1, ColWidth);
     ui->TypesTreeView->header()->setSortIndicator(0, Qt::AscendingOrder);
 
-    connect(ui->LayersTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnTreeClick(QModelIndex)));
-    connect(ui->LayersTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClick(QModelIndex)));
-    connect(ui->LayersTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(OnTreeContextMenu(QPoint)));
-    connect(ui->TypesTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnTreeClick(QModelIndex)));
-    connect(ui->TypesTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClick(QModelIndex)));
-    connect(ui->TypesTreeView, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(OnTreeContextMenu(QPoint)));
+    connect(ui->LayersTreeView, &QTreeView::clicked, this, &WInstancesTab::OnTreeClick);
+    connect(ui->LayersTreeView, &QTreeView::doubleClicked, this, &WInstancesTab::OnTreeDoubleClick);
+    connect(ui->LayersTreeView, &QTreeView::customContextMenuRequested, this, &WInstancesTab::OnTreeContextMenu);
+    connect(ui->TypesTreeView, &QTreeView::clicked, this, &WInstancesTab::OnTreeClick);
+    connect(ui->TypesTreeView, &QTreeView::doubleClicked, this, &WInstancesTab::OnTreeDoubleClick);
+    connect(ui->TypesTreeView, &QTreeView::customContextMenuRequested, this, &WInstancesTab::OnTreeContextMenu);
 
     // Create context menu
-    mpHideInstance = new QAction("Hide instance", this);
-    mpHideType = new QAction("HideType", this);
-    mpHideAllTypes = new QAction("Hide all types", this);
-    mpHideAllExceptType = new QAction("HideAllButType", this);
+    mpHideInstance = new QAction(tr("Hide instance"), this);
+    mpHideType = new QAction(tr("HideType"), this);
+    mpHideAllTypes = new QAction(tr("Hide all types"), this);
+    mpHideAllExceptType = new QAction(tr("HideAllButType"), this);
     mpSeparator = new QAction(this);
     mpSeparator->setSeparator(true);
-    mpUnhideAllTypes = new QAction("UnhideAllTypes", this);
-    mpUnhideAll = new QAction("Unhide all", this);
+    mpUnhideAllTypes = new QAction(tr("UnhideAllTypes"), this);
+    mpUnhideAll = new QAction(tr("Unhide all"), this);
 
-    QList<QAction*> ActionList;
-    ActionList << mpHideInstance << mpHideType << mpHideAllTypes << mpHideAllExceptType << mpSeparator
-               << mpUnhideAllTypes << mpUnhideAll;
 
     mpTreeContextMenu = new QMenu(this);
-    mpTreeContextMenu->addActions(ActionList);
+    mpTreeContextMenu->addActions({
+        mpHideInstance,
+        mpHideType,
+        mpHideAllTypes,
+        mpHideAllExceptType,
+        mpSeparator,
+        mpUnhideAllTypes,
+        mpUnhideAll,
+    });
 
-    connect(mpHideInstance, SIGNAL(triggered()), this, SLOT(OnHideInstanceAction()));
-    connect(mpHideType, SIGNAL(triggered()), this, SLOT(OnHideTypeAction()));
-    connect(mpHideAllTypes, SIGNAL(triggered()), this, SLOT(OnHideAllTypesAction()));
-    connect(mpHideAllExceptType, SIGNAL(triggered()), this, SLOT(OnHideAllExceptTypeAction()));
-    connect(mpUnhideAllTypes, SIGNAL(triggered()), this, SLOT(OnUnhideAllTypes()));
-    connect(mpUnhideAll, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
+    connect(mpHideInstance, &QAction::triggered, this, &WInstancesTab::OnHideInstanceAction);
+    connect(mpHideType, &QAction::triggered, this, &WInstancesTab::OnHideTypeAction);
+    connect(mpHideAllTypes, &QAction::triggered, this, &WInstancesTab::OnHideAllTypesAction);
+    connect(mpHideAllExceptType, &QAction::triggered, this, &WInstancesTab::OnHideAllExceptTypeAction);
+    connect(mpUnhideAllTypes, &QAction::triggered, this, &WInstancesTab::OnUnhideAllTypes);
+    connect(mpUnhideAll, &QAction::triggered, this, &WInstancesTab::OnUnhideAll);
 }
 
-WInstancesTab::~WInstancesTab()
-{
-    delete ui;
-}
+WInstancesTab::~WInstancesTab() = default;
 
 // ************ PRIVATE SLOTS ************
 void WInstancesTab::OnTreeClick(QModelIndex Index)
@@ -179,8 +181,8 @@ void WInstancesTab::OnTreeContextMenu(QPoint Pos)
     // Set visibility and text
     if (pObject)
     {
-        QString Hide = mpMenuObject->MarkedVisible() ? "Hide" : "Unhide";
-        mpHideInstance->setText(QString("%1 instance").arg(Hide));
+        QString Hide = mpMenuObject->MarkedVisible() ? tr("Hide") : tr("Unhide");
+        mpHideInstance->setText(tr("%1 instance").arg(Hide));
         mpHideInstance->setVisible(true);
     }
 
@@ -191,21 +193,21 @@ void WInstancesTab::OnTreeContextMenu(QPoint Pos)
 
     if (mpMenuLayer)
     {
-        QString Hide = mpMenuLayer->IsVisible() ? "Hide" : "Unhide";
-        mpHideType->setText(QString("%1 layer %2").arg(Hide).arg(TO_QSTRING(mpMenuLayer->Name())));
+        QString Hide = mpMenuLayer->IsVisible() ? tr("Hide") : tr("Unhide");
+        mpHideType->setText(tr("%1 layer %2").arg(Hide).arg(TO_QSTRING(mpMenuLayer->Name())));
         mpHideType->setVisible(true);
 
-        mpHideAllExceptType->setText(QString("Hide all layers but %1").arg(TO_QSTRING(mpMenuLayer->Name())));
+        mpHideAllExceptType->setText(tr("Hide all layers but %1").arg(TO_QSTRING(mpMenuLayer->Name())));
         mpHideAllExceptType->setVisible(true);
     }
 
     else if (mpMenuTemplate)
     {
-        QString Hide = mpMenuTemplate->IsVisible() ? "Hide" : "Unhide";
-        mpHideType->setText(QString("%1 all %2 objects").arg(Hide).arg(TO_QSTRING(mpMenuTemplate->Name())));
+        QString Hide = mpMenuTemplate->IsVisible() ? tr("Hide") : tr("Unhide");
+        mpHideType->setText(tr("%1 all %2 objects").arg(Hide).arg(TO_QSTRING(mpMenuTemplate->Name())));
         mpHideType->setVisible(true);
 
-        mpHideAllExceptType->setText(QString("Hide all types but %1").arg(TO_QSTRING(mpMenuTemplate->Name())));
+        mpHideAllExceptType->setText(tr("Hide all types but %1").arg(TO_QSTRING(mpMenuTemplate->Name())));
         mpHideAllExceptType->setVisible(true);
     }
 
@@ -215,8 +217,8 @@ void WInstancesTab::OnTreeContextMenu(QPoint Pos)
         mpHideAllExceptType->setVisible(false);
     }
 
-    mpHideAllTypes->setText(QString("Hide all %1").arg(IsLayers ? "layers" : "types"));
-    mpUnhideAllTypes->setText(QString("Unhide all %1").arg(IsLayers ? "layers" : "types"));
+    mpHideAllTypes->setText(tr("Hide all %1").arg(IsLayers ? tr("layers") : tr("types")));
+    mpUnhideAllTypes->setText(tr("Unhide all %1").arg(IsLayers ? tr("layers") : tr("types")));
 
     QPoint GlobalPos = static_cast<QTreeView*>(sender())->viewport()->mapToGlobal(Pos);
     mpTreeContextMenu->exec(GlobalPos);
@@ -288,10 +290,10 @@ void WInstancesTab::OnHideAllExceptTypeAction()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
         {
             CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
-            pLayer->SetVisible( pLayer == mpMenuLayer ? true : false );
+            pLayer->SetVisible(pLayer == mpMenuLayer);
         }
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, TypeParent), mpLayersModel->index(mpLayersModel->rowCount(TypeParent) - 1, 2, TypeParent) );
@@ -322,12 +324,11 @@ void WInstancesTab::OnUnhideAllTypes()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
             pArea->ScriptLayer(iLyr)->SetVisible(true);
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, TypeParent), mpLayersModel->index(mpLayersModel->rowCount(TypeParent) - 1, 2, TypeParent) );
     }
-
     else
     {
         EGame Game = mpEditor->CurrentGame();
@@ -353,7 +354,7 @@ void WInstancesTab::OnUnhideAll()
     {
         CGameArea *pArea = mpEditor->ActiveArea();
 
-        for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+        for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
             pArea->ScriptLayer(iLyr)->SetVisible(true);
 
         mpLayersModel->dataChanged( mpLayersModel->index(0, 2, LayersRoot), mpLayersModel->index(mpLayersModel->rowCount(LayersRoot) - 1, 2, LayersRoot) );

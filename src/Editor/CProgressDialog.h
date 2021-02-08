@@ -15,6 +15,8 @@
 #include <QtWinExtras/QWinTaskbarProgress>
 #endif
 
+#include <memory>
+
 namespace Ui {
 class CProgressDialog;
 }
@@ -22,31 +24,31 @@ class CProgressDialog;
 class CProgressDialog : public IProgressNotifierUI
 {
     Q_OBJECT
-    Ui::CProgressDialog *mpUI;
+    std::unique_ptr<Ui::CProgressDialog> mpUI;
     bool mUseBusyIndicator;
     bool mAlertOnFinish;
-    bool mFinished;
-    bool mCanceled;
+    bool mFinished = false;
+    bool mCanceled = false;
 
 #ifdef WIN32
     QWinTaskbarProgress *mpTaskbarProgress;
 #endif
 
 public:
-    explicit CProgressDialog(QString OperationName, bool UseBusyIndicator, bool AlertOnFinish, QWidget *pParent = 0);
-    ~CProgressDialog();
+    explicit CProgressDialog(QString OperationName, bool UseBusyIndicator, bool AlertOnFinish, QWidget *pParent = nullptr);
+    ~CProgressDialog() override;
 
     void DisallowCanceling();
 
     // IProgressNotifier interface
-    virtual bool ShouldCancel() const;
+    bool ShouldCancel() const override;
 
     // Slots
 public slots:
-    void closeEvent(QCloseEvent *pEvent);
+    void closeEvent(QCloseEvent *pEvent) override;
     void FinishAndClose();
     void CancelButtonClicked();
-    void UpdateUI(const QString& rkTaskDesc, const QString& rkStepDesc, float ProgressPercent);
+    void UpdateUI(const QString& rkTaskDesc, const QString& rkStepDesc, float ProgressPercent) override;
 
     // Results
 protected:
@@ -56,7 +58,7 @@ protected:
         gpEdApp->SetEditorTicksEnabled(false);
 
         QFutureWatcher<RetType> Watcher;
-        connect(&Watcher, SIGNAL(finished()), this, SLOT(FinishAndClose()));
+        connect(&Watcher, &QFutureWatcher<RetType>::finished, this, &CProgressDialog::FinishAndClose);
         Watcher.setFuture(Future);
         exec();
 

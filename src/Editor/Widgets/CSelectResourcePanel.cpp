@@ -7,7 +7,7 @@
 
 CSelectResourcePanel::CSelectResourcePanel(CResourceSelector *pSelector)
     : QFrame(pSelector)
-    , mpUI(new Ui::CSelectResourcePanel)
+    , mpUI(std::make_unique<Ui::CSelectResourcePanel>())
     , mpSelector(pSelector)
     , mModel(pSelector)
 {
@@ -18,9 +18,9 @@ CSelectResourcePanel::CSelectResourcePanel(CResourceSelector *pSelector)
     mpUI->ResourceTableView->setModel(&mProxyModel);
 
     // Signals/slots
-    connect(gpEdApp, SIGNAL(focusChanged(QWidget*,QWidget*)), this, SLOT(FocusChanged(QWidget*,QWidget*)));
-    connect(mpUI->SearchBar, SIGNAL(StoppedTyping(QString)), this, SLOT(SearchStringChanged(QString)));
-    connect(mpUI->ResourceTableView, SIGNAL(clicked(QModelIndex)), this, SLOT(ResourceClicked(QModelIndex)));
+    connect(gpEdApp, &QApplication::focusChanged, this, &CSelectResourcePanel::FocusChanged);
+    connect(mpUI->SearchBar, &CTimedLineEdit::StoppedTyping, this, &CSelectResourcePanel::SearchStringChanged);
+    connect(mpUI->ResourceTableView, &QTableView::clicked, this, &CSelectResourcePanel::ResourceClicked);
 
     // Determine size
     QPoint SelectorPos = pSelector->parentWidget()->mapToGlobal( pSelector->pos() );
@@ -69,10 +69,7 @@ CSelectResourcePanel::CSelectResourcePanel(CResourceSelector *pSelector)
     mpUI->SearchBar->setFocus();
 }
 
-CSelectResourcePanel::~CSelectResourcePanel()
-{
-    delete mpUI;
-}
+CSelectResourcePanel::~CSelectResourcePanel() = default;
 
 // Slots
 void CSelectResourcePanel::FocusChanged(QWidget*, QWidget *pNew)

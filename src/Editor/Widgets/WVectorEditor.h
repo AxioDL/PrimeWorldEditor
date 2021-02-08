@@ -30,10 +30,11 @@ class WVectorEditor : public QWidget
     QLabel *mpLabelZ;
 
 public:
-    explicit WVectorEditor(QWidget *pParent = 0);
-    WVectorEditor(const CVector3f& rkValue, QWidget *pParent = 0);
-    ~WVectorEditor();
-    CVector3f Value();
+    explicit WVectorEditor(QWidget *pParent = nullptr);
+    explicit WVectorEditor(const CVector3f& rkValue, QWidget *pParent = nullptr);
+    ~WVectorEditor() override;
+
+    CVector3f Value() const;
     void SetOrientation(Qt::Orientation Orientation);
     void SetValue(const CVector3f& rkValue);
     void SetDefaultValue(double Value);

@@ -12,7 +12,7 @@ class CVertexArrayManager
 {
     std::unordered_map<CVertexBuffer*, GLuint> mVBOMap;
     std::unordered_map<CDynamicVertexBuffer*, GLuint> mDynamicVBOMap;
-    uint32 mVectorIndex;
+    uint32 mVectorIndex = 0;
 
     static std::vector<CVertexArrayManager*> sVAManagers;
     static CVertexArrayManager *spCurrentManager;

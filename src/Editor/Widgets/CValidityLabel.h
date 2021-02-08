@@ -18,16 +18,14 @@ class CValidityLabel : public QLabel
     bool mValid;
 
 public:
-    CValidityLabel(QWidget* pParent = 0)
+    explicit CValidityLabel(QWidget* pParent = nullptr)
         : QLabel(pParent)
     {
         SetValid(true);
     }
 
-    CValidityLabel(const QString& rkValidText, const QString& rkInvalidText, QWidget* pParent = 0)
-        : QLabel( rkValidText, pParent )
-        , mValidString( rkValidText )
-        , mInvalidString( rkInvalidText )
+    explicit CValidityLabel(QString rkValidText, QString rkInvalidText, QWidget* pParent = nullptr)
+        : QLabel(rkValidText, pParent), mValidString(std::move(rkValidText)), mInvalidString(std::move(rkInvalidText))
     {
         SetValid(true);
     }
@@ -41,7 +39,7 @@ public:
     }
 
     /** Returns whether we are valid */
-    inline bool IsValid() const
+    bool IsValid() const
     {
         return mValid;
     }
@@ -55,12 +53,12 @@ public slots:
 
         if (mValid)
         {
-            NewPalette.setColor( foregroundRole(), Qt::green );
+            NewPalette.setColor(foregroundRole(), Qt::green);
             setText(mValidString);
         }
         else
         {
-            NewPalette.setColor( foregroundRole(), Qt::red );
+            NewPalette.setColor(foregroundRole(), Qt::red);
             setText(mInvalidString);
         }
 

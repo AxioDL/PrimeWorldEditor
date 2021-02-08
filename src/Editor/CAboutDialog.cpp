@@ -4,7 +4,7 @@
 
 CAboutDialog::CAboutDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::CAboutDialog)
+    ui(std::make_unique<Ui::CAboutDialog>())
 {
     ui->setupUi(this);
 
@@ -13,7 +13,4 @@ CAboutDialog::CAboutDialog(QWidget *parent) :
     ui->AboutLabel->setText(LabelText);
 }
 
-CAboutDialog::~CAboutDialog()
-{
-    delete ui;
-}
+CAboutDialog::~CAboutDialog() = default;

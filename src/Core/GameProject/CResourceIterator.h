@@ -8,26 +8,27 @@ class CResourceIterator
 {
 protected:
     const CResourceStore *mpkStore;
-    std::map<CAssetID, CResourceEntry*>::const_iterator mIter;
-    CResourceEntry *mpCurEntry;
+    std::map<CAssetID, std::unique_ptr<CResourceEntry>>::const_iterator mIter;
+    CResourceEntry *mpCurEntry = nullptr;
 
 public:
-    CResourceIterator(const CResourceStore *pkStore = gpResourceStore)
+    explicit CResourceIterator(const CResourceStore *pkStore = gpResourceStore)
         : mpkStore(pkStore)
-        , mpCurEntry(nullptr)
     {
-        mIter = mpkStore->mResourceEntries.begin();
+        mIter = mpkStore->mResourceEntries.cbegin();
         Next();
     }
+
+    virtual ~CResourceIterator() = default;
 
     virtual CResourceEntry* Next()
     {
         do
         {
-            if (mIter != mpkStore->mResourceEntries.end())
+            if (mIter != mpkStore->mResourceEntries.cend())
             {
-                mpCurEntry = mIter->second;
-                mIter++;
+                mpCurEntry = mIter->second.get();
+                ++mIter;
             }
             else mpCurEntry = nullptr;
         }
@@ -36,33 +37,33 @@ public:
         return mpCurEntry;
     }
 
-    inline bool DoneIterating() const
+    bool DoneIterating() const
     {
         return mpCurEntry == nullptr;
     }
 
-    inline operator bool() const
+    explicit operator bool() const
     {
         return !DoneIterating();
     }
 
-    inline CResourceEntry* operator*() const
+    CResourceEntry* operator*() const
     {
         return mpCurEntry;
     }
 
-    inline CResourceEntry* operator->() const
+    CResourceEntry* operator->() const
     {
         return mpCurEntry;
     }
 
-    inline CResourceIterator& operator++()
+    CResourceIterator& operator++()
     {
         Next();
         return *this;
     }
 
-    inline CResourceIterator operator++(int)
+    CResourceIterator operator++(int)
     {
         CResourceIterator Copy = *this;
         Next();
@@ -74,14 +75,14 @@ template<EResourceType ResType>
 class TResourceIterator : public CResourceIterator
 {
 public:
-    TResourceIterator(CResourceStore *pStore = gpResourceStore)
+    explicit TResourceIterator(CResourceStore *pStore = gpResourceStore)
         : CResourceIterator(pStore)
     {
         if (mpCurEntry && mpCurEntry->ResourceType() != ResType)
             Next();
     }
 
-    virtual CResourceEntry* Next()
+    CResourceEntry* Next() override
     {
         do {
             CResourceIterator::Next();

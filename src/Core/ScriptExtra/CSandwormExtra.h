@@ -10,7 +10,7 @@ class CSandwormExtra : public CScriptExtra
 
 public:
     explicit CSandwormExtra(CScriptObject* pInstance, CScene* pScene, CScriptNode* pParent);
-    void PropertyModified(IProperty* pProp);
+    void PropertyModified(IProperty* pProp) override;
 };
 
 #endif // CSANDWORMEXTRA_H

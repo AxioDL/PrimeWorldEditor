@@ -19,12 +19,12 @@ struct SObjId
         CFourCC ID_4CC;
     };
 
-    inline SObjId()                             {}
-    inline SObjId(uint32 InID)  : ID(InID)      {}
-    inline SObjId(CFourCC InID) : ID_4CC(InID)  {}
+    SObjId()                             {}
+    SObjId(uint32 InID)  : ID(InID)      {}
+    SObjId(CFourCC InID) : ID_4CC(InID)  {}
 
-    inline operator uint32() const  { return ID; }
-    inline operator CFourCC() const { return ID_4CC; }
+    operator uint32() const  { return ID; }
+    operator CFourCC() const { return ID_4CC; }
 
     void Serialize(IArchive& Arc)
     {
@@ -61,16 +61,16 @@ struct TTemplatePath
     }
 };
 
-typedef TTemplatePath<CScriptTemplate>  SScriptTemplatePath;
-typedef TTemplatePath<IProperty>        SPropertyTemplatePath;
+using SScriptTemplatePath = TTemplatePath<CScriptTemplate>;
+using SPropertyTemplatePath = TTemplatePath<IProperty>;
 
 /** CGameTemplate - Per-game template data */
 class CGameTemplate
 {
-    EGame mGame;
+    EGame mGame{};
     TString mSourceFile;
-    bool mFullyLoaded;
-    bool mDirty;
+    bool mFullyLoaded = false;
+    bool mDirty = false;
 
     /** Template arrays */
     std::map<SObjId,  SScriptTemplatePath>    mScriptTemplates;
@@ -94,24 +94,24 @@ public:
     CScriptTemplate* TemplateByID(uint32 ObjectID);
     CScriptTemplate* TemplateByID(const CFourCC& ObjectID);
     CScriptTemplate* TemplateByIndex(uint32 Index);
-    SState StateByID(uint32 StateID);
-    SState StateByID(const CFourCC& StateID);
-    SState StateByIndex(uint32 Index);
-    SMessage MessageByID(uint32 MessageID);
-    SMessage MessageByID(const CFourCC& MessageID);
-    SMessage MessageByIndex(uint32 Index);
+    SState StateByID(uint32 StateID) const;
+    SState StateByID(const CFourCC& StateID) const;
+    SState StateByIndex(uint32 Index) const;
+    SMessage MessageByID(uint32 MessageID) const;
+    SMessage MessageByID(const CFourCC& MessageID) const;
+    SMessage MessageByIndex(uint32 Index) const;
     IProperty* FindPropertyArchetype(const TString& kTypeName);
-    TString GetPropertyArchetypeFilePath(const TString& kTypeName);
+    TString GetPropertyArchetypeFilePath(const TString& kTypeName) const;
     bool RenamePropertyArchetype(const TString& kTypeName, const TString& kNewTypeName);
     CScriptTemplate* FindMiscTemplate(const TString& kTemplateName);
     TString GetGameDirectory() const;
 
-    // Inline Accessors
-    inline EGame Game() const                   { return mGame; }
-    inline uint32 NumScriptTemplates() const    { return mScriptTemplates.size(); }
-    inline uint32 NumStates() const             { return mStates.size(); }
-    inline uint32 NumMessages() const           { return mMessages.size(); }
-    inline bool IsLoadedSuccessfully()          { return mFullyLoaded; }
+    // Accessors
+    EGame Game() const                   { return mGame; }
+    uint32 NumScriptTemplates() const    { return mScriptTemplates.size(); }
+    uint32 NumStates() const             { return mStates.size(); }
+    uint32 NumMessages() const           { return mMessages.size(); }
+    bool IsLoadedSuccessfully() const    { return mFullyLoaded; }
 };
 
 #endif // CGAMETEMPLATE_H

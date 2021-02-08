@@ -5,6 +5,7 @@
 #include "CTexture.h"
 #include <Common/EGame.h>
 #include <Common/FileIO/IInputStream.h>
+#include <algorithm>
 
 class CMaterialSet
 {
@@ -14,62 +15,71 @@ class CMaterialSet
     std::vector<std::unique_ptr<CMaterial>> mMaterials;
 
 public:
-    CMaterialSet() {}
+    CMaterialSet() = default;
+    ~CMaterialSet() = default;
 
-    ~CMaterialSet() {}
-
-    CMaterialSet* Clone()
+    std::unique_ptr<CMaterialSet> Clone()
     {
-        CMaterialSet *pOut = new CMaterialSet();
+        auto pOut = std::make_unique<CMaterialSet>();
 
         pOut->mMaterials.resize(mMaterials.size());
-        for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
-            pOut->mMaterials[iMat] = mMaterials[iMat]->Clone();
+        for (size_t i = 0; i < mMaterials.size(); i++)
+            pOut->mMaterials[i] = mMaterials[i]->Clone();
 
         return pOut;
     }
 
-    uint32 NumMaterials()
+    size_t NumMaterials() const
     {
         return mMaterials.size();
     }
 
-    CMaterial* MaterialByIndex(uint32 Index, bool TryBloom)
+    CMaterial* MaterialByIndex(size_t Index, bool TryBloom)
     {
-        if (Index >= NumMaterials()) return nullptr;
+        if (Index >= NumMaterials())
+            return nullptr;
+
         CMaterial* Ret = mMaterials[Index].get();
         if (TryBloom && Ret->GetBloomVersion())
             return Ret->GetBloomVersion();
+
         return Ret;
     }
 
     CMaterial* MaterialByName(const TString& rkName)
     {
-        for (auto it = mMaterials.begin(); it != mMaterials.end(); it++)
-            if ((*it)->Name() == rkName) return it->get();
+        const auto iter = std::find_if(mMaterials.begin(), mMaterials.end(),
+                                       [&rkName](const auto& entry) { return entry->Name() == rkName; });
 
-        return nullptr;
+        if (iter == mMaterials.cend())
+            return nullptr;
+
+        return iter->get();
     }
 
     uint32 MaterialIndexByName(const TString& rkName)
     {
-        for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
-            if (mMaterials[iMat]->Name() == rkName) return iMat;
+        for (uint32 i = 0; i < mMaterials.size(); i++)
+        {
+            if (mMaterials[i]->Name() == rkName)
+                return i;
+        }
 
-        return -1;
+        return UINT32_MAX;
     }
 
     void GetUsedTextureIDs(std::set<CAssetID>& rOut)
     {
-        for (uint32 iMat = 0; iMat < mMaterials.size(); iMat++)
+        for (const auto& material : mMaterials)
         {
-            CMaterial *pMat = mMaterials[iMat].get();
-            if (pMat->IndTexture()) rOut.insert(pMat->IndTexture()->ID());
+            if (material->IndTexture())
+                rOut.insert(material->IndTexture()->ID());
 
-            for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+            for (size_t i = 0; i < material->PassCount(); i++)
             {
-                CTexture *pTex = pMat->Pass(iPass)->Texture();
-                if (pTex) rOut.insert(pTex->ID());
+                const CTexture *pTex = material->Pass(i)->Texture();
+                if (pTex)
+                    rOut.insert(pTex->ID());
             }
         }
     }

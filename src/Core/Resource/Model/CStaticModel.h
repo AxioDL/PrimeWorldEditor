@@ -10,28 +10,28 @@
  * IBOs. This allows for a significantly reduced number of draw calls. */
 class CStaticModel : public CBasicModel
 {
-    CMaterial *mpMaterial;
+    CMaterial *mpMaterial = nullptr;
     std::vector<CIndexBuffer> mIBOs;
     std::vector<std::vector<uint32>> mSurfaceEndOffsets;
-    bool mTransparent;
+    bool mTransparent = false;
 
 public:
     CStaticModel();
-    CStaticModel(CMaterial *pMat);
-    ~CStaticModel();
+    explicit CStaticModel(CMaterial *pMat);
+    ~CStaticModel() override;
     void AddSurface(SSurface *pSurface);
 
     void BufferGL();
     void GenerateMaterialShaders();
-    void ClearGLBuffer();
+    void ClearGLBuffer() override;
     void Draw(FRenderOptions Options);
     void DrawSurface(FRenderOptions Options, uint32 Surface);
-    void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::skWhite);
+    void DrawWireframe(FRenderOptions Options, CColor WireColor = CColor::White());
 
     CMaterial* GetMaterial();
     void SetMaterial(CMaterial *pMat);
-    bool IsTransparent();
-    bool IsOccluder();
+    bool IsTransparent() const;
+    bool IsOccluder() const;
 
 private:
     CIndexBuffer* InternalGetIBO(EPrimitiveType Primitive);

@@ -21,19 +21,19 @@ public:
         , mIndex(Index)
     {
         // Convert CScriptObject pointers to CInstancePtrs
-        mInstances.reserve( kInstances.size() );
+        mInstances.reserve(kInstances.size());
 
-        for (int i = 0; i < kInstances.size(); i++)
-            mInstances.push_back( CInstancePtr(kInstances[i]) );
+        for (auto* instance : kInstances)
+            mInstances.push_back(CInstancePtr(instance));
     }
 
-    virtual void GetObjectDataPointers(QVector<void*>& OutPointers) const override
+    void GetObjectDataPointers(QVector<void*>& OutPointers) const override
     {
         // todo: support multiple objects being edited at once on the property view
         if (mIndex.isValid())
         {
             ASSERT(mInstances.size() == 1);
-            OutPointers << mInstances[0]->PropertyData();
+            OutPointers.push_back(mInstances[0]->PropertyData());
             return;
         }
 

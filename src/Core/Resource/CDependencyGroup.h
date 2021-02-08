@@ -2,6 +2,7 @@
 #define CDEPENDENCYGROUP
 
 #include "CResource.h"
+#include <algorithm>
 
 class CDependencyGroup : public CResource
 {
@@ -9,53 +10,47 @@ class CDependencyGroup : public CResource
     std::vector<CAssetID> mDependencies;
 
 public:
-    CDependencyGroup(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
+    explicit CDependencyGroup(CResourceEntry *pEntry = nullptr) : CResource(pEntry) {}
 
-    inline void Clear()                                     { mDependencies.clear(); }
-    inline uint32 NumDependencies() const                   { return mDependencies.size(); }
-    inline CAssetID DependencyByIndex(uint32 Index) const   { return mDependencies[Index]; }
+    void Clear()                                     { mDependencies.clear(); }
+    uint32 NumDependencies() const                   { return mDependencies.size(); }
+    CAssetID DependencyByIndex(size_t Index) const   { return mDependencies[Index]; }
 
-    inline void AddDependency(const CAssetID& rkID)
+    void AddDependency(const CAssetID& rkID)
     {
         if (!HasDependency(rkID))
             mDependencies.push_back(rkID);
     }
 
-    inline void AddDependency(CResource *pRes)
+    void AddDependency(const CResource* pRes)
     {
-        if ( pRes && !HasDependency(pRes->ID()) )
+        if (pRes != nullptr && !HasDependency(pRes->ID()))
             mDependencies.push_back(pRes->ID());
     }
 
     void RemoveDependency(const CAssetID& rkID)
     {
-        for (auto Iter = mDependencies.begin(); Iter != mDependencies.end(); Iter++)
-        {
-            if (*Iter == rkID)
-            {
-                mDependencies.erase(Iter);
-                return;
-            }
-        }
+        const auto it = std::find_if(mDependencies.cbegin(), mDependencies.cend(),
+                                     [&rkID](const auto& entry) { return entry == rkID; });
+
+        if (it == mDependencies.cend())
+            return;
+
+        mDependencies.erase(it);
     }
     
-    bool HasDependency(const CAssetID &rkID) const
+    bool HasDependency(const CAssetID& rkID) const
     {
-        for (uint32 iDep = 0; iDep < mDependencies.size(); iDep++)
-        {
-            if (mDependencies[iDep] == rkID)
-                return true;
-        }
-
-        return false;
+        return std::any_of(mDependencies.cbegin(), mDependencies.cend(),
+                           [&rkID](const auto& entry) { return entry == rkID; });
     }
 
-    CDependencyTree* BuildDependencyTree() const
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override
     {
-        CDependencyTree *pTree = new CDependencyTree();
+        auto pTree = std::make_unique<CDependencyTree>();
 
-        for (auto DepIt = mDependencies.begin(); DepIt != mDependencies.end(); DepIt++)
-            pTree->AddDependency(*DepIt);
+        for (const auto& dep : mDependencies)
+            pTree->AddDependency(dep);
 
         return pTree;
     }

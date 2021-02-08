@@ -13,13 +13,7 @@
 #include <string>
 
 CScene::CScene()
-    : mSplitTerrain(true)
-    , mRanPostLoad(false)
-    , mNumNodes(0)
-    , mpSceneRootNode(new CRootNode(this, -1, nullptr))
-    , mpArea(nullptr)
-    , mpWorld(nullptr)
-    , mpAreaRootNode(nullptr)
+    : mpSceneRootNode(new CRootNode(this, UINT32_MAX, nullptr))
 {
 }
 
@@ -31,12 +25,12 @@ CScene::~CScene()
 
 bool CScene::IsNodeIDUsed(uint32 ID) const
 {
-    return (mNodeMap.find(ID) != mNodeMap.end());
+    return mNodeMap.find(ID) != mNodeMap.cend();
 }
 
-uint32 CScene::CreateNodeID(uint32 SuggestedID /*= -1*/) const
+uint32 CScene::CreateNodeID(uint32 SuggestedID) const
 {
-    if (SuggestedID != -1)
+    if (SuggestedID != UINT32_MAX)
     {
         if (IsNodeIDUsed(SuggestedID))
             errorf("Suggested node ID is already being used! New ID will be created.");
@@ -52,53 +46,57 @@ uint32 CScene::CreateNodeID(uint32 SuggestedID /*= -1*/) const
     return ID;
 }
 
-CModelNode* CScene::CreateModelNode(CModel *pModel, uint32 NodeID /*= -1*/)
+CModelNode* CScene::CreateModelNode(CModel *pModel, uint32 NodeID)
 {
-    if (pModel == nullptr) return nullptr;
+    if (pModel == nullptr)
+        return nullptr;
 
-    uint32 ID = CreateNodeID(NodeID);
-    CModelNode *pNode = new CModelNode(this, ID, mpAreaRootNode, pModel);
+    const uint32 ID = CreateNodeID(NodeID);
+    auto* pNode = new CModelNode(this, ID, mpAreaRootNode, pModel);
     mNodes[ENodeType::Model].push_back(pNode);
-    mNodeMap[ID] = pNode;
+    mNodeMap.insert_or_assign(ID, pNode);
     mNumNodes++;
     return pNode;
 }
 
-CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, uint32 NodeID /*= -1*/)
+CStaticNode* CScene::CreateStaticNode(CStaticModel *pModel, uint32 NodeID)
 {
-    if (pModel == nullptr) return nullptr;
+    if (pModel == nullptr)
+        return nullptr;
 
-    uint32 ID = CreateNodeID(NodeID);
-    CStaticNode *pNode = new CStaticNode(this, ID, mpAreaRootNode, pModel);
+    const uint32 ID = CreateNodeID(NodeID);
+    auto* pNode = new CStaticNode(this, ID, mpAreaRootNode, pModel);
     mNodes[ENodeType::Static].push_back(pNode);
-    mNodeMap[ID] = pNode;
+    mNodeMap.insert_or_assign(ID, pNode);
     mNumNodes++;
     return pNode;
 }
 
-CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 NodeID /*= -1*/)
+CCollisionNode* CScene::CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 NodeID)
 {
-    if (pMesh == nullptr) return nullptr;
+    if (pMesh == nullptr)
+        return nullptr;
 
-    uint32 ID = CreateNodeID(NodeID);
-    CCollisionNode *pNode = new CCollisionNode(this, ID, mpAreaRootNode, pMesh);
+    const uint32 ID = CreateNodeID(NodeID);
+    auto* pNode = new CCollisionNode(this, ID, mpAreaRootNode, pMesh);
     mNodes[ENodeType::Collision].push_back(pNode);
-    mNodeMap[ID] = pNode;
+    mNodeMap.insert_or_assign(ID, pNode);
     mNumNodes++;
     return pNode;
 }
 
-CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID /*= -1*/)
+CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID)
 {
-    if (pObj == nullptr) return nullptr;
+    if (pObj == nullptr)
+        return nullptr;
 
-    uint32 ID = CreateNodeID(NodeID);
-    uint32 InstanceID = pObj->InstanceID();
+    const uint32 ID = CreateNodeID(NodeID);
+    const uint32 InstanceID = pObj->InstanceID();
 
-    CScriptNode *pNode = new CScriptNode(this, ID, mpAreaRootNode, pObj);
+    auto *pNode = new CScriptNode(this, ID, mpAreaRootNode, pObj);
     mNodes[ENodeType::Script].push_back(pNode);
-    mNodeMap[ID] = pNode;
-    mScriptMap[InstanceID] = pNode;
+    mNodeMap.insert_or_assign(ID, pNode);
+    mScriptMap.insert_or_assign(InstanceID, pNode);
     pNode->BuildLightList(mpArea);
 
     // AreaAttributes check
@@ -106,7 +104,7 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID /*= -1*
     {
     case 0x4E:           // MP1 AreaAttributes ID
     case FOURCC('REAA'): // MP2/MP3/DKCR AreaAttributes ID
-        mAreaAttributesObjects.emplace_back( CAreaAttributes(pObj) );
+        mAreaAttributesObjects.emplace_back(pObj);
         break;
     }
 
@@ -114,48 +112,48 @@ CScriptNode* CScene::CreateScriptNode(CScriptObject *pObj, uint32 NodeID /*= -1*
     return pNode;
 }
 
-CLightNode* CScene::CreateLightNode(CLight *pLight, uint32 NodeID /*= -1*/)
+CLightNode* CScene::CreateLightNode(CLight *pLight, uint32 NodeID)
 {
-    if (pLight == nullptr) return nullptr;
+    if (pLight == nullptr)
+        return nullptr;
 
-    uint32 ID = CreateNodeID(NodeID);
-    CLightNode *pNode = new CLightNode(this, ID, mpAreaRootNode, pLight);
+    const uint32 ID = CreateNodeID(NodeID);
+    auto *pNode = new CLightNode(this, ID, mpAreaRootNode, pLight);
     mNodes[ENodeType::Light].push_back(pNode);
-    mNodeMap[ID] = pNode;
+    mNodeMap.insert_or_assign(ID, pNode);
     mNumNodes++;
     return pNode;
 }
 
 void CScene::DeleteNode(CSceneNode *pNode)
 {
-    ENodeType Type = pNode->NodeType();
+    const ENodeType Type = pNode->NodeType();
+    auto& nodeEntry = mNodes[Type];
 
-    for (auto it = mNodes[Type].begin(); it != mNodes[Type].end(); it++)
+    for (auto it = nodeEntry.begin(); it != nodeEntry.end(); ++it)
     {
         if (*it == pNode)
         {
-            mNodes[Type].erase(it);
+            nodeEntry.erase(it);
             break;
         }
     }
 
-    auto MapIt = mNodeMap.find(pNode->ID());
-    if (MapIt != mNodeMap.end())
+    if (const auto MapIt = mNodeMap.find(pNode->ID()); MapIt != mNodeMap.end())
         mNodeMap.erase(MapIt);
 
     if (Type == ENodeType::Script)
     {
-        CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
+        auto *pScript = static_cast<CScriptNode*>(pNode);
 
-        auto it = mScriptMap.find(pScript->Instance()->InstanceID());
-        if (it != mScriptMap.end())
+        if (const auto it = mScriptMap.find(pScript->Instance()->InstanceID()); it != mScriptMap.end())
             mScriptMap.erase(it);
 
         switch (pScript->Instance()->ObjectTypeID())
         {
         case 0x4E:
         case FOURCC('REAA'):
-            for (auto it = mAreaAttributesObjects.begin(); it != mAreaAttributesObjects.end(); it++)
+            for (auto it = mAreaAttributesObjects.begin(); it != mAreaAttributesObjects.end(); ++it)
             {
                 if ((*it).Instance() == pScript->Instance())
                 {
@@ -180,39 +178,39 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     // Create nodes for new area
     mpWorld = pWorld;
     mpArea = pArea;
-    mpAreaRootNode = new CRootNode(this, -1, mpSceneRootNode);
+    mpAreaRootNode = new CRootNode(this, UINT32_MAX, mpSceneRootNode);
 
     // Create static nodes
-    uint32 Count = mpArea->NumStaticModels();
+    size_t Count = mpArea->NumStaticModels();
 
-    for (uint32 iMdl = 0; iMdl < Count; iMdl++)
+    for (size_t iMdl = 0; iMdl < Count; iMdl++)
     {
         CStaticNode *pNode = CreateStaticNode(mpArea->StaticModel(iMdl));
-        pNode->SetName("Static World Model " + TString::FromInt32(iMdl, 0, 10));
+        pNode->SetName("Static World Model " + std::to_string(iMdl));
     }
 
     // Create model nodes
     Count = mpArea->NumWorldModels();
 
-    for (uint32 iMdl = 0; iMdl < Count; iMdl++)
+    for (size_t iMdl = 0; iMdl < Count; iMdl++)
     {
         CModel *pModel = mpArea->TerrainModel(iMdl);
         CModelNode *pNode = CreateModelNode(pModel);
-        pNode->SetName("World Model " + TString::FromInt32(iMdl, 0, 10));
+        pNode->SetName("World Model " + std::to_string(iMdl));
         pNode->SetWorldModel(true);
     }
 
     CreateCollisionNode(mpArea->Collision());
 
-    uint32 NumLayers = mpArea->NumScriptLayers();
+    const size_t NumLayers = mpArea->NumScriptLayers();
 
-    for (uint32 iLyr = 0; iLyr < NumLayers; iLyr++)
+    for (size_t iLyr = 0; iLyr < NumLayers; iLyr++)
     {
         CScriptLayer *pLayer = mpArea->ScriptLayer(iLyr);
-        uint32 NumObjects = pLayer->NumInstances();
+        const size_t NumObjects = pLayer->NumInstances();
         mNodes[ENodeType::Script].reserve(mNodes[ENodeType::Script].size() + NumObjects);
 
-        for (uint32 iObj = 0; iObj < NumObjects; iObj++)
+        for (size_t iObj = 0; iObj < NumObjects; iObj++)
         {
             CScriptObject *pObj = pLayer->InstanceByIndex(iObj);
             CreateScriptNode(pObj);
@@ -227,14 +225,14 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
         pScript->BuildLightList(mpArea);
     }
 
-    uint32 NumLightLayers = mpArea->NumLightLayers();
-    CGraphics::sAreaAmbientColor = CColor::skTransparentBlack;
+    const size_t NumLightLayers = mpArea->NumLightLayers();
+    CGraphics::sAreaAmbientColor = CColor::TransparentBlack();
 
-    for (uint32 iLyr = 0; iLyr < NumLightLayers; iLyr++)
+    for (size_t iLyr = 0; iLyr < NumLightLayers; iLyr++)
     {
-        uint32 NumLights = mpArea->NumLights(iLyr);
+        const size_t NumLights = mpArea->NumLights(iLyr);
 
-        for (uint32 iLit = 0; iLit < NumLights; iLit++)
+        for (size_t iLit = 0; iLit < NumLights; iLit++)
         {
             CLight *pLight = mpArea->Light(iLyr, iLit);
 
@@ -281,8 +279,8 @@ void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
         PostLoad();
 
     // Override show flags in game mode
-    FShowFlags ShowFlags = (rkViewInfo.GameMode ? gkGameModeShowFlags : rkViewInfo.ShowFlags);
-    FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
+    const FShowFlags ShowFlags = rkViewInfo.GameMode ? gkGameModeShowFlags : rkViewInfo.ShowFlags;
+    const FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
 
     for (CSceneIterator It(this, NodeFlags, false); It; ++It)
     {
@@ -293,8 +291,8 @@ void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
 
 SRayIntersection CScene::SceneRayCast(const CRay& rkRay, const SViewInfo& rkViewInfo)
 {
-    FShowFlags ShowFlags = (rkViewInfo.GameMode ? gkGameModeShowFlags : rkViewInfo.ShowFlags);
-    FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
+    const FShowFlags ShowFlags = rkViewInfo.GameMode ? gkGameModeShowFlags : rkViewInfo.ShowFlags;
+    const FNodeFlags NodeFlags = NodeFlagsForShowFlags(ShowFlags);
     CRayCollisionTester Tester(rkRay);
 
     for (CSceneIterator It(this, NodeFlags, false); It; ++It)
@@ -308,18 +306,22 @@ SRayIntersection CScene::SceneRayCast(const CRay& rkRay, const SViewInfo& rkView
 
 CSceneNode* CScene::NodeByID(uint32 NodeID)
 {
-    auto it = mNodeMap.find(NodeID);
+    const auto it = mNodeMap.find(NodeID);
 
-    if (it != mNodeMap.end()) return it->second;
-    else return nullptr;
+    if (it != mNodeMap.cend())
+        return it->second;
+
+    return nullptr;
 }
 
 CScriptNode* CScene::NodeForInstanceID(uint32 InstanceID)
 {
-    auto it = mScriptMap.find(InstanceID);
+    const auto it = mScriptMap.find(InstanceID);
 
-    if (it != mScriptMap.end()) return it->second;
-    else return nullptr;
+    if (it != mScriptMap.cend())
+        return it->second;
+
+    return nullptr;
 }
 
 CScriptNode* CScene::NodeForInstance(CScriptObject *pObj)
@@ -332,23 +334,23 @@ CLightNode* CScene::NodeForLight(CLight *pLight)
     // Slow. Is there a better way to do this?
     std::vector<CSceneNode*>& rLights = mNodes[ENodeType::Light];
 
-    for (auto it = rLights.begin(); it != rLights.end(); it++)
-    {
-        CLightNode *pNode = static_cast<CLightNode*>(*it);
-        if (pNode->Light() == pLight) return pNode;
-    }
+    const auto iter = std::find_if(rLights.begin(), rLights.end(),
+                                   [pLight](const auto* entry) { return static_cast<const CLightNode*>(entry)->Light() == pLight; });
 
-    return nullptr;
+    if (iter == rLights.cend())
+        return nullptr;
+
+    return static_cast<CLightNode*>(*iter);
 }
 
 CModel* CScene::ActiveSkybox()
 {
     bool SkyEnabled = false;
 
-    for (uint32 iAtt = 0; iAtt < mAreaAttributesObjects.size(); iAtt++)
+    for (auto& rkAttributes : mAreaAttributesObjects)
     {
-        const CAreaAttributes& rkAttributes = mAreaAttributesObjects[iAtt];
-        if (rkAttributes.IsSkyEnabled()) SkyEnabled = true;
+        if (rkAttributes.IsSkyEnabled())
+            SkyEnabled = true;
 
         if (rkAttributes.IsLayerEnabled())
         {
@@ -356,13 +358,16 @@ CModel* CScene::ActiveSkybox()
             {
                 SkyEnabled = true;
                 CModel *pSky = rkAttributes.SkyModel();
-                if (pSky) return pSky;
+                if (pSky != nullptr)
+                    return pSky;
             }
         }
     }
 
-    if (SkyEnabled) return mpWorld->DefaultSkybox();
-    else return nullptr;
+    if (SkyEnabled)
+        return mpWorld->DefaultSkybox();
+
+    return nullptr;
 }
 
 CGameArea* CScene::ActiveArea()
@@ -374,21 +379,21 @@ CGameArea* CScene::ActiveArea()
 FShowFlags CScene::ShowFlagsForNodeFlags(FNodeFlags NodeFlags)
 {
     FShowFlags Out;
-    if (NodeFlags & ENodeType::Model)       Out |= EShowFlag::SplitWorld;
-    if (NodeFlags & ENodeType::Static)      Out |= EShowFlag::MergedWorld;
-    if (NodeFlags & ENodeType::Script)      Out |= EShowFlag::Objects;
-    if (NodeFlags & ENodeType::Collision)   Out |= EShowFlag::WorldCollision;
-    if (NodeFlags & ENodeType::Light)       Out |= EShowFlag::Lights;
+    if ((NodeFlags & ENodeType::Model) != 0)     Out |= EShowFlag::SplitWorld;
+    if ((NodeFlags & ENodeType::Static) != 0)    Out |= EShowFlag::MergedWorld;
+    if ((NodeFlags & ENodeType::Script) != 0)    Out |= EShowFlag::Objects;
+    if ((NodeFlags & ENodeType::Collision) != 0) Out |= EShowFlag::WorldCollision;
+    if ((NodeFlags & ENodeType::Light) != 0)     Out |= EShowFlag::Lights;
     return Out;
 }
 
 FNodeFlags CScene::NodeFlagsForShowFlags(FShowFlags ShowFlags)
 {
     FNodeFlags Out = ENodeType::Root;
-    if (ShowFlags & EShowFlag::SplitWorld)      Out |= ENodeType::Model;
-    if (ShowFlags & EShowFlag::MergedWorld)     Out |= ENodeType::Static;
-    if (ShowFlags & EShowFlag::WorldCollision)  Out |= ENodeType::Collision;
-    if (ShowFlags & EShowFlag::Objects)         Out |= ENodeType::Script | ENodeType::ScriptExtra;
-    if (ShowFlags & EShowFlag::Lights)          Out |= ENodeType::Light;
+    if ((ShowFlags & EShowFlag::SplitWorld) != 0)      Out |= ENodeType::Model;
+    if ((ShowFlags & EShowFlag::MergedWorld) != 0)     Out |= ENodeType::Static;
+    if ((ShowFlags & EShowFlag::WorldCollision) != 0)  Out |= ENodeType::Collision;
+    if ((ShowFlags & EShowFlag::Objects) != 0)         Out |= ENodeType::Script | ENodeType::ScriptExtra;
+    if ((ShowFlags & EShowFlag::Lights) != 0)          Out |= ENodeType::Light;
     return Out;
 }

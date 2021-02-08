@@ -8,6 +8,8 @@
 #include <QAction>
 #include <QMenu>
 
+#include <memory>
+
 class CWorldEditor;
 class CScene;
 
@@ -43,8 +45,8 @@ class WInstancesTab : public QWidget
     CInstancesModel::EIndexType mMenuIndexType;
 
 public:
-    explicit WInstancesTab(CWorldEditor *pEditor, QWidget *parent = 0);
-    ~WInstancesTab();
+    explicit WInstancesTab(CWorldEditor *pEditor, QWidget *parent = nullptr);
+    ~WInstancesTab() override;
 
 private slots:
     void OnTreeClick(QModelIndex Index);
@@ -61,7 +63,7 @@ private slots:
     void ExpandTopLevelItems();
 
 private:
-    Ui::WInstancesTab *ui;
+    std::unique_ptr<Ui::WInstancesTab> ui;
 };
 
 #endif // WINSTANCESTAB_H

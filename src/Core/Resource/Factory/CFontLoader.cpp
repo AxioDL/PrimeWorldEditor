@@ -1,36 +1,33 @@
 #include "CFontLoader.h"
 #include <Common/Log.h>
-#include <iostream>
 
-CFontLoader::CFontLoader()
-{
-}
+CFontLoader::CFontLoader() = default;
 
-CFont* CFontLoader::LoadFont(IInputStream& rFONT)
+void CFontLoader::LoadFont(IInputStream& rFONT)
 {
     // If I seek past a value without reading it, then it's because I don't know what it is
-    mpFont->mUnknown = rFONT.ReadLong();
-    mpFont->mLineHeight = rFONT.ReadLong();
-    mpFont->mVerticalOffset = rFONT.ReadLong();
-    mpFont->mLineMargin = rFONT.ReadLong();
+    mpFont->mUnknown = rFONT.ReadULong();
+    mpFont->mLineHeight = rFONT.ReadULong();
+    mpFont->mVerticalOffset = rFONT.ReadULong();
+    mpFont->mLineMargin = rFONT.ReadULong();
     if (mVersion > EGame::PrimeDemo) rFONT.Seek(0x4, SEEK_CUR);
     rFONT.Seek(0x2, SEEK_CUR);
-    mpFont->mDefaultSize = rFONT.ReadLong();
+    mpFont->mDefaultSize = rFONT.ReadULong();
     mpFont->mFontName = rFONT.ReadString();
     mpFont->mpFontTexture = gpResourceStore->LoadResource(CAssetID(rFONT, mVersion), EResourceType::Texture);
-    mpFont->mTextureFormat = rFONT.ReadLong();
-    uint32 NumGlyphs = rFONT.ReadLong();
+    mpFont->mTextureFormat = rFONT.ReadULong();
+    const uint32 NumGlyphs = rFONT.ReadULong();
     mpFont->mGlyphs.reserve(NumGlyphs);
 
     for (uint32 iGlyph = 0; iGlyph < NumGlyphs; iGlyph++)
     {
         CFont::SGlyph Glyph;
-        Glyph.Character = rFONT.ReadShort();
+        Glyph.Character = rFONT.ReadUShort();
 
-        float TexCoordL = rFONT.ReadFloat();
-        float TexCoordU = rFONT.ReadFloat();
-        float TexCoordR = rFONT.ReadFloat();
-        float TexCoordD = rFONT.ReadFloat();
+        const float TexCoordL = rFONT.ReadFloat();
+        const float TexCoordU = rFONT.ReadFloat();
+        const float TexCoordR = rFONT.ReadFloat();
+        const float TexCoordD = rFONT.ReadFloat();
         Glyph.TexCoords[0] = CVector2f(TexCoordL, TexCoordU); // Upper-left
         Glyph.TexCoords[1] = CVector2f(TexCoordR, TexCoordU); // Upper-right
         Glyph.TexCoords[2] = CVector2f(TexCoordL, TexCoordD); // Lower-left
@@ -42,63 +39,65 @@ CFont* CFontLoader::LoadFont(IInputStream& rFONT)
             Glyph.LeftPadding = rFONT.ReadLong();
             Glyph.PrintAdvance = rFONT.ReadLong();
             Glyph.RightPadding = rFONT.ReadLong();
-            Glyph.Width = rFONT.ReadLong();
-            Glyph.Height = rFONT.ReadLong();
-            Glyph.BaseOffset = rFONT.ReadLong();
-            Glyph.KerningIndex = rFONT.ReadLong();
+            Glyph.Width = rFONT.ReadULong();
+            Glyph.Height = rFONT.ReadULong();
+            Glyph.BaseOffset = rFONT.ReadULong();
+            Glyph.KerningIndex = rFONT.ReadULong();
         }
         else if (mVersion >= EGame::Echoes)
         {
-            Glyph.RGBAChannel = rFONT.ReadByte();
+            Glyph.RGBAChannel = rFONT.ReadUByte();
             Glyph.LeftPadding = rFONT.ReadByte();
-            Glyph.PrintAdvance = rFONT.ReadByte();
+            Glyph.PrintAdvance = rFONT.ReadUByte();
             Glyph.RightPadding = rFONT.ReadByte();
-            Glyph.Width = rFONT.ReadByte();
-            Glyph.Height = rFONT.ReadByte();
-            Glyph.BaseOffset = rFONT.ReadByte();
-            Glyph.KerningIndex = rFONT.ReadShort();
+            Glyph.Width = rFONT.ReadUByte();
+            Glyph.Height = rFONT.ReadUByte();
+            Glyph.BaseOffset = rFONT.ReadUByte();
+            Glyph.KerningIndex = rFONT.ReadUShort();
         }
-        mpFont->mGlyphs[Glyph.Character] = Glyph;
+        mpFont->mGlyphs.insert_or_assign(Glyph.Character, Glyph);
     }
 
-    uint32 NumKerningPairs = rFONT.ReadLong();
+    const uint32 NumKerningPairs = rFONT.ReadULong();
     mpFont->mKerningTable.reserve(NumKerningPairs);
 
     for (uint32 iKern = 0; iKern < NumKerningPairs; iKern++)
     {
-        CFont::SKerningPair Pair;
-        Pair.CharacterA = rFONT.ReadShort();
-        Pair.CharacterB = rFONT.ReadShort();
+        auto& Pair = mpFont->mKerningTable.emplace_back();
+        Pair.CharacterA = rFONT.ReadUShort();
+        Pair.CharacterB = rFONT.ReadUShort();
         Pair.Adjust = rFONT.ReadLong();
-        mpFont->mKerningTable.push_back(Pair);
     }
-
-    return mpFont;
 }
 
-CFont* CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
+std::unique_ptr<CFont> CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry)
 {
-    if (!rFONT.IsValid()) return nullptr;
+    if (!rFONT.IsValid())
+        return nullptr;
 
-    CFourCC Magic(rFONT);
+    const CFourCC Magic(rFONT);
     if (Magic != FOURCC('FONT'))
     {
         errorf("%s: Invalid FONT magic: 0x%08X", *rFONT.GetSourceString(), Magic.ToLong());
         return nullptr;
     }
 
-    uint32 FileVersion = rFONT.ReadLong();
-    EGame Version = GetFormatVersion(FileVersion);
+    const uint32 FileVersion = rFONT.ReadULong();
+    const EGame Version = GetFormatVersion(FileVersion);
     if (Version == EGame::Invalid)
     {
-        errorf("%s: Unsupported FONT version: %d", *rFONT.GetSourceString(), FileVersion);
+        errorf("%s: Unsupported FONT version: %u", *rFONT.GetSourceString(), FileVersion);
         return nullptr;
     }
 
+    auto ptr = std::make_unique<CFont>(pEntry);
+
     CFontLoader Loader;
-    Loader.mpFont = new CFont(pEntry);
+    Loader.mpFont = ptr.get();
     Loader.mVersion = Version;
-    return Loader.LoadFont(rFONT);
+    Loader.LoadFont(rFONT);
+
+    return ptr;
 }
 
 EGame CFontLoader::GetFormatVersion(uint32 Version)

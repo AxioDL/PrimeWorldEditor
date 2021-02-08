@@ -4,17 +4,18 @@
 #include "Core/GameProject/CResourceStore.h"
 #include "Core/Resource/CFont.h"
 #include <Common/EGame.h>
+#include <memory>
 
 class CFontLoader
 {
     TResPtr<CFont> mpFont;
-    EGame mVersion;
+    EGame mVersion{};
 
     CFontLoader();
-    CFont* LoadFont(IInputStream& rFONT);
+    void LoadFont(IInputStream& rFONT);
 
 public:
-    static CFont* LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry);
+    static std::unique_ptr<CFont> LoadFONT(IInputStream& rFONT, CResourceEntry *pEntry);
     static EGame GetFormatVersion(uint32 Version);
 };
 

@@ -17,11 +17,11 @@ ENodeType CCharacterNode::NodeType()
 
 void CCharacterNode::PostLoad()
 {
-    if (mpCharacter)
-    {
-        for (uint32 iChar = 0; iChar < mpCharacter->NumCharacters(); iChar++)
-            mpCharacter->Character(iChar)->pModel->BufferGL();
-    }
+    if (mpCharacter == nullptr)
+        return;
+
+    for (size_t iChar = 0; iChar < mpCharacter->NumCharacters(); iChar++)
+        mpCharacter->Character(iChar)->pModel->BufferGL();
 }
 
 void CCharacterNode::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo)
@@ -62,9 +62,9 @@ void CCharacterNode::Draw(FRenderOptions Options, int ComponentIndex, ERenderCom
         CGraphics::SetDefaultLighting();
         CGraphics::UpdateLightBlock();
         CGraphics::sVertexBlock.COLOR0_Amb = CGraphics::skDefaultAmbientColor;
-        CGraphics::sVertexBlock.COLOR0_Mat = CColor::skTransparentWhite;
+        CGraphics::sVertexBlock.COLOR0_Mat = CColor::TransparentWhite();
         CGraphics::sPixelBlock.LightmapMultiplier = 1.f;
-        CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
+        CGraphics::sPixelBlock.SetAllTevColors(CColor::White());
         CGraphics::sPixelBlock.TintColor = TintColor(rkViewInfo);
         LoadModelMatrix();
 
@@ -126,7 +126,7 @@ void CCharacterNode::SetCharSet(CAnimSet *pChar)
     ConditionalSetDirty();
 
     if (!mpCharacter)
-        mLocalAABox = CAABox::skOne;
+        mLocalAABox = CAABox::One();
 }
 
 void CCharacterNode::SetActiveChar(uint32 CharIndex)
@@ -138,7 +138,7 @@ void CCharacterNode::SetActiveChar(uint32 CharIndex)
     {
         CModel *pModel = mpCharacter->Character(CharIndex)->pModel;
         mTransformData.ResizeToSkeleton(mpCharacter->Character(CharIndex)->pSkeleton);
-        mLocalAABox = pModel ? pModel->AABox() : CAABox::skZero;
+        mLocalAABox = pModel ? pModel->AABox() : CAABox::Zero();
         MarkTransformChanged();
     }
 }

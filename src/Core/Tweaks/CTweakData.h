@@ -14,16 +14,16 @@ class CTweakData : public CResource
     CScriptTemplate* mpTemplate;
 
     /** Tweak ID for MP2+ */
-    uint mTweakID;
+    uint32 mTweakID;
 
     /** Tweak data */
     std::vector<uint8> mTweakData;
 
 public:
-    CTweakData(CScriptTemplate* pTemplate, uint TweakID, CResourceEntry* pEntry = 0)
-        : mpTemplate(pTemplate)
+    CTweakData(CScriptTemplate* pTemplate, uint32 TweakID, CResourceEntry* pEntry = nullptr)
+        : CResource(pEntry)
+        , mpTemplate(pTemplate)
         , mTweakID(TweakID)
-        , CResource(pEntry)
     {
         CStructProperty* pProperties = pTemplate->Properties();
         mTweakData.resize(pProperties->DataSize());
@@ -43,17 +43,17 @@ public:
         }
     }
 
-    inline CScriptTemplate* TweakTemplate() const
+    CScriptTemplate* TweakTemplate() const
     {
         return mpTemplate;
     }
 
-    inline uint32 TweakID() const
+    uint32 TweakID() const
     {
         return mTweakID;
     }
 
-    inline CStructRef TweakData() const
+    CStructRef TweakData() const
     {
         return CStructRef((void*) mTweakData.data(), mpTemplate->Properties());
     }

@@ -11,18 +11,18 @@ CCloneSelectionCommand::CCloneSelectionCommand(INodeEditor *pEditor)
     {
         if (It->NodeType() == ENodeType::Script)
         {
-            mNodesToClone << *It;
+            mNodesToClone.push_back(*It);
 
             // Fetch linked objects
             CScriptNode *pScript = static_cast<CScriptNode*>(*It);
             CScriptObject *pInst = pScript->Instance();
 
-            for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
+            for (size_t iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
             {
                 CScriptNode *pNode = mpEditor->Scene()->NodeForInstance(pInst->Link(ELinkType::Outgoing, iLink)->Receiver());
 
                 if (!pNode->IsSelected())
-                    mLinkedInstances << pNode->Instance();
+                    mLinkedInstances.push_back(pNode->Instance());
             }
         }
     }
@@ -33,7 +33,7 @@ void CCloneSelectionCommand::undo()
     QList<CSceneNode*> ClonedNodes = mClonedNodes.DereferenceList();
     mpEditor->Selection()->Clear();
 
-    foreach (CSceneNode *pNode, ClonedNodes)
+    for (CSceneNode *pNode : ClonedNodes)
     {
         CScriptObject *pInst = static_cast<CScriptNode*>(pNode)->Instance();
 
@@ -56,7 +56,7 @@ void CCloneSelectionCommand::redo()
     QList<uint32> ClonedInstanceIDs;
 
     // Clone nodes
-    foreach (CSceneNode *pNode, ToClone)
+    for (CSceneNode *pNode : ToClone)
     {
         mpEditor->NotifyNodeAboutToBeSpawned();
         CScriptNode *pScript = static_cast<CScriptNode*>(pNode);
@@ -72,10 +72,10 @@ void CCloneSelectionCommand::redo()
         pCloneNode->SetRotation(pScript->LocalRotation());
         pCloneNode->SetScale(pScript->LocalScale());
 
-        ToCloneInstanceIDs << pInstance->InstanceID();
-        ClonedInstanceIDs << pCloneInst->InstanceID();
-        ClonedNodes << pCloneNode;
-        mClonedNodes << pCloneNode;
+        ToCloneInstanceIDs.push_back(pInstance->InstanceID());
+        ClonedInstanceIDs.push_back(pCloneInst->InstanceID());
+        ClonedNodes.push_back(pCloneNode);
+        mClonedNodes.push_back(pCloneNode);
         mpEditor->NotifyNodeSpawned(pCloneNode);
     }
 
@@ -85,7 +85,7 @@ void CCloneSelectionCommand::redo()
         CScriptObject *pSrc = static_cast<CScriptNode*>(ToClone[iNode])->Instance();
         CScriptObject *pClone = static_cast<CScriptNode*>(ClonedNodes[iNode])->Instance();
 
-        for (uint32 iLink = 0; iLink < pSrc->NumLinks(ELinkType::Outgoing); iLink++)
+        for (size_t iLink = 0; iLink < pSrc->NumLinks(ELinkType::Outgoing); iLink++)
         {
             CLink *pSrcLink = pSrc->Link(ELinkType::Outgoing, iLink);
 
@@ -101,7 +101,7 @@ void CCloneSelectionCommand::redo()
     }
 
     // Call LoadFinished
-    foreach (CSceneNode *pNode, ClonedNodes)
+    for (CSceneNode *pNode : ClonedNodes)
         pNode->OnLoadFinished();
 
     mpEditor->OnLinksModified(mLinkedInstances.DereferenceList());

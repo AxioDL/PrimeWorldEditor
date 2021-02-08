@@ -5,7 +5,6 @@
 
 CVirtualDirectoryTreeView::CVirtualDirectoryTreeView(QWidget *pParent)
     : QTreeView(pParent)
-    , mTransferSelectionPostMove(false)
 {
     // slightly hacky cuz there's not really a good way to pass in CResourceBrowser as a parameter
     // due to the fact that we set this class in the .ui file
@@ -19,8 +18,8 @@ CVirtualDirectoryTreeView::CVirtualDirectoryTreeView(QWidget *pParent)
     }
     ASSERT(pBrowser);
 
-    connect(pBrowser, SIGNAL(DirectoryAboutToBeMoved(CVirtualDirectory*,QString)), this, SLOT(OnDirectoryAboutToBeMoved(CVirtualDirectory*)));
-    connect(pBrowser, SIGNAL(DirectoryMoved(CVirtualDirectory*,CVirtualDirectory*,TString)), this, SLOT(OnDirectoryMoved(CVirtualDirectory*)));
+    connect(pBrowser, &CResourceBrowser::DirectoryAboutToBeMoved, this, &CVirtualDirectoryTreeView::OnDirectoryAboutToBeMoved);
+    connect(pBrowser, &CResourceBrowser::DirectoryMoved, this, &CVirtualDirectoryTreeView::OnDirectoryMoved);
 }
 
 void CVirtualDirectoryTreeView::dragEnterEvent(QDragEnterEvent *pEvent)
@@ -48,31 +47,32 @@ void CVirtualDirectoryTreeView::setModel(QAbstractItemModel *pModel)
     }
 }
 
-void CVirtualDirectoryTreeView::OnDirectoryAboutToBeMoved(CVirtualDirectory *pDir)
+void CVirtualDirectoryTreeView::OnDirectoryAboutToBeMoved(const CVirtualDirectory *pDir)
 {
-    if (mpModel)
-    {
-        QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
+    if (mpModel == nullptr)
+        return;
 
-        if (selectionModel()->currentIndex() == Index)
-            mTransferSelectionPostMove = true;
-    }
+    const QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
+
+    if (selectionModel()->currentIndex() == Index)
+        mTransferSelectionPostMove = true;
 }
 
-void CVirtualDirectoryTreeView::OnDirectoryMoved(CVirtualDirectory *pDir)
+void CVirtualDirectoryTreeView::OnDirectoryMoved(const CVirtualDirectory *pDir)
 {
-    if (mTransferSelectionPostMove)
+    if (!mTransferSelectionPostMove)
+        return;
+
+    // Make sure the model has updated first
+    mpModel->FinishModelChanges();
+
+    const QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
+
     {
-        // Make sure the model has updated first
-        mpModel->FinishModelChanges();
-
-        QModelIndex Index = mpModel->GetIndexForDirectory(pDir);
-
-        blockSignals(true);
+        [[maybe_unused]] const QSignalBlocker blocker{this};
         expand(Index.parent());
         selectionModel()->setCurrentIndex(Index, QItemSelectionModel::ClearAndSelect);
-        blockSignals(false);
-
-        mTransferSelectionPostMove = false;
     }
+
+    mTransferSelectionPostMove = false;
 }

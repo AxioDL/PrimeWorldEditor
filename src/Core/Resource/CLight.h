@@ -19,17 +19,17 @@ enum class ELightType
 
 class CLight
 {
-    ELightType mType;
-    uint32 mLayerIndex;
-    CVector3f mPosition;
-    CVector3f mDirection;
+    ELightType mType{};
+    uint32 mLayerIndex = 0;
+    CVector3f mPosition{skDefaultLightPos};
+    CVector3f mDirection{skDefaultLightDir};
     CColor mColor;
-    float mSpotCutoff;
-    CVector3f mDistAttenCoefficients;
-    CVector3f mAngleAttenCoefficients;
+    float mSpotCutoff = 0.0f;
+    CVector3f mDistAttenCoefficients{0.f, 1.f, 0.f};
+    CVector3f mAngleAttenCoefficients{0.f, 1.f, 0.f};
 
-    mutable float mCachedRadius;
-    mutable float mCachedIntensity;
+    mutable float mCachedRadius = 0.0f;
+    mutable float mCachedIntensity = 0.0f;
     mutable uint8 mDirtyFlags;
 
 public:
@@ -39,21 +39,21 @@ private:
     // Data Manipulation
     float CalculateRadius() const;
     float CalculateIntensity() const;
-    CVector3f CalculateSpotAngleAtten();
+    CVector3f CalculateSpotAngleAtten() const;
 
 public:
     // Accessors
-    inline ELightType Type() const              { return mType; }
-    inline uint32 LayerIndex() const            { return mLayerIndex; }
-    inline CVector3f Position() const           { return mPosition; }
-    inline CVector3f Direction() const          { return mDirection; }
-    inline CColor Color() const                 { return mColor; }
-    inline CVector3f DistAttenuation() const    { return mDistAttenCoefficients; }
-    inline CVector3f AngleAttenuation() const   { return mAngleAttenCoefficients; }
+    ELightType Type() const              { return mType; }
+    uint32 LayerIndex() const            { return mLayerIndex; }
+    CVector3f Position() const           { return mPosition; }
+    CVector3f Direction() const          { return mDirection; }
+    CColor Color() const                 { return mColor; }
+    CVector3f DistAttenuation() const    { return mDistAttenCoefficients; }
+    CVector3f AngleAttenuation() const   { return mAngleAttenCoefficients; }
 
-    inline void SetLayer(uint32 Index)                      { mLayerIndex = Index; }
-    inline void SetPosition(const CVector3f& rkPosition)    { mPosition = rkPosition; }
-    inline void SetDirection(const CVector3f& rkDirection)  { mDirection = rkDirection; }
+    void SetLayer(uint32 Index)                      { mLayerIndex = Index; }
+    void SetPosition(const CVector3f& rkPosition)    { mPosition = rkPosition; }
+    void SetDirection(const CVector3f& rkDirection)  { mDirection = rkDirection; }
 
     float GetRadius() const;
     float GetIntensity() const;
@@ -77,8 +77,8 @@ public:
                               float AngleAttenA, float AngleAttenB, float AngleAttenC);
 
     // Constants
-    static const CVector3f skDefaultLightPos;
-    static const CVector3f skDefaultLightDir;
+    static constexpr CVector3f skDefaultLightPos{0.f, 0.f, 0.f};
+    static constexpr CVector3f skDefaultLightDir{0.f, -1.f, 0.f};
 };
 
 #endif // CLIGHT_H

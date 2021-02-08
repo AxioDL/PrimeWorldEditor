@@ -6,16 +6,14 @@
 
 CWaypointExtra::CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent)
     : CScriptExtra(pInstance, pScene, pParent)
-    , mColor(CColor::skBlack)
-    , mLinksBuilt(false)
 {
     CheckColor();
 }
 
 CWaypointExtra::~CWaypointExtra()
 {
-    for (auto it = mPaths.begin(); it != mPaths.end(); it++)
-        (*it)->RemoveWaypoint(this);
+    for (auto& path : mPaths)
+        path->RemoveWaypoint(this);
 }
 
 void CWaypointExtra::CheckColor()
@@ -26,24 +24,21 @@ void CWaypointExtra::CheckColor()
         CSplinePathExtra *pPath = mPaths.front();
         mColor = pPath->PathColor();
     }
-
     // Fetch color from parent node's model (MP1/2/3)
     else if (mGame < EGame::DKCReturns)
     {
-        CScriptNode *pScript = static_cast<CScriptNode*>(mpParent);
+        auto *pScript = static_cast<CScriptNode*>(mpParent);
         CModel *pModel = pScript->ActiveModel();
 
-        if (pModel && (pModel->GetMatSetCount() > 0) && (pModel->GetMatCount() > 0))
+        if (pModel != nullptr && (pModel->GetMatSetCount() > 0) && (pModel->GetMatCount() > 0))
         {
-            CMaterial *pMat = pModel->GetMaterialByIndex(0, 0);
+            const CMaterial *pMat = pModel->GetMaterialByIndex(0, 0);
             mColor = pMat->Konst(0);
         }
     }
-
-    // Use preset color (DKCR)
-    else
+    else // Use preset color (DKCR)
     {
-        mColor = CColor::skCyan;
+        mColor = CColor::Cyan();
     }
 
     mColor.A = 0;
@@ -51,37 +46,36 @@ void CWaypointExtra::CheckColor()
 
 void CWaypointExtra::AddToSplinePath(CSplinePathExtra *pPath)
 {
-    for (auto it = mPaths.begin(); it != mPaths.end(); it++)
-    {
-        if (*it == pPath)
-            return;
-    }
+    const auto iter = std::find_if(mPaths.cbegin(), mPaths.cend(),
+                                   [pPath](const auto* entry) { return entry == pPath; });
+
+    if (iter != mPaths.cend())
+        return;
 
     mPaths.push_back(pPath);
     if (mPaths.size() == 1)
         CheckColor();
 }
 
-void CWaypointExtra::RemoveFromSplinePath(CSplinePathExtra *pPath)
+void CWaypointExtra::RemoveFromSplinePath(const CSplinePathExtra *pPath)
 {
-    for (auto it = mPaths.begin(); it != mPaths.end(); it++)
-    {
-        if (*it == pPath)
-        {
-            mPaths.erase(it);
-            CheckColor();
-            break;
-        }
-    }
+    const auto iter = std::find_if(mPaths.cbegin(), mPaths.cend(),
+                                   [pPath](const auto* entry) { return entry == pPath; });
+
+    if (iter == mPaths.cend())
+        return;
+
+    mPaths.erase(iter);
+    CheckColor();
 }
 
 void CWaypointExtra::BuildLinks()
 {
     mLinks.clear();
 
-    for (uint32 iLink = 0; iLink < mpInstance->NumLinks(ELinkType::Outgoing); iLink++)
+    for (size_t iLink = 0; iLink < mpInstance->NumLinks(ELinkType::Outgoing); iLink++)
     {
-        CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iLink);
+        const CLink *pLink = mpInstance->Link(ELinkType::Outgoing, iLink);
 
         if (IsPathLink(pLink))
         {
@@ -98,28 +92,35 @@ void CWaypointExtra::BuildLinks()
     mLinksBuilt = true;
 }
 
-bool CWaypointExtra::IsPathLink(CLink *pLink)
+bool CWaypointExtra::IsPathLink(const CLink *pLink) const
 {
     bool Valid = false;
 
     if (pLink->State() < 0xFF)
     {
-        if (pLink->State() == 0x1 && pLink->Message() == 0x8) Valid = true; // Arrived / Next (MP1)
+        // Arrived / Next (MP1)
+        if (pLink->State() == 0x1 && pLink->Message() == 0x8)
+            Valid = true;
     }
-
     else
     {
-        CFourCC State(pLink->State());
-        CFourCC Message(pLink->Message());
-        if (State == FOURCC('ARRV') && Message == FOURCC('NEXT')) Valid = true; // Arrived / Next (MP2)
-        if (State == FOURCC('NEXT') && Message == FOURCC('ATCH')) Valid = true; // Next / Attach (MP3/DKCR)
+        const CFourCC State(pLink->State());
+        const CFourCC Message(pLink->Message());
+
+        // Arrived / Next (MP2)
+        if (State == FOURCC('ARRV') && Message == FOURCC('NEXT'))
+            Valid = true;
+
+        // Next / Attach (MP3/DKCR)
+        if (State == FOURCC('NEXT') && Message == FOURCC('ATCH'))
+            Valid = true;
     }
 
     if (Valid)
     {
-        CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
+        const CScriptNode *pNode = mpScene->NodeForInstanceID(pLink->ReceiverID());
 
-        if (pNode)
+        if (pNode != nullptr)
             return pNode->Instance()->ObjectTypeID() == mpInstance->ObjectTypeID();
     }
 
@@ -128,24 +129,22 @@ bool CWaypointExtra::IsPathLink(CLink *pLink)
 
 void CWaypointExtra::GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut)
 {
-    if (!mLinksBuilt) BuildLinks();
+    if (!mLinksBuilt)
+        BuildLinks();
 
-    for (uint32 iLink = 0; iLink < mLinks.size(); iLink++)
+    for (auto& link : mLinks)
     {
-        const SWaypointLink& rkLink = mLinks[iLink];
-        CWaypointExtra *pExtra = static_cast<CWaypointExtra*>(rkLink.pWaypoint->Extra());
-        rOut.push_back(pExtra);
+        rOut.push_back(static_cast<CWaypointExtra*>(link.pWaypoint->Extra()));
     }
 }
 
 void CWaypointExtra::OnTransformed()
 {
-    for (uint32 iLink = 0; iLink < mLinks.size(); iLink++)
+    for (auto& link : mLinks)
     {
-        SWaypointLink& rLink = mLinks[iLink];
-        rLink.LineAABB = CAABox::skInfinite;
-        rLink.LineAABB.ExpandBounds(AbsolutePosition());
-        rLink.LineAABB.ExpandBounds(rLink.pWaypoint->AbsolutePosition());
+        link.LineAABB = CAABox::Infinite();
+        link.LineAABB.ExpandBounds(AbsolutePosition());
+        link.LineAABB.ExpandBounds(link.pWaypoint->AbsolutePosition());
     }
 }
 
@@ -160,7 +159,7 @@ void CWaypointExtra::AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkView
     // won't work properly because we haven't finished loading the scene yet.
     if (!mLinksBuilt) BuildLinks();
 
-    if (!rkViewInfo.GameMode && (rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry) && mpParent->IsVisible() && !mpParent->IsSelected())
+    if (!rkViewInfo.GameMode && ((rkViewInfo.ShowFlags & EShowFlag::ObjectGeometry) != 0) && mpParent->IsVisible() && !mpParent->IsSelected())
     {
         for (uint32 iLink = 0; iLink < mLinks.size(); iLink++)
         {
@@ -185,5 +184,5 @@ void CWaypointExtra::Draw(FRenderOptions /*Options*/, int ComponentIndex, ERende
 
 CColor CWaypointExtra::TevColor()
 {
-    return (mGame < EGame::DKCReturns ? CColor::skWhite : mColor);
+    return mGame < EGame::DKCReturns ? CColor::White() : mColor;
 }

@@ -12,30 +12,30 @@ bool CTweakCooker::CookCTWK(CTweakData* pTweakData, IOutputStream& CTWK)
 
 bool CTweakCooker::CookNTWK(const std::vector<CTweakData*>& kTweaks, IOutputStream& NTWK)
 {
-    NTWK.WriteFourCC( FOURCC('NTWK') ); // NTWK magic
-    NTWK.WriteByte( 1 );                // Version number; must be 1
-    NTWK.WriteLong( kTweaks.size() );   // Number of tweak objects
+    NTWK.WriteFourCC(FOURCC('NTWK'));                  // NTWK magic
+    NTWK.WriteUByte(1);                                // Version number; must be 1
+    NTWK.WriteULong(static_cast<uint32>(kTweaks.size())); // Number of tweak objects
 
-    for (uint TweakIdx = 0; TweakIdx < kTweaks.size(); TweakIdx++)
+    for (uint32 TweakIdx = 0; TweakIdx < kTweaks.size(); TweakIdx++)
     {
-        CTweakData* pTweakData = kTweaks[TweakIdx];
+        const CTweakData* pTweakData = kTweaks[TweakIdx];
 
         // Tweaks in MP2+ are saved with the script object data format
         // Write a dummy script object header here
-        uint TweakObjectStart = NTWK.Tell();
-        NTWK.WriteLong( pTweakData->TweakID() );    // Object ID
-        NTWK.WriteShort( 0 );                       // Object size
-        NTWK.WriteLong( TweakIdx );                 // Instance ID
-        NTWK.WriteShort( 0 );                       // Link count
+        const uint32 TweakObjectStart = NTWK.Tell();
+        NTWK.WriteULong(pTweakData->TweakID());      // Object ID
+        NTWK.WriteUShort(0);                         // Object size
+        NTWK.WriteULong(TweakIdx);                   // Instance ID
+        NTWK.WriteUShort(0);                         // Link count
 
-        CStructRef TweakProperties = pTweakData->TweakData();
+        const CStructRef TweakProperties = pTweakData->TweakData();
         CScriptCooker ScriptCooker(TweakProperties.Property()->Game());
         ScriptCooker.WriteProperty(NTWK, TweakProperties.Property(), TweakProperties.DataPointer(), false);
 
-        uint TweakObjectEnd = NTWK.Tell();
-        uint TweakObjectSize = (uint16) (TweakObjectEnd - TweakObjectStart - 6);
+        const uint32 TweakObjectEnd = NTWK.Tell();
+        const uint16 TweakObjectSize = static_cast<uint16>(TweakObjectEnd - TweakObjectStart - 6);
         NTWK.GoTo(TweakObjectStart + 4);
-        NTWK.WriteShort(TweakObjectSize);
+        NTWK.WriteUShort(TweakObjectSize);
         NTWK.GoTo(TweakObjectEnd);
     }
 

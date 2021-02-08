@@ -8,6 +8,7 @@
 #include <Common/FileIO.h>
 #include <assimp/scene.h>
 
+#include <array>
 #include <optional>
 
 enum class EMP3RenderConfig
@@ -83,7 +84,7 @@ struct SMP3IntermediateMaterial
         EUVAnimMatrixConfig mMtxConfig = EUVAnimMatrixConfig::NoMtxNoPost;
         EUVAnimMode mAnimMode = EUVAnimMode::NoUVAnim;
         EUVConvolutedModeBType mAnimConvolutedModeBType;
-        float mAnimParams[8];
+        std::array<float, 8> mAnimParams;
 
         char GetSwapAlphaComp() const
         {
@@ -96,14 +97,14 @@ struct SMP3IntermediateMaterial
             }
         }
     };
-    std::optional<PASS> mPASSes[14];
-    const std::optional<PASS>& GetPASS(EPASS pass) const { return mPASSes[int(pass)]; }
+    std::array<std::optional<PASS>, 14> mPASSes;
+    const std::optional<PASS>& GetPASS(EPASS pass) const { return mPASSes[static_cast<size_t>(pass)]; }
 
-    uint8 mINTs[5] = {255, 255, 0, 32, 255};
-    uint8 GetINT(EINT eint) const { return mINTs[int(eint)]; }
+    std::array<uint8, 5> mINTs{255, 255, 0, 32, 255};
+    uint8 GetINT(EINT eint) const { return mINTs[static_cast<size_t>(eint)]; }
 
-    CColor mCLRs[2] = {CColor::skWhite, CColor::skWhite};
-    const CColor& GetCLR(ECLR clr) const { return mCLRs[int(clr)]; }
+    std::array<CColor, 2> mCLRs{CColor::White(), CColor::White()};
+    const CColor& GetCLR(ECLR clr) const { return mCLRs[static_cast<size_t>(clr)]; }
 };
 
 struct STevTracker
@@ -116,18 +117,18 @@ struct STevTracker
 class CMaterialLoader
 {
     // Material data
-    CMaterialSet *mpSet;
-    IInputStream *mpFile;
-    EGame mVersion;
+    CMaterialSet *mpSet = nullptr;
+    IInputStream *mpFile = nullptr;
+    EGame mVersion{};
     std::vector<TResPtr<CTexture>> mTextures;
 
-    CColor mCorruptionColors[4];
-    uint8 mCorruptionInts[5];
-    uint32 mCorruptionFlags;
+    std::array<CColor, 4> mCorruptionColors;
+    std::array<uint8, 5> mCorruptionInts{};
+    uint32 mCorruptionFlags = 0;
 
     CMaterialLoader();
     ~CMaterialLoader();
-    FVertexDescription ConvertToVertexDescription(uint32 VertexFlags);
+    static FVertexDescription ConvertToVertexDescription(uint32 VertexFlags);
 
     // Load Functions
     void ReadPrimeMatSet();

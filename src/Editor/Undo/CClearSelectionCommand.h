@@ -13,17 +13,17 @@ class CClearSelectionCommand : public IUndoCommand
     CNodePtrList mOldSelection;
 
 public:
-    CClearSelectionCommand(CNodeSelection *pSelection)
+    explicit CClearSelectionCommand(CNodeSelection *pSelection)
         : IUndoCommand("Clear Selection"),
           mpSelection(pSelection)
     {
         for (CSelectionIterator It(pSelection); It; ++It)
-            mOldSelection << *It;
+            mOldSelection.push_back(*It);
     }
 
-    void undo() { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
-    void redo() { mpSelection->Clear(); }
-    bool AffectsCleanState() const { return false; }
+    void undo() override { mpSelection->SetSelectedNodes(mOldSelection.DereferenceList()); }
+    void redo() override { mpSelection->Clear(); }
+    bool AffectsCleanState() const override { return false; }
 };
 
 #endif // CCLEARSELECTIONCOMMAND_H

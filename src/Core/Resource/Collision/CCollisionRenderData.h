@@ -30,17 +30,13 @@ class CCollisionRenderData
     std::vector<uint>   mBoundingDepthOffsets;
 
     /** Whether render data has been built */
-    bool mBuilt;
+    bool mBuilt = false;
 
     /** Whether bounding hierarchy render data has been built */
-    bool mBoundingHierarchyBuilt;
+    bool mBoundingHierarchyBuilt = false;
 
 public:
-    /** Default constructor */
-    CCollisionRenderData()
-        : mBuilt(false)
-        , mBoundingHierarchyBuilt(false)
-    {}
+    CCollisionRenderData() = default;
 
     /** Build from collision data */
     void BuildRenderData(const SCollisionIndexData& kIndexData);
@@ -52,7 +48,7 @@ public:
     int MaxBoundingHierarchyDepth() const;
 
     /** Accessors */
-    inline bool IsBuilt() const                     { return mBuilt; }
+    bool IsBuilt() const                     { return mBuilt; }
 };
 
 #endif // CCOLLISIONRENDERDATA_H

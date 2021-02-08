@@ -11,12 +11,12 @@ class CCollidableOBBTree : public CCollisionMesh
     std::unique_ptr<SOBBTreeNode> mpOBBTree;
 
 public:
-    virtual void BuildRenderData() override;
+    void BuildRenderData() override;
 
     void BuildOBBTree();
 
     /** Accessors */
-    inline SOBBTreeNode* GetOBBTree() const
+    SOBBTreeNode* GetOBBTree() const
     {
         return mpOBBTree.get();
     }

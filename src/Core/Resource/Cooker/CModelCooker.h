@@ -8,13 +8,13 @@
 class CModelCooker
 {
     TResPtr<CModel> mpModel;
-    EGame mVersion;
-    uint32 mNumMatSets;
-    uint32 mNumSurfaces;
-    uint32 mNumVertices;
-    uint8 mVertexFormat;
+    EGame mVersion{};
+    uint32 mNumMatSets = 0;
+    uint32 mNumSurfaces = 0;
+    uint32 mNumVertices = 0;
+    uint8 mVertexFormat = 0;
     std::vector<CVertex> mVertices;
-    FVertexDescription mVtxAttribs;
+    FVertexDescription mVtxAttribs{};
 
     CModelCooker();
     void GenerateSurfaceData();

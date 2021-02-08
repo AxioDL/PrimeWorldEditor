@@ -11,34 +11,23 @@
 
 CSceneViewport::CSceneViewport(QWidget *pParent)
     : CBasicViewport(pParent)
-    , mpEditor(nullptr)
-    , mpScene(nullptr)
-    , mRenderingMergedWorld(true)
-    , mGizmoTransforming(false)
-    , mpHoverNode(nullptr)
-    , mHoverPoint(CVector3f::skZero)
-    , mpContextMenu(nullptr)
-    , mpMenuNode(nullptr)
 {
     mGrid.SetColor(CColor(0.f, 0.f, 0.6f, 0.f), CColor(0.f, 0.f, 1.f, 0.f));
-    mLinkLine.SetColor(CColor::skYellow);
+    mLinkLine.SetColor(CColor::Yellow());
 
-    mpRenderer = new CRenderer();
-    mpRenderer->SetClearColor(CColor::skBlack);
-    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer = std::make_unique<CRenderer>();
+    mpRenderer->SetClearColor(CColor::Black());
+    const qreal pixelRatio = devicePixelRatioF();
     mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 
     mViewInfo.pScene = mpScene;
-    mViewInfo.pRenderer = mpRenderer;
+    mViewInfo.pRenderer = mpRenderer.get();
     mViewInfo.ShowFlags = EShowFlag::MergedWorld | EShowFlag::ObjectGeometry | EShowFlag::Lights | EShowFlag::Sky;
 
     CreateContextMenu();
 }
 
-CSceneViewport::~CSceneViewport()
-{
-    delete mpRenderer;
-}
+CSceneViewport::~CSceneViewport() = default;
 
 void CSceneViewport::SetScene(INodeEditor *pEditor, CScene *pScene)
 {
@@ -72,7 +61,7 @@ FShowFlags CSceneViewport::ShowFlags() const
 
 CRenderer* CSceneViewport::Renderer()
 {
-    return mpRenderer;
+    return mpRenderer.get();
 }
 
 CSceneNode* CSceneViewport::HoverNode()
@@ -80,7 +69,7 @@ CSceneNode* CSceneViewport::HoverNode()
     return mpHoverNode;
 }
 
-CVector3f CSceneViewport::HoverPoint()
+CVector3f CSceneViewport::HoverPoint() const
 {
     return mHoverPoint;
 }
@@ -143,7 +132,7 @@ void CSceneViewport::ResetHover()
     mpHoverNode = nullptr;
 }
 
-bool CSceneViewport::IsHoveringGizmo()
+bool CSceneViewport::IsHoveringGizmo() const
 {
     return mGizmoHovering;
 }
@@ -175,65 +164,75 @@ void CSceneViewport::CreateContextMenu()
     mpContextMenu = new QMenu(this);
 
     // Main context menu
-    mpToggleSelectAction = new QAction("ToggleSelect", this);
-    connect(mpToggleSelectAction, SIGNAL(triggered()), this, SLOT(OnToggleSelect()));
+    mpToggleSelectAction = new QAction(tr("ToggleSelect"), this);
+    connect(mpToggleSelectAction, &QAction::triggered, this, &CSceneViewport::OnToggleSelect);
 
     mpHideSelectionSeparator = new QAction(this);
     mpHideSelectionSeparator->setSeparator(true);
 
-    mpHideSelectionAction = new QAction("Hide selection", this);
-    connect(mpHideSelectionAction, SIGNAL(triggered()), this, SLOT(OnHideSelection()));
+    mpHideSelectionAction = new QAction(tr("Hide selection"), this);
+    connect(mpHideSelectionAction, &QAction::triggered, this, &CSceneViewport::OnHideSelection);
 
-    mpHideUnselectedAction = new QAction("Hide unselected", this);
-    connect(mpHideUnselectedAction, SIGNAL(triggered()), this, SLOT(OnHideUnselected()));
+    mpHideUnselectedAction = new QAction(tr("Hide unselected"), this);
+    connect(mpHideUnselectedAction, &QAction::triggered, this, &CSceneViewport::OnHideUnselected);
 
     mpHideHoverSeparator = new QAction(this);
     mpHideHoverSeparator->setSeparator(true);
 
-    mpHideHoverNodeAction = new QAction("HideNode", this);
-    connect(mpHideHoverNodeAction, SIGNAL(triggered()), this, SLOT(OnHideNode()));
+    mpHideHoverNodeAction = new QAction(tr("HideNode"), this);
+    connect(mpHideHoverNodeAction, &QAction::triggered, this, &CSceneViewport::OnHideNode);
 
-    mpHideHoverTypeAction = new QAction("HideType", this);
-    connect(mpHideHoverTypeAction, SIGNAL(triggered()), this, SLOT(OnHideType()));
+    mpHideHoverTypeAction = new QAction(tr("HideType"), this);
+    connect(mpHideHoverTypeAction, &QAction::triggered, this, &CSceneViewport::OnHideType);
 
-    mpHideHoverLayerAction = new QAction("HideLayer", this);
-    connect(mpHideHoverLayerAction, SIGNAL(triggered()), this, SLOT(OnHideLayer()));
+    mpHideHoverLayerAction = new QAction(tr("HideLayer"), this);
+    connect(mpHideHoverLayerAction, &QAction::triggered, this, &CSceneViewport::OnHideLayer);
 
     mpUnhideSeparator = new QAction(this);
     mpUnhideSeparator->setSeparator(true);
 
-    mpUnhideAllAction = new QAction("Unhide all", this);
-    connect(mpUnhideAllAction, SIGNAL(triggered()), this, SLOT(OnUnhideAll()));
+    mpUnhideAllAction = new QAction(tr("Unhide all"), this);
+    connect(mpUnhideAllAction, &QAction::triggered, this, &CSceneViewport::OnUnhideAll);
 
     mpPlayFromHereSeparator = new QAction(this);
     mpPlayFromHereSeparator->setSeparator(true);
 
-    mpPlayFromHereAction = new QAction("Play from here", this);
-    connect(mpPlayFromHereAction, SIGNAL(triggered()), this, SLOT(OnPlayFromHere()));
+    mpPlayFromHereAction = new QAction(tr("Play from here"), this);
+    connect(mpPlayFromHereAction, &QAction::triggered, this, &CSceneViewport::OnPlayFromHere);
 
-    QList<QAction*> Actions;
-    Actions << mpToggleSelectAction
-            << mpHideSelectionSeparator << mpHideSelectionAction << mpHideUnselectedAction
-            << mpHideHoverSeparator << mpHideHoverNodeAction << mpHideHoverTypeAction << mpHideHoverLayerAction
-            << mpUnhideSeparator << mpUnhideAllAction << mpPlayFromHereSeparator << mpPlayFromHereAction;
-
+    const QList<QAction*> Actions{
+        mpToggleSelectAction,
+        mpHideSelectionSeparator,
+        mpHideSelectionAction,
+        mpHideUnselectedAction,
+        mpHideHoverSeparator,
+        mpHideHoverNodeAction,
+        mpHideHoverTypeAction,
+        mpHideHoverLayerAction,
+        mpUnhideSeparator,
+        mpUnhideAllAction,
+        mpPlayFromHereSeparator,
+        mpPlayFromHereAction,
+    };
     mpContextMenu->addActions(Actions);
 
     // Select Connected menu
-    mpSelectConnectedMenu = new QMenu("Select connected...", this);
+    mpSelectConnectedMenu = new QMenu(tr("Select connected..."), this);
 
-    mpSelectConnectedOutgoingAction = new QAction("...via outgoing links", this);
-    connect(mpSelectConnectedOutgoingAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+    mpSelectConnectedOutgoingAction = new QAction(tr("...via outgoing links"), this);
+    connect(mpSelectConnectedOutgoingAction, &QAction::triggered, this, &CSceneViewport::OnSelectConnected);
 
-    mpSelectConnectedIncomingAction = new QAction("...via incoming links", this);
-    connect(mpSelectConnectedIncomingAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+    mpSelectConnectedIncomingAction = new QAction(tr("...via incoming links"), this);
+    connect(mpSelectConnectedIncomingAction, &QAction::triggered, this, &CSceneViewport::OnSelectConnected);
 
-    mpSelectConnectedAllAction = new QAction("...via all links", this);
-    connect(mpSelectConnectedAllAction, SIGNAL(triggered()), this, SLOT(OnSelectConnected()));
+    mpSelectConnectedAllAction = new QAction(tr("...via all links"), this);
+    connect(mpSelectConnectedAllAction, &QAction::triggered, this, &CSceneViewport::OnSelectConnected);
 
-    QList<QAction*> SelectConnectedActions;
-    SelectConnectedActions << mpSelectConnectedOutgoingAction << mpSelectConnectedIncomingAction << mpSelectConnectedAllAction;
-    mpSelectConnectedMenu->addActions(SelectConnectedActions);
+    mpSelectConnectedMenu->addActions({
+        mpSelectConnectedOutgoingAction,
+        mpSelectConnectedIncomingAction,
+        mpSelectConnectedAllAction,
+    });
     mpContextMenu->insertMenu(mpHideSelectionSeparator, mpSelectConnectedMenu);
 }
 
@@ -248,11 +247,11 @@ void CSceneViewport::FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing
     if (!pScript) return;
 
     CScriptObject *pInst = pScript->Instance();
-    rIDList << InstanceID;
+    rIDList.push_back(InstanceID);
 
     if (SearchOutgoing)
     {
-        for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
+        for (size_t iLink = 0; iLink < pInst->NumLinks(ELinkType::Outgoing); iLink++)
         {
             CLink *pLink = pInst->Link(ELinkType::Outgoing, iLink);
 
@@ -263,7 +262,7 @@ void CSceneViewport::FindConnectedObjects(uint32 InstanceID, bool SearchOutgoing
 
     if (SearchIncoming)
     {
-        for (uint32 iLink = 0; iLink < pInst->NumLinks(ELinkType::Incoming); iLink++)
+        for (size_t iLink = 0; iLink < pInst->NumLinks(ELinkType::Incoming); iLink++)
         {
             CLink *pLink = pInst->Link(ELinkType::Incoming, iLink);
 
@@ -306,7 +305,7 @@ void CSceneViewport::Paint()
 {
     if (!mpScene) return;
 
-    mpRenderer->SetClearColor(CColor::skBlack);
+    mpRenderer->SetClearColor(CColor::Black());
     mpRenderer->BeginFrame();
 
     // todo: The sky should really just be a regular node in the background depth group instead of having special rendering code here
@@ -317,22 +316,22 @@ void CSceneViewport::Paint()
     }
 
     mCamera.LoadMatrices();
-    mpScene->AddSceneToRenderer(mpRenderer, mViewInfo);
+    mpScene->AddSceneToRenderer(mpRenderer.get(), mViewInfo);
 
     // Add gizmo to renderer
     if (mpEditor->IsGizmoVisible() && !mViewInfo.GameMode)
     {
         CGizmo *pGizmo = mpEditor->Gizmo();
         pGizmo->UpdateForCamera(mCamera);
-        pGizmo->AddToRenderer(mpRenderer, mViewInfo);
+        pGizmo->AddToRenderer(mpRenderer.get(), mViewInfo);
     }
 
     // Draw grid if the scene is empty
     if (!mViewInfo.GameMode && mpScene->ActiveArea() == nullptr)
-        mGrid.AddToRenderer(mpRenderer, mViewInfo);
+        mGrid.AddToRenderer(mpRenderer.get(), mViewInfo);
 
     // Draw the line for the link the user is editing.
-    if (mLinkLineEnabled) mLinkLine.AddToRenderer(mpRenderer, mViewInfo);
+    if (mLinkLineEnabled) mLinkLine.AddToRenderer(mpRenderer.get(), mViewInfo);
 
     mpRenderer->RenderBuckets(mViewInfo);
     mpRenderer->EndFrame();
@@ -370,23 +369,23 @@ void CSceneViewport::ContextMenu(QContextMenuEvent *pEvent)
         TString Name = IsScriptNode ? static_cast<CScriptNode*>(mpHoverNode)->Instance()->InstanceName() : mpHoverNode->Name();
 
         if (mpHoverNode->IsSelected())
-            mpToggleSelectAction->setText(QString("Deselect %1").arg(TO_QSTRING(Name)));
+            mpToggleSelectAction->setText(tr("Deselect %1").arg(TO_QSTRING(Name)));
         else
-            mpToggleSelectAction->setText(QString("Select %1").arg(TO_QSTRING(Name)));
+            mpToggleSelectAction->setText(tr("Select %1").arg(TO_QSTRING(Name)));
     }
 
     if (IsScriptNode)
     {
         CScriptNode *pScript = static_cast<CScriptNode*>(mpHoverNode);
         NodeName = pScript->Instance()->InstanceName();
-        mpHideHoverTypeAction->setText( QString("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->Name())) );
-        mpHideHoverLayerAction->setText( QString("Hide layer %1").arg(TO_QSTRING(pScript->Instance()->Layer()->Name())) );
+        mpHideHoverTypeAction->setText(tr("Hide all %1 objects").arg(TO_QSTRING(pScript->Template()->Name())));
+        mpHideHoverLayerAction->setText(tr("Hide layer %1").arg(TO_QSTRING(pScript->Instance()->Layer()->Name())));
     }
 
     else if (HasHoverNode)
         NodeName = mpHoverNode->Name();
 
-    mpHideHoverNodeAction->setText(QString("Hide %1").arg(TO_QSTRING(NodeName)));
+    mpHideHoverNodeAction->setText(tr("Hide %1").arg(TO_QSTRING(NodeName)));
 
     // Show menu
     mpMenuNode = mpHoverNode;
@@ -449,11 +448,12 @@ void CSceneViewport::OnSelectConnected()
     FindConnectedObjects(static_cast<CScriptNode*>(mpMenuNode)->Instance()->InstanceID(), SearchOutgoing, SearchIncoming, InstanceIDs);
 
     QList<CSceneNode*> Nodes;
-    foreach (uint32 ID, InstanceIDs)
-        Nodes << mpScene->NodeForInstanceID(ID);
+    Nodes.reserve(InstanceIDs.size());
+    for (const uint32 ID : InstanceIDs)
+        Nodes.push_back(mpScene->NodeForInstanceID(ID));
 
-    bool ShouldClear = ((qApp->keyboardModifiers() & Qt::ControlModifier) == 0);
-    mpEditor->BatchSelectNodes(Nodes, ShouldClear, "Select Connected");
+    const bool ShouldClear = ((qApp->keyboardModifiers() & Qt::ControlModifier) == 0);
+    mpEditor->BatchSelectNodes(Nodes, ShouldClear, tr("Select Connected"));
 }
 
 void CSceneViewport::OnHideSelection()
@@ -493,15 +493,17 @@ void CSceneViewport::OnUnhideAll()
         if (!it->IsVisible())
         {
             if (it->NodeType() == ENodeType::Light)
+            {
                 it->SetVisible(true);
-
+            }
             else
             {
                 CScriptNode *pScript = static_cast<CScriptNode*>(*it);
 
                 if (!pScript->MarkedVisible())
+                {
                     pScript->SetVisible(true);
-
+                }
                 else
                 {
                     pScript->Template()->SetVisible(true);

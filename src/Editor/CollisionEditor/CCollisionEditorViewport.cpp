@@ -1,12 +1,11 @@
 #include "CCollisionEditorViewport.h"
 
 /** Constructor */
-CCollisionEditorViewport::CCollisionEditorViewport(QWidget* pParent /*= 0*/)
+CCollisionEditorViewport::CCollisionEditorViewport(QWidget* pParent)
     : CBasicViewport(pParent)
-    , mGridEnabled(true)
+    , mpRenderer{std::make_unique<CRenderer>()}
 {
-    mpRenderer = std::make_unique<CRenderer>();
-    qreal pixelRatio = devicePixelRatioF();
+    const qreal pixelRatio = devicePixelRatioF();
     mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
     mpRenderer->SetClearColor(CColor(0.3f, 0.3f, 0.3f));
     mpRenderer->ToggleGrid(true);
@@ -37,5 +36,6 @@ void CCollisionEditorViewport::Paint()
 
 void CCollisionEditorViewport::OnResize()
 {
-    mpRenderer->SetViewportSize(width(), height());
+    qreal pixelRatio = devicePixelRatioF();
+    mpRenderer->SetViewportSize(width() * pixelRatio, height() * pixelRatio);
 }

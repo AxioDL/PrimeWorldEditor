@@ -66,7 +66,7 @@ public:
     const char* Name() const;
     const char* TypeName() const;
 
-    operator bool() const;
+    explicit operator bool() const;
     void operator ++();
 };
 

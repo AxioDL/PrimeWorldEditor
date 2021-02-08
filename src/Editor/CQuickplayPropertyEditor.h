@@ -8,6 +8,8 @@
 #include <Core/Resource/CWorld.h>
 #include <Core/Resource/Area/CGameArea.h>
 
+#include <memory>
+
 namespace Ui {
 class CQuickplayPropertyEditor;
 }
@@ -19,12 +21,12 @@ class CQuickplayPropertyEditor : public QMenu
 {
     Q_OBJECT
 
-    Ui::CQuickplayPropertyEditor* mpUI;
+    std::unique_ptr<Ui::CQuickplayPropertyEditor> mpUI;
     SQuickplayParameters& mParameters;
 
 public:
-    CQuickplayPropertyEditor(SQuickplayParameters& Parameters, QWidget* pParent = 0);
-    ~CQuickplayPropertyEditor();
+    explicit CQuickplayPropertyEditor(SQuickplayParameters& Parameters, QWidget* pParent = nullptr);
+    ~CQuickplayPropertyEditor() override;
 
 public slots:
     void BrowseForDolphin();

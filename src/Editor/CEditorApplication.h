@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QTimer>
 #include <QVector>
+#include <memory>
 
 class CBasicViewport;
 class CProjectSettingsDialog;
@@ -13,26 +14,27 @@ class CResourceEntry;
 class CWorldEditor;
 class IEditor;
 
-const int gkTickFrequencyMS = 8;
+constexpr int gkTickFrequencyMS = 8;
 
 class CEditorApplication : public QApplication
 {
     Q_OBJECT
 
-    CGameProject *mpActiveProject;
-    CWorldEditor *mpWorldEditor;
-    CResourceBrowser *mpResourceBrowser;
-    CProjectSettingsDialog *mpProjectDialog;
+    std::unique_ptr<CGameProject> mpActiveProject;
+    CWorldEditor *mpWorldEditor = nullptr;
+    CResourceBrowser *mpResourceBrowser = nullptr;
+    CProjectSettingsDialog *mpProjectDialog = nullptr;
     QVector<IEditor*> mEditorWindows;
     QMap<CResourceEntry*,IEditor*> mEditingMap;
-    bool mInitialized;
+    bool mInitialized = false;
 
     QTimer mRefreshTimer;
     double mLastUpdate;
 
 public:
     CEditorApplication(int& rArgc, char **ppArgv);
-    ~CEditorApplication();
+    ~CEditorApplication() override;
+
     void InitEditor();
     bool CloseAllEditors();
     bool CloseProject();
@@ -47,16 +49,16 @@ public:
 
     bool RebuildResourceDatabase();
 
-    inline CResourceBrowser* ResourceBrowser() const { return mpResourceBrowser; }
+    CResourceBrowser* ResourceBrowser() const { return mpResourceBrowser; }
 
     // Accessors
-    inline CGameProject* ActiveProject() const              { return mpActiveProject; }
-    inline CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
-    inline CProjectSettingsDialog* ProjectDialog() const    { return mpProjectDialog; }
-    inline EGame CurrentGame() const                        { return mpActiveProject ? mpActiveProject->Game() : EGame::Invalid; }
+    CGameProject* ActiveProject() const              { return mpActiveProject.get(); }
+    CWorldEditor* WorldEditor() const                { return mpWorldEditor; }
+    CProjectSettingsDialog* ProjectDialog() const    { return mpProjectDialog; }
+    EGame CurrentGame() const                        { return mpActiveProject ? mpActiveProject->Game() : EGame::Invalid; }
 
-    inline void SetEditorTicksEnabled(bool Enabled)         { Enabled ? mRefreshTimer.start(gkTickFrequencyMS) : mRefreshTimer.stop(); }
-    inline bool AreEditorTicksEnabled() const               { return mRefreshTimer.isActive(); }
+    void SetEditorTicksEnabled(bool Enabled)         { Enabled ? mRefreshTimer.start(gkTickFrequencyMS) : mRefreshTimer.stop(); }
+    bool AreEditorTicksEnabled() const               { return mRefreshTimer.isActive(); }
 
 public slots:
     void AddEditor(IEditor *pEditor);

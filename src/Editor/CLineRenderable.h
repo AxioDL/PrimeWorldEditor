@@ -7,31 +7,33 @@
 #include <Core/Render/CRenderer.h>
 #include <Core/Render/IRenderable.h>
 
+#include <array>
+
 class CLineRenderable : public IRenderable
 {
-    CVector3f mPoints[2];
+    std::array<CVector3f, 2> mPoints;
     CColor mColor;
 
 public:
     CLineRenderable() : IRenderable() {}
 
-    inline void SetPoints(const CVector3f& rkPointA, const CVector3f& rkPointB)
+    void SetPoints(const CVector3f& rkPointA, const CVector3f& rkPointB)
     {
         mPoints[0] = rkPointA;
         mPoints[1] = rkPointB;
     }
 
-    inline void SetColor(const CColor& rkColor)
+    void SetColor(const CColor& rkColor)
     {
         mColor = rkColor;
     }
 
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& /*rkViewInfo*/)
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& /*rkViewInfo*/) override
     {
-        pRenderer->AddMesh(this, -1, CAABox::skInfinite, false, ERenderCommand::DrawMesh);
+        pRenderer->AddMesh(this, -1, CAABox::Infinite(), false, ERenderCommand::DrawMesh);
     }
 
-    void Draw(FRenderOptions, int, ERenderCommand, const SViewInfo&)
+    void Draw(FRenderOptions, int, ERenderCommand, const SViewInfo&) override
     {
         CGraphics::sMVPBlock.ModelMatrix = CMatrix4f::skIdentity;
         CGraphics::UpdateMVPBlock();

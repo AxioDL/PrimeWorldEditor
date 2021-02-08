@@ -10,12 +10,13 @@
 #include <Common/CFourCC.h>
 #include <Common/TString.h>
 #include <Common/Serialization/IArchive.h>
+#include <memory>
 
 // This macro creates functions that allow us to easily identify this resource type.
 // Must be included on every CResource subclass.
 #define DECLARE_RESOURCE_TYPE(ResourceTypeEnum) \
 public: \
-    static EResourceType StaticType() \
+    static constexpr EResourceType StaticType() \
     { \
         return EResourceType::ResourceTypeEnum; \
     } \
@@ -32,29 +33,29 @@ class CResource
     DECLARE_RESOURCE_TYPE(Resource)
 
     CResourceEntry *mpEntry;
-    int mRefCount;
+    int mRefCount = 0;
 
 public:
-    CResource(CResourceEntry *pEntry = 0)
-        : mpEntry(pEntry), mRefCount(0)
+    explicit CResource(CResourceEntry *pEntry = nullptr)
+        : mpEntry(pEntry)
     {
     }
 
     virtual ~CResource() {}
-    virtual CDependencyTree* BuildDependencyTree() const    { return new CDependencyTree(); }
-    virtual void Serialize(IArchive& /*rArc*/)              {}
-    virtual void InitializeNewResource()                    {}
-    
-    inline CResourceEntry* Entry() const    { return mpEntry; }
-    inline CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }
-    inline EResourceType Type() const       { return mpEntry->TypeInfo()->Type(); }
-    inline TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
-    inline TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
-    inline CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
-    inline EGame Game() const               { return mpEntry ? mpEntry->Game() : EGame::Invalid; }
-    inline bool IsReferenced() const        { return mRefCount > 0; }
-    inline void Lock()                      { mRefCount++; }
-    inline void Release()                   { mRefCount--; }
+    virtual std::unique_ptr<CDependencyTree> BuildDependencyTree() const { return std::make_unique<CDependencyTree>(); }
+    virtual void Serialize(IArchive& /*rArc*/) {}
+    virtual void InitializeNewResource()       {}
+
+    CResourceEntry* Entry() const    { return mpEntry; }
+    CResTypeInfo* TypeInfo() const   { return mpEntry->TypeInfo(); }
+    EResourceType Type() const       { return mpEntry->TypeInfo()->Type(); }
+    TString Source() const           { return mpEntry ? mpEntry->CookedAssetPath(true).GetFileName() : ""; }
+    TString FullSource() const       { return mpEntry ? mpEntry->CookedAssetPath(true) : ""; }
+    CAssetID ID() const              { return mpEntry ? mpEntry->ID() : CAssetID::skInvalidID64; }
+    EGame Game() const               { return mpEntry ? mpEntry->Game() : EGame::Invalid; }
+    bool IsReferenced() const        { return mRefCount > 0; }
+    void Lock()                      { mRefCount++; }
+    void Release()                   { mRefCount--; }
 };
 
 #endif // CRESOURCE_H

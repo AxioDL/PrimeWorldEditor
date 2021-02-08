@@ -7,7 +7,7 @@
 class CUniformBuffer
 {
     GLuint mUniformBuffer;
-    uint mBufferSize;
+    uint32 mBufferSize;
 
 public:
 
@@ -17,7 +17,7 @@ public:
         SetBufferSize(0);
     }
 
-    CUniformBuffer(uint Size)
+    explicit CUniformBuffer(uint32 Size)
     {
         glGenBuffers(1, &mUniformBuffer);
         SetBufferSize(Size);
@@ -52,20 +52,20 @@ public:
         Unbind();
     }
 
-    void BufferRange(const void *pkData, uint Offset, uint Size)
+    void BufferRange(const void *pkData, uint32 Offset, uint32 Size)
     {
         Bind();
         glBufferSubData(GL_UNIFORM_BUFFER, Offset, Size, pkData);
         Unbind();
     }
 
-    void SetBufferSize(uint Size)
+    void SetBufferSize(uint32 Size)
     {
         mBufferSize = Size;
         InitializeBuffer();
     }
 
-    uint GetBufferSize()
+    uint32 GetBufferSize() const
     {
         return mBufferSize;
     }
@@ -74,7 +74,7 @@ private:
     void InitializeBuffer()
     {
         Bind();
-        glBufferData(GL_UNIFORM_BUFFER, mBufferSize, 0, GL_DYNAMIC_DRAW);
+        glBufferData(GL_UNIFORM_BUFFER, mBufferSize, nullptr, GL_DYNAMIC_DRAW);
         Unbind();
     }
 };

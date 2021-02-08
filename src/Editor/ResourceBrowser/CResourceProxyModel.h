@@ -16,24 +16,23 @@ public:
     };
 
 private:
-    CResourceTableModel *mpModel;
+    CResourceTableModel *mpModel = nullptr;
     TString mSearchString;
-    ESortMode mSortMode;
+    ESortMode mSortMode{};
     QSet<CResTypeInfo*> mTypeFilter;
 
-    uint64 mCompareID;
-    uint64 mCompareMask;
-    uint32 mCompareBitLength;
+    uint64 mCompareID = 0;
+    uint64 mCompareMask = 0;
+    uint32 mCompareBitLength = 0;
 
 public:
-    explicit CResourceProxyModel(QObject *pParent = 0)
+    explicit CResourceProxyModel(QObject *pParent = nullptr)
         : QSortFilterProxyModel(pParent)
-        , mpModel(nullptr)
     {
         SetSortMode(ESortMode::ByName);
     }
 
-    void setSourceModel(QAbstractItemModel *pSourceModel)
+    void setSourceModel(QAbstractItemModel* pSourceModel) override
     {
         CResourceTableModel *pResModel = qobject_cast<CResourceTableModel*>(pSourceModel);
         mpModel = pResModel;
@@ -41,7 +40,7 @@ public:
         sort(0);
     }
 
-    bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const
+    bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const override
     {
         // Parent directory is always row 0 and should always be at the top
         if (mpModel->HasParentDirectoryEntry())
@@ -75,7 +74,7 @@ public:
             return pLeftRes->Size() < pRightRes->Size();
     }
 
-    bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const
+    bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const override
     {
         QModelIndex Index = mpModel->index(SourceRow, 0, rkSourceParent);
         CResourceEntry *pEntry = mpModel->IndexEntry(Index);
@@ -97,7 +96,7 @@ public:
 
                 if (mCompareBitLength > 0)
                 {
-                    uint32 IDBitLength = pEntry->ID().Length() * 8;
+                    const auto IDBitLength = static_cast<uint32>(pEntry->ID().Length()) * 8;
 
                     if (mCompareBitLength <= IDBitLength)
                     {
@@ -126,7 +125,7 @@ public:
         return true;
     }
 
-    inline void SetTypeFilter(CResTypeInfo *pInfo, bool Allow)
+    void SetTypeFilter(CResTypeInfo *pInfo, bool Allow)
     {
         if (Allow)
             mTypeFilter.insert(pInfo);
@@ -134,22 +133,22 @@ public:
             mTypeFilter.remove(pInfo);
     }
 
-    inline void ClearTypeFilter()
+    void ClearTypeFilter()
     {
         mTypeFilter.clear();
     }
 
-    inline bool HasTypeFilter() const
+    bool HasTypeFilter() const
     {
         return !mTypeFilter.isEmpty();
     }
 
-    inline bool IsTypeAccepted(CResTypeInfo *pTypeInfo) const
+    bool IsTypeAccepted(CResTypeInfo *pTypeInfo) const
     {
         return mTypeFilter.isEmpty() || mTypeFilter.contains(pTypeInfo);
     }
 
-    inline void SetSortMode(ESortMode Mode)
+    void SetSortMode(ESortMode Mode)
     {
         if (mSortMode != Mode)
         {

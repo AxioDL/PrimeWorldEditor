@@ -12,7 +12,7 @@ CCreateInstanceCommand::CCreateInstanceCommand(CWorldEditor *pEditor, CScriptTem
     , mpNewInstance(nullptr)
     , mpNewNode(nullptr)
 {
-    ASSERT(mLayerIndex != -1);
+    ASSERT(mLayerIndex != UINT32_MAX);
 }
 
 void CCreateInstanceCommand::undo()

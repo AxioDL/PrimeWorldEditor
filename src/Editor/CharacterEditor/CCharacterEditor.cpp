@@ -7,25 +7,19 @@
 #include <QMessageBox>
 #include <QTreeView>
 
-const CVector3f CCharacterEditor::skDefaultOrbitTarget = CVector3f(0,0,1);
-const float CCharacterEditor::skDefaultOrbitDistance = 4.f;
+constexpr CVector3f skDefaultOrbitTarget{0, 0, 1};
+constexpr float skDefaultOrbitDistance = 4.f;
 
 CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     : IEditor(parent)
-    , ui(new Ui::CCharacterEditor)
-    , mpScene(new CScene())
-    , mpSelectedBone(nullptr)
-    , mBindPose(false)
-    , mPlayAnim(true)
-    , mLoopAnim(true)
-    , mAnimTime(0.f)
-    , mPlaybackSpeed(1.f)
+    , ui(std::make_unique<Ui::CCharacterEditor>())
+    , mpScene(std::make_unique<CScene>())
 {
     ui->setupUi(this);
     REPLACE_WINDOWTITLE_APPVARS;
 
-    mpCharNode = new CCharacterNode(mpScene, -1);
-    ui->Viewport->SetNode(mpCharNode);
+    mpCharNode = std::make_unique<CCharacterNode>(mpScene.get(), UINT32_MAX);
+    ui->Viewport->SetNode(mpCharNode.get());
 
     CCamera& rCamera = ui->Viewport->Camera();
     rCamera.SetMoveSpeed(0.5f);
@@ -43,46 +37,41 @@ CCharacterEditor::CCharacterEditor(CAnimSet *pSet, QWidget *parent)
     mpAnimComboBox->setMinimumWidth(175);
     ui->ToolBar->addWidget(mpAnimComboBox);
 
-    connect(ui->Viewport, SIGNAL(HoverBoneChanged(uint32)), this, SLOT(OnViewportHoverBoneChanged(uint32)));
-    connect(ui->Viewport, SIGNAL(ViewportClick(QMouseEvent*)), this, SLOT(OnViewportClick()));
-    connect(ui->ActionShowGrid, SIGNAL(toggled(bool)), this, SLOT(ToggleGrid(bool)));
-    connect(ui->ActionShowMesh, SIGNAL(toggled(bool)), this, SLOT(ToggleMeshVisible(bool)));
-    connect(ui->ActionShowSkeleton, SIGNAL(toggled(bool)), this, SLOT(ToggleSkeletonVisible(bool)));
-    connect(ui->ActionBindPose, SIGNAL(toggled(bool)), this, SLOT(ToggleBindPose(bool)));
-    connect(ui->ActionOrbit, SIGNAL(toggled(bool)), this, SLOT(ToggleOrbit(bool)));
-    connect(ui->ActionPlay, SIGNAL(triggered()), this, SLOT(TogglePlay()));
-    connect(ui->ActionLoop, SIGNAL(toggled(bool)), this, SLOT(ToggleLoop(bool)));
-    connect(ui->ActionRewind, SIGNAL(triggered()), this, SLOT(Rewind()));
-    connect(ui->ActionFastForward, SIGNAL(triggered()), this, SLOT(FastForward()));
-    connect(ui->ActionPrevAnim, SIGNAL(triggered()), this, SLOT(PrevAnim()));
-    connect(ui->ActionNextAnim, SIGNAL(triggered()), this, SLOT(NextAnim()));
-    connect(mpCharComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveCharacterIndex(int)));
-    connect(mpAnimComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(SetActiveAnimation(int)));
+    connect(ui->Viewport, &CCharacterEditorViewport::HoverBoneChanged, this, &CCharacterEditor::OnViewportHoverBoneChanged);
+    connect(ui->Viewport, &CCharacterEditorViewport::ViewportClick, this, &CCharacterEditor::OnViewportClick);
+    connect(ui->ActionShowGrid, &QAction::toggled, this, &CCharacterEditor::ToggleGrid);
+    connect(ui->ActionShowMesh, &QAction::toggled, this, &CCharacterEditor::ToggleMeshVisible);
+    connect(ui->ActionShowSkeleton, &QAction::toggled, this, &CCharacterEditor::ToggleSkeletonVisible);
+    connect(ui->ActionBindPose, &QAction::toggled, this, &CCharacterEditor::ToggleBindPose);
+    connect(ui->ActionOrbit, &QAction::toggled, this, &CCharacterEditor::ToggleOrbit);
+    connect(ui->ActionPlay, &QAction::triggered, this, &CCharacterEditor::TogglePlay);
+    connect(ui->ActionLoop, &QAction::toggled, this, &CCharacterEditor::ToggleLoop);
+    connect(ui->ActionRewind, &QAction::triggered, this, &CCharacterEditor::Rewind);
+    connect(ui->ActionFastForward, &QAction::triggered, this, &CCharacterEditor::FastForward);
+    connect(ui->ActionPrevAnim, &QAction::triggered, this, &CCharacterEditor::PrevAnim);
+    connect(ui->ActionNextAnim, &QAction::triggered, this, &CCharacterEditor::NextAnim);
+    connect(mpCharComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &CCharacterEditor::SetActiveCharacterIndex);
+    connect(mpAnimComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, &CCharacterEditor::SetActiveAnimation);
 
-    connect(ui->AnimSlider, SIGNAL(valueChanged(int)), this, SLOT(SetAnimTime(int)));
-    connect(ui->PlayPauseButton, SIGNAL(pressed()), this, SLOT(TogglePlay()));
-    connect(ui->LoopButton, SIGNAL(toggled(bool)), this, SLOT(ToggleLoop(bool)));
-    connect(ui->RewindButton, SIGNAL(pressed()), this, SLOT(Rewind()));
-    connect(ui->FastForwardButton, SIGNAL(pressed()), this, SLOT(FastForward()));
-    connect(ui->AnimSpeedSpinBox, SIGNAL(valueChanged(double)), this, SLOT(AnimSpeedSpinBoxChanged(double)));
+    connect(ui->AnimSlider, qOverload<int>(&QSlider::valueChanged), this, qOverload<int>(&CCharacterEditor::SetAnimTime));
+    connect(ui->PlayPauseButton, &QPushButton::pressed, this, &CCharacterEditor::TogglePlay);
+    connect(ui->LoopButton, &QPushButton::toggled, this, &CCharacterEditor::ToggleLoop);
+    connect(ui->RewindButton, &QPushButton::pressed, this, &CCharacterEditor::Rewind);
+    connect(ui->FastForwardButton, &QPushButton::pressed, this, &CCharacterEditor::FastForward);
+    connect(ui->AnimSpeedSpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, &CCharacterEditor::AnimSpeedSpinBoxChanged);
 
     // Init skeleton tree view
     ui->SkeletonHierarchyTreeView->setModel(&mSkeletonModel);
-    QList<int> SplitterSizes;
-    SplitterSizes << width() * 0.2 << width() * 0.8;
+    const QList<int> SplitterSizes{static_cast<int>(width() * 0.2), static_cast<int>(width() * 0.8)};
     ui->splitter->setSizes(SplitterSizes);
 
-    connect(ui->SkeletonHierarchyTreeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(OnSkeletonTreeSelectionChanged(QModelIndex)));
+    connect(ui->SkeletonHierarchyTreeView->selectionModel(), &QItemSelectionModel::currentChanged, this,
+            &CCharacterEditor::OnSkeletonTreeSelectionChanged);
 
     SetActiveAnimSet(pSet);
 }
 
-CCharacterEditor::~CCharacterEditor()
-{
-    delete ui;
-    delete mpScene;
-    delete mpCharNode;
-}
+CCharacterEditor::~CCharacterEditor() = default;
 
 void CCharacterEditor::EditorTick(float DeltaTime)
 {
@@ -175,7 +164,7 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
 {
     mpSet = pSet;
     mpCharNode->SetCharSet(mpSet);
-    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Character Editor: " + TO_QSTRING(mpSet->Source()));
+    SET_WINDOWTITLE_APPVARS(tr("%APP_FULL_NAME% - Character Editor: ").arg(TO_QSTRING(mpSet->Source())));
 
     // Clear selected bone
     ui->SkeletonHierarchyTreeView->selectionModel()->clear();
@@ -185,8 +174,8 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     mpCharComboBox->blockSignals(true);
     mpCharComboBox->clear();
 
-    for (uint32 iChar = 0; iChar < mpSet->NumCharacters(); iChar++)
-        mpCharComboBox->addItem( TO_QSTRING(mpSet->Character(iChar)->Name) );
+    for (size_t iChar = 0; iChar < mpSet->NumCharacters(); iChar++)
+        mpCharComboBox->addItem(TO_QSTRING(mpSet->Character(iChar)->Name));
 
     SetActiveCharacterIndex(0);
     mpCharComboBox->blockSignals(false);
@@ -195,7 +184,7 @@ void CCharacterEditor::SetActiveAnimSet(CAnimSet *pSet)
     mpAnimComboBox->blockSignals(true);
     mpAnimComboBox->clear();
 
-    for (uint32 iAnim = 0; iAnim < mpSet->NumAnimations(); iAnim++)
+    for (size_t iAnim = 0; iAnim < mpSet->NumAnimations(); iAnim++)
         mpAnimComboBox->addItem( TO_QSTRING(mpSet->Animation(iAnim)->Name) );
 
     SetActiveAnimation(0);
@@ -278,10 +267,10 @@ void CCharacterEditor::RefreshViewport()
 
 void CCharacterEditor::OnViewportHoverBoneChanged(uint32 BoneID)
 {
-    if (BoneID == 0xFFFFFFFF)
+    if (BoneID == UINT32_MAX)
         ui->StatusBar->clearMessage();
     else
-        ui->StatusBar->showMessage(QString("Bone %1: %2").arg(BoneID).arg( TO_QSTRING(mpSet->Character(mCurrentChar)->pSkeleton->BoneByID(BoneID)->Name()) ));
+        ui->StatusBar->showMessage(tr("Bone %1: %2").arg(BoneID).arg(TO_QSTRING(mpSet->Character(mCurrentChar)->pSkeleton->BoneByID(BoneID)->Name())));
 }
 
 void CCharacterEditor::OnViewportClick()
@@ -298,7 +287,9 @@ void CCharacterEditor::OnViewportClick()
             ui->SkeletonHierarchyTreeView->selectionModel()->setCurrentIndex(NewBoneIndex, QItemSelectionModel::ClearAndSelect);
         }
         else
+        {
             ui->SkeletonHierarchyTreeView->selectionModel()->clear();
+        }
 
         SetSelectedBone(pBone);
     }
@@ -334,13 +325,15 @@ void CCharacterEditor::SetActiveAnimation(int AnimIndex)
 
 void CCharacterEditor::PrevAnim()
 {
-    if (mCurrentAnim > 0) SetActiveAnimation(mCurrentAnim - 1);
+    if (mCurrentAnim > 0)
+        SetActiveAnimation(mCurrentAnim - 1);
 }
 
 void CCharacterEditor::NextAnim()
 {
-    uint32 MaxAnim = (mpSet ? mpSet->NumAnimations() - 1 : 0);
-    if (mCurrentAnim < MaxAnim) SetActiveAnimation(mCurrentAnim + 1);
+    const size_t MaxAnim = (mpSet ? mpSet->NumAnimations() - 1 : 0);
+    if (mCurrentAnim < MaxAnim)
+        SetActiveAnimation(mCurrentAnim + 1);
 }
 
 void CCharacterEditor::SetAnimTime(int Time)
@@ -371,19 +364,20 @@ void CCharacterEditor::SetAnimTime(float Time)
         CurKey = Math::Min<uint32>((uint32) (Time / pAnim->TickInterval()) + 1, NumKeys - 1);
     }
 
-    ui->FrameLabel->setText(QString("Frame %1 / %2 (%3s/%4s)").arg(CurKey).arg(NumKeys - 1).arg(mAnimTime, 0, 'f', 3).arg(pAnim ? pAnim->Duration() : 0.f, 0, 'f', 3));
+    ui->FrameLabel->setText(tr("Frame %1 / %2 (%3s/%4s)").arg(CurKey).arg(NumKeys - 1).arg(mAnimTime, 0, 'f', 3).arg(pAnim ? pAnim->Duration() : 0.f, 0, 'f', 3));
 }
 
 void CCharacterEditor::TogglePlay()
 {
-    if (mBindPose) ToggleBindPose(false);
+    if (mBindPose)
+        ToggleBindPose(false);
 
     mPlayAnim = !mPlayAnim;
-    QString NewText = (mPlayAnim ? "Pause" : "Play");
+    const QString NewText = (mPlayAnim ? tr("Pause") : tr("Play"));
     ui->PlayPauseButton->setToolTip(NewText);
     ui->ActionPlay->setText(NewText);
 
-    QIcon PlayPauseIcon = QIcon(mPlayAnim ? ":/icons/Pause_24px.svg" : ":/icons/Play_24px.svg");
+    const QIcon PlayPauseIcon = QIcon(mPlayAnim ? QStringLiteral(":/icons/Pause_24px.svg") : QStringLiteral(":/icons/Play_24px.svg"));
     ui->PlayPauseButton->setIcon(PlayPauseIcon);
 
     if (ui->ActionPlay != sender())
@@ -408,11 +402,11 @@ void CCharacterEditor::ToggleLoop(bool Loop)
 {
     mLoopAnim = Loop;
 
-    QString NewText = (Loop ? "Disable Loop" : "Loop");
+    const QString NewText = (Loop ? tr("Disable Loop") : tr("Loop"));
     ui->LoopButton->setToolTip(NewText);
     ui->ActionLoop->setText(NewText);
 
-    QIcon ActionIcon = QIcon(Loop ? ":/icons/DontLoop_24px" : ":/icons/Loop_24px.svg");
+    const QIcon ActionIcon = QIcon(Loop ? QStringLiteral(":/icons/DontLoop_24px") : QStringLiteral(":/icons/Loop_24px.svg"));
     ui->ActionLoop->setIcon(ActionIcon);
 
     if (sender() != ui->LoopButton)

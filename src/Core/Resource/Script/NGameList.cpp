@@ -1,9 +1,12 @@
 #include "NGameList.h"
 #include <Common/Log.h>
 
+#include <array>
+
 namespace NGameList
 {
-
+namespace
+{
 /** Path for the templates directory */
 const TString gkTemplatesDir = "templates/";
 
@@ -16,11 +19,9 @@ struct SGameInfo
     TString Name;
     TString TemplatePath;
     std::unique_ptr<CGameTemplate> pTemplate;
-    bool IsValid;
+    bool IsValid = false;
 
-    SGameInfo()
-        : IsValid(false)
-    {}
+    SGameInfo() = default;
 
     void Serialize(IArchive& Arc)
     {
@@ -33,7 +34,7 @@ struct SGameInfo
         }
     }
 };
-SGameInfo gGameList[int(EGame::Max)];
+std::array<SGameInfo, static_cast<size_t>(EGame::Max)> gGameList;
 
 /** Whether the game list has been loaded */
 bool gLoadedGameList = false;
@@ -41,22 +42,22 @@ bool gLoadedGameList = false;
 /** Returns whether a game template has been loaded or not */
 bool IsGameTemplateLoaded(EGame Game)
 {
-    int GameIdx = (int) Game;
+    const auto GameIdx = static_cast<size_t>(Game);
     const SGameInfo& GameInfo = gGameList[GameIdx];
     return GameInfo.pTemplate != nullptr;
 }
 
 /** Serialize the game list to/from a file */
-inline void SerializeGameList(IArchive& Arc)
+void SerializeGameList(IArchive& Arc)
 {
     // Serialize the number of games with valid GameInfos.
     uint32 NumGames = 0;
 
     if (Arc.IsWriter())
     {
-        for (uint32 GameIdx = 0; GameIdx < (uint32) EGame::Max; GameIdx++)
+        for (uint32 GameIdx = 0; GameIdx < static_cast<uint32>(EGame::Max); GameIdx++)
         {
-            if ( gGameList[GameIdx].IsValid )
+            if (gGameList[GameIdx].IsValid)
                 NumGames++;
         }
     }
@@ -64,23 +65,24 @@ inline void SerializeGameList(IArchive& Arc)
     Arc.SerializeArraySize(NumGames);
 
     // Serialize the actual game info
-    for (uint32 GameIdx = 0; GameIdx < (uint32) EGame::Max; GameIdx++)
+    for (uint32 GameIdx = 0; GameIdx < static_cast<uint32>(EGame::Max); GameIdx++)
     {
         // Skip games that don't have game templates when writing.
         if (Arc.IsWriter() && !gGameList[GameIdx].IsValid)
             continue;
 
-        ENSURE( Arc.ParamBegin("Game", 0) );
+        ENSURE(Arc.ParamBegin("Game", 0));
 
         // Determine which game is being serialized
-        EGame Game = (EGame) GameIdx;
+        auto Game = static_cast<EGame>(GameIdx);
         Arc << SerialParameter("ID", Game, SH_Attribute);
-        ASSERT( Game != EGame::Invalid );
+        ASSERT(Game != EGame::Invalid);
 
-        gGameList[ (uint32) Game ].Serialize(Arc);
+        gGameList[static_cast<uint32>(Game)].Serialize(Arc);
         Arc.ParamEnd();
     }
 }
+} // Anonymous namespace
 
 /** Load the game list into memory */
 void LoadGameList()
@@ -110,17 +112,17 @@ void SaveGameList()
 /** Load all game templates into memory */
 void LoadAllGameTemplates()
 {
-    for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
-        GetGameTemplate( (EGame) GameIdx );
+    for (int GameIdx = 0; GameIdx < static_cast<int>(EGame::Max); GameIdx++)
+        GetGameTemplate(static_cast<EGame>(GameIdx));
 }
 
 /** Resave templates. If ForceAll is false, only saves templates that have been modified. */
-void SaveTemplates(bool ForceAll /*= false*/)
+void SaveTemplates(bool ForceAll)
 {
-    for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
+    for (int GameIdx = 0; GameIdx < static_cast<int>(EGame::Max); GameIdx++)
     {
-        EGame Game = (EGame) GameIdx;
-        if ( IsGameTemplateLoaded(Game) )
+        const auto Game = static_cast<EGame>(GameIdx);
+        if (IsGameTemplateLoaded(Game))
         {
             CGameTemplate* pGameTemplate = GetGameTemplate(Game);
             pGameTemplate->SaveGameTemplates(ForceAll);
@@ -137,7 +139,7 @@ CGameTemplate* GetGameTemplate(EGame Game)
         return nullptr;
     }
 
-    ASSERT(Game >= (EGame) 0 && Game < EGame::Max);
+    ASSERT(Game >= static_cast<EGame>(0) && Game < EGame::Max);
 
     // Initialize the game list, if it hasn't been loaded yet.
     if (!gLoadedGameList)
@@ -145,13 +147,13 @@ CGameTemplate* GetGameTemplate(EGame Game)
         LoadGameList();
     }
 
-    int GameIdx = (int) Game;
+    const int GameIdx = static_cast<int>(Game);
     SGameInfo& GameInfo = gGameList[GameIdx];
 
     // Load the game template, if it hasn't been loaded yet.
     if (!GameInfo.pTemplate && !GameInfo.Name.IsEmpty())
     {
-        TString GamePath = gDataDir + gkTemplatesDir + GameInfo.TemplatePath;
+        const TString GamePath = gDataDir + gkTemplatesDir + GameInfo.TemplatePath;
         GameInfo.pTemplate = std::make_unique<CGameTemplate>();
         GameInfo.pTemplate->Load(GamePath);
     }
@@ -162,7 +164,7 @@ CGameTemplate* GetGameTemplate(EGame Game)
 /** Clean up game list resources. This needs to be called on app shutdown to ensure things are cleaned up in the right order. */
 void Shutdown()
 {
-    for (int GameIdx = 0; GameIdx < (int) EGame::Max; GameIdx++)
+    for (int GameIdx = 0; GameIdx < static_cast<int>(EGame::Max); GameIdx++)
     {
         gGameList[GameIdx].Name = "";
         gGameList[GameIdx].TemplatePath = "";

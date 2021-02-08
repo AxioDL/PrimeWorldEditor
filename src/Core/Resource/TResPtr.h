@@ -6,20 +6,17 @@
 template <typename ResType>
 class TResPtr
 {
-    ResType *mpRes;
+    ResType *mpRes = nullptr;
 
 public:
-    TResPtr()
-        : mpRes(nullptr) {}
+    constexpr TResPtr() = default;
 
     TResPtr(void *pPtr)
-        : mpRes(nullptr)
     {
         *this = pPtr;
     }
 
     TResPtr(const TResPtr<ResType>& rkSource)
-        : mpRes(nullptr)
     {
         *this = rkSource;
     }
@@ -30,7 +27,7 @@ public:
             mpRes->Release();
     }
 
-    inline void Serialize(IArchive& rArc)
+    void Serialize(IArchive& rArc)
     {
         CAssetID ID = (mpRes && !rArc.IsReader() ? mpRes->ID() : CAssetID::InvalidID(rArc.Game()));
         rArc.SerializePrimitive(ID, 0);
@@ -42,29 +39,29 @@ public:
         }
     }
 
-    inline void Delete()
+    void Delete()
     {
         // use with caution! this function exists because not all resources are cached currently
         delete mpRes;
         mpRes = nullptr;
     }
 
-    inline ResType* RawPointer() const
+    ResType* RawPointer() const
     {
         return mpRes;
     }
 
-    inline operator ResType*() const
+    operator ResType*() const
     {
         return mpRes;
     }
 
-    inline ResType& operator*() const
+    ResType& operator*() const
     {
         return *mpRes;
     }
 
-    inline ResType* operator->() const
+    ResType* operator->() const
     {
         return mpRes;
     }

@@ -9,10 +9,11 @@ class CLayerModel : public QAbstractListModel
     TResPtr<CGameArea> mpArea;
 
 public:
-    explicit CLayerModel(QObject *pParent = 0);
-    ~CLayerModel();
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
+    explicit CLayerModel(QObject *pParent = nullptr);
+    ~CLayerModel() override;
+
+    int rowCount(const QModelIndex &parent) const override;
+    QVariant data(const QModelIndex &index, int role) const override;
     void SetArea(CGameArea *pArea);
     CScriptLayer* Layer(const QModelIndex& index) const;
 };

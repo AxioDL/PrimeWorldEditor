@@ -3,13 +3,10 @@
 
 CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pParent)
     : QDialog(pParent)
-    , ui(new Ui::CSelectInstanceDialog)
     , mpEditor(pEditor)
     , mLayersModel(pEditor, this)
     , mTypesModel(pEditor, this)
-    , mValidSelection(false)
-    , mpLayersInst(nullptr)
-    , mpTypesInst(nullptr)
+    , ui(std::make_unique<Ui::CSelectInstanceDialog>())
 {
     ui->setupUi(this);
 
@@ -38,17 +35,14 @@ CSelectInstanceDialog::CSelectInstanceDialog(CWorldEditor *pEditor, QWidget *pPa
 
     ui->ButtonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 
-    connect(ui->TabWidget, SIGNAL(currentChanged(int)), this, SLOT(OnTabChanged(int)));
-    connect(ui->LayersTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnTreeClicked(QModelIndex)));
-    connect(ui->LayersTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClicked(QModelIndex)));
-    connect(ui->TypesTreeView, SIGNAL(clicked(QModelIndex)), this, SLOT(OnTreeClicked(QModelIndex)));
-    connect(ui->TypesTreeView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(OnTreeDoubleClicked(QModelIndex)));
+    connect(ui->TabWidget, &QTabWidget::currentChanged, this, &CSelectInstanceDialog::OnTabChanged);
+    connect(ui->LayersTreeView, &QTreeView::clicked, this, &CSelectInstanceDialog::OnTreeClicked);
+    connect(ui->LayersTreeView, &QTreeView::doubleClicked, this, &CSelectInstanceDialog::OnTreeDoubleClicked);
+    connect(ui->TypesTreeView, &QTreeView::clicked, this, &CSelectInstanceDialog::OnTreeClicked);
+    connect(ui->TypesTreeView, &QTreeView::doubleClicked, this, &CSelectInstanceDialog::OnTreeDoubleClicked);
 }
 
-CSelectInstanceDialog::~CSelectInstanceDialog()
-{
-    delete ui;
-}
+CSelectInstanceDialog::~CSelectInstanceDialog() = default;
 
 CScriptObject* CSelectInstanceDialog::SelectedInstance() const
 {

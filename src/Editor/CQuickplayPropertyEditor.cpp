@@ -9,9 +9,9 @@
 class CDolphinValidator : public QValidator
 {
 public:
-    CDolphinValidator(QObject* pParent = 0) : QValidator(pParent) {}
+    explicit CDolphinValidator(QObject* pParent = nullptr) : QValidator(pParent) {}
 
-    virtual QValidator::State validate(QString& Input, int& Pos) const override
+    QValidator::State validate(QString& Input, int& Pos) const override
     {
         return PathValid(Input) ? QValidator::Acceptable : QValidator::Invalid;
     }
@@ -26,7 +26,7 @@ public:
 /** CQuickplayPropertyEditor functions */
 CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Parameters, QWidget* pParent /*= 0*/)
     : QMenu(pParent)
-    , mpUI(new Ui::CQuickplayPropertyEditor)
+    , mpUI(std::make_unique<Ui::CQuickplayPropertyEditor>())
     , mParameters(Parameters)
 {
     mpUI->setupUi(this);
@@ -39,42 +39,39 @@ CQuickplayPropertyEditor::CQuickplayPropertyEditor(SQuickplayParameters& Paramet
     mpUI->SpawnAtCameraLocationCheckBox->setChecked( Parameters.Features.HasFlag(EQuickplayFeature::SetSpawnPosition) );
     mpUI->GiveAllItemsCheckBox->setChecked( Parameters.Features.HasFlag(EQuickplayFeature::GiveAllItems) );
 
-    connect(mpUI->DolphinPathLineEdit, SIGNAL(textChanged(QString)),
-            this, SLOT(OnDolphinPathChanged(QString)));
+    connect(mpUI->DolphinPathLineEdit, &QLineEdit::textChanged,
+            this, &CQuickplayPropertyEditor::OnDolphinPathChanged);
 
-    connect(mpUI->DolphinBrowseButton, SIGNAL(pressed()),
-            this, SLOT(BrowseForDolphin()));
+    connect(mpUI->DolphinBrowseButton, &QPushButton::pressed,
+            this, &CQuickplayPropertyEditor::BrowseForDolphin);
 
-    connect(mpUI->BootToAreaCheckBox, SIGNAL(toggled(bool)),
-            this, SLOT(OnBootToAreaToggled(bool)));
+    connect(mpUI->BootToAreaCheckBox, &QCheckBox::toggled,
+            this, &CQuickplayPropertyEditor::OnBootToAreaToggled);
 
-    connect(mpUI->SpawnAtCameraLocationCheckBox, SIGNAL(toggled(bool)),
-            this, SLOT(OnSpawnAtCameraLocationToggled(bool)));
+    connect(mpUI->SpawnAtCameraLocationCheckBox, &QCheckBox::toggled,
+            this, &CQuickplayPropertyEditor::OnSpawnAtCameraLocationToggled);
 
-    connect(mpUI->GiveAllItemsCheckBox, SIGNAL(toggled(bool)),
-            this, SLOT(OnGiveAllItemsToggled(bool)));
+    connect(mpUI->GiveAllItemsCheckBox, &QCheckBox::toggled,
+            this, &CQuickplayPropertyEditor::OnGiveAllItemsToggled);
 
-    connect(mpUI->LayerList, SIGNAL(itemChanged(QListWidgetItem*)),
-            this, SLOT(OnLayerListItemChanged(QListWidgetItem*)));
+    connect(mpUI->LayerList, &QListWidget::itemChanged,
+            this, &CQuickplayPropertyEditor::OnLayerListItemChanged);
 
     // Connect to World Editor signals
     CWorldEditor* pWorldEditor = qobject_cast<CWorldEditor*>(pParent);
 
     if (pWorldEditor)
     {
-        connect(pWorldEditor, SIGNAL(MapChanged(CWorld*,CGameArea*)),
-                this, SLOT(OnWorldEditorAreaChanged(CWorld*,CGameArea*)));
+        connect(pWorldEditor, &CWorldEditor::MapChanged,
+                this, &CQuickplayPropertyEditor::OnWorldEditorAreaChanged);
     }
 }
 
-CQuickplayPropertyEditor::~CQuickplayPropertyEditor()
-{
-    delete mpUI;
-}
+CQuickplayPropertyEditor::~CQuickplayPropertyEditor() = default;
 
 void CQuickplayPropertyEditor::BrowseForDolphin()
 {
-    QString Path = UICommon::OpenFileDialog(this, "Open Dolphin", "Dolphin");
+    QString Path = NDolphinIntegration::AskForDolphinPath(this);
 
     if (!Path.isEmpty())
     {
@@ -152,15 +149,15 @@ void CQuickplayPropertyEditor::OnWorldEditorAreaChanged(CWorld* pWorld, CGameAre
 
     if (pArea)
     {
-        for (uint LayerIdx = 0; LayerIdx < pArea->NumScriptLayers(); LayerIdx++)
+        for (size_t LayerIdx = 0; LayerIdx < pArea->NumScriptLayers(); LayerIdx++)
         {
             CScriptLayer* pLayer = pArea->ScriptLayer(LayerIdx);
             bool bActive = pLayer->IsActive();
 
             QListWidgetItem* pItem = new QListWidgetItem();
-            pItem->setText( TO_QSTRING(pLayer->Name()) );
-            pItem->setCheckState( bActive ? Qt::Checked : Qt::Unchecked );
-            mpUI->LayerList->addItem( pItem );
+            pItem->setText(TO_QSTRING(pLayer->Name()));
+            pItem->setCheckState(bActive ? Qt::Checked : Qt::Unchecked);
+            mpUI->LayerList->addItem(pItem);
 
             if (bActive)
             {

@@ -3,6 +3,7 @@
 
 #include "ELogbookCategory.h"
 #include <Common/Common.h>
+#include <array>
 
 /** Struct mapping to SCAN property layout in MP1 */
 enum class EScanSpeed
@@ -49,12 +50,12 @@ struct SScanImage
 
 struct SScanParametersMP1
 {
-    CAssetID            GuiFrame;
-    CAssetID            String;
-    EScanSpeed          Speed;
-    ELogbookCategory    LogbookCategory;
-    bool                IsCritical;
-    SScanImage          ScanImages[4];
+    CAssetID                  GuiFrame;
+    CAssetID                  String;
+    EScanSpeed                Speed;
+    ELogbookCategory          LogbookCategory;
+    bool                      IsCritical;
+    std::array<SScanImage, 4> ScanImages;
 };
 
 #endif // SSCANPARAMETERSMP1_H

@@ -7,10 +7,7 @@ CScriptObject::CScriptObject(uint32 InstanceID, CGameArea *pArea, CScriptLayer *
     : mpTemplate(pTemplate)
     , mpArea(pArea)
     , mpLayer(pLayer)
-    , mVersion(0)
     , mInstanceID(InstanceID)
-    , mHasInGameModel(false)
-    , mIsCheckingNearVisibleActivation(false)
 {
     mpTemplate->AddObject(this);
 
@@ -41,8 +38,8 @@ CScriptObject::~CScriptObject()
     mpTemplate->RemoveObject(this);
 
     // Note: Incoming links will be deleted by the sender.
-    for (uint32 iLink = 0; iLink < mOutLinks.size(); iLink++)
-        delete mOutLinks[iLink];
+    for (auto* link : mOutLinks)
+        delete link;
 }
 
 // ************ DATA MANIPULATION ************
@@ -82,19 +79,18 @@ void CScriptObject::EvaluateVolume()
     mVolumeScale = mpTemplate->VolumeScale(this);
 }
 
-bool CScriptObject::IsEditorProperty(IProperty *pProp)
+bool CScriptObject::IsEditorProperty(const IProperty *pProp) const
 {
-    return ( (pProp == mInstanceName.Property()) ||
-             (pProp == mPosition.Property()) ||
-             (pProp == mRotation.Property()) ||
-             (pProp == mScale.Property()) ||
-             (pProp == mActive.Property()) ||
-             (pProp == mLightParameters.Property()) ||
-             (pProp->Parent() == mPosition.Property()) ||
-             (pProp->Parent() == mRotation.Property()) ||
-             (pProp->Parent() == mScale.Property()) ||
-             (pProp->Parent() == mLightParameters.Property())
-           );
+    return pProp == mInstanceName.Property() ||
+           pProp == mPosition.Property() ||
+           pProp == mRotation.Property() ||
+           pProp == mScale.Property() ||
+           pProp == mActive.Property() ||
+           pProp == mLightParameters.Property() ||
+           pProp->Parent() == mPosition.Property() ||
+           pProp->Parent() == mRotation.Property() ||
+           pProp->Parent() == mScale.Property() ||
+           pProp->Parent() == mLightParameters.Property();
 }
 
 void CScriptObject::SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex)
@@ -111,7 +107,8 @@ void CScriptObject::SetLayer(CScriptLayer *pLayer, uint32 NewLayerIndex)
 
 uint32 CScriptObject::LayerIndex() const
 {
-    if (!mpLayer) return -1;
+    if (!mpLayer)
+        return UINT32_MAX;
 
     for (uint32 iInst = 0; iInst < mpLayer->NumInstances(); iInst++)
     {
@@ -119,7 +116,7 @@ uint32 CScriptObject::LayerIndex() const
             return iInst;
     }
 
-    return -1;
+    return UINT32_MAX;
 }
 
 bool CScriptObject::HasNearVisibleActivation() const
@@ -130,20 +127,20 @@ bool CScriptObject::HasNearVisibleActivation() const
      * instance has a "Near Visible" activation, which is typically done via a trigger that activates the object on
      * InternalState04/05/06 (usually through a relay). */
     std::list<CScriptObject*> Relays;
-    bool IsRelay = (ObjectTypeID() == 0x53524C59);
+    const bool IsRelay = ObjectTypeID() == 0x53524C59;
 
-    if (mIsCheckingNearVisibleActivation) return false;
+    if (mIsCheckingNearVisibleActivation)
+        return false;
+
     mIsCheckingNearVisibleActivation = true;
 
-    for (uint32 iLink = 0; iLink < mInLinks.size(); iLink++)
+    for (const auto* pLink : mInLinks)
     {
-        CLink *pLink = mInLinks[iLink];
-
         // Check for trigger activation
         if (pLink->State() == FOURCC('IS04') || pLink->State() == FOURCC('IS05') || pLink->State() == FOURCC('IS06'))
         {
-            if ( (!IsRelay && pLink->Message() == FOURCC('ACTV')) ||
-                 (IsRelay  && pLink->Message() == FOURCC('ACTN')) )
+            if ((!IsRelay && pLink->Message() == FOURCC('ACTV')) ||
+                (IsRelay  && pLink->Message() == FOURCC('ACTN')))
             {
                 CScriptObject *pObj = pLink->Sender();
 
@@ -170,25 +167,26 @@ bool CScriptObject::HasNearVisibleActivation() const
     }
 
     // Check whether any of the relays have a near visible activation
-    for (auto it = Relays.begin(); it != Relays.end(); it++)
+    const bool nearVisible = std::any_of(Relays.cbegin(), Relays.cend(),
+                                         [](const auto* relay) { return relay->HasNearVisibleActivation(); });
+    if (nearVisible)
     {
-        if ((*it)->HasNearVisibleActivation())
-        {
-            mIsCheckingNearVisibleActivation = false;
-            return true;
-        }
+        mIsCheckingNearVisibleActivation = false;
+        return true;
     }
 
     mIsCheckingNearVisibleActivation = false;
     return false;
 }
 
-void CScriptObject::AddLink(ELinkType Type, CLink *pLink, uint32 Index /*= -1*/)
+void CScriptObject::AddLink(ELinkType Type, CLink *pLink, uint32 Index)
 {
     std::vector<CLink*> *pLinkVec = (Type == ELinkType::Incoming ? &mInLinks : &mOutLinks);
 
-    if (Index == -1 || Index == pLinkVec->size())
+    if (Index == UINT32_MAX || Index == pLinkVec->size())
+    {
         pLinkVec->push_back(pLink);
+    }
     else
     {
         auto it = pLinkVec->begin();
@@ -201,7 +199,7 @@ void CScriptObject::RemoveLink(ELinkType Type, CLink *pLink)
 {
     std::vector<CLink*> *pLinkVec = (Type == ELinkType::Incoming ? &mInLinks : &mOutLinks);
 
-    for (auto it = pLinkVec->begin(); it != pLinkVec->end(); it++)
+    for (auto it = pLinkVec->begin(); it != pLinkVec->end(); ++it)
     {
         if (*it == pLink)
         {
@@ -213,20 +211,20 @@ void CScriptObject::RemoveLink(ELinkType Type, CLink *pLink)
 
 void CScriptObject::BreakAllLinks()
 {
-    for (auto it = mInLinks.begin(); it != mInLinks.end(); it++)
+    for (auto* link : mInLinks)
     {
-        CLink *pLink = *it;
-        CScriptObject *pSender = pLink->Sender();
-        if (pSender) pSender->RemoveLink(ELinkType::Outgoing, pLink);
-        delete pLink;
+        if (CScriptObject* sender = link->Sender())
+            sender->RemoveLink(ELinkType::Outgoing, link);
+
+        delete link;
     }
 
-    for (auto it = mOutLinks.begin(); it != mOutLinks.end(); it++)
+    for (auto* link : mOutLinks)
     {
-        CLink *pLink = *it;
-        CScriptObject *pReceiver = pLink->Receiver();
-        if (pReceiver) pReceiver->RemoveLink(ELinkType::Incoming, pLink);
-        delete pLink;
+        if (CScriptObject* receiver = link->Receiver())
+            receiver->RemoveLink(ELinkType::Incoming, link);
+
+        delete link;
     }
 
     mInLinks.clear();

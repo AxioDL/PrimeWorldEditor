@@ -109,11 +109,11 @@ void GenerateAssetNames(CGameProject *pProj)
     // Generate names for package named resources
     debugf("Processing packages");
 
-    for (uint32 iPkg = 0; iPkg < pProj->NumPackages(); iPkg++)
+    for (size_t iPkg = 0; iPkg < pProj->NumPackages(); iPkg++)
     {
         CPackage *pPkg = pProj->PackageByIndex(iPkg);
 
-        for (uint32 iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
+        for (size_t iRes = 0; iRes < pPkg->NumNamedResources(); iRes++)
         {
             const SNamedResource& rkRes = pPkg->NamedResourceByIndex(iRes);
             if (rkRes.Name.EndsWith("NODEPEND")) continue;
@@ -166,17 +166,17 @@ void GenerateAssetNames(CGameProject *pProj)
             ApplyGeneratedName(pSkyEntry, WorldDir + "sky/cooked/", WorldName + "_sky");
 
             // Move sky textures
-            for (uint32 iSet = 0; iSet < pSkyModel->GetMatSetCount(); iSet++)
+            for (size_t iSet = 0; iSet < pSkyModel->GetMatSetCount(); iSet++)
             {
                 CMaterialSet *pSet = pSkyModel->GetMatSet(iSet);
 
-                for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+                for (size_t mat = 0; mat < pSet->NumMaterials(); mat++)
                 {
-                    CMaterial *pMat = pSet->MaterialByIndex(iMat, true);
+                    CMaterial *pMat = pSet->MaterialByIndex(mat, true);
 
-                    for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+                    for (size_t pass = 0; pass < pMat->PassCount(); pass++)
                     {
-                        CMaterialPass *pPass = pMat->Pass(iPass);
+                        CMaterialPass *pPass = pMat->Pass(pass);
 
                         if (pPass->Texture())
                             ApplyGeneratedName(pPass->Texture()->Entry(), WorldDir + "sky/sourceimages/", pPass->Texture()->Entry()->Name());
@@ -198,7 +198,7 @@ void GenerateAssetNames(CGameProject *pProj)
         }
 
         // Areas
-        for (uint32 iArea = 0; iArea < pWorld->NumAreas(); iArea++)
+        for (size_t iArea = 0; iArea < pWorld->NumAreas(); iArea++)
         {
             // Determine area name
             TString AreaName = pWorld->AreaInternalName(iArea);
@@ -209,7 +209,9 @@ void GenerateAssetNames(CGameProject *pProj)
 
             // Rename area stuff
             CResourceEntry *pAreaEntry = pStore->FindEntry(AreaID);
-            if (!pAreaEntry) continue; // Some DKCR worlds reference areas that don't exist
+            // Some DKCR worlds reference areas that don't exist
+            if (!pAreaEntry)
+                continue;
             ApplyGeneratedName(pAreaEntry, WorldMasterDir, AreaName);
 
             CStringTable *pAreaNameTable = pWorld->AreaName(iArea);
@@ -237,12 +239,12 @@ void GenerateAssetNames(CGameProject *pProj)
             uint32 LightmapNum = 0;
             CMaterialSet *pMaterials = pArea->Materials();
 
-            for (uint32 iMat = 0; iMat < pMaterials->NumMaterials(); iMat++)
+            for (size_t iMat = 0; iMat < pMaterials->NumMaterials(); iMat++)
             {
                 CMaterial *pMat = pMaterials->MaterialByIndex(iMat, true);
                 bool FoundLightmap = false;
 
-                for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+                for (size_t iPass = 0; iPass < pMat->PassCount(); iPass++)
                 {
                     CMaterialPass *pPass = pMat->Pass(iPass);
 
@@ -278,11 +280,11 @@ void GenerateAssetNames(CGameProject *pProj)
             }
 
             // Generate names from script instance names
-            for (uint32 iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
+            for (size_t iLyr = 0; iLyr < pArea->NumScriptLayers(); iLyr++)
             {
                 CScriptLayer *pLayer = pArea->ScriptLayer(iLyr);
 
-                for (uint32 iInst = 0; iInst < pLayer->NumInstances(); iInst++)
+                for (size_t iInst = 0; iInst < pLayer->NumInstances(); iInst++)
                 {
                     CScriptObject* pInst = pLayer->InstanceByIndex(iInst);
                     CStructProperty* pProperties = pInst->Template()->Properties();
@@ -407,30 +409,31 @@ void GenerateAssetNames(CGameProject *pProj)
     for (TResourceIterator<EResourceType::Model> It(pStore); It; ++It)
     {
         CModel *pModel = (CModel*) It->Load();
-        uint32 LightmapNum = 0;
+        size_t LightmapNum = 0;
 
-        for (uint32 iSet = 0; iSet < pModel->GetMatSetCount(); iSet++)
+        for (size_t iSet = 0; iSet < pModel->GetMatSetCount(); iSet++)
         {
             CMaterialSet *pSet = pModel->GetMatSet(iSet);
 
-            for (uint32 iMat = 0; iMat < pSet->NumMaterials(); iMat++)
+            for (size_t iMat = 0; iMat < pSet->NumMaterials(); iMat++)
             {
                 CMaterial *pMat = pSet->MaterialByIndex(iMat, true);
 
-                for (uint32 iPass = 0; iPass < pMat->PassCount(); iPass++)
+                for (size_t iPass = 0; iPass < pMat->PassCount(); iPass++)
                 {
                     CMaterialPass *pPass = pMat->Pass(iPass);
 
-                    bool IsLightmap = ( (pMat->Version() <= EGame::Echoes && pMat->Options().HasFlag(EMaterialOption::Lightmap) && iPass == 0) ||
-                                        (pMat->Version() >= EGame::CorruptionProto && pPass->Type() == "DIFF") );
+                    const bool IsLightmap = (pMat->Version() <= EGame::Echoes && pMat->Options().HasFlag(EMaterialOption::Lightmap) && iPass == 0) ||
+                                            (pMat->Version() >= EGame::CorruptionProto && pPass->Type() == "DIFF");
 
                     if (IsLightmap)
                     {
                         CTexture *pLightmapTex = pPass->Texture();
                         CResourceEntry *pTexEntry = pLightmapTex->Entry();
-                        if (pTexEntry->IsNamed() || pTexEntry->IsCategorized()) continue;
+                        if (pTexEntry->IsNamed() || pTexEntry->IsCategorized())
+                            continue;
 
-                        TString TexName = TString::Format("%s_lightmap%d", *It->Name(), LightmapNum);
+                        TString TexName = TString::Format("%s_lightmap%zu", *It->Name(), LightmapNum);
                         ApplyGeneratedName(pTexEntry, pModel->Entry()->DirectoryPath(), TexName);
                         pTexEntry->SetHidden(true);
                         LightmapNum++;
@@ -463,23 +466,23 @@ void GenerateAssetNames(CGameProject *pProj)
 
     for (TResourceIterator<EResourceType::AudioMacro> It(pStore); It; ++It)
     {
-        CAudioMacro *pMacro = (CAudioMacro*) It->Load();
+        const auto* pMacro = static_cast<CAudioMacro*>(It->Load());
         TString MacroName = pMacro->MacroName();
         ApplyGeneratedName(*It, kSfxDir, MacroName);
 
-        for (uint32 iSamp = 0; iSamp < pMacro->NumSamples(); iSamp++)
+        for (size_t iSamp = 0; iSamp < pMacro->NumSamples(); iSamp++)
         {
-            CAssetID SampleID = pMacro->SampleByIndex(iSamp);
-            CResourceEntry *pSample = pStore->FindEntry(SampleID);
+            const CAssetID SampleID = pMacro->SampleByIndex(iSamp);
+            CResourceEntry* pSample = pStore->FindEntry(SampleID);
 
-            if (pSample && !pSample->IsNamed())
+            if (pSample != nullptr && !pSample->IsNamed())
             {
                 TString SampleName;
 
                 if (pMacro->NumSamples() == 1)
                     SampleName = MacroName;
                 else
-                    SampleName = TString::Format("%s_%d", *MacroName, iSamp);
+                    SampleName = TString::Format("%s_%zu", *MacroName, iSamp);
 
                 ApplyGeneratedName(pSample, kSfxDir, SampleName);
             }
@@ -500,9 +503,9 @@ void GenerateAssetNames(CGameProject *pProj)
     {
         TString SetDir = It->DirectoryPath();
         TString NewSetName;
-        CAnimSet *pSet = (CAnimSet*) It->Load();
+        auto* pSet = static_cast<CAnimSet*>(It->Load());
 
-        for (uint32 iChar = 0; iChar < pSet->NumCharacters(); iChar++)
+        for (size_t iChar = 0; iChar < pSet->NumCharacters(); iChar++)
         {
             const SSetCharacter *pkChar = pSet->Character(iChar);
 
@@ -524,10 +527,8 @@ void GenerateAssetNames(CGameProject *pProj)
                 }
             }
 
-            for (uint32 iOverlay = 0; iOverlay < pkChar->OverlayModels.size(); iOverlay++)
+            for (const auto& rkOverlay : pkChar->OverlayModels)
             {
-                const SOverlayModel& rkOverlay = pkChar->OverlayModels[iOverlay];
-
                 if (rkOverlay.ModelID.IsValid() || rkOverlay.SkinID.IsValid())
                 {
                     TString TypeName = (
@@ -561,17 +562,16 @@ void GenerateAssetNames(CGameProject *pProj)
         std::set<CAnimPrimitive> AnimPrimitives;
         pSet->GetUniquePrimitives(AnimPrimitives);
 
-        for (auto It = AnimPrimitives.begin(); It != AnimPrimitives.end(); It++)
+        for (const auto& rkPrim : AnimPrimitives)
         {
-            const CAnimPrimitive& rkPrim = *It;
             CAnimation *pAnim = rkPrim.Animation();
 
-            if (pAnim)
+            if (pAnim != nullptr)
             {
                 ApplyGeneratedName(pAnim->Entry(), SetDir, rkPrim.Name());
                 CAnimEventData *pEvents = pAnim->EventData();
 
-                if (pEvents)
+                if (pEvents != nullptr)
                     ApplyGeneratedName(pEvents->Entry(), SetDir, rkPrim.Name());
             }
         }
@@ -586,12 +586,14 @@ void GenerateAssetNames(CGameProject *pProj)
 
     for (TResourceIterator<EResourceType::StringTable> It(pStore); It; ++It)
     {
-        if (It->IsNamed()) continue;
-        CStringTable *pString = (CStringTable*) It->Load();
+        if (It->IsNamed())
+            continue;
+
+        auto *pString = static_cast<CStringTable*>(It->Load());
         TString String;
 
-        for (uint32 iStr = 0; iStr < pString->NumStrings() && String.IsEmpty(); iStr++)
-            String = CStringTable::StripFormatting( pString->GetString(ELanguage::English, iStr) ).Trimmed();
+        for (size_t iStr = 0; iStr < pString->NumStrings() && String.IsEmpty(); iStr++)
+            String = CStringTable::StripFormatting(pString->GetString(ELanguage::English, iStr)).Trimmed();
 
         if (!String.IsEmpty())
         {
@@ -611,31 +613,33 @@ void GenerateAssetNames(CGameProject *pProj)
     debugf("Processing scans");
     for (TResourceIterator<EResourceType::Scan> It(pStore); It; ++It)
     {
-        if (It->IsNamed()) continue;
-        CScan *pScan = (CScan*) It->Load();
+        if (It->IsNamed())
+            continue;
+
+        auto* pScan = static_cast<CScan*>(It->Load());
         TString ScanName;
 
         if (ScanName.IsEmpty())
         {
-            CAssetID StringID = pScan->ScanStringPropertyRef().Get();
-            CStringTable *pString = (CStringTable*) gpResourceStore->LoadResource(StringID, EResourceType::StringTable);
-            if (pString) ScanName = pString->Entry()->Name();
+            const CAssetID StringID = pScan->ScanStringPropertyRef().Get();
+            if (const auto* pString = static_cast<CStringTable*>(gpResourceStore->LoadResource(StringID, EResourceType::StringTable)))
+                ScanName = pString->Entry()->Name();
         }
 
         ApplyGeneratedName(pScan->Entry(), It->DirectoryPath(), ScanName);
 
         if (!ScanName.IsEmpty() && pProj->Game() <= EGame::Prime)
         {
-            const SScanParametersMP1& kParms = *static_cast<SScanParametersMP1*>(pScan->ScanData().DataPointer());
+            const auto& kParms = *static_cast<SScanParametersMP1*>(pScan->ScanData().DataPointer());
 
-            CResourceEntry *pEntry = pStore->FindEntry(kParms.GuiFrame);
-            if (pEntry) ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), "ScanFrame");
+            if (CResourceEntry* pEntry = pStore->FindEntry(kParms.GuiFrame))
+                ApplyGeneratedName(pEntry, pEntry->DirectoryPath(), "ScanFrame");
 
-            for (uint32 iImg = 0; iImg < 4; iImg++)
+            for (size_t iImg = 0; iImg < kParms.ScanImages.size(); iImg++)
             {
-                CAssetID ImageID = kParms.ScanImages[iImg].Texture;
-                CResourceEntry *pImgEntry = pStore->FindEntry(ImageID);
-                if (pImgEntry) ApplyGeneratedName(pImgEntry, pImgEntry->DirectoryPath(), TString::Format("%s_Image%d", *ScanName, iImg));
+                const CAssetID ImageID = kParms.ScanImages[iImg].Texture;
+                if (CResourceEntry* pImgEntry = pStore->FindEntry(ImageID))
+                    ApplyGeneratedName(pImgEntry, pImgEntry->DirectoryPath(), TString::Format("%s_Image%zu", *ScanName, iImg));
             }
         }
     }
@@ -646,15 +650,12 @@ void GenerateAssetNames(CGameProject *pProj)
     debugf("Processing fonts");
     for (TResourceIterator<EResourceType::Font> It(pStore); It; ++It)
     {
-        CFont *pFont = (CFont*) It->Load();
-
-        if (pFont)
+        if (auto* pFont = static_cast<CFont*>(It->Load()))
         {
             ApplyGeneratedName(pFont->Entry(), pFont->Entry()->DirectoryPath(), pFont->FontName());
 
-            CTexture *pFontTex = pFont->Texture();
 
-            if (pFontTex)
+            if (CTexture* pFontTex = pFont->Texture())
                 ApplyGeneratedName(pFontTex->Entry(), pFont->Entry()->DirectoryPath(), pFont->Entry()->Name() + "_tex");
         }
     }

@@ -8,8 +8,8 @@
 class CWaypointExtra : public CScriptExtra
 {
     // Draw waypoint paths formed by script connections
-    CColor mColor;
-    bool mLinksBuilt;
+    CColor mColor{CColor::Black()};
+    bool mLinksBuilt = false;
     std::list<CSplinePathExtra*> mPaths;
 
     struct SWaypointLink
@@ -20,20 +20,20 @@ class CWaypointExtra : public CScriptExtra
     std::vector<SWaypointLink> mLinks;
 
 public:
-    explicit CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
-    ~CWaypointExtra();
+    explicit CWaypointExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr);
+    ~CWaypointExtra() override;
     void CheckColor();
     void AddToSplinePath(CSplinePathExtra *pPath);
-    void RemoveFromSplinePath(CSplinePathExtra *pPath);
+    void RemoveFromSplinePath(const CSplinePathExtra *pPath);
     void BuildLinks();
-    bool IsPathLink(CLink *pLink);
+    bool IsPathLink(const CLink *pLink) const;
     void GetLinkedWaypoints(std::list<CWaypointExtra*>& rOut);
 
-    void OnTransformed();
-    void LinksModified();
-    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
-    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo);
-    CColor TevColor();
+    void OnTransformed() override;
+    void LinksModified() override;
+    void AddToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo) override;
+    void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo) override;
+    CColor TevColor() override;
 };
 
 #endif // CWAYPOINTEXTRA_H

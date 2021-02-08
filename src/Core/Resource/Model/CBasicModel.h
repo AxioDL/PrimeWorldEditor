@@ -11,26 +11,26 @@ class CBasicModel : public CResource
     DECLARE_RESOURCE_TYPE(Model)
 protected:
     CAABox mAABox;
-    uint32 mVertexCount;
-    uint32 mTriangleCount;
-    bool mBuffered;
-    bool mHasOwnMaterials;
-    bool mHasOwnSurfaces;
+    uint32 mVertexCount = 0;
+    uint32 mTriangleCount = 0;
+    bool mBuffered = false;
+    bool mHasOwnMaterials = false;
+    bool mHasOwnSurfaces = false;
 
     CVertexBuffer mVBO;
     std::vector<SSurface*> mSurfaces;
 
 public:
-    CBasicModel(CResourceEntry *pEntry = 0);
-    ~CBasicModel();
+    explicit CBasicModel(CResourceEntry *pEntry = nullptr);
+    ~CBasicModel() override;
 
-    uint32 GetVertexCount();
-    uint32 GetTriangleCount();
-    CAABox AABox();
-    bool IsBuffered();
-    uint32 GetSurfaceCount();
-    CAABox GetSurfaceAABox(uint32 Surface);
-    SSurface* GetSurface(uint32 Surface);
+    size_t GetVertexCount() const;
+    size_t GetTriangleCount() const;
+    CAABox AABox() const;
+    bool IsBuffered() const;
+    size_t GetSurfaceCount() const;
+    CAABox GetSurfaceAABox(size_t Surface) const;
+    SSurface* GetSurface(size_t Surface);
     virtual void ClearGLBuffer() = 0;
 };
 

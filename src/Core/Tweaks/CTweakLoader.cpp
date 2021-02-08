@@ -2,11 +2,10 @@
 #include "Core/Resource/Factory/CScriptLoader.h"
 #include "Core/Resource/Script/NGameList.h"
 
-CTweakData* CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
+std::unique_ptr<CTweakData> CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
 {
     // Find the correct template based on the asset ID.
-    static const std::unordered_map<uint, const char*> skIdToTemplateName =
-    {
+    static const std::unordered_map<uint32, const char*> skIdToTemplateName{
         { 0x1D180D7C, "TweakParticle" },
         { 0x264A4972, "TweakPlayer" },
         { 0x33B3323A, "TweakGunRes" },
@@ -21,29 +20,28 @@ CTweakData* CTweakLoader::LoadCTWK(IInputStream& CTWK, CResourceEntry* pEntry)
         { 0xC9954E56, "TweakGuiColors", },
         { 0xE66A4F86, "TweakAutoMapper", },
         { 0xED2E48A9, "TweakGui", },
-        { 0xF1ED8FD7, "TweakPlayerControls", }
+        { 0xF1ED8FD7, "TweakPlayerControls", },
     };
 
-    auto Find = skIdToTemplateName.find( pEntry->ID().ToLong() );
-    ASSERT( Find != skIdToTemplateName.end() );
+    auto Find = skIdToTemplateName.find(pEntry->ID().ToLong());
+    ASSERT(Find != skIdToTemplateName.end());
     const char* pkTemplateName = Find->second;
 
     // Fetch template
-    CGameTemplate* pGameTemplate = NGameList::GetGameTemplate( pEntry->Game() );
-    ASSERT( pGameTemplate != nullptr );
+    CGameTemplate* pGameTemplate = NGameList::GetGameTemplate(pEntry->Game());
+    ASSERT(pGameTemplate != nullptr);
 
     CScriptTemplate* pTweakTemplate = pGameTemplate->FindMiscTemplate(pkTemplateName);
-    ASSERT( pTweakTemplate != nullptr );
+    ASSERT(pTweakTemplate != nullptr);
 
     // Load tweak data
-    CTweakData* pTweakData = new CTweakData(pTweakTemplate, pEntry->ID().ToLong(), pEntry);
-    CScriptLoader::LoadStructData( CTWK, pTweakData->TweakData() );
+    auto pTweakData = std::make_unique<CTweakData>(pTweakTemplate, pEntry->ID().ToLong(), pEntry);
+    CScriptLoader::LoadStructData(CTWK, pTweakData->TweakData());
 
     // Verify
     if (!CTWK.EoF() && CTWK.PeekShort() != -1)
     {
         errorf("%s: unread property data, tweak template may be malformed (%d bytes left)", *CTWK.GetSourceString(), CTWK.Size() - CTWK.Tell());
-        delete pTweakData;
         return nullptr;
     }
 
@@ -54,31 +52,31 @@ void CTweakLoader::LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakDa
 {
     // Validate file. NTWK basically embeds a bunch of tweak objects using the script layers
     // format, so it has the same version byte that script layers have.
-    uint Magic = NTWK.ReadLong();
-    uint8 LayerVersion = NTWK.ReadByte();
+    const uint32 Magic = NTWK.ReadULong();
+    const uint8 LayerVersion = NTWK.ReadUByte();
 
     if (Magic != FOURCC('NTWK'))
     {
         errorf("Unrecognized NTWK magic: 0x%08X", Magic);
         return;
     }
-    else if (LayerVersion != 1)
+
+    if (LayerVersion != 1)
     {
         errorf("Unrecognized layer version in NTWK: %d", LayerVersion);
         return;
     }
 
     CGameTemplate* pGameTemplate = NGameList::GetGameTemplate( Game );
-    ASSERT( pGameTemplate != nullptr );
+    ASSERT(pGameTemplate != nullptr);
 
     // Start reading tweaks
-    uint NumTweaks = NTWK.ReadLong();
+    const uint32 NumTweaks = NTWK.ReadULong();
 
-    for (uint TweakIdx = 0; TweakIdx < NumTweaks; TweakIdx++)
+    for (uint32 TweakIdx = 0; TweakIdx < NumTweaks; TweakIdx++)
     {
         // Find the correct template based on the tweak ID.
-        static const std::unordered_map<uint, const char*> skIdToTemplateName =
-        {
+        static const std::unordered_map<uint32, const char*> skIdToTemplateName{
             { FOURCC('TWAC'), "TweakAdvancedControls" },
             { FOURCC('TWAM'), "TweakAutoMapper" },
             { FOURCC('TWBL'), "TweakBall" },
@@ -103,26 +101,26 @@ void CTweakLoader::LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakDa
             { FOURCC('TWTG'), "TweakTargeting" },
         };
 
-        uint TweakID = NTWK.ReadLong();
-        uint16 TweakSize = NTWK.ReadShort();
-        uint NextTweak = NTWK.Tell() + TweakSize;
+        const uint32 TweakID = NTWK.ReadULong();
+        const uint16 TweakSize = NTWK.ReadUShort();
+        const uint32 NextTweak = NTWK.Tell() + TweakSize;
 
         auto Find = skIdToTemplateName.find(TweakID);
 
-        if (Find == skIdToTemplateName.end())
+        if (Find == skIdToTemplateName.cend())
         {
             errorf("Unrecognized tweak ID: %s (0x%08X)", *CFourCC(TweakID).ToString(), TweakID);
             NTWK.GoTo(NextTweak);
             continue;
         }
 
-        CScriptTemplate* pTweakTemplate = pGameTemplate->FindMiscTemplate( Find->second );
-        ASSERT( pTweakTemplate != nullptr );
+        CScriptTemplate* pTweakTemplate = pGameTemplate->FindMiscTemplate(Find->second);
+        ASSERT(pTweakTemplate != nullptr);
 
         // Load tweak data
         NTWK.Skip(0xC);
-        CTweakData* pTweakData = new CTweakData(pTweakTemplate, TweakID);
-        CScriptLoader::LoadStructData( NTWK, pTweakData->TweakData() );
+        auto* pTweakData = new CTweakData(pTweakTemplate, TweakID);
+        CScriptLoader::LoadStructData(NTWK, pTweakData->TweakData());
         OutTweaks.push_back(pTweakData);
 
         NTWK.GoTo(NextTweak);

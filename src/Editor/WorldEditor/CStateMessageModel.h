@@ -21,10 +21,10 @@ public:
 private:
     struct SEntry
     {
-        uint32 ID;
+        uint32 ID = 0;
         QString Name;
 
-        SEntry() {}
+        SEntry() = default;
         SEntry(uint32 _ID, const QString& rkName)
             : ID(_ID), Name(rkName) {}
 
@@ -35,31 +35,29 @@ private:
     };
     QList<SEntry> mEntries;
 
-    CGameTemplate *mpGame;
-    CScriptTemplate *mpScript;
+    CGameTemplate *mpGame = nullptr;
+    CScriptTemplate *mpScript = nullptr;
     EType mType;
 
 public:
-    explicit CStateMessageModel(EType Type, QObject *pParent = 0)
+    explicit CStateMessageModel(EType Type, QObject *pParent = nullptr)
         : QAbstractListModel(pParent)
         , mType(Type)
-        , mpGame(nullptr)
-        , mpScript(nullptr)
     {}
 
-    int rowCount(const QModelIndex& /*rkParent*/) const
+    int rowCount(const QModelIndex& /*rkParent*/) const override
     {
         return mEntries.size();
     }
 
-    QVariant data(const QModelIndex& rkIndex, int Role) const
+    QVariant data(const QModelIndex& rkIndex, int Role) const override
     {
         if (Role == Qt::DisplayRole)
         {
             return mEntries[rkIndex.row()].Name;
         }
 
-        else return QVariant::Invalid;
+        return QVariant::Invalid;
     }
 
     void SetGameTemplate(CGameTemplate *pGame)
@@ -74,7 +72,7 @@ public:
             for (uint32 iState = 0; iState < pGame->NumStates(); iState++)
             {
                 SState State = pGame->StateByIndex(iState);
-                mEntries << SEntry(State.ID, TO_QSTRING(State.Name));
+                mEntries.push_back(SEntry(State.ID, TO_QSTRING(State.Name)));
             }
         }
 
@@ -83,7 +81,7 @@ public:
             for (uint32 iMsg = 0; iMsg < pGame->NumMessages(); iMsg++)
             {
                 SMessage Message = pGame->MessageByIndex(iMsg);
-                mEntries << SEntry(Message.ID, TO_QSTRING(Message.Name));
+                mEntries.push_back(SEntry(Message.ID, TO_QSTRING(Message.Name)));
             }
         }
 
@@ -101,7 +99,7 @@ public:
                 return iState;
         }
 
-        return -1;
+        return UINT32_MAX;
     }
 
     uint32 MessageIndex(uint32 MessageID) const
@@ -114,20 +112,20 @@ public:
                 return iMsg;
         }
 
-        return -1;
+        return UINT32_MAX;
     }
 
-    inline void SetScriptTemplate(CScriptTemplate *pScript)
+    void SetScriptTemplate(CScriptTemplate *pScript)
     {
         mpScript = pScript;
     }
 
-    inline uint32 State(uint32 Index) const
+    uint32 State(uint32 Index) const
     {
         return (mType == EType::States ? mEntries[Index].ID : 0);
     }
 
-    inline uint32 Message(uint32 Index) const
+    uint32 Message(uint32 Index) const
     {
         return (mType == EType::Messages ? mEntries[Index].ID : 0);
     }

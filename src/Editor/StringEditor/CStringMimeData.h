@@ -9,17 +9,17 @@ class CStringMimeData : public QMimeData
 {
     Q_OBJECT
     CAssetID mAssetID;
-    uint mStringIndex;
+    uint32 mStringIndex;
 
 public:
-    CStringMimeData(CAssetID AssetID, uint StringIndex)
+    CStringMimeData(CAssetID AssetID, uint32 StringIndex)
         : mAssetID(AssetID), mStringIndex(StringIndex)
     {}
 
-    virtual bool hasFormat(const QString& kMimeType) const override { return true; }
+    bool hasFormat(const QString& kMimeType) const override { return true; }
 
-    inline CAssetID AssetID() const { return mAssetID; }
-    inline uint StringIndex() const { return mStringIndex; }
+    CAssetID AssetID() const { return mAssetID; }
+    uint32 StringIndex() const { return mStringIndex; }
 };
 
 #endif // CSTRINGMIMEDATA_H

@@ -15,13 +15,13 @@
 // Should prolly be a class
 struct SSurface
 {
-    uint32 VertexCount;
-    uint32 TriangleCount;
+    uint32 VertexCount = 0;
+    uint32 TriangleCount = 0;
     CAABox AABox;
     CVector3f CenterPoint;
-    uint32 MaterialID;
+    uint32 MaterialID = 0;
     CVector3f ReflectionDirection;
-    uint16 MeshID;
+    uint16 MeshID = 0;
 
     struct SPrimitive
     {
@@ -30,13 +30,9 @@ struct SSurface
     };
     std::vector<SPrimitive> Primitives;
 
-    SSurface()
-    {
-        VertexCount = 0;
-        TriangleCount = 0;
-    }
+    SSurface() = default;
 
-    std::pair<bool,float> IntersectsRay(const CRay& rkRay, bool AllowBackfaces = false, float LineThreshold = 0.02f);
+    std::pair<bool,float> IntersectsRay(const CRay& rkRay, bool AllowBackfaces = false, float LineThreshold = 0.02f) const;
 };
 
 #endif // SSURFACE_H

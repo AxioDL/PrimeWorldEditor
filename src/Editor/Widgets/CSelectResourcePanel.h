@@ -5,6 +5,8 @@
 #include "CFilteredResourceModel.h"
 #include "CResourceSelector.h"
 
+#include <memory>
+
 namespace Ui {
 class CSelectResourcePanel;
 }
@@ -12,7 +14,7 @@ class CSelectResourcePanel;
 class CSelectResourcePanel : public QFrame
 {
     Q_OBJECT
-    Ui::CSelectResourcePanel *mpUI;
+    std::unique_ptr<Ui::CSelectResourcePanel> mpUI;
     CResourceSelector *mpSelector;
 
     CFilteredResourceModel mModel;
@@ -20,7 +22,7 @@ class CSelectResourcePanel : public QFrame
 
 public:
     explicit CSelectResourcePanel(CResourceSelector *pSelector);
-    ~CSelectResourcePanel();
+    ~CSelectResourcePanel() override;
 
 public slots:
     void FocusChanged(QWidget *pOld, QWidget *pNew);

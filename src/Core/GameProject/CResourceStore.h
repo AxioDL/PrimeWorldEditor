@@ -8,6 +8,7 @@
 #include <Common/FileUtil.h>
 #include <Common/TString.h>
 #include <map>
+#include <memory>
 #include <set>
 
 class CGameExporter;
@@ -20,27 +21,27 @@ enum class EDatabaseVersion
     // Add new versions before this line
 
     Max,
-    Current = EDatabaseVersion::Max - 1
+    Current = Max - 1
 };
 
 class CResourceStore
 {
     friend class CResourceIterator;
 
-    CGameProject *mpProj;
-    EGame mGame;
-    CVirtualDirectory *mpDatabaseRoot;
-    std::map<CAssetID, CResourceEntry*> mResourceEntries;
+    CGameProject *mpProj = nullptr;
+    EGame mGame{EGame::Prime};
+    CVirtualDirectory *mpDatabaseRoot = nullptr;
+    std::map<CAssetID, std::unique_ptr<CResourceEntry>> mResourceEntries;
     std::map<CAssetID, CResourceEntry*> mLoadedResources;
-    bool mDatabaseCacheDirty;
+    bool mDatabaseCacheDirty = false;
 
     // Directory paths
     TString mDatabasePath;
-    bool mDatabasePathExists;
+    bool mDatabasePathExists = false;
 
 public:
-    CResourceStore(const TString& rkDatabasePath);
-    CResourceStore(CGameProject *pProject);
+    explicit CResourceStore(const TString& rkDatabasePath);
+    explicit CResourceStore(CGameProject *pProject);
     ~CResourceStore();
     bool SerializeDatabaseCache(IArchive& rArc);
     bool LoadDatabaseCache();
@@ -78,19 +79,19 @@ public:
     static TString StaticDefaultResourceDirPath(EGame Game);
 
     // Accessors
-    inline CGameProject* Project() const            { return mpProj; }
-    inline EGame Game() const                       { return mGame; }
-    inline TString DatabaseRootPath() const         { return mDatabasePath; }
-    inline bool DatabasePathExists() const          { return mDatabasePathExists; }
-    inline TString ResourcesDir() const             { return IsEditorStore() ? DatabaseRootPath() : DatabaseRootPath() + "Resources/"; }
-    inline TString DatabasePath() const             { return DatabaseRootPath() + "ResourceDatabaseCache.bin"; }
-    inline CVirtualDirectory* RootDirectory() const { return mpDatabaseRoot; }
-    inline uint32 NumTotalResources() const         { return mResourceEntries.size(); }
-    inline uint32 NumLoadedResources() const        { return mLoadedResources.size(); }
-    inline bool IsCacheDirty() const                { return mDatabaseCacheDirty; }
+    CGameProject* Project() const            { return mpProj; }
+    EGame Game() const                       { return mGame; }
+    TString DatabaseRootPath() const         { return mDatabasePath; }
+    bool DatabasePathExists() const          { return mDatabasePathExists; }
+    TString ResourcesDir() const             { return IsEditorStore() ? DatabaseRootPath() : DatabaseRootPath() + "Resources/"; }
+    TString DatabasePath() const             { return DatabaseRootPath() + "ResourceDatabaseCache.bin"; }
+    CVirtualDirectory* RootDirectory() const { return mpDatabaseRoot; }
+    uint32 NumTotalResources() const         { return mResourceEntries.size(); }
+    uint32 NumLoadedResources() const        { return mLoadedResources.size(); }
+    bool IsCacheDirty() const                { return mDatabaseCacheDirty; }
 
-    inline void SetCacheDirty()                     { mDatabaseCacheDirty = true; }
-    inline bool IsEditorStore() const               { return mpProj == nullptr; }
+    void SetCacheDirty()                     { mDatabaseCacheDirty = true; }
+    bool IsEditorStore() const               { return mpProj == nullptr; }
 };
 
 extern TString gDataDir;

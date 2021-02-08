@@ -3,11 +3,7 @@
 #include "Core/Resource/Factory/CWorldLoader.h"
 #include <Common/Log.h>
 
-CGameTemplate::CGameTemplate()
-    : mFullyLoaded(false)
-    , mDirty(false)
-{
-}
+CGameTemplate::CGameTemplate() = default;
 
 void CGameTemplate::Serialize(IArchive& Arc)
 {
@@ -32,32 +28,31 @@ void CGameTemplate::Load(const TString& kFilePath)
     // Load all sub-templates
     const TString gkGameRoot = GetGameDirectory();
 
-    for (auto Iter = mScriptTemplates.begin(); Iter != mScriptTemplates.end(); Iter++)
+    for (auto& [id, path] : mScriptTemplates)
     {
-        SScriptTemplatePath& ScriptPath = Iter->second;
-        TString AbsPath = gkGameRoot + ScriptPath.Path;
-        ScriptPath.pTemplate = std::make_shared<CScriptTemplate>(this, Iter->first, AbsPath);
+        TString AbsPath = gkGameRoot + path.Path;
+        path.pTemplate = std::make_shared<CScriptTemplate>(this, id, AbsPath);
     }
 
-    for (auto Iter = mPropertyTemplates.begin(); Iter != mPropertyTemplates.end(); Iter++)
+    for (auto& entry : mPropertyTemplates)
     {
         // For properties, remember that property archetypes can reference other archetypes which
         // may not be loaded yet.. so if this happens, the referenced property will be loaded,
         // meaning property templates can be loaded out of order, so we need to make sure
         // that we don't load any template more than once.
-        SPropertyTemplatePath& PropertyPath = Iter->second;
+        SPropertyTemplatePath& PropertyPath = entry.second;
 
         if (!PropertyPath.pTemplate)
         {
-            Internal_LoadPropertyTemplate(Iter->second);
+            Internal_LoadPropertyTemplate(PropertyPath);
         }
     }
 
-    for (auto Iter = mMiscTemplates.begin(); Iter != mMiscTemplates.end(); Iter++)
+    for (auto& entry : mMiscTemplates)
     {
-        SScriptTemplatePath& MiscPath = Iter->second;
+        SScriptTemplatePath& MiscPath = entry.second;
         TString AbsPath = gkGameRoot + MiscPath.Path;
-        MiscPath.pTemplate = std::make_shared<CScriptTemplate>(this, -1, AbsPath);
+        MiscPath.pTemplate = std::make_shared<CScriptTemplate>(this, UINT32_MAX, AbsPath);
     }
 }
 
@@ -87,7 +82,7 @@ void CGameTemplate::Internal_LoadPropertyTemplate(SPropertyTemplatePath& Path)
     Path.pTemplate->Initialize(nullptr, nullptr, 0);
 }
 
-void CGameTemplate::SaveGameTemplates(bool ForceAll /*= false*/)
+void CGameTemplate::SaveGameTemplates(bool ForceAll)
 {
     const TString kGameDir = GetGameDirectory();
 
@@ -96,26 +91,26 @@ void CGameTemplate::SaveGameTemplates(bool ForceAll /*= false*/)
         Save();
     }
 
-    for (auto Iter = mScriptTemplates.begin(); Iter != mScriptTemplates.end(); Iter++)
+    for (auto& entry : mScriptTemplates)
     {
-        SScriptTemplatePath& Path = Iter->second;
+        SScriptTemplatePath& Path = entry.second;
 
-        if( Path.pTemplate )
+        if (Path.pTemplate)
         {
             Path.pTemplate->Save(ForceAll);
         }
     }
 
-    for (auto Iter = mPropertyTemplates.begin(); Iter != mPropertyTemplates.end(); Iter++)
+    for (auto& entry : mPropertyTemplates)
     {
-        SPropertyTemplatePath& Path = Iter->second;
+        SPropertyTemplatePath& Path = entry.second;
 
-        if( Path.pTemplate )
+        if (Path.pTemplate)
         {
-            if( ForceAll || Path.pTemplate->IsDirty() )
+            if (ForceAll || Path.pTemplate->IsDirty())
             {
                 const TString kOutPath = kGameDir + Path.Path;
-                FileUtil::MakeDirectory( kOutPath.GetFileDirectory() );
+                FileUtil::MakeDirectory(kOutPath.GetFileDirectory());
 
                 debugf("Saving property template: %s", *kOutPath);
                 CXMLWriter Writer(kOutPath, "PropertyTemplate", 0, Game());
@@ -127,11 +122,11 @@ void CGameTemplate::SaveGameTemplates(bool ForceAll /*= false*/)
         }
     }
 
-    for (auto Iter = mMiscTemplates.begin(); Iter != mMiscTemplates.end(); Iter++)
+    for (auto& entry : mMiscTemplates)
     {
-        SScriptTemplatePath& Path = Iter->second;
+        SScriptTemplatePath& Path = entry.second;
 
-        if( Path.pTemplate )
+        if (Path.pTemplate)
         {
             Path.pTemplate->Save(ForceAll);
         }
@@ -140,17 +135,17 @@ void CGameTemplate::SaveGameTemplates(bool ForceAll /*= false*/)
 
 uint32 CGameTemplate::GameVersion(TString VersionName)
 {
-    return -1;
+    return UINT32_MAX;
 }
 
 CScriptTemplate* CGameTemplate::TemplateByID(uint32 ObjectID)
 {
-    auto it = mScriptTemplates.find(ObjectID);
+    const auto it = mScriptTemplates.find(ObjectID);
 
-    if (it != mScriptTemplates.end())
-        return it->second.pTemplate.get();
-    else
+    if (it == mScriptTemplates.end())
         return nullptr;
+
+    return it->second.pTemplate.get();
 }
 
 CScriptTemplate* CGameTemplate::TemplateByID(const CFourCC& ObjectID)
@@ -160,48 +155,48 @@ CScriptTemplate* CGameTemplate::TemplateByID(const CFourCC& ObjectID)
 
 CScriptTemplate* CGameTemplate::TemplateByIndex(uint32 Index)
 {
-    auto it = mScriptTemplates.begin();
+    const auto it = mScriptTemplates.begin();
     return (std::next(it, Index))->second.pTemplate.get();
 }
 
-SState CGameTemplate::StateByID(uint32 StateID)
+SState CGameTemplate::StateByID(uint32 StateID) const
 {
-    auto Iter = mStates.find(StateID);
+    const auto iter = mStates.find(StateID);
 
-    if (Iter != mStates.end())
-        return SState(Iter->first, Iter->second);
-    else
-        return SState(-1, "Invalid");
+    if (iter == mStates.cend())
+        return SState(UINT32_MAX, "Invalid");
+
+    return SState(iter->first, iter->second);
 }
 
-SState CGameTemplate::StateByID(const CFourCC& State)
+SState CGameTemplate::StateByID(const CFourCC& State) const
 {
     return StateByID(State.ToLong());
 }
 
-SState CGameTemplate::StateByIndex(uint32 Index)
+SState CGameTemplate::StateByIndex(uint32 Index) const
 {
     auto Iter = mStates.begin();
     Iter = std::next(Iter, Index);
     return SState(Iter->first, Iter->second);
 }
 
-SMessage CGameTemplate::MessageByID(uint32 MessageID)
+SMessage CGameTemplate::MessageByID(uint32 MessageID) const
 {
-    auto Iter = mMessages.find(MessageID);
+    const auto iter = mMessages.find(MessageID);
 
-    if (Iter != mMessages.end())
-        return SMessage(Iter->first, Iter->second);
-    else
-        return SMessage(-1, "Invalid");
+    if (iter == mMessages.cend())
+        return SMessage(UINT32_MAX, "Invalid");
+
+    return SMessage(iter->first, iter->second);
 }
 
-SMessage CGameTemplate::MessageByID(const CFourCC& MessageID)
+SMessage CGameTemplate::MessageByID(const CFourCC& MessageID) const
 {
     return MessageByID(MessageID.ToLong());
 }
 
-SMessage CGameTemplate::MessageByIndex(uint32 Index)
+SMessage CGameTemplate::MessageByIndex(uint32 Index) const
 {
     auto Iter = mMessages.begin();
     Iter = std::next(Iter, Index);
@@ -210,7 +205,7 @@ SMessage CGameTemplate::MessageByIndex(uint32 Index)
 
 IProperty* CGameTemplate::FindPropertyArchetype(const TString& kTypeName)
 {
-    auto Iter = mPropertyTemplates.find(kTypeName);
+    const auto Iter = mPropertyTemplates.find(kTypeName);
 
     if (Iter == mPropertyTemplates.end())
     {
@@ -230,45 +225,45 @@ IProperty* CGameTemplate::FindPropertyArchetype(const TString& kTypeName)
     return Path.pTemplate.get();
 }
 
-TString CGameTemplate::GetPropertyArchetypeFilePath(const TString& kTypeName)
+TString CGameTemplate::GetPropertyArchetypeFilePath(const TString& kTypeName) const
 {
-    auto Iter = mPropertyTemplates.find(kTypeName);
-    ASSERT(Iter != mPropertyTemplates.end());
-    return GetGameDirectory() + Iter->second.Path;
+    const auto it = mPropertyTemplates.find(kTypeName);
+    ASSERT(it != mPropertyTemplates.cend());
+    return GetGameDirectory() + it->second.Path;
 }
 
 bool CGameTemplate::RenamePropertyArchetype(const TString& kTypeName, const TString& kNewTypeName)
 {
-    if( kTypeName != kNewTypeName )
+    if (kTypeName != kNewTypeName)
     {
         // Fetch the property that we are going to be renaming.
         // Validate type, too, because we only support renaming struct archetypes at the moment
-        auto Iter = mPropertyTemplates.find(kTypeName);
+        const auto Iter = mPropertyTemplates.find(kTypeName);
 
-        if( Iter != mPropertyTemplates.end() )
+        if (Iter != mPropertyTemplates.cend())
         {
             SPropertyTemplatePath& Path = Iter->second;
             IProperty* pArchetype = Path.pTemplate.get();
 
-            if( pArchetype )
+            if (pArchetype)
             {
                 // Attempt to move the XML to the new location.
-                TString OldPath = GetGameDirectory() + Path.Path;
-                TString NewPath = OldPath.GetFileDirectory() + kNewTypeName + ".xml";
+                const TString OldPath = GetGameDirectory() + Path.Path;
+                const TString NewPath = OldPath.GetFileDirectory() + kNewTypeName + ".xml";
 
-                if( FileUtil::MoveFile(OldPath, NewPath) )
+                if (FileUtil::MoveFile(OldPath, NewPath))
                 {
                     // Update the name in the game template's internal mapping
-                    TString RelativePath = FileUtil::MakeRelative( NewPath, GetGameDirectory() );
+                    const TString RelativePath = FileUtil::MakeRelative(NewPath, GetGameDirectory());
                     auto MapNode = mPropertyTemplates.extract(Iter);
                     MapNode.key() = kNewTypeName;
                     MapNode.mapped().Path = RelativePath;
-                    mPropertyTemplates.insert( std::move(MapNode) );
+                    mPropertyTemplates.insert(std::move(MapNode));
                     mDirty = true;
 
                     // Renaming the archetype will handle updating the actual type name, and
                     // dirtying/invalidating property sub-instances.
-                    TString OldTypeName = pArchetype->HashableTypeName();
+                    const TString OldTypeName = pArchetype->HashableTypeName();
                     pArchetype->SetName(kNewTypeName);
 
                     // For MP2 and up, we also need to update the type names stored in the property map.
@@ -284,13 +279,11 @@ bool CGameTemplate::RenamePropertyArchetype(const TString& kTypeName, const TStr
                         std::list<IProperty*> SubInstances;
                         pArchetype->GatherAllSubInstances(SubInstances, true);
 
-                        for (auto Iter = SubInstances.begin(); Iter != SubInstances.end(); Iter++)
+                        for (auto* property : SubInstances)
                         {
-                            IProperty* pProperty = *Iter;
-
-                            if (pProperty->Name() == kTypeName)
+                            if (property->Name() == kTypeName)
                             {
-                                pProperty->SetName(kNewTypeName);
+                                property->SetName(kNewTypeName);
                             }
                         }
                     }
@@ -306,17 +299,16 @@ bool CGameTemplate::RenamePropertyArchetype(const TString& kTypeName, const TStr
 
 CScriptTemplate* CGameTemplate::FindMiscTemplate(const TString& kTemplateName)
 {
-    auto Iter = mMiscTemplates.find(kTemplateName);
+    const auto Iter = mMiscTemplates.find(kTemplateName);
 
-    if (Iter == mMiscTemplates.end())
+    if (Iter == mMiscTemplates.cend())
     {
         return nullptr;
     }
-    else
-    {
-        SScriptTemplatePath& Path = Iter->second;
-        return Path.pTemplate.get();
-    }
+
+
+    SScriptTemplatePath& Path = Iter->second;
+    return Path.pTemplate.get();
 }
 
 TString CGameTemplate::GetGameDirectory() const

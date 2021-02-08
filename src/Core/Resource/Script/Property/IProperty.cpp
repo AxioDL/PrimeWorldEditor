@@ -10,33 +10,25 @@
 #include "Core/Resource/Script/NGameList.h"
 #include "Core/Resource/Script/NPropertyMap.h"
 
+#include <algorithm>
 #include <cfloat>
 
 /** IProperty */
 IProperty::IProperty(EGame Game)
-    : mpParent( nullptr )
-    , mpPointerParent( nullptr )
-    , mpArchetype( nullptr )
-    , mGame( Game )
-    , mpScriptTemplate( nullptr )
-    , mOffset( -1 )
-    , mID( -1 )
-    , mCookPreference( ECookPreference::Default )
-    , mMinVersion( 0.0f )
-    , mMaxVersion( FLT_MAX )
+    : mGame(Game)
 {}
 
 void IProperty::_ClearChildren()
 {
-    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (auto* child : mChildren)
     {
         // Unregister children from the name map. This has to be done before actually deleting them.
-        if (mChildren[ChildIdx]->UsesNameMap())
+        if (child->UsesNameMap())
         {
-            NPropertyMap::UnregisterProperty(mChildren[ChildIdx]);
+            NPropertyMap::UnregisterProperty(child);
         }
 
-        delete mChildren[ChildIdx];
+        delete child;
     }
 
     mChildren.clear();
@@ -45,18 +37,18 @@ void IProperty::_ClearChildren()
 IProperty::~IProperty()
 {
     // Remove from archetype
-    if( mpArchetype != nullptr )
+    if (mpArchetype != nullptr)
     {
         // If you crash here, it most likely means this property was not added to the archetype's sub-instances list.
         NBasics::VectorRemoveOne(mpArchetype->mSubInstances, this);
     }
 
     // If this is an archetype, make sure no sub-instances have a reference to us.
-    if( IsArchetype() )
+    if (IsArchetype())
     {
-        for( int SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++ )
+        for (auto* subInstance : mSubInstances)
         {
-            mSubInstances[SubIdx]->mpArchetype = nullptr;
+            subInstance->mpArchetype = nullptr;
         }
     }
 
@@ -78,17 +70,17 @@ void IProperty::Serialize(IArchive& rArc)
 {
     // Always serialize ID first! ID is always required (except for root properties, which have an ID of 0xFFFFFFFF)
     // because they are needed to look up the correct property to apply parameter overrides to.
-    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Attribute | SH_Optional, (uint32) 0xFFFFFFFF);
+    rArc << SerialParameter("ID", mID, SH_HexDisplay | SH_Attribute | SH_Optional, 0xFFFFFFFFU);
 
     // Now we can serialize the archetype reference and initialize if needed
-    if ( ((mpArchetype && mpArchetype->IsRootParent()) || rArc.IsReader()) && rArc.CanSkipParameters() )
+    if (((mpArchetype && mpArchetype->IsRootParent()) || rArc.IsReader()) && rArc.CanSkipParameters())
     {
         TString ArchetypeName = (mpArchetype ? mpArchetype->Name() : "");
         rArc << SerialParameter("Archetype", ArchetypeName, SH_Attribute);
 
         if (rArc.IsReader() && !ArchetypeName.IsEmpty())
         {
-            CGameTemplate* pGame = NGameList::GetGameTemplate( Game() );
+            CGameTemplate* pGame = NGameList::GetGameTemplate(Game());
             IProperty* pArchetype = pGame->FindPropertyArchetype(ArchetypeName);
 
             // The archetype must exist, or else the template file is malformed.
@@ -204,14 +196,14 @@ void IProperty::Initialize(IProperty* pInParent, CScriptTemplate* pInTemplate, u
     // Now, route initialization to any child properties...
     uint32 ChildOffset = mOffset;
 
-    for (int ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (size_t ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
     {
         IProperty* pChild = mChildren[ChildIdx];
 
         // update offset and round up to the child's alignment
         if (ChildIdx > 0)
         {
-            ChildOffset += mChildren[ChildIdx-1]->DataSize();
+            ChildOffset += mChildren[ChildIdx - 1]->DataSize();
         }
         ChildOffset = VAL_ALIGN(ChildOffset, pChild->DataAlignment());
 
@@ -236,13 +228,15 @@ void* IProperty::RawValuePtr(void* pData) const
 
 IProperty* IProperty::ChildByID(uint32 ID) const
 {
-    for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    const auto iter = std::find_if(mChildren.begin(), mChildren.end(),
+                                   [ID](const auto* element) { return element->mID == ID; });
+
+    if (iter == mChildren.cend())
     {
-        if (mChildren[ChildIdx]->mID == ID)
-            return mChildren[ChildIdx];
+        return nullptr;
     }
 
-    return nullptr;
+    return *iter;
 }
 
 IProperty* IProperty::ChildByIDString(const TIDString& rkIdString)
@@ -251,15 +245,15 @@ IProperty* IProperty::ChildByIDString(const TIDString& rkIdString)
     // some ID strings are formatted with 8 characters and some with 2 (plus the beginning "0x")
     ASSERT(rkIdString.Size() >= 4);
 
-    uint32 IDEndPos = rkIdString.IndexOf(':');
-    uint32 NextChildID = -1;
+    const uint32 IDEndPos = rkIdString.IndexOf(':');
+    uint32 NextChildID = UINT32_MAX;
 
-    if (IDEndPos == -1)
+    if (IDEndPos == UINT32_MAX)
         NextChildID = rkIdString.ToInt32(16);
     else
         NextChildID = rkIdString.SubString(2, IDEndPos - 2).ToInt32(16);
 
-    if (NextChildID == 0xFFFFFFFF)
+    if (NextChildID == UINT32_MAX)
     {
         return nullptr;
     }
@@ -267,7 +261,7 @@ IProperty* IProperty::ChildByIDString(const TIDString& rkIdString)
     IProperty* pNextChild = ChildByID(NextChildID);
 
     // Check if we need to recurse
-    if (IDEndPos != -1)
+    if (IDEndPos != UINT32_MAX)
     {
         return pNextChild->ChildByIDString(rkIdString.ChopFront(IDEndPos + 1));
     }
@@ -281,14 +275,12 @@ void IProperty::GatherAllSubInstances(std::list<IProperty*>& OutList, bool Recur
 {
     OutList.push_back(this);
 
-    for( uint32 SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++ )
+    for (auto* subInstance : mSubInstances)
     {
-        IProperty* pSubInstance = mSubInstances[SubIdx];
-
-        if( Recursive )
-            pSubInstance->GatherAllSubInstances( OutList, true );
+        if (Recursive)
+            subInstance->GatherAllSubInstances(OutList, true);
         else
-            OutList.push_back( pSubInstance );
+            OutList.push_back(subInstance);
     }
 }
 
@@ -313,7 +305,7 @@ TString IProperty::GetTemplateFileName()
     pTemplateRoot = pTemplateRoot->RootParent();
 
     // Now that we have the base property of our template, we can return the file path.
-    static const uint32 kChopAmount = strlen(*(gDataDir + "templates/"));
+    static const size_t kChopAmount = strlen(*(gDataDir + "templates/"));
 
     if (pTemplateRoot->ScriptTemplate())
     {
@@ -370,48 +362,48 @@ bool IProperty::ShouldCook(void* pPropertyData) const
 
 void IProperty::SetName(const TString& rkNewName)
 {
-    if (mName != rkNewName)
-    {
-        mName = rkNewName;
-        mFlags.ClearFlag(EPropertyFlag::HasCachedNameCheck);
-        MarkDirty();
-    }
+    if (mName == rkNewName)
+        return;
+
+    mName = rkNewName;
+    mFlags.ClearFlag(EPropertyFlag::HasCachedNameCheck);
+    MarkDirty();
 }
 
 void IProperty::SetDescription(const TString& rkNewDescription)
 {
-    if (mDescription != rkNewDescription)
-    {
-        mDescription = rkNewDescription;
-        MarkDirty();
-    }
+    if (mDescription == rkNewDescription)
+        return;
+
+    mDescription = rkNewDescription;
+    MarkDirty();
 }
 
 void IProperty::SetSuffix(const TString& rkNewSuffix)
 {
-    if (mSuffix != rkNewSuffix)
-    {
-        mSuffix = rkNewSuffix;
-        MarkDirty();
-    }
+    if (mSuffix == rkNewSuffix)
+        return;
+
+    mSuffix = rkNewSuffix;
+    MarkDirty();
 }
 
 void IProperty::MarkDirty()
 {
     // Don't allow properties to be marked dirty before they are fully initialized.
-    if (IsInitialized())
+    if (!IsInitialized())
+        return;
+
+    // Mark the root parent as dirty so the template file will get resaved
+    RootParent()->mFlags |= EPropertyFlag::IsDirty;
+
+    // Clear property name cache in case something has been modified that affects the hash
+    mFlags &= ~(EPropertyFlag::HasCachedNameCheck | EPropertyFlag::HasCorrectPropertyName);
+
+    // Mark sub-instances as dirty since they may need to resave as well
+    for (auto& subInstance : mSubInstances)
     {
-        // Mark the root parent as dirty so the template file will get resaved
-        RootParent()->mFlags |= EPropertyFlag::IsDirty;
-
-        // Clear property name cache in case something has been modified that affects the hash
-        mFlags &= ~(EPropertyFlag::HasCachedNameCheck | EPropertyFlag::HasCorrectPropertyName);
-
-        // Mark sub-instances as dirty since they may need to resave as well
-        for (uint32 SubIdx = 0; SubIdx < mSubInstances.size(); SubIdx++)
-        {
-            mSubInstances[SubIdx]->MarkDirty();
-        }
+        subInstance->MarkDirty();
     }
 }
 
@@ -420,7 +412,7 @@ void IProperty::ClearDirtyFlag()
     RootParent()->mFlags &= ~EPropertyFlag::IsDirty;
 }
 
-bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= nullptr*/)
+bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype)
 {
     if (mpArchetype && !pNewArchetype)
     {
@@ -432,7 +424,7 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= 
     IProperty* pNewProperty = Create(NewType, Game());
 
     // We can only replace properties with types that have the same size and alignment
-    if( pNewProperty->DataSize() != DataSize() || pNewProperty->DataAlignment() != DataAlignment() )
+    if (pNewProperty->DataSize() != DataSize() || pNewProperty->DataAlignment() != DataAlignment())
     {
         delete pNewProperty;
         return false;
@@ -445,7 +437,7 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= 
     pNewProperty->mpArchetype = pNewArchetype;
     NBasics::VectorRemoveOne(mSubInstances, pNewProperty);
 
-    if( pNewArchetype )
+    if (pNewArchetype)
     {
         pNewArchetype->mSubInstances.push_back(pNewProperty);
     }
@@ -468,13 +460,11 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= 
         std::list<IProperty*> SubInstances;
         GatherAllSubInstances(SubInstances, true);
 
-        for (auto Iter = SubInstances.begin(); Iter != SubInstances.end(); Iter++)
+        for (auto* property : SubInstances)
         {
-            IProperty* pProperty = *Iter;
-
-            if (pProperty->UsesNameMap())
+            if (property->UsesNameMap())
             {
-                NPropertyMap::UnregisterProperty(pProperty);
+                NPropertyMap::UnregisterProperty(property);
             }
         }
 
@@ -482,43 +472,42 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= 
     }
 
     // Swap out our parent's reference to us to point to the new property.
-    if (mpParent)
+    if (mpParent != nullptr)
     {
-        for (uint32 SiblingIdx = 0; SiblingIdx < mpParent->mChildren.size(); SiblingIdx++)
+        for (auto& sibling : mpParent->mChildren)
         {
-            IProperty* pSibling = mpParent->mChildren[SiblingIdx];
-            if (pSibling == this)
+            if (sibling == this)
             {
-                mpParent->mChildren[SiblingIdx] = pNewProperty;
+                sibling = pNewProperty;
                 break;
             }
         }
     }
 
     // Change all our child properties to be parented under the new property. (Is this adoption?)
-    for (uint32 ChildIdx = 0; ChildIdx < mChildren.size(); ChildIdx++)
+    for (auto* child : mChildren)
     {
-        mChildren[ChildIdx]->mpParent = pNewProperty;
-        pNewProperty->mChildren.push_back(mChildren[ChildIdx]);
+        child->mpParent = pNewProperty;
+        pNewProperty->mChildren.push_back(child);
     }
-    ASSERT( pNewProperty->mChildren.size() == mChildren.size() );
+    ASSERT(pNewProperty->mChildren.size() == mChildren.size());
     mChildren.clear();
 
     // Create new versions of all sub-instances that inherit from the new property.
     // Note that when the sub-instances complete their conversion, they delete themselves.
     // The IProperty destructor removes the property from the archetype's sub-instance list.
     // So we shouldn't use a for loop, instead we should just wait until the array is empty
-    uint32 SubCount = mSubInstances.size();
+    [[maybe_unused]] const size_t SubCount = mSubInstances.size();
 
     while (!mSubInstances.empty())
     {
-        bool SubSuccess = mSubInstances[0]->ConvertType(NewType, pNewProperty);
-        ASSERT( SubSuccess );
+        [[maybe_unused]] const bool SubSuccess = mSubInstances[0]->ConvertType(NewType, pNewProperty);
+        ASSERT(SubSuccess);
     }
-    ASSERT( pNewProperty->mSubInstances.size() == SubCount );
+    ASSERT(pNewProperty->mSubInstances.size() == SubCount);
 
     // Conversion is complete! Initialize the new property and flag it dirty.
-    pNewProperty->Initialize( mpParent, mpScriptTemplate, mOffset );
+    pNewProperty->Initialize(mpParent, mpScriptTemplate, mOffset);
     pNewProperty->MarkDirty();
 
     // Finally, if we are done converting this property and all its instances, resave the templates.
@@ -537,7 +526,7 @@ bool IProperty::ConvertType(EPropertyType NewType, IProperty* pNewArchetype /*= 
     return true;
 }
 
-bool IProperty::UsesNameMap()
+bool IProperty::UsesNameMap() const
 {
     return Game() >= EGame::EchoesDemo &&
             !IsRootParent() &&
@@ -558,12 +547,12 @@ bool IProperty::HasAccurateName()
     }
 
     // Children of atomic properties defer to parents. Intrinsic properties and array archetypes also defer to parents.
-    if ( (mpParent && mpParent->IsAtomic()) || IsIntrinsic() || IsArrayArchetype() )
+    if ((mpParent && mpParent->IsAtomic()) || IsIntrinsic() || IsArrayArchetype())
     {
         if (mpParent)
             return mpParent->HasAccurateName();
-        else
-            return true;
+
+        return true;
     }
 
     // For everything else, hash the property name and check if it is a match for the property ID
@@ -586,17 +575,17 @@ bool IProperty::HasAccurateName()
 
         if (GeneratedID == mID)
         {
-            mFlags.SetFlag( EPropertyFlag::HasCorrectPropertyName );
+            mFlags.SetFlag(EPropertyFlag::HasCorrectPropertyName);
         }
         else
         {
-            mFlags.ClearFlag( EPropertyFlag::HasCorrectPropertyName );
+            mFlags.ClearFlag(EPropertyFlag::HasCorrectPropertyName);
         }
 
         mFlags.SetFlag(EPropertyFlag::HasCachedNameCheck);
     }
 
-    return mFlags.HasFlag( EPropertyFlag::HasCorrectPropertyName );
+    return mFlags.HasFlag(EPropertyFlag::HasCorrectPropertyName);
 }
 
 /** IProperty Accessors */
@@ -605,8 +594,7 @@ EGame IProperty::Game() const
     return mGame;
 }
 
-IProperty* IProperty::Create(EPropertyType Type,
-                                   EGame Game)
+IProperty* IProperty::Create(EPropertyType Type, EGame Game)
 {
     IProperty* pOut = nullptr;
 
@@ -631,7 +619,7 @@ IProperty* IProperty::Create(EPropertyType Type,
     case EPropertyType::Spline:          pOut = new CSplineProperty(Game);           break;
     case EPropertyType::Guid:            pOut = new CGuidProperty(Game);             break;
     case EPropertyType::Pointer:         pOut = new CPointerProperty(Game);          break;
-    case EPropertyType::Struct:          pOut = new CStructProperty(Game);        break;
+    case EPropertyType::Struct:          pOut = new CStructProperty(Game);           break;
     case EPropertyType::Array:           pOut = new CArrayProperty(Game);            break;
     default: break;
     }
@@ -649,9 +637,9 @@ IProperty* IProperty::CreateCopy(IProperty* pArchetype)
 }
 
 IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
-                                            EGame Game,
-                                            uint32 Offset,
-                                            const TString& rkName)
+                                      EGame Game,
+                                      uint32 Offset,
+                                      const TString& rkName)
 {
     IProperty* pOut = Create(Type, Game);
     pOut->mFlags |= EPropertyFlag::IsIntrinsic;
@@ -661,9 +649,9 @@ IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
 }
 
 IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
-                                            IProperty* pParent,
-                                            uint32 Offset,
-                                            const TString& rkName)
+                                      IProperty* pParent,
+                                      uint32 Offset,
+                                      const TString& rkName)
 {
     // pParent should always be valid.
     // If you are creating a root property, call the other overload takes an EGame instead of a parent.
@@ -678,7 +666,7 @@ IProperty* IProperty::CreateIntrinsic(EPropertyType Type,
 }
 
 IProperty* IProperty::ArchiveConstructor(EPropertyType Type,
-                                               const IArchive& Arc)
+                                         const IArchive& Arc)
 {
     return Create(Type, Arc.Game());
 }

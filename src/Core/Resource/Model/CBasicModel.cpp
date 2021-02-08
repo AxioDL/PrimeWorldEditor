@@ -1,55 +1,50 @@
 #include "CBasicModel.h"
-#include <iostream>
-#include <list>
 
-CBasicModel::CBasicModel(CResourceEntry *pEntry /*= 0*/)
+CBasicModel::CBasicModel(CResourceEntry *pEntry)
     : CResource(pEntry)
-    , mVertexCount(0)
-    , mTriangleCount(0)
-    , mBuffered(false)
-    , mHasOwnMaterials(false)
-    , mHasOwnSurfaces(false)
 {
 }
 
 CBasicModel::~CBasicModel()
 {
-    if (mHasOwnSurfaces)
-        for (uint32 iSurf = 0; iSurf < mSurfaces.size(); iSurf++)
-            delete mSurfaces[iSurf];
+    if (!mHasOwnSurfaces)
+        return;
+
+    for (auto* surface : mSurfaces)
+        delete surface;
 }
 
-uint32 CBasicModel::GetVertexCount()
+size_t CBasicModel::GetVertexCount() const
 {
     return mVertexCount;
 }
 
-uint32 CBasicModel::GetTriangleCount()
+size_t CBasicModel::GetTriangleCount() const
 {
     return mTriangleCount;
 }
 
-CAABox CBasicModel::AABox()
+CAABox CBasicModel::AABox() const
 {
     return mAABox;
 }
 
-bool CBasicModel::IsBuffered()
+bool CBasicModel::IsBuffered() const
 {
     return mBuffered;
 }
 
-uint32 CBasicModel::GetSurfaceCount()
+size_t CBasicModel::GetSurfaceCount() const
 {
     return mSurfaces.size();
 }
 
-CAABox CBasicModel::GetSurfaceAABox(uint32 Surface)
+CAABox CBasicModel::GetSurfaceAABox(size_t Surface) const
 {
     return mSurfaces[Surface]->AABox;
 }
 
-SSurface* CBasicModel::GetSurface(uint32 Surface)
+SSurface* CBasicModel::GetSurface(size_t Surface)
 {
     return mSurfaces[Surface];
 }

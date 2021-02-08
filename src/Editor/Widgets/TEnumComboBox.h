@@ -16,15 +16,15 @@ class TEnumComboBox : public QComboBox
 
 public:
     /** Constructor */
-    explicit TEnumComboBox(QWidget* pParent = 0)
+    explicit TEnumComboBox(QWidget* pParent = nullptr)
         : QComboBox(pParent)
     {
         for (typename TEnumReflection<EnumT>::CIterator It; It; ++It)
         {
             if (It.Value() != TEnumReflection<EnumT>::ErrorValue())
             {
-                addItem( It.Name() );
-                mValueList << It.Value();
+                addItem(It.Name());
+                mValueList.push_back(It.Value());
             }
         }
     }

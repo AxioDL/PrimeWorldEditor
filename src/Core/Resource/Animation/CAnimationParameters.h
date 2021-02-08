@@ -8,35 +8,39 @@ class CModel;
 
 class CAnimationParameters
 {
-    EGame mGame;
+    EGame mGame = EGame::Prime;
     CAssetID mCharacterID;
 
-    uint32 mCharIndex;
-    uint32 mAnimIndex;
-    uint32 mUnknown2;
-    uint32 mUnknown3;
+    uint32 mCharIndex = 0;
+    uint32 mAnimIndex = 0;
+    uint32 mUnknown2 = 0;
+    uint32 mUnknown3 = 0;
 
 public:
     CAnimationParameters();
-    CAnimationParameters(EGame Game);
-    CAnimationParameters(IInputStream& rSCLY, EGame Game);
+    explicit CAnimationParameters(EGame Game);
+    explicit CAnimationParameters(IInputStream& rSCLY, EGame Game);
+
+    CAnimationParameters(const CAnimationParameters&) = default;
+    CAnimationParameters& operator=(const CAnimationParameters&) = default;
+
     void Write(IOutputStream& rSCLY);
     void Serialize(IArchive& rArc);
 
-    const SSetCharacter* GetCurrentSetCharacter(int32 NodeIndex = -1);
+    const SSetCharacter* GetCurrentSetCharacter(int32 NodeIndex = -1) const;
     CModel* GetCurrentModel(int32 NodeIndex = -1);
-    TString GetCurrentCharacterName(int32 NodeIndex = -1);
+    TString GetCurrentCharacterName(int32 NodeIndex = -1) const;
 
     // Accessors
-    inline EGame Version() const            { return mGame; }
-    inline CAssetID ID() const              { return mCharacterID; }
-    inline CAnimSet* AnimSet() const        { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID); }
-    inline uint32 CharacterIndex() const    { return mCharIndex; }
-    inline uint32 AnimIndex() const         { return mAnimIndex; }
-    inline void SetCharIndex(uint32 Index)  { mCharIndex = Index; }
-    inline void SetAnimIndex(uint32 Index)  { mAnimIndex = Index; }
+    EGame Version() const            { return mGame; }
+    CAssetID ID() const              { return mCharacterID; }
+    CAnimSet* AnimSet() const        { return (CAnimSet*) gpResourceStore->LoadResource(mCharacterID); }
+    uint32 CharacterIndex() const    { return mCharIndex; }
+    uint32 AnimIndex() const         { return mAnimIndex; }
+    void SetCharIndex(uint32 Index)  { mCharIndex = Index; }
+    void SetAnimIndex(uint32 Index)  { mAnimIndex = Index; }
 
-    inline void SetGame(EGame Game)
+    void SetGame(EGame Game)
     {
         mGame = Game;
 
@@ -50,30 +54,22 @@ public:
         }
     }
 
-    uint32 Unknown(uint32 Index);
+    uint32 Unknown(uint32 Index) const;
     void SetResource(const CAssetID& rkID);
     void SetUnknown(uint32 Index, uint32 Value);
 
-    // Operators
-    inline CAnimationParameters& operator=(const CAnimationParameters& rkOther)
+    bool operator==(const CAnimationParameters& other) const
     {
-        mGame = rkOther.mGame;
-        mCharacterID = rkOther.mCharacterID;
-        mCharIndex = rkOther.mCharIndex;
-        mAnimIndex = rkOther.mAnimIndex;
-        mUnknown2 = rkOther.mUnknown2;
-        mUnknown3 = rkOther.mUnknown3;
-        return *this;
+        return mGame == other.mGame &&
+               mCharacterID == other.mCharacterID &&
+               mCharIndex == other.mCharIndex &&
+               mAnimIndex == other.mAnimIndex &&
+               mUnknown2 == other.mUnknown2 &&
+               mUnknown3 == other.mUnknown3;
     }
-
-    inline bool operator==(const CAnimationParameters& rkOther) const
+    bool operator!=(const CAnimationParameters& other) const
     {
-        return ( (mGame == rkOther.mGame) &&
-                 (mCharacterID == rkOther.mCharacterID) &&
-                 (mCharIndex == rkOther.mCharIndex) &&
-                 (mAnimIndex == rkOther.mAnimIndex) &&
-                 (mUnknown2 == rkOther.mUnknown2) &&
-                 (mUnknown3 == rkOther.mUnknown3) );
+        return !operator==(other);
     }
 };
 

@@ -8,11 +8,6 @@
 
 CBasicViewport::CBasicViewport(QWidget *pParent)
     : QOpenGLWidget(pParent)
-    , mLastDrawTime(CTimer::GlobalTime())
-    , mKeysPressed(0)
-    , mButtonsPressed(0)
-    , mCursorState(Qt::ArrowCursor)
-    , mCursorVisible(true)
 {
     setMouseTracking(true);
     mCamera.SetAspectRatio((float) width() / height());
@@ -21,9 +16,7 @@ CBasicViewport::CBasicViewport(QWidget *pParent)
     mViewInfo.GameMode = false;
 }
 
-CBasicViewport::~CBasicViewport()
-{
-}
+CBasicViewport::~CBasicViewport() = default;
 
 void CBasicViewport::initializeGL()
 {
@@ -216,21 +209,21 @@ void CBasicViewport::SetCursorVisible(bool Visible)
         setCursor(Qt::BlankCursor);
 }
 
-bool CBasicViewport::IsCursorVisible()
+bool CBasicViewport::IsCursorVisible() const
 {
     return mCursorVisible;
 }
 
-bool CBasicViewport::IsMouseInputActive()
+bool CBasicViewport::IsMouseInputActive() const
 {
-    static const FMouseInputs skMoveButtons = EMouseInput::MiddleButton | EMouseInput::RightButton;
+    static constexpr FMouseInputs skMoveButtons = EMouseInput::MiddleButton | EMouseInput::RightButton;
     return ((mButtonsPressed & skMoveButtons) != 0);
 }
 
-bool CBasicViewport::IsKeyboardInputActive()
+bool CBasicViewport::IsKeyboardInputActive() const
 {
-    static const FKeyInputs skMoveKeys = EKeyInput::Q | EKeyInput::W | EKeyInput::E |
-                                         EKeyInput::A | EKeyInput::S | EKeyInput::D;
+    static constexpr FKeyInputs skMoveKeys = EKeyInput::Q | EKeyInput::W | EKeyInput::E |
+                                             EKeyInput::A | EKeyInput::S | EKeyInput::D;
     return ((mKeysPressed & skMoveKeys) != 0);
 }
 
@@ -239,13 +232,18 @@ CCamera& CBasicViewport::Camera()
     return mCamera;
 }
 
-CRay CBasicViewport::CastRay()
+const CCamera& CBasicViewport::Camera() const
+{
+    return mCamera;
+}
+
+CRay CBasicViewport::CastRay() const
 {
     CVector2f MouseCoords = MouseDeviceCoordinates();
     return mCamera.CastRay(MouseCoords);
 }
 
-CVector2f CBasicViewport::MouseDeviceCoordinates()
+CVector2f CBasicViewport::MouseDeviceCoordinates() const
 {
     QPoint MousePos = mapFromGlobal(QCursor::pos());
 
@@ -270,17 +268,23 @@ void CBasicViewport::ProcessInput()
 
     if (IsMouseInputActive())
     {
+        float XMovement, YMovement;
 #ifdef __APPLE__
         // QCursor::setPos only works on macOS when the user permits PWE
         // to control the computer via Universal Access.
         // As an alternative to relying on the delta of a warped mouse,
         // use the accumulated delta directly reported by AppKit.
-        float XMovement = gpMouseDragCocoaEventFilter->claimX() * 0.01f;
-        float YMovement = gpMouseDragCocoaEventFilter->claimY() * 0.01f;
-#else
-        float XMovement = (QCursor::pos().x() - mLastMousePos.x()) * 0.01f;
-        float YMovement = (QCursor::pos().y() - mLastMousePos.y()) * 0.01f;
+        if (!AXIsProcessTrusted())
+        {
+            XMovement = gpMouseDragCocoaEventFilter->claimX() * 0.01f;
+            YMovement = gpMouseDragCocoaEventFilter->claimY() * 0.01f;
+        }
+        else
 #endif
+        {
+            XMovement = (QCursor::pos().x() - mLastMousePos.x()) * 0.01f;
+            YMovement = (QCursor::pos().y() - mLastMousePos.y()) * 0.01f;
+        }
 
         if ((XMovement != 0) || (YMovement != 0))
         {
@@ -330,7 +334,7 @@ void CBasicViewport::DrawAxes()
     CGraphics::UpdateMVPBlock();
 
     glLineWidth(1.f);
-    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(1,0,0), CColor::skRed);   // X
-    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(0,1,0), CColor::skGreen); // Y
-    CDrawUtil::DrawLine(CVector3f(0,0,0), CVector3f(0,0,1), CColor::skBlue);  // Z
+    CDrawUtil::DrawLine(CVector3f::Zero(), CVector3f(1,0,0), CColor::Red());   // X
+    CDrawUtil::DrawLine(CVector3f::Zero(), CVector3f(0,1,0), CColor::Green()); // Y
+    CDrawUtil::DrawLine(CVector3f::Zero(), CVector3f(0,0,1), CColor::Blue());  // Z
 }

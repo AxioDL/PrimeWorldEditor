@@ -24,11 +24,9 @@ class CStringTable : public CResource
     struct SStringData
     {
         TString String;
-        bool IsLocalized;
+        bool IsLocalized = false;
 
-        SStringData()
-            : IsLocalized(false)
-        {}
+        SStringData() = default;
 
         void Serialize(IArchive& Arc)
         {
@@ -52,46 +50,46 @@ class CStringTable : public CResource
 
 public:
     /** Constructor */
-    CStringTable(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
+    explicit CStringTable(CResourceEntry *pEntry = nullptr) : CResource(pEntry) {}
 
     /** Returns the number of languages in the table */
-    inline uint NumLanguages() const    { return mLanguages.size(); }
+    size_t NumLanguages() const    { return mLanguages.size(); }
 
     /** Returns the number of strings in the table */
-    inline uint NumStrings() const      { return mLanguages.empty() ? 0 : mLanguages[0].Strings.size(); }
+    size_t NumStrings() const      { return mLanguages.empty() ? 0 : mLanguages[0].Strings.size(); }
 
     /** Returns languages used by index */
-    inline ELanguage LanguageByIndex(uint Index) const  { return mLanguages.size() > Index ? mLanguages[Index].Language : ELanguage::Invalid; }
+    ELanguage LanguageByIndex(size_t Index) const { return mLanguages.size() > Index ? mLanguages[Index].Language : ELanguage::Invalid; }
 
     /** Returns the string name by string index. May be blank if the string at the requested index is unnamed */
-    inline TString StringNameByIndex(uint Index) const  { return mStringNames.size() > Index ? mStringNames[Index] : ""; }
+    TString StringNameByIndex(size_t Index) const { return mStringNames.size() > Index ? mStringNames[Index] : ""; }
 
     /** Returns a string given a language/index pair */
-    TString GetString(ELanguage Language, uint StringIndex) const;
+    TString GetString(ELanguage Language, size_t StringIndex) const;
 
     /** Updates a string for a given language */
-    void SetString(ELanguage Language, uint StringIndex, const TString& kNewString);
+    void SetString(ELanguage Language, size_t StringIndex, TString kNewString);
 
     /** Updates a string name */
-    void SetStringName(uint StringIndex, const TString& kNewName);
+    void SetStringName(size_t StringIndex, TString kNewName);
 
     /** Move string to another position in the table */
-    void MoveString(uint StringIndex, uint NewIndex);
+    void MoveString(size_t StringIndex, size_t NewIndex);
 
     /** Add a new string to the table */
-    void AddString(uint AtIndex);
+    void AddString(size_t AtIndex);
 
     /** Remove a string from the table */
-    void RemoveString(uint StringIndex);
+    void RemoveString(size_t StringIndex);
 
     /** Initialize new resource data */
-    virtual void InitializeNewResource() override;
+    void InitializeNewResource() override;
 
     /** Serialize resource data */
-    virtual void Serialize(IArchive& Arc) override;
+    void Serialize(IArchive& Arc) override;
 
     /** Build the dependency tree for this resource */
-    virtual CDependencyTree* BuildDependencyTree() const override;
+    std::unique_ptr<CDependencyTree> BuildDependencyTree() const override;
 
     /** Static - Strip all formatting tags for a given string */
     static TString StripFormatting(const TString& kInString);

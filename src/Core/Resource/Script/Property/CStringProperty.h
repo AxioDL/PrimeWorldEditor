@@ -3,22 +3,22 @@
 
 #include "IProperty.h"
 
-class CStringProperty : public TSerializeableTypedProperty< TString, EPropertyType::String >
+class CStringProperty : public TSerializeableTypedProperty<TString, EPropertyType::String>
 {
     friend class IProperty;
 
 protected:
-    CStringProperty(EGame Game)
+    explicit CStringProperty(EGame Game)
         : TSerializeableTypedProperty(Game)
     {}
 
 public:
-    virtual void SerializeValue(void* pData, IArchive& Arc) const
+    void SerializeValue(void* pData, IArchive& Arc) const override
     {
-        Arc.SerializePrimitive( ValueRef(pData), 0 );
+        Arc.SerializePrimitive(ValueRef(pData), 0);
     }
 
-    virtual TString ValueAsString(void* pData) const
+    TString ValueAsString(void* pData) const override
     {
         return Value(pData);
     }

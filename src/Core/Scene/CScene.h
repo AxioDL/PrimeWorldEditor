@@ -25,16 +25,16 @@ class CScene
 {
     friend class CSceneIterator;
     
-    bool mSplitTerrain;
-    bool mRanPostLoad;
+    bool mSplitTerrain = true;
+    bool mRanPostLoad = false;
 
-    uint32 mNumNodes;
-    CRootNode *mpSceneRootNode;
+    uint32 mNumNodes = 0;
+    CRootNode *mpSceneRootNode = nullptr;
     std::unordered_map<ENodeType, std::vector<CSceneNode*>> mNodes;
 
     TResPtr<CGameArea> mpArea;
     TResPtr<CWorld> mpWorld;
-    CRootNode *mpAreaRootNode;
+    CRootNode *mpAreaRootNode = nullptr;
 
     // Environment
     std::vector<CAreaAttributes> mAreaAttributesObjects;
@@ -49,13 +49,13 @@ public:
 
     // Scene Management
     bool IsNodeIDUsed(uint32 ID) const;
-    uint32 CreateNodeID(uint32 SuggestedID = -1) const;
+    uint32 CreateNodeID(uint32 SuggestedID = UINT32_MAX) const;
 
-    CModelNode* CreateModelNode(CModel *pModel, uint32 NodeID = -1);
-    CStaticNode* CreateStaticNode(CStaticModel *pModel, uint32 NodeID = -1);
-    CCollisionNode* CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 NodeID = -1);
-    CScriptNode* CreateScriptNode(CScriptObject *pObj, uint32 NodeID = -1);
-    CLightNode* CreateLightNode(CLight *pLight, uint32 NodeID = -1);
+    CModelNode* CreateModelNode(CModel *pModel, uint32 NodeID = UINT32_MAX);
+    CStaticNode* CreateStaticNode(CStaticModel *pModel, uint32 NodeID = UINT32_MAX);
+    CCollisionNode* CreateCollisionNode(CCollisionMeshGroup *pMesh, uint32 NodeID = UINT32_MAX);
+    CScriptNode* CreateScriptNode(CScriptObject *pObj, uint32 NodeID = UINT32_MAX);
+    CLightNode* CreateLightNode(CLight *pLight, uint32 NodeID = UINT32_MAX);
     void DeleteNode(CSceneNode *pNode);
     void SetActiveArea(CWorld *pWorld, CGameArea *pArea);
     void PostLoad();

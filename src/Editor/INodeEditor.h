@@ -16,46 +16,53 @@
 class INodeEditor : public IEditor
 {
     Q_OBJECT
-
+public:
+    enum class ECloneState
+    {
+        NotCloning,
+        ReadyToClone,
+        Cloning
+    };
 protected:
     // Node management
     CScene mScene;
     CNodeSelection *mpSelection;
-    bool mSelectionLocked;
+    bool mSelectionLocked = false;
 
     // Gizmo
     CGizmo mGizmo;
-    bool mShowGizmo;
-    bool mGizmoHovering;
-    bool mGizmoTransforming;
-    ETransformSpace mTranslateSpace;
-    ETransformSpace mRotateSpace;
-    enum { eNotCloning, eReadyToClone, eCloning } mCloneState;
+    bool mShowGizmo = false;
+    bool mGizmoHovering = false;
+    bool mGizmoTransforming = false;
+    ETransformSpace mTranslateSpace{ETransformSpace::World};
+    ETransformSpace mRotateSpace{ETransformSpace::World};
+    ECloneState mCloneState{ECloneState::NotCloning};
 
     // Gizmo widgets
-    QActionGroup *mpGizmoGroup;
+    QActionGroup *mpGizmoGroup = nullptr;
     QList<QAction*> mGizmoActions;
-    QComboBox *mpTransformCombo;
+    QComboBox *mpTransformCombo = nullptr;
 
     // Pick mode
-    bool mPickMode;
-    bool mExitOnInvalidPick;
-    bool mEmitOnInvalidPick;
-    bool mEmitOnButtonPress;
-    FNodeFlags mAllowedPickNodes;
-    CSceneNode *mpPickHoverNode;
-    Qt::MouseButtons mPickButtons;
-    Qt::KeyboardModifiers mPickModifiers;
+    bool mPickMode = false;
+    bool mExitOnInvalidPick = false;
+    bool mEmitOnInvalidPick = false;
+    bool mEmitOnButtonPress = false;
+    FNodeFlags mAllowedPickNodes{};
+    CSceneNode *mpPickHoverNode = nullptr;
+    Qt::MouseButtons mPickButtons{};
+    Qt::KeyboardModifiers mPickModifiers{};
 
 public:
-    explicit INodeEditor(QWidget *pParent = 0);
-    virtual ~INodeEditor();
+    explicit INodeEditor(QWidget *pParent = nullptr);
+    ~INodeEditor() override;
+
     CScene* Scene();
     CGizmo* Gizmo();
-    bool IsGizmoVisible();
+    bool IsGizmoVisible() const;
     void BeginGizmoTransform();
     void EndGizmoTransform();
-    ETransformSpace CurrentTransformSpace();
+    ETransformSpace CurrentTransformSpace() const;
 
     void SelectNode(CSceneNode *pNode);
     void BatchSelectNodes(QList<CSceneNode*> Nodes, bool ClearExistingSelection, const QString& rkCommandName = "Select");

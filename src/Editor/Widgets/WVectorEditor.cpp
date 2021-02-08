@@ -2,7 +2,7 @@
 
 WVectorEditor::WVectorEditor(QWidget *pParent)
     : QWidget(pParent)
-    , mValue(CVector3f::skZero)
+    , mValue(CVector3f::Zero())
     , mEditing(false)
 {
     SetupUI();
@@ -29,7 +29,7 @@ WVectorEditor::~WVectorEditor()
     delete mpLayout;
 }
 
-CVector3f WVectorEditor::Value()
+CVector3f WVectorEditor::Value() const
 {
     return mValue;
 }
@@ -160,9 +160,9 @@ void WVectorEditor::SetZ(double Z)
 void WVectorEditor::SetupUI()
 {
     // Create and initialize widgets
-    mpLabelX = new QLabel("X", this);
-    mpLabelY = new QLabel("Y", this);
-    mpLabelZ = new QLabel("Z", this);
+    mpLabelX = new QLabel(tr("X"), this);
+    mpLabelY = new QLabel(tr("Y"), this);
+    mpLabelZ = new QLabel(tr("Z"), this);
     mpSpinBoxX = new WDraggableSpinBox(this);
     mpSpinBoxY = new WDraggableSpinBox(this);
     mpSpinBoxZ = new WDraggableSpinBox(this);
@@ -175,12 +175,12 @@ void WVectorEditor::SetupUI()
     mpSpinBoxX->setContextMenuPolicy(Qt::NoContextMenu);
     mpSpinBoxY->setContextMenuPolicy(Qt::NoContextMenu);
     mpSpinBoxZ->setContextMenuPolicy(Qt::NoContextMenu);
-    connect(mpSpinBoxX, SIGNAL(valueChanged(double)), this, SLOT(SetX(double)));
-    connect(mpSpinBoxY, SIGNAL(valueChanged(double)), this, SLOT(SetY(double)));
-    connect(mpSpinBoxZ, SIGNAL(valueChanged(double)), this, SLOT(SetZ(double)));
-    connect(mpSpinBoxX, SIGNAL(editingFinished()), this, SLOT(OnSpinBoxEditingDone()));
-    connect(mpSpinBoxY, SIGNAL(editingFinished()), this, SLOT(OnSpinBoxEditingDone()));
-    connect(mpSpinBoxZ, SIGNAL(editingFinished()), this, SLOT(OnSpinBoxEditingDone()));
+    connect(mpSpinBoxX, qOverload<double>(&WDraggableSpinBox::valueChanged), this, &WVectorEditor::SetX);
+    connect(mpSpinBoxY, qOverload<double>(&WDraggableSpinBox::valueChanged), this, &WVectorEditor::SetY);
+    connect(mpSpinBoxZ, qOverload<double>(&WDraggableSpinBox::valueChanged), this, &WVectorEditor::SetZ);
+    connect(mpSpinBoxX, &WDraggableSpinBox::editingFinished, this, &WVectorEditor::OnSpinBoxEditingDone);
+    connect(mpSpinBoxY, &WDraggableSpinBox::editingFinished, this, &WVectorEditor::OnSpinBoxEditingDone);
+    connect(mpSpinBoxZ, &WDraggableSpinBox::editingFinished, this, &WVectorEditor::OnSpinBoxEditingDone);
 
     // Create and initialize spinbox layouts
     mpXLayout = new QHBoxLayout();

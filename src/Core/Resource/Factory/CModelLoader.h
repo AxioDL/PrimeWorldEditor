@@ -11,6 +11,14 @@
 
 #include <assimp/scene.h>
 
+#include <memory>
+
+class CMaterialSet;
+class CResourceEntry;
+class IInputStream;
+enum class EGame;
+struct SSurface;
+
 enum class EModelLoaderFlag
 {
     None                    = 0x0,
@@ -24,27 +32,25 @@ DECLARE_FLAGS_ENUMCLASS(EModelLoaderFlag, FModelLoaderFlags)
 
 class CModelLoader
 {
-public:
-
 private:
     TResPtr<CModel> mpModel;
     std::vector<CMaterialSet*> mMaterials;
-    CSectionMgrIn *mpSectionMgr;
+    CSectionMgrIn *mpSectionMgr = nullptr;
     CAABox mAABox;
-    EGame mVersion;
+    EGame mVersion{};
 
-    uint32 mNumVertices;
+    uint32 mNumVertices = 0;
     std::vector<CVector3f> mPositions;
     std::vector<CVector3f> mNormals;
     std::vector<CColor> mColors;
     std::vector<CVector2f> mTex0;
     std::vector<CVector2f> mTex1;
-    bool mSurfaceUsingTex1;
+    bool mSurfaceUsingTex1 = false;
 
-    uint32 mSurfaceCount;
+    uint32 mSurfaceCount = 0;
     std::vector<uint32> mSurfaceOffsets;
 
-    FModelLoaderFlags mFlags;
+    FModelLoaderFlags mFlags{EModelLoaderFlag::None};
 
     CModelLoader();
     ~CModelLoader();
@@ -58,10 +64,10 @@ private:
     SSurface* LoadAssimpMesh(const aiMesh *pkMesh, CMaterialSet *pSet);
 
 public:
-    static CModel* LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry);
-    static CModel* LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version);
-    static CModel* LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, uint32 HeaderSecNum, uint32 GPUSecNum, EGame Version);
-    static void BuildWorldMeshes(const std::vector<CModel*>& rkIn, std::vector<CModel*>& rOut, bool DeleteInputModels);
+    static std::unique_ptr<CModel> LoadCMDL(IInputStream& rCMDL, CResourceEntry *pEntry);
+    static std::unique_ptr<CModel> LoadWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, EGame Version);
+    static std::unique_ptr<CModel> LoadCorruptionWorldModel(IInputStream& rMREA, CSectionMgrIn& rBlockMgr, CMaterialSet& rMatSet, uint32 HeaderSecNum, uint32 GPUSecNum, EGame Version);
+    static void BuildWorldMeshes(std::vector<std::unique_ptr<CModel>>& rkIn, std::vector<std::unique_ptr<CModel>>& rOut, bool DeleteInputModels);
     static CModel* ImportAssimpNode(const aiNode *pkNode, const aiScene *pkScene, CMaterialSet& rMatSet);
     static EGame GetFormatVersion(uint32 Version);
 };

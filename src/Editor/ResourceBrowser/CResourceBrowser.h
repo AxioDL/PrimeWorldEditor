@@ -19,25 +19,25 @@ class CResourceBrowser;
 class CResourceBrowser : public QWidget
 {
     Q_OBJECT
-    Ui::CResourceBrowser *mpUI;
-    CResourceEntry *mpSelectedEntry;
-    CResourceStore *mpStore;
-    CResourceTableModel *mpModel;
-    CResourceProxyModel *mpProxyModel;
-    CResourceBrowserDelegate *mpDelegate;
-    CVirtualDirectory *mpSelectedDir;
-    CVirtualDirectoryModel *mpDirectoryModel;
-    bool mEditorStore;
-    bool mAssetListMode;
-    bool mSearching;
+    std::unique_ptr<Ui::CResourceBrowser> mpUI;
+    CResourceEntry *mpSelectedEntry = nullptr;
+    CResourceStore *mpStore = nullptr;
+    CResourceTableModel *mpModel = nullptr;
+    CResourceProxyModel *mpProxyModel = nullptr;
+    CResourceBrowserDelegate *mpDelegate = nullptr;
+    CVirtualDirectory *mpSelectedDir = nullptr;
+    CVirtualDirectoryModel *mpDirectoryModel = nullptr;
+    bool mEditorStore = false;
+    bool mAssetListMode = false;
+    bool mSearching = false;
 
     // Add Menu
-    QMenu *mpAddMenu;
+    QMenu *mpAddMenu = nullptr;
 
     // Type Filter
-    QWidget *mpFilterBoxesContainerWidget;
-    QVBoxLayout *mpFilterBoxesLayout;
-    QCheckBox *mpFilterAllBox;
+    QWidget *mpFilterBoxesContainerWidget = nullptr;
+    QVBoxLayout *mpFilterBoxesLayout = nullptr;
+    QCheckBox *mpFilterAllBox = nullptr;
     QFont mFilterBoxFont;
 
     struct SResourceType
@@ -49,16 +49,16 @@ class CResourceBrowser : public QWidget
 
     // Undo/Redo
     QUndoStack mUndoStack;
-    QAction *mpUndoAction;
-    QAction *mpRedoAction;
-    QWidget *mpActionContainerWidget;
+    QAction *mpUndoAction = nullptr;
+    QAction *mpRedoAction = nullptr;
+    QWidget *mpActionContainerWidget = nullptr;
 
     // Misc
-    CResourceEntry *mpInspectedEntry; // Entry being "inspected" (viewing dependencies/referencers, etc)
+    CResourceEntry *mpInspectedEntry = nullptr; // Entry being "inspected" (viewing dependencies/referencers, etc)
 
 public:
-    explicit CResourceBrowser(QWidget *pParent = 0);
-    ~CResourceBrowser();
+    explicit CResourceBrowser(QWidget *pParent = nullptr);
+    ~CResourceBrowser() override;
 
     void SetActiveDirectory(CVirtualDirectory *pDir);
     void SelectResource(CResourceEntry *pEntry, bool ClearFiltersIfNecessary = false);
@@ -78,14 +78,14 @@ public:
                                       CAssetID ID = CAssetID());
 
     // Interface
-    bool eventFilter(QObject *pWatched, QEvent *pEvent);
+    bool eventFilter(QObject* pWatched, QEvent* pEvent) override;
 
     // Accessors
-    inline CResourceStore* CurrentStore() const     { return mpStore; }
-    inline CResourceEntry* SelectedEntry() const    { return mpSelectedEntry; }
-    inline bool InAssetListMode() const             { return mAssetListMode || mSearching || mpModel->IsDisplayingUserEntryList(); }
+    CResourceStore* CurrentStore() const     { return mpStore; }
+    CResourceEntry* SelectedEntry() const    { return mpSelectedEntry; }
+    bool InAssetListMode() const             { return mAssetListMode || mSearching || mpModel->IsDisplayingUserEntryList(); }
 
-    inline void SetInspectedEntry(CResourceEntry *pEntry)   { mpInspectedEntry = pEntry; }
+    void SetInspectedEntry(CResourceEntry *pEntry)   { mpInspectedEntry = pEntry; }
 
 public slots:
     void RefreshResources();
@@ -98,7 +98,7 @@ public slots:
     void OnCreateAssetAction();
     bool CreateDirectory();
     bool Delete(QVector<CResourceEntry*> Resources, QVector<CVirtualDirectory*> Directories);
-    void OnSearchStringChanged(QString SearchString);
+    void OnSearchStringChanged(const QString& SearchString);
     void OnDirectorySelectionChanged(const QModelIndex& rkNewIndex);
     void OnDoubleClickTable(QModelIndex Index);
     void OnResourceSelectionChanged(const QModelIndex& rkNewIndex);

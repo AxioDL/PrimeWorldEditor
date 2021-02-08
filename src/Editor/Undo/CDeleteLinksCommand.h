@@ -7,7 +7,7 @@
 
 class CDeleteLinksCommand : public IUndoCommand
 {
-    CWorldEditor *mpEditor;
+    CWorldEditor *mpEditor = nullptr;
     CInstancePtrList mAffectedInstances;
 
     struct SDeletedLink
@@ -22,11 +22,11 @@ class CDeleteLinksCommand : public IUndoCommand
     QVector<SDeletedLink> mLinks;
 
 public:
-    CDeleteLinksCommand() {}
+    CDeleteLinksCommand() = default;
     CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *pObject, ELinkType Type, const QVector<uint32>& rkIndices);
-    void undo();
-    void redo();
-    bool AffectsCleanState() const { return true; }
+    void undo() override;
+    void redo() override;
+    bool AffectsCleanState() const override { return true; }
 };
 
 #endif // CDELETELINKSCOMMAND_H

@@ -1,14 +1,14 @@
 #include "CPoiToWorldLoader.h"
 
-CPoiToWorld* CPoiToWorldLoader::LoadEGMC(IInputStream& rEGMC, CResourceEntry *pEntry)
+std::unique_ptr<CPoiToWorld> CPoiToWorldLoader::LoadEGMC(IInputStream& rEGMC, CResourceEntry *pEntry)
 {
-    CPoiToWorld *pOut = new CPoiToWorld(pEntry);
-    uint32 NumMappings = rEGMC.ReadLong();
+    auto pOut = std::make_unique<CPoiToWorld>(pEntry);
+    const uint32 NumMappings = rEGMC.ReadULong();
 
     for (uint32 iMap = 0; iMap < NumMappings; iMap++)
     {
-        uint32 MeshID = rEGMC.ReadLong();
-        uint32 InstanceID = rEGMC.ReadLong() & 0x03FFFFFF;
+        const uint32 MeshID = rEGMC.ReadULong();
+        const uint32 InstanceID = rEGMC.ReadULong() & 0x03FFFFFF;
         pOut->AddPoiMeshMap(InstanceID, MeshID);
     }
 

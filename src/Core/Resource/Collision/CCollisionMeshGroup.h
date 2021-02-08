@@ -5,42 +5,38 @@
 #include "Core/Resource/CResource.h"
 #include "Core/Resource/TResPtr.h"
 #include <Common/Math/CTransform4f.h>
+#include <memory>
 #include <vector>
 
 class CCollisionMeshGroup : public CResource
 {
     DECLARE_RESOURCE_TYPE(DynamicCollision)
-    std::vector<CCollisionMesh*> mMeshes;
+    std::vector<std::unique_ptr<CCollisionMesh>> mMeshes;
 
 public:
-    CCollisionMeshGroup(CResourceEntry *pEntry = 0) : CResource(pEntry) {}
+    explicit CCollisionMeshGroup(CResourceEntry *pEntry = nullptr) : CResource(pEntry) {}
+    ~CCollisionMeshGroup() override = default;
 
-    ~CCollisionMeshGroup()
+    size_t NumMeshes() const                              { return mMeshes.size(); }
+    CCollisionMesh* MeshByIndex(size_t Index) const       { return mMeshes[Index].get(); }
+    void AddMesh(std::unique_ptr<CCollisionMesh>&& pMesh) { mMeshes.push_back(std::move(pMesh)); }
+
+    void BuildRenderData()
     {
-        for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
-            delete *it;
+        for (auto& mesh : mMeshes)
+            mesh->BuildRenderData();
     }
 
-    inline uint32 NumMeshes() const                         { return mMeshes.size(); }
-    inline CCollisionMesh* MeshByIndex(uint32 Index) const  { return mMeshes[Index]; }
-    inline void AddMesh(CCollisionMesh *pMesh)              { mMeshes.push_back(pMesh); }
-
-    inline void BuildRenderData()
+    void Draw()
     {
-        for (auto It = mMeshes.begin(); It != mMeshes.end(); It++)
-            (*It)->BuildRenderData();
+        for (auto& mesh : mMeshes)
+            mesh->GetRenderData().Render(false);
     }
 
-    inline void Draw()
+    void DrawWireframe()
     {
-        for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
-            (*it)->GetRenderData().Render(false);
-    }
-
-    inline void DrawWireframe()
-    {
-        for (auto it = mMeshes.begin(); it != mMeshes.end(); it++)
-            (*it)->GetRenderData().Render(true);
+        for (auto& mesh : mMeshes)
+            mesh->GetRenderData().Render(true);
     }
 };
 

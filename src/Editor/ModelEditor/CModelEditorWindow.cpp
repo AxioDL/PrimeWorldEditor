@@ -12,7 +12,6 @@
 #include <Core/Resource/Factory/CTextureDecoder.h>
 #include <Core/Scene/CScene.h>
 
-#include <iostream>
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -22,19 +21,15 @@
 
 CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     : IEditor(pParent)
-    , ui(new Ui::CModelEditorWindow)
-    , mpScene(new CScene())
-    , mpCurrentMat(nullptr)
-    , mpCurrentModel(nullptr)
-    , mpCurrentModelNode(new CModelNode(mpScene, -1))
-    , mpCurrentPass(nullptr)
-    , mIgnoreSignals(false)
+    , ui(std::make_unique<Ui::CModelEditorWindow>())
+    , mpScene(std::make_unique<CScene>())
+    , mpCurrentModelNode(std::make_unique<CModelNode>(mpScene.get(), UINT32_MAX))
 {
     ui->setupUi(this);
     ui->ActionSave->setEnabled( pModel->Game() == EGame::Prime ); // we don't support saving games later than MP1
     REPLACE_WINDOWTITLE_APPVARS;
 
-    ui->Viewport->SetNode(mpCurrentModelNode);
+    ui->Viewport->SetNode(mpCurrentModelNode.get());
     ui->Viewport->SetClearColor(CColor(0.3f, 0.3f, 0.3f, 1.f));
 
     CCamera& rCamera = ui->Viewport->Camera();
@@ -91,65 +86,60 @@ CModelEditorWindow::CModelEditorWindow(CModel *pModel, QWidget *pParent)
     ui->AnimParamCSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamCSpinBox);
     ui->AnimParamDSpinBox->setProperty             ("ModelEditorWidgetType", (int) EModelEditorWidget::AnimParamDSpinBox);
 
-    connect(ui->ActionImport, SIGNAL(triggered()), this, SLOT(Import()));
-    connect(ui->ActionSave, SIGNAL(triggered()), this, SLOT(Save()));
-    connect(ui->ActionConvertToDDS, SIGNAL(triggered()), this, SLOT(ConvertToDDS()));
-    connect(ui->ActionConvertToTXTR, SIGNAL(triggered()), this, SLOT(ConvertToTXTR()));
-    connect(ui->MeshPreviewButton, SIGNAL(clicked()), this, SLOT(SetMeshPreview()));
-    connect(ui->SpherePreviewButton, SIGNAL(clicked()), this, SLOT(SetSpherePreview()));
-    connect(ui->FlatPreviewButton, SIGNAL(clicked()), this, SLOT(SetFlatPreview()));
-    connect(ui->ClearColorPicker, SIGNAL(ColorChanged(QColor)), this, SLOT(ClearColorChanged(QColor)));
-    connect(ui->CameraModeButton, SIGNAL(clicked()), this, SLOT(ToggleCameraMode()));
-    connect(ui->ToggleGridButton, SIGNAL(toggled(bool)), this, SLOT(ToggleGrid(bool)));
+    connect(ui->ActionImport, &QAction::triggered, this, &CModelEditorWindow::Import);
+    connect(ui->ActionSave, &QAction::triggered, this, &CModelEditorWindow::Save);
+    connect(ui->ActionConvertToDDS, &QAction::triggered, this, &CModelEditorWindow::ConvertToDDS);
+    connect(ui->ActionConvertToTXTR, &QAction::triggered, this, &CModelEditorWindow::ConvertToTXTR);
+    connect(ui->MeshPreviewButton, &QPushButton::clicked, this, &CModelEditorWindow::SetMeshPreview);
+    connect(ui->SpherePreviewButton, &QPushButton::clicked, this, &CModelEditorWindow::SetSpherePreview);
+    connect(ui->FlatPreviewButton, &QPushButton::clicked, this, &CModelEditorWindow::SetFlatPreview);
+    connect(ui->ClearColorPicker, &WColorPicker::ColorChanged, this, &CModelEditorWindow::ClearColorChanged);
+    connect(ui->CameraModeButton, &QPushButton::clicked, this, &CModelEditorWindow::ToggleCameraMode);
+    connect(ui->ToggleGridButton, &QPushButton::toggled, this, &CModelEditorWindow::ToggleGrid);
 
-    connect(ui->SetSelectionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateUI(int)));
-    connect(ui->MatSelectionComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateUI(int)));
-    connect(ui->EnableTransparencyCheck,      SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnablePunchthroughCheck,      SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableReflectionCheck,        SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableSurfaceReflectionCheck, SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableDepthWriteCheck,        SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableOccluderCheck,          SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableLightmapCheck,          SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->EnableDynamicLightingCheck,   SIGNAL(toggled(bool)), this, SLOT(UpdateMaterial(bool)));
-    connect(ui->SourceBlendComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->DestBlendComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->KonstColorPickerA, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerB, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerC, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->KonstColorPickerD, SIGNAL(ColorChanged(QColor)), this, SLOT(UpdateMaterial(QColor)));
-    connect(ui->PassTable, SIGNAL(cellClicked(int,int)), this, SLOT(UpdateMaterial(int, int)));
-    connect(ui->TevKColorSelComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevKAlphaSelComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevRasSelComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TexCoordSrcComboBox,    SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
+    connect(ui->SetSelectionComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateUI));
+    connect(ui->MatSelectionComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateUI));
+    connect(ui->EnableTransparencyCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnablePunchthroughCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableReflectionCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableSurfaceReflectionCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableDepthWriteCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableOccluderCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableLightmapCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->EnableDynamicLightingCheck, &QCheckBox::toggled, this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->SourceBlendComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->DestBlendComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->KonstColorPickerA, &WColorPicker::ColorChanged, this, qOverload<QColor>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->KonstColorPickerB, &WColorPicker::ColorChanged, this, qOverload<QColor>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->KonstColorPickerC, &WColorPicker::ColorChanged, this, qOverload<QColor>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->KonstColorPickerD, &WColorPicker::ColorChanged, this, qOverload<QColor>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->PassTable, &QTableWidget::cellClicked, this, qOverload<int, int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevKColorSelComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevKAlphaSelComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevRasSelComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TexCoordSrcComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
     connect(ui->PassTextureResSelector, SIGNAL(ResourceChanged(QString)), this, SLOT(UpdateMaterial(QString)));
-    connect(ui->TevColor1ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevColor2ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevColor3ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevColor4ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevColorOutputComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlpha1ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlpha2ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlpha3ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlpha4ComboBox,      SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->TevAlphaOutputComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->AnimTypeComboBox,       SIGNAL(currentIndexChanged(int)), this, SLOT(UpdateMaterial(int)));
-    connect(ui->AnimParamASpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
-    connect(ui->AnimParamBSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
-    connect(ui->AnimParamCSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
-    connect(ui->AnimParamDSpinBox, SIGNAL(valueChanged(double)), this, SLOT(UpdateMaterial(double)));
+    connect(ui->TevColor1ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevColor2ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevColor3ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevColor4ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevColorOutputComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlpha1ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlpha2ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlpha3ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlpha4ComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->TevAlphaOutputComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimTypeComboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, qOverload<int>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimParamASpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, qOverload<double>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimParamBSpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, qOverload<double>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimParamCSpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, qOverload<double>(&CModelEditorWindow::UpdateMaterial));
+    connect(ui->AnimParamDSpinBox, qOverload<double>(&WDraggableSpinBox::valueChanged), this, qOverload<double>(&CModelEditorWindow::UpdateMaterial));
     // That was fun
 
     SetActiveModel(pModel);
 }
 
-CModelEditorWindow::~CModelEditorWindow()
-{
-    delete mpCurrentModelNode;
-    delete mpScene;
-    delete ui;
-}
+CModelEditorWindow::~CModelEditorWindow() = default;
 
 bool CModelEditorWindow::Save()
 {
@@ -174,19 +164,19 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     mpCurrentModel = pModel;
     ui->Viewport->Camera().SetOrbit(pModel->AABox());
 
-    uint32 NumVertices = (pModel ? pModel->GetVertexCount() : 0);
-    uint32 NumTriangles = (pModel ? pModel->GetTriangleCount() : 0);
-    uint32 NumMats = (pModel ? pModel->GetMatCount() : 0);
-    uint32 NumMatSets = (pModel ? pModel->GetMatSetCount() : 0);
-    ui->MeshInfoLabel->setText(QString::number(NumVertices) + " vertices, " + QString::number(NumTriangles) + " triangles");
-    ui->MatInfoLabel->setText(QString::number(NumMats) + " materials, " + QString::number(NumMatSets) + " set" + (NumMatSets == 1 ? "" : "s"));
+    const uint32 NumVertices = (pModel ? pModel->GetVertexCount() : 0);
+    const uint32 NumTriangles = (pModel ? pModel->GetTriangleCount() : 0);
+    const uint32 NumMats = (pModel ? pModel->GetMatCount() : 0);
+    const uint32 NumMatSets = (pModel ? pModel->GetMatSetCount() : 0);
+    ui->MeshInfoLabel->setText(tr("%1 vertices, %2 triangles").arg(NumVertices).arg(NumTriangles));
+    ui->MatInfoLabel->setText(tr("%1 materials, %2 set%3").arg(NumMats).arg(NumMatSets).arg(NumMatSets == 1 ? QString{} : tr("s")));
 
     // Set items in matset combo box
     ui->SetSelectionComboBox->blockSignals(true);
     ui->SetSelectionComboBox->clear();
 
     for (uint32 iSet = 0; iSet < NumMatSets; iSet++)
-        ui->SetSelectionComboBox->addItem("Set #" + QString::number(iSet + 1));
+        ui->SetSelectionComboBox->addItem(tr("Set #%1").arg(iSet + 1));
 
     ui->SetSelectionComboBox->setCurrentIndex(0);
     ui->SetSelectionComboBox->blockSignals(false);
@@ -195,9 +185,9 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
     ui->MatSelectionComboBox->blockSignals(true);
     ui->MatSelectionComboBox->clear();
 
-    for (uint32 iMat = 0; iMat < NumMats; iMat++)
+    for (size_t iMat = 0; iMat < NumMats; iMat++)
     {
-        TString MatName = pModel->GetMaterialByIndex(0, iMat)->Name();
+        const TString MatName = pModel->GetMaterialByIndex(0, iMat)->Name();
         ui->MatSelectionComboBox->addItem(TO_QSTRING(MatName));
     }
 
@@ -215,12 +205,14 @@ void CModelEditorWindow::SetActiveModel(CModel *pModel)
 
 void CModelEditorWindow::SetActiveMaterial(int MatIndex)
 {
-    if (!mpCurrentModel) return;
+    if (!mpCurrentModel)
+        return;
 
-    uint32 SetIndex = ui->SetSelectionComboBox->currentIndex();
+    const auto SetIndex = static_cast<uint32>(ui->SetSelectionComboBox->currentIndex());
     mpCurrentMat = mpCurrentModel->GetMaterialByIndex(SetIndex, MatIndex);
     ui->Viewport->SetActiveMaterial(mpCurrentMat);
-    if (!mpCurrentMat) return;
+    if (!mpCurrentMat)
+        return;
 
     // Set up UI
     FMaterialOptions Settings = mpCurrentMat->Options();
@@ -270,13 +262,13 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     {
         CMaterialPass *pPass = mpCurrentMat->Pass(iPass);
 
-        QTableWidgetItem *pItemA = new QTableWidgetItem("Pass #" + QString::number(iPass + 1) + ": " + TO_QSTRING(pPass->NamedType()));
-        QTableWidgetItem *pItemB = new QTableWidgetItem();
+        auto *pItemA = new QTableWidgetItem(tr("Pass #%1: %2").arg(iPass + 1).arg(TO_QSTRING(pPass->NamedType())));
+        auto *pItemB = new QTableWidgetItem();
 
         if (pPass->IsEnabled())
-            pItemB->setIcon(QIcon(":/icons/Show.svg"));
+            pItemB->setIcon(QIcon(QStringLiteral(":/icons/Show.svg")));
         else
-            pItemB->setIcon(QIcon(":/icons/Hide.svg"));
+            pItemB->setIcon(QIcon(QStringLiteral(":/icons/Hide.svg")));
 
         ui->PassTable->setItem(iPass, 0, pItemA);
         ui->PassTable->setItem(iPass, 1, pItemB);
@@ -286,17 +278,17 @@ void CModelEditorWindow::SetActiveMaterial(int MatIndex)
     ui->TexCoordSrcComboBox->clear();
     FVertexDescription Desc = mpCurrentMat->VtxDesc();
 
-    ui->TexCoordSrcComboBox->addItem("None");
-    if (Desc & EVertexAttribute::Position) ui->TexCoordSrcComboBox->addItem("Position");
-    if (Desc & EVertexAttribute::Normal)   ui->TexCoordSrcComboBox->addItem("Normal");
-    if (Desc & EVertexAttribute::Tex0)     ui->TexCoordSrcComboBox->addItem("Tex Coord 1");
-    if (Desc & EVertexAttribute::Tex1)     ui->TexCoordSrcComboBox->addItem("Tex Coord 2");
-    if (Desc & EVertexAttribute::Tex2)     ui->TexCoordSrcComboBox->addItem("Tex Coord 3");
-    if (Desc & EVertexAttribute::Tex3)     ui->TexCoordSrcComboBox->addItem("Tex Coord 4");
-    if (Desc & EVertexAttribute::Tex4)     ui->TexCoordSrcComboBox->addItem("Tex Coord 5");
-    if (Desc & EVertexAttribute::Tex5)     ui->TexCoordSrcComboBox->addItem("Tex Coord 6");
-    if (Desc & EVertexAttribute::Tex6)     ui->TexCoordSrcComboBox->addItem("Tex Coord 7");
-    if (Desc & EVertexAttribute::Tex7)     ui->TexCoordSrcComboBox->addItem("Tex Coord 8");
+    ui->TexCoordSrcComboBox->addItem(tr("None"));
+    if ((Desc & EVertexAttribute::Position) != 0) ui->TexCoordSrcComboBox->addItem(tr("Position"));
+    if ((Desc & EVertexAttribute::Normal) != 0)   ui->TexCoordSrcComboBox->addItem(tr("Normal"));
+    if ((Desc & EVertexAttribute::Tex0) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 1"));
+    if ((Desc & EVertexAttribute::Tex1) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 2"));
+    if ((Desc & EVertexAttribute::Tex2) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 3"));
+    if ((Desc & EVertexAttribute::Tex3) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 4"));
+    if ((Desc & EVertexAttribute::Tex4) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 5"));
+    if ((Desc & EVertexAttribute::Tex5) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 6"));
+    if ((Desc & EVertexAttribute::Tex6) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 7"));
+    if ((Desc & EVertexAttribute::Tex7) != 0)     ui->TexCoordSrcComboBox->addItem(tr("Tex Coord 8"));
 
     // Emit signal from Pass Table to set up the Pass UI
     mIgnoreSignals = false;
@@ -479,9 +471,9 @@ void CModelEditorWindow::UpdateMaterial(int ValueA, int ValueB)
         mpCurrentMat->Pass(ValueA)->SetEnabled(Enabled);
 
         if (Enabled)
-            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Show.svg"));
+            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(QStringLiteral(":/icons/Show.svg")));
         else
-            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(":/icons/Hide.svg"));
+            ui->PassTable->item(ValueA, ValueB)->setIcon(QIcon(QStringLiteral(":/icons/Hide.svg")));
     }
 }
 
@@ -652,10 +644,10 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
         break;
 
     case 2: // UV Scroll
-        ui->AnimParamALabel->setText("<b>Horizontal Offset:</b>");
-        ui->AnimParamBLabel->setText("<b>Vertical Offset:</b>");
-        ui->AnimParamCLabel->setText("<b>Horizontal Scale:</b>");
-        ui->AnimParamDLabel->setText("<b>Vertical Scale:</b>");
+        ui->AnimParamALabel->setText(tr("<b>Horizontal Offset:</b>"));
+        ui->AnimParamBLabel->setText(tr("<b>Vertical Offset:</b>"));
+        ui->AnimParamCLabel->setText(tr("<b>Horizontal Scale:</b>"));
+        ui->AnimParamDLabel->setText(tr("<b>Vertical Scale:</b>"));
         ui->AnimParamASpinBox->setValue(mpCurrentPass->AnimParam(0));
         ui->AnimParamBSpinBox->setValue(mpCurrentPass->AnimParam(1));
         ui->AnimParamCSpinBox->setValue(mpCurrentPass->AnimParam(2));
@@ -671,8 +663,8 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
         break;
 
     case 3: // Rotation
-        ui->AnimParamALabel->setText("<b>Offset:</b>");
-        ui->AnimParamBLabel->setText("<b>Scale:</b>");
+        ui->AnimParamALabel->setText(tr("<b>Offset:</b>"));
+        ui->AnimParamBLabel->setText(tr("<b>Scale:</b>"));
         ui->AnimParamASpinBox->setValue(mpCurrentPass->AnimParam(0));
         ui->AnimParamBSpinBox->setValue(mpCurrentPass->AnimParam(1));
         ui->AnimParamALabel->show();
@@ -687,10 +679,10 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
 
     case 4: // Horizontal Filmstrip
     case 5: // Vertical Filmstrip
-        ui->AnimParamALabel->setText("<b>Scale:</b>");
-        ui->AnimParamBLabel->setText("<b>Num Frames:</b>");
-        ui->AnimParamCLabel->setText("<b>Step:</b>");
-        ui->AnimParamDLabel->setText("<b>Time Offset:</bB>");
+        ui->AnimParamALabel->setText(tr("<b>Scale:</b>"));
+        ui->AnimParamBLabel->setText(tr("<b>Num Frames:</b>"));
+        ui->AnimParamCLabel->setText(tr("<b>Step:</b>"));
+        ui->AnimParamDLabel->setText(tr("<b>Time Offset:</b>"));
         ui->AnimParamASpinBox->setValue(mpCurrentPass->AnimParam(0));
         ui->AnimParamBSpinBox->setValue(mpCurrentPass->AnimParam(1));
         ui->AnimParamCSpinBox->setValue(mpCurrentPass->AnimParam(2));
@@ -706,8 +698,8 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
         break;
 
     case 7: // Mysterious mode 7
-        ui->AnimParamALabel->setText("<b>ParamA:</b>");
-        ui->AnimParamBLabel->setText("<b>ParamB:</b>");
+        ui->AnimParamALabel->setText(tr("<b>ParamA:</b>"));
+        ui->AnimParamBLabel->setText(tr("<b>ParamB:</b>"));
         ui->AnimParamASpinBox->setValue(mpCurrentPass->AnimParam(0));
         ui->AnimParamBSpinBox->setValue(mpCurrentPass->AnimParam(1));
         ui->AnimParamALabel->show();
@@ -724,8 +716,9 @@ void CModelEditorWindow::UpdateAnimParamUI(EUVAnimMode Mode)
 
 void CModelEditorWindow::Import()
 {
-    QString FileName = QFileDialog::getOpenFileName(this, "Model", "", "*.obj;*.fbx;*.dae;*.3ds;*.blend");
-    if (FileName.isEmpty()) return;
+    const QString FileName = QFileDialog::getOpenFileName(this, tr("Model"), {}, QStringLiteral("*.obj;*.fbx;*.dae;*.3ds;*.blend"));
+    if (FileName.isEmpty())
+        return;
 
     Assimp::Importer Importer;
     Importer.SetPropertyInteger(AI_CONFIG_PP_FD_REMOVE, 1);
@@ -751,7 +744,7 @@ void CModelEditorWindow::Import()
 
     if (!pScene)
     {
-        QMessageBox::warning(this, "Error", "Error: Couldn't import file!");
+        QMessageBox::warning(this, tr("Error"), tr("Error: Couldn't import file!"));
         return;
     }
 
@@ -760,32 +753,34 @@ void CModelEditorWindow::Import()
     pModel = CModelLoader::ImportAssimpNode(pScene->mRootNode, pScene, *pSet);
 
     SetActiveModel(pModel);
-    SET_WINDOWTITLE_APPVARS("%APP_FULL_NAME% - Model Editor: Untitled");
+    SET_WINDOWTITLE_APPVARS(tr("%APP_FULL_NAME% - Model Editor: Untitled"));
     mOutputFilename = "";
     gpResourceStore->DestroyUnreferencedResources();
 }
 
 void CModelEditorWindow::ConvertToDDS()
 {
-    QString Input = QFileDialog::getOpenFileName(this, "Retro Texture (*.TXTR)", "", "*.TXTR");
+    QString Input = QFileDialog::getOpenFileName(this, tr("Retro Texture (*.TXTR)"), {}, QStringLiteral("*.TXTR"));
     if (Input.isEmpty()) return;
 
     TString TexFilename = TO_TSTRING(Input);
     CFileInStream InTextureFile(TexFilename, EEndian::LittleEndian);
-    CTexture *pTex = CTextureDecoder::LoadTXTR( InTextureFile, nullptr );
+    auto pTex = CTextureDecoder::LoadTXTR( InTextureFile, nullptr );
 
-    TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
+    const TString OutName = TexFilename.GetFilePathWithoutExtension() + ".dds";
     CFileOutStream Out(OutName, EEndian::LittleEndian);
-    if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output DDS!");
-
+    if (!Out.IsValid())
+    {
+        QMessageBox::warning(this, tr("Error"), tr("Couldn't open output DDS!"));
+    }
     else
     {
-        bool Success = pTex->WriteDDS(Out);
-        if (!Success) QMessageBox::warning(this, "Error", "Couldn't write output DDS!");
-        else QMessageBox::information(this, "Success", "Successfully converted to DDS!");
+        const bool Success = pTex->WriteDDS(Out);
+        if (!Success)
+            QMessageBox::warning(this, tr("Error"), tr("Couldn't write output DDS!"));
+        else
+            QMessageBox::information(this, tr("Success"), tr("Successfully converted to DDS!"));
     }
-
-    delete pTex;
 }
 
 void CModelEditorWindow::ConvertToTXTR()
@@ -795,21 +790,24 @@ void CModelEditorWindow::ConvertToTXTR()
 
     TString TexFilename = TO_TSTRING(Input);
     CFileInStream InTextureFile = CFileInStream(TexFilename, EEndian::LittleEndian);
-    CTexture *pTex = CTextureDecoder::LoadDDS(InTextureFile, nullptr);
+    auto pTex = CTextureDecoder::LoadDDS(InTextureFile, nullptr);
     TString OutName = TexFilename.GetFilePathWithoutExtension() + ".txtr";
 
     if ((pTex->TexelFormat() != ETexelFormat::DXT1) || (pTex->NumMipMaps() > 1))
-        QMessageBox::warning(this, "Error", "Can't convert DDS to TXTR! Save your texture as a DXT1 DDS with no mipmaps, then try again.");
-
+    {
+        QMessageBox::warning(this, tr("Error"), tr("Can't convert DDS to TXTR! Save your texture as a DXT1 DDS with no mipmaps, then try again."));
+    }
     else
     {
         CFileOutStream Out(OutName, EEndian::BigEndian);
-        if (!Out.IsValid()) QMessageBox::warning(this, "Error", "Couldn't open output TXTR!");
-
+        if (!Out.IsValid())
+        {
+            QMessageBox::warning(this, tr("Error"), tr("Couldn't open output TXTR!"));
+        }
         else
         {
-            CTextureEncoder::EncodeTXTR(Out, pTex, ETexelFormat::GX_CMPR);
-            QMessageBox::information(this, "Success", "Successfully converted to TXTR!");
+            CTextureEncoder::EncodeTXTR(Out, pTex.get(), ETexelFormat::GX_CMPR);
+            QMessageBox::information(this, tr("Success"), tr("Successfully converted to TXTR!"));
         }
     }
 }

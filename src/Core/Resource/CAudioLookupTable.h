@@ -2,6 +2,7 @@
 #define CAUDIOLOOKUPTABLE
 
 #include "CResource.h"
+#include <vector>
 
 class CAudioLookupTable : public CResource
 {
@@ -10,13 +11,15 @@ class CAudioLookupTable : public CResource
     std::vector<uint16> mDefineIDs;
 
 public:
-    CAudioLookupTable(CResourceEntry *pEntry = 0)
+    explicit CAudioLookupTable(CResourceEntry *pEntry = nullptr)
         : CResource(pEntry)
     {}
 
-    inline uint16 FindSoundDefineID(uint32 SoundID)
+    uint16 FindSoundDefineID(size_t SoundID) const
     {
-        if (SoundID >= mDefineIDs.size()) return -1;
+        if (SoundID >= mDefineIDs.size()) 
+            return UINT16_MAX;
+
         return mDefineIDs[SoundID];
     }
 };

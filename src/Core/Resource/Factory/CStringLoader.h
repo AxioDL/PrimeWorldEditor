@@ -5,20 +5,21 @@
 #include "Core/Resource/TResPtr.h"
 #include "Core/Resource/StringTable/CStringTable.h"
 #include <Common/EGame.h>
+#include <memory>
 
 class CStringLoader
 {
-    CStringTable *mpStringTable;
-    EGame mVersion;
+    CStringTable *mpStringTable = nullptr;
+    EGame mVersion{};
 
-    CStringLoader() {}
+    CStringLoader() = default;
     void LoadPrimeDemoSTRG(IInputStream& STRG);
     void LoadPrimeSTRG(IInputStream& STRG);
     void LoadCorruptionSTRG(IInputStream& STRG);
     void LoadNameTable(IInputStream& STRG);
 
 public:
-    static CStringTable* LoadSTRG(IInputStream& STRG, CResourceEntry* pEntry);
+    static std::unique_ptr<CStringTable> LoadSTRG(IInputStream& STRG, CResourceEntry* pEntry);
     static EGame GetFormatVersion(uint Version);
 };
 

@@ -5,10 +5,11 @@ set(MACOSX_DEPLOYMENT_TARGET 10.10)
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
+set(CMAKE_CONFIGURATION_TYPES ${CMAKE_BUILD_TYPE})
 
 project(PrimeWorldEditor CXX)
 
-option(PWE_PUBLIC_RELEASE "Enable end-user deployment configuration for PWE" OFF)
+option(PWE_PUBLIC_RELEASE "Enable end-user deployment configuration for PWE" ON)
 if (PWE_PUBLIC_RELEASE)
     add_compile_definitions(PUBLIC_RELEASE=1)
     message(STATUS "Enabled public release mode")

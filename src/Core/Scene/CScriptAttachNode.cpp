@@ -34,7 +34,7 @@ void CScriptAttachNode::AttachPropertyModified()
         if (pModel && pModel->Type() == EResourceType::Model)
             mLocalAABox = pModel->AABox();
         else
-            mLocalAABox = CAABox::skInfinite;
+            mLocalAABox = CAABox::Infinite();
 
         MarkTransformChanged();
     }
@@ -93,7 +93,7 @@ void CScriptAttachNode::Draw(FRenderOptions Options, int /*ComponentIndex*/, ERe
     CGraphics::UpdateVertexBlock();
 
     CGraphics::sPixelBlock.TintColor = mpParent->TintColor(rkViewInfo);
-    CGraphics::sPixelBlock.SetAllTevColors(CColor::skWhite);
+    CGraphics::sPixelBlock.SetAllTevColors(CColor::White());
     CGraphics::UpdatePixelBlock();
     DrawModelParts(Model(), Options, 0, Command);
 }
@@ -111,7 +111,7 @@ void CScriptAttachNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, cons
     if (!pModel) return;
 
     const CRay& rkRay = rTester.Ray();
-    std::pair<bool,float> BoxResult = AABox().IntersectsRay(rkRay);
+    const std::pair<bool, float> BoxResult = AABox().IntersectsRay(rkRay);
 
     if (BoxResult.first)
         rTester.AddNodeModel(this, pModel);
@@ -119,24 +119,26 @@ void CScriptAttachNode::RayAABoxIntersectTest(CRayCollisionTester& rTester, cons
 
 SRayIntersection CScriptAttachNode::RayNodeIntersectTest(const CRay& rkRay, uint32 AssetID, const SViewInfo& rkViewInfo)
 {
-    FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
+    const FRenderOptions Options = rkViewInfo.pRenderer->RenderOptions();
 
     SRayIntersection Out;
     Out.pNode = mpParent;
     Out.ComponentIndex = AssetID;
 
-    CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
-    std::pair<bool,float> Result = Model()->GetSurface(AssetID)->IntersectsRay(TransformedRay, Options.HasFlag(ERenderOption::EnableBackfaceCull));
+    const CRay TransformedRay = rkRay.Transformed(Transform().Inverse());
+    const auto [intersects, distance] = Model()->GetSurface(AssetID)->IntersectsRay(TransformedRay, Options.HasFlag(ERenderOption::EnableBackfaceCull));
 
-    if (Result.first)
+    if (intersects)
     {
         Out.Hit = true;
-        CVector3f HitPoint = TransformedRay.PointOnRay(Result.second);
-        CVector3f WorldHitPoint = Transform() * HitPoint;
+        const CVector3f HitPoint = TransformedRay.PointOnRay(distance);
+        const CVector3f WorldHitPoint = Transform() * HitPoint;
         Out.Distance = rkRay.Origin().Distance(WorldHitPoint);
     }
-
-    else Out.Hit = false;
+    else
+    {
+        Out.Hit = false;
+    }
 
     return Out;
 }

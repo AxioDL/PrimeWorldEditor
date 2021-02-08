@@ -13,13 +13,10 @@ class CPointOfInterestExtra : public CScriptExtra
     CBoolRef mScanIsCritical;
 
 public:
-    explicit CPointOfInterestExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = 0);
-    void PropertyModified(IProperty* pProperty);
-    void ModifyTintColor(CColor& Color);
+    explicit CPointOfInterestExtra(CScriptObject *pInstance, CScene *pScene, CScriptNode *pParent = nullptr);
+    void PropertyModified(IProperty* pProperty) override;
+    void ModifyTintColor(CColor& Color) override;
     CScan* GetScan() const { return mpScanData; }
-
-    static const CColor skRegularColor;
-    static const CColor skImportantColor;
 };
 
 #endif // CPOINTOFINTERESTEXTRA_H
