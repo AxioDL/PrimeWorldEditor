@@ -207,6 +207,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
 bool IsQuickplaySupported(CGameProject* pProject)
 {
     // Quickplay is supported if there is a quickplay module & patch in the resources folder
+    // The Prime1 module was compiled from https://github.com/AxioDL/PWEQuickplayPatch
     TString QuickplayDir = gDataDir + "resources/quickplay" / ::GetGameShortName(pProject->Game());
     TString BuildString = "v" + TString::FromFloat(pProject->BuildVersion());
     TString RelFile = QuickplayDir / BuildString + ".rel";
