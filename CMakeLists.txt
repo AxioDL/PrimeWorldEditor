@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
-set(MACOSX_DEPLOYMENT_TARGET 10.10)
+set(MACOSX_DEPLOYMENT_TARGET 10.14)
 
 # Use release build type as default (assimp complains if this is unset)
 if(NOT CMAKE_BUILD_TYPE)
