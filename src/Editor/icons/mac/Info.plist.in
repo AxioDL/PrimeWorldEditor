@@ -9,11 +9,11 @@
     <key>CFBundleShortVersionString</key>
     <string>@PWE_WC_DESCRIBE@</string>
     <key>NSHumanReadableCopyright</key>
-    <string>@CURRENT_YEAR@ Aruki</string>
+    <string>@CURRENT_YEAR@ AxioDL Team</string>
     <key>CFBundleIconFile</key>
     <string>mainicon.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>com.aruki.PrimeWorldEditor</string>
+    <string>com.axiodl.PrimeWorldEditor</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>

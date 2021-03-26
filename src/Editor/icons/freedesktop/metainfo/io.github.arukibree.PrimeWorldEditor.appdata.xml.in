@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright @CURRENT_YEAR@ Aruki -->
+<!-- Copyright @CURRENT_YEAR@ AxioDL Team -->
 <component type="desktop-application">
   <id>io.github.arukibree.PrimeWorldEditor</id>
   <metadata_license>FSFAP</metadata_license>

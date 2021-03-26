@@ -75,7 +75,7 @@ if (WIN32)
             ICON ${CMAKE_CURRENT_SOURCE_DIR}/icons/win/AppIcon.ico
             VERSION_MAJOR ${pwe_editor_VERSION_MAJOR} VERSION_MINOR ${pwe_editor_VERSION_MINOR}
             VERSION_PATCH ${pwe_editor_VERSION_PATCH} VERSION_REVISION ${pwe_editor_VERSION_TWEAK}
-            COMPANY_NAME "Aruki" COMMENTS "${PWE_APP_NAME} ${PWE_WC_DESCRIBE}"
+            COMPANY_NAME "AxioDL" COMMENTS "${PWE_APP_NAME} ${PWE_WC_DESCRIBE}"
             ORIGINAL_FILENAME "PrimeWorldEditor.exe")
     set(PLAT_SRCS ${rc_file} icons/win/PrimeWorldEditor.manifest)
 elseif (APPLE)

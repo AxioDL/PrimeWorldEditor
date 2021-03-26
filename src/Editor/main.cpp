@@ -96,7 +96,7 @@ public:
         CEditorApplication App(argc, argv);
         App.setApplicationName(QStringLiteral("PrimeWorldEditor"));
         App.setApplicationVersion( APP_VERSION );
-        App.setOrganizationName(QStringLiteral("Aruki"));
+        App.setOrganizationName(QStringLiteral("AxioDL"));
         App.setWindowIcon(QIcon(QStringLiteral(":/icons/win/AppIcon.ico")));
 
         // Create UI relay
