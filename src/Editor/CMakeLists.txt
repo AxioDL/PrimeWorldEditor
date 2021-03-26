@@ -182,8 +182,11 @@ elseif (APPLE)
     endif()
 
     # run macdeployqt to gather necessary qt libraries and plugins
-    add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${MACDEPLOYQT_PROGRAM} ARGS
-                       $<TARGET_FILE_DIR:pwe_editor>/../..)
+    option(USE_MACDEPLOYQT "Run macdeployqt on build" OFF)
+    if(USE_MACDEPLOYQT)
+        add_custom_command(TARGET pwe_editor POST_BUILD COMMAND ${MACDEPLOYQT_PROGRAM} ARGS
+                           $<TARGET_FILE_DIR:pwe_editor>/../..)
+    endif()
 
     # Install targets for CPack distribution
     install(TARGETS pwe_editor BUNDLE DESTINATION ".")
