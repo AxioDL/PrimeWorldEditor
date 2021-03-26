@@ -28,14 +28,14 @@
             "url": "https://github.com/AxioDL/nod",
             "type": "git",
             "head": "master",
-            "ref": "f147e1235646b849f78a8574a6d554214b70792d"
+            "ref": "02c188497af89e188edcc82387f787057739e530"
         },
         {
             "name": "lzokay",
             "url": "https://github.com/jackoalan/lzokay",
             "type": "git",
             "head": "master",
-            "ref": "343f9707f6ab2143d3455c93d8b7570a0ffcee97"
+            "ref": "546a9695271e8a8b4711383f828172754fd825f2"
         },
         {
             "name": "tinyxml2",
