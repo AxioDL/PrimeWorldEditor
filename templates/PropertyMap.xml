@@ -2755,7 +2755,7 @@
         </Element>
         <Element>
             <Key ID="0x102E085F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Cooldown"/>
         </Element>
         <Element>
             <Key ID="0x102F9F94" Type="bool"/>
@@ -3547,7 +3547,7 @@
         </Element>
         <Element>
             <Key ID="0x14849367" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Travel_Speed"/>
         </Element>
         <Element>
             <Key ID="0x148B81E4" Type="sound"/>
@@ -6851,7 +6851,7 @@
         </Element>
         <Element>
             <Key ID="0x2603A0BE" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrapplePullVelocity"/>
         </Element>
         <Element>
             <Key ID="0x260792CF" Type="spline"/>
@@ -7663,7 +7663,7 @@
         </Element>
         <Element>
             <Key ID="0x2AAB8DDA" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Angle_Phase_Delta"/>
         </Element>
         <Element>
             <Key ID="0x2AACEC2F" Type="float"/>
@@ -8891,7 +8891,7 @@
         </Element>
         <Element>
             <Key ID="0x31072813" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="OrbitDefaultMinDistance"/>
         </Element>
         <Element>
             <Key ID="0x3109E1C7" Type="float"/>
@@ -9271,7 +9271,7 @@
         </Element>
         <Element>
             <Key ID="0x333B7549" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="DarkSuitReduction"/>
         </Element>
         <Element>
             <Key ID="0x33408E7F" Type="bool"/>
@@ -9415,7 +9415,7 @@
         </Element>
         <Element>
             <Key ID="0x33E79B51" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleBeamLength"/>
         </Element>
         <Element>
             <Key ID="0x33EA54AF" Type="StunnedByBopBehaviorData"/>
@@ -10391,7 +10391,7 @@
         </Element>
         <Element>
             <Key ID="0x395478A8" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleReleaseTime"/>
         </Element>
         <Element>
             <Key ID="0x395B81EF" Type="float"/>
@@ -13455,7 +13455,7 @@
         </Element>
         <Element>
             <Key ID="0x4985BC73" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="SfxPeriod"/>
         </Element>
         <Element>
             <Key ID="0x49880C24" Type="sound"/>
@@ -17747,7 +17747,7 @@
         </Element>
         <Element>
             <Key ID="0x60FE934E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="OrbitDefaultMaxDistance"/>
         </Element>
         <Element>
             <Key ID="0x610B8FB8" Type="JungleBossStructB"/>
@@ -19855,7 +19855,7 @@
         </Element>
         <Element>
             <Key ID="0x6C6E6F3C" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="X_Wave_Amplitude"/>
         </Element>
         <Element>
             <Key ID="0x6C75E2EA" Type="UnknownStruct8"/>
@@ -24807,7 +24807,7 @@
         </Element>
         <Element>
             <Key ID="0x87D4B5D6" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleTurnRate"/>
         </Element>
         <Element>
             <Key ID="0x87D5A35F" Type="int"/>
@@ -24951,7 +24951,7 @@
         </Element>
         <Element>
             <Key ID="0x88AA6E41" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Z_Wave_Amplitude"/>
         </Element>
         <Element>
             <Key ID="0x88B1AF46" Type="bool"/>
@@ -26103,7 +26103,7 @@
         </Element>
         <Element>
             <Key ID="0x8EEED636" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleHoldOrbitButton"/>
         </Element>
         <Element>
             <Key ID="0x8EF43309" Type="float"/>
@@ -26647,7 +26647,7 @@
         </Element>
         <Element>
             <Key ID="0x9210A25E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrapplePullCloseDistance"/>
         </Element>
         <Element>
             <Key ID="0x9214A518" Type="EyePodData"/>
@@ -26939,7 +26939,7 @@
         </Element>
         <Element>
             <Key ID="0x93B712BA" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="OrbitZRange"/>
         </Element>
         <Element>
             <Key ID="0x93B92B9E" Type="bool"/>
@@ -26955,7 +26955,7 @@
         </Element>
         <Element>
             <Key ID="0x93C013C9" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleControlScheme"/>
         </Element>
         <Element>
             <Key ID="0x93CD6208" Type="TweakGui_UnknownStruct1"/>
@@ -28743,7 +28743,7 @@
         </Element>
         <Element>
             <Key ID="0x9DD3E88B" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleSwingTime"/>
         </Element>
         <Element>
             <Key ID="0x9DD97317" Type="int"/>
@@ -30455,7 +30455,7 @@
         </Element>
         <Element>
             <Key ID="0xA726316B" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleDistance"/>
         </Element>
         <Element>
             <Key ID="0xA72CA4BA" Type="OceanBridgeStructB"/>
@@ -31743,7 +31743,7 @@
         </Element>
         <Element>
             <Key ID="0xAE1FC47C" Type="TweakPlayer_GrappleBeam"/>
-            <Value Name="Unknown"/>
+            <Value Name="Beam"/>
         </Element>
         <Element>
             <Key ID="0xAE21D21D" Type="float"/>
@@ -33603,7 +33603,7 @@
         </Element>
         <Element>
             <Key ID="0xB7F82A9F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleJumpForce"/>
         </Element>
         <Element>
             <Key ID="0xB80D00A8" Type="enum"/>
@@ -33655,7 +33655,7 @@
         </Element>
         <Element>
             <Key ID="0xB851D54F" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="FrozenJumpCounter"/>
         </Element>
         <Element>
             <Key ID="0xB85AEF47" Type="asset"/>
@@ -34719,7 +34719,7 @@
         </Element>
         <Element>
             <Key ID="0xBE0C8B5E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrapplePullDampenDistance"/>
         </Element>
         <Element>
             <Key ID="0xBE0F5BAB" Type="float"/>
@@ -38187,7 +38187,7 @@
         </Element>
         <Element>
             <Key ID="0xD09F373B" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="TotalPercentage"/>
         </Element>
         <Element>
             <Key ID="0xD09F83E7" Type="asset"/>
@@ -40323,7 +40323,7 @@
         </Element>
         <Element>
             <Key ID="0xDC92A0AC" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GravityBoostFinalZVelocity"/>
         </Element>
         <Element>
             <Key ID="0xDCA1E8B6" Type="float"/>
@@ -41247,7 +41247,7 @@
         </Element>
         <Element>
             <Key ID="0xE1EB12E2" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleTurnControlsReversed"/>
         </Element>
         <Element>
             <Key ID="0xE1EC7346" Type="BasicSwarmProperties"/>
@@ -41271,7 +41271,7 @@
         </Element>
         <Element>
             <Key ID="0xE1FEFD3C" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="GravityBoostIngoresSomething"/>
         </Element>
         <Element>
             <Key ID="0xE1FF2A4F" Type="Color"/>
@@ -44155,7 +44155,7 @@
         </Element>
         <Element>
             <Key ID="0xF0E68DAB" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="OrbitDefaultNormalDistance"/>
         </Element>
         <Element>
             <Key ID="0xF0EB772D" Type="string"/>
@@ -45891,7 +45891,7 @@
         </Element>
         <Element>
             <Key ID="0xF9BF59A2" Type="DamageInfo"/>
-            <Value Name="Unknown"/>
+            <Value Name="AtmosphereDamage"/>
         </Element>
         <Element>
             <Key ID="0xF9C88B05" Type="Color"/>
@@ -46203,7 +46203,7 @@
         </Element>
         <Element>
             <Key ID="0xFB605BA4" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleMaxVelocity"/>
         </Element>
         <Element>
             <Key ID="0xFB648831" Type="TeamAIDebugEnum"/>
