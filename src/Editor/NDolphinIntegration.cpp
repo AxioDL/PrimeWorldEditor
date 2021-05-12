@@ -1,6 +1,7 @@
 #include "NDolphinIntegration.h"
 #include "Editor/MacOSExtras.h"
 #include "Editor/UICommon.h"
+#include "Editor/SDolHeader.h"
 
 #include <QFileInfo>
 #include <QRegExp>
@@ -18,7 +19,7 @@ namespace NDolphinIntegration
 const char* const gkDolphinPathSetting  = "Quickplay/DolphinPath";
 const char* const gkFeaturesSetting     = "Quickplay/Features";
 
-const char* const gkRelFileName         = "EditorQuickplay.rel";
+const char* const gkRelFileName         = "patches.rel";
 const char* const gkParameterFile       = "dbgconfig";
 const char* const gkDolPath             = "sys/main.dol";
 const char* const gkDolBackupPath       = "sys/main.original.dol";
@@ -52,6 +53,34 @@ void CQuickplayRelay::QuickplayFinished(int ReturnCode)
 
 CQuickplayRelay gQuickplayRelay;
 
+uint32 AssembleBranchInstruction(uint32 instructionAddress, uint32 branchTarget)
+{
+    int32 jumpOffset = ((int32)branchTarget - (int32)instructionAddress) / 4;
+    if (jumpOffset < 0)
+    {
+        jumpOffset += 1 << 24;
+    }
+    return (18 << 26) + (jumpOffset << 2);
+}
+
+std::map<TString, uint32> LoadSymbols(const TString& mapContents) {
+    std::map<TString, uint32> result;
+
+    for (auto& line : mapContents.Split("\n"))
+    {
+        auto separator = line.IndexOf(' ');
+        if (separator > 0)
+        {
+            auto address = line.SubString(0, separator);
+            auto name = line.SubString(separator + 1, line.Length() - separator - 1).Trimmed();
+
+            result.emplace(name, static_cast<uint32>(address.ToInt32(16)));
+        }
+    }
+
+    return result;
+}
+
 /** Attempt to launch quickplay based on the current editor state. */
 EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
                                        CGameProject* pProject,
@@ -59,13 +88,19 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
 {
     debugf("Launching quickplay...");
 
-    // Check if quickplay is supported for this project
+    // Check if we have the files needed for this project's target game and version.
+    // The required files are split into two parts:
+    // * Quickplay Module: A .rel compiled from https://github.com/AxioDL/PWEQuickplayPatch/
+    // * Dol patch for loading RELs:
+    //   - A .bin compiled from https://github.com/aprilwade/randomprime/tree/master/compile_to_ppc/rel_loader
+    //   - A .map, with the symbol for the .bin and the function in the dol to patch.
     TString QuickplayDir = gDataDir + "resources/quickplay" / ::GetGameShortName(pProject->Game());
     TString BuildString = "v" + TString::FromFloat(pProject->BuildVersion());
     TString RelFile = QuickplayDir / BuildString + ".rel";
     TString PatchFile = QuickplayDir / BuildString + ".bin";
+    TString PatchMapFile = QuickplayDir / BuildString + ".map";
 
-    if (!FileUtil::Exists(RelFile) || !FileUtil::Exists(PatchFile))
+    if (!FileUtil::Exists(RelFile) || !FileUtil::Exists(PatchFile) || !FileUtil::Exists(PatchMapFile))
     {
         warnf("Quickplay launch failed! Quickplay is not supported for this project.");
         return EQuickplayLaunchResult::UnsupportedForProject;
@@ -122,14 +157,16 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     TString DiscSys = pProject->DiscDir(false) / "sys";
     std::vector<uint8> DolData;
     std::vector<uint8> PatchData;
+    TString MapData;
 
     bool bLoadedDol = FileUtil::LoadFileToBuffer(DiscSys / "main.dol", DolData);
     bool bLoadedPatch = FileUtil::LoadFileToBuffer(PatchFile, PatchData);
+    bool bLoadedMap = FileUtil::LoadFileToString(PatchMapFile, MapData);
 
-    if (!bLoadedDol || !bLoadedPatch)
+    if (!bLoadedDol || !bLoadedPatch || !bLoadedMap)
     {
-        warnf("Quickplay launch failed! Failed to load %s into memory.",
-              bLoadedDol ? "patch data" : "game DOL");
+        const char* failedPart = !bLoadedDol ? "game DOL" : (!bLoadedPatch ? "patch data" : "patch symbols");
+        warnf("Quickplay launch failed! Failed to load %s into memory.", failedPart);
 
         return EQuickplayLaunchResult::Failure;
     }
@@ -149,26 +186,28 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
         FileUtil::CopyFile(DolPath, DolBackupPath);
     }
 
+    auto symbols = LoadSymbols(MapData);
+    SDolHeader header(CMemoryInStream(DolData.data(), DolData.size(), EEndian::BigEndian));
+
     // Append the patch data to the end of the dol
     uint32 AlignedDolSize = VAL_ALIGN(DolData.size(), 32);
     uint32 AlignedPatchSize = VAL_ALIGN(PatchData.size(), 32);
-    uint32 PatchOffset = AlignedDolSize;
-    uint32 PatchSize = AlignedPatchSize;
-    DolData.resize(PatchOffset + PatchSize);
-    memcpy(&DolData[PatchOffset], &PatchData[0], PatchData.size());
+    DolData.resize(AlignedDolSize + AlignedPatchSize);
+    memcpy(&DolData[AlignedDolSize], &PatchData[0], PatchData.size());
 
-    // These constants are hardcoded for the moment.
-    // We write the patch to text section 6, which must be at address 0x80002600.
-    // We hook over the call to LCEnable, which is at offset 0x1D64.
+    if (!header.AddTextSection(0x80002000, AlignedDolSize, AlignedPatchSize))
+    {
+        warnf("Quickplay launch failed! Failed to patch DOL. Is it already patched?");
+        return EQuickplayLaunchResult::Failure;
+    }
+
+    uint32 callToHook = symbols["PPCSetFpIEEEMode"] + 4;
+    uint32 branchTarget = symbols["rel_loader_hook"];
+
     CMemoryOutStream Mem(DolData.data(), DolData.size(), EEndian::BigEndian);
-    Mem.GoTo(0x18);
-    Mem.WriteLong(PatchOffset);
-    Mem.GoTo(0x60);
-    Mem.WriteLong(0x80002600);
-    Mem.GoTo(0xA8);
-    Mem.WriteLong(PatchSize);
-    Mem.GoTo(0x1D64);
-    Mem.WriteLong(0x4BFFD80D); // this patches in a call to the quickplay bootstrap during game boot process
+    header.Write(Mem);
+    Mem.GoTo(header.OffsetForAddress(callToHook));
+    Mem.WriteLong(AssembleBranchInstruction(callToHook, branchTarget));
 
     if (!FileUtil::SaveBufferToFile(DolPath, DolData))
     {
@@ -211,7 +250,8 @@ bool IsQuickplaySupported(CGameProject* pProject)
     TString BuildString = "v" + TString::FromFloat(pProject->BuildVersion());
     TString RelFile = QuickplayDir / BuildString + ".rel";
     TString PatchFile = QuickplayDir / BuildString + ".bin";
-    return FileUtil::Exists(RelFile) && FileUtil::Exists(PatchFile);
+    TString MapFile = QuickplayDir / BuildString + ".map";
+    return FileUtil::Exists(RelFile) && FileUtil::Exists(PatchFile) && FileUtil::Exists(MapFile);
 }
 
 /** Kill the current quickplay process, if it exists. */

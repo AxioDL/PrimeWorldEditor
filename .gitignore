@@ -40,6 +40,9 @@ CMakeLists.txt.user
 .idea/vcs.xml
 .idea/workspace.xml
 
+#Visual Studio
+.vs
+
 #Dew
 .dew/*
 
