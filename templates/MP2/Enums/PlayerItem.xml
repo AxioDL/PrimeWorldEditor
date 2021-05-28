@@ -79,10 +79,10 @@
             <Element Name="" ID="0x48"/>
             <Element Name="" ID="0x49"/>
             <Element Name="" ID="0x4A"/>
-            <Element Name="" ID="0x4B"/>
-            <Element Name="" ID="0x4C"/>
-            <Element Name="" ID="0x4D"/>
-            <Element Name="" ID="0x4E"/>
+            <Element Name="Switch Visor Combat" ID="0x4B"/>
+            <Element Name="Switch Visor Scan" ID="0x4C"/>
+            <Element Name="Switch Visor Dark" ID="0x4D"/>
+            <Element Name="Switch Visor Echo" ID="0x4E"/>
             <Element Name="" ID="0x4F"/>
             <Element Name="Coin" ID="0x50"/>
             <Element Name="Unlimited Missiles" ID="0x51"/>
@@ -93,11 +93,11 @@
             <Element Name="Death Ball" ID="0x56"/>
             <Element Name="Scan Virus" ID="0x57"/>
             <Element Name="" ID="0x58"/>
-            <Element Name="(Disable Beams/Beam Ammo?)" ID="0x59"/>
-            <Element Name="(Disable Missiles?)" ID="0x5A"/>
+            <Element Name="Disable Beam Ammo" ID="0x59"/>
+            <Element Name="Disable Missiles" ID="0x5A"/>
             <Element Name="(Disable Unmorph/Remove Morph Ball?)" ID="0x5B"/>
             <Element Name="Disable Ball" ID="0x5C"/>
-            <Element Name="(Remove Space Jump?)" ID="0x5D"/>
+            <Element Name="Disable Space Jump" ID="0x5D"/>
             <Element Name="" ID="0x5E"/>
             <Element Name="Hacked Effect" ID="0x5F"/>
             <Element Name="CannonBall" ID="0x60"/>
