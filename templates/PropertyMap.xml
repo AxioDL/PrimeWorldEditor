@@ -4411,7 +4411,7 @@
         </Element>
         <Element>
             <Key ID="0x19468F2A" Type="TDamageInfo"/>
-            <Value Name="Unknown"/>
+            <Value Name="Darkburst"/>
         </Element>
         <Element>
             <Key ID="0x1952BAF3" Type="float"/>
@@ -13259,7 +13259,7 @@
         </Element>
         <Element>
             <Key ID="0x48AC6DD8" Type="TDamageInfo"/>
-            <Value Name="Unknown"/>
+            <Value Name="Sunburst"/>
         </Element>
         <Element>
             <Key ID="0x48B192CF" Type="CharacterAnimationSet"/>
@@ -24935,7 +24935,7 @@
         </Element>
         <Element>
             <Key ID="0x888C8775" Type="TweakPlayerGun_UnknownStruct1"/>
-            <Value Name="Unknown"/>
+            <Value Name="Combos"/>
         </Element>
         <Element>
             <Key ID="0x888FA435" Type="bool"/>
@@ -35363,7 +35363,7 @@
         </Element>
         <Element>
             <Key ID="0xC1C315FF" Type="TDamageInfo"/>
-            <Value Name="Unknown"/>
+            <Value Name="Sonic Boom"/>
         </Element>
         <Element>
             <Key ID="0xC1C7E255" Type="asset"/>
@@ -36431,7 +36431,7 @@
         </Element>
         <Element>
             <Key ID="0xC713ACF9" Type="TDamageInfo"/>
-            <Value Name="Unknown"/>
+            <Value Name="Super Missile"/>
         </Element>
         <Element>
             <Key ID="0xC7150E5A" Type="UnknownStruct234"/>
