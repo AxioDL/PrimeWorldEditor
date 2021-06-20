@@ -272,7 +272,7 @@ bool CEditorApplication::RebuildResourceDatabase()
     {
         // Fake-close the project, but keep it in memory so we can modify the resource store
         auto pProj = std::move(mpActiveProject);
-        mpActiveProject->TweakManager()->ClearTweaks();
+        pProj->TweakManager()->ClearTweaks();
         emit ActiveProjectChanged(nullptr);
 
         // Rebuild
