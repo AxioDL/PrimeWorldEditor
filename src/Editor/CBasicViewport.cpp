@@ -71,7 +71,7 @@ void CBasicViewport::mousePressEvent(QMouseEvent *pEvent)
 {
     setFocus();
 
-    if (pEvent->button() == Qt::MidButton)   mButtonsPressed |= EMouseInput::MiddleButton;
+    if (pEvent->button() == Qt::MiddleButton) mButtonsPressed |= EMouseInput::MiddleButton;
     if (pEvent->button() == Qt::RightButton) mButtonsPressed |= EMouseInput::RightButton;
 
     if (IsMouseInputActive())
@@ -102,9 +102,9 @@ void CBasicViewport::mousePressEvent(QMouseEvent *pEvent)
 void CBasicViewport::mouseReleaseEvent(QMouseEvent *pEvent)
 {
     bool fromMouseInput = IsMouseInputActive();
-    if (pEvent->button() == Qt::LeftButton)  mButtonsPressed &= ~EMouseInput::LeftButton;
-    if (pEvent->button() == Qt::MidButton)   mButtonsPressed &= ~EMouseInput::MiddleButton;
-    if (pEvent->button() == Qt::RightButton) mButtonsPressed &= ~EMouseInput::RightButton;
+    if (pEvent->button() == Qt::LeftButton)   mButtonsPressed &= ~EMouseInput::LeftButton;
+    if (pEvent->button() == Qt::MiddleButton) mButtonsPressed &= ~EMouseInput::MiddleButton;
+    if (pEvent->button() == Qt::RightButton)  mButtonsPressed &= ~EMouseInput::RightButton;
 
     // Make cursor visible if needed
     if (!IsMouseInputActive())
