@@ -10,7 +10,7 @@
             <Element Type="Float" ID="0x8747552E">
                 <DefaultValue>0.0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x21D720A9">
+            <Element Type="Flags" ID="0x21D720A9">
                 <DefaultValue>30853</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0x97A93F8F" Archetype="CameraConstraints"/>

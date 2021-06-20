@@ -68,6 +68,7 @@
                     <Element Name="Visor Blowout" ID="0xF73614C9"/>
                     <Element Name="Function 59 (Unused)" ID="0xD0E2CA63"/>
                     <Element Name="Kill Player" ID="0x1E46D48C"/>
+                    <Element Name="Unknown" ID="0x171CB7CB"/>
                 </Values>
             </Element>
             <Element Type="String" ID="0x9D7A576D"/>

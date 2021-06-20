@@ -6,7 +6,7 @@
             <Element Type="Bool" ID="0xFE9DC266">
                 <DefaultValue>false</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0xCA19E8C6">
+            <Element Type="Flags" ID="0xCA19E8C6">
                 <DefaultValue>15</DefaultValue>
             </Element>
             <Element Type="Int" ID="0x46175A3D">

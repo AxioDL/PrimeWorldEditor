@@ -39,7 +39,7 @@
             <Element Type="Float" ID="0xAB8151EA">
                 <DefaultValue>10.0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x5C5FC6E">
+            <Element Type="Flags" ID="0x5C5FC6E">
                 <DefaultValue>2132</DefaultValue>
             </Element>
             <Element Type="Spline" ID="0x27E5F874"/>

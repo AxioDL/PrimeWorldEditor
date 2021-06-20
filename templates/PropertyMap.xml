@@ -419,7 +419,7 @@
         </Element>
         <Element>
             <Key ID="0x265E569" Type="BallMiscControls"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallMisc"/>
         </Element>
         <Element>
             <Key ID="0x29D2082" Type="float"/>
@@ -1050,8 +1050,12 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0x5C5FC6E" Type="int"/>
+            <Key ID="0x5C5FC6E" Type="Flags"/>
             <Value Name="FlagsCinematicCamera"/>
+        </Element>
+        <Element>
+            <Key ID="0x5C5FC6E" Type="int"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x5C67D0B" Type="bool"/>
@@ -3903,7 +3907,7 @@
         </Element>
         <Element>
             <Key ID="0x1681D3E9" Type="BallMovementControls"/>
-            <Value Name="Unknown"/>
+            <Value Name="BallMovement"/>
         </Element>
         <Element>
             <Key ID="0x16869B57" Type="DamageInfo"/>
@@ -5507,7 +5511,7 @@
         </Element>
         <Element>
             <Key ID="0x1E857439" Type="SeedBoss1Action"/>
-            <Value Name="SeedBoss1Action"/>
+            <Value Name="HandProjectile"/>
         </Element>
         <Element>
             <Key ID="0x1E864B83" Type="asset"/>
@@ -7307,7 +7311,7 @@
         </Element>
         <Element>
             <Key ID="0x287F9F45" Type="InterpolationMethod"/>
-            <Value Name="InterpolationMethod"/>
+            <Value Name="MotionControl"/>
         </Element>
         <Element>
             <Key ID="0x287FCF02" Type="UnknownStruct56"/>
@@ -7315,7 +7319,7 @@
         </Element>
         <Element>
             <Key ID="0x2883F972" Type="SeedBoss1Shield"/>
-            <Value Name="SeedBoss1Shield"/>
+            <Value Name="ShieldInfo"/>
         </Element>
         <Element>
             <Key ID="0x28944183" Type="float"/>
@@ -9290,6 +9294,10 @@
             <Value Name="ParticleSystem1Orientation"/>
         </Element>
         <Element>
+            <Key ID="0x33507998" Type="Flags"/>
+            <Value Name="FlagsPlayerActor"/>
+        </Element>
+        <Element>
             <Key ID="0x33507998" Type="int"/>
             <Value Name="FlagsPlayerActor"/>
         </Element>
@@ -10375,7 +10383,7 @@
         </Element>
         <Element>
             <Key ID="0x393E8990" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="NovaBeamDoorColor"/>
         </Element>
         <Element>
             <Key ID="0x3941BC07" Type="string"/>
@@ -11783,7 +11791,7 @@
         </Element>
         <Element>
             <Key ID="0x40E350AD" Type="CameraControls"/>
-            <Value Name="Unknown"/>
+            <Value Name="Camera"/>
         </Element>
         <Element>
             <Key ID="0x40EC2D6F" Type="int"/>
@@ -12851,7 +12859,7 @@
         </Element>
         <Element>
             <Key ID="0x46AA8016" Type="SeedBoss1Action"/>
-            <Value Name="SeedBoss1Action"/>
+            <Value Name="ChargePlayer"/>
         </Element>
         <Element>
             <Key ID="0x46AACED3" Type="float"/>
@@ -12935,7 +12943,7 @@
         </Element>
         <Element>
             <Key ID="0x47069911" Type="DebugControls"/>
-            <Value Name="Unknown"/>
+            <Value Name="Debug"/>
         </Element>
         <Element>
             <Key ID="0x4707233B" Type="float"/>
@@ -16183,7 +16191,7 @@
         </Element>
         <Element>
             <Key ID="0x583895FA" Type="enum"/>
-            <Value Name="Unknown"/>
+            <Value Name="ActorCollisionResponse"/>
         </Element>
         <Element>
             <Key ID="0x583C1B1E" Type="float"/>
@@ -16627,7 +16635,7 @@
         </Element>
         <Element>
             <Key ID="0x5AC17B63" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="SeekerMissileDoorColor"/>
         </Element>
         <Element>
             <Key ID="0x5AD522C2" Type="float"/>
@@ -16799,7 +16807,7 @@
         </Element>
         <Element>
             <Key ID="0x5BC05571" Type="PlayerControls"/>
-            <Value Name="Unknown"/>
+            <Value Name="AdvancedRevolutionControls"/>
         </Element>
         <Element>
             <Key ID="0x5BC6F1D5" Type="float"/>
@@ -17066,7 +17074,7 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
-            <Key ID="0x5D298A43" Type="int"/>
+            <Key ID="0x5D298A43" Type="Flags"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -17771,7 +17779,7 @@
         </Element>
         <Element>
             <Key ID="0x6119D07F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MapScreenCompassSize"/>
         </Element>
         <Element>
             <Key ID="0x611F9F41" Type="enum"/>
@@ -17912,6 +17920,10 @@
         <Element>
             <Key ID="0x620B1B3D" Type="float"/>
             <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x6219022E" Type="Flags"/>
+            <Value Name="FlagsOrientation"/>
         </Element>
         <Element>
             <Key ID="0x6219022E" Type="int"/>
@@ -18683,7 +18695,7 @@
         </Element>
         <Element>
             <Key ID="0x66A43EEF" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="FixPositionOnActivate"/>
         </Element>
         <Element>
             <Key ID="0x66A5CD17" Type="float"/>
@@ -19019,7 +19031,7 @@
         </Element>
         <Element>
             <Key ID="0x682DE15C" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="SplashGenerationRate"/>
         </Element>
         <Element>
             <Key ID="0x6832496F" Type="asset"/>
@@ -19339,7 +19351,7 @@
         </Element>
         <Element>
             <Key ID="0x69E23CF3" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleVoltageDoorColor"/>
         </Element>
         <Element>
             <Key ID="0x69E51CD3" Type="float"/>
@@ -20787,7 +20799,7 @@
         </Element>
         <Element>
             <Key ID="0x71CFC8E2" Type="PlayerControls"/>
-            <Value Name="Unknown"/>
+            <Value Name="RevolutionControls"/>
         </Element>
         <Element>
             <Key ID="0x71D494F4" Type="asset"/>
@@ -22143,7 +22155,7 @@
         </Element>
         <Element>
             <Key ID="0x79831276" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="IceMissileDoorColor"/>
         </Element>
         <Element>
             <Key ID="0x798F7740" Type="asset"/>
@@ -23327,7 +23339,7 @@
         </Element>
         <Element>
             <Key ID="0x7FCD6908" Type="PathType"/>
-            <Value Name="PathType"/>
+            <Value Name="PathShape"/>
         </Element>
         <Element>
             <Key ID="0x7FDA1466" Type="string"/>
@@ -24535,7 +24547,7 @@
         </Element>
         <Element>
             <Key ID="0x8654B081" Type="InterpolationMethod"/>
-            <Value Name="InterpolationMethod"/>
+            <Value Name="OrientationControl"/>
         </Element>
         <Element>
             <Key ID="0x865C109C" Type="float"/>
@@ -25899,7 +25911,7 @@
         </Element>
         <Element>
             <Key ID="0x8DE5D7B2" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ReticuleHostileColor"/>
         </Element>
         <Element>
             <Key ID="0x8DEA4C64" Type="TweakGraphicalTransitions_UnknownStruct2"/>
@@ -27555,7 +27567,7 @@
         </Element>
         <Element>
             <Key ID="0x96F5253A" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="PlasmaBeamDoorColor"/>
         </Element>
         <Element>
             <Key ID="0x96F650C3" Type="Color"/>
@@ -27704,6 +27716,10 @@
         <Element>
             <Key ID="0x97BEFF4F" Type="float"/>
             <Value Name="FishScale"/>
+        </Element>
+        <Element>
+            <Key ID="0x97C0611F" Type="Flags"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x97C0611F" Type="int"/>
@@ -28875,7 +28891,7 @@
         </Element>
         <Element>
             <Key ID="0x9EC65273" Type="CinematicBlend"/>
-            <Value Name="CinematicBlend"/>
+            <Value Name="Blend"/>
         </Element>
         <Element>
             <Key ID="0x9ECC3D08" Type="asset"/>
@@ -29687,7 +29703,7 @@
         </Element>
         <Element>
             <Key ID="0xA30EE999" Type="ActorParameters"/>
-            <Value Name="ActorParameters"/>
+            <Value Name="HandActorParameters"/>
         </Element>
         <Element>
             <Key ID="0xA3131519" Type="float"/>
@@ -32011,7 +32027,7 @@
         </Element>
         <Element>
             <Key ID="0xAF38A796" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="PauseScreenFullscreenBGColorColor"/>
         </Element>
         <Element>
             <Key ID="0xAF3C21EA" Type="float"/>
@@ -33187,7 +33203,7 @@
         </Element>
         <Element>
             <Key ID="0xB5C367E9" Type="MotionInterpolationMethod"/>
-            <Value Name="MotionInterpolationMethod"/>
+            <Value Name="MotionBlend"/>
         </Element>
         <Element>
             <Key ID="0xB5CDF196" Type="float"/>
@@ -34343,7 +34359,7 @@
         </Element>
         <Element>
             <Key ID="0xBBFEE93E" Type="TriggerInfo"/>
-            <Value Name="TriggerInfo"/>
+            <Value Name="TriggerProperties"/>
         </Element>
         <Element>
             <Key ID="0xBC01A28E" Type="bool"/>
@@ -34799,7 +34815,7 @@
         </Element>
         <Element>
             <Key ID="0xBE77DED2" Type="MiscControls"/>
-            <Value Name="Unknown"/>
+            <Value Name="Misc"/>
         </Element>
         <Element>
             <Key ID="0xBE7EA088" Type="DamageInfo"/>
@@ -35287,7 +35303,7 @@
         </Element>
         <Element>
             <Key ID="0xC140585B" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ReticuleColor"/>
         </Element>
         <Element>
             <Key ID="0xC14566AD" Type="int"/>
@@ -35903,7 +35919,7 @@
         </Element>
         <Element>
             <Key ID="0xC4AD00A7" Type="CharacterAnimationSet"/>
-            <Value Name="Unknown"/>
+            <Value Name="AnimatedModel"/>
         </Element>
         <Element>
             <Key ID="0xC4B1E6A1" Type="bool"/>
@@ -38679,7 +38695,7 @@
         </Element>
         <Element>
             <Key ID="0xD2F678EB" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ReticuleXRayColor"/>
         </Element>
         <Element>
             <Key ID="0xD2FA7631" Type="Color"/>
@@ -40059,7 +40075,7 @@
         </Element>
         <Element>
             <Key ID="0xDAD62EB0" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ReticuleScale"/>
         </Element>
         <Element>
             <Key ID="0xDADC5BC9" Type="float"/>
@@ -40215,7 +40231,7 @@
         </Element>
         <Element>
             <Key ID="0xDBC799A4" Type="Vector"/>
-            <Value Name="Unknown"/>
+            <Value Name="MapScreenCompassPosition"/>
         </Element>
         <Element>
             <Key ID="0xDBD1E3BF" Type="bool"/>
@@ -42823,7 +42839,7 @@
         </Element>
         <Element>
             <Key ID="0xE9D5359D" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="PowerBeamDoorColor"/>
         </Element>
         <Element>
             <Key ID="0xE9E0BEB6" Type="float"/>
@@ -43643,7 +43659,7 @@
         </Element>
         <Element>
             <Key ID="0xEE1BA439" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RadarWorldRadius"/>
         </Element>
         <Element>
             <Key ID="0xEE1BE914" Type="float"/>
@@ -45403,7 +45419,7 @@
         </Element>
         <Element>
             <Key ID="0xF74F8C89" Type="OrientationInterpolationMethod"/>
-            <Value Name="OrientationInterpolationMethod"/>
+            <Value Name="OrientationBlend"/>
         </Element>
         <Element>
             <Key ID="0xF764A9D2" Type="BopJumpBehaviorData"/>

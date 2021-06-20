@@ -187,7 +187,8 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     }
 
     auto symbols = LoadSymbols(MapData);
-    SDolHeader header(CMemoryInStream(DolData.data(), DolData.size(), EEndian::BigEndian));
+    auto inStream = CMemoryInStream(DolData.data(), DolData.size(), EEndian::BigEndian);
+    SDolHeader header(inStream);
 
     // Append the patch data to the end of the dol
     uint32 AlignedDolSize = VAL_ALIGN(DolData.size(), 32);

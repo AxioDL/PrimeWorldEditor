@@ -8,7 +8,7 @@
             <Element Type="Bool" ID="0x41435456">
                 <DefaultValue>true</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x5D298A43">
+            <Element Type="Flags" ID="0x5D298A43">
                 <DefaultValue>3</DefaultValue>
             </Element>
         </SubProperties>

@@ -36,30 +36,30 @@
             <Element Type="Enum" ID="0xE315EE72">
                 <DefaultValue>0xD086634A</DefaultValue>
                 <Values>
-                    <Element Name="Unknown 1" ID="0xD086634A"/>
-                    <Element Name="Unknown 2" ID="0x41D989A1"/>
-                    <Element Name="Unknown 3" ID="0x989B7842"/>
-                    <Element Name="Unknown 4" ID="0xF0F41378"/>
-                    <Element Name="Unknown 5" ID="0xA5A4C2F"/>
-                    <Element Name="Unknown 6" ID="0x220F8C0"/>
-                    <Element Name="Unknown 7" ID="0x29019A90"/>
-                    <Element Name="Unknown 8" ID="0x6CD0BAD"/>
-                    <Element Name="Unknown 9" ID="0x1F07868B"/>
-                    <Element Name="Unknown 10" ID="0x403233D4"/>
-                    <Element Name="Unknown 11" ID="0xA8294FA8"/>
-                    <Element Name="Unknown 12" ID="0xB6A39E41"/>
-                    <Element Name="Unknown 13" ID="0x3ED0780A"/>
-                    <Element Name="Unknown 14" ID="0xD32E4F9E"/>
-                    <Element Name="Unknown 15" ID="0xD4DCF070"/>
-                    <Element Name="Unknown 16" ID="0xA237F316"/>
-                    <Element Name="Unknown 17" ID="0x519DB628"/>
-                    <Element Name="Unknown 18" ID="0x12D7814B"/>
+                    <Element Name="kMT_Unknown" ID="0xD086634A"/>
+                    <Element Name="kMT_Stone" ID="0x41D989A1"/>
+                    <Element Name="kMT_Metal" ID="0x989B7842"/>
+                    <Element Name="kMT_Grass" ID="0xF0F41378"/>
+                    <Element Name="kMT_Ice" ID="0xA5A4C2F"/>
+                    <Element Name="kMT_MetaGrating" ID="0x220F8C0"/>
+                    <Element Name="kMT_Phazon" ID="0x29019A90"/>
+                    <Element Name="kMT_Dirt" ID="0x6CD0BAD"/>
+                    <Element Name="kMT_SP_Metal" ID="0x1F07868B"/>
+                    <Element Name="kMT_Glass" ID="0x403233D4"/>
+                    <Element Name="kMT_Snow" ID="0xA8294FA8"/>
+                    <Element Name="kMT_Shield" ID="0xB6A39E41"/>
+                    <Element Name="kMT_Sand" ID="0x3ED0780A"/>
+                    <Element Name="kMT_SeedOrganics" ID="0xD32E4F9E"/>
+                    <Element Name="kMT_Web" ID="0xD4DCF070"/>
+                    <Element Name="kMT_Wood" ID="0xA237F316"/>
+                    <Element Name="kMT_Organic" ID="0x519DB628"/>
+                    <Element Name="kMT_Rubber" ID="0x12D7814B"/>
                 </Values>
             </Element>
             <Element Type="Enum" ID="0x583895FA">
                 <DefaultValue>0xDE8CE5BD</DefaultValue>
                 <Values>
-                    <Element Name="Unknown 1" ID="0xDE8CE5BD"/>
+                    <Element Name="kACR_Default" ID="0xDE8CE5BD"/>
                     <Element Name="Unknown 2" ID="0x26E57C67"/>
                     <Element Name="Unknown 3" ID="0x3FDFBD8E"/>
                 </Values>

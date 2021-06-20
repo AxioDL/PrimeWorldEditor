@@ -41,7 +41,7 @@
             <Element Type="Bool" ID="0x1D8DD846">
                 <DefaultValue>true</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x33507998">
+            <Element Type="Flags" ID="0x33507998">
                 <DefaultValue>4</DefaultValue>
             </Element>
             <Element Type="Int" ID="0xB6832840">
