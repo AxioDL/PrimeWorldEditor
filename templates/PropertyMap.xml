@@ -17078,6 +17078,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x5D298A43" Type="int"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x5D3C7239" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -35119,7 +35123,7 @@
         </Element>
         <Element>
             <Key ID="0xC012F196" Type="Vector"/>
-            <Value Name="Unknown"/>
+            <Value Name="RotationForType3"/>
         </Element>
         <Element>
             <Key ID="0xC017CF42" Type="asset"/>
@@ -37235,7 +37239,7 @@
         </Element>
         <Element>
             <Key ID="0xCB753319" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="InitialState"/>
         </Element>
         <Element>
             <Key ID="0xCB77FB28" Type="float"/>
@@ -39887,7 +39891,7 @@
         </Element>
         <Element>
             <Key ID="0xD9C09CF7" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="PlayerVisor"/>
         </Element>
         <Element>
             <Key ID="0xD9C4AA53" Type="string"/>
