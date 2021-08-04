@@ -136,7 +136,6 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     ASSERT(!mRunningNameGeneration);
     mRunningNameGeneration = true;
     mCanceledNameGeneration = false;
-    mTaskOutput.clear();
     mCheckedItems.clear();
     mpUI->OutputTreeWidget->clear();
 
@@ -188,13 +187,11 @@ void CGeneratePropertyNamesDialog::GenerationComplete()
     mNotifier.SetCanceled(false);
     mUpdateTimer.stop();
 
-    mTaskOutput = QList<SGeneratedPropertyName>::fromStdList(mGenerator.GetOutput());
-
     mpUI->ProgressBar->setValue(mpUI->ProgressBar->maximum());
 
     disconnect(&mFutureWatcher, nullptr, this, nullptr);
     disconnect(&mUpdateTimer, nullptr, this, nullptr);
-    UpdateUI();
+    CheckForNewResults();
 }
 
 /** Called when an item in the output tree has been checked or unchecked */

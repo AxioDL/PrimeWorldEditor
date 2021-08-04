@@ -45,9 +45,6 @@ class CGeneratePropertyNamesDialog : public QDialog
     /** Timer for fetching updates from name generation task */
     QTimer mUpdateTimer;
 
-    /** Copy of the output buffer from the name generator; only set after completion */
-    QList<SGeneratedPropertyName> mTaskOutput;
-
     /** Checked items in the output tree widget */
     QVector<QTreeWidgetItem*> mCheckedItems;
 
