@@ -34,7 +34,7 @@ void CTweakManager::LoadTweaks()
     // MP2+ - Load tweaks from Standard.ntwk
     else
     {
-        if (!mpProject->IsWiiBuild())
+        if (!mpProject->IsTrilogy())
         {
             mStandardFilePath = mpProject->DiscFilesystemRoot(false) / "Standard.ntwk";
         }
