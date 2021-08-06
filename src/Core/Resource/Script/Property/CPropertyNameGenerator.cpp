@@ -74,7 +74,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     Warmup();
 
     // Calculate the number of steps involved in this task.
-    const int kNumWords = mWords.size();
+    const size_t kNumWords = mWords.size();
     const int kMaxWords = rkParams.MaxWords;
     TotalTests = 1;
 
@@ -114,7 +114,7 @@ void CPropertyNameGenerator::GenerateTask(const SPropertyNameGenerationParameter
                                           SPropertyNameGenerationTaskParameters taskParams,
                                           IProgressNotifier* pProgress)
 {
-    const int kNumWords = mWords.size();
+    const size_t kNumWords = mWords.size();
     const int kMaxWords = rkParams.MaxWords;
 
     // Configure params needed to run the name generation!
