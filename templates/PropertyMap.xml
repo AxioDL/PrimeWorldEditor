@@ -6735,7 +6735,7 @@
         </Element>
         <Element>
             <Key ID="0x255F33BC" Type="enum"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModeType"/>
         </Element>
         <Element>
             <Key ID="0x2564EE27" Type="DamageInfo"/>
@@ -16011,7 +16011,7 @@
         </Element>
         <Element>
             <Key ID="0x56F3C854" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModeDamageMultiplier"/>
         </Element>
         <Element>
             <Key ID="0x56F41CA8" Type="float"/>
@@ -19755,7 +19755,7 @@
         </Element>
         <Element>
             <Key ID="0x6BEAB9FA" Type="TweakPlayer_HyperMode"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModePhazonLevel"/>
         </Element>
         <Element>
             <Key ID="0x6BEC3998" Type="float"/>
@@ -20663,7 +20663,7 @@
         </Element>
         <Element>
             <Key ID="0x711296E2" Type="DamageVulnerability"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModeInitialDamage"/>
         </Element>
         <Element>
             <Key ID="0x711804A6" Type="RevolutionControl"/>
@@ -26099,7 +26099,7 @@
         </Element>
         <Element>
             <Key ID="0x8ED2E3FB" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModePhazonCapacity"/>
         </Element>
         <Element>
             <Key ID="0x8ED32BE8" Type="float"/>
@@ -31215,7 +31215,7 @@
         </Element>
         <Element>
             <Key ID="0xAB40BED3" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModePhazonLevel"/>
         </Element>
         <Element>
             <Key ID="0xAB417B5D" Type="float"/>
@@ -32435,7 +32435,7 @@
         </Element>
         <Element>
             <Key ID="0xB148913B" Type="DamageVulnerability"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModeDamage"/>
         </Element>
         <Element>
             <Key ID="0xB14C9474" Type="float"/>
@@ -34723,7 +34723,7 @@
         </Element>
         <Element>
             <Key ID="0xBE038CBF" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModeCriticalClear"/>
         </Element>
         <Element>
             <Key ID="0xBE04E10B" Type="bool"/>
@@ -36171,7 +36171,7 @@
         </Element>
         <Element>
             <Key ID="0xC5F1943D" Type="DamageVulnerability"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModePhaazeDamage"/>
         </Element>
         <Element>
             <Key ID="0xC5FF7D3D" Type="float"/>
@@ -40483,7 +40483,7 @@
         </Element>
         <Element>
             <Key ID="0xDD3AD613" Type="TweakPlayer_HyperMode"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModeTimer"/>
         </Element>
         <Element>
             <Key ID="0xDD3C10EB" Type="int"/>
