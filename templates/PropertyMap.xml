@@ -603,7 +603,7 @@
         </Element>
         <Element>
             <Key ID="0x36E3C74" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="FadeOutTargetAlpha"/>
         </Element>
         <Element>
             <Key ID="0x37280C6" Type="Color"/>
@@ -1343,7 +1343,7 @@
         </Element>
         <Element>
             <Key ID="0x7AB5642" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="UnlockFontColor"/>
         </Element>
         <Element>
             <Key ID="0x7ACC58D" Type="choice"/>
@@ -1475,7 +1475,7 @@
         </Element>
         <Element>
             <Key ID="0x8719A9C" Type="spline"/>
-            <Value Name="Unknown"/>
+            <Value Name="NodeExpandMotion"/>
         </Element>
         <Element>
             <Key ID="0x8730E2C" Type="float"/>
@@ -1743,7 +1743,7 @@
         </Element>
         <Element>
             <Key ID="0xA0D69D0" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="SecondaryFont"/>
         </Element>
         <Element>
             <Key ID="0xA17FBF7" Type="float"/>
@@ -2271,7 +2271,7 @@
         </Element>
         <Element>
             <Key ID="0xD41E3BA" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="CameraElevation"/>
         </Element>
         <Element>
             <Key ID="0xD49855C" Type="float"/>
@@ -2739,7 +2739,7 @@
         </Element>
         <Element>
             <Key ID="0x101EA33E" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="DeactivateOnDeath"/>
         </Element>
         <Element>
             <Key ID="0x101ED799" Type="float"/>
@@ -3863,7 +3863,7 @@
         </Element>
         <Element>
             <Key ID="0x165943F6" Type="spline"/>
-            <Value Name="Unknown"/>
+            <Value Name="NodeCollapseMotion"/>
         </Element>
         <Element>
             <Key ID="0x165AB069" Type="int"/>
@@ -5031,7 +5031,7 @@
         </Element>
         <Element>
             <Key ID="0x1BE4426E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Shell1AnimatedVertRate"/>
         </Element>
         <Element>
             <Key ID="0x1BE8B2DB" Type="UnknownStruct51"/>
@@ -5295,7 +5295,7 @@
         </Element>
         <Element>
             <Key ID="0x1D7A1562" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Shell2ScaleHoriz"/>
         </Element>
         <Element>
             <Key ID="0x1D852415" Type="float"/>
@@ -5439,7 +5439,7 @@
         </Element>
         <Element>
             <Key ID="0x1E32523E" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="Immovable"/>
         </Element>
         <Element>
             <Key ID="0x1E350FA2" Type="RevolutionControl"/>
@@ -6039,7 +6039,7 @@
         </Element>
         <Element>
             <Key ID="0x21B607C0" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ShipAmbientColor"/>
         </Element>
         <Element>
             <Key ID="0x21B704E3" Type="CameraShakerEnvelope"/>
@@ -6219,7 +6219,7 @@
         </Element>
         <Element>
             <Key ID="0x229CEF2E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Shell2AnimatedVertRate"/>
         </Element>
         <Element>
             <Key ID="0x229D79FE" Type="TouchAttackDirectionEnum"/>
@@ -6427,7 +6427,7 @@
         </Element>
         <Element>
             <Key ID="0x23CAC744" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ScoreTextColor"/>
         </Element>
         <Element>
             <Key ID="0x23CB4476" Type="bool"/>
@@ -6663,7 +6663,7 @@
         </Element>
         <Element>
             <Key ID="0x24F6BBFA" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Shell2AnimatedHorizRate"/>
         </Element>
         <Element>
             <Key ID="0x24F6D956" Type="float"/>
@@ -6695,7 +6695,7 @@
         </Element>
         <Element>
             <Key ID="0x2515641C" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="FadeInTargetAlpha"/>
         </Element>
         <Element>
             <Key ID="0x251C55E3" Type="float"/>
@@ -7063,7 +7063,7 @@
         </Element>
         <Element>
             <Key ID="0x2705318D" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="Power_Beam"/>
         </Element>
         <Element>
             <Key ID="0x27112D25" Type="Color"/>
@@ -7223,7 +7223,7 @@
         </Element>
         <Element>
             <Key ID="0x27D254AF" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="MultiChargeUpgrade"/>
         </Element>
         <Element>
             <Key ID="0x27E50799" Type="bool"/>
@@ -7851,7 +7851,7 @@
         </Element>
         <Element>
             <Key ID="0x2B6624B1" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModeCriticalTime"/>
         </Element>
         <Element>
             <Key ID="0x2B698E45" Type="TweakGui_EchoVisor"/>
@@ -8539,7 +8539,7 @@
         </Element>
         <Element>
             <Key ID="0x2F0B92D2" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChangeToDarkVisor"/>
         </Element>
         <Element>
             <Key ID="0x2F0E0276" Type="RevolutionControl"/>
@@ -9535,7 +9535,7 @@
         </Element>
         <Element>
             <Key ID="0x34B2A190" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Shell1ScaleHoriz"/>
         </Element>
         <Element>
             <Key ID="0x34B2C148" Type="float"/>
@@ -9611,7 +9611,7 @@
         </Element>
         <Element>
             <Key ID="0x3523A47F" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="OrbitPointModelColor"/>
         </Element>
         <Element>
             <Key ID="0x352FF6A5" Type="float"/>
@@ -10159,7 +10159,7 @@
         </Element>
         <Element>
             <Key ID="0x382765B0" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="Wave_Beam"/>
         </Element>
         <Element>
             <Key ID="0x38277AC7" Type="CommandData"/>
@@ -10371,7 +10371,7 @@
         </Element>
         <Element>
             <Key ID="0x3935A756" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="FogFar"/>
         </Element>
         <Element>
             <Key ID="0x393D1A4E" Type="float"/>
@@ -11047,7 +11047,7 @@
         </Element>
         <Element>
             <Key ID="0x3CE853E3" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleIconColorInactive"/>
         </Element>
         <Element>
             <Key ID="0x3CE95D9D" Type="DebrisPropertiesOrientationEnum"/>
@@ -11955,7 +11955,7 @@
         </Element>
         <Element>
             <Key ID="0x4194622E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="FogNear"/>
         </Element>
         <Element>
             <Key ID="0x419DC025" Type="RobotChickenStructA"/>
@@ -12383,7 +12383,7 @@
         </Element>
         <Element>
             <Key ID="0x43F0A8A0" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MissileReloadTime"/>
         </Element>
         <Element>
             <Key ID="0x43FDB8D0" Type="Vector"/>
@@ -12479,7 +12479,7 @@
         </Element>
         <Element>
             <Key ID="0x446A33F5" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RestitutionMultiplier"/>
         </Element>
         <Element>
             <Key ID="0x446EFCAD" Type="float"/>
@@ -13095,7 +13095,7 @@
         </Element>
         <Element>
             <Key ID="0x47CF5F9A" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="CenterY"/>
         </Element>
         <Element>
             <Key ID="0x47D4427E" Type="DamageInfo"/>
@@ -14367,7 +14367,7 @@
         </Element>
         <Element>
             <Key ID="0x4DEF660D" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BackgroundSweepTime"/>
         </Element>
         <Element>
             <Key ID="0x4DEF7B9B" Type="bool"/>
@@ -14403,7 +14403,7 @@
         </Element>
         <Element>
             <Key ID="0x4E324158" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="AlphaPercent"/>
         </Element>
         <Element>
             <Key ID="0x4E4724E6" Type="UnknownStruct3"/>
@@ -15103,7 +15103,7 @@
         </Element>
         <Element>
             <Key ID="0x521382C7" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Shell1AnimatedHorizRate"/>
         </Element>
         <Element>
             <Key ID="0x5219DCCD" Type="bool"/>
@@ -15163,7 +15163,7 @@
         </Element>
         <Element>
             <Key ID="0x526E60F4" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChargeGaugeColor"/>
         </Element>
         <Element>
             <Key ID="0x52739B7B" Type="RevolutionControl"/>
@@ -15223,7 +15223,7 @@
         </Element>
         <Element>
             <Key ID="0x52985AD1" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="TextFadeTime"/>
         </Element>
         <Element>
             <Key ID="0x52AB1F08" Type="float"/>
@@ -15763,7 +15763,7 @@
         </Element>
         <Element>
             <Key ID="0x55BB9BA8" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="CommandTextOutlineColor"/>
         </Element>
         <Element>
             <Key ID="0x55BE3E8E" Type="spline"/>
@@ -16395,7 +16395,7 @@
         </Element>
         <Element>
             <Key ID="0x5946B439" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="SelectedNodeColor"/>
         </Element>
         <Element>
             <Key ID="0x594A5E38" Type="Color"/>
@@ -16539,7 +16539,7 @@
         </Element>
         <Element>
             <Key ID="0x5A24A7E4" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="MainFontColor"/>
         </Element>
         <Element>
             <Key ID="0x5A310C3B" Type="float"/>
@@ -16987,7 +16987,7 @@
         </Element>
         <Element>
             <Key ID="0x5CE2A16F" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="HealthColor"/>
         </Element>
         <Element>
             <Key ID="0x5CE2A9A9" Type="asset"/>
@@ -17251,7 +17251,7 @@
         </Element>
         <Element>
             <Key ID="0x5E15868A" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="Primary_Weapon"/>
         </Element>
         <Element>
             <Key ID="0x5E1D1931" Type="IngSpaceJumpGuardianStruct"/>
@@ -17307,7 +17307,7 @@
         </Element>
         <Element>
             <Key ID="0x5E7F85C7" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="MainFont"/>
         </Element>
         <Element>
             <Key ID="0x5E810459" Type="float"/>
@@ -17503,7 +17503,7 @@
         </Element>
         <Element>
             <Key ID="0x5FA64C77" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="TextScale"/>
         </Element>
         <Element>
             <Key ID="0x5FAE9A93" Type="float"/>
@@ -18023,7 +18023,7 @@
         </Element>
         <Element>
             <Key ID="0x62CA2DDD" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="EchoOutlineColor"/>
         </Element>
         <Element>
             <Key ID="0x62CA4939" Type="float"/>
@@ -18351,7 +18351,7 @@
         </Element>
         <Element>
             <Key ID="0x647D9F91" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="BackgroundSweepColor"/>
         </Element>
         <Element>
             <Key ID="0x64833842" Type="TIcon_Configurations"/>
@@ -18459,7 +18459,7 @@
         </Element>
         <Element>
             <Key ID="0x652136C9" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="DisableGrabBarrel"/>
         </Element>
         <Element>
             <Key ID="0x652FB7D2" Type="bool"/>
@@ -18583,7 +18583,7 @@
         </Element>
         <Element>
             <Key ID="0x65EE03A7" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="CommandTextColor"/>
         </Element>
         <Element>
             <Key ID="0x65EF9F2A" Type="TweakTargeting_Scan"/>
@@ -18643,7 +18643,7 @@
         </Element>
         <Element>
             <Key ID="0x66351D36" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="EchoRingColor"/>
         </Element>
         <Element>
             <Key ID="0x663A6F89" Type="float"/>
@@ -19367,7 +19367,7 @@
         </Element>
         <Element>
             <Key ID="0x69EC9107" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="EchoVisorMaxVolume"/>
         </Element>
         <Element>
             <Key ID="0x69ED492E" Type="int"/>
@@ -19651,7 +19651,7 @@
         </Element>
         <Element>
             <Key ID="0x6B5E7509" Type="choice"/>
-            <Value Name="World Lighting Options"/>
+            <Value Name="UseWorldLighting"/>
         </Element>
         <Element>
             <Key ID="0x6B5E7509" Type="enum"/>
@@ -19763,11 +19763,11 @@
         </Element>
         <Element>
             <Key ID="0x6BF04FF9" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="TimerTextColor"/>
         </Element>
         <Element>
             <Key ID="0x6BF24C24" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="MissileWeaponsDisabled"/>
         </Element>
         <Element>
             <Key ID="0x6BF2FF60" Type="AudioPlaybackParms"/>
@@ -19911,7 +19911,7 @@
         </Element>
         <Element>
             <Key ID="0x6C90E396" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="GenerateMobileLight"/>
         </Element>
         <Element>
             <Key ID="0x6CA453B1" Type="asset"/>
@@ -20087,7 +20087,7 @@
         </Element>
         <Element>
             <Key ID="0x6D5BC9C5" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="OrbitLockColor"/>
         </Element>
         <Element>
             <Key ID="0x6D5C1C94" Type="Color"/>
@@ -20519,7 +20519,7 @@
         </Element>
         <Element>
             <Key ID="0x705663E8" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ShipLightColor"/>
         </Element>
         <Element>
             <Key ID="0x705876AB" Type="RevolutionControl"/>
@@ -20931,7 +20931,7 @@
         </Element>
         <Element>
             <Key ID="0x7298E223" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="PauseScreenTextColor"/>
         </Element>
         <Element>
             <Key ID="0x729E3CB3" Type="float"/>
@@ -22195,7 +22195,7 @@
         </Element>
         <Element>
             <Key ID="0x79B86562" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="DisableGroundPound"/>
         </Element>
         <Element>
             <Key ID="0x79BC753E" Type="float"/>
@@ -22803,7 +22803,7 @@
         </Element>
         <Element>
             <Key ID="0x7CC2879F" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="Ice_Beam"/>
         </Element>
         <Element>
             <Key ID="0x7CC2A36E" Type="UnknownStruct6"/>
@@ -23355,11 +23355,11 @@
         </Element>
         <Element>
             <Key ID="0x7FDFAA62" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="HyperModeInvulnerableTime"/>
         </Element>
         <Element>
             <Key ID="0x7FE26363" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChangeToLightBeam"/>
         </Element>
         <Element>
             <Key ID="0x7FE2B85D" Type="float"/>
@@ -23735,7 +23735,7 @@
         </Element>
         <Element>
             <Key ID="0x81A22751" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChangeToEchoVisor"/>
         </Element>
         <Element>
             <Key ID="0x81A8474F" Type="float"/>
@@ -25207,7 +25207,7 @@
         </Element>
         <Element>
             <Key ID="0x89E950C4" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChangeToScanVisor"/>
         </Element>
         <Element>
             <Key ID="0x89F7F8C5" Type="bool"/>
@@ -25659,7 +25659,7 @@
         </Element>
         <Element>
             <Key ID="0x8C938C3F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="CenterX"/>
         </Element>
         <Element>
             <Key ID="0x8C95539A" Type="bool"/>
@@ -25683,7 +25683,7 @@
         </Element>
         <Element>
             <Key ID="0x8C9F2A1A" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ThermalLockColor"/>
         </Element>
         <Element>
             <Key ID="0x8CB20C53" Type="float"/>
@@ -25995,7 +25995,7 @@
         </Element>
         <Element>
             <Key ID="0x8E3AFEF8" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="OrbitPointOccludedOpacity"/>
         </Element>
         <Element>
             <Key ID="0x8E41FED2" Type="float"/>
@@ -26087,7 +26087,7 @@
         </Element>
         <Element>
             <Key ID="0x8ECB6665" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChangeToPowerBeam"/>
         </Element>
         <Element>
             <Key ID="0x8ED04C36" Type="Color"/>
@@ -26387,7 +26387,7 @@
         </Element>
         <Element>
             <Key ID="0x905FA7E4" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="EchoBaseColor"/>
         </Element>
         <Element>
             <Key ID="0x90610F1A" Type="int"/>
@@ -26787,7 +26787,7 @@
         </Element>
         <Element>
             <Key ID="0x92C402AB" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChangeToDarkBeam"/>
         </Element>
         <Element>
             <Key ID="0x92CAA97D" Type="sound"/>
@@ -26987,7 +26987,7 @@
         </Element>
         <Element>
             <Key ID="0x93DB3352" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="DarkVisorStaticColor"/>
         </Element>
         <Element>
             <Key ID="0x93DD818B" Type="choice"/>
@@ -29827,7 +29827,7 @@
         </Element>
         <Element>
             <Key ID="0xA3890335" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="Phazon_Beam"/>
         </Element>
         <Element>
             <Key ID="0xA38A84C2" Type="bool"/>
@@ -30195,7 +30195,7 @@
         </Element>
         <Element>
             <Key ID="0xA5ACE799" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="DisablePeanutGun"/>
         </Element>
         <Element>
             <Key ID="0xA5B20D17" Type="PlayerOffscreenIndicatorTextData"/>
@@ -30259,7 +30259,7 @@
         </Element>
         <Element>
             <Key ID="0xA6257CD8" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="BeamWeaponsDisabled"/>
         </Element>
         <Element>
             <Key ID="0xA62BF627" Type="bool"/>
@@ -30851,7 +30851,7 @@
         </Element>
         <Element>
             <Key ID="0xA938BF39" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="MainFontOutlineColor"/>
         </Element>
         <Element>
             <Key ID="0xA93DE032" Type="float"/>
@@ -31435,7 +31435,7 @@
         </Element>
         <Element>
             <Key ID="0xAC80013B" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="NodeColor"/>
         </Element>
         <Element>
             <Key ID="0xAC870724" Type="TrainTrackManagerStructA"/>
@@ -31583,7 +31583,7 @@
         </Element>
         <Element>
             <Key ID="0xAD4715A8" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Shell1ScaleVert"/>
         </Element>
         <Element>
             <Key ID="0xAD47FEBE" Type="AudioPlaybackParms"/>
@@ -31795,7 +31795,7 @@
         </Element>
         <Element>
             <Key ID="0xAE46D80E" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="DisableHungryMode"/>
         </Element>
         <Element>
             <Key ID="0xAE47DC81" Type="float"/>
@@ -33231,7 +33231,7 @@
         </Element>
         <Element>
             <Key ID="0xB5DA30F4" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="HUDMemoTextOutlineColor"/>
         </Element>
         <Element>
             <Key ID="0xB5E9859F" Type="bool"/>
@@ -33283,7 +33283,7 @@
         </Element>
         <Element>
             <Key ID="0xB628855A" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="IsPowerBombGuardian"/>
         </Element>
         <Element>
             <Key ID="0xB634C824" Type="string"/>
@@ -33467,7 +33467,7 @@
         </Element>
         <Element>
             <Key ID="0xB71677D0" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="NodeScale"/>
         </Element>
         <Element>
             <Key ID="0xB718B831" Type="WallCrawlerData"/>
@@ -34023,7 +34023,7 @@
         </Element>
         <Element>
             <Key ID="0xBA5A65C8" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="MainWindowBorderColor"/>
         </Element>
         <Element>
             <Key ID="0xBA5EB7F5" Type="float"/>
@@ -34427,11 +34427,11 @@
         </Element>
         <Element>
             <Key ID="0xBC3A7FD1" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Shell2ScaleVert"/>
         </Element>
         <Element>
             <Key ID="0xBC401445" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="Secondary_Weapon"/>
         </Element>
         <Element>
             <Key ID="0xBC51DE4B" Type="int"/>
@@ -34587,7 +34587,7 @@
         </Element>
         <Element>
             <Key ID="0xBD455264" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="AllowGroundPound"/>
         </Element>
         <Element>
             <Key ID="0xBD50EB30" Type="float"/>
@@ -35087,7 +35087,7 @@
         </Element>
         <Element>
             <Key ID="0xBFF0E37B" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="MainWindowTextColor"/>
         </Element>
         <Element>
             <Key ID="0xBFF185FA" Type="spline"/>
@@ -36127,7 +36127,7 @@
         </Element>
         <Element>
             <Key ID="0xC5AA728C" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="ParentNodeColor"/>
         </Element>
         <Element>
             <Key ID="0xC5B09632" Type="CameraShakerEnvelope"/>
@@ -37179,7 +37179,7 @@
         </Element>
         <Element>
             <Key ID="0xCB269AC8" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="Plasma_Beam"/>
         </Element>
         <Element>
             <Key ID="0xCB28E973" Type="float"/>
@@ -38211,7 +38211,7 @@
         </Element>
         <Element>
             <Key ID="0xD09F83E7" Type="asset"/>
-            <Value Name="TXTR"/>
+            <Value Name="DarkVisorSpotTexture"/>
         </Element>
         <Element>
             <Key ID="0xD0B0F21F" Type="DamageInfo"/>
@@ -38295,7 +38295,7 @@
         </Element>
         <Element>
             <Key ID="0xD114B75D" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="AllowPeanutGun"/>
         </Element>
         <Element>
             <Key ID="0xD12C7F32" Type="OceanBridgeStructB"/>
@@ -38971,7 +38971,7 @@
         </Element>
         <Element>
             <Key ID="0xD438F8E4" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChangeToCombatVisor"/>
         </Element>
         <Element>
             <Key ID="0xD43A3CA0" Type="float"/>
@@ -39587,7 +39587,7 @@
         </Element>
         <Element>
             <Key ID="0xD7F8586A" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChangeToAnnihilatorBeam"/>
         </Element>
         <Element>
             <Key ID="0xD80447E0" Type="asset"/>
@@ -40311,7 +40311,7 @@
         </Element>
         <Element>
             <Key ID="0xDC4C2A5F" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="EchoDamageColor"/>
         </Element>
         <Element>
             <Key ID="0xDC5AF41E" Type="int"/>
@@ -40659,7 +40659,7 @@
         </Element>
         <Element>
             <Key ID="0xDE513312" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ColorPercent"/>
         </Element>
         <Element>
             <Key ID="0xDE56521D" Type="bool"/>
@@ -40719,7 +40719,7 @@
         </Element>
         <Element>
             <Key ID="0xDE87546A" Type="enum"/>
-            <Value Name="Unknown"/>
+            <Value Name="TriggeringBehavior"/>
         </Element>
         <Element>
             <Key ID="0xDE887CCA" Type="float"/>
@@ -40907,7 +40907,7 @@
         </Element>
         <Element>
             <Key ID="0xDFD3CFF0" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="BackgroundBlendColor"/>
         </Element>
         <Element>
             <Key ID="0xDFD54864" Type="asset"/>
@@ -42387,7 +42387,7 @@
         </Element>
         <Element>
             <Key ID="0xE7C283BE" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="MenuOptionColor"/>
         </Element>
         <Element>
             <Key ID="0xE7C4BECD" Type="float"/>
@@ -42975,7 +42975,7 @@
         </Element>
         <Element>
             <Key ID="0xEA86A2B9" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ChargeComboUpgrade"/>
         </Element>
         <Element>
             <Key ID="0xEA870072" Type="UnknownStruct66"/>
@@ -43091,7 +43091,7 @@
         </Element>
         <Element>
             <Key ID="0xEB5AE665" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="LogBookFrameColor"/>
         </Element>
         <Element>
             <Key ID="0xEB5EE47C" Type="float"/>
@@ -43835,7 +43835,7 @@
         </Element>
         <Element>
             <Key ID="0xEF2C842E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="OrbitPointZOffset"/>
         </Element>
         <Element>
             <Key ID="0xEF36AE32" Type="float"/>
@@ -44187,7 +44187,7 @@
         </Element>
         <Element>
             <Key ID="0xF0F977E6" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MovieFadeTime"/>
         </Element>
         <Element>
             <Key ID="0xF1004C52" Type="bool"/>
@@ -44475,7 +44475,7 @@
         </Element>
         <Element>
             <Key ID="0xF295D923" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="InvulnerableColor"/>
         </Element>
         <Element>
             <Key ID="0xF298DCF0" Type="bool"/>
@@ -44787,7 +44787,7 @@
         </Element>
         <Element>
             <Key ID="0xF468695D" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="GuiCursorColor"/>
         </Element>
         <Element>
             <Key ID="0xF470EA14" Type="float"/>
@@ -46251,7 +46251,7 @@
         </Element>
         <Element>
             <Key ID="0xFB7A7ABB" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="UseOldLighting"/>
         </Element>
         <Element>
             <Key ID="0xFB825EAA" Type="float"/>
