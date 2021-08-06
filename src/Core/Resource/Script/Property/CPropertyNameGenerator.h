@@ -4,6 +4,9 @@
 #include "Core/IProgressNotifier.h"
 #include <Common/Common.h>
 
+#include <atomic>
+#include <mutex>
+
 /** Name casing parameter */
 enum class ENameCasing
 {
@@ -22,6 +25,9 @@ struct SPropertyIdTypePair
 /** Parameters for using the name generator */
 struct SPropertyNameGenerationParameters
 {
+    /** Number of concurrent tasks to run */
+    int ConcurrentTasks;
+
     /** Maximum number of words per name; name generation will complete when all possibilities have been checked */
     int MaxWords;
 
@@ -50,6 +56,18 @@ struct SPropertyNameGenerationParameters
     bool PrintToLog;
 };
 
+struct SPropertyNameGenerationTaskParameters
+{
+    /** Task index */
+    uint TaskIndex;
+
+    /** Base word start index */
+    uint StartWord;
+
+    /** Base word end index */
+    uint EndWord;
+};
+
 /** A generated property name */
 struct SGeneratedPropertyName
 {
@@ -62,17 +80,11 @@ struct SGeneratedPropertyName
 /** Generates property names and validates them against know property IDs. */
 class CPropertyNameGenerator
 {
-    /** Whether we have started loading the word list */
-    bool mWordListLoadStarted = false;
-
     /** Whether the word list has been fully loaded */
-    bool mWordListLoadFinished = false;
+    std::atomic<bool> mWordListLoadFinished = false;
 
     /** Whether the generation process is running */
     bool mIsRunning = false;
-
-    /** Whether the generation process finished running */
-    bool mFinishedRunning = false;
 
     /** List of valid property types to check against */
     std::vector<TString> mTypeNames;
@@ -81,18 +93,26 @@ class CPropertyNameGenerator
     std::unordered_map<uint32, const char*> mValidTypePairMap;
 
     /** List of words */
-    struct SWord
-    {
-        TString Word;
-        int Usages;
-    };
-    std::vector<SWord> mWords;
+    std::vector<TString> mWords;
 
     /** List of output generated property names */
     std::list<SGeneratedPropertyName> mGeneratedNames;
 
-    /** List of word indices */
-    std::vector<int> mWordIndices;
+    /** Warmup() mutex */
+    std::mutex mWarmupMutex;
+
+    /** Property check mutex */
+    std::mutex mPropertyCheckMutex;
+
+    /** Total number of tests to perform */
+    uint64 TotalTests;
+
+    /** Current number of tests performed */
+    std::atomic<uint64> TotalTestsDone{0};
+
+    void GenerateTask(const SPropertyNameGenerationParameters& rkParams,
+                      SPropertyNameGenerationTaskParameters taskParams,
+                      IProgressNotifier* pProgressNotifier);
 
 public:
     /** Default constructor */

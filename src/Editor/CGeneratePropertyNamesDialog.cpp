@@ -34,6 +34,9 @@ CGeneratePropertyNamesDialog::CGeneratePropertyNamesDialog(QWidget* pParent)
     int TreeWidth = mpUI->OutputTreeWidget->width();
     mpUI->OutputTreeWidget->setColumnWidth(0, TreeWidth * 1.5);
     mpUI->OutputTreeWidget->setHeaderHidden(false);
+    // Don't sort by default
+    mpUI->OutputTreeWidget->header()->setSortIndicator(-1, Qt::AscendingOrder);
+    mpUI->OutputTreeWidget->setSortingEnabled(true);
 
     // Allow the generator to initialize in the background while the user is getting set up
     QtConcurrent::run(&mGenerator, &CPropertyNameGenerator::Warmup);
@@ -152,6 +155,7 @@ void CGeneratePropertyNamesDialog::StartGeneration()
     }
 
     Params.MaxWords = mpUI->NumWordsSpinBox->value();
+    Params.ConcurrentTasks = mpUI->ThreadsSpinBox->value();
     Params.Prefix = TO_TSTRING(mpUI->PrefixLineEdit->text());
     Params.Suffix = TO_TSTRING(mpUI->SuffixLineEdit->text());
     Params.Casing = mpUI->CasingComboBox->currentEnum();

@@ -5,16 +5,20 @@
 #include <Common/Hash/CCRC32.h>
 
 #include <memory>
+#include <thread>
 
 /** Default constructor */
 CPropertyNameGenerator::CPropertyNameGenerator() = default;
 
 void CPropertyNameGenerator::Warmup()
 {
-    // Clear output from previous runs
-    ASSERT(!mWordListLoadStarted || mWordListLoadFinished);
+    std::unique_lock lock{mWarmupMutex};
+
+    if (mWordListLoadFinished)
+    {
+        return;
+    }
     mWordListLoadFinished = false;
-    mWordListLoadStarted = true;
     mWords.clear();
 
     // Load the word list from the file
@@ -28,10 +32,7 @@ void CPropertyNameGenerator::Warmup()
         std::fgets(WordBuffer, sizeof(WordBuffer), pListFile.get());
         WordBuffer[0] = TString::CharToUpper(WordBuffer[0]);
 
-        SWord Word;
-        Word.Word = TString(WordBuffer).Trimmed();
-        Word.Usages = 0;
-        mWords.push_back(std::move(Word));
+        mWords.emplace_back(TString(WordBuffer).Trimmed());
     }
 
     mWordListLoadFinished = true;
@@ -45,7 +46,6 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     mGeneratedNames.clear();
     mValidTypePairMap.clear();
     mIsRunning = true;
-    mFinishedRunning = false;
 
     // Convert the type pair map.
     // Also, replace the normal type name list with whatever is in the ID pairs list we were given.
@@ -71,30 +71,56 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     }
 
     // If we haven't loaded the word list yet, load it.
-    // If we are still loading the word list, wait until we're finished.
-    if (!mWordListLoadFinished)
-    {
-        if (mWordListLoadStarted)
-            while (!mWordListLoadFinished) {}
-        else
-            Warmup();
-    }
+    Warmup();
 
     // Calculate the number of steps involved in this task.
     const int kNumWords = mWords.size();
     const int kMaxWords = rkParams.MaxWords;
-    int TestsDone = 0;
-    int TotalTests = 1;
+    TotalTests = 1;
 
     for (int i = 0; i < kMaxWords; i++)
         TotalTests *= kNumWords;
 
     pProgress->SetOneShotTask("Generating property names");
-    pProgress->Report(TestsDone, TotalTests);
+    pProgress->Report(0, TotalTests);
+
+    const uint WordsPerThread = kNumWords / rkParams.ConcurrentTasks;
+    std::vector<std::thread> Threads;
+    for (int i = 0; i < rkParams.ConcurrentTasks; ++i)
+    {
+        SPropertyNameGenerationTaskParameters Params{};
+        Params.TaskIndex = i;
+        Params.StartWord = WordsPerThread * i;
+        if (i == rkParams.ConcurrentTasks - 1)
+        {
+            // Ensure last task takes any remaining words
+            Params.EndWord = kNumWords - 1;
+        }
+        else
+        {
+            Params.EndWord = Params.StartWord + WordsPerThread;
+        }
+        Threads.emplace_back(&CPropertyNameGenerator::GenerateTask, this, rkParams, Params, pProgress);
+    }
+    for (auto& Thread : Threads)
+    {
+        Thread.join();
+    }
+
+    mIsRunning = false;
+}
+
+void CPropertyNameGenerator::GenerateTask(const SPropertyNameGenerationParameters& rkParams,
+                                          SPropertyNameGenerationTaskParameters taskParams,
+                                          IProgressNotifier* pProgress)
+{
+    const int kNumWords = mWords.size();
+    const int kMaxWords = rkParams.MaxWords;
 
     // Configure params needed to run the name generation!
     bool WriteToLog = rkParams.PrintToLog;
     bool SaveResults = true;
+    uint64 TestsDone = 0;
 
     // The prefix only needs to be hashed this one time
     CCRC32 PrefixHash;
@@ -105,12 +131,12 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     // the same hashes over and over. Init the stack with the first word.
     struct SWordCache
     {
-        int WordIndex;
+        uint WordIndex;
         CCRC32 Hash;
     };
     std::vector<SWordCache> WordCache;
 
-    SWordCache FirstWord { -1, CCRC32() };
+    SWordCache FirstWord { taskParams.StartWord - 1, CCRC32() };
     WordCache.push_back(FirstWord);
 
     while ( true )
@@ -119,19 +145,22 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
         int RecalcIndex = WordCache.size() - 1;
         WordCache.back().WordIndex++;
 
-        while (WordCache[RecalcIndex].WordIndex >= kNumWords)
+        while (WordCache[RecalcIndex].WordIndex >= kNumWords ||
+               (RecalcIndex == 0 && WordCache[0].WordIndex >= taskParams.EndWord))
         {
-            WordCache[RecalcIndex].WordIndex = 0;
-
-            if (RecalcIndex > 0)
+            if (RecalcIndex == 0)
             {
-                RecalcIndex--;
-                WordCache[RecalcIndex].WordIndex++;
+                WordCache[0].WordIndex = taskParams.StartWord;
+
+                SWordCache NewWord { 0, CCRC32() };
+                WordCache.push_back(NewWord);
             }
             else
             {
-                SWordCache NewWord { 0, CCRC32() };
-                WordCache.push_back(NewWord);
+                WordCache[RecalcIndex].WordIndex = 0;
+
+                RecalcIndex--;
+                WordCache[RecalcIndex].WordIndex++;
             }
         }
 
@@ -149,7 +178,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
             // For camelcase, hash the first letter of the first word as lowercase
             if (RecalcIndex == 0 && rkParams.Casing == ENameCasing::camelCase)
             {
-                const char* pkWord = *mWords[Index].Word;
+                const char* pkWord = *mWords[Index];
                 LastValidHash.Hash( TString::CharToLower( pkWord[0] ) );
                 LastValidHash.Hash( &pkWord[1] );
             }
@@ -159,7 +188,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                 if (RecalcIndex > 0 && rkParams.Casing == ENameCasing::Snake_Case)
                     LastValidHash.Hash("_");
 
-                LastValidHash.Hash( *mWords[Index].Word );
+                LastValidHash.Hash( *mWords[Index] );
             }
 
             WordCache[RecalcIndex].Hash = LastValidHash;
@@ -179,6 +208,8 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
             // Check if this hash is a property ID
             if (IsValidPropertyID(PropertyID, pkTypeName, rkParams))
             {
+                std::unique_lock lock{mPropertyCheckMutex};
+
                 SGeneratedPropertyName PropertyName;
                 NPropertyMap::RetrieveXMLsWithProperty(PropertyID, pkTypeName, PropertyName.XmlList);
 
@@ -194,7 +225,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
                         PropertyName.Name += "_";
                     }
 
-                    PropertyName.Name += mWords[Index].Word;
+                    PropertyName.Name += mWords[Index];
                 }
 
                 if (rkParams.Casing == ENameCasing::camelCase)
@@ -244,12 +275,10 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
             if (pProgress->ShouldCancel())
                 break;
 
-            pProgress->Report(TestsDone, TotalTests);
+            auto Value = TotalTestsDone += 250;
+            pProgress->Report(Value, TotalTests);
         }
     }
-
-    mIsRunning = false;
-    mFinishedRunning = true;
 }
 
 /** Returns whether a given property ID is valid */
