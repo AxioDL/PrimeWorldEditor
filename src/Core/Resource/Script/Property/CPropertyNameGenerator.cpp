@@ -266,16 +266,17 @@ void CPropertyNameGenerator::GenerateTask(const SPropertyNameGenerationParameter
             }
         }
 
-        // Every 250 tests, check with the progress notifier. Update the progress
+        // Every 5000 tests, check with the progress notifier. Update the progress
         // bar and check whether the user has requested to cancel the operation.
         TestsDone++;
 
-        if ( (TestsDone % 250) == 0 )
+        if ( (TestsDone % 5000) == 0 )
         {
             if (pProgress->ShouldCancel())
                 break;
 
-            auto Value = TotalTestsDone += 250;
+            std::unique_lock lock{mWarmupMutex};
+            auto Value = TotalTestsDone += 5000;
             pProgress->Report(Value, TotalTests);
         }
     }
