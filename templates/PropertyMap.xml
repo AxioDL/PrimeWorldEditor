@@ -9275,7 +9275,7 @@
         </Element>
         <Element>
             <Key ID="0x333B7549" Type="float"/>
-            <Value Name="DarkSuitReduction"/>
+            <Value Name="DarkSuitDamageReduction"/>
         </Element>
         <Element>
             <Key ID="0x33408E7F" Type="bool"/>
@@ -13463,7 +13463,7 @@
         </Element>
         <Element>
             <Key ID="0x4985BC73" Type="float"/>
-            <Value Name="SfxPeriod"/>
+            <Value Name="DamageGracePeriod"/>
         </Element>
         <Element>
             <Key ID="0x49880C24" Type="sound"/>
@@ -16747,7 +16747,7 @@
         </Element>
         <Element>
             <Key ID="0x5B98A3BD" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrapplePullCameraSpeed"/>
         </Element>
         <Element>
             <Key ID="0x5B9A9219" Type="choice"/>
@@ -31135,7 +31135,7 @@
         </Element>
         <Element>
             <Key ID="0xAAEBB73E" Type="TweakPlayerGun_Beam_Misc"/>
-            <Value Name="Unknown"/>
+            <Value Name="Beam_Misc"/>
         </Element>
         <Element>
             <Key ID="0xAAF6E9A9" Type="Color"/>
@@ -31347,7 +31347,7 @@
         </Element>
         <Element>
             <Key ID="0xABFA93E9" Type="TDamageInfo"/>
-            <Value Name="Unknown"/>
+            <Value Name="Imploder_Annihilator"/>
         </Element>
         <Element>
             <Key ID="0xABFAA1FA" Type="RevolutionControl"/>
@@ -40343,7 +40343,7 @@
         </Element>
         <Element>
             <Key ID="0xDC92A0AC" Type="float"/>
-            <Value Name="GravityBoostFinalZVelocity"/>
+            <Value Name="GravityBoostCancelDampening"/>
         </Element>
         <Element>
             <Key ID="0xDCA1E8B6" Type="float"/>
@@ -45911,7 +45911,7 @@
         </Element>
         <Element>
             <Key ID="0xF9BF59A2" Type="DamageInfo"/>
-            <Value Name="AtmosphereDamage"/>
+            <Value Name="DamagePerSecond"/>
         </Element>
         <Element>
             <Key ID="0xF9C88B05" Type="Color"/>
@@ -46083,7 +46083,7 @@
         </Element>
         <Element>
             <Key ID="0xFAA71E25" Type="TWeaponDamage"/>
-            <Value Name="Unknown"/>
+            <Value Name="DamageInfo"/>
         </Element>
         <Element>
             <Key ID="0xFAA81D3A" Type="float"/>
@@ -46855,7 +46855,7 @@
         </Element>
         <Element>
             <Key ID="0xFE98B8E9" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="GrappleCameraSpeed"/>
         </Element>
         <Element>
             <Key ID="0xFE98F30E" Type="Color"/>
