@@ -4835,7 +4835,7 @@
         </Element>
         <Element>
             <Key ID="0x1B05214D" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="DangerColor"/>
         </Element>
         <Element>
             <Key ID="0x1B07123D" Type="float"/>
@@ -6603,7 +6603,7 @@
         </Element>
         <Element>
             <Key ID="0x24A97916" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="ModelLocator"/>
         </Element>
         <Element>
             <Key ID="0x24B1B5B6" Type="asset"/>
@@ -10839,7 +10839,7 @@
         </Element>
         <Element>
             <Key ID="0x3BD757E2" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="NovaBeam"/>
         </Element>
         <Element>
             <Key ID="0x3BDD2FED" Type="bool"/>
@@ -16175,7 +16175,7 @@
         </Element>
         <Element>
             <Key ID="0x580F155F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Hazard"/>
         </Element>
         <Element>
             <Key ID="0x582B84A8" Type="string"/>
@@ -17167,7 +17167,7 @@
         </Element>
         <Element>
             <Key ID="0x5DADD6AB" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="RechargeRate"/>
         </Element>
         <Element>
             <Key ID="0x5DAE4176" Type="float"/>
@@ -17715,7 +17715,7 @@
         </Element>
         <Element>
             <Key ID="0x60D66244" Type="enum"/>
-            <Value Name="Unknown"/>
+            <Value Name="PhysicalControl"/>
         </Element>
         <Element>
             <Key ID="0x60D6BF8E" Type="Vector"/>
@@ -18331,7 +18331,7 @@
         </Element>
         <Element>
             <Key ID="0x64667637" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="SaveStation"/>
         </Element>
         <Element>
             <Key ID="0x646C1C62" Type="GenericCreatureStructE"/>
@@ -25603,7 +25603,7 @@
         </Element>
         <Element>
             <Key ID="0x8C0BEE98" Type="asset"/>
-            <Value Name="CMDL"/>
+            <Value Name="ImportantMoment"/>
         </Element>
         <Element>
             <Key ID="0x8C219932" Type="UnknownStruct52"/>
@@ -32763,7 +32763,7 @@
         </Element>
         <Element>
             <Key ID="0xB35B7BEC" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="WarpPortal"/>
         </Element>
         <Element>
             <Key ID="0xB35C72BE" Type="float"/>
@@ -39251,7 +39251,7 @@
         </Element>
         <Element>
             <Key ID="0xD5D00133" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="MapStation"/>
         </Element>
         <Element>
             <Key ID="0xD5D38CBC" Type="float"/>
@@ -40111,7 +40111,7 @@
         </Element>
         <Element>
             <Key ID="0xDB0A9583" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="PlasmaBeam"/>
         </Element>
         <Element>
             <Key ID="0xDB0E5A51" Type="bool"/>
@@ -43383,7 +43383,7 @@
         </Element>
         <Element>
             <Key ID="0xECE48021" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="CorruptedColor"/>
         </Element>
         <Element>
             <Key ID="0xECEBB97E" Type="float"/>
@@ -45967,7 +45967,7 @@
         </Element>
         <Element>
             <Key ID="0xFA08A2B2" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="NothingPossibility"/>
         </Element>
         <Element>
             <Key ID="0xFA08F034" Type="float"/>
