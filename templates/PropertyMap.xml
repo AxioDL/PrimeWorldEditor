@@ -2891,7 +2891,7 @@
         </Element>
         <Element>
             <Key ID="0x10DB4381" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="Width"/>
         </Element>
         <Element>
             <Key ID="0x10E05AAF" Type="spline"/>
@@ -5291,7 +5291,7 @@
         </Element>
         <Element>
             <Key ID="0x1D69BEC4" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="PhaserInvert"/>
         </Element>
         <Element>
             <Key ID="0x1D7A1562" Type="float"/>
@@ -5451,7 +5451,7 @@
         </Element>
         <Element>
             <Key ID="0x1E3A9394" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="CanEnergize"/>
         </Element>
         <Element>
             <Key ID="0x1E3CBFC2" Type="float"/>
@@ -5483,7 +5483,7 @@
         </Element>
         <Element>
             <Key ID="0x1E5A52B8" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="PhaserFeedback"/>
         </Element>
         <Element>
             <Key ID="0x1E64B8DF" Type="UnknownStruct87"/>
@@ -5547,7 +5547,7 @@
         </Element>
         <Element>
             <Key ID="0x1EBA4BD8" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="LandingSite"/>
         </Element>
         <Element>
             <Key ID="0x1EBBD4C6" Type="asset"/>
@@ -6415,7 +6415,7 @@
         </Element>
         <Element>
             <Key ID="0x23C340F6" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="PhaserFrequency"/>
         </Element>
         <Element>
             <Key ID="0x23C70CB5" Type="float"/>
@@ -6547,7 +6547,7 @@
         </Element>
         <Element>
             <Key ID="0x24538C4A" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="PhaserMix"/>
         </Element>
         <Element>
             <Key ID="0x2454FB04" Type="float"/>
@@ -7107,7 +7107,7 @@
         </Element>
         <Element>
             <Key ID="0x27358B4D" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="CrosshairsColor"/>
         </Element>
         <Element>
             <Key ID="0x2735981E" Type="asset"/>
@@ -7907,7 +7907,7 @@
         </Element>
         <Element>
             <Key ID="0x2BA7FABC" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="SkeletonLanding"/>
         </Element>
         <Element>
             <Key ID="0x2BBEB1F3" Type="string"/>
@@ -11167,7 +11167,7 @@
         </Element>
         <Element>
             <Key ID="0x3D8CAD84" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="PhaserEnabled"/>
         </Element>
         <Element>
             <Key ID="0x3D8D6854" Type="RevolutionControl"/>
@@ -11391,7 +11391,7 @@
         </Element>
         <Element>
             <Key ID="0x3E8D8694" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="BitcrusherEnabled"/>
         </Element>
         <Element>
             <Key ID="0x3E8E43FC" Type="TrainTrackManagerStructA"/>
@@ -11499,7 +11499,7 @@
         </Element>
         <Element>
             <Key ID="0x3F44254F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="SliderScale"/>
         </Element>
         <Element>
             <Key ID="0x3F49E987" Type="float"/>
@@ -15443,7 +15443,7 @@
         </Element>
         <Element>
             <Key ID="0x53E56DA8" Type="choice"/>
-            <Value Name="Unknown"/>
+            <Value Name="Crosshairs"/>
         </Element>
         <Element>
             <Key ID="0x53E746A0" Type="UnknownStruct66"/>
@@ -16515,7 +16515,7 @@
         </Element>
         <Element>
             <Key ID="0x59EFBB34" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="AllowsMotion"/>
         </Element>
         <Element>
             <Key ID="0x59F14D7C" Type="int"/>
@@ -17083,7 +17083,7 @@
         </Element>
         <Element>
             <Key ID="0x5D3C7239" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="DepthBias"/>
         </Element>
         <Element>
             <Key ID="0x5D4158A7" Type="PuddleControlPhaseData"/>
@@ -20567,7 +20567,7 @@
         </Element>
         <Element>
             <Key ID="0x7087C377" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="SliderSpeed"/>
         </Element>
         <Element>
             <Key ID="0x708B0155" Type="asset"/>
@@ -21975,7 +21975,7 @@
         </Element>
         <Element>
             <Key ID="0x787855E6" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="UsageRate"/>
         </Element>
         <Element>
             <Key ID="0x787EA8B1" Type="Vector"/>
@@ -22599,7 +22599,7 @@
         </Element>
         <Element>
             <Key ID="0x7B980651" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="ArchenemyCount"/>
         </Element>
         <Element>
             <Key ID="0x7B9A0BB4" Type="float"/>
@@ -22795,7 +22795,7 @@
         </Element>
         <Element>
             <Key ID="0x7CBF27CA" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MinRadius"/>
         </Element>
         <Element>
             <Key ID="0x7CC1B298" Type="asset"/>
@@ -28547,7 +28547,7 @@
         </Element>
         <Element>
             <Key ID="0x9C7950A4" Type="asset"/>
-            <Value Name="CAUD"/>
+            <Value Name="CalculateSeed"/>
         </Element>
         <Element>
             <Key ID="0x9C7E9051" Type="UnknownStruct227"/>
@@ -32647,7 +32647,7 @@
         </Element>
         <Element>
             <Key ID="0xB2D02323" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="Targetable"/>
         </Element>
         <Element>
             <Key ID="0xB2D0A449" Type="PlayerShieldData"/>
@@ -33167,7 +33167,7 @@
         </Element>
         <Element>
             <Key ID="0xB58890FB" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="ArcAngle"/>
         </Element>
         <Element>
             <Key ID="0xB58B514E" Type="asset"/>
@@ -34171,7 +34171,7 @@
         </Element>
         <Element>
             <Key ID="0xBB1A0F34" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BitcrusherGain"/>
         </Element>
         <Element>
             <Key ID="0xBB2C54E1" Type="TriggerShape"/>
@@ -34491,7 +34491,7 @@
         </Element>
         <Element>
             <Key ID="0xBC9BBAF9" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="BerserkDistance"/>
         </Element>
         <Element>
             <Key ID="0xBC9E3BF9" Type="float"/>
@@ -35379,7 +35379,7 @@
         </Element>
         <Element>
             <Key ID="0xC1D1E465" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="Flotsam"/>
         </Element>
         <Element>
             <Key ID="0xC1D9DBC6" Type="float"/>
@@ -38551,7 +38551,7 @@
         </Element>
         <Element>
             <Key ID="0xD24B888F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="LightAttenuation"/>
         </Element>
         <Element>
             <Key ID="0xD25345E8" Type="bool"/>
@@ -39143,7 +39143,7 @@
         </Element>
         <Element>
             <Key ID="0xD5388116" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="PhaserSweep"/>
         </Element>
         <Element>
             <Key ID="0xD53F059B" Type="asset"/>
@@ -42163,7 +42163,7 @@
         </Element>
         <Element>
             <Key ID="0xE6892623" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="StageWidth"/>
         </Element>
         <Element>
             <Key ID="0xE68B1FA8" Type="Color"/>
@@ -42727,7 +42727,7 @@
         </Element>
         <Element>
             <Key ID="0xE943BA12" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="DevelopmentMode"/>
         </Element>
         <Element>
             <Key ID="0xE94F7E87" Type="int"/>
@@ -46827,7 +46827,7 @@
         </Element>
         <Element>
             <Key ID="0xFE89B6E4" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="VolumeAttenuation"/>
         </Element>
         <Element>
             <Key ID="0xFE8F0886" Type="spline"/>
