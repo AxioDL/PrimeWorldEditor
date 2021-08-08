@@ -6,7 +6,7 @@
             <Element Type="Choice" ID="0xDE3E40A3">
                 <DefaultValue>1</DefaultValue>
                 <Values>
-                    <Element Name="Unknown" ID="0x0"/>
+                    <Element Name="Skipped" ID="0x0"/>
                     <Element Name="And" ID="0x1"/>
                     <Element Name="Or" ID="0x2"/>
                 </Values>
@@ -26,7 +26,8 @@
                     <Element Name="Less Than" ID="0x3"/>
                     <Element Name="Greater Than or Equal To" ID="0x4"/>
                     <Element Name="Less Than or Equal To" ID="0x5"/>
-                    <Element Name="Unknown" ID="0x6"/>
+                    <Element Name="Greater Than All Other Players" ID="0x6"/>
+                    <Element Name="Less Than All Other Players" ID="0x7"/>
                 </Values>
             </Element>
             <Element Type="Int" ID="0x8DB9398A">
