@@ -8135,7 +8135,7 @@
         </Element>
         <Element>
             <Key ID="0x2CC54E77" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="Multiplayer Mask and Negate"/>
         </Element>
         <Element>
             <Key ID="0x2CC5CB93" Type="float"/>
@@ -12611,7 +12611,7 @@
         </Element>
         <Element>
             <Key ID="0x44DB8AF2" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="Trigger on first Think"/>
         </Element>
         <Element>
             <Key ID="0x44DE9D92" Type="float"/>
@@ -18811,7 +18811,7 @@
         </Element>
         <Element>
             <Key ID="0x66B099E0" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="IsGrabbable"/>
         </Element>
         <Element>
             <Key ID="0x66B1160B" Type="asset"/>
@@ -21543,7 +21543,7 @@
         </Element>
         <Element>
             <Key ID="0x76000D1E" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="HackedEffect"/>
         </Element>
         <Element>
             <Key ID="0x7600A6C5" Type="float"/>
@@ -22299,7 +22299,7 @@
         </Element>
         <Element>
             <Key ID="0x79BFD886" Type="string"/>
-            <Value Name="Unknown"/>
+            <Value Name="LockOnLocator"/>
         </Element>
         <Element>
             <Key ID="0x79CCC5B8" Type="spline"/>
@@ -38503,7 +38503,7 @@
         </Element>
         <Element>
             <Key ID="0xD187F05C" Type="asset"/>
-            <Value Name="WPSC"/>
+            <Value Name="LockOnMissiles"/>
         </Element>
         <Element>
             <Key ID="0xD189A7AA" Type="float"/>
