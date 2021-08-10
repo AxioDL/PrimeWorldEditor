@@ -29,7 +29,7 @@
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
-            <Element Type="Struct" ID="0x89400BAA" Archetype="UnknownStruct15"/>
+            <Element Type="Struct" ID="0x89400BAA" Archetype="DarkCommandoData"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

@@ -7,7 +7,7 @@
         <Name>MetroidPhazeoid</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Struct" ID="0xE58A4113" Archetype="UnknownStruct46"/>
+            <Element Type="Struct" ID="0xE58A4113" Archetype="MetroidPhazeoidData"/>
             <Element Type="Struct" ID="0xB3774750" Archetype="PatternedAITypedef">
                 <SubProperties>
                     <Element Type="Float" ID="0x8DB77EE4">

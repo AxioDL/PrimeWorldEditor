@@ -49,7 +49,7 @@
                     <Element Type="Enum" ID="0x5C72A964">
                         <DefaultValue>0x26AD4A6B</DefaultValue>
                     </Element>
-                    <Element Type="Int" ID="0x6219022E">
+                    <Element Type="Flags" ID="0x6219022E">
                         <DefaultValue>12</DefaultValue>
                     </Element>
                     <Element Type="Struct" ID="0x91F2936">

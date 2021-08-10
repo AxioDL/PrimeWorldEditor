@@ -15,7 +15,7 @@
                 </SubProperties>
             </Element>
             <Element Type="Struct" ID="0x7E397FED" Archetype="ActorParameters"/>
-            <Element Type="Struct" ID="0xD2DFD524" Archetype="UnknownStruct49"/>
+            <Element Type="Struct" ID="0xD2DFD524" Archetype="PhazonHarvesterData"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

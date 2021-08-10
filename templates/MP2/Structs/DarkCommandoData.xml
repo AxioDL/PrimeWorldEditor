@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Echoes">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct15</Name>
+        <Name>DarkCommandoData</Name>
         <SubProperties>
             <Element Type="Float" ID="0xA4858F7D">
                 <DefaultValue>12.5</DefaultValue>

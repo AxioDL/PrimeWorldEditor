@@ -105,7 +105,7 @@
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
-            <Element Type="Int" ID="0x45B71390">
+            <Element Type="Sound" ID="0x45B71390">
                 <DefaultValue>-1</DefaultValue>
             </Element>
             <Element Type="Sound" ID="0x23316032">

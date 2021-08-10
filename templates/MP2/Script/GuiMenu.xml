@@ -20,7 +20,7 @@
             <Element Type="Bool" ID="0x84F708C8">
                 <DefaultValue>true</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0xBE50269E">
+            <Element Type="Sound" ID="0xBE50269E">
                 <DefaultValue>-1</DefaultValue>
             </Element>
         </SubProperties>

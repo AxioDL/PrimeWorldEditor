@@ -37,7 +37,7 @@
                     <Element Name="Disable World Lighting" ID="0x3"/>
                 </Values>
             </Element>
-            <Element Type="Int" ID="0x628E6AC3">
+            <Element Type="Choice" ID="0x628E6AC3">
                 <DefaultValue>1</DefaultValue>
             </Element>
             <Element Type="Vector" ID="0xD19DE775">

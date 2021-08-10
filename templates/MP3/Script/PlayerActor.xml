@@ -120,13 +120,13 @@
             </Element>
             <Element Type="Struct" ID="0x1098D091" Archetype="PlayerActorStruct"/>
             <Element Type="Struct" ID="0xC7385390" Archetype="PlayerActorStruct"/>
-            <Element Type="Int" ID="0x33507998">
+            <Element Type="Flags" ID="0x33507998">
                 <DefaultValue>16388</DefaultValue>
             </Element>
             <Element Type="Int" ID="0xB6832840">
                 <DefaultValue>0</DefaultValue>
             </Element>
-            <Element Type="Struct" ID="0xA21B515A" Archetype="UnknownStruct5"/>
+            <Element Type="Struct" ID="0xA21B515A" Archetype="ShadowProjection"/>
         </SubProperties>
     </Properties>
     <EditorProperties>

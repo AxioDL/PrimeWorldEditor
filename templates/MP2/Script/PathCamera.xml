@@ -4,7 +4,7 @@
         <Name>PathCamera</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Int" ID="0x5CBD5BAE">
+            <Element Type="Flags" ID="0x5CBD5BAE">
                 <DefaultValue>32</DefaultValue>
             </Element>
             <Element Type="Int" ID="0xD4B29446">

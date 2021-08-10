@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Corruption">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct49</Name>
+        <Name>PhazonHarvesterData</Name>
         <SubProperties>
             <Element Type="Bool" ID="0x1CE8F439">
                 <DefaultValue>true</DefaultValue>

@@ -7,7 +7,7 @@
             <Element Type="Bool" ID="0x44DB8AF2">
                 <DefaultValue>false</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x2CC54E77">
+            <Element Type="Choice" ID="0x2CC54E77">
                 <DefaultValue>7</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0xCEC16932" Archetype="ConditionalTest"/>

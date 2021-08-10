@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Corruption">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct62</Name>
+        <Name>ShellBugData</Name>
         <SubProperties>
             <Element Type="Struct" ID="0xABA9A56D" Archetype="LaunchProjectileData"/>
             <Element Type="Float" ID="0xA023555C">

@@ -26,7 +26,7 @@
                 </Values>
             </Element>
             <Element Type="Struct" ID="0xCE0328FA" Archetype="RainProperties"/>
-            <Element Type="Int" ID="0x56263E35">
+            <Element Type="Sound" ID="0x56263E35">
                 <DefaultValue>-1</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x64E5FE9F">

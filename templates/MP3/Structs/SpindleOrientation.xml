@@ -3,7 +3,7 @@
     <PropertyArchetype Type="Struct">
         <Name>SpindleOrientation</Name>
         <SubProperties>
-            <Element Type="Int" ID="0x1B4962BF">
+            <Element Type="Flags" ID="0x1B4962BF">
                 <DefaultValue>786432</DefaultValue>
             </Element>
             <Element Type="Struct" ID="0x609C0608" Archetype="SpindlePositionInterpolant"/>

@@ -800,6 +800,10 @@
             <Value Path="Structs/DamageVulnerability.xml"/>
         </Element>
         <Element>
+            <Key>DarkCommandoData</Key>
+            <Value Path="Structs/DarkCommandoData.xml"/>
+        </Element>
+        <Element>
             <Key>DigitalGuardianData</Key>
             <Value Path="Structs/DigitalGuardianData.xml"/>
         </Element>
@@ -1128,6 +1132,10 @@
             <Value Path="Structs/TweakGui_Credits.xml"/>
         </Element>
         <Element>
+            <Key>TweakGui_DarkVisor</Key>
+            <Value Path="Structs/TweakGui_DarkVisor.xml"/>
+        </Element>
+        <Element>
             <Key>TweakGui_EchoVisor</Key>
             <Value Path="Structs/TweakGui_EchoVisor.xml"/>
         </Element>
@@ -1154,10 +1162,6 @@
         <Element>
             <Key>TweakGui_ScannableObjectDownloadTimes</Key>
             <Value Path="Structs/TweakGui_ScannableObjectDownloadTimes.xml"/>
-        </Element>
-        <Element>
-            <Key>TweakGui_UnknownStruct1</Key>
-            <Value Path="Structs/TweakGui_UnknownStruct1.xml"/>
         </Element>
         <Element>
             <Key>TweakGui_VisorColorSchemeTypedef</Key>
@@ -1306,10 +1310,6 @@
         <Element>
             <Key>UnknownStruct14</Key>
             <Value Path="Structs/UnknownStruct14.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct15</Key>
-            <Value Path="Structs/UnknownStruct15.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct16</Key>

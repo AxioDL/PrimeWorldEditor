@@ -4,7 +4,7 @@
         <Name>ActorTransform</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Int" ID="0xC6CE7689">
+            <Element Type="Flags" ID="0xC6CE7689">
                 <DefaultValue>20</DefaultValue>
             </Element>
             <Element Type="Float" ID="0x8B51E23F">

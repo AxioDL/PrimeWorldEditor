@@ -1256,6 +1256,10 @@
             <Value Path="Structs/MetroidHopperStruct.xml"/>
         </Element>
         <Element>
+            <Key>MetroidPhazeoidData</Key>
+            <Value Path="Structs/MetroidPhazeoidData.xml"/>
+        </Element>
+        <Element>
             <Key>MetroidPhazeoidStruct</Key>
             <Value Path="Structs/MetroidPhazeoidStruct.xml"/>
         </Element>
@@ -1362,6 +1366,10 @@
         <Element>
             <Key>PhazonFlyerSwarmData</Key>
             <Value Path="Structs/PhazonFlyerSwarmData.xml"/>
+        </Element>
+        <Element>
+            <Key>PhazonHarvesterData</Key>
+            <Value Path="Structs/PhazonHarvesterData.xml"/>
         </Element>
         <Element>
             <Key>PhazonLeechData</Key>
@@ -1566,6 +1574,14 @@
         <Element>
             <Key>SeedBoss3Data</Key>
             <Value Path="Structs/SeedBoss3Data.xml"/>
+        </Element>
+        <Element>
+            <Key>ShadowProjection</Key>
+            <Value Path="Structs/ShadowProjection.xml"/>
+        </Element>
+        <Element>
+            <Key>ShellBugData</Key>
+            <Value Path="Structs/ShellBugData.xml"/>
         </Element>
         <Element>
             <Key>Ship</Key>
@@ -2120,24 +2136,12 @@
             <Value Path="Structs/UnknownStruct45.xml"/>
         </Element>
         <Element>
-            <Key>UnknownStruct46</Key>
-            <Value Path="Structs/UnknownStruct46.xml"/>
-        </Element>
-        <Element>
             <Key>UnknownStruct47</Key>
             <Value Path="Structs/UnknownStruct47.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct48</Key>
             <Value Path="Structs/UnknownStruct48.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct49</Key>
-            <Value Path="Structs/UnknownStruct49.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct5</Key>
-            <Value Path="Structs/UnknownStruct5.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct50</Key>
@@ -2190,10 +2194,6 @@
         <Element>
             <Key>UnknownStruct61</Key>
             <Value Path="Structs/UnknownStruct61.xml"/>
-        </Element>
-        <Element>
-            <Key>UnknownStruct62</Key>
-            <Value Path="Structs/UnknownStruct62.xml"/>
         </Element>
         <Element>
             <Key>UnknownStruct63</Key>

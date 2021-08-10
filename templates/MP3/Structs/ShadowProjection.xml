@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="Corruption">
     <PropertyArchetype Type="Struct">
-        <Name>UnknownStruct5</Name>
+        <Name>ShadowProjection</Name>
         <SubProperties>
             <Element Type="Enum" ID="0x4B424A39">
                 <DefaultValue>0x845C872E</DefaultValue>

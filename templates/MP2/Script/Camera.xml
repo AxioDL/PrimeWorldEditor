@@ -13,7 +13,7 @@
             <Element Type="Float" ID="0x2A53245A">
                 <DefaultValue>10.0</DefaultValue>
             </Element>
-            <Element Type="Int" ID="0x5C5FC6E">
+            <Element Type="Flags" ID="0x5C5FC6E">
                 <DefaultValue>168</DefaultValue>
             </Element>
             <Element Type="Int" ID="0xD4B29446">
