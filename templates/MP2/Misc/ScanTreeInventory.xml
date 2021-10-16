@@ -10,7 +10,7 @@
                 </TypeFilter>
             </Element>
             <Element Type="String" ID="0x32698BD6"/>
-            <Element Type="Choice" ID="0x3D326F90" Archetype="PlayerItem"/>
+            <Element Type="Choice" ID="0x3D326F90" Archetype="InventorySlot"/>
             <Element Type="Struct" ID="0x2DA1EC33" Archetype="ScannableParameters"/>
         </SubProperties>
     </Properties>

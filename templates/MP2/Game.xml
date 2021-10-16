@@ -924,6 +924,10 @@
             <Value Path="Structs/IngSpiderballGuardianStruct.xml"/>
         </Element>
         <Element>
+            <Key>InventorySlot</Key>
+            <Value Path="Enums/InventorySlot.xml"/>
+        </Element>
+        <Element>
             <Key>LayerInfo</Key>
             <Value Path="Structs/LayerInfo.xml"/>
         </Element>

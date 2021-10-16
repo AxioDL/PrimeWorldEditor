@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Choice">
+        <Name>InventorySlot</Name>
+        <Values>
+            <Element Name="Power Beam" ID="0x0"/>
+            <Element Name="Dark Beam" ID="0x1"/>
+            <Element Name="Light Beam" ID="0x2"/>
+            <Element Name="Annihilator Beam" ID="0x3"/>
+            <Element Name="Super Missile" ID="0x4"/>
+            <Element Name="Darkburst" ID="0x5"/>
+            <Element Name="Sunburst" ID="0x6"/>
+            <Element Name="Sonic Boom" ID="0x7"/>
+            <Element Name="Combat Visor" ID="0x8"/>
+            <Element Name="Scan Visor" ID="0x9"/>
+            <Element Name="Dark Visor" ID="0xA"/>
+            <Element Name="Echo Visor" ID="0xB"/>
+            <Element Name="Varia Suit" ID="0xC"/>
+            <Element Name="Dark Suit" ID="0xD"/>
+            <Element Name="Light Suit" ID="0xE"/>
+            <Element Name="Morph Ball" ID="0xF"/>
+            <Element Name="Boost Ball" ID="0x10"/>
+            <Element Name="Spider Ball" ID="0x11"/>
+            <Element Name="Morph Ball Bomb" ID="0x12"/>
+            <Element Name="Charge Beam" ID="0x16"/>
+            <Element Name="Grapple Beam" ID="0x17"/>
+            <Element Name="Space Jump Boots" ID="0x18"/>
+            <Element Name="Gravity Boost" ID="0x19"/>
+            <Element Name="Seeker Launcher" ID="0x1A"/>
+            <Element Name="Screw Attack" ID="0x1B"/>
+            <Element Name="Power Bomb" ID="0x1C"/>
+            <Element Name="Missile Launcher" ID="0x1D"/>
+            <Element Name="Beam Ammo Expansion" ID="0x1E"/>
+            <Element Name="Energy Tank" ID="0x20"/>
+            <Element Name="Sky Temple Key 1" ID="0x21"/>
+            <Element Name="Sky Temple Key 2" ID="0x22"/>
+            <Element Name="Sky Temple Key 3" ID="0x23"/>
+            <Element Name="Sky Temple Key 4" ID="0x24"/>
+            <Element Name="Sky Temple Key 5" ID="0x25"/>
+            <Element Name="Sky Temple Key 6" ID="0x26"/>
+            <Element Name="Sky Temple Key 7" ID="0x27"/>
+            <Element Name="Sky Temple Key 8" ID="0x28"/>
+            <Element Name="Sky Temple Key 9" ID="0x29"/>
+            <Element Name="Dark Agon Key 1" ID="0x2A"/>
+            <Element Name="Dark Agon Key 2" ID="0x2B"/>
+            <Element Name="Dark Agon Key 3" ID="0x2C"/>
+            <Element Name="Dark Torvus Key 1" ID="0x2D"/>
+            <Element Name="Dark Torvus Key 2" ID="0x2E"/>
+            <Element Name="Dark Torvus Key 3" ID="0x2F"/>
+            <Element Name="Ing Hive Key 1" ID="0x30"/>
+            <Element Name="Ing Hive Key 2" ID="0x31"/>
+            <Element Name="Ing Hive Key 3" ID="0x32"/>
+            <Element Name="Energy Transfer Module" ID="0x33"/>
+            <Element Name="Beam Combo" ID="0x34"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>
