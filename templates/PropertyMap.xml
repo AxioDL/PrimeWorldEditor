@@ -330,6 +330,10 @@
             <Value Name="MinMeleeAttackDist"/>
         </Element>
         <Element>
+            <Key ID="0x1BB03B9" Type="string"/>
+            <Value Name="Option 2 String Name"/>
+        </Element>
+        <Element>
             <Key ID="0x1BE492E" Type="IslandHudStruct"/>
             <Value Name="IslandHudStruct"/>
         </Element>
@@ -412,6 +416,10 @@
         <Element>
             <Key ID="0x236C750" Type="float"/>
             <Value Name="MinSpitRange"/>
+        </Element>
+        <Element>
+            <Key ID="0x261A4E0" Type="int"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x263834D" Type="float"/>
@@ -8306,6 +8314,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x2DA1EC33" Type="ScannableParameters"/>
+            <Value Name="ScannableParameters"/>
+        </Element>
+        <Element>
             <Key ID="0x2DB4F4E5" Type="float"/>
             <Value Name="Unknown"/>
         </Element>
@@ -8778,6 +8790,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x30531924" Type="string"/>
+            <Value Name="Option 1 String Name"/>
+        </Element>
+        <Element>
             <Key ID="0x3055DD0E" Type="float"/>
             <Value Name="SuckMorphballRange"/>
         </Element>
@@ -9176,6 +9192,10 @@
         <Element>
             <Key ID="0x326905F2" Type="float"/>
             <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x32698BD6" Type="string"/>
+            <Value Name="Name String Name"/>
         </Element>
         <Element>
             <Key ID="0x326E7756" Type="TDamageInfo"/>
@@ -11146,6 +11166,10 @@
             <Value Name="ClawModel"/>
         </Element>
         <Element>
+            <Key ID="0x3D326F90" Type="PlayerItem"/>
+            <Value Name="Inventory Slot"/>
+        </Element>
+        <Element>
             <Key ID="0x3D3C1B76" Type="float"/>
             <Value Name="DownTurnSpeed"/>
         </Element>
@@ -12070,6 +12094,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x420949DC" Type="int"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
             <Key ID="0x42097686" Type="asset"/>
             <Value Name="TextureFile"/>
         </Element>
@@ -12796,6 +12824,10 @@
         <Element>
             <Key ID="0x46177339" Type="bool"/>
             <Value Name="StretchAcrossScreen"/>
+        </Element>
+        <Element>
+            <Key ID="0x46219BAC" Type="asset"/>
+            <Value Name="Name String Table"/>
         </Element>
         <Element>
             <Key ID="0x462D3C4D" Type="float"/>
@@ -14892,6 +14924,10 @@
         <Element>
             <Key ID="0x50BAEE63" Type="AudioPlaybackParms"/>
             <Value Name="AudioPlaybackParms"/>
+        </Element>
+        <Element>
+            <Key ID="0x50BCE632" Type="int"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x50C31684" Type="bool"/>
@@ -17998,6 +18034,10 @@
             <Value Name="Unknown"/>
         </Element>
         <Element>
+            <Key ID="0x626B3683" Type="string"/>
+            <Value Name="Option 4 String Name"/>
+        </Element>
+        <Element>
             <Key ID="0x626D1E9B" Type="int"/>
             <Value Name="Unknown"/>
         </Element>
@@ -18903,6 +18943,10 @@
         </Element>
         <Element>
             <Key ID="0x6760BD02" Type="asset"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x67621600" Type="int"/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -30390,6 +30434,10 @@
             <Value Name="OrbitScanZoneHeight"/>
         </Element>
         <Element>
+            <Key ID="0xA6A874E9" Type="asset"/>
+            <Value Name="Menu Options String Table"/>
+        </Element>
+        <Element>
             <Key ID="0xA6AA06D5" Type="bool"/>
             <Value Name="RenderInForeground"/>
         </Element>
@@ -30680,6 +30728,10 @@
         <Element>
             <Key ID="0xA7C9460F" Type="OceanBridgeStructB"/>
             <Value Name="OceanBridgeStructB"/>
+        </Element>
+        <Element>
+            <Key ID="0xA7CC080D" Type="string"/>
+            <Value Name="Option 3 String Name"/>
         </Element>
         <Element>
             <Key ID="0xA7CF8BAA" Type="float"/>
@@ -46176,6 +46228,10 @@
         <Element>
             <Key ID="0xFAB2F514" Type="UnknownStruct58"/>
             <Value Name="UnknownStruct58"/>
+        </Element>
+        <Element>
+            <Key ID="0xFAB52EB9" Type="int"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0xFACA49E8" Type="float"/>

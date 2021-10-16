@@ -542,6 +542,26 @@
             <Value Path="Script/SwampBossStage2.xml"/>
         </Element>
         <Element>
+            <Key>SCIN</Key>
+            <Value Path="Misc/ScanTreeInventory.xml"/>
+        </Element>
+        <Element>
+            <Key>SCMN</Key>
+            <Value Path="Misc/ScanTreeMenu.xml"/>
+        </Element>
+        <Element>
+            <Key>SCND</Key>
+            <Value Path="Misc/ScanTreeCategory.xml"/>
+        </Element>
+        <Element>
+            <Key>SCSL</Key>
+            <Value Path="Misc/ScanTreeSlider.xml"/>
+        </Element>
+        <Element>
+            <Key>SCSN</Key>
+            <Value Path="Misc/ScanTreeScan.xml"/>
+        </Element>
+        <Element>
             <Key>SFZC</Key>
             <Value Path="Script/SafeZoneCrystal.xml"/>
         </Element>
@@ -580,6 +600,10 @@
         <Element>
             <Key>SNDM</Key>
             <Value Path="Script/SoundModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>SNFO</Key>
+            <Value Path="Misc/ScannableObjectInfo.xml"/>
         </Element>
         <Element>
             <Key>SOND</Key>
@@ -898,6 +922,10 @@
         <Element>
             <Key>IngSpiderballGuardianStruct</Key>
             <Value Path="Structs/IngSpiderballGuardianStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>InventorySlot</Key>
+            <Value Path="Enums/InventorySlot.xml"/>
         </Element>
         <Element>
             <Key>LayerInfo</Key>
