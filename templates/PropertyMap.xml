@@ -1887,7 +1887,7 @@
         </Element>
         <Element>
             <Key ID="0xAED5C7D" Type="PathDetermination"/>
-            <Value Name="PathDetermination"/>
+            <Value Name="PathPositionDetermination"/>
         </Element>
         <Element>
             <Key ID="0xAF428B4" Type="float"/>
@@ -3183,7 +3183,7 @@
         </Element>
         <Element>
             <Key ID="0x123CAC0E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="FOV"/>
         </Element>
         <Element>
             <Key ID="0x12459941" Type="MultiModelActorStruct"/>
@@ -10262,7 +10262,7 @@
             <Value Name="TXTR"/>
         </Element>
         <Element>
-            <Key ID="0x386431AC" Type="int"/>
+            <Key ID="0x386431AC" Type="sound"/>
             <Value Name="Sound_Alert"/>
         </Element>
         <Element>
@@ -20194,6 +20194,10 @@
             <Value Name="RevealButtonsDuration"/>
         </Element>
         <Element>
+            <Key ID="0x6D62EF74" Type="choice"/>
+            <Value Name="FadeOut"/>
+        </Element>
+        <Element>
             <Key ID="0x6D62EF74" Type="int"/>
             <Value Name="Unknown"/>
         </Element>
@@ -20647,7 +20651,7 @@
         </Element>
         <Element>
             <Key ID="0x70754E15" Type="FOVInterpolationMethod"/>
-            <Value Name="FOVInterpolationMethod"/>
+            <Value Name="FOVInterpolationCustom"/>
         </Element>
         <Element>
             <Key ID="0x7076D432" Type="bool"/>
@@ -43500,6 +43504,10 @@
         <Element>
             <Key ID="0xECD9D92D" Type="float"/>
             <Value Name="SplitDestroyedPriority"/>
+        </Element>
+        <Element>
+            <Key ID="0xECDA4163" Type="choice"/>
+            <Value Name="Tessellation"/>
         </Element>
         <Element>
             <Key ID="0xECDA4163" Type="int"/>

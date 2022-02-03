@@ -4,14 +4,15 @@
         <Name>AreaAttributes</Name>
         <SubProperties>
             <Element Type="Int" ID="0x0">
-                <Name>Unknown</Name>
-                <Description>If set to anything other than 1, AreaAttributes will not work.</Description>
+                <Name>Load</Name>
+                <Description>If set to anything other than 1, AreaAttributes will not load.</Description>
             </Element>
             <Element Type="Bool" ID="0x1">
-                <Name>Show Skybox</Name>
+                <Name>NeedSky</Name>
+                <Description>Whether to render the skybox.</Description>
             </Element>
             <Element Type="Choice" ID="0x2">
-                <Name>Environmental Effect</Name>
+                <Name>EnvironmentEffects</Name>
                 <Values>
                     <Element Name="None" ID="0x0"/>
                     <Element Name="Snow" ID="0x1"/>
@@ -20,25 +21,26 @@
                 </Values>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>Initial Environmental Effect Density</Name>
+                <Name>Density</Name>
+                <Description>Environment effect density.</Description>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Initial Thermal Heat Level</Name>
+                <Name>ThermalHeatLevel</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>X-Ray Fog Distance</Name>
+                <Name>XRayFogDistance</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Initial World Lighting Level</Name>
+                <Name>NormalLighting</Name>
             </Element>
             <Element Type="Asset" ID="0x7">
-                <Name>Skybox Model</Name>
+                <Name>OverrideSky</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Choice" ID="0x8">
-                <Name>Phazon Type</Name>
+                <Name>PhazonDamage</Name>
                 <Values>
                     <Element Name="None" ID="0x0"/>
                     <Element Name="Blue" ID="0x1"/>

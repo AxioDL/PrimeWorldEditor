@@ -7,67 +7,69 @@
                 <Name>Unknown 1</Name>
             </Element>
             <Element Type="Bool" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>Chase Allowed</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Unknown 3</Name>
+                <Name>Boost Allowed</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 4</Name>
+                <Name>Obscure Avoidance</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 5</Name>
+                <Name>Volume Collider</Name>
             </Element>
             <Element Type="Bool" ID="0x5">
-                <Name>Unknown 6</Name>
+                <Name>Teleport Camera</Name>
+                <Description>Only used when "Ball Camera Behavior" is "Default".</Description>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 7</Name>
+                <Name>Look At Ball</Name>
             </Element>
             <Element Type="Bool" ID="0x7">
-                <Name>Unknown 8</Name>
+                <Name>Override Based On Distance?</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Unknown 9</Name>
+                <Name>Override Based On Distance From Camera?</Name>
+                <Description>Requires "Override Based On Distance?"</Description>
             </Element>
             <Element Type="Bool" ID="0x9">
-                <Name>Unknown 10</Name>
+                <Name>Enable Control Direction Interpolation</Name>
             </Element>
             <Element Type="Bool" ID="0xA">
-                <Name>Unknown 11</Name>
+                <Name>Sinusoidal Interpolation In</Name>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Unknown 12</Name>
+                <Name>Sinusoidal Interpolation Out</Name>
             </Element>
             <Element Type="Bool" ID="0xC">
-                <Name>Unknown 13</Name>
+                <Name>Set Clamp Velocity On Disable?</Name>
             </Element>
             <Element Type="Bool" ID="0xD">
-                <Name>Unknown 14</Name>
+                <Name>Skip Ball Camera Cinematic</Name>
             </Element>
             <Element Type="Bool" ID="0xE">
-                <Name>Unknown 15</Name>
+                <Name>No Elevation Interpolation</Name>
             </Element>
             <Element Type="Bool" ID="0xF">
-                <Name>Unknown 16</Name>
+                <Name>Direct Elevation</Name>
             </Element>
             <Element Type="Bool" ID="0x10">
-                <Name>Unknown 17</Name>
+                <Name>Override Look Direction</Name>
             </Element>
             <Element Type="Bool" ID="0x11">
-                <Name>Unknown 18</Name>
+                <Name>No Elevation Velocity Clamp</Name>
             </Element>
             <Element Type="Bool" ID="0x12">
-                <Name>Unknown 19</Name>
+                <Name>Invert Camera Look Direction?</Name>
             </Element>
             <Element Type="Bool" ID="0x13">
-                <Name>Unknown 21</Name>
+                <Name>No Spline</Name>
             </Element>
             <Element Type="Bool" ID="0x14">
-                <Name>Unknown 22</Name>
+                <Name>Unknown 2</Name>
             </Element>
             <Element Type="Bool" ID="0x15">
-                <Name>Unknown 23</Name>
+                <Name>Unknown 3</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

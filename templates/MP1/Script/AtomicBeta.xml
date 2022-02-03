@@ -18,54 +18,54 @@
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Asset" ID="0x6">
-                <Name>ELSC</Name>
+                <Name>Electric Particles</Name>
                 <TypeFilter>
                     <Element>ELSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x7">
-                <Name>WPSC</Name>
+                <Name>Weapon Particles</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x8" Archetype="DamageInfo"/>
             <Element Type="Asset" ID="0x9">
-                <Name>Particle</Name>
+                <Name>Particles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 1</Name>
+                <Name>Beam Fade Time</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 2</Name>
+                <Name>Beam Radius</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 3</Name>
+                <Name>Move Speed</Name>
             </Element>
             <Element Type="Struct" ID="0xD" Archetype="DamageVulnerability"/>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 4</Name>
+                <Name>Min Speed</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 5</Name>
+                <Name>Max Speed</Name>
             </Element>
             <Element Type="Float" ID="0x10">
-                <Name>Unknown 6</Name>
+                <Name>Speed Step</Name>
             </Element>
             <Element Type="Sound" ID="0x11">
-                <Name>Unknown 7</Name>
+                <Name>Out-Of-Range Sound</Name>
             </Element>
             <Element Type="Sound" ID="0x12">
-                <Name>Unknown 8</Name>
+                <Name>In-Range Sound 1</Name>
             </Element>
             <Element Type="Sound" ID="0x13">
-                <Name>Unknown 9</Name>
+                <Name>In-Range Sound 2</Name>
             </Element>
             <Element Type="Float" ID="0x14">
-                <Name>Unknown 10</Name>
+                <Name>Beam Damage Interval</Name>
             </Element>
         </SubProperties>
     </Properties>

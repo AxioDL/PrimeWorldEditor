@@ -10,22 +10,22 @@
                 <Name>Horizontal Shake</Name>
             </Element>
             <Element Type="Float" ID="0x2">
-                <Name>Unknown 1</Name>
+                <Name>(unused)</Name>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>Unknown 2</Name>
+                <Name>(unused)</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 3</Name>
+                <Name>(unused)</Name>
             </Element>
             <Element Type="Float" ID="0x5">
                 <Name>Vertical Shake</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 4</Name>
+                <Name>(unused)</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Shake Length</Name>
+                <Name>Shake Duration</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
                 <Name>Active</Name>

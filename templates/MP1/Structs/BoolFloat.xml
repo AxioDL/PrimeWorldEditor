@@ -5,10 +5,10 @@
         <Atomic>true</Atomic>
         <SubProperties>
             <Element Type="Bool" ID="0x0">
-                <Name>Unknown 1</Name>
+                <Name>Override</Name>
             </Element>
             <Element Type="Float" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>Value</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

@@ -231,7 +231,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <ScaleProperty>0x02</ScaleProperty>
-        <ActiveProperty>0x09</ActiveProperty>
+        <ActiveProperty>0x12</ActiveProperty>
     </EditorProperties>
     <RotationType>RotationDisabled</RotationType>
     <ScaleType>ScaleVolume</ScaleType>

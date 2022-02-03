@@ -6,7 +6,7 @@
             <Element Type="String" ID="0x0">
                 <Name>Name</Name>
             </Element>
-            <Element Type="Int" ID="0x1">
+            <Element Type="Choice" ID="0x1">
                 <Name>Unknown 1</Name>
             </Element>
             <Element Type="Vector" ID="0x2">
