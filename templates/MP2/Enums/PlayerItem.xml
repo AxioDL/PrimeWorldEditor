@@ -23,9 +23,9 @@
             <Element Name="Boost Ball" ID="0x10"/>
             <Element Name="Spider Ball" ID="0x11"/>
             <Element Name="Morph Ball Bomb" ID="0x12"/>
-            <Element Name="" ID="0x13"/>
-            <Element Name="" ID="0x14"/>
-            <Element Name="" ID="0x15"/>
+            <Element Name="Light Bomb" ID="0x13"/>
+            <Element Name="Dark Bomb" ID="0x14"/>
+            <Element Name="Annihilator Bomb" ID="0x15"/>
             <Element Name="Charge Beam" ID="0x16"/>
             <Element Name="Grapple Beam" ID="0x17"/>
             <Element Name="Space Jump Boots" ID="0x18"/>
@@ -54,37 +54,37 @@
             <Element Name="Item Percentage" ID="0x2F"/>
             <Element Name="NumPlayersJoined" ID="0x30"/>
             <Element Name="NumPlayersInOptionsMenu" ID="0x31"/>
-            <Element Name="" ID="0x32"/>
-            <Element Name="" ID="0x33"/>
+            <Element Name="MiscCounter3" ID="0x32"/>
+            <Element Name="MiscCounter4" ID="0x33"/>
             <Element Name="Switch Weapon Power" ID="0x34"/>
             <Element Name="Switch Weapon Dark" ID="0x35"/>
             <Element Name="Switch Weapon Light" ID="0x36"/>
             <Element Name="Switch Weapon Annihilator" ID="0x37"/>
-            <Element Name="" ID="0x38"/>
+            <Element Name="MultiChargeUpgrade" ID="0x38"/>
             <Element Name="Invisibility" ID="0x39"/>
             <Element Name="AmpDamage" ID="0x3A"/>
             <Element Name="Invincibility" ID="0x3B"/>
-            <Element Name="" ID="0x3C"/>
-            <Element Name="" ID="0x3D"/>
-            <Element Name="" ID="0x3E"/>
-            <Element Name="" ID="0x3F"/>
-            <Element Name="" ID="0x40"/>
-            <Element Name="" ID="0x41"/>
-            <Element Name="" ID="0x42"/>
-            <Element Name="" ID="0x43"/>
-            <Element Name="" ID="0x44"/>
-            <Element Name="" ID="0x45"/>
-            <Element Name="" ID="0x46"/>
-            <Element Name="" ID="0x47"/>
-            <Element Name="" ID="0x48"/>
-            <Element Name="" ID="0x49"/>
-            <Element Name="" ID="0x4A"/>
+            <Element Name="Unknown (Item 60)" ID="0x3C"/>
+            <Element Name="Unknown (Item 61)" ID="0x3D"/>
+            <Element Name="Unknown (Item 62)" ID="0x3E"/>
+            <Element Name="Unknown (Item 63)" ID="0x3F"/>
+            <Element Name="FragCount" ID="0x40"/>
+            <Element Name="DiedCount" ID="0x41"/>
+            <Element Name="ArchenemyCount" ID="0x42"/>
+            <Element Name="PersistentCounter1" ID="0x43"/>
+            <Element Name="PersistentCounter2" ID="0x44"/>
+            <Element Name="PersistentCounter3" ID="0x45"/>
+            <Element Name="PersistentCounter4" ID="0x46"/>
+            <Element Name="PersistentCounter5" ID="0x47"/>
+            <Element Name="PersistentCounter6" ID="0x48"/>
+            <Element Name="PersistentCounter7" ID="0x49"/>
+            <Element Name="PersistentCounter8" ID="0x4A"/>
             <Element Name="Switch Visor Combat" ID="0x4B"/>
             <Element Name="Switch Visor Scan" ID="0x4C"/>
             <Element Name="Switch Visor Dark" ID="0x4D"/>
             <Element Name="Switch Visor Echo" ID="0x4E"/>
-            <Element Name="" ID="0x4F"/>
-            <Element Name="Coin" ID="0x50"/>
+            <Element Name="Coin Amplifier" ID="0x4F"/>
+            <Element Name="Coin Counter" ID="0x50"/>
             <Element Name="Unlimited Missiles" ID="0x51"/>
             <Element Name="Unlimited Beam Ammo" ID="0x52"/>
             <Element Name="Dark Shield" ID="0x53"/>
@@ -92,13 +92,13 @@
             <Element Name="Absorb Attack" ID="0x55"/>
             <Element Name="Death Ball" ID="0x56"/>
             <Element Name="Scan Virus" ID="0x57"/>
-            <Element Name="" ID="0x58"/>
+            <Element Name="Visor Static" ID="0x58"/>
             <Element Name="Disable Beam Ammo" ID="0x59"/>
             <Element Name="Disable Missiles" ID="0x5A"/>
-            <Element Name="(Disable Unmorph/Remove Morph Ball?)" ID="0x5B"/>
+            <Element Name="Disable Morph Ball" ID="0x5B"/>
             <Element Name="Disable Ball" ID="0x5C"/>
             <Element Name="Disable Space Jump" ID="0x5D"/>
-            <Element Name="" ID="0x5E"/>
+            <Element Name="Unknown (Item 94)" ID="0x5E"/>
             <Element Name="Hacked Effect" ID="0x5F"/>
             <Element Name="CannonBall" ID="0x60"/>
             <Element Name="Violet Translator" ID="0x61"/>
