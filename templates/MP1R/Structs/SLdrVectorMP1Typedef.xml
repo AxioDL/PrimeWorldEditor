@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="PrimeRemastered">
+    <PropertyArchetype Type="Struct">
+        <Name>SLdrVectorMP1Typedef</Name>
+        <SubProperties>
+            <Element Type="Float" ID="0x2649E551" Name="x" />
+            <Element Type="Float" ID="0xd2bb5bc6" Name="y" />
+            <Element Type="Float" ID="0x7F9499B2" Name="z" />
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

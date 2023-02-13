@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="PrimeRemastered">
+    <Properties Type="Struct">
+        <Name>SLdrWorldTeleporterTooMP1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x6AEAEE72" Archetype="SLdrAnimSetMP1Typedef" Name="animSet" />
+            <Element Type="Struct" ID="0xc2536679" Archetype="SLdrVectorMP1Typedef" Name="vecA" />
+            <Element Type="Struct" ID="0x4FB5E821" Archetype="SLdrVectorMP1Typedef" Name="vecB" />
+            <Element Type="Struct" ID="0xbb3ae62a" Archetype="SLdrVectorMP1Typedef" Name="vecC" />
+
+            <Element Type="Asset" ID="0xd49a517f" Name="targetWorld">
+                <TypeFilter>
+                    <Element>ROOM</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9a5ffb6c" Name="targetArea">
+                <TypeFilter>
+                    <Element>ROOM</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xa7b31f8e" Name="cmdl">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5407BB23" Name="caud">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

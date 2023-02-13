@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="PrimeRemastered">
+    <PropertyArchetype Type="Struct">
+        <Name>SLdrAnimSetMP1Typedef</Name>
+        <SubProperties>
+            <Element Type="Asset" ID="0xa589d885" Name="id" />
+
+            <Element Type="PooledString" ID="0x87c03a01" Name="str1" />
+            <Element Type="PooledString" ID="0xd6f0c0f0" Name="str2" />
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Game ArchiveVer="4" Game="PrimeRemastered">
+    <ScriptObjects>
+        <Element>
+            <Key>0x2fa104ff</Key>
+            <Value Path="Script/SLdrWorldTeleporterTooMP1.xml"/>
+        </Element>
+    </ScriptObjects>
+    <PropertyArchetypes>
+        <Element>
+            <Key>SLdrAnimSetMP1Typedef</Key>
+            <Value Path="Structs/SLdrAnimSetMP1Typedef.xml"/>
+        </Element>
+        <Element>
+            <Key>SLdrVectorMP1Typedef</Key>
+            <Value Path="Structs/SLdrVectorMP1Typedef.xml"/>
+        </Element>
+    </PropertyArchetypes>
+    <MiscTemplates>
+    </MiscTemplates>
+    <States>
+    </States>
+    <Messages>
+    </Messages>
+</Game>
