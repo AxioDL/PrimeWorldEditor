@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptObject ArchiveVer="4" Game="PrimeRemastered">
-    <Properties Type="Struct">
+    <Properties Type="Struct" Incomplete="true">
         <Name>SLdrWorldTeleporterTooMP1</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x6AEAEE72" Archetype="SLdrAnimSetMP1Typedef" Name="animSet" />
