@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="PrimeRemaster">
+    <PropertyArchetype Type="Struct">
+        <Name>Visor</Name>
+        <SubProperties>
+            <Element Type="Bool" ID="0x82f75015">
+                <Name>Unknown 1</Name>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x5149fc12">
+                <Name>Unknown 2</Name>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1382ca50">
+                <Name>Unknown 3</Name>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Flags" ID="0x528a56a5">
+                <Name>Visor Flags</Name>
+                <Flags>
+                    <Element Name="Combat" Mask="0x1"/>
+                    <Element Name="Scan" Mask="0x2"/>
+                    <Element Name="Thermal" Mask="0x4"/>
+                    <Element Name="X-Ray" Mask="0x8"/>
+                </Flags>
+                <DefaultValue>0</DefaultValue>
+            </Element>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

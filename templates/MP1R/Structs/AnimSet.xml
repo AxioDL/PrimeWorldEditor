@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PropertyTemplate ArchiveVer="4" Game="PrimeRemastered">
     <PropertyArchetype Type="Struct">
-        <Name>SLdrAnimSetMP1Typedef</Name>
+        <Name>AnimSet</Name>
         <SubProperties>
             <Element Type="Asset" ID="0xa589d885" Name="id" />
 
