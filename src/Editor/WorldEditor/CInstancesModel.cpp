@@ -54,8 +54,9 @@ QVariant CInstancesModel::headerData(int Section, Qt::Orientation Orientation, i
         switch (Section)
         {
         case 0: return tr("Name");
-        case 1: return (mModelType == EInstanceModelType::Layers ? tr("Type") : tr("Layer"));
-        case 2: return tr("Show");
+        case 1: return tr("ID");
+        case 2: return (mModelType == EInstanceModelType::Layers ? tr("Type") : tr("Layer"));
+        case 3: return tr("Show");
         }
     }
     return QVariant::Invalid;
@@ -204,7 +205,7 @@ int CInstancesModel::rowCount(const QModelIndex& rkParent) const
 
 int CInstancesModel::columnCount(const QModelIndex& /*rkParent*/) const
 {
-    return (mShowColumnEnabled ? 3 : 2);
+    return (mShowColumnEnabled ? 4 : 3);
 }
 
 QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
@@ -246,8 +247,11 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
 
             if (rkIndex.column() == 0)
                 return TO_QSTRING(pObj->InstanceName());
-
+            
             if (rkIndex.column() == 1)
+                return TO_QSTRING(TString::HexString(pObj->InstanceID(), 8, true));
+
+            if (rkIndex.column() == 2)
             {
                 if (mModelType == EInstanceModelType::Layers)
                     return TO_QSTRING(pObj->Template()->Name());
@@ -262,7 +266,7 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
     }
 
     // Show/Hide Buttons
-    else if ((Role == Qt::DecorationRole) && (rkIndex.column() == 2))
+    else if ((Role == Qt::DecorationRole) && (rkIndex.column() == 3))
     {
         if (!mpScene)
             return QVariant::Invalid;
