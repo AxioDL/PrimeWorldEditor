@@ -730,6 +730,70 @@
             <Value Path="Script/Tryclops.xml"/>
         </Element>
         <Element>
+            <Key>TWAM</Key>
+            <Value Path="Misc/TweakAutoMapper.xml"/>
+        </Element>
+        <Element>
+            <Key>TWBL</Key>
+            <Value Path="Misc/TweakBall.xml"/>
+        </Element>
+        <Element>
+            <Key>TWC2</Key>
+            <Value Path="Misc/TweakPlayerControls.xml"/>
+        </Element>
+        <Element>
+            <Key>TWCB</Key>
+            <Value Path="Misc/TweakCameraBob.xml"/>
+        </Element>
+        <Element>
+            <Key>TWGC</Key>
+            <Value Path="Misc/TweakGuiColors.xml"/>
+        </Element>
+        <Element>
+            <Key>TWGM</Key>
+            <Value Path="Misc/TweakGame.xml"/>
+        </Element>
+        <Element>
+            <Key>TWGU</Key>
+            <Value Path="Misc/TweakGui.xml"/>
+        </Element>
+        <Element>
+            <Key>TWP2</Key>
+            <Value Path="Misc/TweakPlayer.xml"/>
+        </Element>
+        <Element>
+            <Key>TWPA</Key>
+            <Value Path="Misc/TweakParticle.xml"/>
+        </Element>
+        <Element>
+            <Key>TWPC</Key>
+            <Value Path="Misc/TweakPlayerControls.xml"/>
+        </Element>
+        <Element>
+            <Key>TWPG</Key>
+            <Value Path="Misc/TweakPlayerGun.xml"/>
+        </Element>
+        <Element>
+            <Key>TWPL</Key>
+            <Value Path="Misc/TweakPlayer.xml"/>
+        </Element>
+        <Element>
+            <Key>TWPM</Key>
+            <Value Path="Misc/TweakPlayerGun.xml"/>
+        </Element>
+        <Element>
+            <Key>TWPR</Key>
+            <Value Path="Misc/TweakPlayerRes.xml"/>
+        </Element>
+        <Element>
+            <Key>TWSS</Key>
+            <Value Path="Misc/TweakSlideShow.xml"/>
+        </Element>
+        <Element>
+            <Key>TWTG</Key>
+            <Value Path="Misc/TweakTargeting.xml"/>
+        </Element>
+        <Element>
             <Key>TXPN</Key>
             <Value Path="Script/TextPane.xml"/>
         </Element>
