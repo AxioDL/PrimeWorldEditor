@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptObject ArchiveVer="4" Game="PrimeRemastered">
-    <Properties Type="Struct">
-        <Name>SLdrWorldTeleporterTooMP1</Name>
+    <Properties Type="Struct" Incomplete="true">
+        <Name>WorldTeleporterToo</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x6AEAEE72" Archetype="SLdrAnimSetMP1Typedef" Name="AnimationInformation" />
             <Element Type="Struct" ID="0xc2536679" Archetype="SLdrVectorMP1Typedef" Name="PlayerScale" />

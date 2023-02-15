@@ -2,8 +2,716 @@
 <Game ArchiveVer="4" Game="PrimeRemastered">
     <ScriptObjects>
         <Element>
+            <Key>0xb6200be6</Key>
+            <Value Path="Script/Actor.xml"/>
+        </Element>
+        <Element>
+            <Key>0xa856f484</Key>
+            <Value Path="Script/ColorModulate.xml"/>
+        </Element>
+        <Element>
+            <Key>0x32aef7dd</Key>
+            <Value Path="Script/Counter.xml"/>
+        </Element>
+        <Element>
+            <Key>0x59bc6b3b</Key>
+            <Value Path="Script/DebugActor.xml"/>
+        </Element>
+        <Element>
+            <Key>0x8e4c86ec</Key>
+            <Value Path="Script/Waypoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0x99ea4919</Key>
+            <Value Path="Script/Player.xml"/>
+        </Element>
+        <Element>
+            <Key>0x79f02e11</Key>
+            <Value Path="Script/SpawnPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7003c6aa</Key>
+            <Value Path="Script/EnergyProjectile.xml"/>
+        </Element>
+        <Element>
+            <Key>0x42a7692d</Key>
+            <Value Path="Script/ControllerAction.xml"/>
+        </Element>
+        <Element>
+            <Key>0xf5ce0e14</Key>
+            <Value Path="Script/PlasmaProjectile.xml"/>
+        </Element>
+        <Element>
+            <Key>0xe9f08e02</Key>
+            <Value Path="Script/Bomb.xml"/>
+        </Element>
+        <Element>
+            <Key>0xd62862ca</Key>
+            <Value Path="Script/PowerBomb.xml"/>
+        </Element>
+        <Element>
+            <Key>0x2ca49de4</Key>
+            <Value Path="Script/NewFlameThrower.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7191e814</Key>
+            <Value Path="Script/WaveBuster.xml"/>
+        </Element>
+        <Element>
+            <Key>0x50e62ae4</Key>
+            <Value Path="Script/Explosion.xml"/>
+        </Element>
+        <Element>
+            <Key>0x2cb074d1</Key>
+            <Value Path="Script/ShockWave.xml"/>
+        </Element>
+        <Element>
+            <Key>0x618b3777</Key>
+            <Value Path="Script/FlameThrower.xml"/>
+        </Element>
+        <Element>
+            <Key>0xb130ab71</Key>
+            <Value Path="Script/IceAttackProjectile.xml"/>
+        </Element>
+        <Element>
+            <Key>0xdaf49ad2</Key>
+            <Value Path="Script/DamageEffect.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7059aa54</Key>
+            <Value Path="Script/CollisionActor.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1b78f9a4</Key>
+            <Value Path="Script/ScriptRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>0x25c6d2a3</Key>
+            <Value Path="Script/Timer.xml"/>
+        </Element>
+        <Element>
+            <Key>0xf526fc2a</Key>
+            <Value Path="Script/Trigger.xml"/>
+        </Element>
+        <Element>
+            <Key>0xc0e28b3d</Key>
+            <Value Path="Script/Switch.xml"/>
+        </Element>
+        <Element>
+            <Key>0xefa09db4</Key>
+            <Value Path="Script/AiJumpPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0xa7c1e08d</Key>
+            <Value Path="Script/RumbleEffect.xml"/>
+        </Element>
+        <Element>
+            <Key>0x3ce6630a</Key>
+            <Value Path="Script/ActorKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>0xfc64463e</Key>
+            <Value Path="Script/Steam.xml"/>
+        </Element>
+        <Element>
+            <Key>0x50f2f67a</Key>
+            <Value Path="Script/BallTrigger.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1fab791d</Key>
+            <Value Path="Script/FirstPersonCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>0x76a6385f</Key>
+            <Value Path="Script/BallCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>0x04e9f22e</Key>
+            <Value Path="Script/FreeCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>0xe44d80f3</Key>
+            <Value Path="Script/InterpolationCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>0x71337f4f</Key>
+            <Value Path="Script/SpecialFunction.xml"/>
+        </Element>
+        <Element>
+            <Key>0xa497918d</Key>
+            <Value Path="Script/AmbientAI.xml"/>
+        </Element>
+        <Element>
+            <Key>0x3391e02b</Key>
+            <Value Path="Script/ActorRotate.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1205609a</Key>
+            <Value Path="Script/MemoryRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>0xa12967fb</Key>
+            <Value Path="Script/Platform.xml"/>
+        </Element>
+        <Element>
+            <Key>0xb421cdcb</Key>
+            <Value Path="Script/Effect.xml"/>
+        </Element>
+        <Element>
+            <Key>0x77e59f98</Key>
+            <Value Path="Script/HUDMemo.xml"/>
+        </Element>
+        <Element>
+            <Key>0xdcb49607</Key>
+            <Value Path="Script/DamageableTrigger.xml"/>
+        </Element>
+        <Element>
+            <Key>0x12db855d</Key>
+            <Value Path="Script/Water.xml"/>
+        </Element>
+        <Element>
+            <Key>0xb0c4378e</Key>
+            <Value Path="Script/Magdolite.xml"/>
+        </Element>
+        <Element>
+            <Key>0xfe939195</Key>
+            <Value Path="Script/JellyZap.xml"/>
+        </Element>
+        <Element>
+            <Key>0xb6e36fd4</Key>
+            <Value Path="Script/WarWasp.xml"/>
+        </Element>
+        <Element>
+            <Key>0xcbe62855</Key>
+            <Value Path="Script/IceSheegoth.xml"/>
+        </Element>
+        <Element>
+            <Key>0xe8ca3ea0</Key>
+            <Value Path="Script/GarBeetle.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1a03f50a</Key>
+            <Value Path="Script/FlickerBat.xml"/>
+        </Element>
+        <Element>
+            <Key>0xbe462b0e</Key>
+            <Value Path="Script/Parasite.xml"/>
+        </Element>
+        <Element>
+            <Key>0xdb9430c7</Key>
+            <Value Path="Script/FlaahgraRenderer.xml"/>
+        </Element>
+        <Element>
+            <Key>0xd2806770</Key>
+            <Value Path="Script/FlaahgraPlants.xml"/>
+        </Element>
+        <Element>
+            <Key>0x0fffba0c</Key>
+            <Value Path="Script/FlaahgraProjectile.xml"/>
+        </Element>
+        <Element>
+            <Key>0x30a6b6de</Key>
+            <Value Path="Script/FlaahgraTentacle.xml"/>
+        </Element>
+        <Element>
+            <Key>0x3c669acb</Key>
+            <Value Path="Script/Flaahgra.xml"/>
+        </Element>
+        <Element>
+            <Key>0x52ebc2a7</Key>
+            <Value Path="Script/FireFlea.xml"/>
+        </Element>
+        <Element>
+            <Key>0xc963cc17</Key>
+            <Value Path="Script/EyeBall.xml"/>
+        </Element>
+        <Element>
+            <Key>0x242c3c90</Key>
+            <Value Path="Script/PuddleSpore.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7f2845c7</Key>
+            <Value Path="Script/OmegaPirate.xml"/>
+        </Element>
+        <Element>
+            <Key>0xf4326a02</Key>
+            <Value Path="Script/ElitePirate.xml"/>
+        </Element>
+        <Element>
+            <Key>0x0eb1f342</Key>
+            <Value Path="Script/SpacePirate.xml"/>
+        </Element>
+        <Element>
+            <Key>0x50b7576d</Key>
+            <Value Path="Script/Drone.xml"/>
+        </Element>
+        <Element>
+            <Key>0x84b92d36</Key>
+            <Value Path="Script/ChozoGhost.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1c3d435d</Key>
+            <Value Path="Script/Burrower.xml"/>
+        </Element>
+        <Element>
+            <Key>0x6cfa6902</Key>
+            <Value Path="Script/FlyingPirate.xml"/>
+        </Element>
+        <Element>
+            <Key>0x4deb1e3a</Key>
+            <Value Path="Script/BloodFlower.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1498ba74</Key>
+            <Value Path="Script/Tryclops.xml"/>
+        </Element>
+        <Element>
+            <Key>0x254d4d49</Key>
+            <Value Path="Script/Babygoth.xml"/>
+        </Element>
+        <Element>
+            <Key>0x4f9d71ec</Key>
+            <Value Path="Script/Ridley.xml"/>
+        </Element>
+        <Element>
+            <Key>0xf800eff9</Key>
+            <Value Path="Script/BouncyGrenade.xml"/>
+        </Element>
+        <Element>
+            <Key>0xada0ec66</Key>
+            <Value Path="Script/Puffer.xml"/>
+        </Element>
+        <Element>
+            <Key>0x09eaf010</Key>
+            <Value Path="Script/Oculus.xml"/>
+        </Element>
+        <Element>
+            <Key>0xb99d2b06</Key>
+            <Value Path="Script/Geemer.xml"/>
+        </Element>
+        <Element>
+            <Key>0x87412090</Key>
+            <Value Path="Script/AtomicBeta.xml"/>
+        </Element>
+        <Element>
+            <Key>0x61653ed2</Key>
+            <Value Path="Script/AtomicAlpha.xml"/>
+        </Element>
+        <Element>
+            <Key>0x2249224e</Key>
+            <Value Path="Script/AThardusRockProjectile.xml"/>
+        </Element>
+        <Element>
+            <Key>0xeaa40b01</Key>
+            <Value Path="Script/Thardus.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7a4bc122</Key>
+            <Value Path="Script/WorldLightFader.xml"/>
+        </Element>
+        <Element>
+            <Key>0x17db2246</Key>
+            <Value Path="Script/ShadowProjector.xml"/>
+        </Element>
+        <Element>
+            <Key>0x705b28fc</Key>
+            <Value Path="Script/SpankWeed.xml"/>
+        </Element>
+        <Element>
+            <Key>0x36b8d0d0</Key>
+            <Value Path="Script/SpindleCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>0x33d9ffa6</Key>
+            <Value Path="Script/ThermalHeatFader.xml"/>
+        </Element>
+        <Element>
+            <Key>0xc30c5758</Key>
+            <Value Path="Script/TeamAiMgr.xml"/>
+        </Element>
+        <Element>
+            <Key>0x3ab7170d</Key>
+            <Value Path="Script/Ripple.xml"/>
+        </Element>
+        <Element>
+            <Key>0x65ee9092</Key>
+            <Value Path="Script/IntroBoss.xml"/>
+        </Element>
+        <Element>
+            <Key>0x48ae7ca9</Key>
+            <Value Path="Script/TargetingPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0xc7668e15</Key>
+            <Value Path="Script/SpiderBallWaypoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0xd4cd5e63</Key>
+            <Value Path="Script/SpiderBallAttractionSurface.xml"/>
+        </Element>
+        <Element>
+            <Key>0xacc3ce1e</Key>
+            <Value Path="Script/PhazonPool.xml"/>
+        </Element>
+        <Element>
+            <Key>0x93c5b36d</Key>
+            <Value Path="Script/RadialDamage.xml"/>
+        </Element>
+        <Element>
+            <Key>0x02eaec98</Key>
+            <Value Path="Script/Camera.xml"/>
+        </Element>
+        <Element>
+            <Key>0x2b3ad4b6</Key>
+            <Value Path="Script/CoverPoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0xc6e2de1f</Key>
+            <Value Path="Script/PathCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>0x47e5d68b</Key>
+            <Value Path="Script/MazeNode.xml"/>
+        </Element>
+        <Element>
+            <Key>0x4ca59eb7</Key>
+            <Value Path="Script/PickupGenerator.xml"/>
+        </Element>
+        <Element>
+            <Key>0x176f6f27</Key>
+            <Value Path="Script/CameraPitchVolume.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7d070ef0</Key>
+            <Value Path="Script/ElectroMagneticPulse.xml"/>
+        </Element>
+        <Element>
+            <Key>0x3c832ec7</Key>
+            <Value Path="Script/EnvFxDensityController.xml"/>
+        </Element>
+        <Element>
+            <Key>0x8bedb563</Key>
+            <Value Path="Script/VisorFlare.xml"/>
+        </Element>
+        <Element>
+            <Key>0xad191c7e</Key>
+            <Value Path="Script/CameraHint.xml"/>
+        </Element>
+        <Element>
+            <Key>0x2131945e</Key>
+            <Value Path="Script/DistanceFog.xml"/>
+        </Element>
+        <Element>
+            <Key>0x16b8b319</Key>
+            <Value Path="Script/WallCrawlerSwarm.xml"/>
+        </Element>
+        <Element>
+            <Key>0x8ee5d87e</Key>
+            <Value Path="Script/Generator.xml"/>
+        </Element>
+        <Element>
+            <Key>0x4ca870ef</Key>
+            <Value Path="Script/CameraHintTrigger.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1704c1f0</Key>
+            <Value Path="Script/GunTurret.xml"/>
+        </Element>
+        <Element>
+            <Key>0x23f1e994</Key>
+            <Value Path="Script/PlayerHint.xml"/>
+        </Element>
+        <Element>
+            <Key>0x6665f6df</Key>
+            <Value Path="Script/DebrisExtended.xml"/>
+        </Element>
+        <Element>
+            <Key>0xcd695064</Key>
+            <Value Path="Script/RoomAcoustics.xml"/>
+        </Element>
+        <Element>
+            <Key>0x564a1641</Key>
+            <Value Path="Script/Door.xml"/>
+        </Element>
+        <Element>
+            <Key>0xb5cd58cd</Key>
+            <Value Path="Script/Contraption.xml"/>
+        </Element>
+        <Element>
+            <Key>0x0eb82e3b</Key>
+            <Value Path="Script/GrapplePoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0x36386a69</Key>
+            <Value Path="Script/Pickup.xml"/>
+        </Element>
+        <Element>
+            <Key>0x03168fe6</Key>
+            <Value Path="Script/NotSTD_Dock.xml"/>
+        </Element>
+        <Element>
+            <Key>0xdf4fcca3</Key>
+            <Value Path="Script/RandomRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>0x0e7a0171</Key>
+            <Value Path="Script/Debris.xml"/>
+        </Element>
+        <Element>
+            <Key>0x99dfc912</Key>
+            <Value Path="Script/CameraShakerNew.xml"/>
+        </Element>
+        <Element>
+            <Key>0x9b0f9c29</Key>
+            <Value Path="Script/CameraShakerOld.xml"/>
+        </Element>
+        <Element>
+            <Key>0xcb5682c4</Key>
+            <Value Path="Script/VisorGoo.xml"/>
+        </Element>
+        <Element>
+            <Key>0x3bab18a0</Key>
+            <Value Path="Script/Midi.xml"/>
+        </Element>
+        <Element>
+            <Key>0x46787ddd</Key>
+            <Value Path="Script/Sound.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7e1f2807</Key>
+            <Value Path="Script/StreamedAudio.xml"/>
+        </Element>
+        <Element>
+            <Key>0x750702ea</Key>
+            <Value Path="Script/CameraFilterKeyframe.xml"/>
+        </Element>
+        <Element>
             <Key>0x2fa104ff</Key>
-            <Value Path="Script/SLdrWorldTeleporterTooMP1.xml"/>
+            <Value Path="Script/WorldTeleporterToo.xml"/>
+        </Element>
+        <Element>
+            <Key>0xcc92b31b</Key>
+            <Value Path="Script/CameraBlurKeyframe.xml"/>
+        </Element>
+        <Element>
+            <Key>0x0d5c1882</Key>
+            <Value Path="Script/PointOfInterest.xml"/>
+        </Element>
+        <Element>
+            <Key>0x48f8341d</Key>
+            <Value Path="Script/AreaAttributes.xml"/>
+        </Element>
+        <Element>
+            <Key>0xf649eec3</Key>
+            <Value Path="Script/CameraWaypoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0xdb389155</Key>
+            <Value Path="Script/PlayerActor.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1230fa75</Key>
+            <Value Path="Script/Metaree.xml"/>
+        </Element>
+        <Element>
+            <Key>0x55032cda</Key>
+            <Value Path="Script/MetroidBeta.xml"/>
+        </Element>
+        <Element>
+            <Key>0x0b6b2691</Key>
+            <Value Path="Script/Seedling.xml"/>
+        </Element>
+        <Element>
+            <Key>0xbcf96c94</Key>
+            <Value Path="Script/TargetableProjectile.xml"/>
+        </Element>
+        <Element>
+            <Key>0xb5d157db</Key>
+            <Value Path="Script/Ripper.xml"/>
+        </Element>
+        <Element>
+            <Key>0xac1c4aad</Key>
+            <Value Path="Script/SnakeWeedSwarm.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7fc7debc</Key>
+            <Value Path="Script/Metroid.xml"/>
+        </Element>
+        <Element>
+            <Key>0x719ee8c2</Key>
+            <Value Path="Script/PuddleToadGamma.xml"/>
+        </Element>
+        <Element>
+            <Key>0x41bc06dd</Key>
+            <Value Path="Script/FishCloudModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>0x622f6b23</Key>
+            <Value Path="Script/MetroidPrimeRelay.xml"/>
+        </Element>
+        <Element>
+            <Key>0x5048d44f</Key>
+            <Value Path="Script/GrapplePoint.xml"/>
+        </Element>
+        <Element>
+            <Key>0xd909c936</Key>
+            <Value Path="Script/ControlledPlatform.xml"/>
+        </Element>
+        <Element>
+            <Key>0x4e8a3ce2</Key>
+            <Value Path="Script/FishCloud.xml"/>
+        </Element>
+        <Element>
+            <Key>0xa68d2eb5</Key>
+            <Value Path="Script/PhazonHealingNodule.xml"/>
+        </Element>
+        <Element>
+            <Key>0xae757b71</Key>
+            <Value Path="Script/MetroidPrime.xml"/>
+        </Element>
+        <Element>
+            <Key>0x5797d3c7</Key>
+            <Value Path="Script/ProxyPlayer.xml"/>
+        </Element>
+        <Element>
+            <Key>0x980ef312</Key>
+            <Value Path="Script/MetroidPrimeStage2.xml"/>
+        </Element>
+        <Element>
+            <Key>0x9b592020</Key>
+            <Value Path="Script/VisorFlare.xml"/>
+        </Element>
+        <Element>
+            <Key>0xd39988c0</Key>
+            <Value Path="Script/DroneLaser.xml"/>
+        </Element>
+        <Element>
+            <Key>0xdcf9614b</Key>
+            <Value Path="Script/DeathCameraEffect.xml"/>
+        </Element>
+        <Element>
+            <Key>0x27116d98</Key>
+            <Value Path="Script/ElitePirateGrenadeLauncher.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7cf4c8c0</Key>
+            <Value Path="Script/PoisonProjectile.xml"/>
+        </Element>
+        <Element>
+            <Key>0x1e3517fc</Key>
+            <Value Path="Script/MissileTarget.xml"/>
+        </Element>
+        <Element>
+            <Key>0x42020da4</Key>
+            <Value Path="Script/DestroyableRock.xml"/>
+        </Element>
+        <Element>
+            <Key>0x6ea08bad</Key>
+            <Value Path="Script/RoomOcclusionOverride.xml"/>
+        </Element>
+        <Element>
+            <Key>0x82980e58</Key>
+            <Value Path="Script/ElectricBeamProjectile.xml"/>
+        </Element>
+        <Element>
+            <Key>0xe5740bfd</Key>
+            <Value Path="Script/CameraOverride.xml"/>
+        </Element>
+        <Element>
+            <Key>0xcb3b5bea</Key>
+            <Value Path="Script/AnimatedCamera.xml"/>
+        </Element>
+        <Element>
+            <Key>0x85e5e721</Key>
+            <Value Path="Script/ARepulsor.xml"/>
+        </Element>
+        <Element>
+            <Key>0x90905f24</Key>
+            <Value Path="Script/PlayerStateChange.xml"/>
+        </Element>
+        <Element>
+            <Key>0xae09e5e2</Key>
+            <Value Path="Script/AEnergyBall.xml"/>
+        </Element>
+        <Element>
+            <Key>0x0515541d</Key>
+            <Value Path="Script/AScriptBeam.xml"/>
+        </Element>
+        <Element>
+            <Key>0xeb70cd36</Key>
+            <Value Path="Script/SustainedPlayerDamage.xml"/>
+        </Element>
+        <Element>
+            <Key>0x104a7116</Key>
+            <Value Path="Script/HUDManager.xml"/>
+        </Element>
+        <Element>
+            <Key>0x7383d6b5</Key>
+            <Value Path="Script/ScriptHUDBillboardEffect.xml"/>
+        </Element>
+        <Element>
+            <Key>0x333f83d4</Key>
+            <Value Path="Script/RumbleEventResponder.xml"/>
+        </Element>
+        <Element>
+            <Key>0x14d107fe</Key>
+            <Value Path="Script/CinematicStateProxy.xml"/>
+        </Element>
+        <Element>
+            <Key>0x63b6ecdc</Key>
+            <Value Path="Script/HUDBillboardFreezeEffectTest.xml"/>
+        </Element>
+        <Element>
+            <Key>0xc1fac87d</Key>
+            <Value Path="Script/ScriptedOcclusionVolume.xml"/>
+        </Element>
+        <Element>
+            <Key>0x8a12a2f9</Key>
+            <Value Path="Script/MaterialVariableDriver.xml"/>
+        </Element>
+        <Element>
+            <Key>0xe12aae70</Key>
+            <Value Path="Script/EffectProxy.xml"/>
+        </Element>
+        <Element>
+            <Key>0xf06785e1</Key>
+            <Value Path="Script/Cinematic.xml"/>
+        </Element>
+        <Element>
+            <Key>0x73a6d8f1</Key>
+            <Value Path="Script/PhazonDriver.xml"/>
+        </Element>
+        <Element>
+            <Key>0x55a188f6</Key>
+            <Value Path="Script/AmbientParticleEffectPrimitiveShapeProvider.xml"/>
+        </Element>
+        <Element>
+            <Key>0x98eea4ca</Key>
+            <Value Path="Script/XRayHint.xml"/>
+        </Element>
+        <Element>
+            <Key>0x6a7a53b0</Key>
+            <Value Path="Script/CameraWaterStateProxy.xml"/>
+        </Element>
+        <Element>
+            <Key>0xdf22bd66</Key>
+            <Value Path="Script/WaterTransition.xml"/>
+        </Element>
+        <Element>
+            <Key>0x08b8689d</Key>
+            <Value Path="Script/AreaOcclusionModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>0x9feab9b3</Key>
+            <Value Path="Script/BakedLightingPriorityModifier.xml"/>
+        </Element>
+        <Element>
+            <Key>0x451c85b6</Key>
+            <Value Path="Script/AutoExposureHint.xml"/>
+        </Element>
+        <Element>
+            <Key>0x427c6c50</Key>
+            <Value Path="Script/ActorIceDarkener.xml"/>
         </Element>
     </ScriptObjects>
     <PropertyArchetypes>
