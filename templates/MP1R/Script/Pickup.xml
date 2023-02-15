@@ -1,8 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptObject ArchiveVer="4" Game="PrimeRemastered">
-    <Properties Type="Struct" Incomplete="true">
+    <Properties Type="Struct">
         <Name>Pickup</Name>
         <SubProperties>
+            <Element Type="Struct" ID="0x70e39ec6" Archetype="Vector" Name="Collision Scale" />
+            <Element Type="Struct" ID="0x2d644844" Archetype="Vector" Name="Scan/Collision Offset" />
+            <Element Type="Asset" ID="0xBCE29CB3" Name="GUID 1" />
+            <Element Type="Struct" ID="0x19d911b1" Archetype="AnimSet" Name="AnimationParameters" />
+            <Element Type="Asset" ID="0xe2a07d8e" Name="GUID 2" />
+            <Element Type="Struct" ID="0x853F438A" Archetype="Vector" Name="Unk Vec 3" />
+            <Element Type="Struct" ID="0xBA38A80B" Archetype="MapInfo" Name="Map Info" />
+            <Element Type="Struct" ID="0x68f9d4b6" Archetype="ActorInformation" Name="Actor Info" />
+
+            <Element Type="Choice" ID="0xc79794ee" Archetype="PlayerItem" Name="Item" />
+            <Element Type="Int" ID="0x76be91d5">
+                <Name>Capacity</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x9FDBD2F6">
+                <Name>Amount</Name>
+                <DefaultValue>1</DefaultValue>
+            </Element>
+
+            <Element Type="Float" ID="0xfcf349d2">
+                <Name>Drop Rate</Name>
+                <DefaultValue>100.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x7f2aaf7d">
+                <Name>Life Time</Name>
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xef930f2b">
+                <Name>Fade Length</Name>
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x3e9f5eff">
+                <Name>Spawn Delay</Name>
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+
+            <Element Type="Bool" ID="0xBD71E2F2">
+                <Name>Unk Bool 1</Name>
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0xf2165c6e">
+                <Name>Unk Bool 2</Name>
+                <DefaultValue>false</DefaultValue>
+            </Element>
         </SubProperties>
     </Properties>
 </ScriptObject>

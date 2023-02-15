@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="PrimeRemaster">
+    <PropertyArchetype Type="Struct" Incomplete="true">
+        <Name>Lighting</Name>
+        <SubProperties>
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>

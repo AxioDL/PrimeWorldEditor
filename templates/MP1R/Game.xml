@@ -716,12 +716,40 @@
     </ScriptObjects>
     <PropertyArchetypes>
         <Element>
-            <Key>SLdrAnimSetMP1Typedef</Key>
-            <Value Path="Structs/SLdrAnimSetMP1Typedef.xml"/>
+            <Key>PlayerItem</Key>
+            <Value Path="Enums/PlayerItem.xml"/>
         </Element>
         <Element>
-            <Key>SLdrVectorMP1Typedef</Key>
-            <Value Path="Structs/SLdrVectorMP1Typedef.xml"/>
+            <Key>AnimSet</Key>
+            <Value Path="Structs/AnimSet.xml"/>
+        </Element>
+        <Element>
+            <Key>Vector</Key>
+            <Value Path="Structs/Vector.xml"/>
+        </Element>
+        <Element>
+            <Key>ActorInformation</Key>
+            <Value Path="Structs/ActorInformation.xml"/>
+        </Element>
+        <Element>
+            <Key>Color</Key>
+            <Value Path="Structs/Color.xml"/>
+        </Element>
+        <Element>
+            <Key>Lighting</Key>
+            <Value Path="Structs/Lighting.xml"/>
+        </Element>
+        <Element>
+            <Key>MapInfo</Key>
+            <Value Path="Structs/MapInfo.xml"/>
+        </Element>
+        <Element>
+            <Key>Scannable</Key>
+            <Value Path="Structs/Scannable.xml"/>
+        </Element>
+        <Element>
+            <Key>Visor</Key>
+            <Value Path="Structs/Visor.xml"/>
         </Element>
     </PropertyArchetypes>
     <MiscTemplates>
