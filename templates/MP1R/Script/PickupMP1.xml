@@ -3,14 +3,14 @@
     <Properties Type="Struct">
         <Name>PickupMP1</Name>
         <SubProperties>
-            <Element Type="Struct" ID="0x70e39ec6" Archetype="Vector" Name="Collision Scale" />
-            <Element Type="Struct" ID="0x2d644844" Archetype="Vector" Name="Scan/Collision Offset" />
+            <Element Type="Struct" ID="0x70e39ec6" Archetype="VectorMP1" Name="Collision Scale" />
+            <Element Type="Struct" ID="0x2d644844" Archetype="VectorMP1" Name="Scan/Collision Offset" />
             <Element Type="Asset" ID="0xBCE29CB3" Name="GUID 1" />
-            <Element Type="Struct" ID="0x19d911b1" Archetype="AnimSet" Name="AnimationParameters" />
+            <Element Type="Struct" ID="0x19d911b1" Archetype="AnimSetMP1" Name="AnimationParameters" />
             <Element Type="Asset" ID="0xe2a07d8e" Name="GUID 2" />
-            <Element Type="Struct" ID="0x853F438A" Archetype="Vector" Name="Unk Vec 3" />
-            <Element Type="Struct" ID="0xBA38A80B" Archetype="MapInfo" Name="Map Info" />
-            <Element Type="Struct" ID="0x68f9d4b6" Archetype="ActorInformation" Name="Actor Info" />
+            <Element Type="Struct" ID="0x853F438A" Archetype="VectorMP1" Name="Unk Vec 3" />
+            <Element Type="Struct" ID="0xBA38A80B" Archetype="MapInfoMP1" Name="Map Info" />
+            <Element Type="Struct" ID="0x68f9d4b6" Archetype="ActorInformationMP1" Name="Actor Info" />
 
             <Element Type="Choice" ID="0xc79794ee" Archetype="PlayerItem" Name="Item" />
             <Element Type="Int" ID="0x76be91d5">

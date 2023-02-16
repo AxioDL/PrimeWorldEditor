@@ -3,10 +3,10 @@
     <Properties Type="Struct" Incomplete="true">
         <Name>WorldTeleporterTooMP1</Name>
         <SubProperties>
-            <Element Type="Struct" ID="0x6AEAEE72" Archetype="AnimSet" Name="AnimationInformation" />
-            <Element Type="Struct" ID="0xc2536679" Archetype="Vector" Name="PlayerScale" />
-            <Element Type="Struct" ID="0x4FB5E821" Archetype="Vector" Name="PlatformScale" />
-            <Element Type="Struct" ID="0xbb3ae62a" Archetype="Vector" Name="ShaftScale" />
+            <Element Type="Struct" ID="0x6AEAEE72" Archetype="AnimSetMP1" Name="AnimationInformation" />
+            <Element Type="Struct" ID="0xc2536679" Archetype="VectorMP1" Name="PlayerScale" />
+            <Element Type="Struct" ID="0x4FB5E821" Archetype="VectorMP1" Name="PlatformScale" />
+            <Element Type="Struct" ID="0xbb3ae62a" Archetype="VectorMP1" Name="ShaftScale" />
 
             <Element Type="PooledString" ID="0xB8D54E2C" Name="UnkStr" />
 
