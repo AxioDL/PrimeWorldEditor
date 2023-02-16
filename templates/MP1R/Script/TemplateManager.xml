@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="PrimeRemastered">
+    <Properties Type="Struct">
+        <Name>TemplateManager</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <!-- No, really, it's empty -->
+        </SubProperties>
+    </Properties>
+</ScriptObject>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScriptObject ArchiveVer="4" Game="PrimeRemastered">
+    <Properties Type="Struct" Incomplete="true">
+        <Name>WorldTeleporterTooMP1</Name>
+        <SubProperties>
+            <Element Type="Struct" ID="0x6AEAEE72" Archetype="AnimSet" Name="AnimationInformation" />
+            <Element Type="Struct" ID="0xc2536679" Archetype="Vector" Name="PlayerScale" />
+            <Element Type="Struct" ID="0x4FB5E821" Archetype="Vector" Name="PlatformScale" />
+            <Element Type="Struct" ID="0xbb3ae62a" Archetype="Vector" Name="ShaftScale" />
+
+            <Element Type="PooledString" ID="0xB8D54E2C" Name="UnkStr" />
+
+            <Element Type="Asset" ID="0xd49a517f" Name="World">
+                <TypeFilter>
+                    <Element>ROOM</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x9a5ffb6c" Name="Area">
+                <TypeFilter>
+                    <Element>ROOM</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0xa7b31f8e" Name="Platform">
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x5407BB23" Name="Sound">
+                <TypeFilter>
+                    <Element>CAUD</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Asset" ID="0x980b33e8" Name="Text" />
+
+            <Element Type="Int" ID="0x82955270" Name="Volume">
+                <DefaultValue>127</DefaultValue>
+            </Element>
+            <Element Type="Int" ID="0x838c35ff" Name="Pan">
+                <DefaultValue>64</DefaultValue>
+            </Element>
+
+            <Element Type="Float" ID="0x5558f09d" Name="CharFadeInTime">
+                <DefaultValue>0.01</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xeefc68e9" Name="CharsPerSecond">
+                <DefaultValue>8.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xa936d90d" Name="DelayBeforeShow">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x53b5754b" Name="UnkFloat1">
+                <DefaultValue>0.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0x977347D4" Name="UnkFloat2">
+                <DefaultValue>2.0</DefaultValue>
+            </Element>
+            <Element Type="Float" ID="0xDC35E803" Name="UnkFloat3">
+                <DefaultValue>3.0</DefaultValue>
+            </Element>
+
+            <Element Type="Bool" ID="0xa6931c09" Name="UnkBool1">
+                <DefaultValue>true</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x03fa3ea7" Name="UpwardElevator">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x952E3BAD" Name="UnkBool2">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+            <Element Type="Bool" ID="0x1b68a003" Name="ShowTextInsteadOfCutscene">
+                <DefaultValue>false</DefaultValue>
+            </Element>
+        </SubProperties>
+    </Properties>
+</ScriptObject>

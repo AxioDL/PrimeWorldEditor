@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="PrimeRemaster">
+    <PropertyArchetype Type="Struct">
+        <Name>MapInfoMP1</Name>
+        <SubProperties>
+            <Element Type="Int" ID="0x70f8474b" Name="Unk Int 1" />
+            <Element Type="Int" ID="0x9CAF8D12" Name="Unk Int 2" />
+            <Element Type="Asset" ID="0x91A53221" Name="Unk GUID" />
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>
