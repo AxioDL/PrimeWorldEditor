@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="PrimeRemaster">
+    <PropertyArchetype Type="Struct">
+        <Name>LightingMP1</Name>
+        <Atomic>true</Atomic>
+        <SubProperties>
+            <Element Type="Float" ID="0x0" Name="x" />
+            <Element Type="Float" ID="0x1" Name="y" />
+            <Element Type="Float" ID="0x2" Name="z" />
+        </SubProperties>
+    </PropertyArchetype>
+</PropertyTemplate>
