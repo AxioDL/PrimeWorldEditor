@@ -9,7 +9,9 @@
                     <Element>SCAN</Element>
                 </TypeFilter>
             </Element>
-            <Element Type="Bool" ID="0x05264039" Name="Unk Bool" />
+            <Element Type="Bool" ID="0x05264039" Name="Unk Bool">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
         </SubProperties>
     </PropertyArchetype>
 </PropertyTemplate>

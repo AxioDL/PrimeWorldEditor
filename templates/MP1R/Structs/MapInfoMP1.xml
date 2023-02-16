@@ -3,9 +3,15 @@
     <PropertyArchetype Type="Struct">
         <Name>MapInfoMP1</Name>
         <SubProperties>
-            <Element Type="Int" ID="0x70f8474b" Name="Unk Int 1" />
-            <Element Type="Int" ID="0x9CAF8D12" Name="Unk Int 2" />
-            <Element Type="Asset" ID="0x91A53221" Name="Unk GUID" />
+            <Element Type="Int" ID="0x70f8474b" Name="Unk Int 1">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
+            <Element Type="Int" ID="0x9CAF8D12" Name="Unk Int 2">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
+            <Element Type="Asset" ID="0x91A53221" Name="Unk GUID">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
         </SubProperties>
     </PropertyArchetype>
 </PropertyTemplate>

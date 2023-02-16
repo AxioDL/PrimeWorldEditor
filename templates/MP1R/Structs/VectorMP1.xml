@@ -3,9 +3,15 @@
     <PropertyArchetype Type="Struct">
         <Name>VectorMP1</Name>
         <SubProperties>
-            <Element Type="Float" ID="0x2649E551" Name="x" />
-            <Element Type="Float" ID="0xd2bb5bc6" Name="y" />
-            <Element Type="Float" ID="0x7F9499B2" Name="z" />
+            <Element Type="Float" ID="0x2649E551" Name="x">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
+            <Element Type="Float" ID="0xd2bb5bc6" Name="y">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
+            <Element Type="Float" ID="0x7F9499B2" Name="z">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
         </SubProperties>
     </PropertyArchetype>
 </PropertyTemplate>
