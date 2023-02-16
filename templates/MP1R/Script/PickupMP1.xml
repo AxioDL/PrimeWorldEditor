@@ -9,6 +9,7 @@
             <Element Type="Int" ID="0x76be91d5">
                 <Name>Capacity</Name>
                 <DefaultValue>1</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Int" ID="0x9FDBD2F6">
                 <Name>Amount</Name>
@@ -18,14 +19,17 @@
             <Element Type="Float" ID="0xfcf349d2">
                 <Name>Drop Rate</Name>
                 <DefaultValue>100.0</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Float" ID="0x7f2aaf7d">
                 <Name>Life Time</Name>
                 <DefaultValue>0.0</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
             <Element Type="Float" ID="0xef930f2b">
                 <Name>Fade Length</Name>
                 <DefaultValue>0.0</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
 
             <Element Type="Asset" ID="0xBCE29CB3" Name="GUID 1">
@@ -35,6 +39,7 @@
             <Element Type="Float" ID="0x3e9f5eff">
                 <Name>Spawn Delay</Name>
                 <DefaultValue>0.0</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
             </Element>
 
             <Element Type="Asset" ID="0xe2a07d8e" Name="GUID 2" />
