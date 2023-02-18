@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ScriptObject ArchiveVer="4" Game="PrimeRemastered">
-    <Properties Type="Struct" Incomplete="true">
+    <Properties Type="Struct">
         <Name>HUDMemoMP1</Name>
         <SubProperties>
+            <Element Type="Int" ID="0xf429b4d0" Name="Unk Int 1">
+                <DefaultValue>1077936128</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
+            <Element Type="Int" ID="0x1e1f3dfd" Name="Unk Int 2">
+                <DefaultValue>0</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
+            <Element Type="Asset" ID="0xd786d118" Name="GUID 1">
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
+            <Element Type="Bool" ID="0xe73cc9cf" Name="Unk Bool 1">
+                <DefaultValue>true</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
+
+            <Element Type="Int" ID="0x56e17395" Name="Unk Int 3">
+                <DefaultValue>0</DefaultValue>
+                <CookPreference>OnlyIfModified</CookPreference>
+            </Element>
         </SubProperties>
     </Properties>
 </ScriptObject>
