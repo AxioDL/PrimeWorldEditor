@@ -7,7 +7,12 @@
                 <DefaultValue>1077936128</DefaultValue>
                 <CookPreference>OnlyIfModified</CookPreference>
             </Element>
-            <Element Type="Int" ID="0x1e1f3dfd" Name="Unk Int 2">
+            <Element Type="Choice" ID="0x1e1f3dfd">
+                <Name>Memo Type</Name>
+                <Values>
+                    <Element Name="Status Message" ID="0x0"/>
+                    <Element Name="Message Box" ID="0x1"/>
+                </Values>
                 <DefaultValue>0</DefaultValue>
                 <CookPreference>OnlyIfModified</CookPreference>
             </Element>
