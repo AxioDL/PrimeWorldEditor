@@ -18,115 +18,115 @@
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 1</Name>
+                <Name>Fireball Attack Time</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>Fireball Attack Time Variance</Name>
             </Element>
             <Element Type="Asset" ID="0x8">
-                <Name>WPSC 1</Name>
+                <Name>Fireball Weapon</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x9" Archetype="DamageInfo">
-                <Name>DamageInfo 1</Name>
+                <Name>Fireball Damage</Name>
             </Element>
             <Element Type="Struct" ID="0xA" Archetype="DamageInfo">
-                <Name>DamageInfo 2</Name>
+                <Name>Attack Contact Damage</Name>
             </Element>
             <Element Type="Asset" ID="0xB">
-                <Name>WPSC 2</Name>
+                <Name>Fire Breath Weapon</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xC">
-                <Name>Particle 1</Name>
+                <Name>Fire Breath Particles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0xD" Archetype="DamageInfo">
-                <Name>DamageInfo 3</Name>
+                <Name>Fire Breath Damage</Name>
             </Element>
             <Element Type="Struct" ID="0xE" Archetype="DamageVulnerability">
-                <Name>DamageVulnerability 1</Name>
+                <Name>Mouth Vulnerability</Name>
             </Element>
             <Element Type="Struct" ID="0xF" Archetype="DamageVulnerability">
-                <Name>DamageVulnerability 2</Name>
+                <Name>Shell Vulnerability</Name>
             </Element>
             <Element Type="Asset" ID="0x10">
-                <Name>Model</Name>
+                <Name>No Shell Model</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x11">
-                <Name>CSKR</Name>
+                <Name>No Shell Skin</Name>
                 <TypeFilter>
                     <Element>CSKR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 3</Name>
+                <Name>Shell HP</Name>
             </Element>
             <Element Type="Sound" ID="0x13">
-                <Name>Unknown 4</Name>
+                <Name>Shell Crack Sound</Name>
             </Element>
             <Element Type="Asset" ID="0x14">
-                <Name>Particle 2</Name>
+                <Name>Intermediate Crack Particles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x15">
-                <Name>Particle 3</Name>
+                <Name>Crack One Particles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x16">
-                <Name>Particle 4</Name>
+                <Name>Crack Two Particles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x17">
-                <Name>Particle 5</Name>
+                <Name>Destroy Shell Particles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0x18">
-                <Name>Unknown 5</Name>
+                <Name>Crack One Sound</Name>
             </Element>
             <Element Type="Sound" ID="0x19">
-                <Name>Unknown 6</Name>
+                <Name>Crack Two Sound</Name>
             </Element>
             <Element Type="Sound" ID="0x1A">
-                <Name>Unknown 7</Name>
+                <Name>Destroy Shell Sound</Name>
             </Element>
             <Element Type="Float" ID="0x1B">
-                <Name>Unknown 8</Name>
+                <Name>Time Until Attack</Name>
             </Element>
             <Element Type="Float" ID="0x1C">
-                <Name>Unknown 9</Name>
+                <Name>Attack Cooldown Time</Name>
             </Element>
             <Element Type="Float" ID="0x1D">
-                <Name>Unknown 10</Name>
+                <Name>Interest Time</Name>
             </Element>
             <Element Type="Asset" ID="0x1E">
-                <Name>Texture</Name>
+                <Name>Flame Player Steam Texture</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0x1F">
-                <Name>Unknown 11</Name>
+                <Name>Flame Player Hit Sound</Name>
             </Element>
             <Element Type="Asset" ID="0x20">
-                <Name>Particle 6</Name>
+                <Name>Flame Player Ice Texture</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>

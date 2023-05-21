@@ -4,28 +4,34 @@
         <Name>LightParameters</Name>
         <SubProperties>
             <Element Type="Bool" ID="0x0">
-                <Name>Unknown 1</Name>
+                <Name>CastShadow</Name>
+                <Description>Unused.</Description>
             </Element>
             <Element Type="Float" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>ShadowScale</Name>
+                <Description>Unused.</Description>
             </Element>
             <Element Type="Int" ID="0x2">
-                <Name>Shadow Tessellation</Name>
+                <Name>Tessellation</Name>
+                <Description>Unused.</Description>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>Unknown 3</Name>
+                <Name>ShadowAlpha</Name>
+                <Description>Unused.</Description>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 4</Name>
+                <Name>MaxShadowHeight</Name>
+                <Description>Unused.</Description>
             </Element>
             <Element Type="Color" ID="0x5">
-                <Name>Unknown 5</Name>
+                <Name>AmbientColor</Name>
+                <Description>Ambient color when "Make Lights" is false, or "NumAreaLights" is 0.</Description>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 6</Name>
+                <Name>MakeLights</Name>
             </Element>
             <Element Type="Choice" ID="0x7">
-                <Name>World Lighting Options</Name>
+                <Name>UseWorldLighting</Name>
                 <Values>
                     <Element Name="Unknown 1" ID="0x0"/>
                     <Element Name="Normal World Lighting" ID="0x1"/>
@@ -36,7 +42,7 @@
                 </Values>
             </Element>
             <Element Type="Choice" ID="0x8">
-                <Name>Light Recalculation Options</Name>
+                <Name>LightRecalculation</Name>
                 <Description>Interval between light recalculation updates.</Description>
                 <Values>
                     <Element Name="Never" ID="0x0"/>
@@ -46,19 +52,19 @@
                 </Values>
             </Element>
             <Element Type="Vector" ID="0x9">
-                <Name>Unknown 7</Name>
+                <Name>LightingPosition</Name>
             </Element>
             <Element Type="Int" ID="0xA">
-                <Name>Unknown 8</Name>
+                <Name>NumDynamicLights</Name>
             </Element>
             <Element Type="Int" ID="0xB">
-                <Name>Unknown 9</Name>
+                <Name>NumAreaLights</Name>
             </Element>
             <Element Type="Bool" ID="0xC">
-                <Name>Unknown 10</Name>
+                <Name>IgnoreAmbientLighting</Name>
             </Element>
             <Element Type="Int" ID="0xD">
-                <Name>Light Layer Index</Name>
+                <Name>UseLightSet</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

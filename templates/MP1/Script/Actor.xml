@@ -16,21 +16,21 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Vector" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>CollisionBox</Name>
             </Element>
             <Element Type="Vector" ID="0x5">
-                <Name>Scan Offset</Name>
+                <Name>CollisionOffset</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 2</Name>
+                <Name>Mass</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 3</Name>
+                <Name>Gravity</Name>
             </Element>
             <Element Type="Struct" ID="0x8" Archetype="HealthInfo"/>
             <Element Type="Struct" ID="0x9" Archetype="DamageVulnerability"/>
             <Element Type="Asset" ID="0xA">
-                <Name>Model</Name>
+                <Name>StaticModel</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
@@ -40,37 +40,45 @@
             </Element>
             <Element Type="Struct" ID="0xC" Archetype="ActorParameters"/>
             <Element Type="Bool" ID="0xD">
-                <Name>Auto-Play Animation</Name>
+                <Name>IsLoop</Name>
+                <Description>Enables auto-playing &amp; looping animation.</Description>
             </Element>
             <Element Type="Bool" ID="0xE">
-                <Name>Unknown 5</Name>
+                <Name>Immovable</Name>
+                <Description>Applies "Immovable" material type.</Description>
             </Element>
             <Element Type="Bool" ID="0xF">
-                <Name>Bounding Box Collision</Name>
+                <Name>IsSolid</Name>
+                <Description>Applies "Solid" material type, enabling bounding box collision.</Description>
             </Element>
             <Element Type="Bool" ID="0x10">
-                <Name>Unknown 7</Name>
+                <Name>IsCameraThrough</Name>
+                <Description>Applies "Camera Passthrough" material type.</Description>
             </Element>
             <Element Type="Bool" ID="0x11">
                 <Name>Active</Name>
             </Element>
             <Element Type="Int" ID="0x12">
-                <Name>Unknown 9</Name>
+                <Name>RenderTextureSet</Name>
+                <Description>Index of active material set.</Description>
             </Element>
             <Element Type="Float" ID="0x13">
-                <Name>Unknown 10</Name>
+                <Name>XRayAlpha</Name>
             </Element>
             <Element Type="Bool" ID="0x14">
-                <Name>Unknown 11</Name>
+                <Name>ThermalVisibleThroughGeometry</Name>
+                <Description>Disables depth testing in Thermal Visor, allowing it to render through other objects.</Description>
             </Element>
             <Element Type="Bool" ID="0x15">
-                <Name>Unknown 12</Name>
+                <Name>DrawsShadow</Name>
             </Element>
             <Element Type="Bool" ID="0x16">
-                <Name>Unknown 13</Name>
+                <Name>ScaleAnimation</Name>
+                <Description>Applies model scale to movement animation.</Description>
             </Element>
             <Element Type="Bool" ID="0x17">
-                <Name>Unknown 14</Name>
+                <Name>MaterialFlag54</Name>
+                <Description>Applies material type 54 (unknown).</Description>
             </Element>
         </SubProperties>
     </Properties>

@@ -13,40 +13,41 @@
                 <Name>Rotation</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0x4">
                 <Name>Shot Duration</Name>
             </Element>
             <Element Type="Bool" ID="0x5">
-                <Name>Unknown 3</Name>
+                <Name>Look At Player</Name>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 4</Name>
+                <Name>Out Of Player Eye</Name>
             </Element>
             <Element Type="Bool" ID="0x7">
-                <Name>Unknown 5</Name>
+                <Name>Into Player Eye</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Unknown 6</Name>
+                <Name>Draw Player</Name>
             </Element>
             <Element Type="Bool" ID="0x9">
-                <Name>Unknown 7</Name>
+                <Name>Disable Input</Name>
             </Element>
             <Element Type="Bool" ID="0xA">
-                <Name>Unknown 8</Name>
+                <Name>Unknown</Name>
+                <Description>Unused?</Description>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Unknown 9</Name>
+                <Name>Finish Cinematic Skip</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 10</Name>
+                <Name>Field Of View</Name>
             </Element>
             <Element Type="Bool" ID="0xD">
-                <Name>Unknown 11</Name>
+                <Name>Check Failsafe</Name>
             </Element>
             <Element Type="Bool" ID="0xE">
-                <Name>Unknown 12</Name>
+                <Name>Disable Out Of/Into</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -54,6 +55,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x03</ActiveProperty>
     </EditorProperties>
     <Assets>
         <Element Type="Model" Source="File" Location="script/common/Camera.CMDL"/>
