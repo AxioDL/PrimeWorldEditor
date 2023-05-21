@@ -11,9 +11,6 @@ find_package(assimp CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
 find_package(Threads REQUIRED)
 
-# AssImp's cmake config is pretty awful. It doesn't include necesary libraries. Hopefully this can be fixed later.
-find_library(IIRXML_LIBRARY NAMES IrrXMLd IrrXML)
-
 file(GLOB_RECURSE source_files
     "*.c"
     "*.cpp"
@@ -41,7 +38,6 @@ target_link_libraries(
     OpenGL::GL
     assimp::assimp
     Threads::Threads
-    ${IIRXML_LIBRARY}
     ${ZLIB_LIBRARY}
 )
 
