@@ -13,7 +13,7 @@
             "url": "https://github.com/assimp/assimp",
             "type": "git",
             "head": "master",
-            "ref": "83237de02ffb97305317d24564c44ce4794af3db",
+            "ref": "c305b50f13627befade833cef8399be3c53fc4ec",
             "dependson": [
                 "zlib"
             ],

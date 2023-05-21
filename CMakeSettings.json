@@ -1,28 +1,28 @@
 ﻿{
-	"configurations": [
-		{
-			"name": "x64-Debug",
-			"generator": "Ninja",
-			"configurationType": "Debug",
-			"inheritEnvironments": [ "msvc_x64_x64" ],
-			"buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
-			"installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=C:/Qt/5.14.1/msvc2017_64/lib/cmake/Qt5",
-			"buildCommandArgs": "",
+  "configurations": [
+    {
+      "name": "x64-Debug",
+      "generator": "Ninja",
+      "configurationType": "Debug",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+      "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
+      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=C:/Qt/5.14.2/msvc2017_64/lib/cmake/Qt5",
+      "buildCommandArgs": "",
 			"ctestCommandArgs": "",
 			"variables": []
-		},
-		{
-			"name": "x64-Release",
-			"generator": "Ninja",
-			"configurationType": "RelWithDebInfo",
-			"inheritEnvironments": [ "msvc_x64_x64" ],
-			"buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
-			"installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
-			"cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=C:/Qt/5.14.1/msvc2017_64/lib/cmake/Qt5",
-			"buildCommandArgs": "",
+    },
+    {
+      "name": "x64-Release",
+      "generator": "Ninja",
+      "configurationType": "RelWithDebInfo",
+      "inheritEnvironments": [ "msvc_x64_x64" ],
+      "buildRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\build\\${name}",
+      "installRoot": "${env.USERPROFILE}\\CMakeBuilds\\${workspaceHash}\\install\\${name}",
+      "cmakeCommandArgs": "-DCMAKE_PREFIX_PATH=C:/Qt/5.14.2/msvc2017_64/lib/cmake/Qt5",
+      "buildCommandArgs": "",
 			"ctestCommandArgs": "",
 			"variables": []
-		}
-	]
+    }
+  ]
 }
