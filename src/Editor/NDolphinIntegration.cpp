@@ -324,7 +324,7 @@ bool SetDolphinPath(QWidget* pParentWidget, const QString& kDolphinPath, bool bS
     // Dolphin unfortunately collide's with KDE Plasma's file manager which also happens to be named "Dolphin"
     // Fortunately the latter uses a lowercase name so we can differentiate.
     QStringList VersionParts = VersionString.split(' ');
-    if (VersionParts.count() != 2 || VersionParts[0] != "Dolphin")
+    if (VersionParts.count() < 2 || (VersionParts[0] != "Dolphin" && VersionParts[0] != "PrimeHack"))
     {
         if (!bSilent)
         {
@@ -333,7 +333,7 @@ bool SetDolphinPath(QWidget* pParentWidget, const QString& kDolphinPath, bool bS
         return false;
     }
 
-    debugf("Found dolphin version %s", *TO_TSTRING(VersionParts[1]));
+    debugf("Found %s version %s", *TO_TSTRING(VersionParts.first()), *TO_TSTRING(VersionParts.last()));
 
     // Build is legit, stash it
     QSettings Settings;
