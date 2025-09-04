@@ -75,11 +75,11 @@
         </Element>
         <Element>
             <Key>AVIS</Key>
-            <Value Path="Script/AVIS.xml"/>
+            <Value Path="Script/AudioVisualizer.xml"/>
         </Element>
         <Element>
             <Key>AVMC</Key>
-            <Value Path="Script/AVMC.xml"/>
+            <Value Path="Script/AreaVisitMapController.xml"/>
         </Element>
         <Element>
             <Key>BALS</Key>
@@ -2509,43 +2509,43 @@
         </Element>
         <Element>
             <Key>IS00</Key>
-            <Value>InternalState0</Value>
+            <Value>InternalState00</Value>
         </Element>
         <Element>
             <Key>IS01</Key>
-            <Value>InternalState1</Value>
+            <Value>InternalState01</Value>
         </Element>
         <Element>
             <Key>IS02</Key>
-            <Value>InternalState2</Value>
+            <Value>InternalState02</Value>
         </Element>
         <Element>
             <Key>IS03</Key>
-            <Value>InternalState3</Value>
+            <Value>InternalState03</Value>
         </Element>
         <Element>
             <Key>IS04</Key>
-            <Value>InternalState4</Value>
+            <Value>InternalState04</Value>
         </Element>
         <Element>
             <Key>IS05</Key>
-            <Value>InternalState5</Value>
+            <Value>InternalState05</Value>
         </Element>
         <Element>
             <Key>IS06</Key>
-            <Value>InternalState6</Value>
+            <Value>InternalState06</Value>
         </Element>
         <Element>
             <Key>IS07</Key>
-            <Value>InternalState7</Value>
+            <Value>InternalState07</Value>
         </Element>
         <Element>
             <Key>IS08</Key>
-            <Value>InternalState8</Value>
+            <Value>InternalState08</Value>
         </Element>
         <Element>
             <Key>IS09</Key>
-            <Value>InternalState9</Value>
+            <Value>InternalState09</Value>
         </Element>
         <Element>
             <Key>IS10</Key>
@@ -2589,111 +2589,111 @@
         </Element>
         <Element>
             <Key>IS20</Key>
-            <Value>IS20</Value>
+            <Value>InternalState20</Value>
         </Element>
         <Element>
             <Key>IS21</Key>
-            <Value>IS21</Value>
+            <Value>InternalState21</Value>
         </Element>
         <Element>
             <Key>IS22</Key>
-            <Value>IS22</Value>
+            <Value>InternalState22</Value>
         </Element>
         <Element>
             <Key>IS23</Key>
-            <Value>IS23</Value>
+            <Value>InternalState23</Value>
         </Element>
         <Element>
             <Key>IS24</Key>
-            <Value>IS24</Value>
+            <Value>InternalState24</Value>
         </Element>
         <Element>
             <Key>IS25</Key>
-            <Value>IS25</Value>
+            <Value>InternalState25</Value>
         </Element>
         <Element>
             <Key>IS26</Key>
-            <Value>IS26</Value>
+            <Value>InternalState26</Value>
         </Element>
         <Element>
             <Key>IS27</Key>
-            <Value>IS27</Value>
+            <Value>InternalState27</Value>
         </Element>
         <Element>
             <Key>IS28</Key>
-            <Value>IS28</Value>
+            <Value>InternalState28</Value>
         </Element>
         <Element>
             <Key>IS29</Key>
-            <Value>IS29</Value>
+            <Value>InternalState29</Value>
         </Element>
         <Element>
             <Key>IS30</Key>
-            <Value>IS30</Value>
+            <Value>InternalState30</Value>
         </Element>
         <Element>
             <Key>IS31</Key>
-            <Value>IS31</Value>
+            <Value>InternalState31</Value>
         </Element>
         <Element>
             <Key>IS32</Key>
-            <Value>IS32</Value>
+            <Value>InternalState32</Value>
         </Element>
         <Element>
             <Key>IS33</Key>
-            <Value>IS33</Value>
+            <Value>InternalState33</Value>
         </Element>
         <Element>
             <Key>IS34</Key>
-            <Value>IS34</Value>
+            <Value>InternalState34</Value>
         </Element>
         <Element>
             <Key>IS35</Key>
-            <Value>IS35</Value>
+            <Value>InternalState35</Value>
         </Element>
         <Element>
             <Key>IS36</Key>
-            <Value>IS36</Value>
+            <Value>InternalState36</Value>
         </Element>
         <Element>
             <Key>IS37</Key>
-            <Value>IS37</Value>
+            <Value>InternalState37</Value>
         </Element>
         <Element>
             <Key>IS38</Key>
-            <Value>IS38</Value>
+            <Value>InternalState38</Value>
         </Element>
         <Element>
             <Key>IS39</Key>
-            <Value>IS39</Value>
+            <Value>InternalState39</Value>
         </Element>
         <Element>
             <Key>IS40</Key>
-            <Value>IS40</Value>
+            <Value>InternalState40</Value>
         </Element>
         <Element>
             <Key>IS41</Key>
-            <Value>IS41</Value>
+            <Value>InternalState41</Value>
         </Element>
         <Element>
             <Key>IS44</Key>
-            <Value>IS44</Value>
+            <Value>InternalState44</Value>
         </Element>
         <Element>
             <Key>IS45</Key>
-            <Value>IS45</Value>
+            <Value>InternalState45</Value>
         </Element>
         <Element>
             <Key>IS46</Key>
-            <Value>IS46</Value>
+            <Value>InternalState46</Value>
         </Element>
         <Element>
             <Key>IS47</Key>
-            <Value>IS47</Value>
+            <Value>InternalState47</Value>
         </Element>
         <Element>
             <Key>IS48</Key>
-            <Value>IS48</Value>
+            <Value>InternalState48</Value>
         </Element>
         <Element>
             <Key>LDWA</Key>

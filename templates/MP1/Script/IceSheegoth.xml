@@ -60,13 +60,13 @@
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x12">
-                <Name>Particle 1</Name>
+                <Name>FireBreathResID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x13" Archetype="DamageInfo">
-                <Name>DamageInfo 2</Name>
+                <Name>FireBreathDamage</Name>
             </Element>
             <Element Type="Asset" ID="0x14">
                 <Name>Particle 2</Name>
@@ -117,7 +117,7 @@
                 <Name>Unknown 10</Name>
             </Element>
             <Element Type="Float" ID="0x1F">
-                <Name>Unknown 11</Name>
+                <Name>MaxInterestTime</Name>
             </Element>
             <Element Type="Asset" ID="0x20">
                 <Name>Texture</Name>
@@ -135,10 +135,10 @@
                 </TypeFilter>
             </Element>
             <Element Type="Bool" ID="0x23">
-                <Name>Unknown 12</Name>
+                <Name>Unknown 11</Name>
             </Element>
             <Element Type="Bool" ID="0x24">
-                <Name>Unknown 13</Name>
+                <Name>Unknown 12</Name>
             </Element>
         </SubProperties>
     </Properties>

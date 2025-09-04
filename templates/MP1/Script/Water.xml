@@ -14,210 +14,238 @@
             </Element>
             <Element Type="Struct" ID="0x3" Archetype="DamageInfo"/>
             <Element Type="Vector" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>Force</Name>
             </Element>
-            <Element Type="Int" ID="0x5">
-                <Name>Unknown 2</Name>
+            <Element Type="Flags" ID="0x5">
+                <Name>Flags</Name>
+                <Flags>
+                    <Element Name="DetectPlayer" Mask="0x1"/>
+                    <Element Name="DetectAI" Mask="0x2"/>
+                    <Element Name="DetectProjectiles1" Mask="0x4"/>
+                    <Element Name="DetectProjectiles2" Mask="0x8"/>
+                    <Element Name="DetectProjectiles3" Mask="0x10"/>
+                    <Element Name="DetectProjectiles4" Mask="0x20"/>
+                    <Element Name="DetectBombs" Mask="0x40"/>
+                    <Element Name="DetectPowerBombs" Mask="0x80"/>
+                    <Element Name="DetectProjectiles5" Mask="0x100"/>
+                    <Element Name="DetectProjectiles6" Mask="0x200"/>
+                    <Element Name="DetectProjectiles7" Mask="0x400"/>
+                    <Element Name="KillOnEntered" Mask="0x800"/>
+                    <Element Name="DetectMorphedPlayer" Mask="0x1000"/>
+                    <Element Name="UseCollisionImpulses" Mask="0x2000"/>
+                    <Element Name="DetectCamera" Mask="0x4000"/>
+                    <Element Name="UseBooleanIntersection" Mask="0x8000"/>
+                    <Element Name="DetectUnmorphedPlayer" Mask="0x10000"/>
+                    <Element Name="BlockEnvironmentalEffects" Mask="0x20000"/>
+                </Flags>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>ThermalCold</Name>
             </Element>
             <Element Type="Bool" ID="0x7">
-                <Name>Display Fluid Surface</Name>
+                <Name>DisplaySurface</Name>
             </Element>
             <Element Type="Asset" ID="0x8">
-                <Name>Texture 1</Name>
+                <Name>PatternMap1</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x9">
-                <Name>Texture 2</Name>
+                <Name>PatternMap2</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xA">
-                <Name>Texture 3</Name>
+                <Name>ColorMap</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xB">
-                <Name>Texture 4</Name>
+                <Name>BumpMap</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xC">
-                <Name>Reflection Map</Name>
+                <Name>EnvMap</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xD">
-                <Name>Texture 6</Name>
+                <Name>EnvBumpMap</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Vector" ID="0xE">
-                <Name>Unknown 5</Name>
+                <Name>BumpLightDir</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 6</Name>
+                <Name>BumpScale</Name>
             </Element>
             <Element Type="Float" ID="0x10">
-                <Name>Unknown 7</Name>
+                <Name>MorphInTime</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 8</Name>
+                <Name>MorphOutTime</Name>
             </Element>
             <Element Type="Bool" ID="0x12">
                 <Name>Active</Name>
             </Element>
-            <Element Type="Int" ID="0x13">
-                <Name>Fluid Type</Name>
+            <Element Type="Choice" ID="0x13">
+                <Name>FluidType</Name>
+                <Values>
+                    <Element Name="NormalWater" ID="0x0"/>
+                    <Element Name="PoisonWater" ID="0x1"/>
+                    <Element Name="Lava" ID="0x2"/>
+                    <Element Name="PhazonFluid" ID="0x3"/>
+                    <Element Name="Four" ID="0x4"/>
+                    <Element Name="ThickLava" ID="0x5"/>
+                </Values>
             </Element>
             <Element Type="Bool" ID="0x14">
-                <Name>Unknown 11</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Float" ID="0x15">
-                <Name>Unknown 12</Name>
+                <Name>Alpha</Name>
             </Element>
             <Element Type="Struct" ID="0x16" Archetype="FluidUVMotion"/>
             <Element Type="Float" ID="0x17">
-                <Name>Unknown 30</Name>
+                <Name>TurbSpeed</Name>
             </Element>
             <Element Type="Float" ID="0x18">
-                <Name>Unknown 31</Name>
+                <Name>TurbDistance</Name>
             </Element>
             <Element Type="Float" ID="0x19">
-                <Name>Unknown 32</Name>
+                <Name>TurbFrequenceMax</Name>
             </Element>
             <Element Type="Float" ID="0x1A">
-                <Name>Unknown 33</Name>
+                <Name>TurbFrequenceMin</Name>
             </Element>
             <Element Type="Float" ID="0x1B">
-                <Name>Unknown 34</Name>
+                <Name>TurbPhaseMax</Name>
             </Element>
             <Element Type="Float" ID="0x1C">
-                <Name>Unknown 35</Name>
+                <Name>TurbPhaseMin</Name>
             </Element>
             <Element Type="Float" ID="0x1D">
-                <Name>Unknown 36</Name>
+                <Name>TurbAmplitudeMax</Name>
             </Element>
             <Element Type="Float" ID="0x1E">
-                <Name>Unknown 37</Name>
+                <Name>TurbAmplitudeMin</Name>
             </Element>
             <Element Type="Color" ID="0x1F">
-                <Name>Unknown 38</Name>
+                <Name>SplashColor</Name>
             </Element>
             <Element Type="Color" ID="0x20">
-                <Name>Unknown 39</Name>
+                <Name>InsideFogColor</Name>
             </Element>
             <Element Type="Asset" ID="0x21">
-                <Name>Enter Particle</Name>
+                <Name>SplashParticle1</Name>
                 <Description>This particle plays when an actor/projectile enters the water. It also plays when the morph ball is rolling in it at surface level.</Description>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x22">
-                <Name>Particle 2</Name>
+                <Name>SplashParticle2</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x23">
-                <Name>Particle 3</Name>
+                <Name>SplashParticle3</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x24">
-                <Name>Particle 4</Name>
+                <Name>VisorRunoffParticle</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x25">
-                <Name>Particle 5</Name>
+                <Name>UnmorphVisorRunoffParticle</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0x26">
-                <Name>Sound 1</Name>
+                <Name>Visor Runoff Sound</Name>
             </Element>
             <Element Type="Sound" ID="0x27">
-                <Name>Sound 2</Name>
+                <Name>Unmorph Visor Runoff Sound</Name>
             </Element>
             <Element Type="Sound" ID="0x28">
-                <Name>Sound 3</Name>
+                <Name>SplashSFX1</Name>
             </Element>
             <Element Type="Sound" ID="0x29">
-                <Name>Sound 4</Name>
+                <Name>SplashSFX2</Name>
             </Element>
             <Element Type="Sound" ID="0x2A">
-                <Name>Sound 5</Name>
+                <Name>SplashSFX3</Name>
             </Element>
             <Element Type="Float" ID="0x2B">
-                <Name>Unknown 40</Name>
+                <Name>TileSize</Name>
             </Element>
             <Element Type="Int" ID="0x2C">
-                <Name>Unknown 41</Name>
+                <Name>TileSubdivisions</Name>
             </Element>
             <Element Type="Float" ID="0x2D">
-                <Name>Unknown 42</Name>
+                <Name>SpecularMin</Name>
             </Element>
             <Element Type="Float" ID="0x2E">
-                <Name>Unknown 43</Name>
+                <Name>SpecularMax</Name>
             </Element>
             <Element Type="Float" ID="0x2F">
-                <Name>Unknown 44</Name>
+                <Name>ReflectionSize</Name>
             </Element>
             <Element Type="Float" ID="0x30">
-                <Name>Unknown 45</Name>
+                <Name>RippleIntensity</Name>
             </Element>
             <Element Type="Float" ID="0x31">
-                <Name>Unknown 46</Name>
+                <Name>ReflectionBlend</Name>
             </Element>
             <Element Type="Float" ID="0x32">
-                <Name>Unknown 47</Name>
+                <Name>FogBias</Name>
             </Element>
             <Element Type="Float" ID="0x33">
-                <Name>Heat Wave Height</Name>
+                <Name>FogMagnitude</Name>
             </Element>
             <Element Type="Float" ID="0x34">
-                <Name>Heat Wave Speed</Name>
+                <Name>FogSpeed</Name>
             </Element>
             <Element Type="Color" ID="0x35">
-                <Name>Heat Wave Color</Name>
+                <Name>FogColor</Name>
             </Element>
             <Element Type="Asset" ID="0x36">
-                <Name>Lightmap Texture</Name>
+                <Name>Lightmap</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0x37">
-                <Name>Unknown 51</Name>
+                <Name>UnitsPerLightmapTexel</Name>
             </Element>
             <Element Type="Float" ID="0x38">
-                <Name>Unknown 52</Name>
+                <Name>AlphaInTime</Name>
             </Element>
             <Element Type="Float" ID="0x39">
-                <Name>Unknown 53</Name>
+                <Name>AlphaOutTime</Name>
             </Element>
             <Element Type="Int" ID="0x3A">
-                <Name>Unknown 54</Name>
+                <Name>AlphaInRecip</Name>
             </Element>
             <Element Type="Int" ID="0x3B">
-                <Name>Unknown 55</Name>
+                <Name>AlphaOutRecip</Name>
             </Element>
             <Element Type="Bool" ID="0x3C">
-                <Name>DO NOT ENABLE - WILL CRASH</Name>
+                <Name>Unknown (Will Crash if On)</Name>
             </Element>
             <Element Type="Short" ID="0x3D">
                 <Name>Ignore</Name>
@@ -231,7 +259,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <ScaleProperty>0x02</ScaleProperty>
-        <ActiveProperty>0x09</ActiveProperty>
+        <ActiveProperty>0x12</ActiveProperty>
     </EditorProperties>
     <RotationType>RotationDisabled</RotationType>
     <ScaleType>ScaleVolume</ScaleType>

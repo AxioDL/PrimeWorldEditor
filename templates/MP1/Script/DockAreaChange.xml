@@ -7,15 +7,16 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Int" ID="0x1">
-                <Name>Unknown 1</Name>
+                <Name>AreaIndex</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Unknown 2</Name>
+                <Name>Active</Name>
             </Element>
         </SubProperties>
     </Properties>
     <EditorProperties>
         <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x02</ActiveProperty>
     </EditorProperties>
     <RotationType>RotationDisabled</RotationType>
     <ScaleType>ScaleDisabled</ScaleType>

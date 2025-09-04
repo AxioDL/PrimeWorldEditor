@@ -15,52 +15,56 @@
             <Element Type="Choice" ID="0x3">
                 <Name>Function</Name>
                 <Values>
-                    <Element Name="Function 0" ID="0x0"/>
-                    <Element Name="Player Follow Locator" ID="0x1"/>
-                    <Element Name="Spinner Controller" ID="0x2"/>
-                    <Element Name="Object Follow Locator" ID="0x3"/>
-                    <Element Name="Function 4" ID="0x4"/>
-                    <Element Name="Inventory Activator" ID="0x5"/>
-                    <Element Name="Map Station" ID="0x6"/>
-                    <Element Name="Save Station" ID="0x7"/>
-                    <Element Name="Intro Boss Ring Controller" ID="0x8"/>
-                    <Element Name="View Frustum Tester (Unused)" ID="0x9"/>
-                    <Element Name="Shot Spinner Controller" ID="0xA"/>
-                    <Element Name="Escape Sequence" ID="0xB"/>
-                    <Element Name="Boss Energy Bar" ID="0xC"/>
-                    <Element Name="End Game" ID="0xD"/>
-                    <Element Name="HUD Fade In" ID="0xE"/>
-                    <Element Name="Cinematic Skip" ID="0xF"/>
-                    <Element Name="Script Layer Controller" ID="0x10"/>
-                    <Element Name="Rain Simulator" ID="0x11"/>
-                    <Element Name="Area Damage" ID="0x12"/>
-                    <Element Name="Object Follow Object (Unused)" ID="0x13"/>
-                    <Element Name="Redundant Hint System" ID="0x14"/>
-                    <Element Name="Drop Bomb" ID="0x15"/>
-                    <Element Name="Function 22" ID="0x16"/>
-                    <Element Name="Missile Station" ID="0x17"/>
+                    <Element Name="Null" ID="0x0"/>
+                    <Element Name="PlayerFollowLocator" ID="0x1"/>
+                    <Element Name="SpinnerController" ID="0x2"/>
+                    <Element Name="ObjectFollowLocator" ID="0x3"/>
+                    <Element Name="ChaffTarget" ID="0x4"/>
+                    <Element Name="InventoryActivator" ID="0x5"/>
+                    <Element Name="MapStation" ID="0x6"/>
+                    <Element Name="SaveStation" ID="0x7"/>
+                    <Element Name="IntroBossRingController" ID="0x8"/>
+                    <Element Name="ViewFrustumTester" ID="0x9"/>
+                    <Element Name="ShotSpinnerController" ID="0xA"/>
+                    <Element Name="EscapeSequence" ID="0xB"/>
+                    <Element Name="BossEnergyBar" ID="0xC"/>
+                    <Element Name="EndGame" ID="0xD"/>
+                    <Element Name="HUDFadeIn" ID="0xE"/>
+                    <Element Name="CinematicSkip" ID="0xF"/>
+                    <Element Name="ScriptLayerController" ID="0x10"/>
+                    <Element Name="RainSimulator" ID="0x11"/>
+                    <Element Name="AreaDamage" ID="0x12"/>
+                    <Element Name="ObjectFollowObject" ID="0x13"/>
+                    <Element Name="RedundantHintSystem" ID="0x14"/>
+                    <Element Name="DropBomb" ID="0x15"/>
+                    <Element Name="ScaleActor" ID="0x16"/>
+                    <Element Name="MissileStation" ID="0x17"/>
                     <Element Name="Billboard" ID="0x18"/>
-                    <Element Name="Player In Area Relay" ID="0x19"/>
-                    <Element Name="HUD Target" ID="0x1A"/>
-                    <Element Name="Fog Fader" ID="0x1B"/>
-                    <Element Name="Enter Logbook Screen" ID="0x1C"/>
-                    <Element Name="Power Bomb Station" ID="0x1D"/>
+                    <Element Name="PlayerInAreaRelay" ID="0x19"/>
+                    <Element Name="HUDTarget" ID="0x1A"/>
+                    <Element Name="FogFader" ID="0x1B"/>
+                    <Element Name="EnterLogbook" ID="0x1C"/>
+                    <Element Name="PowerBombStation" ID="0x1D"/>
                     <Element Name="Ending" ID="0x1E"/>
-                    <Element Name="Fusion Relay" ID="0x1F"/>
-                    <Element Name="Weapon Switch (PAL-only)" ID="0x20"/>
+                    <Element Name="FusionRelay" ID="0x1F"/>
+                    <Element Name="WeaponSwitch" ID="0x20"/>
+                    <Element Name="FogVolume" ID="0x21"/>
+                    <Element Name="RadialDamage" ID="0x22"/>
+                    <Element Name="EnvFxDensityController" ID="0x23"/>
+                    <Element Name="RumbleEffect" ID="0x24"/>
                 </Values>
             </Element>
             <Element Type="String" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>StringParam</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>ValueParam</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>ValueParam2</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 4</Name>
+                <Name>ValueParam3</Name>
             </Element>
             <Element Type="Struct" ID="0x8" Archetype="LayerSwitch"/>
             <Element Type="Choice" ID="0x9" Archetype="PlayerItem"/>
@@ -68,16 +72,16 @@
                 <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 5</Name>
+                <Name>ValueParam4</Name>
             </Element>
             <Element Type="Sound" ID="0xC">
-                <Name>Used by SpinnerController 1</Name>
+                <Name>Sound1</Name>
             </Element>
             <Element Type="Sound" ID="0xD">
-                <Name>Used by SpinnerController 2</Name>
+                <Name>Sound2</Name>
             </Element>
             <Element Type="Sound" ID="0xE">
-                <Name>Used by SpinnerController 3</Name>
+                <Name>Sound3</Name>
             </Element>
         </SubProperties>
     </Properties>

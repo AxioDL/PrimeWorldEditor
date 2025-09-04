@@ -7,16 +7,16 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Bool" ID="0x1">
-                <Name>Unknown 1</Name>
+                <Name>DefaultActive</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Active</Name>
+                <Name>SkipSendActive</Name>
             </Element>
         </SubProperties>
     </Properties>
     <EditorProperties>
         <NameProperty>0x00</NameProperty>
-        <ActiveProperty>0x02</ActiveProperty>
+        <ActiveProperty>0x01</ActiveProperty>
     </EditorProperties>
     <Assets>
         <Element Type="Billboard" Source="File" Location="script/common/MemoryRelay.TXTR"/>

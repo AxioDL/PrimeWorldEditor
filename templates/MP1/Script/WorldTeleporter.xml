@@ -10,13 +10,13 @@
                 <Name>Active</Name>
             </Element>
             <Element Type="Asset" ID="0x2">
-                <Name>World</Name>
+                <Name>WorldID</Name>
                 <TypeFilter>
                     <Element>MLVL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x3">
-                <Name>Area</Name>
+                <Name>AreaID</Name>
                 <TypeFilter>
                     <Element>MREA</Element>
                 </TypeFilter>
@@ -25,64 +25,64 @@
                 <Name>Player Model</Name>
             </Element>
             <Element Type="Vector" ID="0x5">
-                <Name>Player Scale</Name>
+                <Name>PlayerScale</Name>
             </Element>
             <Element Type="Asset" ID="0x6">
-                <Name>Elevator Platform Model</Name>
+                <Name>PlatformModel</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Vector" ID="0x7">
-                <Name>Elevator Platform Scale</Name>
+                <Name>PlatformScale</Name>
             </Element>
             <Element Type="Asset" ID="0x8">
-                <Name>Elevator Background Model</Name>
+                <Name>BackgroundModel</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Vector" ID="0x9">
-                <Name>Elevator Background Scale</Name>
+                <Name>BackgroundScale</Name>
             </Element>
             <Element Type="Bool" ID="0xA">
-                <Name>Upward Elevator</Name>
+                <Name>UpElevator</Name>
             </Element>
             <Element Type="Sound" ID="0xB">
-                <Name>Elevator Sound</Name>
+                <Name>ElevatorSound</Name>
             </Element>
             <Element Type="Int" ID="0xC">
-                <Name>Sound Volume</Name>
+                <Name>Volume</Name>
             </Element>
             <Element Type="Int" ID="0xD">
-                <Name>Unknown (Sound-Related)</Name>
+                <Name>Panning</Name>
             </Element>
             <Element Type="Bool" ID="0xE">
-                <Name>Show Text Instead Of Cutscene</Name>
+                <Name>ShowText</Name>
             </Element>
             <Element Type="Asset" ID="0xF">
-                <Name>Font</Name>
+                <Name>FontID</Name>
                 <TypeFilter>
                     <Element>FONT</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x10">
-                <Name>String</Name>
+                <Name>StringID</Name>
                 <TypeFilter>
                     <Element>STRG</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Bool" ID="0x11">
-                <Name>Fade In From/Out To White</Name>
+                <Name>FadeWhite</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Character Fade In Time</Name>
+                <Name>CharFadeInTime</Name>
             </Element>
             <Element Type="Float" ID="0x13">
-                <Name>Characters Per Second</Name>
+                <Name>CharFadeOutTime</Name>
             </Element>
             <Element Type="Float" ID="0x14">
-                <Name>Delay Before Showing Text</Name>
+                <Name>ShowDelay</Name>
             </Element>
         </SubProperties>
     </Properties>

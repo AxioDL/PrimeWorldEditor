@@ -3,65 +3,71 @@
     <PropertyArchetype Type="Struct">
         <Name>ScriptBeamStruct</Name>
         <SubProperties>
-            <Element Type="Int" ID="0x0">
-                <Name>Unknown 1</Name>
+            <Element Type="Choice" ID="0x0">
+                <Name>BeamAttributes</Name>
+                <Values>
+                    <Element Name="MotionBlur" ID="0x0"/>
+                    <Element Name="PulseEffect" ID="0x1"/>
+                    <Element Name="OneShot" ID="0x2"/>
+                    <Element Name="PhazonDamage" ID="0x3"/>
+                </Values>
             </Element>
             <Element Type="Asset" ID="0x1">
-                <Name>Particle 1</Name>
+                <Name>ContactFxID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x2">
-                <Name>Particle 2</Name>
+                <Name>PulseFxID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x3">
-                <Name>Texture 1</Name>
+                <Name>TextureID</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x4">
-                <Name>Texture 2</Name>
+                <Name>GlowTextureID</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>Length</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>Radius</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 4</Name>
+                <Name>ExpansionSpeed</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 5</Name>
+                <Name>Lifetime</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 6</Name>
+                <Name>PulseSpeed</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 7</Name>
+                <Name>ShutdownTime</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 8</Name>
+                <Name>ContactFXScale</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 9</Name>
+                <Name>PulseFxScale</Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 10</Name>
+                <Name>TravelSpeed</Name>
             </Element>
             <Element Type="Color" ID="0xE">
-                <Name>Unknown 11</Name>
+                <Name>InnerColor</Name>
             </Element>
             <Element Type="Color" ID="0xF">
-                <Name>Unknown 12</Name>
+                <Name>OuterColor</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

@@ -13,65 +13,65 @@
                 <Name>Rotation</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Struct" ID="0x4" Archetype="PlayerHintStruct"/>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>HintToCamDistMin </Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>HintToCamDistMax</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 4</Name>
+                <Name>HintToCamVOffMin</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 5</Name>
+                <Name>HintToCamVOffMax</Name>
             </Element>
             <Element Type="Struct" ID="0x9" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 1</Name>
+                <Name>TargetHintToCamDeltaAngleVel</Name>
             </Element>
             <Element Type="Struct" ID="0xA" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 2</Name>
+                <Name>DeltaAngleScaleWithCamDist</Name>
             </Element>
             <Element Type="Struct" ID="0xB" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 3</Name>
+                <Name>HintToCamDist</Name>
             </Element>
             <Element Type="Struct" ID="0xC" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 4</Name>
+                <Name>DistOffsetFromBallDist</Name>
             </Element>
             <Element Type="Struct" ID="0xD" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 5</Name>
+                <Name>HintBallToCamAzimuth</Name>
             </Element>
             <Element Type="Struct" ID="0xE" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 6</Name>
+                <Name>unused</Name>
             </Element>
             <Element Type="Struct" ID="0xF" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 7</Name>
+                <Name>MaxHintBallToCamAzimuth</Name>
             </Element>
             <Element Type="Struct" ID="0x10" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 8</Name>
+                <Name>CamLookRelAzimuth</Name>
             </Element>
             <Element Type="Struct" ID="0x11" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 9</Name>
+                <Name>LookPosZOffset</Name>
             </Element>
             <Element Type="Struct" ID="0x12" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 10</Name>
+                <Name>CamPosZOffset</Name>
             </Element>
             <Element Type="Struct" ID="0x13" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 11</Name>
+                <Name>ClampedAzimuthFromHintDir</Name>
             </Element>
             <Element Type="Struct" ID="0x14" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 12</Name>
+                <Name>DampingAzimuthSpeed</Name>
             </Element>
             <Element Type="Struct" ID="0x15" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 13</Name>
+                <Name>TargetHintToCamDeltaAngleVelRange</Name>
             </Element>
             <Element Type="Struct" ID="0x16" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 14</Name>
+                <Name>DeleteHintBallDist</Name>
             </Element>
             <Element Type="Struct" ID="0x17" Archetype="SpindleCameraStruct">
-                <Name>SpindleCameraStruct 15</Name>
+                <Name>RecoverClampedAzimuthFromHintDir</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -79,6 +79,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x03</ActiveProperty>
     </EditorProperties>
     <ScaleType>ScaleDisabled</ScaleType>
 </ScriptObject>

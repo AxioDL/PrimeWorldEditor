@@ -17,142 +17,142 @@
             </Element>
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters">
-                <Name>ActorParameters 1</Name>
+                <Name>ActorParameters</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 1</Name>
+                <Name>TauntInterval</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>TauntVariance</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>Unknown 1</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 4</Name>
+                <Name>Unknown 2</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 5</Name>
+                <Name>AttackChance</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 6</Name>
+                <Name>ShotAtTime</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 7</Name>
+                <Name>ShotAtTimeVariance</Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 8</Name>
+                <Name>ProjectileAttractionRadius</Name>
             </Element>
             <Element Type="Asset" ID="0xE">
-                <Name>Particle 1</Name>
+                <Name>EnergyAbsorbParticleDescID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0xF">
-                <Name>Sound ID 1</Name>
+                <Name>EnergyAbsorbSfxID</Name>
             </Element>
             <Element Type="Struct" ID="0x10" Archetype="ActorParameters">
-                <Name>ActorParameters 2</Name>
+                <Name>LauncherActParams</Name>
             </Element>
             <Element Type="AnimationSet" ID="0x11">
-                <Name>AnimationParameters</Name>
+                <Name>LauncherAnimParams</Name>
             </Element>
             <Element Type="Asset" ID="0x12">
-                <Name>Particle 2</Name>
+                <Name>LauncherParticleGenDescID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0x13">
-                <Name>Sound ID 2</Name>
+                <Name>LauncherSfxID</Name>
             </Element>
             <Element Type="Asset" ID="0x14">
-                <Name>Model</Name>
+                <Name>GrenadeModelID</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x15" Archetype="DamageInfo">
-                <Name>DamageInfo 1</Name>
+                <Name>GrenadeDamageInfo</Name>
             </Element>
             <Element Type="Float" ID="0x16">
-                <Name>Unknown 9</Name>
+                <Name>LauncherHP</Name>
             </Element>
             <Element Type="Asset" ID="0x17">
-                <Name>Particle 3</Name>
+                <Name>GrenadeElementGenDescID1</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x18">
-                <Name>Particle 4</Name>
+                <Name>GrenadeElementGenDescID2</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x19">
-                <Name>Particle 5</Name>
+                <Name>GrenadeElementGenDescID3</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x1A">
-                <Name>Particle 6</Name>
+                <Name>GrenadeElementGenDescID4</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0x1B">
-                <Name>Unknown 10</Name>
+                <Name>Unknown 3</Name>
             </Element>
             <Element Type="Float" ID="0x1C">
-                <Name>Unknown 11</Name>
+                <Name>Unknown 4</Name>
             </Element>
             <Element Type="Float" ID="0x1D">
-                <Name>Unknown 12</Name>
+                <Name>Unknown 5</Name>
             </Element>
             <Element Type="Float" ID="0x1E">
-                <Name>Unknown 13</Name>
+                <Name>Unknown 6</Name>
             </Element>
             <Element Type="Float" ID="0x1F">
-                <Name>Unknown 14</Name>
+                <Name>Unknown 7</Name>
             </Element>
             <Element Type="Float" ID="0x20">
-                <Name>Unknown 15</Name>
+                <Name>Unknown 8</Name>
             </Element>
             <Element Type="Int" ID="0x21">
-                <Name>Unknown 16</Name>
+                <Name>GrenadeNumBounces</Name>
             </Element>
             <Element Type="Sound" ID="0x22">
-                <Name>Sound ID 3</Name>
+                <Name>GrenadeBounceSfxID</Name>
             </Element>
             <Element Type="Sound" ID="0x23">
-                <Name>Sound ID 4</Name>
+                <Name>GrenadeExplodeSfxID</Name>
             </Element>
             <Element Type="Asset" ID="0x24">
-                <Name>Particle 7</Name>
+                <Name>ShockwaveParticleDescID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x25" Archetype="DamageInfo">
-                <Name>DamageInfo 2</Name>
+                <Name>ShockwaveDamageInfo</Name>
             </Element>
             <Element Type="Asset" ID="0x26">
-                <Name>ELSC</Name>
+                <Name>ShockwaveWeaponDescID</Name>
                 <TypeFilter>
                     <Element>ELSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0x27">
-                <Name>Sound ID 5</Name>
+                <Name>ShockwaveElectrocuteSFXID</Name>
             </Element>
             <Element Type="Bool" ID="0x28">
-                <Name>Unknown 17</Name>
+                <Name>CanCallForBackup</Name>
             </Element>
             <Element Type="Bool" ID="0x29">
-                <Name>Unknown 18</Name>
+                <Name>FastWhenAttractingEnergy</Name>
             </Element>
         </SubProperties>
     </Properties>

@@ -7,16 +7,18 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Vector" ID="0x1">
-                <Name>Rotation Offset</Name>
+                <Name>RotationOffset</Name>
             </Element>
             <Element Type="Float" ID="0x2">
-                <Name>Time Scale </Name>
+                <Name>TimeScale</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>UpdateActors</Name>
+                <Description>Sends "Play" messages to connected actors during rotation.</Description>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 2</Name>
+                <Name>UpdateOnRegister</Name>
+                <Description>Sends "Play" messages to connected actors when registered.</Description>
             </Element>
             <Element Type="Bool" ID="0x5">
                 <Name>Active</Name>

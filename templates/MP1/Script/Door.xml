@@ -20,13 +20,13 @@
             </Element>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Vector" ID="0x6">
-                <Name>Scan Offset</Name>
+                <Name>OrbitPos</Name>
             </Element>
             <Element Type="Vector" ID="0x7">
-                <Name>Collision Size</Name>
+                <Name>CollisionSize</Name>
             </Element>
             <Element Type="Vector" ID="0x8">
-                <Name>Collision Offset</Name>
+                <Name>CollisionOffset</Name>
             </Element>
             <Element Type="Bool" ID="0x9">
                 <Name>Active</Name>
@@ -35,13 +35,13 @@
                 <Name>Open</Name>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Unknown 6</Name>
+                <Name>ProjectilesCollide</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Open/Close Animation Length</Name>
+                <Name>AnimationLength</Name>
             </Element>
             <Element Type="Bool" ID="0xD">
-                <Name>Unknown 8</Name>
+                <Name>IsMorphballDoor</Name>
             </Element>
         </SubProperties>
     </Properties>

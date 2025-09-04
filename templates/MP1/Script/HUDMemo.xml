@@ -7,20 +7,21 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Float" ID="0x1">
-                <Name>First message timer</Name>
+                <Name>DisplayTime</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Unknown 1</Name>
+                <Name>ClearMemoWindow</Name>
+                <Description>If false, the HUDMemo on-screen count will not clear.</Description>
             </Element>
             <Element Type="Choice" ID="0x3">
-                <Name>Memo Type</Name>
+                <Name>DisplayType</Name>
                 <Values>
                     <Element Name="Status Message" ID="0x0"/>
                     <Element Name="Message Box" ID="0x1"/>
                 </Values>
             </Element>
             <Element Type="Asset" ID="0x4">
-                <Name>STRG</Name>
+                <Name>Message</Name>
                 <TypeFilter>
                     <Element>STRG</Element>
                 </TypeFilter>

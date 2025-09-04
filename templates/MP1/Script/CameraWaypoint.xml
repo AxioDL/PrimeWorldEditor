@@ -16,10 +16,11 @@
                 <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 2</Name>
+                <Name>Field Of View</Name>
             </Element>
             <Element Type="Int" ID="0x5">
-                <Name>Unknown 3</Name>
+                <Name>Unknown</Name>
+                <Description>Unused?</Description>
             </Element>
         </SubProperties>
     </Properties>

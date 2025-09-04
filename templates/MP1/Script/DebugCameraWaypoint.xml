@@ -13,7 +13,7 @@
                 <Name>Rotation</Name>
             </Element>
             <Element Type="Int" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Unknown</Name>
             </Element>
         </SubProperties>
     </Properties>

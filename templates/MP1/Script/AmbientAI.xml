@@ -16,13 +16,13 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Vector" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>CollisionBox</Name>
             </Element>
             <Element Type="Vector" ID="0x5">
-                <Name>Scan Offset</Name>
+                <Name>CollisionOffset</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 2</Name>
+                <Name>Mass</Name>
             </Element>
             <Element Type="Struct" ID="0x7" Archetype="HealthInfo"/>
             <Element Type="Struct" ID="0x8" Archetype="DamageVulnerability"/>
@@ -31,16 +31,16 @@
             </Element>
             <Element Type="Struct" ID="0xA" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 3</Name>
+                <Name>AlertRange</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 4</Name>
+                <Name>ImpactRange</Name>
             </Element>
             <Element Type="Int" ID="0xD">
-                <Name>Unknown 5</Name>
+                <Name>AlertAnimationID</Name>
             </Element>
             <Element Type="Int" ID="0xE">
-                <Name>Unknown 6</Name>
+                <Name>ImpactAnimationID</Name>
             </Element>
             <Element Type="Bool" ID="0xF">
                 <Name>Active</Name>

@@ -14,10 +14,10 @@
                 <Name>Fluid Layer Motion 3</Name>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Time To Wrap</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 2</Name>
+                <Name>Orientation</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

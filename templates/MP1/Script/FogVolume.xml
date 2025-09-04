@@ -13,13 +13,13 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>Flicker Speed</Name>
+                <Name>FlickerSpeed</Name>
             </Element>
             <Element Type="Float" ID="0x4">
                 <Name>Unknown</Name>
             </Element>
             <Element Type="Color" ID="0x5">
-                <Name>Fog Color</Name>
+                <Name>FogColor</Name>
             </Element>
             <Element Type="Bool" ID="0x6">
                 <Name>Active</Name>

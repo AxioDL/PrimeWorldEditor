@@ -13,42 +13,75 @@
                 <Name>Rotation</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Int" ID="0x4">
-                <Name>Unknown 2</Name>
+                <Name>Priority</Name>
             </Element>
-            <Element Type="Int" ID="0x5">
-                <Name>Unknown 3</Name>
+            <Element Type="Choice" ID="0x5">
+                <Name>BallCameraBehavior</Name>
+                <Values>
+                    <Element Name="Default" ID="0x0"/>
+                    <Element Name="FreezeLookPosition" ID="0x1"/>
+                    <Element Name="HintBallToCamera" ID="0x2"/>
+                    <Element Name="HintInitializePosition" ID="0x3"/>
+                    <Element Name="HintFixedPosition" ID="0x4"/>
+                    <Element Name="HintFixedTransform" ID="0x5"/>
+                    <Element Name="PathCamera DesiredPosition" ID="0x6"/>
+                    <Element Name="PathCamera" ID="0x7"/>
+                    <Element Name="SpindleCamera" ID="0x8"/>
+                </Values>
             </Element>
-            <Element Type="Struct" ID="0x6" Archetype="CameraHintStruct"/>
-            <Element Type="Struct" ID="0x7" Archetype="BoolFloat"/>
-            <Element Type="Struct" ID="0x8" Archetype="BoolFloat"/>
-            <Element Type="Struct" ID="0x9" Archetype="BoolFloat"/>
-            <Element Type="Struct" ID="0xA" Archetype="BoolVec3f"/>
-            <Element Type="Struct" ID="0xB" Archetype="BoolVec3f"/>
+            <Element Type="Struct" ID="0x6" Archetype="CameraHintStruct">
+                <Name>BallCameraHints</Name>
+            </Element>
+            <Element Type="Struct" ID="0x7" Archetype="BoolFloat">
+                <Name>MinDistance</Name>
+            </Element>
+            <Element Type="Struct" ID="0x8" Archetype="BoolFloat">
+                <Name>MaxDistance</Name>
+            </Element>
+            <Element Type="Struct" ID="0x9" Archetype="BoolFloat">
+                <Name>BackwardsDistance</Name>
+            </Element>
+            <Element Type="Struct" ID="0xA" Archetype="BoolVec3f">
+                <Name>LookAtOffset</Name>
+            </Element>
+            <Element Type="Struct" ID="0xB" Archetype="BoolVec3f">
+                <Name>ChaseLookAtOffset</Name>
+            </Element>
             <Element Type="Vector" ID="0xC">
-                <Name>Unknown 36</Name>
+                <Name>BallToCamera</Name>
             </Element>
-            <Element Type="Struct" ID="0xD" Archetype="BoolFloat"/>
-            <Element Type="Struct" ID="0xE" Archetype="BoolFloat"/>
-            <Element Type="Struct" ID="0xF" Archetype="BoolFloat"/>
-            <Element Type="Struct" ID="0x10" Archetype="BoolFloat"/>
+            <Element Type="Struct" ID="0xD" Archetype="BoolFloat">
+                <Name>FieldOfView</Name>
+            </Element>
+            <Element Type="Struct" ID="0xE" Archetype="BoolFloat">
+                <Name>AttitudeRange</Name>
+            </Element>
+            <Element Type="Struct" ID="0xF" Archetype="BoolFloat">
+                <Name>AzimuthRange</Name>
+            </Element>
+            <Element Type="Struct" ID="0x10" Archetype="BoolFloat">
+                <Name>AnglePerSecond</Name>
+            </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 45</Name>
+                <Name>ClampVelocityRange</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 46</Name>
+                <Name>ClampRotationRange</Name>
             </Element>
-            <Element Type="Struct" ID="0x13" Archetype="BoolFloat"/>
+            <Element Type="Struct" ID="0x13" Archetype="BoolFloat">
+                <Name>Elevation</Name>
+            </Element>
             <Element Type="Float" ID="0x14">
-                <Name>Unknown 49</Name>
+                <Name>InterpolateTime</Name>
             </Element>
             <Element Type="Float" ID="0x15">
-                <Name>Unknown 50</Name>
+                <Name>ClampVelocityTime</Name>
             </Element>
             <Element Type="Float" ID="0x16">
-                <Name>Unknown 51</Name>
+                <Name>ControlInterpolationDuration</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -56,6 +89,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x03</ActiveProperty>
     </EditorProperties>
     <ScaleType>ScaleDisabled</ScaleType>
 </ScriptObject>

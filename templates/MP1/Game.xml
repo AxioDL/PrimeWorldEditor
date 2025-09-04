@@ -833,7 +833,7 @@
         </Element>
         <Element>
             <Key>0xB</Key>
-            <Value>UnknownState1</Value>
+            <Value>CloseIn</Value>
         </Element>
         <Element>
             <Key>0xC</Key>
@@ -857,7 +857,7 @@
         </Element>
         <Element>
             <Key>0x11</Key>
-            <Value>UnknownState2</Value>
+            <Value>DeactivateState</Value>
         </Element>
         <Element>
             <Key>0x12</Key>
@@ -865,7 +865,7 @@
         </Element>
         <Element>
             <Key>0x13</Key>
-            <Value>UnknownState3</Value>
+            <Value>MassiveDeath</Value>
         </Element>
         <Element>
             <Key>0x14</Key>
@@ -873,7 +873,7 @@
         </Element>
         <Element>
             <Key>0x15</Key>
-            <Value>UnknownState4</Value>
+            <Value>AboutToMassivelyDie</Value>
         </Element>
         <Element>
             <Key>0x16</Key>
@@ -881,23 +881,35 @@
         </Element>
         <Element>
             <Key>0x17</Key>
-            <Value>UnknownState5</Value>
+            <Value>InvulnDamage</Value>
         </Element>
         <Element>
             <Key>0x18</Key>
-            <Value>UnknownState6</Value>
+            <Value>MassiveFrozenDeath</Value>
         </Element>
         <Element>
             <Key>0x19</Key>
             <Value>Modify</Value>
         </Element>
         <Element>
+            <Key>0x1A</Key>
+            <Value>ScanStart</Value>
+        </Element>
+        <Element>
+            <Key>0x1B</Key>
+            <Value>ScanProcessing</Value>
+        </Element>
+        <Element>
             <Key>0x1C</Key>
             <Value>ScanDone</Value>
         </Element>
         <Element>
+            <Key>0x1D</Key>
+            <Value>UnFrozen</Value>
+        </Element>
+        <Element>
             <Key>0x1E</Key>
-            <Value>DFST</Value>
+            <Value>DefaultState</Value>
         </Element>
         <Element>
             <Key>0x1F</Key>
@@ -915,7 +927,7 @@
         </Element>
         <Element>
             <Key>0x2</Key>
-            <Value>UnknownMessage1</Value>
+            <Value>Arrived</Value>
         </Element>
         <Element>
             <Key>0x3</Key>
@@ -979,7 +991,7 @@
         </Element>
         <Element>
             <Key>0x12</Key>
-            <Value>UnknownMessage2</Value>
+            <Value>UnknownMessage</Value>
         </Element>
         <Element>
             <Key>0x13</Key>
@@ -992,6 +1004,114 @@
         <Element>
             <Key>0x15</Key>
             <Value>Alert</Value>
+        </Element>
+        <Element>
+            <Key>0x16</Key>
+            <Value>InternalMessage0</Value>
+        </Element>
+        <Element>
+            <Key>0x17</Key>
+            <Value>OnFloor</Value>
+        </Element>
+        <Element>
+            <Key>0x18</Key>
+            <Value>InternalMessage1</Value>
+        </Element>
+        <Element>
+            <Key>0x19</Key>
+            <Value>InternalMessage2</Value>
+        </Element>
+        <Element>
+            <Key>0x1A</Key>
+            <Value>Falling</Value>
+        </Element>
+        <Element>
+            <Key>0x1B</Key>
+            <Value>OnIceSurface</Value>
+        </Element>
+        <Element>
+            <Key>0x1C</Key>
+            <Value>OnMudSlowSurface</Value>
+        </Element>
+        <Element>
+            <Key>0x1D</Key>
+            <Value>OnNormalSurface</Value>
+        </Element>
+        <Element>
+            <Key>0x1E</Key>
+            <Value>Touched</Value>
+        </Element>
+        <Element>
+            <Key>0x1F</Key>
+            <Value>AddPlatformRider</Value>
+        </Element>
+        <Element>
+            <Key>0x20</Key>
+            <Value>LandOnNotFloor</Value>
+        </Element>
+        <Element>
+            <Key>0x21</Key>
+            <Value>Registered</Value>
+        </Element>
+        <Element>
+            <Key>0x22</Key>
+            <Value>Deleted</Value>
+        </Element>
+        <Element>
+            <Key>0x23</Key>
+            <Value>InitializedInArea</Value>
+        </Element>
+        <Element>
+            <Key>0x24</Key>
+            <Value>WorldInitialized</Value>
+        </Element>
+        <Element>
+            <Key>0x25</Key>
+            <Value>AddSplashInhabitant</Value>
+        </Element>
+        <Element>
+            <Key>0x26</Key>
+            <Value>UpdateSplashInhabitant</Value>
+        </Element>
+        <Element>
+            <Key>0x27</Key>
+            <Value>RemoveSplashInhabitant</Value>
+        </Element>
+        <Element>
+            <Key>0x28</Key>
+            <Value>Jumped</Value>
+        </Element>
+        <Element>
+            <Key>0x29</Key>
+            <Value>Damage</Value>
+        </Element>
+        <Element>
+            <Key>0x2A</Key>
+            <Value>InvulnDamage</Value>
+        </Element>
+        <Element>
+            <Key>0x2B</Key>
+            <Value>ProjectileCollide</Value>
+        </Element>
+        <Element>
+            <Key>0x2C</Key>
+            <Value>InSnakeWeed</Value>
+        </Element>
+        <Element>
+            <Key>0x2D</Key>
+            <Value>AddPhazonPoolInhabitant</Value>
+        </Element>
+        <Element>
+            <Key>0x2E</Key>
+            <Value>UpdatePhazonPoolInhabitant</Value>
+        </Element>
+        <Element>
+            <Key>0x2F</Key>
+            <Value>RemovePhazonPoolInhabitant</Value>
+        </Element>
+        <Element>
+            <Key>0x30</Key>
+            <Value>SuspendedMove</Value>
         </Element>
     </Messages>
 </Game>

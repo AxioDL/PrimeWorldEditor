@@ -27,25 +27,25 @@
                 </Values>
             </Element>
             <Element Type="Asset" ID="0x6">
-                <Name>Texture 1</Name>
+                <Name>PatternTex1</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x7">
-                <Name>Texture 2</Name>
+                <Name>PatternTex2</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x8">
-                <Name>Texture 3</Name>
+                <Name>ColorTex</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Bool" ID="0x9">
-                <Name>Enable Lock-On</Name>
+                <Name>CanOrbit</Name>
             </Element>
             <Element Type="Bool" ID="0xA">
                 <Name>Active</Name>

@@ -19,43 +19,43 @@
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Struct" ID="0x6" Archetype="DamageInfo"/>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 1</Name>
+                <Name>AttackRadius</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 2</Name>
+                <Name>Unknown 1</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 3</Name>
+                <Name>Unknown 2</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 4</Name>
+                <Name>Unknown 3</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 5</Name>
+                <Name>Unknown 4</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 6</Name>
+                <Name>Unknown 5</Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 7</Name>
+                <Name>Unknown 6</Name>
             </Element>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 8</Name>
+                <Name>Unknown 7</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 9</Name>
+                <Name>Priority</Name>
             </Element>
             <Element Type="Float" ID="0x10">
-                <Name>Unknown 10</Name>
+                <Name>RepulseRadius</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 11</Name>
+                <Name>AttractRadius</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 12</Name>
+                <Name>Unknown 8</Name>
             </Element>
             <Element Type="Bool" ID="0x13">
-                <Name>Unknown 13</Name>
+                <Name>Unknown 9</Name>
             </Element>
         </SubProperties>
     </Properties>

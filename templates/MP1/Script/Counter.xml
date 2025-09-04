@@ -7,13 +7,13 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Int" ID="0x1">
-                <Name>Start Value</Name>
+                <Name>Initial</Name>
             </Element>
             <Element Type="Int" ID="0x2">
-                <Name>Max Value</Name>
+                <Name>Max</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Reset When Max/Zero Reached</Name>
+                <Name>AutoReset</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
                 <Name>Active</Name>

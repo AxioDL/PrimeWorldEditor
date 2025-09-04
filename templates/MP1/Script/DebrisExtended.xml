@@ -16,52 +16,52 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>LinConeAngle</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>LinMinMag</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>LinMaxMag</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 4</Name>
+                <Name>AngMinMag</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 5</Name>
+                <Name>AngMaxMag</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 6</Name>
+                <Name>MinDuration</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 7</Name>
+                <Name>MaxDuration</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 8</Name>
+                <Name>ColorInT</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 9</Name>
+                <Name>ColorOutT </Name>
             </Element>
             <Element Type="Color" ID="0xD">
-                <Name>Unknown 10</Name>
+                <Name>Color</Name>
             </Element>
             <Element Type="Color" ID="0xE">
-                <Name>Unknown 11</Name>
+                <Name>EndsColor</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 12</Name>
+                <Name>ScaleOutT</Name>
             </Element>
             <Element Type="Vector" ID="0x10">
-                <Name>Unknown 13</Name>
+                <Name>EndScale </Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 14</Name>
+                <Name>Restitution</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 15</Name>
+                <Name>DownwardSpeed </Name>
             </Element>
             <Element Type="Vector" ID="0x13">
-                <Name>Unknown 16</Name>
+                <Name>LocalOffset </Name>
             </Element>
             <Element Type="Asset" ID="0x14">
                 <Name>Model</Name>
@@ -71,64 +71,64 @@
             </Element>
             <Element Type="Struct" ID="0x15" Archetype="ActorParameters"/>
             <Element Type="Asset" ID="0x16">
-                <Name>Particle 1</Name>
+                <Name>Particle1</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Vector" ID="0x17">
-                <Name>Unknown 17</Name>
+                <Name>Particle1Scale</Name>
             </Element>
             <Element Type="Bool" ID="0x18">
-                <Name>Unknown 18</Name>
+                <Name>Particle1GlobalTranslation </Name>
             </Element>
             <Element Type="Bool" ID="0x19">
-                <Name>Unknown 19</Name>
+                <Name>DeferDeleteTillParticle1Done </Name>
             </Element>
             <Element Type="Int" ID="0x1A">
-                <Name>Unknown 20</Name>
+                <Name>Particle1Orientation</Name>
             </Element>
             <Element Type="Asset" ID="0x1B">
-                <Name>Particle 2</Name>
+                <Name>Particle2</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Vector" ID="0x1C">
-                <Name>Unknown 21</Name>
+                <Name>Particle2Scale</Name>
             </Element>
             <Element Type="Bool" ID="0x1D">
-                <Name>Unknown 22</Name>
+                <Name>Particle2GlobalTranslation</Name>
             </Element>
             <Element Type="Bool" ID="0x1E">
-                <Name>Unknown 23</Name>
+                <Name>DeferDeleteTillParticle2Done</Name>
             </Element>
             <Element Type="Int" ID="0x1F">
-                <Name>Unknown 24</Name>
+                <Name>Particle2Orientation</Name>
             </Element>
             <Element Type="Asset" ID="0x20">
-                <Name>Particle 3</Name>
+                <Name>Particle3</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Vector" ID="0x21">
-                <Name>Unknown 25</Name>
+                <Name>Particle3Scale</Name>
             </Element>
             <Element Type="Int" ID="0x22">
-                <Name>Unknown 26</Name>
+                <Name>Particle3Orientation</Name>
             </Element>
             <Element Type="Bool" ID="0x23">
-                <Name>Unknown 27</Name>
+                <Name>Solid</Name>
             </Element>
             <Element Type="Bool" ID="0x24">
-                <Name>Unknown 28</Name>
+                <Name>DieOnProjectile</Name>
             </Element>
             <Element Type="Bool" ID="0x25">
-                <Name>Unknown 29</Name>
+                <Name>NoBounce</Name>
             </Element>
             <Element Type="Bool" ID="0x26">
-                <Name>Unknown 30</Name>
+                <Name>Active</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -137,6 +137,7 @@
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
         <ScaleProperty>0x03</ScaleProperty>
+        <ActiveProperty>0x26</ActiveProperty>
         <LightParametersProperty>0x15:0x00</LightParametersProperty>
     </EditorProperties>
     <Assets>

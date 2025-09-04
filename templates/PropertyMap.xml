@@ -651,7 +651,7 @@
         </Element>
         <Element>
             <Key ID="0x3ADCF46" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="MiniMapBGColor"/>
         </Element>
         <Element>
             <Key ID="0x3B0A66B" Type="spline"/>
@@ -719,7 +719,7 @@
         </Element>
         <Element>
             <Key ID="0x4058043" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="WaveBeamDoorColor"/>
         </Element>
         <Element>
             <Key ID="0x40A4EDF" Type="int"/>
@@ -1163,7 +1163,7 @@
         </Element>
         <Element>
             <Key ID="0x65DD754" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MapScreenCameraMinDistance"/>
         </Element>
         <Element>
             <Key ID="0x66BC855" Type="LaunchProjectileData"/>
@@ -1887,7 +1887,7 @@
         </Element>
         <Element>
             <Key ID="0xAED5C7D" Type="PathDetermination"/>
-            <Value Name="PathDetermination"/>
+            <Value Name="PathPositionDetermination"/>
         </Element>
         <Element>
             <Key ID="0xAF428B4" Type="float"/>
@@ -2487,7 +2487,7 @@
         </Element>
         <Element>
             <Key ID="0xE8A3F95" Type="Vector"/>
-            <Value Name="Unknown"/>
+            <Value Name="TouchBoundsScalar"/>
         </Element>
         <Element>
             <Key ID="0xE958D9E" Type="float"/>
@@ -3067,7 +3067,7 @@
         </Element>
         <Element>
             <Key ID="0x11B6A17A" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="LockScoreInitCombatVisor"/>
         </Element>
         <Element>
             <Key ID="0x11BC5E7A" Type="float"/>
@@ -3183,7 +3183,7 @@
         </Element>
         <Element>
             <Key ID="0x123CAC0E" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="FOV"/>
         </Element>
         <Element>
             <Key ID="0x12459941" Type="MultiModelActorStruct"/>
@@ -3855,7 +3855,7 @@
         </Element>
         <Element>
             <Key ID="0x161898DC" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="EnergyTransferModule"/>
         </Element>
         <Element>
             <Key ID="0x16212198" Type="UnknownStruct208"/>
@@ -6503,7 +6503,7 @@
         </Element>
         <Element>
             <Key ID="0x23F59057" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MiniMapViewportWidth"/>
         </Element>
         <Element>
             <Key ID="0x23F5E1EE" Type="int"/>
@@ -7111,7 +7111,7 @@
         </Element>
         <Element>
             <Key ID="0x27151EDE" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MiniMapCameraAngle"/>
         </Element>
         <Element>
             <Key ID="0x2718CED1" Type="float"/>
@@ -8367,7 +8367,7 @@
         </Element>
         <Element>
             <Key ID="0x2DE4A294" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="ProportionalReactiveCreation"/>
         </Element>
         <Element>
             <Key ID="0x2DE5A19A" Type="float"/>
@@ -9195,7 +9195,7 @@
         </Element>
         <Element>
             <Key ID="0x32698BD6" Type="string"/>
-            <Value Name="Name String Name"/>
+            <Value Name="StringName"/>
         </Element>
         <Element>
             <Key ID="0x326E7756" Type="TDamageInfo"/>
@@ -9750,8 +9750,12 @@
             <Value Name="Invulnerable"/>
         </Element>
         <Element>
-            <Key ID="0x359C7AAF" Type="ControllerActionStruct"/>
-            <Value Name="Command"/>
+            <Key ID="0x359C7AAF" Type="Unknown"/>
+            <Value Name="Unknown"/>
+        </Element>
+        <Element>
+            <Key ID="0x359C7AAF" Type=""/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x35A1EC10" Type="asset"/>
@@ -10251,7 +10255,7 @@
         </Element>
         <Element>
             <Key ID="0x385E0D43" Type="LayerInfo"/>
-            <Value Name="LayerInfo"/>
+            <Value Name="FlowGloss1"/>
         </Element>
         <Element>
             <Key ID="0x385E4738" Type="sound"/>
@@ -10263,7 +10267,7 @@
         </Element>
         <Element>
             <Key ID="0x386431AC" Type="int"/>
-            <Value Name="Sound_Alert"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x386D9AD7" Type="float"/>
@@ -11166,8 +11170,8 @@
             <Value Name="ClawModel"/>
         </Element>
         <Element>
-            <Key ID="0x3D326F90" Type="PlayerItem"/>
-            <Value Name="Inventory Slot"/>
+            <Key ID="0x3D326F90" Type="choice"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x3D3C1B76" Type="float"/>
@@ -12827,7 +12831,7 @@
         </Element>
         <Element>
             <Key ID="0x46219BAC" Type="asset"/>
-            <Value Name="Name String Table"/>
+            <Value Name="NodeName"/>
         </Element>
         <Element>
             <Key ID="0x462D3C4D" Type="float"/>
@@ -15319,7 +15323,7 @@
         </Element>
         <Element>
             <Key ID="0x52DC08C1" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MiniMapViewportPositionX"/>
         </Element>
         <Element>
             <Key ID="0x52EDD16B" Type="sound"/>
@@ -15403,7 +15407,7 @@
         </Element>
         <Element>
             <Key ID="0x533C5684" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="MapScreenBGColor"/>
         </Element>
         <Element>
             <Key ID="0x53401390" Type="float"/>
@@ -16179,7 +16183,7 @@
         </Element>
         <Element>
             <Key ID="0x57A46C09" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MapScreenCameraMaxDistance"/>
         </Element>
         <Element>
             <Key ID="0x57A4DFF2" Type="WeaponVulnerability"/>
@@ -18879,7 +18883,7 @@
         </Element>
         <Element>
             <Key ID="0x6714021C" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="DeleteWhenDone"/>
         </Element>
         <Element>
             <Key ID="0x671429BC" Type="bool"/>
@@ -19075,7 +19079,7 @@
         </Element>
         <Element>
             <Key ID="0x68097036" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MiniMapAreaOpacity"/>
         </Element>
         <Element>
             <Key ID="0x680CE795" Type="float"/>
@@ -19751,7 +19755,7 @@
         </Element>
         <Element>
             <Key ID="0x6B5E87A7" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="TrackObjectVelocity"/>
         </Element>
         <Element>
             <Key ID="0x6B62E419" Type="string"/>
@@ -19843,7 +19847,7 @@
         </Element>
         <Element>
             <Key ID="0x6BEA9324" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MapScreenCameraDefaultDistance"/>
         </Element>
         <Element>
             <Key ID="0x6BEAB9FA" Type="TweakPlayer_HyperMode"/>
@@ -20647,7 +20651,7 @@
         </Element>
         <Element>
             <Key ID="0x70754E15" Type="FOVInterpolationMethod"/>
-            <Value Name="FOVInterpolationMethod"/>
+            <Value Name="FOVInterpolationCustom"/>
         </Element>
         <Element>
             <Key ID="0x7076D432" Type="bool"/>
@@ -25162,10 +25166,6 @@
             <Value Name="DarkCommandoProperties"/>
         </Element>
         <Element>
-            <Key ID="0x89400BAA" Type="UnknownStruct15"/>
-            <Value Name="DarkCommandoProperties"/>
-        </Element>
-        <Element>
             <Key ID="0x8943A25D" Type="float"/>
             <Value Name="Distance2"/>
         </Element>
@@ -26795,7 +26795,7 @@
         </Element>
         <Element>
             <Key ID="0x923EF47A" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="IceBeamDoorColor"/>
         </Element>
         <Element>
             <Key ID="0x92485DFA" Type="int"/>
@@ -27819,7 +27819,7 @@
         </Element>
         <Element>
             <Key ID="0x97C0611F" Type="Flags"/>
-            <Value Name="Unknown"/>
+            <Value Name="AbandonedInnerFrozen"/>
         </Element>
         <Element>
             <Key ID="0x97C0611F" Type="int"/>
@@ -28163,7 +28163,7 @@
         </Element>
         <Element>
             <Key ID="0x9980DB64" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MiniMapViewportPositionY"/>
         </Element>
         <Element>
             <Key ID="0x99911B85" Type="float"/>
@@ -31683,7 +31683,7 @@
         </Element>
         <Element>
             <Key ID="0xAD3D5A3F" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MiniMapViewportHeight"/>
         </Element>
         <Element>
             <Key ID="0xAD422D66" Type="float"/>
@@ -31963,7 +31963,7 @@
         </Element>
         <Element>
             <Key ID="0xAE80628F" Type="Flags"/>
-            <Value Name="Unknown"/>
+            <Value Name="PlatformFlags"/>
         </Element>
         <Element>
             <Key ID="0xAE80628F" Type="int"/>
@@ -34072,10 +34072,6 @@
         <Element>
             <Key ID="0xB9FCDE3B" Type="UnknownStruct228"/>
             <Value Name="UnknownStruct228"/>
-        </Element>
-        <Element>
-            <Key ID="0xB9FFA928" Type="UnknownStruct62"/>
-            <Value Name="ShellBugData"/>
         </Element>
         <Element>
             <Key ID="0xB9FFA928" Type="ShellBugData"/>
@@ -38879,7 +38875,7 @@
         </Element>
         <Element>
             <Key ID="0xD3356FE7" Type="bool"/>
-            <Value Name="Unknown"/>
+            <Value Name="SoftwareIsMusic"/>
         </Element>
         <Element>
             <Key ID="0xD33EB347" Type="spline"/>
@@ -38939,7 +38935,7 @@
         </Element>
         <Element>
             <Key ID="0xD369B640" Type="LayerInfo"/>
-            <Value Name="LayerInfo"/>
+            <Value Name="FlowGloss2"/>
         </Element>
         <Element>
             <Key ID="0xD374144C" Type="asset"/>
@@ -39559,7 +39555,7 @@
         </Element>
         <Element>
             <Key ID="0xD72435AD" Type="Color"/>
-            <Value Name="Unknown"/>
+            <Value Name="HackedColor"/>
         </Element>
         <Element>
             <Key ID="0xD72E09E1" Type="MaterialType"/>
@@ -42447,7 +42443,7 @@
         </Element>
         <Element>
             <Key ID="0xE75248E4" Type="LayerInfo"/>
-            <Value Name="LayerInfo"/>
+            <Value Name="FlowColorWarp"/>
         </Element>
         <Element>
             <Key ID="0xE7562BEE" Type="float"/>
@@ -43207,7 +43203,7 @@
         </Element>
         <Element>
             <Key ID="0xEB383668" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="MiniMapCameraDistance"/>
         </Element>
         <Element>
             <Key ID="0xEB38A36B" Type="choice"/>
@@ -46067,7 +46063,7 @@
         </Element>
         <Element>
             <Key ID="0xF9E45827" Type="float"/>
-            <Value Name="Unknown"/>
+            <Value Name="SwingCameraMaxPitch"/>
         </Element>
         <Element>
             <Key ID="0xF9E7E0DF" Type="Color"/>
@@ -46187,7 +46183,7 @@
         </Element>
         <Element>
             <Key ID="0xFA7B5650" Type="int"/>
-            <Value Name="Unknown"/>
+            <Value Name="LowPassFrequency"/>
         </Element>
         <Element>
             <Key ID="0xFA873A67" Type="spline"/>

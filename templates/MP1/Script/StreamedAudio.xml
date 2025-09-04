@@ -10,25 +10,25 @@
                 <Name>Active</Name>
             </Element>
             <Element Type="String" ID="0x2">
-                <Name>Audio file</Name>
+                <Name>FileName</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 2</Name>
+                <Name>NoStopOnDeactivate</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 3</Name>
+                <Name>FadeIn</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 4</Name>
+                <Name>FadeOut</Name>
             </Element>
             <Element Type="Int" ID="0x6">
-                <Name>Unknown 5</Name>
+                <Name>Volume</Name>
             </Element>
             <Element Type="Int" ID="0x7">
-                <Name>Unknown 6</Name>
+                <Name>OneShot</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Unknown 7</Name>
+                <Name>Music</Name>
             </Element>
         </SubProperties>
     </Properties>

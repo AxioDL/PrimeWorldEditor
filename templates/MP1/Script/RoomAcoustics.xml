@@ -7,102 +7,103 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Bool" ID="0x1">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Int" ID="0x2">
-                <Name>Unknown 2</Name>
+                <Name>VolScale</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 3</Name>
+                <Name>RevHi</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 4</Name>
+                <Name>RevHiDis</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 5</Name>
+                <Name>RevHiColoration</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 6</Name>
+                <Name>RevHiMix</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 7</Name>
+                <Name>RevHiTime</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 8</Name>
+                <Name>RevHiDamping</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 9</Name>
+                <Name>RevHiPreDelay</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 10</Name>
+                <Name>RevHiCrosstalk</Name>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Unknown 11</Name>
+                <Name>Chorus</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 12</Name>
+                <Name>BaseDelay</Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 13</Name>
+                <Name>Variation</Name>
             </Element>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 14</Name>
+                <Name>Period</Name>
             </Element>
             <Element Type="Bool" ID="0xF">
-                <Name>Unknown 15</Name>
+                <Name>RevStd</Name>
             </Element>
             <Element Type="Bool" ID="0x10">
-                <Name>Unknown 16</Name>
+                <Name>RevStdDis</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 17</Name>
+                <Name>RevStdColoration</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 18</Name>
+                <Name>RevStdMix</Name>
             </Element>
             <Element Type="Float" ID="0x13">
-                <Name>Unknown 19</Name>
+                <Name>RevStdTime</Name>
             </Element>
             <Element Type="Float" ID="0x14">
-                <Name>Unknown 20</Name>
+                <Name>RevStdDamping</Name>
             </Element>
             <Element Type="Float" ID="0x15">
-                <Name>Unknown 21</Name>
+                <Name>RevStdPreDelay</Name>
             </Element>
             <Element Type="Bool" ID="0x16">
-                <Name>Unknown 22</Name>
+                <Name>Delay</Name>
             </Element>
             <Element Type="Int" ID="0x17">
-                <Name>Unknown 23</Name>
+                <Name>DelayL</Name>
             </Element>
             <Element Type="Int" ID="0x18">
-                <Name>Unknown 24</Name>
+                <Name>DelayR</Name>
             </Element>
             <Element Type="Int" ID="0x19">
-                <Name>Unknown 25</Name>
+                <Name>DelayS</Name>
             </Element>
             <Element Type="Int" ID="0x1A">
-                <Name>Unknown 26</Name>
+                <Name>FeedbackL</Name>
             </Element>
             <Element Type="Int" ID="0x1B">
-                <Name>Unknown 27</Name>
+                <Name>FeedbackR</Name>
             </Element>
             <Element Type="Int" ID="0x1C">
-                <Name>Unknown 28</Name>
+                <Name>FeedbackS</Name>
             </Element>
             <Element Type="Int" ID="0x1D">
-                <Name>Unknown 29</Name>
+                <Name>OutputL</Name>
             </Element>
             <Element Type="Int" ID="0x1E">
-                <Name>Unknown 30</Name>
+                <Name>OutputR</Name>
             </Element>
             <Element Type="Int" ID="0x1F">
-                <Name>Unknown 31</Name>
+                <Name>OutputS</Name>
             </Element>
         </SubProperties>
     </Properties>
     <EditorProperties>
         <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x01</ActiveProperty>
     </EditorProperties>
     <RotationType>RotationDisabled</RotationType>
     <ScaleType>ScaleDisabled</ScaleType>

@@ -4,22 +4,22 @@
         <Name>PathCameraStruct</Name>
         <SubProperties>
             <Element Type="Bool" ID="0x0">
-                <Name>Unknown 1</Name>
+                <Name>IsClosedLoop</Name>
             </Element>
             <Element Type="Bool" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>FixedLookPos</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Unknown 3</Name>
+                <Name>SideView</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 4</Name>
+                <Name>CameraHeightFromHint</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 5</Name>
+                <Name>ClampToClosedDoor</Name>
             </Element>
             <Element Type="Bool" ID="0x5">
-                <Name>Unknown 6</Name>
+                <Name>Unused</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

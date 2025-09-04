@@ -18,32 +18,38 @@
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 1</Name>
+                <Name>AdvanceWpRadius</Name>
             </Element>
             <Element Type="Float" ID="0x7">
                 <Name>Unknown 2</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>AlignAngleVel</Name>
             </Element>
             <Element Type="Float" ID="0x9">
                 <Name>Unknown 4</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 5</Name>
+                <Name>PlayerObstructionMinDist</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 6</Name>
+                <Name>MoveFowardWeight </Name>
             </Element>
-            <Element Type="Int" ID="0xC">
-                <Name>Unknown 7</Name>
+            <Element Type="Asset" ID="0xC">
+                <Name>ModelRes</Name>
+                <TypeFilter>
+                    <Element>CMDL</Element>
+                </TypeFilter>
             </Element>
-            <Element Type="Int" ID="0xD">
-                <Name>Unknown 8</Name>
+            <Element Type="Asset" ID="0xD">
+                <Name>SkinRes</Name>
+                <TypeFilter>
+                    <Element>CSKR</Element>
+                </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0xE" Archetype="DamageVulnerability"/>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 9</Name>
+                <Name>IceZoomerJointHP</Name>
             </Element>
         </SubProperties>
     </Properties>

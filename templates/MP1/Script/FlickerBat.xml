@@ -21,13 +21,13 @@
             <Element Type="Struct" ID="0x5" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x6" Archetype="ActorParameters"/>
             <Element Type="Bool" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>Collider</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>ExcludePlayer</Name>
             </Element>
             <Element Type="Bool" ID="0x9">
-                <Name>Unknown 4</Name>
+                <Name>EnableLineOfSight</Name>
             </Element>
         </SubProperties>
     </Properties>

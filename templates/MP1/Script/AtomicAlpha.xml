@@ -18,32 +18,32 @@
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Asset" ID="0x6">
-                <Name>WPSC</Name>
+                <Name>BombWeapon</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x7">
-                <Name>Bomb Model</Name>
+                <Name>BombModel</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x8" Archetype="DamageInfo"/>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 1</Name>
+                <Name>BombDropDelay</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 2</Name>
+                <Name>BombReappearDelay</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 3</Name>
+                <Name>BombReappearTime</Name>
             </Element>
             <Element Type="Bool" ID="0xC">
-                <Name>Unknown 4</Name>
+                <Name>Invisible</Name>
             </Element>
             <Element Type="Bool" ID="0xD">
-                <Name>Unknown 5</Name>
+                <Name>ApplyBeamAttraction</Name>
             </Element>
         </SubProperties>
     </Properties>

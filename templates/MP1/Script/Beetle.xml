@@ -6,8 +6,8 @@
             <Element Type="String" ID="0x0">
                 <Name>Name</Name>
             </Element>
-            <Element Type="Int" ID="0x1">
-                <Name>Unknown 1</Name>
+            <Element Type="Choice" ID="0x1">
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Vector" ID="0x2">
                 <Name>Position</Name>
@@ -22,32 +22,32 @@
             <Element Type="Struct" ID="0x6" Archetype="ActorParameters"/>
             <Element Type="Struct" ID="0x7" Archetype="DamageInfo"/>
             <Element Type="Vector" ID="0x8">
-                <Name>Orbit Offset</Name>
+                <Name>OrbitOffset</Name>
                 <Description>This is clamped to the beetle's bounding box.</Description>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 3</Name>
+                <Name>Unused</Name>
             </Element>
             <Element Type="Struct" ID="0xA" Archetype="DamageVulnerability">
-                <Name>Abdomen Vulnerability</Name>
+                <Name>AbdomenVulnerability</Name>
             </Element>
             <Element Type="Struct" ID="0xB" Archetype="DamageVulnerability">
-                <Name>Armor Vulnerability</Name>
+                <Name>ArmorVulnerability</Name>
             </Element>
             <Element Type="Asset" ID="0xC">
-                <Name>Abdomen Model</Name>
+                <Name>AbdomenModel</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Int" ID="0xD">
-                <Name>Unknown 4</Name>
+                <Name>EntranceType</Name>
             </Element>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 5</Name>
+                <Name>InitialAttackDelay</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 6</Name>
+                <Name>RetreatTime</Name>
             </Element>
         </SubProperties>
     </Properties>

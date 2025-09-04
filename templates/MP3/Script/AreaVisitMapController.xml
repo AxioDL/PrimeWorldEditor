@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ScriptObject ArchiveVer="4" Game="Echoes">
+<ScriptObject ArchiveVer="4" Game="Corruption">
     <Properties Type="Struct">
-        <Name>ControllerAction</Name>
+        <Name>AreaVisitMapController</Name>
         <SubProperties>
             <Element Type="Struct" ID="0x255A4580" Archetype="EditorProperties"/>
-            <Element Type="Struct" ID="0x4C6EEFAE" Archetype="ControllerActionStruct"/>
-            <Element Type="Bool" ID="0xEAD7B7BB">
-                <DefaultValue>false</DefaultValue>
+            <Element Type="Asset" ID="0x31EC14BC">
+                <TypeFilter>
+                    <Element>MLVL</Element>
+                </TypeFilter>
+            </Element>
+            <Element Type="Int" ID="0xFF5D997E">
+                <DefaultValue>2</DefaultValue>
             </Element>
         </SubProperties>
     </Properties>

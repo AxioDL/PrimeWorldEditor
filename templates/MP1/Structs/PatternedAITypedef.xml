@@ -53,25 +53,25 @@
                 <Name>Vulnerability</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 1</Name>
+                <Name>Half Extend</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 2</Name>
+                <Name>Height</Name>
             </Element>
             <Element Type="Vector" ID="0x13">
-                <Name>Unknown 3</Name>
+                <Name>Body Origin</Name>
             </Element>
             <Element Type="Float" ID="0x14">
-                <Name>Unknown 4</Name>
+                <Name>Step Up Height</Name>
             </Element>
             <Element Type="Float" ID="0x15">
-                <Name>Unknown 5</Name>
+                <Name>xDamage</Name>
             </Element>
             <Element Type="Float" ID="0x16">
-                <Name>Unknown 6</Name>
+                <Name>frozenX Damage</Name>
             </Element>
             <Element Type="Float" ID="0x17">
-                <Name>Unknown 7</Name>
+                <Name>xDamage Delay</Name>
             </Element>
             <Element Type="Sound" ID="0x18">
                 <Name>Death Sound</Name>
@@ -89,19 +89,19 @@
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0x1C">
-                <Name>Unknown 8</Name>
+                <Name>Into Freeze Duration</Name>
             </Element>
             <Element Type="Float" ID="0x1D">
-                <Name>Unknown 9</Name>
+                <Name>Out Of Freeze Duration</Name>
             </Element>
             <Element Type="Float" ID="0x1E">
-                <Name>Unknown 10</Name>
+                <Name>Freeze Duration</Name>
             </Element>
             <Element Type="Int" ID="0x1F">
-                <Name>Unknown 11</Name>
+                <Name>Path Finding Index</Name>
             </Element>
             <Element Type="Vector" ID="0x20">
-                <Name>Unknown 12</Name>
+                <Name>Particle 2 Scale</Name>
             </Element>
             <Element Type="Asset" ID="0x21">
                 <Name>Particle 1</Name>
@@ -110,10 +110,10 @@
                 </TypeFilter>
             </Element>
             <Element Type="Int" ID="0x22">
-                <Name>Unknown 13</Name>
+                <Name>Electric</Name>
             </Element>
             <Element Type="Vector" ID="0x23">
-                <Name>Unknown 14</Name>
+                <Name>Particle 2 Scale</Name>
             </Element>
             <Element Type="Asset" ID="0x24">
                 <Name>Particle 2</Name>

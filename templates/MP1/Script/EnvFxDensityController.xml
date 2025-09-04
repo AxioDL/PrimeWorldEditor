@@ -13,7 +13,7 @@
                 <Name>Density</Name>
             </Element>
             <Element Type="Int" ID="0x3">
-                <Name>Unknown</Name>
+                <Name>MaxDensityDeltaSpeed</Name>
             </Element>
         </SubProperties>
     </Properties>

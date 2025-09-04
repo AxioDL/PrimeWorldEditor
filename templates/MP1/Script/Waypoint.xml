@@ -16,31 +16,31 @@
                 <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 2</Name>
+                <Name>Speed</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Delay</Name>
+                <Name>Pause</Name>
             </Element>
             <Element Type="Int" ID="0x6">
-                <Name>Unknown 4</Name>
+                <Name>PatternTranslate</Name>
             </Element>
             <Element Type="Int" ID="0x7">
-                <Name>Unknown 5</Name>
+                <Name>PatternOrient</Name>
             </Element>
             <Element Type="Int" ID="0x8">
-                <Name>Unknown 6</Name>
+                <Name>PatternFit</Name>
             </Element>
             <Element Type="Int" ID="0x9">
-                <Name>Unknown 7</Name>
+                <Name>Behavior</Name>
             </Element>
             <Element Type="Int" ID="0xA">
-                <Name>Unknown 8</Name>
+                <Name>BehaviorOrient</Name>
             </Element>
             <Element Type="Int" ID="0xB">
-                <Name>Unknown 9</Name>
+                <Name>BehaviourModifiers</Name>
             </Element>
             <Element Type="Int" ID="0xC">
-                <Name>Unknown 10</Name>
+                <Name>Animation</Name>
             </Element>
         </SubProperties>
     </Properties>

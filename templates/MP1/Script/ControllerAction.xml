@@ -10,10 +10,10 @@
                 <Name>Active</Name>
             </Element>
             <Element Type="Choice" ID="0x2" Archetype="PlayerAction">
-                <Name>Action</Name>
+                <Name>Command</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Deactivate When Used</Name>
+                <Name>DeactivateOnClose</Name>
             </Element>
         </SubProperties>
     </Properties>

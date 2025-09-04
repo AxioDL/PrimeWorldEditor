@@ -4,19 +4,19 @@
         <Name>PlayerActorStruct</Name>
         <SubProperties>
             <Element Type="Bool" ID="0x0">
-                <Name>Unknown 1</Name>
+                <Name>SuitTransition</Name>
             </Element>
             <Element Type="Bool" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>PreviousSuit</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Unknown 3</Name>
+                <Name>ForceReset</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 4</Name>
+                <Name>TrackInAreaData</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 5</Name>
+                <Name>KeepInStateManager</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

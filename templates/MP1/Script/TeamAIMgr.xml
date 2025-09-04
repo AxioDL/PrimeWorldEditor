@@ -7,31 +7,31 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Int" ID="0x1">
-                <Name>Unknown 1</Name>
+                <Name>AICount</Name>
             </Element>
             <Element Type="Int" ID="0x2">
-                <Name>Unknown 2</Name>
+                <Name>MeleeCount</Name>
             </Element>
             <Element Type="Int" ID="0x3">
-                <Name>Unknown 3</Name>
+                <Name>RangedCount</Name>
             </Element>
             <Element Type="Int" ID="0x4">
-                <Name>Unknown 4</Name>
+                <Name>UnknownCount</Name>
             </Element>
             <Element Type="Int" ID="0x5">
-                <Name>Unknown 5</Name>
+                <Name>MaxMeleeAttackerCount</Name>
             </Element>
             <Element Type="Int" ID="0x6">
-                <Name>Unknown 6</Name>
+                <Name>MaxRangedAttackerCount</Name>
             </Element>
             <Element Type="Int" ID="0x7">
-                <Name>Unknown 7</Name>
+                <Name>PositionMode</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 8</Name>
+                <Name>MeleeTimeInterval</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 9</Name>
+                <Name>RangedTimeInterval</Name>
             </Element>
         </SubProperties>
     </Properties>

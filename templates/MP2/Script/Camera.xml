@@ -14,6 +14,23 @@
                 <DefaultValue>10.0</DefaultValue>
             </Element>
             <Element Type="Flags" ID="0x5C5FC6E">
+                <Flags>
+                    <Element Name="LookAtPlayer" Mask="0x1"/>
+                    <Element Name="OutOfPlayerEye" Mask="0x2"/>
+                    <Element Name="IntoPlayerEye" Mask="0x4"/>
+                    <Element Name="CinematicSkip" Mask="0x8"/>
+                    <Element Name="FinishCineSkip" Mask="0x10"/>
+                    <Element Name="DisableInput" Mask="0x20"/>
+                    <Element Name="DrawPlayer" Mask="0x40"/>
+                    <Element Name="CheckFailsafe" Mask="0x80"/>
+                    <Element Name="CinematicPause" Mask="0x160"/>
+                    <Element Name="DisableOutOfInto" Mask="0x320"/>
+                    <Element Name="Sinusoidal" Mask="0x640"/>
+                    <Element Name="UseHintDir" Mask="0x1280"/>
+                    <Element Name="HintToCamDir" Mask="0x2560"/>
+                    <Element Name="SkipBallCameraCinematic" Mask="0x5120"/>
+                    <Element Name="HintToBallDir" Mask="0x10240"/>
+                </Flags>
                 <DefaultValue>168</DefaultValue>
             </Element>
             <Element Type="Int" ID="0xD4B29446">

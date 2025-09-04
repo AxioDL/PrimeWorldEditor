@@ -6,8 +6,12 @@
             <Element Type="String" ID="0x0">
                 <Name>Name</Name>
             </Element>
-            <Element Type="Int" ID="0x1">
-                <Name>Unknown 1</Name>
+            <Element Type="Choice" ID="0x1">
+                <Name>Type</Name>
+                <Values>
+                    <Element Name="Handle" ID="0x0"/>
+                    <Element Name="Gun" ID="0x1"/>
+                </Values>
             </Element>
             <Element Type="Vector" ID="0x2">
                 <Name>Position</Name>
@@ -19,10 +23,10 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Vector" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>CollisionExtend</Name>
             </Element>
             <Element Type="Vector" ID="0x6">
-                <Name>Scan Offset</Name>
+                <Name>CollisionOffset</Name>
             </Element>
             <Element Type="AnimationSet" ID="0x7">
                 <Name>AnimationParameters</Name>
@@ -31,140 +35,140 @@
             <Element Type="Struct" ID="0x9" Archetype="HealthInfo"/>
             <Element Type="Struct" ID="0xA" Archetype="DamageVulnerability"/>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 3</Name>
+                <Name>IntoActivateDelay</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 4</Name>
+                <Name>ReloadTime</Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 5</Name>
+                <Name>ReloadTimeVariance</Name>
             </Element>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 6</Name>
+                <Name>PanStartTime</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 7</Name>
+                <Name>PanHoldTime</Name>
             </Element>
             <Element Type="Float" ID="0x10">
-                <Name>Unknown 8</Name>
+                <Name>TotalPanSearchTime</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 9</Name>
+                <Name>LeftMaxAngle</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 10</Name>
+                <Name>RightMaxAngle</Name>
             </Element>
             <Element Type="Float" ID="0x13">
-                <Name>Unknown 11</Name>
+                <Name>DownMaxAngle</Name>
             </Element>
             <Element Type="Float" ID="0x14">
-                <Name>Unknown 12</Name>
+                <Name>TurnSpeed</Name>
             </Element>
             <Element Type="Float" ID="0x15">
-                <Name>Unknown 13</Name>
+                <Name>DetectionRange</Name>
             </Element>
             <Element Type="Float" ID="0x16">
-                <Name>Unknown 14</Name>
+                <Name>DetectionZRange</Name>
             </Element>
             <Element Type="Float" ID="0x17">
-                <Name>Unknown 15</Name>
+                <Name>FreezeDuration</Name>
             </Element>
             <Element Type="Float" ID="0x18">
-                <Name>Unknown 16</Name>
+                <Name>FreezeVariance</Name>
             </Element>
             <Element Type="Bool" ID="0x19">
-                <Name>Unknown 17</Name>
+                <Name>FreezeTimeout</Name>
             </Element>
             <Element Type="Asset" ID="0x1A">
-                <Name>Unknown 18</Name>
+                <Name>ProjectileRes</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x1B" Archetype="DamageInfo"/>
             <Element Type="Asset" ID="0x1C">
-                <Name>Particle 1</Name>
+                <Name>IdleLightRes</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x1D">
-                <Name>Particle 2</Name>
+                <Name>DeactivateLightRes</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x1E">
-                <Name>Particle 3</Name>
+                <Name>TargettingLightRes</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x1F">
-                <Name>Particle 4</Name>
+                <Name>FrozenEffectRes</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x20">
-                <Name>Particle 5</Name>
+                <Name>ChargingEffectRes</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x21">
-                <Name>Particle 6</Name>
+                <Name>PanningEffectRes</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x22">
-                <Name>Particle 7</Name>
+                <Name>VisorEffectRes</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0x23">
-                <Name>Unknown 19</Name>
+                <Name>TrackingSoundID</Name>
             </Element>
             <Element Type="Sound" ID="0x24">
-                <Name>Unknown 20</Name>
+                <Name>LockOnSoundID</Name>
             </Element>
             <Element Type="Sound" ID="0x25">
-                <Name>Unknown 21</Name>
+                <Name>UnfreezeSoundID</Name>
             </Element>
             <Element Type="Sound" ID="0x26">
-                <Name>Unknown 22</Name>
+                <Name>StopClankSoundID</Name>
             </Element>
             <Element Type="Sound" ID="0x27">
-                <Name>Unknown 23</Name>
+                <Name>ChargingSoundID</Name>
             </Element>
             <Element Type="Sound" ID="0x28">
-                <Name>Unknown 24</Name>
+                <Name>VisorSoundID</Name>
             </Element>
             <Element Type="Asset" ID="0x29">
-                <Name>Model</Name>
+                <Name>ExtensionModelResID</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0x2A">
-                <Name>Unknown 25</Name>
+                <Name>ExtensionDropDownDist</Name>
             </Element>
             <Element Type="Int" ID="0x2B">
-                <Name>Unknown 26</Name>
+                <Name>NumInitialShots</Name>
             </Element>
             <Element Type="Int" ID="0x2C">
-                <Name>Unknown 27</Name>
+                <Name>InitialShotTableIndex</Name>
             </Element>
             <Element Type="Int" ID="0x2D">
-                <Name>Unknown 28</Name>
+                <Name>NumSubsequentShots</Name>
             </Element>
             <Element Type="Float" ID="0x2E">
-                <Name>Unknown 29</Name>
+                <Name>FrenzyDuration</Name>
             </Element>
             <Element Type="Bool" ID="0x2F">
-                <Name>Unknown 30</Name>
+                <Name>ScriptedStartOnly</Name>
             </Element>
         </SubProperties>
     </Properties>

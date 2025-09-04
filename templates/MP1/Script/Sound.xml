@@ -13,55 +13,55 @@
                 <Name>Rotation</Name>
             </Element>
             <Element Type="Sound" ID="0x3">
-                <Name>Sound ID</Name>
+                <Name>SoundID</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>MaxDistance</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>DistComp</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 4</Name>
+                <Name>StartDelay</Name>
             </Element>
             <Element Type="Int" ID="0x8">
-                <Name>Unknown 5</Name>
+                <Name>MinVolume</Name>
             </Element>
             <Element Type="Int" ID="0x9">
-                <Name>Unknown 6</Name>
+                <Name>Volume</Name>
             </Element>
             <Element Type="Int" ID="0xA">
-                <Name>Unknown 7</Name>
+                <Name>Priority</Name>
             </Element>
             <Element Type="Int" ID="0xB">
-                <Name>Unknown 8</Name>
+                <Name>Pan</Name>
             </Element>
             <Element Type="Bool" ID="0xC">
-                <Name>Unknown 9</Name>
+                <Name>Loop</Name>
             </Element>
             <Element Type="Bool" ID="0xD">
-                <Name>Unknown 10</Name>
+                <Name>NonEmitter</Name>
             </Element>
             <Element Type="Bool" ID="0xE">
-                <Name>Unknown 11</Name>
+                <Name>AutoStart</Name>
             </Element>
             <Element Type="Bool" ID="0xF">
-                <Name>Unknown 12</Name>
+                <Name>OcclusionTest</Name>
             </Element>
             <Element Type="Bool" ID="0x10">
-                <Name>Unknown 13</Name>
+                <Name>Acoustics</Name>
             </Element>
             <Element Type="Bool" ID="0x11">
-                <Name>Unknown 14</Name>
+                <Name>WorldSFX</Name>
             </Element>
             <Element Type="Bool" ID="0x12">
-                <Name>Unknown 15</Name>
+                <Name>AllowDuplicates</Name>
             </Element>
             <Element Type="Int" ID="0x13">
-                <Name>Unknown 16</Name>
+                <Name>Pitch</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -69,6 +69,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x04</ActiveProperty>
     </EditorProperties>
     <Assets>
         <Element Type="Billboard" Source="File" Location="script/common/Sound.TXTR"/>

@@ -16,7 +16,7 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Asset" ID="0x5">
                 <Name>Model</Name>
@@ -28,94 +28,103 @@
                 <Name>AnimationParameters</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>NumBoids</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>Speed</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 4</Name>
+                <Name>SeparationRadius</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 5</Name>
+                <Name>CohesionMagnitude</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 6</Name>
+                <Name>AlignmentWeight</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 7</Name>
+                <Name>SeparationMagnitude</Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 8</Name>
+                <Name>WeaponRepelMagnitude</Name>
             </Element>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 9</Name>
+                <Name>PlayerRepelMagnitude</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 10</Name>
+                <Name>ContainmentMagnitude</Name>
             </Element>
             <Element Type="Float" ID="0x10">
-                <Name>Unknown 11</Name>
+                <Name>ScatterVelocity</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 12</Name>
+                <Name>MaxScatterAngle</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 13</Name>
+                <Name>WeaponRepelDampingSpeed</Name>
             </Element>
             <Element Type="Float" ID="0x13">
-                <Name>Unknown 14</Name>
+                <Name>PlayerRepelDampingSpeed</Name>
             </Element>
             <Element Type="Float" ID="0x14">
-                <Name>Unknown 15</Name>
+                <Name>ContainmentRadius</Name>
             </Element>
             <Element Type="Int" ID="0x15">
-                <Name>Unknown 16</Name>
+                <Name>UpdateShift</Name>
             </Element>
             <Element Type="Color" ID="0x16">
-                <Name>Unknown 17</Name>
+                <Name>Color</Name>
             </Element>
             <Element Type="Bool" ID="0x17">
-                <Name>Unknown 18</Name>
+                <Name>Killable</Name>
             </Element>
             <Element Type="Float" ID="0x18">
-                <Name>Unknown 19</Name>
+                <Name>WeaponKillRadius</Name>
             </Element>
             <Element Type="Asset" ID="0x19">
-                <Name>Particle</Name>
+                <Name>Part1</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Int" ID="0x1A">
-                <Name>Unknown 21</Name>
+                <Name>PartCount1</Name>
             </Element>
-            <Element Type="Int" ID="0x1B">
-                <Name>Unknown 22</Name>
+            <Element Type="Asset" ID="0x1B">
+                <Name>Part2</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
             </Element>
             <Element Type="Int" ID="0x1C">
-                <Name>Unknown 23</Name>
+                <Name>PartCount2</Name>
             </Element>
-            <Element Type="Int" ID="0x1D">
-                <Name>Unknown 24</Name>
+            <Element Type="Asset" ID="0x1D">
+                <Name>Part1</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
             </Element>
             <Element Type="Int" ID="0x1E">
-                <Name>Unknown 25</Name>
+                <Name>PartCount3</Name>
             </Element>
-            <Element Type="Int" ID="0x1F">
-                <Name>Unknown 26</Name>
+            <Element Type="Asset" ID="0x1F">
+                <Name>Part4</Name>
+                <TypeFilter>
+                    <Element>PART</Element>
+                </TypeFilter>
             </Element>
             <Element Type="Int" ID="0x20">
-                <Name>Unknown 27</Name>
+                <Name>PartCount4</Name>
             </Element>
             <Element Type="Sound" ID="0x21">
-                <Name>Unknown 28</Name>
+                <Name>DeathSfx</Name>
             </Element>
             <Element Type="Bool" ID="0x22">
-                <Name>Unknown 29</Name>
+                <Name>RepelFromThreats</Name>
             </Element>
             <Element Type="Bool" ID="0x23">
-                <Name>Unknown 30</Name>
+                <Name>HotInThermal</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -124,6 +133,7 @@
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
         <ScaleProperty>0x03</ScaleProperty>
+        <ActiveProperty>0x04</ActiveProperty>
     </EditorProperties>
     <Assets>
         <Element Type="AnimParams" Source="Property" Location="0x06"/>

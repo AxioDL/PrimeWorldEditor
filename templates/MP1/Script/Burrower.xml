@@ -18,35 +18,35 @@
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Asset" ID="0x6">
-                <Name>Particle 1</Name>
+                <Name>JumpParticles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x7">
-                <Name>Particle 2</Name>
+                <Name>TrailParticles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x8">
-                <Name>WPSC</Name>
+                <Name>ProjectileWeapon</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x9" Archetype="DamageInfo"/>
             <Element Type="Asset" ID="0xA">
-                <Name>Particle 3</Name>
+                <Name>ProjectileHitVisorParticles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
-            <Element Type="Int" ID="0xB">
-                <Name>Always FFFFFFFF</Name>
+            <Element Type="Sound" ID="0xB">
+                <Name>ProjectileHitVisorSound</Name>
             </Element>
             <Element Type="Asset" ID="0xC">
-                <Name>Particle 4</Name>
+                <Name>DeathExplosionParticles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>

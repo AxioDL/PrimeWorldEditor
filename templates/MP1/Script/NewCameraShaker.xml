@@ -10,24 +10,25 @@
                 <Name>Position</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Struct" ID="0x3" Archetype="IntBool"/>
             <Element Type="Struct" ID="0x4" Archetype="GuessStruct"/>
             <Element Type="Struct" ID="0x5" Archetype="NewCameraShakerStruct">
-                <Name>NewCameraShakerStruct 1</Name>
+                <Name>ShakerX</Name>
             </Element>
             <Element Type="Struct" ID="0x6" Archetype="NewCameraShakerStruct">
-                <Name>NewCameraShakerStruct 2</Name>
+                <Name>ShakerY</Name>
             </Element>
             <Element Type="Struct" ID="0x7" Archetype="NewCameraShakerStruct">
-                <Name>NewCameraShakerStruct 3</Name>
+                <Name>ShakerZ</Name>
             </Element>
         </SubProperties>
     </Properties>
     <EditorProperties>
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
+        <ActiveProperty>0x02</ActiveProperty>
     </EditorProperties>
     <Assets>
         <Element Type="Billboard" Source="File" Location="script/mp1/NewCameraShaker.TXTR"/>

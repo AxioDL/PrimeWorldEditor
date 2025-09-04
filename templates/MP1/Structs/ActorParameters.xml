@@ -6,50 +6,57 @@
             <Element Type="Struct" ID="0x0" Archetype="LightParameters"/>
             <Element Type="Struct" ID="0x1" Archetype="ScannableParameters"/>
             <Element Type="Asset" ID="0x2">
-                <Name>X-Ray Visor Model</Name>
+                <Name>XRayModel</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x3">
-                <Name>X-Ray Visor Skin</Name>
+                <Name>XRaySkin</Name>
                 <TypeFilter>
                     <Element>CSKR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x4">
-                <Name>Thermal Visor Model</Name>
+                <Name>ThermalModel</Name>
                 <TypeFilter>
                     <Element>CMDL</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x5">
-                <Name>Thermal Visor Skin</Name>
+                <Name>ThermalSkin</Name>
                 <TypeFilter>
                     <Element>CSKR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 1</Name>
+                <Name>UseGlobalRenderTime</Name>
+                <Description>Whether to use the global time provider when rendering. If false, uses the time since entity "Activate".</Description>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>FadeInTime</Name>
+                <Description>Only used for Pickups and Platforms.</Description>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>FadeOutTime</Name>
+                <Description>Only used for Pickups and Platforms.</Description>
             </Element>
             <Element Type="Struct" ID="0x9" Archetype="VisorParameters"/>
             <Element Type="Bool" ID="0xA">
-                <Name>Enable Thermal Heat</Name>
+                <Name>ThermalHot</Name>
+                <Description>Whether to render as "Hot" in Thermal Visor.</Description>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Unknown 4</Name>
+                <Name>ForceRenderUnsorted</Name>
+                <Description>Forces unsorted (opaque) rendering.</Description>
             </Element>
             <Element Type="Bool" ID="0xC">
-                <Name>Unknown 5</Name>
+                <Name>NoSortThermal</Name>
+                <Description>Forces unsorted (opaque) rendering in Thermal Visor.</Description>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 6</Name>
+                <Name>ThermalDamageMag</Name>
+                <Description>0.0 - 1.0 = black, 1.0 - 2.0 = white (needs verification)</Description>
             </Element>
         </SubProperties>
     </PropertyArchetype>

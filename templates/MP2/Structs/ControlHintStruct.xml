@@ -3,7 +3,7 @@
     <PropertyArchetype Type="Struct">
         <Name>ControlHintStruct</Name>
         <SubProperties>
-            <Element Type="Struct" ID="0x359C7AAF" Archetype="ControllerActionStruct">
+            <Element Type="Struct" ID="0x359C7AAF">
                 <SubProperties>
                     <Element Type="Int" ID="0x94BA5737">
                         <DefaultValue>-2143184152</DefaultValue>

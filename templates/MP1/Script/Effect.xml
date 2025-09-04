@@ -28,55 +28,55 @@
                 </TypeFilter>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 1</Name>
+                <Name>HotInThermal</Name>
             </Element>
             <Element Type="Bool" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>NoTimerUnlessAreaOccluded</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>RebuildSystemsOnActivate</Name>
             </Element>
             <Element Type="Bool" ID="0x9">
-                <Name>Unknown 4</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Bool" ID="0xA">
-                <Name>Unknown 5</Name>
+                <Name>UseRateInverseCamDist</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 6</Name>
+                <Name>RateInverseCamDist</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 7</Name>
+                <Name>RateInverseCamDistRate</Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 8</Name>
+                <Name>Duration</Name>
             </Element>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 9</Name>
+                <Name>DurationResetWhileVisible</Name>
             </Element>
             <Element Type="Bool" ID="0xF">
-                <Name>Unknown 10</Name>
+                <Name>UseRateCamDistRange</Name>
             </Element>
             <Element Type="Float" ID="0x10">
-                <Name>Unknown 11</Name>
+                <Name>RateCamDistRangeMin</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 12</Name>
+                <Name>RateCamDistRangeMax</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 13</Name>
+                <Name>RateCamDistRangeFarRate </Name>
             </Element>
             <Element Type="Bool" ID="0x13">
-                <Name>Unknown 14</Name>
+                <Name>CombatVisorVisible</Name>
             </Element>
             <Element Type="Bool" ID="0x14">
-                <Name>Unknown 15</Name>
+                <Name>ThermalVisorVisible</Name>
             </Element>
             <Element Type="Bool" ID="0x15">
-                <Name>Unknown 16</Name>
+                <Name>XrayVisorVisible</Name>
             </Element>
             <Element Type="Bool" ID="0x16">
-                <Name>Unknown 17</Name>
+                <Name>DieWhenSystemsDone</Name>
             </Element>
             <Element Type="Struct" ID="0x17" Archetype="LightParameters"/>
         </SubProperties>
@@ -86,6 +86,7 @@
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
         <ScaleProperty>0x03</ScaleProperty>
+        <ActiveProperty>0x09</ActiveProperty>
         <LightParametersProperty>0x17</LightParametersProperty>
     </EditorProperties>
     <Assets>

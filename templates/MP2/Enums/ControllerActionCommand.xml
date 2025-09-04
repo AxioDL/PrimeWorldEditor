@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PropertyTemplate ArchiveVer="4" Game="Echoes">
+    <PropertyArchetype Type="Choice">
+        <Name>ControllerActionCommand</Name>
+        <Values>
+            <Element Name="Forward" ID="0x1"/>
+            <Element Name="Backward" ID="0x2"/>
+            <Element Name="Turn Left" ID="0x3"/>
+            <Element Name="Turn Right" ID="0x4"/>
+            <Element Name="Strafe Left" ID="0x5"/>
+            <Element Name="Strafe Right" ID="0x6"/>
+            <Element Name="Look Left" ID="0x7"/>
+            <Element Name="Look Right" ID="0x8"/>
+            <Element Name="Look Up" ID="0x9"/>
+            <Element Name="Look Down" ID="0xA"/>
+            <Element Name="Jump" ID="0xB"/>
+            <Element Name="Jump 2" ID="0xC"/>
+            <Element Name="Fire Beam" ID="0xD"/>
+            <Element Name="Fire Beam 2" ID="0xE"/>
+            <Element Name="Auto Fire Beam (Deprecated)" ID="0xF"/>
+            <Element Name="Charge Beam" ID="0x10"/>
+            <Element Name="Charge Beam 2" ID="0x11"/>
+            <Element Name="Use Item" ID="0x12"/>
+            <Element Name="Aim Up (Deprecated)" ID="0x13"/>
+            <Element Name="Aim Down (Deprecated)" ID="0x14"/>
+            <Element Name="Cycle Beam Up (Deprecated)" ID="0x15"/>
+            <Element Name="Cycle Beam Down (Deprecated)" ID="0x16"/>
+            <Element Name="Cycle Item (Deprecated)" ID="0x17"/>
+            <Element Name="Select Power Beam" ID="0x18"/>
+            <Element Name="Select Dark Beam" ID="0x19"/>
+            <Element Name="Select Light Beam" ID="0x1A"/>
+            <Element Name="Select Annihilator Beam" ID="0x1B"/>
+            <Element Name="Gun Toggle Holster (Deprecated)" ID="0x1C"/>
+            <Element Name="Orbit Close (Deprecated)" ID="0x1D"/>
+            <Element Name="Orbit Far" ID="0x1E"/>
+            <Element Name="Orbit Object" ID="0x1F"/>
+            <Element Name="Orbit Select (Deprecated)" ID="0x20"/>
+            <Element Name="Orbit Confirm (Deprecated)" ID="0x21"/>
+            <Element Name="Orbit Left" ID="0x22"/>
+            <Element Name="Orbit Right" ID="0x23"/>
+            <Element Name="Orbit Up" ID="0x24"/>
+            <Element Name="Orbit Down" ID="0x25"/>
+            <Element Name="Hold Look 1" ID="0x26"/>
+            <Element Name="Hold Look 2 (Deprecated)" ID="0x27"/>
+            <Element Name="Look Zoom In" ID="0x28"/>
+            <Element Name="Look Zoom Out" ID="0x29"/>
+            <Element Name="Hold Aim (Deprecated)" ID="0x2A"/>
+            <Element Name="Map Circle Up" ID="0x2B"/>
+            <Element Name="Map Circle Down" ID="0x2C"/>
+            <Element Name="Map Circle Left" ID="0x2D"/>
+            <Element Name="Map Circle Right" ID="0x2E"/>
+            <Element Name="Map Move Forward" ID="0x2F"/>
+            <Element Name="Map Move Back" ID="0x30"/>
+            <Element Name="Map Move Left" ID="0x31"/>
+            <Element Name="Map Move Right" ID="0x32"/>
+            <Element Name="Map Zoom In" ID="0x33"/>
+            <Element Name="Map Zoom Out" ID="0x34"/>
+            <Element Name="Spider Ball" ID="0x35"/>
+            <Element Name="Chase Camera" ID="0x36"/>
+            <Element Name="Echo Visor" ID="0x37"/>
+            <Element Name="Dark Visor" ID="0x38"/>
+            <Element Name="Scan Visor" ID="0x39"/>
+            <Element Name="Combat Visor" ID="0x3A"/>
+            <Element Name="Visor Menu (Deprecated)" ID="0x3B"/>
+            <Element Name="Cycle Visor Up (Deprecated)" ID="0x3C"/>
+            <Element Name="Cycle Visor Down (Deprecated)" ID="0x3D"/>
+            <Element Name="Dark Visor Toggle (Deprecated)" ID="0x3E"/>
+            <Element Name="Crosshairs" ID="0x3F"/>
+            <Element Name="Unknown 1 (Deprecated)" ID="0x40"/>
+            <Element Name="Use Shield (Deprecated)" ID="0x41"/>
+            <Element Name="Scan Item" ID="0x42"/>
+            <Element Name="Inventory Screen" ID="0x43"/>
+            <Element Name="Map Screen" ID="0x44"/>
+            <Element Name="Options Screen" ID="0x45"/>
+            <Element Name="Log Screen" ID="0x46"/>
+            <Element Name="Unknown 2" ID="0x47"/>
+            <Element Name="Unknown 3" ID="0x48"/>
+            <Element Name="Boost Ball" ID="0x49"/>
+            <Element Name="Morph" ID="0x4A"/>
+            <Element Name="Unmorph" ID="0x4B"/>
+        </Values>
+    </PropertyArchetype>
+</PropertyTemplate>

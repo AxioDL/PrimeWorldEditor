@@ -18,16 +18,16 @@
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 1</Name>
+                <Name>Hearing Radius</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>Fade-Out Delay</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>Attack Delay</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 4</Name>
+                <Name>Freeze Time</Name>
             </Element>
             <Element Type="Asset" ID="0xA">
                 <Name>WPSC 1</Name>
@@ -57,49 +57,49 @@
                 <Name>BehaveChance 3</Name>
             </Element>
             <Element Type="Sound" ID="0x11">
-                <Name>Sound ID 1</Name>
+                <Name>SoundImpact</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 5</Name>
+                <Name>Unknown 1</Name>
             </Element>
             <Element Type="Sound" ID="0x13">
-                <Name>Sound ID 2</Name>
+                <Name>SFXFadeIn</Name>
             </Element>
             <Element Type="Sound" ID="0x14">
-                <Name>Sound ID 3</Name>
+                <Name>SFXFadeOut</Name>
             </Element>
             <Element Type="Int" ID="0x15">
-                <Name>Unknown 6</Name>
+                <Name>Unknown 2</Name>
             </Element>
             <Element Type="Float" ID="0x16">
-                <Name>Unknown 7</Name>
+                <Name>FloorLevel</Name>
             </Element>
             <Element Type="Int" ID="0x17">
-                <Name>Unknown 8</Name>
+                <Name>AttackType</Name>
             </Element>
             <Element Type="Float" ID="0x18">
-                <Name>Unknown 9</Name>
+                <Name>HurlRecoverTime</Name>
             </Element>
             <Element Type="Asset" ID="0x19">
-                <Name>Particle</Name>
+                <Name>ProjectileVisorEffect</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0x1A">
-                <Name>Sound ID 4</Name>
+                <Name>SoundProjectileVisor</Name>
             </Element>
             <Element Type="Float" ID="0x1B">
-                <Name>Unknown 10</Name>
+                <Name>LurkDelay</Name>
             </Element>
             <Element Type="Float" ID="0x1C">
-                <Name>Unknown 11</Name>
+                <Name>SpaceWarpTime</Name>
             </Element>
             <Element Type="Int" ID="0x1D">
-                <Name>Unknown 12</Name>
+                <Name>NearChance</Name>
             </Element>
             <Element Type="Int" ID="0x1E">
-                <Name>Unknown 13</Name>
+                <Name>MidChance</Name>
             </Element>
         </SubProperties>
     </Properties>

@@ -3,8 +3,8 @@
     <PropertyArchetype Type="Struct">
         <Name>ControllerActionStruct</Name>
         <SubProperties>
-            <Element Type="Int" ID="0x94BA5737">
-                <DefaultValue>0</DefaultValue>
+            <Element Type="Choice" ID="0x94BA5737" Archetype="ControllerActionCommand">
+                <DefaultValue>1</DefaultValue>
             </Element>
         </SubProperties>
     </PropertyArchetype>

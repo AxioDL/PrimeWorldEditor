@@ -4,25 +4,25 @@
         <Name>BehaveChance</Name>
         <SubProperties>
             <Element Type="Float" ID="0x0">
-                <Name>Unknown 1</Name>
+                <Name>Lurk</Name>
             </Element>
             <Element Type="Float" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>Taunt</Name>
             </Element>
             <Element Type="Float" ID="0x2">
-                <Name>Unknown 3</Name>
+                <Name>Attack</Name>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>Unknown 4</Name>
+                <Name>Move</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 5</Name>
+                <Name>Lurk Time</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 6</Name>
+                <Name>Charge Attack</Name>
             </Element>
             <Element Type="Int" ID="0x6">
-                <Name>Unknown 7</Name>
+                <Name>numBolts</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

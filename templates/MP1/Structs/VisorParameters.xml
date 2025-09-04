@@ -4,13 +4,13 @@
         <Name>VisorParameters</Name>
         <SubProperties>
             <Element Type="Bool" ID="0x0">
-                <Name>Unknown 1</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Bool" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>ScanThrough</Name>
             </Element>
             <Element Type="Flags" ID="0x2">
-                <Name>Visor Flags</Name>
+                <Name>VisorFlags</Name>
                 <Flags>
                     <Element Name="Combat" Mask="0x1"/>
                     <Element Name="Scan" Mask="0x2"/>

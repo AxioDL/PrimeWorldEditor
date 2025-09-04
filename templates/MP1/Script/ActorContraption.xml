@@ -16,16 +16,16 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Vector" ID="0x4">
-                <Name>Collision Extent</Name>
+                <Name>CollisionBox</Name>
             </Element>
             <Element Type="Vector" ID="0x5">
-                <Name>Collision/Scan Offset</Name>
+                <Name>CollisionOffset</Name>
             </Element>
             <Element Type="Float" ID="0x6">
                 <Name>Mass</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Z Momentum</Name>
+                <Name>Gravity</Name>
             </Element>
             <Element Type="Struct" ID="0x8" Archetype="HealthInfo"/>
             <Element Type="Struct" ID="0x9" Archetype="DamageVulnerability"/>
@@ -34,7 +34,7 @@
             </Element>
             <Element Type="Struct" ID="0xB" Archetype="ActorParameters"/>
             <Element Type="Asset" ID="0xC">
-                <Name>Flame Particle</Name>
+                <Name>FlameParticle</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>

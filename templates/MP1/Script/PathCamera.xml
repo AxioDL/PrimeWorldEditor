@@ -13,26 +13,32 @@
                 <Name>Rotation</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Struct" ID="0x4" Archetype="PathCameraStruct"/>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 8</Name>
+                <Name>LengthExtent</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 9</Name>
+                <Name>FilterMag</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 10</Name>
+                <Name>FilterProportion</Name>
             </Element>
-            <Element Type="Int" ID="0x8">
-                <Name>Unknown 11</Name>
+            <Element Type="Choice" ID="0x8">
+                <Name>InitialSplinePosition</Name>
+                <Values>
+                    <Element Name="BallCamBasis" ID="0x0"/>
+                    <Element Name="Negative" ID="0x1"/>
+                    <Element Name="Positive" ID="0x2"/>
+                    <Element Name="ClampBasis" ID="0x3"/>
+                </Values>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 12</Name>
+                <Name>MinEaseDist </Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 13</Name>
+                <Name>MaxEaseDist </Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -40,6 +46,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x03</ActiveProperty>
     </EditorProperties>
     <ScaleType>ScaleDisabled</ScaleType>
 </ScriptObject>

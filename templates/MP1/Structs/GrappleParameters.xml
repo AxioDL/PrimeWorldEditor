@@ -4,40 +4,40 @@
         <Name>GrappleParameters</Name>
         <SubProperties>
             <Element Type="Float" ID="0x0">
-                <Name>Unknown 1</Name>
+                <Name>GrappleLength</Name>
             </Element>
             <Element Type="Float" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>GrappleAttachLength</Name>
             </Element>
             <Element Type="Float" ID="0x2">
-                <Name>Unknown 3</Name>
+                <Name>GrappleSpringConstant</Name>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>Unknown 4</Name>
+                <Name>GrappleSpringLength</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 5</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 6</Name>
+                <Name>SwingForce</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 7</Name>
+                <Name>SwingMaxForce</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 8</Name>
+                <Name>SwingArcAngle</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 9</Name>
+                <Name>SwingTurnAngle</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 10</Name>
+                <Name>SwingCameraPitch</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 11</Name>
+                <Name>SwingCameraMaxPitch</Name>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Disable Turning</Name>
+                <Name>LockSwingTurn</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

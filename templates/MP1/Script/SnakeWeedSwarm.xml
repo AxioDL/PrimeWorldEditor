@@ -20,59 +20,59 @@
             </Element>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 2</Name>
+                <Name>Spacing</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 3</Name>
+                <Name>Height</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 4</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 5</Name>
+                <Name>WeaponDamageRadius </Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 6</Name>
+                <Name>MaxPlayerDistance</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 7</Name>
+                <Name>LoweredTime</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 8</Name>
+                <Name>LoweredTimeVariation </Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 9</Name>
+                <Name>MaxZOffset</Name>
             </Element>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 10</Name>
+                <Name>Speed</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 11</Name>
+                <Name>SpeedVariation</Name>
             </Element>
             <Element Type="Float" ID="0x10">
-                <Name>Unknown 12</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 13</Name>
+                <Name>ScaleMin</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 14</Name>
+                <Name>ScaleMax</Name>
             </Element>
             <Element Type="Float" ID="0x13">
-                <Name>Unknown 15</Name>
+                <Name>DistanceBelowGround</Name>
             </Element>
             <Element Type="Struct" ID="0x14" Archetype="DamageInfo"/>
             <Element Type="Float" ID="0x15">
-                <Name>Unknown 16</Name>
+                <Name>unused</Name>
             </Element>
             <Element Type="Sound" ID="0x16">
-                <Name>Unknown 17</Name>
+                <Name>Sfx1</Name>
             </Element>
             <Element Type="Sound" ID="0x17">
-                <Name>Unknown 18</Name>
+                <Name>Sfx2</Name>
             </Element>
             <Element Type="Sound" ID="0x18">
-                <Name>Unknown 19</Name>
+                <Name>Sfx3</Name>
             </Element>
         </SubProperties>
     </Properties>

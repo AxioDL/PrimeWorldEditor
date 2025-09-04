@@ -7,42 +7,50 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Color" ID="0x1">
-                <Name>Unknown 1</Name>
+                <Name>Color A</Name>
             </Element>
             <Element Type="Color" ID="0x2">
-                <Name>Unknown 2</Name>
+                <Name>Color B</Name>
             </Element>
-            <Element Type="Int" ID="0x3">
-                <Name>Unknown 3</Name>
+            <Element Type="Choice" ID="0x3">
+                <Name>BlendMode</Name>
+                <Values>
+                    <Element Name="Alpha" ID="0x0"/>
+                    <Element Name="Additive" ID="0x1"/>
+                    <Element Name="Additive2" ID="0x2"/>
+                    <Element Name="Opaque" ID="0x3"/>
+                    <Element Name="OpaqueAdd" ID="0x4"/>
+                </Values>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 4</Name>
+                <Name>TimeA2B</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 5</Name>
+                <Name>TimeB2A</Name>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 6</Name>
+                <Name>DoReverse</Name>
             </Element>
             <Element Type="Bool" ID="0x7">
-                <Name>Unknown 7</Name>
+                <Name>ResetTargetWhenDone</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Unknown 8</Name>
+                <Name>DepthCompare</Name>
             </Element>
             <Element Type="Bool" ID="0x9">
-                <Name>Unknown 9</Name>
+                <Name>DepthUpdate</Name>
             </Element>
             <Element Type="Bool" ID="0xA">
-                <Name>Unknown 10</Name>
+                <Name>DepthBackwards</Name>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Unknown 11</Name>
+                <Name>Active</Name>
             </Element>
         </SubProperties>
     </Properties>
     <EditorProperties>
         <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x0B</ActiveProperty>
     </EditorProperties>
     <Assets>
         <Element Type="Billboard" Source="File" Location="script/common/ColorModulate.TXTR"/>

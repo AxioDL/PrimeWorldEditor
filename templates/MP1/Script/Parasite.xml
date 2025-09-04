@@ -6,8 +6,13 @@
             <Element Type="String" ID="0x0">
                 <Name>Name</Name>
             </Element>
-            <Element Type="Int" ID="0x1">
-                <Name>Unknown 1</Name>
+            <Element Type="Choice" ID="0x1">
+                <Name>FlavorType</Name>
+                <Values>
+                    <Element Name="Zero" ID="0x0"/>
+                    <Element Name="One" ID="0x1"/>
+                    <Element Name="Two" ID="0x2"/>
+                </Values>
             </Element>
             <Element Type="Vector" ID="0x2">
                 <Name>Position</Name>
@@ -21,58 +26,58 @@
             <Element Type="Struct" ID="0x5" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x6" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>MaxTelegraphReactDist</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>AdvanceWpRadius</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 4</Name>
+                <Name>Unknown 1</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 5</Name>
+                <Name>AlignAngVel</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 6</Name>
+                <Name>Unknown 2</Name>
             </Element>
             <Element Type="Float" ID="0xC">
-                <Name>Unknown 7</Name>
+                <Name>StuckTimeThreshold</Name>
             </Element>
             <Element Type="Float" ID="0xD">
-                <Name>Unknown 8</Name>
+                <Name>CollisionCloseMargin</Name>
             </Element>
             <Element Type="Float" ID="0xE">
-                <Name>Unknown 9</Name>
+                <Name>ParasiteSearchRadius</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 10</Name>
+                <Name>ParasiteSeparationDist</Name>
             </Element>
             <Element Type="Float" ID="0x10">
-                <Name>Unknown 11</Name>
+                <Name>ParasiteSeparationWeight</Name>
             </Element>
             <Element Type="Float" ID="0x11">
-                <Name>Unknown 12</Name>
+                <Name>ParasiteAlignmentWeight</Name>
             </Element>
             <Element Type="Float" ID="0x12">
-                <Name>Unknown 13</Name>
+                <Name>ParasiteCohesionWeight</Name>
             </Element>
             <Element Type="Float" ID="0x13">
-                <Name>Unknown 14</Name>
+                <Name>DestinationSeekWeight</Name>
             </Element>
             <Element Type="Float" ID="0x14">
-                <Name>Unknown 15</Name>
+                <Name>ForwardMoveWeight</Name>
             </Element>
             <Element Type="Float" ID="0x15">
-                <Name>Unknown 16</Name>
+                <Name>PlayerSeparationDist</Name>
             </Element>
             <Element Type="Float" ID="0x16">
-                <Name>Unknown 17</Name>
+                <Name>PlayerSeparationWeight</Name>
             </Element>
             <Element Type="Float" ID="0x17">
-                <Name>Unknown 18</Name>
+                <Name>PlayerObstructionMinDist</Name>
             </Element>
             <Element Type="Bool" ID="0x18">
-                <Name>Unknown 19</Name>
+                <Name>DisableMove</Name>
             </Element>
         </SubProperties>
     </Properties>

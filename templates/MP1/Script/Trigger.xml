@@ -17,36 +17,36 @@
                 <Name>Force</Name>
             </Element>
             <Element Type="Flags" ID="0x5">
-                <Name>Trigger Flags</Name>
+                <Name>Flags</Name>
                 <Flags>
-                    <Element Name="Detect Player" Mask="0x1"/>
-                    <Element Name="Detect AI" Mask="0x2"/>
-                    <Element Name="Detect Projectiles" Mask="0x4"/>
-                    <Element Name="Detect Projectiles" Mask="0x8"/>
-                    <Element Name="Detect Projectiles" Mask="0x10"/>
-                    <Element Name="Detect Projectiles" Mask="0x20"/>
-                    <Element Name="Detect Bombs" Mask="0x40"/>
-                    <Element Name="Unknown 1" Mask="0x80"/>
-                    <Element Name="Detect Projectiles" Mask="0x100"/>
-                    <Element Name="Detect Projectiles" Mask="0x200"/>
-                    <Element Name="Detect Projectiles" Mask="0x400"/>
-                    <Element Name="Kill On Entered" Mask="0x800"/>
-                    <Element Name="Detect Morphed Player" Mask="0x1000"/>
-                    <Element Name="Apply Force" Mask="0x2000"/>
-                    <Element Name="Detect Player If Completely Inside" Mask="0x4000"/>
-                    <Element Name="Unknown 2" Mask="0x8000"/>
-                    <Element Name="Detect Unmorphed Player" Mask="0x10000"/>
-                    <Element Name="Block Environmental Effects" Mask="0x20000"/>
+                    <Element Name="DetectPlayer" Mask="0x1"/>
+                    <Element Name="DetectAI" Mask="0x2"/>
+                    <Element Name="DetectProjectiles1" Mask="0x4"/>
+                    <Element Name="DetectProjectiles2" Mask="0x8"/>
+                    <Element Name="DetectProjectiles3" Mask="0x10"/>
+                    <Element Name="DetectProjectiles4" Mask="0x20"/>
+                    <Element Name="DetectBombs" Mask="0x40"/>
+                    <Element Name="DetectPowerBombs" Mask="0x80"/>
+                    <Element Name="DetectProjectiles5" Mask="0x100"/>
+                    <Element Name="DetectProjectiles6" Mask="0x200"/>
+                    <Element Name="DetectProjectiles7" Mask="0x400"/>
+                    <Element Name="KillOnEntered" Mask="0x800"/>
+                    <Element Name="DetectMorphedPlayer" Mask="0x1000"/>
+                    <Element Name="UseCollisionImpulses" Mask="0x2000"/>
+                    <Element Name="DetectCamera" Mask="0x4000"/>
+                    <Element Name="UseBooleanIntersection" Mask="0x8000"/>
+                    <Element Name="DetectUnmorphedPlayer" Mask="0x10000"/>
+                    <Element Name="BlockEnvironmentalEffects" Mask="0x20000"/>
                 </Flags>
             </Element>
             <Element Type="Bool" ID="0x6">
                 <Name>Active</Name>
             </Element>
             <Element Type="Bool" ID="0x7">
-                <Name>Deactivate On Entered</Name>
+                <Name>DeactivateOnEntered</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Deactivate On Exited</Name>
+                <Name>DeactivateOnExited</Name>
             </Element>
         </SubProperties>
     </Properties>

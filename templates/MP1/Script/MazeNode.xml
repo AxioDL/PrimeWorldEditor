@@ -13,25 +13,31 @@
                 <Name>Rotation</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Int" ID="0x4">
-                <Name>Unknown 2</Name>
+                <Name>Column</Name>
             </Element>
             <Element Type="Int" ID="0x5">
-                <Name>Unknown 3</Name>
+                <Name>Row</Name>
             </Element>
-            <Element Type="Int" ID="0x6">
-                <Name>Unknown 4</Name>
+            <Element Type="Choice" ID="0x6">
+                <Name>Side</Name>
+                <Values>
+                    <Element Name="Top" ID="0x0"/>
+                    <Element Name="Right" ID="0x1"/>
+                    <Element Name="Bottom" ID="0x2"/>
+                    <Element Name="Left" ID="0x3"/>
+                </Values>
             </Element>
             <Element Type="Vector" ID="0x7">
-                <Name>Unknown 5</Name>
+                <Name>ActorPos</Name>
             </Element>
             <Element Type="Vector" ID="0x8">
-                <Name>Unknown 6</Name>
+                <Name>TriggerPos</Name>
             </Element>
             <Element Type="Vector" ID="0x9">
-                <Name>Unknown 7</Name>
+                <Name>EffectPos</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -39,6 +45,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x03</ActiveProperty>
     </EditorProperties>
     <ScaleType>ScaleDisabled</ScaleType>
 </ScriptObject>

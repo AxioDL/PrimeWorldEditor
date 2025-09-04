@@ -9,20 +9,27 @@
             <Element Type="Bool" ID="0x1">
                 <Name>Active</Name>
             </Element>
-            <Element Type="Int" ID="0x2">
-                <Name>Unknown 2</Name>
+            <Element Type="Choice" ID="0x2">
+                <Name>BlurType</Name>
+                <Values>
+                    <Element Name="NoBlur" ID="0x0"/>
+                    <Element Name="LowBlur" ID="0x1"/>
+                    <Element Name="HighBlur" ID="0x2"/>
+                    <Element Name="X-Ray" ID="0x3"/>
+                </Values>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>Unknown 3</Name>
+                <Name>Amount</Name>
             </Element>
             <Element Type="Int" ID="0x4">
-                <Name>Unknown 4</Name>
+                <Name>FilterIndex</Name>
+                <Description>Unused?</Description>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 5</Name>
+                <Name>FadeInDuration</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 6</Name>
+                <Name>FadeOutDuration</Name>
             </Element>
         </SubProperties>
     </Properties>

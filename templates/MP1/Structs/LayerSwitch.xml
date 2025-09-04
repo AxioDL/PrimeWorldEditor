@@ -5,13 +5,13 @@
         <Atomic>true</Atomic>
         <SubProperties>
             <Element Type="Asset" ID="0x0">
-                <Name>Room ID</Name>
+                <Name>AreaID</Name>
                 <TypeFilter>
                     <Element>MREA</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Int" ID="0x1">
-                <Name>Layer no</Name>
+                <Name>Index</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>

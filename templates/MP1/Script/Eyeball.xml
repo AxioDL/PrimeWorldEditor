@@ -7,7 +7,7 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Int" ID="0x1">
-                <Name>Unknown 1</Name>
+                <Name>Flavor</Name>
             </Element>
             <Element Type="Vector" ID="0x2">
                 <Name>Position</Name>
@@ -21,10 +21,10 @@
             <Element Type="Struct" ID="0x5" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x6" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 2</Name>
+                <Name>AttackDelay</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 3</Name>
+                <Name>AttackStartTime</Name>
             </Element>
             <Element Type="Asset" ID="0x9">
                 <Name>WPSC</Name>
@@ -34,46 +34,46 @@
             </Element>
             <Element Type="Struct" ID="0xA" Archetype="DamageInfo"/>
             <Element Type="Asset" ID="0xB">
-                <Name>Particle 1</Name>
+                <Name>BeamContactFXID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xC">
-                <Name>Particle 2</Name>
+                <Name>BeamPulseFXID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xD">
-                <Name>Texture 1</Name>
+                <Name>BeamTextureID</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xE">
-                <Name>Texture 2</Name>
+                <Name>BeamGlowTextureID</Name>
                 <TypeFilter>
                     <Element>TXTR</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Int" ID="0xF">
-                <Name>Unknown 4</Name>
+                <Name>Anim0</Name>
             </Element>
             <Element Type="Int" ID="0x10">
-                <Name>Always FFFFFFFF 1</Name>
+                <Name>Anim1</Name>
             </Element>
             <Element Type="Int" ID="0x11">
-                <Name>Always FFFFFFFF 2</Name>
+                <Name>Anim2</Name>
             </Element>
             <Element Type="Int" ID="0x12">
-                <Name>Always FFFFFFFF 3</Name>
+                <Name>Anim3</Name>
             </Element>
             <Element Type="Sound" ID="0x13">
-                <Name>Laser Sound</Name>
+                <Name>BeamSFX</Name>
             </Element>
             <Element Type="Bool" ID="0x14">
-                <Name>Unknown 6</Name>
+                <Name>AttackDisabled</Name>
             </Element>
         </SubProperties>
     </Properties>

@@ -13,28 +13,28 @@
                 <Name>Rotation</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 2</Name>
+                <Name>InitialRadius</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 3</Name>
+                <Name>FinalRadius</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 4</Name>
+                <Name>Duration</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 5</Name>
+                <Name>InterferenceDur</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 6</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 7</Name>
+                <Name>InterferenceMag</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 8</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Asset" ID="0xB">
                 <Name>Particle</Name>
@@ -48,6 +48,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
+        <ActiveProperty>0x03</ActiveProperty>
     </EditorProperties>
     <ScaleType>ScaleDisabled</ScaleType>
 </ScriptObject>

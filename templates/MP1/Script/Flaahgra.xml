@@ -29,7 +29,7 @@
                 <Name>Unknown 3</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 4</Name>
+                <Name>FaintDuration</Name>
             </Element>
             <Element Type="Struct" ID="0xA" Archetype="DamageVulnerability"/>
             <Element Type="Asset" ID="0xB">
@@ -51,7 +51,7 @@
                 <Name>DamageInfo 2</Name>
             </Element>
             <Element Type="Asset" ID="0xF">
-                <Name>Particle</Name>
+                <Name>PlantsParticleGenDescID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>

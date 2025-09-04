@@ -16,28 +16,28 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>ZImpulse</Name>
             </Element>
             <Element Type="Vector" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>Velocity</Name>
             </Element>
             <Element Type="Color" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>EndsColor</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 4</Name>
+                <Name>Mass</Name>
             </Element>
             <Element Type="Float" ID="0x8">
-                <Name>Unknown 5</Name>
+                <Name>Restitution</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 6</Name>
+                <Name>Duration</Name>
             </Element>
             <Element Type="Int" ID="0xA">
-                <Name>Unknown 7</Name>
+                <Name>ScaleType</Name>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Unknown 8</Name>
+                <Name>RandomAngImpulse</Name>
             </Element>
             <Element Type="Asset" ID="0xC">
                 <Name>Model</Name>
@@ -47,19 +47,19 @@
             </Element>
             <Element Type="Struct" ID="0xD" Archetype="ActorParameters"/>
             <Element Type="Asset" ID="0xE">
-                <Name>Particle</Name>
+                <Name>ParticleID</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Vector" ID="0xF">
-                <Name>Unknown 9</Name>
+                <Name>ParticleScale</Name>
             </Element>
             <Element Type="Bool" ID="0x10">
-                <Name>Unknown 10</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Bool" ID="0x11">
-                <Name>Unknown 11</Name>
+                <Name>Active</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -68,6 +68,7 @@
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
         <ScaleProperty>0x03</ScaleProperty>
+        <ActiveProperty>0x11</ActiveProperty>
         <LightParametersProperty>0x0D:0x00</LightParametersProperty>
     </EditorProperties>
     <Assets>

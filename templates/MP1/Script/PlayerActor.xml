@@ -16,16 +16,16 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Vector" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>CollisionBox</Name>
             </Element>
             <Element Type="Vector" ID="0x5">
-                <Name>Scan Offset</Name>
+                <Name>CollisionOffset</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 2</Name>
+                <Name>Mass</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 3</Name>
+                <Name>Gravity</Name>
             </Element>
             <Element Type="Struct" ID="0x8" Archetype="HealthInfo"/>
             <Element Type="Struct" ID="0x9" Archetype="DamageVulnerability"/>
@@ -40,20 +40,28 @@
             </Element>
             <Element Type="Struct" ID="0xC" Archetype="ActorParameters"/>
             <Element Type="Bool" ID="0xD">
-                <Name>Loop Animation</Name>
+                <Name>Loop</Name>
             </Element>
             <Element Type="Bool" ID="0xE">
-                <Name>Unknown 5</Name>
+                <Name>Snow</Name>
             </Element>
             <Element Type="Bool" ID="0xF">
-                <Name>Disable Movement?</Name>
+                <Name>Solid</Name>
             </Element>
             <Element Type="Bool" ID="0x10">
                 <Name>Active</Name>
             </Element>
             <Element Type="Struct" ID="0x11" Archetype="PlayerActorStruct"/>
-            <Element Type="Int" ID="0x12">
-                <Name>Unknown 13</Name>
+            <Element Type="Choice" ID="0x12">
+                <Name>Beam</Name>
+                <Values>
+                    <Element Name="Current" ID="0x0"/>
+                    <Element Name="Power" ID="0x1"/>
+                    <Element Name="Ice" ID="0x2"/>
+                    <Element Name="Wave" ID="0x3"/>
+                    <Element Name="Plasma" ID="0x4"/>
+                    <Element Name="Phazon" ID="0x5"/>
+                </Values>
             </Element>
         </SubProperties>
     </Properties>

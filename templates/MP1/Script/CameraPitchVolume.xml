@@ -19,13 +19,15 @@
                 <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>UpPitch</Name>
+                <Description>Value in degrees.</Description>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>DownPitch</Name>
+                <Description>Value in degrees.</Description>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 4</Name>
+                <Name>MaxInterpolationDistance</Name>
             </Element>
         </SubProperties>
     </Properties>

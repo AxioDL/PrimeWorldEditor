@@ -13,22 +13,22 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0x4">
-                <Name>Unknown 2</Name>
+                <Name>Force</Name>
             </Element>
             <Element Type="Float" ID="0x5">
-                <Name>Unknown 3</Name>
+                <Name>MinAngle</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Unknown 4</Name>
+                <Name>MaxDistance</Name>
             </Element>
             <Element Type="Vector" ID="0x7">
-                <Name>Unknown 5</Name>
+                <Name>ForceAngle</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Unknown 6</Name>
+                <Name>StopPlayer</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -36,6 +36,7 @@
         <NameProperty>0x00</NameProperty>
         <PositionProperty>0x01</PositionProperty>
         <ScaleProperty>0x02</ScaleProperty>
+        <ActiveProperty>0x03</ActiveProperty>
     </EditorProperties>
     <RotationType>RotationDisabled</RotationType>
     <ScaleType>ScaleVolume</ScaleType>

@@ -16,10 +16,10 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Vector" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>Collision Box</Name>
             </Element>
             <Element Type="Vector" ID="0x5">
-                <Name>Scan Offset</Name>
+                <Name>Collision Offset</Name>
             </Element>
             <Element Type="Asset" ID="0x6">
                 <Name>Model</Name>
@@ -32,7 +32,7 @@
             </Element>
             <Element Type="Struct" ID="0x8" Archetype="ActorParameters"/>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 2</Name>
+                <Name>Speed</Name>
             </Element>
             <Element Type="Bool" ID="0xA">
                 <Name>Active</Name>
@@ -46,19 +46,19 @@
             <Element Type="Struct" ID="0xC" Archetype="HealthInfo"/>
             <Element Type="Struct" ID="0xD" Archetype="DamageVulnerability"/>
             <Element Type="Bool" ID="0xE">
-                <Name>Unknown 3</Name>
+                <Name>DetectCollision</Name>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 4</Name>
+                <Name>XRayAlpha</Name>
             </Element>
             <Element Type="Bool" ID="0x10">
-                <Name>Unknown 5</Name>
+                <Name>RainSplashes</Name>
             </Element>
             <Element Type="Int" ID="0x11">
-                <Name>Unknown 6</Name>
+                <Name>MaxRainSplashes</Name>
             </Element>
             <Element Type="Int" ID="0x12">
-                <Name>Unknown 7</Name>
+                <Name>RainGenRate</Name>
             </Element>
         </SubProperties>
     </Properties>

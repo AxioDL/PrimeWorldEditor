@@ -7,30 +7,31 @@
                 <Name>Name</Name>
             </Element>
             <Element Type="Int" ID="0x1">
-                <Name>Unknown 1</Name>
+                <Name>SpawnCount</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Unknown 2</Name>
+                <Name>NoReuseFollowers</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 3</Name>
+                <Name>NoInheritXf</Name>
             </Element>
             <Element Type="Vector" ID="0x4">
-                <Name>Unknown 4</Name>
+                <Name>Offset</Name>
             </Element>
             <Element Type="Bool" ID="0x5">
-                <Name>Unknown 5</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>Min Scale Multiplier</Name>
+                <Name>MinScale</Name>
             </Element>
             <Element Type="Float" ID="0x7">
-                <Name>Max Scale Multiplier</Name>
+                <Name>MaxScale</Name>
             </Element>
         </SubProperties>
     </Properties>
     <EditorProperties>
         <NameProperty>0x00</NameProperty>
+        <ActiveProperty>0x05</ActiveProperty>
     </EditorProperties>
     <Assets>
         <Element Type="Billboard" Source="File" Location="script/common/Generator.TXTR"/>

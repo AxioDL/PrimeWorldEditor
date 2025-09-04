@@ -16,13 +16,13 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 1</Name>
+                <Name>Active</Name>
             </Element>
             <Element Type="Bool" ID="0x5">
-                <Name>Unknown 2</Name>
+                <Name>DeactivateOnEnter</Name>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 3</Name>
+                <Name>DeactivateOnExit</Name>
             </Element>
         </SubProperties>
     </Properties>
@@ -31,6 +31,7 @@
         <PositionProperty>0x01</PositionProperty>
         <RotationProperty>0x02</RotationProperty>
         <ScaleProperty>0x03</ScaleProperty>
+        <ActiveProperty>0x04</ActiveProperty>
     </EditorProperties>
     <ScaleType>ScaleVolume</ScaleType>
     <VolumeShape>BoxShape</VolumeShape>

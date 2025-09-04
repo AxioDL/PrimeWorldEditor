@@ -4,7 +4,7 @@
         <Name>LayerSwitch</Name>
         <Atomic>true</Atomic>
         <SubProperties>
-            <Element Type="Asset" ID="0x0">
+            <Element Type="Int" ID="0x0">
                 <Name>Area ID</Name>
             </Element>
             <Element Type="Int" ID="0x1">

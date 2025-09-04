@@ -876,8 +876,16 @@
             <Value Path="Structs/ControlHintStruct.xml"/>
         </Element>
         <Element>
+            <Key>ControllerActionCommand</Key>
+            <Value Path="Enums/ControllerActionCommand.xml"/>
+        </Element>
+        <Element>
             <Key>ControllerActionStruct</Key>
             <Value Path="Structs/ControllerActionStruct.xml"/>
+        </Element>
+        <Element>
+            <Key>ControllerMapping</Key>
+            <Value Path="Enums/ControllerMapping.xml"/>
         </Element>
         <Element>
             <Key>DamageInfo</Key>
@@ -1652,6 +1660,10 @@
             <Value>BallIceXDamage</Value>
         </Element>
         <Element>
+            <Key>BSCN</Key>
+            <Value>BSCN</Value>
+        </Element>
+        <Element>
             <Key>BXDG</Key>
             <Value>BallXDamage</Value>
         </Element>
@@ -1680,6 +1692,14 @@
             <Value>CameraTime</Value>
         </Element>
         <Element>
+            <Key>DADR</Key>
+            <Value>DamageAreaDark</Value>
+        </Element>
+        <Element>
+            <Key>DALG</Key>
+            <Value>DamageAreaLight</Value>
+        </Element>
+        <Element>
             <Key>DAMG</Key>
             <Value>Damage</Value>
         </Element>
@@ -1689,19 +1709,23 @@
         </Element>
         <Element>
             <Key>DBAI</Key>
-            <Value>DBAI</Value>
+            <Value>DamageAI</Value>
         </Element>
         <Element>
             <Key>DBAL</Key>
-            <Value>DBAL</Value>
+            <Value>DamageBoostBall</Value>
         </Element>
         <Element>
             <Key>DBMB</Key>
-            <Value>DBMB</Value>
+            <Value>DamageBomb</Value>
         </Element>
         <Element>
             <Key>DCAN</Key>
-            <Value>DCAN</Value>
+            <Value>DamageCannonBall</Value>
+        </Element>
+        <Element>
+            <Key>DCLD</Key>
+            <Value>DamageCold</Value>
         </Element>
         <Element>
             <Key>DDRK</Key>
@@ -1713,11 +1737,19 @@
         </Element>
         <Element>
             <Key>DFST</Key>
-            <Value>DFST</Value>
+            <Value>DefaultState</Value>
         </Element>
         <Element>
             <Key>DGNR</Key>
             <Value>DeGenerate</Value>
+        </Element>
+        <Element>
+            <Key>DHOT</Key>
+            <Value>DamageHot</Value>
+        </Element>
+        <Element>
+            <Key>DLAV</Key>
+            <Value>DamageLava</Value>
         </Element>
         <Element>
             <Key>DLGT</Key>
@@ -1725,19 +1757,23 @@
         </Element>
         <Element>
             <Key>DMIS</Key>
-            <Value>DMIS</Value>
+            <Value>DamageMissile</Value>
         </Element>
         <Element>
             <Key>DPBM</Key>
-            <Value>DPBM</Value>
+            <Value>DamagePowerBomb</Value>
         </Element>
         <Element>
             <Key>DPHZ</Key>
-            <Value>DPHZ</Value>
+            <Value>DamagePhazon</Value>
         </Element>
         <Element>
             <Key>DPWR</Key>
             <Value>DamagePower</Value>
+        </Element>
+        <Element>
+            <Key>DPWT</Key>
+            <Value>DamagePoisonWater</Value>
         </Element>
         <Element>
             <Key>DRKX</Key>
@@ -1745,11 +1781,19 @@
         </Element>
         <Element>
             <Key>DSCW</Key>
-            <Value>DSCW</Value>
+            <Value>DamageScrewAttack</Value>
+        </Element>
+        <Element>
+            <Key>DUNS</Key>
+            <Value>DamageUnknownSource</Value>
         </Element>
         <Element>
             <Key>ENTR</Key>
             <Value>Entered</Value>
+        </Element>
+        <Element>
+            <Key>ESCN</Key>
+            <Value>ESCN</Value>
         </Element>
         <Element>
             <Key>EXIT</Key>
@@ -2150,8 +2194,20 @@
             <Value>Unload</Value>
         </Element>
         <Element>
+            <Key>XALD</Key>
+            <Value>XALD</Value>
+        </Element>
+        <Element>
+            <Key>XAUD</Key>
+            <Value>XAUD</Value>
+        </Element>
+        <Element>
             <Key>XCLR</Key>
             <Value>Clear</Value>
+        </Element>
+        <Element>
+            <Key>XCRT</Key>
+            <Value>XCRT</Value>
         </Element>
         <Element>
             <Key>XDEL</Key>
@@ -2159,7 +2215,27 @@
         </Element>
         <Element>
             <Key>XDMG</Key>
-            <Value>XDamage	</Value>
+            <Value>XDamage</Value>
+        </Element>
+        <Element>
+            <Key>XENF</Key>
+            <Value>XENF</Value>
+        </Element>
+        <Element>
+            <Key>XEPZ</Key>
+            <Value>XEPZ</Value>
+        </Element>
+        <Element>
+            <Key>XEXF</Key>
+            <Value>XEXF</Value>
+        </Element>
+        <Element>
+            <Key>XIPZ</Key>
+            <Value>XIPZ</Value>
+        </Element>
+        <Element>
+            <Key>XXPZ</Key>
+            <Value>XXPZ</Value>
         </Element>
         <Element>
             <Key>ZERO</Key>

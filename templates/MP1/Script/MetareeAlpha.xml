@@ -19,19 +19,19 @@
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Struct" ID="0x6" Archetype="DamageInfo"/>
             <Element Type="Float" ID="0x7">
-                <Name>Unknown 1</Name>
+                <Name>DropHeight</Name>
             </Element>
             <Element Type="Vector" ID="0x8">
-                <Name>Unknown 2</Name>
+                <Name>Offset</Name>
             </Element>
             <Element Type="Float" ID="0x9">
-                <Name>Unknown 3</Name>
+                <Name>AttackSpeed</Name>
             </Element>
             <Element Type="Float" ID="0xA">
-                <Name>Unknown 4</Name>
+                <Name>Delay</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>Unknown 5</Name>
+                <Name>HaltDelay</Name>
             </Element>
         </SubProperties>
     </Properties>

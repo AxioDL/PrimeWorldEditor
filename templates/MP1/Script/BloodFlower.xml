@@ -18,61 +18,64 @@
             <Element Type="Struct" ID="0x4" Archetype="PatternedAITypedef"/>
             <Element Type="Struct" ID="0x5" Archetype="ActorParameters"/>
             <Element Type="Asset" ID="0x6">
-                <Name>Particle 1</Name>
+                <Name>PodParticles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x7">
-                <Name>WPSC 1</Name>
+                <Name>ArcProjectileWeapon</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0x8">
-                <Name>WPSC 2</Name>
+                <Name>SporeProjectileWeapon</Name>
                 <TypeFilter>
                     <Element>WPSC</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Struct" ID="0x9" Archetype="DamageInfo">
-                <Name>DamageInfo 1</Name>
+                <Name>SporeDamage</Name>
             </Element>
             <Element Type="Struct" ID="0xA" Archetype="DamageInfo">
-                <Name>DamageInfo 2</Name>
+                <Name>ArcProjectileDamage</Name>
             </Element>
             <Element Type="Struct" ID="0xB" Archetype="DamageInfo">
-                <Name>DamageInfo 3</Name>
+                <Name>PodDamage</Name>
             </Element>
             <Element Type="Asset" ID="0xC">
-                <Name>Particle 2</Name>
+                <Name>Particle1</Name>
+                <Description>Unused?</Description>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xD">
-                <Name>Particle 3</Name>
+                <Name>Particle2</Name>
+                <Description>Unused?</Description>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Asset" ID="0xE">
-                <Name>Particle 4</Name>
+                <Name>Particle3</Name>
+                <Description>Unused?</Description>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Float" ID="0xF">
-                <Name>Unknown 1</Name>
+                <Name>SporeProjectileRange?</Name>
             </Element>
             <Element Type="Asset" ID="0x10">
-                <Name>Particle 5</Name>
+                <Name>ProjectileHitVisorParticles</Name>
                 <TypeFilter>
                     <Element>PART</Element>
                 </TypeFilter>
             </Element>
             <Element Type="Sound" ID="0x11">
-                <Name>Unknown 2</Name>
+                <Name>ProjectileHitVisorSound</Name>
             </Element>
         </SubProperties>
     </Properties>

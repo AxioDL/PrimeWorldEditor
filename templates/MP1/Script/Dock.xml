@@ -16,13 +16,13 @@
                 <Name>Scale</Name>
             </Element>
             <Element Type="Int" ID="0x4">
-                <Name>Dock Index</Name>
+                <Name>DockIndex</Name>
             </Element>
             <Element Type="Int" ID="0x5">
-                <Name>Area Index</Name>
+                <Name>AreaIndex</Name>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Auto Load</Name>
+                <Name>LoadConnected</Name>
             </Element>
         </SubProperties>
     </Properties>

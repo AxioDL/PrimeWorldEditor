@@ -4,70 +4,70 @@
         <Name>CameraHintStruct</Name>
         <SubProperties>
             <Element Type="Bool" ID="0x0">
-                <Name>Unknown 1</Name>
+                <Name>CalculateCamPos</Name>
             </Element>
             <Element Type="Bool" ID="0x1">
-                <Name>Unknown 2</Name>
+                <Name>ChaseAllowed</Name>
             </Element>
             <Element Type="Bool" ID="0x2">
-                <Name>Unknown 3</Name>
+                <Name>BoostAllowed</Name>
             </Element>
             <Element Type="Bool" ID="0x3">
-                <Name>Unknown 4</Name>
+                <Name>ObscureAvoidance</Name>
             </Element>
             <Element Type="Bool" ID="0x4">
-                <Name>Unknown 5</Name>
+                <Name>VolumeCollider</Name>
             </Element>
             <Element Type="Bool" ID="0x5">
-                <Name>Unknown 6</Name>
+                <Name>ApplyImmediately</Name>
             </Element>
             <Element Type="Bool" ID="0x6">
-                <Name>Unknown 7</Name>
+                <Name>LookAtBall</Name>
             </Element>
             <Element Type="Bool" ID="0x7">
-                <Name>Unknown 8</Name>
+                <Name>HintDistanceSelection</Name>
             </Element>
             <Element Type="Bool" ID="0x8">
-                <Name>Unknown 9</Name>
+                <Name>HintDistanceSelfPos</Name>
             </Element>
             <Element Type="Bool" ID="0x9">
-                <Name>Unknown 10</Name>
+                <Name>ControlInterpolation</Name>
             </Element>
             <Element Type="Bool" ID="0xA">
-                <Name>Unknown 11</Name>
+                <Name>SinusoidalInterpolation</Name>
             </Element>
             <Element Type="Bool" ID="0xB">
-                <Name>Unknown 12</Name>
+                <Name>SinusoidalInterpolationHintless</Name>
             </Element>
             <Element Type="Bool" ID="0xC">
-                <Name>Unknown 13</Name>
+                <Name>ClampVelocity</Name>
             </Element>
             <Element Type="Bool" ID="0xD">
-                <Name>Unknown 14</Name>
+                <Name>SkipCinematic</Name>
             </Element>
             <Element Type="Bool" ID="0xE">
-                <Name>Unknown 15</Name>
+                <Name>NoElevationInterp</Name>
             </Element>
             <Element Type="Bool" ID="0xF">
-                <Name>Unknown 16</Name>
+                <Name>DirectElevation</Name>
             </Element>
             <Element Type="Bool" ID="0x10">
-                <Name>Unknown 17</Name>
+                <Name>OverrideLookDir</Name>
             </Element>
             <Element Type="Bool" ID="0x11">
-                <Name>Unknown 18</Name>
+                <Name>NoElevationVelClamp</Name>
             </Element>
             <Element Type="Bool" ID="0x12">
-                <Name>Unknown 19</Name>
+                <Name>CalculateTransformFromPrevCam</Name>
             </Element>
             <Element Type="Bool" ID="0x13">
-                <Name>Unknown 21</Name>
+                <Name>NoSpline</Name>
             </Element>
             <Element Type="Bool" ID="0x14">
-                <Name>Unknown 22</Name>
+                <Name>Unknown</Name>
             </Element>
             <Element Type="Bool" ID="0x15">
-                <Name>Unknown 23</Name>
+                <Name>Unknown</Name>
             </Element>
         </SubProperties>
     </PropertyArchetype>
