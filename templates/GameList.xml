@@ -24,4 +24,8 @@
         <Name>Donkey Kong Country Returns</Name>
         <GameTemplate>DKCR/Game.xml</GameTemplate>
     </Game>
+    <Game ID="PrimeRemastered">
+        <Name>Metroid Prime Remastered</Name>
+        <GameTemplate>MP1R/Game.xml</GameTemplate>
+    </Game>
 </GameList>

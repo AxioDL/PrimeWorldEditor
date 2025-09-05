@@ -33,7 +33,7 @@
                 <Name>PlayerObstructionMinDist</Name>
             </Element>
             <Element Type="Float" ID="0xB">
-                <Name>MoveFowardWeight </Name>
+                <Name>MoveFowardWeight</Name>
             </Element>
             <Element Type="Asset" ID="0xC">
                 <Name>ModelRes</Name>

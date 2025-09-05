@@ -21,7 +21,7 @@
                 </Values>
             </Element>
             <Element Type="Float" ID="0x3">
-                <Name>EnvFxDensit</Name>
+                <Name>EnvFxDensity</Name>
                 <Description>Environment effect density.</Description>
             </Element>
             <Element Type="Float" ID="0x4">
@@ -31,7 +31,7 @@
                 <Name>XRayFogDistance</Name>
             </Element>
             <Element Type="Float" ID="0x6">
-                <Name>WorldLightningLevel</Name>
+                <Name>WorldLightingLevel</Name>
             </Element>
             <Element Type="Asset" ID="0x7">
                 <Name>Skybox</Name>

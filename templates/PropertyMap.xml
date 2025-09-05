@@ -3067,7 +3067,7 @@
         </Element>
         <Element>
             <Key ID="0x11B6A17A" Type="bool"/>
-            <Value Name="LockScoreInitCombatVisor"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x11BC5E7A" Type="float"/>
@@ -8367,7 +8367,7 @@
         </Element>
         <Element>
             <Key ID="0x2DE4A294" Type="bool"/>
-            <Value Name="ProportionalReactiveCreation"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x2DE5A19A" Type="float"/>
@@ -9751,10 +9751,6 @@
         </Element>
         <Element>
             <Key ID="0x359C7AAF" Type="Unknown"/>
-            <Value Name="Unknown"/>
-        </Element>
-        <Element>
-            <Key ID="0x359C7AAF" Type=""/>
             <Value Name="Unknown"/>
         </Element>
         <Element>
@@ -27819,7 +27815,7 @@
         </Element>
         <Element>
             <Key ID="0x97C0611F" Type="Flags"/>
-            <Value Name="AbandonedInnerFrozen"/>
+            <Value Name="Unknown"/>
         </Element>
         <Element>
             <Key ID="0x97C0611F" Type="int"/>
