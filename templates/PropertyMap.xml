@@ -31959,7 +31959,7 @@
         </Element>
         <Element>
             <Key ID="0xAE80628F" Type="Flags"/>
-            <Value Name="PlatformFlags"/>
+            <Value Name="MotionFlags"/>
         </Element>
         <Element>
             <Key ID="0xAE80628F" Type="int"/>

@@ -23,13 +23,13 @@
                     <Element Name="DisableInput" Mask="0x20"/>
                     <Element Name="DrawPlayer" Mask="0x40"/>
                     <Element Name="CheckFailsafe" Mask="0x80"/>
-                    <Element Name="CinematicPause" Mask="0x160"/>
-                    <Element Name="DisableOutOfInto" Mask="0x320"/>
-                    <Element Name="Sinusoidal" Mask="0x640"/>
-                    <Element Name="UseHintDir" Mask="0x1280"/>
-                    <Element Name="HintToCamDir" Mask="0x2560"/>
-                    <Element Name="SkipBallCameraCinematic" Mask="0x5120"/>
-                    <Element Name="HintToBallDir" Mask="0x10240"/>
+                    <Element Name="CinematicPause" Mask="0x100"/>
+                    <Element Name="DisableOutOfInto" Mask="0x200"/>
+                    <Element Name="Sinusoidal" Mask="0x400"/>
+                    <Element Name="UseHintDir" Mask="0x800"/>
+                    <Element Name="HintToCamDir" Mask="0x1000"/>
+                    <Element Name="SkipBallCameraCinematic" Mask="0x2000"/>
+                    <Element Name="HintToBallDir" Mask="0x4000"/>
                 </Flags>
                 <DefaultValue>168</DefaultValue>
             </Element>
