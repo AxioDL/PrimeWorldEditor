@@ -27,11 +27,18 @@
                     <Element Name="DisableOutOfInto" Mask="0x200"/>
                     <Element Name="Sinusoidal" Mask="0x400"/>
                     <Element Name="UseHintDir" Mask="0x800"/>
-                    <Element Name="HintToCamDir" Mask="0x1000"/>
+                    <Element Name="IgnoreWatchedCheck" Mask="0x1000"/>
                     <Element Name="SkipBallCameraCinematic" Mask="0x2000"/>
                     <Element Name="HintToBallDir" Mask="0x4000"/>
                 </Flags>
                 <DefaultValue>168</DefaultValue>
+                <Description>
+                &lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;FinishCineSkip&lt;/span&gt;: Interrupts the cutscene skip progress and resumes on this camera.
+                &lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;CheckFailsafe&lt;/span&gt;: Freezes the player in place during the cutscene.
+                &lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;CinematicPause&lt;/span&gt;: Freezes the environment during the cutscene.
+                &lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;IgnoreWatchedCheck&lt;/span&gt;: Allows cutscene to be skipped regardless of save file state.
+                &lt;br/&gt;* &lt;span style=&quot; font-weight:600;&quot;&gt;Sinusoidal&lt;/span&gt;: If inside a CameraHint, the perspective change adds up on top of the cutscene's properties.
+                </Description>
             </Element>
             <Element Type="Int" ID="0xD4B29446">
                 <DefaultValue>0</DefaultValue>
