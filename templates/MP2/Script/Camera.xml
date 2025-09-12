@@ -26,8 +26,8 @@
                     <Element Name="CinematicPause" Mask="0x100"/>
                     <Element Name="DisableOutOfInto" Mask="0x200"/>
                     <Element Name="Sinusoidal" Mask="0x400"/>
-                    <Element Name="UseHintDir" Mask="0x800"/>
-                    <Element Name="IgnoreWatchedCheck" Mask="0x1000"/>
+                    <Element Name="IgnoreWatchedCheck" Mask="0x800"/>
+                    <Element Name="HintToCamDir" Mask="0x1000"/>
                     <Element Name="SkipBallCameraCinematic" Mask="0x2000"/>
                     <Element Name="HintToBallDir" Mask="0x4000"/>
                 </Flags>
