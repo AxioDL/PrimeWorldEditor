@@ -17,29 +17,29 @@
                 <DefaultValue>1</DefaultValue>
                 <Flags>
                     <Element Name="Unknown 1" Mask="0x1"/>
-                    <Element Name="Unknown 2" Mask="0x2"/>
-                    <Element Name="Unknown 3" Mask="0x4"/>
-                    <Element Name="Unknown 4" Mask="0x8"/>
-                    <Element Name="Unknown 5" Mask="0x10"/>
-                    <Element Name="Unknown 6" Mask="0x20"/>
-                    <Element Name="Unknown 7" Mask="0x40"/>
-                    <Element Name="Unknown 8" Mask="0x80"/>
-                    <Element Name="Unknown 9" Mask="0x100"/>
-                    <Element Name="Unknown 10" Mask="0x200"/>
-                    <Element Name="Unknown 11" Mask="0x400"/>
-                    <Element Name="Unknown 12" Mask="0x800"/>
-                    <Element Name="Unknown 13" Mask="0x1000"/>
-                    <Element Name="Unknown 14" Mask="0x2000"/>
-                    <Element Name="Unknown 15" Mask="0x4000"/>
-                    <Element Name="Unknown 16" Mask="0x8000"/>
-                    <Element Name="Unknown 17" Mask="0x10000"/>
-                    <Element Name="Unknown 18" Mask="0x20000"/>
-                    <Element Name="Unknown 19" Mask="0x40000"/>
-                    <Element Name="Unknown 20" Mask="0x80000"/>
-                    <Element Name="Unknown 21" Mask="0x100000"/>
-                    <Element Name="Unknown 22" Mask="0x200000"/>
-                    <Element Name="Unknown 23" Mask="0x400000"/>
-                    <Element Name="Unknown 24" Mask="0x800000"/>
+                    <Element Name="ControlDirOverride" Mask="0x2"/>
+                    <Element Name="ExtendTargetDistance" Mask="0x4"/>
+                    <Element Name="OutOfBallLookAtHint" Mask="0x8"/>
+                    <Element Name="SpiderBallControlXY" Mask="0x10"/>
+                    <Element Name="DisableUnmorph" Mask="0x20"/>
+                    <Element Name="DisableMorph" Mask="0x40"/>
+                    <Element Name="DisableControls" Mask="0x80"/>
+                    <Element Name="DisableBoost" Mask="0x100"/>
+                    <Element Name="ForceCombatVisor" Mask="0x200"/>
+                    <Element Name="ForceScanVisor" Mask="0x400"/>
+                    <Element Name="ForceDarkVisor" Mask="0x800"/>
+                    <Element Name="ForceEchoVisor" Mask="0x1000"/>
+                    <Element Name="FreezePlayer" Mask="0x2000"/>
+                    <Element Name="FaceOnUnmorph" Mask="0x4000"/>
+                    <Element Name="Unknown 2" Mask="0x8000"/>
+                    <Element Name="Unknown 3" Mask="0x10000"/>
+                    <Element Name="Unknown 4" Mask="0x20000"/>
+                    <Element Name="Unknown 5" Mask="0x40000"/>
+                    <Element Name="ForceFreeLook" Mask="0x80000"/>
+                    <Element Name="Unknown 6" Mask="0x100000"/>
+                    <Element Name="ForceFirstPerson" Mask="0x200000"/>
+                    <Element Name="ForceThirdPerson" Mask="0x400000"/>
+                    <Element Name="Unknown 7" Mask="0x800000"/>
                 </Flags>
             </Element>
         </SubProperties>
