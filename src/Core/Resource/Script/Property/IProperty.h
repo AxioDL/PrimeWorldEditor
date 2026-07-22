@@ -152,6 +152,7 @@ protected:
 
     /** Property metadata */
     TString mName;
+    TString mReadableName;
     TString mDescription;
     TString mSuffix;
     ECookPreference mCookPreference{ECookPreference::Default};
@@ -204,6 +205,7 @@ public:
     TString GetTemplateFileName() const;
     bool ShouldCook(const void* pPropertyData) const;
     void SetName(const TString& rkNewName);
+    void SetReadableName(const TString& rkNewName);
     void SetDescription(const TString& rkNewDescription);
     void SetSuffix(const TString& rkNewSuffix);
     void MarkDirty();
@@ -211,6 +213,7 @@ public:
     bool ConvertType(EPropertyType NewType, IProperty* pNewArchetype = nullptr);
     bool UsesNameMap() const;
     bool HasAccurateName();
+    bool HasReadableName() const { return !mReadableName.IsEmpty(); }
 
     /** Accessors */
     EGame Game() const { return mGame; }
@@ -264,6 +267,7 @@ public:
     const CScriptTemplate* ScriptTemplate() const { return mpScriptTemplate; }
 
     const TString& Name() const { return mName; }
+    const TString& ReadableName() const { return mReadableName; }
     const TString& Description() const { return mDescription; }
     const TString& Suffix() const { return mSuffix; }
 

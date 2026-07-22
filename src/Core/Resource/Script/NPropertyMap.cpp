@@ -111,6 +111,9 @@ struct SNameValue
 {
     /** Name of the property */
     TString Name;
+    
+    /** Readable name of the property */
+    TString ReadableName;
 
     /** Whether this name is valid */
     bool IsValid{};
@@ -121,7 +124,8 @@ struct SNameValue
 
     void Serialize(IArchive& Arc)
     {
-        Arc << SerialParameter("Name", Name, SH_Attribute);
+        Arc << SerialParameter("Name", Name, SH_Attribute)
+            << SerialParameter("ReadableName", ReadableName, SH_Attribute | SH_Optional);
     }
 
     friend bool operator==(const SNameValue& kLHS, const SNameValue& kRHS)
@@ -519,7 +523,7 @@ void RegisterProperty(IProperty* pProperty)
         // If we still didn't find it, register the property name in the map
         if (MapFind == gNameMap.cend())
         {
-            SNameValue Value{"Unknown", false, {}};
+            SNameValue Value{"Unknown", {}, false, {}};
             MapFind = gNameMap.insert_or_assign(Key, std::move(Value)).first;
             RegisterTypeName(Key.TypeHash, pProperty->HashableTypeName());
         }
@@ -527,12 +531,14 @@ void RegisterProperty(IProperty* pProperty)
         // We should have a valid iterator at this point no matter what.
         ASSERT(MapFind != gNameMap.cend());
         pProperty->SetName(MapFind->second.Name);
+        pProperty->SetReadableName(MapFind->second.ReadableName);
     }
 
     MapFind->second.PropertyList.insert(pProperty);
 
     // Update the property's Name field to match the mapped name.
     pProperty->SetName(MapFind->second.Name);
+    pProperty->SetReadableName(MapFind->second.ReadableName);
 }
 
 /** Unregisters a property from the name map. Should be called on all properties that use the map on destruction. */

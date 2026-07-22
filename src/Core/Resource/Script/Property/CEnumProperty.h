@@ -12,7 +12,7 @@
  *
  *  In PWE, however, they are both implemented the same way under the hood.
  */
-template<EPropertyType TypeEnum>
+template <EPropertyType TypeEnum>
 class TEnumPropertyBase : public TSerializeableTypedProperty<int32_t, TypeEnum>
 {
     using base = TSerializeableTypedProperty<int32_t, TypeEnum>;
@@ -21,18 +21,19 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<int32_t, TypeEnum>
     struct SEnumValue
     {
         TString Name;
+        TString ReadableName;
         uint32_t ID = 0;
 
         SEnumValue() = default;
         SEnumValue(TString rkInName, uint32_t InID)
             : Name(std::move(rkInName)), ID(InID) {}
 
-
         bool operator==(const SEnumValue&) const = default;
 
         void Serialize(IArchive& rArc)
         {
             rArc << SerialParameter("Name", Name, SH_Attribute)
+                 << SerialParameter("ReadableName", ReadableName, SH_Attribute | SH_Optional)
                  << SerialParameter("ID", ID, SH_Attribute | SH_HexDisplay);
         }
     };
@@ -44,9 +45,9 @@ class TEnumPropertyBase : public TSerializeableTypedProperty<int32_t, TypeEnum>
 protected:
     /** Constructor */
     explicit TEnumPropertyBase(EGame Game)
-        : base(Game)
-        , mOverrideTypeName(false)
-    {}
+        : base(Game), mOverrideTypeName(false)
+    {
+    }
 
 public:
     const char* HashableTypeName() const override
@@ -130,6 +131,18 @@ public:
         ASSERT(Index < mValues.size());
         return mValues[Index].Name;
     }
+    
+    TString ValueReadableName(size_t Index) const
+    {
+        ASSERT(Index < mValues.size());
+        return mValues[Index].ReadableName;
+    }
+
+    bool HasReadableName(size_t Index) const
+    {
+        ASSERT(Index < mValues.size());
+        return !mValues[Index].ReadableName.IsEmpty();
+    }
 
     bool HasValidValue(const void* pPropertyData)
     {
@@ -168,7 +181,7 @@ using CChoiceProperty = TEnumPropertyBase<EPropertyType::Choice>;
 using CEnumProperty = TEnumPropertyBase<EPropertyType::Enum>;
 
 // Specialization of TPropCast to allow interchangeable casting, as both types are the same thing
-template<>
+template <>
 inline CEnumProperty* TPropCast(IProperty* pProperty)
 {
     if (pProperty)
@@ -184,7 +197,7 @@ inline CEnumProperty* TPropCast(IProperty* pProperty)
     return nullptr;
 }
 
-template<>
+template <>
 inline CChoiceProperty* TPropCast(IProperty* pProperty)
 {
     if (pProperty)

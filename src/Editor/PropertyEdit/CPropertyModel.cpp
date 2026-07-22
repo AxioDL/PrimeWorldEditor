@@ -12,6 +12,7 @@
 
 #include <array>
 #include <fmt/format.h>
+#include <iostream>
 #include <vector>
 
 struct CPropertyModel::SProperty
@@ -22,7 +23,7 @@ struct CPropertyModel::SProperty
     std::vector<int> ChildIDs;
 };
 
-CPropertyModel::CPropertyModel(QObject *pParent)
+CPropertyModel::CPropertyModel(QObject* pParent)
     : QAbstractItemModel(pParent)
 {
 }
@@ -208,7 +209,7 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
     if ((rkParent.internalId() & 0x80000000) != 0)
         return 0;
 
-    IProperty *pProp = PropertyForIndex(rkParent, false);
+    IProperty* pProp = PropertyForIndex(rkParent, false);
     const int ID = rkParent.internalId();
 
     switch (pProp->Type())
@@ -221,8 +222,10 @@ int CPropertyModel::rowCount(const QModelIndex& rkParent) const
         const void* pData = DataPointerForIndex(rkParent);
         const auto& Params = TPropCast<CAnimationSetProperty>(pProp)->ValueRef(pData);
 
-        if (Params.Version() <= EGame::Echoes) return 3;
-        if (Params.Version() <= EGame::Corruption) return 2;
+        if (Params.Version() <= EGame::Echoes)
+            return 3;
+        if (Params.Version() <= EGame::Corruption)
+            return 2;
         return 4;
     }
 
@@ -235,8 +238,10 @@ QVariant CPropertyModel::headerData(int Section, Qt::Orientation Orientation, in
 {
     if (Orientation == Qt::Horizontal && Role == Qt::DisplayRole)
     {
-        if (Section == 0) return tr("Name");
-        if (Section == 1) return tr("Value");
+        if (Section == 0)
+            return tr("Name");
+        if (Section == 1)
+            return tr("Value");
     }
 
     return QVariant();
@@ -251,7 +256,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
     {
         if ((rkIndex.internalId() & 0x80000000) != 0)
         {
-            IProperty *pProp = PropertyForIndex(rkIndex, true);
+            IProperty* pProp = PropertyForIndex(rkIndex, true);
             const EPropertyType Type = pProp->Type();
 
             if (Type == EPropertyType::Flags)
@@ -280,9 +285,12 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     if (rkIndex.column() == 0)
                     {
-                        if (rkIndex.row() == 0) return tr("AnimSet");
-                        if (rkIndex.row() == 1) return tr("Character");
-                        if (rkIndex.row() == 2) return tr("DefaultAnim");
+                        if (rkIndex.row() == 0)
+                            return tr("AnimSet");
+                        if (rkIndex.row() == 1)
+                            return tr("Character");
+                        if (rkIndex.row() == 2)
+                            return tr("DefaultAnim");
                     }
 
                     // For column 1, rows 0/1 have persistent editors so we only handle 2
@@ -293,8 +301,10 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     if (rkIndex.column() == 0)
                     {
-                        if (rkIndex.row() == 0) return tr("Character");
-                        if (rkIndex.row() == 1) return tr("DefaultAnim");
+                        if (rkIndex.row() == 0)
+                            return tr("Character");
+                        if (rkIndex.row() == 1)
+                            return tr("DefaultAnim");
                     }
 
                     // Same deal here, only handle row 1
@@ -305,8 +315,10 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 {
                     if (rkIndex.column() == 0)
                     {
-                        if (rkIndex.row() == 0) return tr("Character");
-                        if (rkIndex.row() == 1) return tr("DefaultAnim");
+                        if (rkIndex.row() == 0)
+                            return tr("Character");
+                        if (rkIndex.row() == 1)
+                            return tr("DefaultAnim");
                         return tr("Unknown%1").arg(rkIndex.row() - 1);
                     }
 
@@ -317,22 +329,26 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
         }
         else
         {
-            IProperty *pProp = PropertyForIndex(rkIndex, false);
+            IProperty* pProp = PropertyForIndex(rkIndex, false);
 
             if (rkIndex.column() == 0)
             {
                 // Check for arrays
-                const IProperty *pParent = pProp->Parent();
+                const IProperty* pParent = pProp->Parent();
 
                 if (pParent != nullptr && pParent->Type() == EPropertyType::Array)
                 {
                     // For direct array sub-properties, display the element index after the name
-                    const TString& ElementName = pProp->Name();
+                    const TString& ElementName = pProp->HasReadableName() ? pProp->ReadableName() : pProp->Name();
                     return tr("%1 %2").arg(TO_QSTRING(ElementName)).arg(rkIndex.row() + 1);
                 }
 
                 // Display property name for everything else
-                return TO_QSTRING(pProp->Name());
+                if (pProp->HasReadableName())
+                {
+                    std::cout << pProp->ReadableName() << std::endl;
+                }
+                return TO_QSTRING(pProp->HasReadableName() ? pProp->ReadableName() : pProp->Name());
             }
 
             if (rkIndex.column() == 1)
@@ -386,7 +402,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                         const auto* pEnum = TPropCast<CEnumProperty>(pProp);
                         const uint32_t ValueID = pEnum->Value(pData);
                         const uint32_t ValueIndex = pEnum->ValueIndex(ValueID);
-                        return TO_QSTRING(pEnum->ValueName(ValueIndex));
+                        return TO_QSTRING(pEnum->HasReadableName(ValueIndex) ? pEnum->ValueReadableName(ValueIndex) : pEnum->ValueName(ValueIndex));
                     }
                     return QString{};
 
@@ -407,7 +423,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 case EPropertyType::Color:
                     if (Role == Qt::DisplayRole)
                         return QString{};
-                [[fallthrough]];
+                    [[fallthrough]];
 
                 // Display property value to string for everything else
                 default:
@@ -453,7 +469,7 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 
         if (mBoldModifiedProperties)
         {
-            const IProperty *pProp = PropertyForIndex(rkIndex, true);
+            const IProperty* pProp = PropertyForIndex(rkIndex, true);
 
             if (!pProp->IsArrayArchetype())
             {
@@ -543,7 +559,7 @@ void CPropertyModel::NotifyPropertyModified(CScriptObject*, IProperty* pProp)
 void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 {
     if (rowCount(rkIndex) != 0)
-        emit dataChanged( index(0, 0, rkIndex), index(rowCount(rkIndex) - 1, 1, rkIndex));
+        emit dataChanged(index(0, 0, rkIndex), index(rowCount(rkIndex) - 1, 1, rkIndex));
 
     if ((rkIndex.internalId() & 0x80000000) != 0)
     {
@@ -601,7 +617,7 @@ void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, uint32_t OldSize)
             for (uint32_t ElementIdx = OldSize; ElementIdx < NewSize; ElementIdx++)
             {
                 mpPropertyData = pArray->ItemPointer(pArrayData, ElementIdx);
-                const int NewChildID = RecursiveBuildArrays( pArray->ItemArchetype(), ID );
+                const int NewChildID = RecursiveBuildArrays(pArray->ItemArchetype(), ID);
                 mProperties[ID].ChildIDs.push_back(NewChildID);
             }
 
@@ -622,7 +638,6 @@ void CPropertyModel::ArrayResized(const QModelIndex& rkIndex, uint32_t OldSize)
         }
     }
 }
-
 
 void CPropertyModel::ClearSlot(int ID)
 {

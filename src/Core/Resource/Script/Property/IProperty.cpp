@@ -110,12 +110,17 @@ void IProperty::Serialize(IArchive& rArc)
         rArc << SerialParameter("Name", mName, mpArchetype ? SH_Optional : 0, mpArchetype ? mpArchetype->mName : "");
     }
 
-    rArc << SerialParameter("Description",      mDescription,       SH_Optional, mpArchetype ? mpArchetype->mDescription : "")
+    rArc << SerialParameter("ReadableName",     mReadableName,      SH_Optional)
+         << SerialParameter("Description",      mDescription,       SH_Optional, mpArchetype ? mpArchetype->mDescription : "")
          << SerialParameter("CookPreference",   mCookPreference,    SH_Optional, mpArchetype ? mpArchetype->mCookPreference : ECookPreference::Default)
          << SerialParameter("MinVersion",       mMinVersion,        SH_Optional, mpArchetype ? mpArchetype->mMinVersion : 0.f)
          << SerialParameter("MaxVersion",       mMaxVersion,        SH_Optional, mpArchetype ? mpArchetype->mMaxVersion : FLT_MAX)
          << SerialParameter("Suffix",           mSuffix,            SH_Optional, mpArchetype ? mpArchetype->mSuffix : "");
 
+    if (!mReadableName.IsEmpty())
+    {
+        
+    }
     // Children don't get serialized for most property types
 }
 
@@ -127,6 +132,7 @@ void IProperty::InitFromArchetype(IProperty* pOther)
 
     mFlags = pOther->mFlags & EPropertyFlag::ArchetypeCopyFlags;
     mName = pOther->mName;
+    mReadableName = pOther->mReadableName;
     mDescription = pOther->mDescription;
     mSuffix = pOther->mSuffix;
     mCookPreference = pOther->mCookPreference;
@@ -381,6 +387,14 @@ void IProperty::SetName(const TString& rkNewName)
 
     mName = rkNewName;
     mFlags.ClearFlag(EPropertyFlag::HasCachedNameCheck);
+    MarkDirty();
+}
+
+void IProperty::SetReadableName(const TString& rkNewName)
+{
+    if (mReadableName == rkNewName)
+        return;
+    mReadableName = rkNewName;
     MarkDirty();
 }
 

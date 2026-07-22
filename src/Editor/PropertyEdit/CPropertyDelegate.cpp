@@ -139,7 +139,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
             auto* pEnum = TPropCast<CEnumProperty>(pProp);
 
             for (size_t ValueIdx = 0; ValueIdx < pEnum->NumPossibleValues(); ValueIdx++)
-                pComboBox->addItem(TO_QSTRING(pEnum->ValueName(ValueIdx)));
+                pComboBox->addItem(TO_QSTRING(pEnum->HasReadableName(ValueIdx) ? pEnum->ValueReadableName(ValueIdx) : pEnum->ValueName(ValueIdx)));
 
             ConnectRelay(this, pComboBox, rkIndex, &QComboBox::currentIndexChanged);
             pOut = pComboBox;
