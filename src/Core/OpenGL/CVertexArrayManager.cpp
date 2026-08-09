@@ -3,9 +3,11 @@
 #include "Core/OpenGL/CDynamicVertexBuffer.h"
 #include "Core/OpenGL/CVertexBuffer.h"
 
+#include <vector>
+
 // ************ STATIC MEMBER INITIALIZATION ************
-std::vector<CVertexArrayManager*> CVertexArrayManager::sVAManagers;
-CVertexArrayManager *CVertexArrayManager::spCurrentManager;
+static std::vector<CVertexArrayManager*> sVAManagers;
+static CVertexArrayManager* spCurrentManager;
 
 // ************ CONSTRUCTORS/DESTRUCTORS ************
 CVertexArrayManager::CVertexArrayManager()
