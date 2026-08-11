@@ -49,7 +49,7 @@ set(ZLIB_INCLUDE_DIR ${zlib_SOURCE_DIR} ${zlib_BINARY_DIR})
 FetchContent_Declare(
   fmt
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-  GIT_TAG        12.1.0
+  GIT_TAG        12.2.0
   OVERRIDE_FIND_PACKAGE
   EXCLUDE_FROM_ALL
 )
