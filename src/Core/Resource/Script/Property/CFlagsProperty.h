@@ -40,13 +40,13 @@ public:
 
     TString FlagName(uint32_t Idx) const
     {
-        ASSERT(Idx >= 0 && Idx < mBitFlags.size());
+        ASSERT(Idx < mBitFlags.size());
         return mBitFlags[Idx].Name;
     }
 
     uint32_t FlagMask(uint32_t Idx) const
     {
-        ASSERT(Idx >= 0 && Idx < mBitFlags.size());
+        ASSERT(Idx < mBitFlags.size());
         return mBitFlags[Idx].Mask;
     }
 
