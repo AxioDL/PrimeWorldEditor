@@ -583,7 +583,7 @@ void CResourceBrowser::UpdateDescriptionLabel()
 
     if (mpStore)
     {
-        const QString ModelDesc = mpModel->ModelDescription();
+        const QString& ModelDesc = mpModel->ModelDescription();
 
         if (mSearching)
         {

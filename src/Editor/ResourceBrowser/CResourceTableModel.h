@@ -55,7 +55,7 @@ public:
     CVirtualDirectory* CurrentDir() const    { return mpCurrentDir; }
     bool IsDisplayingAssetList() const       { return mIsAssetListMode; }
     bool IsDisplayingUserEntryList() const   { return mIsDisplayingUserEntryList; }
-    QString ModelDescription() const         { return mModelDescription; }
+    const QString& ModelDescription() const  { return mModelDescription; }
 
 public slots:
     void RefreshAllIndices();
