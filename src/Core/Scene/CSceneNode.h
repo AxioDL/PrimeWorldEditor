@@ -107,20 +107,20 @@ public:
     explicit CSceneNode(CScene *pScene, uint32_t NodeID, CSceneNode *pParent = nullptr);
     ~CSceneNode() override;
 
-    virtual ENodeType NodeType() const = 0;
+    [[nodiscard]] virtual ENodeType NodeType() const = 0;
     virtual void PostLoad() {}
     virtual void OnTransformed() {}
     void AddToRenderer(CRenderer* /*pRenderer*/, const SViewInfo& /*rkViewInfo*/) override {}
     void Draw(FRenderOptions Options, int ComponentIndex, ERenderCommand Command, const SViewInfo& rkViewInfo) override;
     virtual void RayAABoxIntersectTest(CRayCollisionTester& rTester, const SViewInfo& rkViewInfo);
-    virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32_t AssetID, const SViewInfo& rkViewInfo) = 0;
-    virtual bool AllowsTranslate() const { return true; }
-    virtual bool AllowsRotate() const { return true; }
-    virtual bool AllowsScale() const { return true; }
-    virtual bool IsVisible() const;
-    virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
-    virtual CColor WireframeColor() const;
-    virtual CStructRef GetProperties() const { return CStructRef(); }
+    [[nodiscard]] virtual SRayIntersection RayNodeIntersectTest(const CRay& rkRay, uint32_t AssetID, const SViewInfo& rkViewInfo) = 0;
+    [[nodiscard]] virtual bool AllowsTranslate() const { return true; }
+    [[nodiscard]] virtual bool AllowsRotate() const { return true; }
+    [[nodiscard]] virtual bool AllowsScale() const { return true; }
+    [[nodiscard]] virtual bool IsVisible() const;
+    [[nodiscard]] virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
+    [[nodiscard]] virtual CColor WireframeColor() const;
+    [[nodiscard]] virtual CStructRef GetProperties() const { return CStructRef(); }
     virtual void PropertyModified(IProperty* pProperty) {}
 
     void OnLoadFinished();
@@ -142,29 +142,29 @@ public:
     void Rotate(const CQuaternion& rkRotation, const CVector3f& rkPivot, const CQuaternion& rkPivotRotation, ETransformSpace TransformSpace);
     void Scale(const CVector3f& rkScale);
     void Scale(const CVector3f& rkScale, const CVector3f& rkPivot);
-    const CTransform4f& Transform() const;
+    [[nodiscard]] const CTransform4f& Transform() const;
 
-    CVector3f AbsolutePosition() const;
-    CQuaternion AbsoluteRotation() const;
-    CVector3f AbsoluteScale() const;
-    const CAABox& AABox() const;
+    [[nodiscard]] CVector3f AbsolutePosition() const;
+    [[nodiscard]] CQuaternion AbsoluteRotation() const;
+    [[nodiscard]] CVector3f AbsoluteScale() const;
+    [[nodiscard]] const CAABox& AABox() const;
 
     // Inline Accessors
-    const TString& Name() const              { return mName; }
-    CSceneNode* Parent() const               { return mpParent; }
-    CScene* Scene() const                    { return mpScene; }
-    uint32_t ID() const                      { return _mID; }
-    const CVector3f& LocalPosition() const   { return mPosition; }
-    const CQuaternion& LocalRotation() const { return mRotation; }
-    const CVector3f& LocalScale() const      { return mScale; }
-    CVector3f CenterPoint() const            { return AABox().Center(); }
-    uint32_t LightLayerIndex() const         { return mLightLayerIndex; }
-    bool MarkedVisible() const               { return mVisible; }
-    bool IsMouseHovering() const             { return mMouseHovering; }
-    bool IsSelected() const                  { return mSelected; }
-    bool InheritsPosition() const            { return _mInheritsPosition; }
-    bool InheritsRotation() const            { return _mInheritsRotation; }
-    bool InheritsScale() const               { return _mInheritsScale; }
+    [[nodiscard]] const TString& Name() const              { return mName; }
+    [[nodiscard]] CSceneNode* Parent() const               { return mpParent; }
+    [[nodiscard]] CScene* Scene() const                    { return mpScene; }
+    [[nodiscard]] uint32_t ID() const                      { return _mID; }
+    [[nodiscard]] const CVector3f& LocalPosition() const   { return mPosition; }
+    [[nodiscard]] const CQuaternion& LocalRotation() const { return mRotation; }
+    [[nodiscard]] const CVector3f& LocalScale() const      { return mScale; }
+    [[nodiscard]] CVector3f CenterPoint() const            { return AABox().Center(); }
+    [[nodiscard]] uint32_t LightLayerIndex() const         { return mLightLayerIndex; }
+    [[nodiscard]] bool MarkedVisible() const               { return mVisible; }
+    [[nodiscard]] bool IsMouseHovering() const             { return mMouseHovering; }
+    [[nodiscard]] bool IsSelected() const                  { return mSelected; }
+    [[nodiscard]] bool InheritsPosition() const            { return _mInheritsPosition; }
+    [[nodiscard]] bool InheritsRotation() const            { return _mInheritsRotation; }
+    [[nodiscard]] bool InheritsScale() const               { return _mInheritsScale; }
 
     // Setters
     void SetName(TString rkName)                    { mName = std::move(rkName); }
@@ -178,7 +178,7 @@ public:
     void SetVisible(bool Visible)                   { mVisible = Visible; }
 
     // Static
-    static int NumNodes() { return smNumNodes; }
+    [[nodiscard]] static int NumNodes() { return smNumNodes; }
 
 protected:
     void DrawSelection();
