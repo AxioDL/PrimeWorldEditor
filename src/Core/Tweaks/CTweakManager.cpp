@@ -44,7 +44,7 @@ void CTweakManager::LoadTweaks()
         if (IsTrilogy)
         {
             // For Wii builds, there is another game-dependent subfolder.
-            const TString GameName = (GameType == EGame::Prime ? "MP1" : GameType == EGame::Echoes ? "MP2" : "MP3");
+            const TString GameName = (GameType == EGame::Echoes ? "MP2" : "MP3");
             mStandardFilePath = FSRoot / GameName / "Standard.ntwk";
 
             // MP3 might actually be FrontEnd
