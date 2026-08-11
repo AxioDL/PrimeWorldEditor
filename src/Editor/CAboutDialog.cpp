@@ -1,6 +1,7 @@
-#include "CAboutDialog.h"
+#include "Editor/CAboutDialog.h"
 #include "ui_CAboutDialog.h"
-#include "UICommon.h"
+
+#include "Editor/UICommon.h"
 
 CAboutDialog::CAboutDialog(QWidget *parent) :
     QDialog(parent),
