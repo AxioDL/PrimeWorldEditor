@@ -22,8 +22,11 @@ void CTweakManager::LoadTweaks()
 {
     ASSERT(mTweakObjects.empty());
 
+    const auto IsTrilogy = mpProject->IsTrilogy();
+    const auto GameType = mpProject->Game();
+
     // MP1 - Load all tweak assets into memory
-    if (mpProject->Game() <= EGame::Prime)
+    if (GameType <= EGame::Prime)
     {
         for (const auto& entry : mpProject->ResourceStore()->MakeTypedResourceView(EResourceType::Tweaks))
         {
@@ -34,32 +37,31 @@ void CTweakManager::LoadTweaks()
             }
         }
     }
-
-    // MP2+ - Load tweaks from Standard.ntwk
-    else
+    else // MP2+ - Load tweaks from Standard.ntwk
     {
-        if (!mpProject->IsTrilogy())
+        const auto FSRoot = mpProject->DiscFilesystemRoot(false);
+
+        if (IsTrilogy)
         {
-            mStandardFilePath = mpProject->DiscFilesystemRoot(false) / "Standard.ntwk";
+            // For Wii builds, there is another game-dependent subfolder.
+            const TString GameName = (GameType == EGame::Prime ? "MP1" : GameType == EGame::Echoes ? "MP2" : "MP3");
+            mStandardFilePath = FSRoot / GameName / "Standard.ntwk";
+
+            // MP3 might actually be FrontEnd
+            if (GameType == EGame::Corruption && !FileUtil::Exists(mStandardFilePath))
+            {
+                mStandardFilePath = FSRoot / "fe/Standard.ntwk";
+            }
         }
         else
         {
-            // For Wii builds, there is another game-dependent subfolder.
-            EGame Game = mpProject->Game();
-            TString GameName = (Game == EGame::Prime ? "MP1" : Game == EGame::Echoes ? "MP2" : "MP3");
-            mStandardFilePath = mpProject->DiscFilesystemRoot(false) / GameName / "Standard.ntwk";
-
-            // MP3 might actually be FrontEnd
-            if (Game == EGame::Corruption && !FileUtil::Exists(mStandardFilePath))
-            {
-                mStandardFilePath = mpProject->DiscFilesystemRoot(false) / "fe/Standard.ntwk";
-            }
+            mStandardFilePath = FSRoot / "Standard.ntwk";
         }
 
         if (FileUtil::Exists(mStandardFilePath))
         {
             CFileInStream StandardNTWK(mStandardFilePath, std::endian::big);
-            CTweakLoader::LoadNTWK(StandardNTWK, mpProject->Game(), mTweakObjects, mpProject->ResourceStore());
+            CTweakLoader::LoadNTWK(StandardNTWK, GameType, mTweakObjects, mpProject->ResourceStore());
         }
     }
 }
