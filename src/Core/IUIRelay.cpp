@@ -5,8 +5,8 @@ namespace
 class NullUIRelay final : public IUIRelay
 {
 public:
-    void ShowMessageBox(const std::string&, const std::string&) {}
-    void ShowMessageBoxAsync(const std::string&, const std::string&) {}
+    void ShowMessageBox(const std::string&, const std::string&) override {}
+    void ShowMessageBoxAsync(const std::string&, const std::string&) override {}
     bool AskYesNoQuestion(const std::string&, const std::string&) override { return false; }
     OpenProjectResult OpenProject(const std::string&) override { return {}; }
 };
