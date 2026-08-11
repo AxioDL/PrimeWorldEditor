@@ -39,7 +39,7 @@ set(ZLIB_LIBRARY zlibstatic)
 FetchContent_Declare(
   zlib
   GIT_REPOSITORY https://github.com/madler/zlib.git
-  GIT_TAG        v1.3.1
+  GIT_TAG        v1.3.2
   OVERRIDE_FIND_PACKAGE
   EXCLUDE_FROM_ALL
 )
