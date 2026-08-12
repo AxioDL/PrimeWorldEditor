@@ -41,7 +41,7 @@ void RegisterTypeName(uint32_t TypeHash, TString TypeName)
 {
     ASSERT(!TypeName.IsEmpty());
     ASSERT(TypeName != "Unknown");
-    gHashToTypeName.emplace(std::move(TypeHash), std::move(TypeName));
+    gHashToTypeName.emplace(TypeHash, std::move(TypeName));
 }
 
 /** Key structure for name map lookups */
