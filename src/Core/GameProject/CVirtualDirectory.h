@@ -20,8 +20,8 @@ class CVirtualDirectory
 
 public:
     explicit CVirtualDirectory(CResourceStore *pStore);
-    CVirtualDirectory(const TString& rkName, CResourceStore *pStore);
-    CVirtualDirectory(CVirtualDirectory *pParent, const TString& rkName, CResourceStore *pStore);
+    CVirtualDirectory(TString rkName, CResourceStore *pStore);
+    CVirtualDirectory(CVirtualDirectory *pParent, TString rkName, CResourceStore *pStore);
     ~CVirtualDirectory();
 
     bool IsEmpty(bool CheckFilesystem) const;

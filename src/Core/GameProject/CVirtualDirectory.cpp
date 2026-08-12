@@ -12,14 +12,14 @@ CVirtualDirectory::CVirtualDirectory(CResourceStore *pStore)
     : mpStore(pStore)
 {}
 
-CVirtualDirectory::CVirtualDirectory(const TString& rkName, CResourceStore *pStore)
-    : mpStore(pStore), mName(rkName)
+CVirtualDirectory::CVirtualDirectory(TString rkName, CResourceStore *pStore)
+    : mpStore(pStore), mName(std::move(rkName))
 {
     ASSERT(!mName.IsEmpty() && FileUtil::IsValidName(mName, true));
 }
 
-CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, const TString& rkName, CResourceStore *pStore)
-    : mpParent(pParent), mpStore(pStore), mName(rkName)
+CVirtualDirectory::CVirtualDirectory(CVirtualDirectory *pParent, TString rkName, CResourceStore *pStore)
+    : mpParent(pParent), mpStore(pStore), mName(std::move(rkName))
 {
     ASSERT(!mName.IsEmpty() && FileUtil::IsValidName(mName, true));
 }
@@ -164,7 +164,7 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
     if (IsValidDirectoryPath(rkPath))
     {
         const auto SlashIdx = rkPath.IndexOf("\\/");
-        const TString DirName = (SlashIdx == -1 ? rkPath : TString(rkPath.SubString(0, SlashIdx)));
+        TString DirName = (SlashIdx == -1 ? rkPath : TString(rkPath.SubString(0, SlashIdx)));
         const TString Remaining = (SlashIdx == -1 ? "" : rkPath.SubString(SlashIdx + 1, rkPath.Size() - SlashIdx));
 
         // Check if this subdirectory already exists
@@ -174,7 +174,7 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
         if (pSubdir == nullptr)
         {
             // Create new subdirectory
-            pSubdir = new CVirtualDirectory(this, DirName, mpStore);
+            pSubdir = new CVirtualDirectory(this, std::move(DirName), mpStore);
 
             if (!pSubdir->CreateFilesystemDirectory())
             {
@@ -189,9 +189,9 @@ bool CVirtualDirectory::AddChild(const TString &rkPath, CResourceEntry *pEntry)
             // We also know none of the remaining directories already exist because this is a new, empty directory.
             TStringList Components = Remaining.Split("/\\");
 
-            for (const auto& component : Components)
+            for (auto& component : Components)
             {
-                pSubdir = new CVirtualDirectory(pSubdir, component, mpStore);
+                pSubdir = new CVirtualDirectory(pSubdir, std::move(component), mpStore);
 
                 if (!pSubdir->CreateFilesystemDirectory())
                 {
