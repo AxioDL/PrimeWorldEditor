@@ -12,6 +12,8 @@
 
 using namespace std::string_view_literals;
 
+namespace
+{
 constexpr std::array gkCoordSrc{
     "ModelSpacePos.xyz"sv,
     "ModelSpaceNormal.xyz"sv,
@@ -161,6 +163,7 @@ struct FormatBuffer
         buffer += c;
     }
 };
+} // Anonymous namespace
 
 CShaderGenerator::CShaderGenerator() = default;
 
