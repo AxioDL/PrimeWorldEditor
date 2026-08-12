@@ -38,14 +38,18 @@ GLenum GetZMode(size_t index)
 
 GLenum GXPrimToGLPrim(EPrimitiveType Type)
 {
-    switch (Type) {
-        case EPrimitiveType::Quads:         return GL_TRIANGLE_STRIP; // Quads are converted to strips
-        case EPrimitiveType::Triangles:     return GL_TRIANGLE_STRIP; // Triangles are converted to strips
-        case EPrimitiveType::TriangleStrip: return GL_TRIANGLE_STRIP;
-        case EPrimitiveType::TriangleFan:   return GL_TRIANGLE_STRIP; // Fans are converted to strips
-        case EPrimitiveType::Lines:         return GL_LINES;
-        case EPrimitiveType::LineStrip:     return GL_LINE_STRIP;
-        case EPrimitiveType::Points:        return GL_POINTS;
-        default:                            ASSERT(false); return GL_INVALID_ENUM;
+    switch (Type)
+    {
+    // Quads, triangles, and fans are converted to strips
+    case EPrimitiveType::Quads:
+    case EPrimitiveType::Triangles:
+    case EPrimitiveType::TriangleStrip:
+    case EPrimitiveType::TriangleFan:   return GL_TRIANGLE_STRIP;
+    case EPrimitiveType::Lines:         return GL_LINES;
+    case EPrimitiveType::LineStrip:     return GL_LINE_STRIP;
+    case EPrimitiveType::Points:        return GL_POINTS;
     }
+
+    ASSERT(false);
+    return GL_INVALID_ENUM;
 }
