@@ -673,19 +673,19 @@ EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QM
 {
     if (Game <= EGame::Echoes)
     {
-        if      (rkIndex.row() == 0) return EPropertyType::Asset;
-        else if (rkIndex.row() == 1) return EPropertyType::Choice;
-        else if (rkIndex.row() == 2) return EPropertyType::Int;
+        if (rkIndex.row() == 0) return EPropertyType::Asset;
+        if (rkIndex.row() == 1) return EPropertyType::Choice;
+        if (rkIndex.row() == 2) return EPropertyType::Int;
     }
     else if (Game <= EGame::Corruption)
     {
-        if      (rkIndex.row() == 0) return EPropertyType::Asset;
-        else if (rkIndex.row() == 1) return EPropertyType::Int;
+        if (rkIndex.row() == 0) return EPropertyType::Asset;
+        if (rkIndex.row() == 1) return EPropertyType::Int;
     }
     else
     {
-        if      (rkIndex.row() == 0) return EPropertyType::Asset;
-        else if (rkIndex.row() <= 2) return EPropertyType::Int;
+        if (rkIndex.row() == 0) return EPropertyType::Asset;
+        if (rkIndex.row() <= 2) return EPropertyType::Int;
     }
     return EPropertyType::Invalid;
 }
