@@ -21,7 +21,7 @@ void LoadMap();
 void SaveMap(bool Force = false);
 
 /** Returns the name of the property */
-const char* GetPropertyName(IProperty* pProperty);
+const char* GetPropertyName(const IProperty* pProperty);
 
 /** Given a property name and type, returns the name of the property.
  *  This requires you to provide the exact type string used in the hash.
