@@ -139,15 +139,15 @@ void CResourceProxyModel::SetSearchString(const TString& rkString)
     if (IDString.Size() <= 16 && IDString.IsHexString())
     {
         mCompareBitLength = IDString.Size() * 4;
-        mCompareMask = (1ULL << mCompareBitLength) - 1;
+        mCompareMask = (mCompareBitLength == 64) ? 0 : (1ULL << mCompareBitLength) - 1;
         mCompareID = IDString.ToInt64(16);
 
         if (mCompareMask == 0)
-            mCompareMask = -1;
+            mCompareMask = UINT64_MAX;
     }
     else
     {
-        mCompareID = -1;
+        mCompareID = UINT64_MAX;
         mCompareMask = 0;
         mCompareBitLength = 0;
     }
