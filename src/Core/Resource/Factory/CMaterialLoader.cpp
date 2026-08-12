@@ -1173,7 +1173,8 @@ bool CMaterialLoader::SetupStaticBloomLightingA1Stages(STevTracker& Tracker, CMa
     const ETevAlphaInput argC = IntermediateBlol ? kTextureAlpha : kZeroAlpha;
     pPass->SetAlphaInputs(kZeroAlpha, kColor1Alpha, argC, kRasAlpha);
     pPass->SetAlphaOutput(kPrevReg);
-    if (argC == kTextureAlpha) {
+    if (IntermediateBlol)
+    {
         pPass->SetTexSwapComp(3, IntermediateBlol->GetSwapAlphaComp());
         SetMP3IntermediateIntoMaterialPass(pPass.get(), *IntermediateBlol);
         pPass->SetRasSel(kRasColor0A0);
