@@ -32,7 +32,7 @@ CRotateNodeCommand::CRotateNodeCommand(
     : IUndoCommand(QCoreApplication::translate("CRotateNodeCommand", "Rotate")),
       mpEditor(pEditor)
 {
-    mNodeList.reserve(nodes.size());
+    mNodeList.reserve(std::ssize(nodes));
 
     for (CSceneNode *pNode : nodes)
     {

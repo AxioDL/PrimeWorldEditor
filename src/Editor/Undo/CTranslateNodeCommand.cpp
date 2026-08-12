@@ -22,7 +22,7 @@ CTranslateNodeCommand::CTranslateNodeCommand(INodeEditor *pEditor, std::span<CSc
     : IUndoCommand(QCoreApplication::translate("CTranslateNodeCommand", "Translate")),
       mpEditor(pEditor)
 {
-    mNodeList.reserve(nodes.size());
+    mNodeList.reserve(std::ssize(nodes));
 
     for (CSceneNode *pNode : nodes)
     {
