@@ -142,7 +142,7 @@ void CDeleteSelectionCommand::undo()
     }
 
     // Sort links by sender index, add outgoing
-    std::sort(mDeletedLinks.begin(), mDeletedLinks.end(), [](const SDeletedLink& rLeft, const SDeletedLink& rRight) {
+    std::ranges::sort(mDeletedLinks, [](const SDeletedLink& rLeft, const SDeletedLink& rRight) {
         return rLeft.SenderIndex < rRight.SenderIndex;
     });
 
@@ -157,7 +157,7 @@ void CDeleteSelectionCommand::undo()
     }
 
     // Sort links by receiver index, add incoming
-    std::sort(mDeletedLinks.begin(), mDeletedLinks.end(), [](const SDeletedLink& rLeft, const SDeletedLink& rRight) {
+    std::ranges::sort(mDeletedLinks, [](const SDeletedLink& rLeft, const SDeletedLink& rRight) {
         return rLeft.ReceiverIndex < rRight.ReceiverIndex;
     });
 

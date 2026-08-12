@@ -77,14 +77,14 @@ void CDeleteLinksCommand::undo()
     }
 
     // Add to senders
-    std::sort(NewLinks.begin(), NewLinks.end(), &SNewLink::SenderIndexSorter);
+    std::ranges::sort(NewLinks, &SNewLink::SenderIndexSorter);
     for (SNewLink& rNew : NewLinks)
     {
         rNew.pDelLink->pSender->AddLink(ELinkType::Outgoing, rNew.pLink, rNew.pDelLink->SenderIndex);
     }
 
     // Add to receivers
-    std::sort(NewLinks.begin(), NewLinks.end(), &SNewLink::ReceiverIndexSorter);
+    std::ranges::sort(NewLinks, &SNewLink::ReceiverIndexSorter);
     for (SNewLink& rNew : NewLinks)
     {
         rNew.pDelLink->pReceiver->AddLink(ELinkType::Incoming, rNew.pLink, rNew.pDelLink->ReceiverIndex);
