@@ -104,7 +104,7 @@ SRayIntersection CSceneViewport::SceneRayCast(const CRay& rkRay)
     if (mpEditor->Gizmo()->IsTransforming())
     {
         ResetHover();
-        return SRayIntersection();
+        return {};
     }
 
     const SRayIntersection Intersect = mpScene->SceneRayCast(rkRay, mViewInfo);
