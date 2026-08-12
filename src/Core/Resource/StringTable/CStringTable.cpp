@@ -312,7 +312,7 @@ std::unique_ptr<CDependencyTree> CStringTable::BuildDependencyTree()
                     const TString& ImageType = Params.front();
                     size_t TexturesStart = 0;
 
-                    if (ImageType == "A")
+                    if (ImageType == "A" || ImageType == "B")
                     {
                         TexturesStart = 2;
                     }
@@ -323,10 +323,6 @@ std::unique_ptr<CDependencyTree> CStringTable::BuildDependencyTree()
                     else if (ImageType == "SA")
                     {
                         TexturesStart = 4;
-                    }
-                    else if (ImageType == "B")
-                    {
-                        TexturesStart = 2;
                     }
                     else if (ImageType.IsHexString(false, static_cast<int>(IDLength) * 2))
                     {
