@@ -4,7 +4,7 @@
 
 #include <QCoreApplication>
 
-CEditLinkCommand::CEditLinkCommand(CWorldEditor *pEditor, CLink *pLink, CLink NewLink)
+CEditLinkCommand::CEditLinkCommand(CWorldEditor *pEditor, CLink *pLink, const CLink& NewLink)
     : IUndoCommand(QCoreApplication::translate("CEditLinkCommand", "Edit Link"))
     , mpEditor(pEditor)
     , mpEditLink(pLink)

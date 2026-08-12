@@ -17,7 +17,7 @@ public:
     CResizeScriptArrayCommand(IProperty* pProperty,
                               std::span<CScriptObject*> instances,
                               CPropertyModel* pModel,
-                              QModelIndex Index = QModelIndex(),
+                              const QModelIndex& Index = {},
                               const QString& rkCommandName = QCoreApplication::translate("CResizeScriptArrayCommand", "Resize Array")
                 )
         :   CEditScriptPropertyCommand(pProperty, instances, pModel, Index, rkCommandName)

@@ -14,7 +14,7 @@ class CAddLinkCommand : public IUndoCommand
     CInstancePtrList mAffectedInstances;
 
 public:
-    CAddLinkCommand(CWorldEditor *pEditor, CLink Link);
+    CAddLinkCommand(CWorldEditor *pEditor, const CLink& Link);
     void undo() override;
     void redo() override;
     bool AffectsCleanState() const override { return true; }

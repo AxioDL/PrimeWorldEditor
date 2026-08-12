@@ -13,7 +13,7 @@ public:
     CEditIntrinsicPropertyCommand(IProperty* pProperty,
                                   const QList<void*>& kDataPointers,
                                   CPropertyModel* pModel,
-                                  QModelIndex Index = QModelIndex(),
+                                  const QModelIndex& Index = {},
                                   const QString& kCommandName = QCoreApplication::translate("CEditIntrinsicPropertyCommand", "Edit Property"))
         : IEditPropertyCommand(pProperty, pModel, Index, kCommandName)
         , mDataPointers(kDataPointers)

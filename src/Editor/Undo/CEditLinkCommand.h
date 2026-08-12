@@ -21,7 +21,7 @@ class CEditLinkCommand : public IUndoCommand
     CInstancePtrList mAffectedInstances;
 
 public:
-    CEditLinkCommand(CWorldEditor *pEditor, CLink *pLink, CLink NewLink);
+    CEditLinkCommand(CWorldEditor *pEditor, CLink *pLink, const CLink& NewLink);
 
     void undo() override;
     void redo() override;
