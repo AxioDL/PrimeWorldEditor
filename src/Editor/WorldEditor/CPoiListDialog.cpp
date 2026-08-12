@@ -32,7 +32,7 @@ CPoiListModel::~CPoiListModel() = default;
 
 int CPoiListModel::rowCount(const QModelIndex&) const
 {
-    return mObjList.size();
+    return int(mObjList.size());
 }
 
 QVariant CPoiListModel::data(const QModelIndex& rkIndex, int Role) const
