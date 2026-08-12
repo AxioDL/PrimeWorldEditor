@@ -160,12 +160,12 @@ IEditor* CEditorApplication::CreateEditor(CResourceEntry* entry, CResource* res)
     {
     case EResourceType::Area:
         // We can't open an area on its own. Find a world that contains this area.
-        for (const auto& entry : entry->ResourceStore()->MakeTypedResourceView(EResourceType::World))
+        for (const auto& worldEntry : entry->ResourceStore()->MakeTypedResourceView(EResourceType::World))
         {
-            if (entry->Dependencies()->HasDependency(entry->ID()))
+            if (worldEntry->Dependencies()->HasDependency(worldEntry->ID()))
             {
-                auto* world = static_cast<CWorld*>(entry->Load());
-                const auto areaIdx = world->AreaIndex(entry->ID());
+                auto* world = static_cast<CWorld*>(worldEntry->Load());
+                const auto areaIdx = world->AreaIndex(worldEntry->ID());
 
                 if (areaIdx != UINT32_MAX)
                 {
