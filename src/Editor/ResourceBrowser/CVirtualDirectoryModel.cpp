@@ -26,7 +26,7 @@ CVirtualDirectoryModel::~CVirtualDirectoryModel() = default;
 QModelIndex CVirtualDirectoryModel::index(int Row, int Column, const QModelIndex& rkParent) const
 {
     if (!hasIndex(Row, Column, rkParent))
-        return QModelIndex();
+        return {};
 
     CVirtualDirectory *pDir = IndexDirectory(rkParent);
 
@@ -36,19 +36,16 @@ QModelIndex CVirtualDirectoryModel::index(int Row, int Column, const QModelIndex
     if (pDir == nullptr)
         return createIndex(Row, Column, mpRoot);
 
-    return QModelIndex();
+    return {};
 }
 
 QModelIndex CVirtualDirectoryModel::parent(const QModelIndex& rkChild) const
 {
     CVirtualDirectory *pDir = IndexDirectory(rkChild);
-    CVirtualDirectory *pParent = pDir->Parent();
 
-    if (pParent)
+    if (CVirtualDirectory* pParent = pDir->Parent())
     {
-        CVirtualDirectory *pGrandparent = pParent->Parent();
-
-        if (pGrandparent)
+        if (CVirtualDirectory* pGrandparent = pParent->Parent())
         {
             for (size_t iSub = 0; iSub < pGrandparent->NumSubdirectories(); iSub++)
             {
@@ -62,7 +59,7 @@ QModelIndex CVirtualDirectoryModel::parent(const QModelIndex& rkChild) const
         }
     }
 
-    return QModelIndex();
+    return {};
 }
 
 int CVirtualDirectoryModel::rowCount(const QModelIndex& rkParent) const
@@ -81,7 +78,7 @@ int CVirtualDirectoryModel::columnCount(const QModelIndex&) const
 QVariant CVirtualDirectoryModel::data(const QModelIndex& rkIndex, int Role) const
 {
     if (!rkIndex.isValid())
-        return QVariant();
+        return {};
 
     if (Role == Qt::DisplayRole || Role == Qt::ToolTipRole)
     {
@@ -101,7 +98,7 @@ QVariant CVirtualDirectoryModel::data(const QModelIndex& rkIndex, int Role) cons
         return QIcon(QStringLiteral(":/icons/Open_24px.svg"));
     }
 
-    return QVariant();
+    return {};
 }
 
 bool CVirtualDirectoryModel::setData(const QModelIndex& rkIndex, const QVariant& rkValue, int Role)
@@ -193,7 +190,7 @@ Qt::DropActions CVirtualDirectoryModel::supportedDropActions() const
 QModelIndex CVirtualDirectoryModel::GetIndexForDirectory(const CVirtualDirectory *pDir) const
 {
     if (pDir == nullptr)
-        return QModelIndex();
+        return {};
 
     QList<int> Indices;
     const auto* pOriginal = pDir;

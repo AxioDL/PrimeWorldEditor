@@ -35,7 +35,7 @@ int CResourceTableModel::columnCount(const QModelIndex&) const
 QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
 {
     if (rkIndex.column() != 0)
-        return QVariant();
+        return {};
 
     // Directory
     if (IsIndexDirectory(rkIndex))
@@ -52,7 +52,7 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
         if (Role == Qt::DecorationRole)
             return QIcon(QStringLiteral(":/icons/Open_24px.svg"));
 
-        return QVariant();
+        return {};
     }
 
     // Resource
@@ -67,7 +67,7 @@ QVariant CResourceTableModel::data(const QModelIndex& rkIndex, int Role) const
     if (Role == Qt::DecorationRole)
         return QIcon(QStringLiteral(":/icons/Sphere Preview.svg"));
 
-    return QVariant();
+    return {};
 }
 
 Qt::ItemFlags CResourceTableModel::flags(const QModelIndex& rkIndex) const

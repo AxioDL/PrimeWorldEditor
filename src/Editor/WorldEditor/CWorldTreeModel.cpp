@@ -36,7 +36,7 @@ int CWorldTreeModel::columnCount(const QModelIndex&) const
 QModelIndex CWorldTreeModel::index(int Row, int Column, const QModelIndex& rkParent) const
 {
     if (!hasIndex(Row, Column, rkParent))
-        return QModelIndex();
+        return {};
 
     // World
     if (!rkParent.isValid())
@@ -49,7 +49,7 @@ QModelIndex CWorldTreeModel::index(int Row, int Column, const QModelIndex& rkPar
 QModelIndex CWorldTreeModel::parent(const QModelIndex& rkChild) const
 {
     if (IndexIsWorld(rkChild))
-        return QModelIndex();
+        return {};
 
     return createIndex((rkChild.internalId() >> 16) & 0xFFFF, 0, rkChild.internalId() | 0xFFFF);
 }
@@ -102,8 +102,9 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
         static const QIcon sAreaIcon  = QIcon(QStringLiteral(":/icons/New_16px.svg"));
 
         if (rkIndex.column() == 1)
-            return QVariant();
-        else if (IndexIsWorld(rkIndex))
+            return {};
+
+        if (IndexIsWorld(rkIndex))
             return sWorldIcon;
         else
             return sAreaIcon;
@@ -147,7 +148,7 @@ QVariant CWorldTreeModel::data(const QModelIndex& rkIndex, int Role) const
         return Font;
     }
 
-    return QVariant();
+    return {};
 }
 
 QVariant CWorldTreeModel::headerData(int Section, Qt::Orientation Orientation, int Role) const
@@ -159,7 +160,7 @@ QVariant CWorldTreeModel::headerData(int Section, Qt::Orientation Orientation, i
         else
             return tr("Internal Name");
     }
-    return QVariant();
+    return {};
 }
 
 bool CWorldTreeModel::IndexIsWorld(const QModelIndex& rkIndex) const

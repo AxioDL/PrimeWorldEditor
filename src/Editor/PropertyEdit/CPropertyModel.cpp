@@ -139,7 +139,7 @@ QModelIndex CPropertyModel::IndexForProperty(const IProperty* pProp) const
     }
 
     if (pProp == mpRootProperty)
-        return QModelIndex();
+        return {};
 
     const int ID = mPropertyToIDMap[pProp];
     ASSERT(ID >= 0);
@@ -243,13 +243,13 @@ QVariant CPropertyModel::headerData(int Section, Qt::Orientation Orientation, in
             return tr("Value");
     }
 
-    return QVariant();
+    return {};
 }
 
 QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
 {
     if (!rkIndex.isValid())
-        return QVariant();
+        return {};
 
     if (Role == Qt::DisplayRole || (Role == Qt::ToolTipRole && rkIndex.column() == 1))
     {
@@ -494,14 +494,14 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
         }
     }
 
-    return QVariant();
+    return {};
 }
 
 QModelIndex CPropertyModel::index(int Row, int Column, const QModelIndex& rkParent) const
 {
     // Invalid index
     if (!hasIndex(Row, Column, rkParent))
-        return QModelIndex();
+        return {};
 
     // Check property for children
     const IProperty* pParent = (rkParent.isValid() ? PropertyForIndex(rkParent, false) : mpRootProperty);
@@ -523,7 +523,7 @@ QModelIndex CPropertyModel::parent(const QModelIndex& rkChild) const
 {
     // Invalid index
     if (!rkChild.isValid())
-        return QModelIndex();
+        return {};
 
     auto ID = static_cast<int>(rkChild.internalId());
 
@@ -534,8 +534,8 @@ QModelIndex CPropertyModel::parent(const QModelIndex& rkChild) const
 
     if (ID >= 0)
         return mProperties[ID].Index;
-    else
-        return QModelIndex();
+
+    return {};
 }
 
 Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const

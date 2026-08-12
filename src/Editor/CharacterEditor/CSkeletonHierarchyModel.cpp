@@ -9,21 +9,21 @@ CSkeletonHierarchyModel::CSkeletonHierarchyModel(QObject *pParent)
 QModelIndex CSkeletonHierarchyModel::index(int Row, int Column, const QModelIndex& rkParent) const
 {
     if (!hasIndex(Row, Column, rkParent))
-        return QModelIndex();
+        return {};
 
     if (!rkParent.isValid())
     {
         if (mpSkeleton)
             return createIndex(Row, Column, mpSkeleton->RootBone());
-        else
-            return QModelIndex();
+
+        return {};
     }
 
     const auto* pBone = static_cast<const CBone*>(rkParent.internalPointer());
     if (Row < static_cast<int>(pBone->NumChildren()))
         return createIndex(Row, Column, pBone->ChildByIndex(Row));
-    else
-        return QModelIndex();
+
+    return {};
 }
 
 QModelIndex CSkeletonHierarchyModel::parent(const QModelIndex& rkChild) const
@@ -51,7 +51,7 @@ QModelIndex CSkeletonHierarchyModel::parent(const QModelIndex& rkChild) const
         }
     }
 
-    return QModelIndex();
+    return {};
 }
 
 int CSkeletonHierarchyModel::rowCount(const QModelIndex& rkParent) const
@@ -76,7 +76,7 @@ QVariant CSkeletonHierarchyModel::data(const QModelIndex& rkIndex, int Role) con
         return TO_QSTRING(pBone->Name());
     }
 
-    return QVariant();
+    return {};
 }
 
 CBone* CSkeletonHierarchyModel::BoneForIndex(const QModelIndex& rkIndex) const
@@ -98,7 +98,7 @@ QModelIndex CSkeletonHierarchyModel::IndexForBone(const CBone *pBone) const
            return index(static_cast<int>(iChild), 0, ParentIndex);
     }
 
-    return QModelIndex();
+    return {};
 }
 
 void CSkeletonHierarchyModel::SetSkeleton(const CSkeleton *pSkel)

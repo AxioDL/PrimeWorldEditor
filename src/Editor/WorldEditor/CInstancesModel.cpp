@@ -68,13 +68,13 @@ QVariant CInstancesModel::headerData(int Section, Qt::Orientation Orientation, i
         }
     }
 
-    return QVariant();
+    return {};
 }
 
 QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkParent) const
 {
     if (!hasIndex(Row, Column, rkParent))
-        return QModelIndex();
+        return {};
 
     const EIndexType Type = IndexType(rkParent);
 
@@ -84,7 +84,7 @@ QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkPar
         if (Row < mBaseItems.count())
             return createIndex(Row, Column, quint64(0));
         
-        return QModelIndex();
+        return {};
     }
 
     // Parent is node - child is Object type index
@@ -103,7 +103,7 @@ QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkPar
             {
                 const CScriptLayer* pLayer = mpArea->ScriptLayer(size_t(rkParent.row()));
                 if (size_t(Row) >= pLayer->NumInstances())
-                    return QModelIndex();
+                    return {};
 
                 return createIndex(Row, Column, pLayer->InstanceByIndex(size_t(Row)));
             }
@@ -112,21 +112,17 @@ QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkPar
             {
                 const std::list<CScriptObject*>& list = mTemplateList[rkParent.row()]->ObjectList();
                 if (size_t(Row) >= list.size())
-                {
-                    return QModelIndex();
-                }
-                else
-                {
-                    auto it = std::next(list.begin(), Row);
-                    return createIndex(Row, Column, *it);
-                }
+                    return {};
+
+                const auto it = std::next(list.begin(), Row);
+                return createIndex(Row, Column, *it);
             }
         }
 
         // todo: implement getters for other types
     }
 
-    return QModelIndex();
+    return {};
 }
 
 QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
@@ -135,7 +131,7 @@ QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
 
     // Root parent
     if (Type == EIndexType::NodeType)
-        return QModelIndex();
+        return {};
 
     // Node type parent
     if (Type == EIndexType::ObjectType)
@@ -171,7 +167,7 @@ QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
         }
     }
 
-    return QModelIndex();
+    return {};
 }
 
 int CInstancesModel::rowCount(const QModelIndex& rkParent) const
@@ -230,7 +226,7 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
             if (rkIndex.column() == 0)
                 return mBaseItems[rkIndex.row()];
 
-            return QVariant();
+            return {};
         }
 
         // Object types
@@ -245,7 +241,7 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
             }
 
             // todo: show/hide button in column 2
-            return QVariant();
+            return {};
         }
 
         // Instances
@@ -269,7 +265,7 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
             }
             else
             {
-                return QVariant();
+                return {};
             }
         }
     }
@@ -278,7 +274,7 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
     else if ((Role == Qt::DecorationRole) && (rkIndex.column() == 3))
     {
         if (!mpScene)
-            return QVariant();
+            return {};
 
         static const QIcon Visible(QStringLiteral(":/icons/Show.svg"));
         static const QIcon Invisible(QStringLiteral(":/icons/Hide.svg"));
@@ -330,7 +326,7 @@ QVariant CInstancesModel::data(const QModelIndex& rkIndex, int Role) const
         }
     }
 
-    return QVariant();
+    return {};
 }
 
 void CInstancesModel::SetModelType(EInstanceModelType Type)

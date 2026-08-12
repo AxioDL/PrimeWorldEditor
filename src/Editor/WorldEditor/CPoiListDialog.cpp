@@ -38,7 +38,7 @@ int CPoiListModel::rowCount(const QModelIndex&) const
 QVariant CPoiListModel::data(const QModelIndex& rkIndex, int Role) const
 {
     if (!rkIndex.isValid())
-        return QVariant();
+        return {};
 
     if (Role == Qt::DisplayRole)
         return TO_QSTRING(mObjList[rkIndex.row()]->Instance()->InstanceName());
@@ -55,7 +55,7 @@ QVariant CPoiListModel::data(const QModelIndex& rkIndex, int Role) const
             return QIcon(QStringLiteral(":/icons/POI Normal.svg"));
     }
 
-    return QVariant();
+    return {};
 }
 
 CScriptNode* CPoiListModel::PoiForIndex(const QModelIndex& rkIndex) const
