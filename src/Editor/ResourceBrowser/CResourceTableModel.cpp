@@ -24,7 +24,7 @@ CResourceTableModel::~CResourceTableModel() = default;
 // ************ INTERFACE ************
 int CResourceTableModel::rowCount(const QModelIndex&) const
 {
-    return mDirectories.size() + mEntries.size();
+    return int(mDirectories.size() + mEntries.size());
 }
 
 int CResourceTableModel::columnCount(const QModelIndex&) const
@@ -299,7 +299,7 @@ void CResourceTableModel::CheckAddResource(CResourceEntry *pEntry)
         (!mIsAssetListMode && pEntry->Directory() == mpCurrentDir))
     {
         // Append to the end, let the proxy handle sorting
-        const int NumRows = mDirectories.size() + mEntries.size();
+        const int NumRows = rowCount();
         beginInsertRows(QModelIndex(), NumRows, NumRows);
         mEntries.push_back(pEntry);
         endInsertRows();
@@ -325,7 +325,7 @@ void CResourceTableModel::CheckAddDirectory(CVirtualDirectory *pDir)
         return;
 
     // Just append to the end, let the proxy handle sorting
-    beginInsertRows(QModelIndex(), mDirectories.size(), mDirectories.size());
+    beginInsertRows(QModelIndex(), int(mDirectories.size()), int(mDirectories.size()));
     mDirectories.push_back(pDir);
     endInsertRows();
 }
@@ -352,7 +352,7 @@ void CResourceTableModel::OnResourceMoved(CResourceEntry *pEntry, CVirtualDirect
     if (WasInModel && IsInModel && pEntry->Name() != OldName)
     {
         const int ResIdx = EntryListIndex(pEntry);
-        const int Row = ResIdx + mDirectories.size();
+        const int Row = ResIdx + int(mDirectories.size());
         const QModelIndex Index = index(Row, 0);
         emit dataChanged(Index, Index);
     }
@@ -362,7 +362,7 @@ void CResourceTableModel::OnResourceMoved(CResourceEntry *pEntry, CVirtualDirect
         if (WasInModel && !IsInModel)
         {
             const int Pos = EntryListIndex(pEntry);
-            const int Row = mDirectories.size() + Pos;
+            const int Row = int(mDirectories.size()) + Pos;
 
             beginRemoveRows(QModelIndex(), Row, Row);
             mEntries.removeAt(Pos);
@@ -372,7 +372,7 @@ void CResourceTableModel::OnResourceMoved(CResourceEntry *pEntry, CVirtualDirect
         else if (!WasInModel && IsInModel)
         {
             const int Index = EntryListIndex(pEntry);
-            const int Row = mDirectories.size() + Index;
+            const int Row = int(mDirectories.size()) + Index;
 
             beginInsertRows(QModelIndex(), Row, Row);
             mEntries.insert(Index, pEntry);
