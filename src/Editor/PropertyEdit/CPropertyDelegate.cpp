@@ -669,7 +669,7 @@ void CPropertyDelegate::SetCharacterModelData(QWidget *pEditor, const QModelInde
     }
 }
 
-EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex) const
+EPropertyType CPropertyDelegate::DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex)
 {
     if (Game <= EGame::Echoes)
     {

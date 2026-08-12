@@ -32,7 +32,7 @@ public:
     QWidget* CreateCharacterEditor(QWidget* pParent, const QModelIndex& rkIndex) const;
     void SetCharacterEditorData(QWidget* pEditor, const QModelIndex& rkIndex) const;
     void SetCharacterModelData(QWidget* pEditor, const QModelIndex& rkIndex) const;
-    EPropertyType DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex) const;
+    static EPropertyType DetermineCharacterPropType(EGame Game, const QModelIndex& rkIndex);
 
 public slots:
     void WidgetEdited(QWidget* pWidget, const QModelIndex& rkIndex);
