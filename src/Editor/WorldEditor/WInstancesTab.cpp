@@ -91,8 +91,10 @@ void WInstancesTab::OnTreeClick(const QModelIndex& Index)
 
     if (SourceIndex.column() == 2)
     {
+        const auto IndexType = CInstancesModel::IndexType(SourceIndex);
+
         // Show/Hide Instance
-        if (mpTypesModel->IndexType(SourceIndex) == CInstancesModel::EIndexType::Instance)
+        if (IndexType == CInstancesModel::EIndexType::Instance)
         {
             if (const CScriptObject* pObj = mpTypesModel->IndexObject(SourceIndex))
             {
@@ -102,7 +104,7 @@ void WInstancesTab::OnTreeClick(const QModelIndex& Index)
 
         }
         // Show/Hide Object Type
-        else if (mpTypesModel->IndexType(SourceIndex) == CInstancesModel::EIndexType::ObjectType)
+        else if (IndexType == CInstancesModel::EIndexType::ObjectType)
         {
             if (sender() == ui->LayersTreeView)
             {
@@ -124,11 +126,11 @@ void WInstancesTab::OnTreeClick(const QModelIndex& Index)
 void WInstancesTab::OnTreeDoubleClick(const QModelIndex& Index)
 {
     const QModelIndex SourceIndex = (ui->TabWidget->currentIndex() == 0 ? mLayersProxyModel.mapToSource(Index) : mTypesProxyModel.mapToSource(Index));;
-    const auto IndexType = mpTypesModel->IndexType(SourceIndex);
+    const auto IndexType = CInstancesModel::IndexType(SourceIndex);
 
     if (mpEditor && IndexType == CInstancesModel::EIndexType::Instance)
     {
-        const auto NodeType = mpTypesModel->IndexNodeType(SourceIndex);
+        const auto NodeType = CInstancesModel::IndexNodeType(SourceIndex);
 
         if (NodeType == ENodeType::Script)
         {
@@ -140,13 +142,13 @@ void WInstancesTab::OnTreeDoubleClick(const QModelIndex& Index)
 
 void WInstancesTab::OnTreeContextMenu(QPoint Pos)
 {
-    bool IsLayers = (sender() == ui->LayersTreeView);
+    const bool IsLayers = (sender() == ui->LayersTreeView);
 
-    QModelIndex Index = (IsLayers ? ui->LayersTreeView->indexAt(Pos) : ui->TypesTreeView->indexAt(Pos));
+    const QModelIndex Index = (IsLayers ? ui->LayersTreeView->indexAt(Pos) : ui->TypesTreeView->indexAt(Pos));
     mMenuIndex = (IsLayers ? mLayersProxyModel.mapToSource(Index) : mTypesProxyModel.mapToSource(Index));
 
     // Determine type
-    mMenuIndexType = (IsLayers ? mpLayersModel->IndexType(mMenuIndex) : mpTypesModel->IndexType(mMenuIndex));
+    mMenuIndexType = CInstancesModel::IndexType(mMenuIndex);
 
     const CScriptObject *pObject = nullptr;
     mpMenuObject = nullptr;
