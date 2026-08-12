@@ -177,7 +177,7 @@ int CInstancesModel::rowCount(const QModelIndex& rkParent) const
     // Node types
     if (Type == EIndexType::Root)
     {
-        return mBaseItems.count();
+        return int(mBaseItems.size());
     }
 
     // Object types
@@ -471,7 +471,7 @@ void CInstancesModel::NodeAboutToBeDeleted(CSceneNode *pNode)
         if (pObj->Template()->NumObjects() <= 1)
         {
             const QModelIndex ScriptRootIdx = index(0, 0);
-            const int TempIdx = mTemplateList.indexOf(pObj->Template());
+            const auto TempIdx = int(mTemplateList.indexOf(pObj->Template()));
             beginRemoveRows(ScriptRootIdx, TempIdx, TempIdx);
             mTemplateList.removeOne(pObj->Template());
             endRemoveRows();
