@@ -460,7 +460,7 @@ void CMaterialLoader::SetMP3IntermediateIntoMaterialPass(CMaterialPass* pPass,
     pPass->mpTexture = Intermediate.mpTexture;
     pPass->mAnimMode = Intermediate.mAnimMode;
     pPass->mAnimConvolutedModeBType = Intermediate.mAnimConvolutedModeBType;
-    std::copy(std::begin(Intermediate.mAnimParams), std::end(Intermediate.mAnimParams), std::begin(pPass->mAnimParams));
+    pPass->mAnimParams = Intermediate.mAnimParams;
 }
 
 void CMaterialLoader::SelectBestCombinerConfig(EMP3RenderConfig& OutConfig, uint8_t& OutAlpha,
