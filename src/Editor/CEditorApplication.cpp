@@ -84,7 +84,7 @@ bool CEditorApplication::CloseProject()
     NDolphinIntegration::KillQuickplay();
 
     // Emit before actually deleting the project to allow editor references to clean up
-    auto pOldProj = std::move(mpActiveProject);
+    [[maybe_unused]] auto pOldProj = std::move(mpActiveProject);
     emit ActiveProjectChanged(nullptr);
     return true;
 }
