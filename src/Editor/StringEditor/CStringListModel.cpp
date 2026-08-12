@@ -45,9 +45,7 @@ int CStringListModel::rowCount(const QModelIndex& kParent) const
 QVariant CStringListModel::data(const QModelIndex& kIndex, int Role) const
 {
     if (!kIndex.isValid() || !mpStringTable)
-    {
-        return QVariant();
-    }
+        return {};
 
     const auto StringIndex = static_cast<size_t>(kIndex.row());
 
@@ -63,18 +61,17 @@ QVariant CStringListModel::data(const QModelIndex& kIndex, int Role) const
 
         return TO_QSTRING(StringName);
     }
+
     // user role: used for string preview, return the string contents
-    else if (Role == Qt::UserRole)
+    if (Role == Qt::UserRole)
     {
         TString StringData = mpStringTable->GetString(mStringPreviewLanguage, StringIndex);
         StringData.Replace("\n", "     ");
         return TO_QSTRING(StringData);
     }
+
     // other roles: invalid
-    else
-    {
-        return QVariant();
-    }
+    return {};
 }
 
 Qt::ItemFlags CStringListModel::flags(const QModelIndex& kIndex) const
