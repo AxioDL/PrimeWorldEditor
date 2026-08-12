@@ -592,8 +592,9 @@ ENodeType CInstancesModel::IndexNodeType(const QModelIndex& rkIndex)
     case EIndexType::NodeType:   return kTypes[rkIndex.row()];
     case EIndexType::ObjectType: return kTypes[rkIndex.parent().row()];
     case EIndexType::Instance:   return kTypes[rkIndex.parent().parent().row()];
-    default:                     return ENodeType::None;
     }
+
+    return ENodeType::None;
 }
 
 // ************ PRIVATE ************
