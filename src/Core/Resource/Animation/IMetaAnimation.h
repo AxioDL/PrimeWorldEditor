@@ -101,7 +101,7 @@ protected:
     CCharAnimTime mTime;
 
 public:
-    CMetaAnimPlay(const CAnimPrimitive& rkPrimitive, float time, CCharAnimTime::EType type);
+    CMetaAnimPlay(CAnimPrimitive rkPrimitive, float time, CCharAnimTime::EType type);
     CMetaAnimPlay(CResourceStore* store, IInputStream& rInput, EGame Game);
     EMetaAnimType Type() const override;
     void GetUniquePrimitives(std::set<CAnimPrimitive>& rPrimSet) const override;

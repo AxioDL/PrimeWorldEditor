@@ -30,8 +30,8 @@ std::unique_ptr<IMetaAnimation> CMetaAnimFactory::LoadFromStream(CResourceStore*
 }
 
 // ************ CMetaAnimationPlay ************
-CMetaAnimPlay::CMetaAnimPlay(const CAnimPrimitive& rkPrimitive, float time, CCharAnimTime::EType type)
-    : mPrimitive(rkPrimitive)
+CMetaAnimPlay::CMetaAnimPlay(CAnimPrimitive rkPrimitive, float time, CCharAnimTime::EType type)
+    : mPrimitive(std::move(rkPrimitive))
     , mTime(time, type)
 {
 }
