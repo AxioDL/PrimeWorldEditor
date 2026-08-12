@@ -20,10 +20,10 @@ CWorldTreeModel::~CWorldTreeModel() = default;
 int CWorldTreeModel::rowCount(const QModelIndex& rkParent) const
 {
     if (!rkParent.isValid())
-        return mWorldList.size();
+        return int(mWorldList.size());
 
     if (IndexIsWorld(rkParent))
-        return mWorldList[rkParent.row()].Areas.size();
+        return int(mWorldList[rkParent.row()].Areas.size());
 
     return 0;
 }
