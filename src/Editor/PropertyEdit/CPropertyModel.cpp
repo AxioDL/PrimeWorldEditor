@@ -12,7 +12,6 @@
 
 #include <array>
 #include <fmt/format.h>
-#include <iostream>
 #include <vector>
 
 struct CPropertyModel::SProperty
@@ -344,10 +343,6 @@ QVariant CPropertyModel::data(const QModelIndex& rkIndex, int Role) const
                 }
 
                 // Display property name for everything else
-                if (pProp->HasReadableName())
-                {
-                    std::cout << pProp->ReadableName() << std::endl;
-                }
                 return TO_QSTRING(pProp->HasReadableName() ? pProp->ReadableName() : pProp->Name());
             }
 
