@@ -456,7 +456,7 @@ std::unique_ptr<CMapArea> CUnsupportedFormatLoader::LoadMAPA(IInputStream& /*rMA
     {
         auto *pGroup = static_cast<CDependencyGroup*>(It->Load());
 
-        for (const auto& [idx, dep] : Utils::enumerate(pGroup->Dependencies()))
+        for (const auto&& [idx, dep] : Utils::enumerate(pGroup->Dependencies()))
         {
             if (dep == MapAreaID)
             {
