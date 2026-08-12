@@ -459,14 +459,10 @@ bool CShaderGenerator::CreatePixelShader(const CMaterial& rkMat)
     ShaderCode.Append("    vec2 TevCoord = vec2(0, 0);\n"
                       "    \n");
 
-    bool Lightmap = false;
     for (const auto [idx, pass] : Utils::enumerate(rkMat.Passes()))
     {
         const CFourCC PassType = pass->Type();
-
         ShaderCode.Append("    // TEV Stage {} - {}\n", idx, PassType.ToString());
-        if (PassType == CFourCC("DIFF"))
-            Lightmap = true;
 
         if (!pass->IsEnabled())
         {
