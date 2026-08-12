@@ -17,7 +17,7 @@ CResTypeInfo::CResTypeInfo(EResourceType type, TString typeName, TString retroEx
     , mRetroExtension(std::move(retroExtension))
 {
 #if !PUBLIC_RELEASE
-    ASSERT(smTypeMap.find(type) == smTypeMap.cend());
+    ASSERT(!smTypeMap.contains(type));
 #endif
     smTypeMap.insert_or_assign(type, std::unique_ptr<CResTypeInfo>(this));
 }

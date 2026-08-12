@@ -40,7 +40,7 @@ void CAudioManager::LoadAssets()
     {
         for (const auto DefineID : group->SoundDefines())
         {
-            ASSERT(mSfxIdMap.find(DefineID) == mSfxIdMap.cend());
+            ASSERT(!mSfxIdMap.contains(DefineID));
             mSfxIdMap.insert_or_assign(DefineID, group);
         }
     }

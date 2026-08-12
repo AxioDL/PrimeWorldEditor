@@ -372,7 +372,7 @@ bool CResourceStore::BuildFromDirectory(bool ShouldGenerateCacheFile)
 
             // Validate the entry
             const CAssetID ID = pEntry->ID();
-            ASSERT(mResourceEntries.find(ID) == mResourceEntries.cend());
+            ASSERT(!mResourceEntries.contains(ID));
             ASSERT(ID.Length() == CAssetID::GameIDLength(mGame));
 
             mResourceEntries.insert_or_assign(ID, std::move(pEntry));
@@ -533,7 +533,7 @@ CResource* CResourceStore::LoadResource(const TString& rkPath)
 void CResourceStore::TrackLoadedResource(CResourceEntry *pEntry)
 {
     ASSERT(pEntry->IsLoaded());
-    ASSERT(mLoadedResources.find(pEntry->ID()) == mLoadedResources.end());
+    ASSERT(!mLoadedResources.contains(pEntry->ID()));
     mLoadedResources.insert_or_assign(pEntry->ID(), pEntry);
 }
 
