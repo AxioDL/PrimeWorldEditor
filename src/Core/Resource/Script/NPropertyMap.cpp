@@ -97,15 +97,6 @@ struct SNameKey
     }
 };
 
-/** Hasher for name keys for use in std::unordered_map */
-struct KeyHash
-{
-    size_t operator()(const SNameKey& kKey) const noexcept
-    {
-        return std::hash<uint64_t>()(kKey.Key);
-    }
-};
-
 /** Value structure for name map lookups */
 struct SNameValue
 {
