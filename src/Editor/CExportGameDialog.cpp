@@ -348,7 +348,7 @@ void CExportGameDialog::RecursiveAddToTree(const nod::Node *pkNode, QTreeWidgetI
         const bool IsDir = node->getKind() == nod::Node::Kind::Directory;
 
         const auto nodeName = node->getName();
-        auto* pItem = new QTreeWidgetItem(pParent, QStringList(QString::fromUtf8(nodeName.data(), nodeName.size())));
+        auto* pItem = new QTreeWidgetItem(pParent, QStringList(QString::fromUtf8(std::data(nodeName), std::ssize(nodeName))));
         pItem->setIcon(0, QIcon(IsDir ? skDirIcon : skFileIcon));
 
         if (IsDir)
