@@ -83,7 +83,7 @@ public:
         eES_NumSteps
     };
 
-    CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion);
+    CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, TString rkGameName, TString rkGameID, float BuildVersion);
     ~CGameExporter();
 
     bool Export(nod::DiscBase *pDisc, const TString& rkOutputDir, CAssetNameMap *pNameMap, CGameInfo *pGameInfo, IProgressNotifier *pProgress);

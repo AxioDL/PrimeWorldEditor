@@ -27,11 +27,11 @@
 #define USE_ASSET_NAME_MAP 1
 #define EXPORT_COOKED 1
 
-CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, const TString& rkGameName, const TString& rkGameID, float BuildVersion)
+CGameExporter::CGameExporter(EDiscType DiscType, EGame Game, bool FrontEnd, ERegion Region, TString rkGameName, TString rkGameID, float BuildVersion)
     : mGame(Game)
     , mRegion(Region)
-    , mGameName(rkGameName)
-    , mGameID(rkGameID)
+    , mGameName(std::move(rkGameName))
+    , mGameID(std::move(rkGameID))
     , mBuildVersion(BuildVersion)
     , mDiscType(DiscType)
     , mFrontEnd(FrontEnd)
