@@ -15,11 +15,11 @@
 
 #include <string>
 
-#ifdef __APPLE__
+#ifdef Q_OS_MACOS
 #include "Editor/MacOSExtras.h"
 #endif
 
-#ifdef _WIN32
+#ifdef Q_OS_WIN
 #include <windows.h>
 #endif
 
@@ -48,7 +48,7 @@ static void QtLogRedirect(QtMsgType Type, const QMessageLogContext& /*rkContext*
 
 static TString LocateDataDirectory()
 {
-#if !defined(_WIN32) && !defined(__APPLE__)
+#if !defined(Q_OS_WIN) && !defined(Q_OS_MACOS)
 #ifdef PWE_DATADIR
     {
         /* This is for build-configured root */
@@ -66,7 +66,7 @@ static TString LocateDataDirectory()
             return dir;
     }
 #endif
-#if defined(__APPLE__)
+#ifdef Q_OS_MACOS
     {
         /* This is for locating mac bundle root */
         TString dir = FileUtil::MakeAbsolute(TString(QCoreApplication::applicationDirPath().toStdString()) + "/../Resources");
@@ -89,7 +89,7 @@ static TString LocateDataDirectory()
 
 static std::string LocateLogPath()
 {
-#ifndef _WIN32
+#ifndef Q_OS_WIN
     return std::string(getenv("HOME")) + "/.primeworldeditor.log";
 #else
     return "primeworldeditor.log";
@@ -98,7 +98,7 @@ static std::string LocateLogPath()
 
 static void SetUpLogging()
 {
-#ifdef _WIN32
+#ifdef Q_OS_WIN
     // Due to Win32 shenanigans, we need to attach to a parent process
     // if one exists. Otherwise, debug logs when launching the application via
     // the command line won't be received by spdlog.
@@ -141,7 +141,7 @@ public:
         // Set up dark theme
         QApplication::setStyle(QStyleFactory::create(QStringLiteral("Fusion")));
         QApplication::setPalette(MakePalette());
-#ifdef __APPLE__
+#ifdef Q_OS_MACOS
         MacOSSetDarkAppearance();
         MouseDragCocoaEventFilter mouseDragCocoaEventFilter;
         gpMouseDragCocoaEventFilter = &mouseDragCocoaEventFilter;
