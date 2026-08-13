@@ -395,5 +395,5 @@ bool CVirtualDirectory::IsValidDirectoryPath(TString Path)
         Path = Path.ChopBack(1);
 
     const TStringList Parts = Path.Split("/\\", true);
-    return std::all_of(Parts.cbegin(), Parts.cend(), IsValidDirectoryName);
+    return std::ranges::all_of(Parts, &IsValidDirectoryName);
 }
