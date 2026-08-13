@@ -11,15 +11,12 @@ struct SDelegateFontInfo
 {
     QFont NameFont;
     QFont InfoFont;
-    QFontMetrics NameFontMetrics;
-    QFontMetrics InfoFontMetrics;
+    QFontMetrics NameFontMetrics{NameFont};
+    QFontMetrics InfoFontMetrics{InfoFont};
     QPen NamePen;
     QPen InfoPen;
     int Margin = 0;
     int Spacing = 0;
-
-    SDelegateFontInfo()
-        : NameFontMetrics(NameFont), InfoFontMetrics(InfoFont) {}
 };
 
 /** Common base class of custom item delegate implementations */
