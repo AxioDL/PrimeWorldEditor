@@ -155,12 +155,11 @@ CStructProperty* CLight::GetProperties() const
 // ************ OTHER ************
 void CLight::Load() const
 {
-    const auto Index = static_cast<uint8_t>(CGraphics::sNumLights);
+    const auto Index = CGraphics::sNumLights;
     if (Index >= CGraphics::sLightBlock.Lights.size())
         return;
 
     auto& pLight = CGraphics::sLightBlock.Lights[Index];
-
     switch (mType)
     {
     case ELightType::LocalAmbient:
@@ -174,12 +173,6 @@ void CLight::Load() const
         pLight.AngleAtten = CVector4f(1.f, 0.f, 0.f, 0.f);
         break;
     case ELightType::Spot:
-        pLight.Position = CVector4f(mPosition,  1.f);
-        pLight.Direction = CVector4f(mDirection, 0.f);
-        pLight.Color = mColor * CGraphics::sWorldLightMultiplier;
-        pLight.DistAtten = mDistAttenCoefficients;
-        pLight.AngleAtten = mAngleAttenCoefficients;
-        break;
     case ELightType::Custom:
         pLight.Position = CVector4f(mPosition,  1.f);
         pLight.Direction = CVector4f(mDirection, 0.f);
