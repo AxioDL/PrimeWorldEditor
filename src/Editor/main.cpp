@@ -127,10 +127,12 @@ public:
         // Create application
         QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
         CEditorApplication App(argc, argv);
-        App.setApplicationName(QStringLiteral("PrimeWorldEditor"));
-        App.setApplicationVersion(QStringLiteral(APP_VERSION));
-        App.setOrganizationName(QStringLiteral("AxioDL"));
-        App.setWindowIcon(QIcon(QStringLiteral(":/icons/win/AppIcon.ico")));
+
+        // Set application metadata
+        QCoreApplication::setApplicationName(QStringLiteral("PrimeWorldEditor"));
+        QCoreApplication::setApplicationVersion(QStringLiteral(APP_VERSION));
+        QCoreApplication::setOrganizationName(QStringLiteral("AxioDL"));
+        QGuiApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/win/AppIcon.ico")));
 
         // Create UI relay
         CUIRelay UIRelay(&App);
@@ -179,7 +181,7 @@ public:
 
         // Execute application
         App.InitEditor();
-        return App.exec();
+        return QCoreApplication::exec();
     }
 
     /** Clean up any resources at the end of application execution */
