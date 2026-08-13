@@ -131,7 +131,7 @@ public:
 
     void SetLink(CLink *pLink)
     {
-        mpInstance = pLink ? pLink->Sender() : 0;
+        mpInstance = pLink ? pLink->Sender() : nullptr;
         mLinkIndex = pLink ? pLink->SenderIndex() : 0;
         mValid = pLink != nullptr;
     }
