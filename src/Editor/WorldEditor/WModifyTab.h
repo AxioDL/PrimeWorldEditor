@@ -54,7 +54,7 @@ private slots:
     void OnMapChanged();
 
     void OnLinksSelectionModified();
-    void OnAddLinkActionClicked(QAction *pAction);
+    void OnAddLinkActionClicked(const QAction* pAction);
     void OnPickModeClick(const SRayIntersection& rkIntersect);
     void OnPickModeExit();
     void OnDeleteLinksClicked();

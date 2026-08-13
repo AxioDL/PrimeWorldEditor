@@ -158,7 +158,7 @@ void WModifyTab::OnLinksSelectionModified()
     }
 }
 
-void WModifyTab::OnAddLinkActionClicked(QAction *pAction)
+void WModifyTab::OnAddLinkActionClicked(const QAction* pAction)
 {
     if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
     {
@@ -171,7 +171,6 @@ void WModifyTab::OnAddLinkActionClicked(QAction *pAction)
             connect(mpWorldEditor, &CWorldEditor::PickModeExited, this, &WModifyTab::OnPickModeExit);
             mIsPicking = true;
         }
-
         else if (pAction == mpAddFromListAction)
         {
             if (mIsPicking)
