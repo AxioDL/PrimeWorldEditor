@@ -31,37 +31,6 @@ float CLight::CalculateRadius() const
     if (mDistAttenCoefficients.Y > FLT_EPSILON)
         return Intensity / (0.0588235f * mDistAttenCoefficients.Y);
     return 0.f;
-
-#if 0
-    if ((mDistAttenCoefficients.Y >= FLT_EPSILON) ||
-        (mDistAttenCoefficients.Z >= FLT_EPSILON))
-    {
-        float Intensity = GetIntensity();
-
-        if (mDistAttenCoefficients.Z > FLT_EPSILON)
-        {
-            if (Intensity <= FLT_EPSILON)
-                return 0.f;
-
-            float IntensityMod = (Intensity * 5.f / 255.f * mDistAttenCoefficients.Z);
-            return sqrtf(Intensity / IntensityMod);
-        }
-
-        else
-        {
-            if (mDistAttenCoefficients.Y <= FLT_EPSILON)
-                return 0.f;
-
-            float IntensityMod = (Intensity * 5.f) / 255.f;
-            if (IntensityMod < 0.2f)
-                IntensityMod = 0.2f;
-
-            return Intensity / (IntensityMod * mDistAttenCoefficients.Y);
-        }
-    }
-
-    else return 3000000000000000000000000000000000000.f;
-#endif
 }
 
 // This function is also reverse engineered from the kiosk demo's code
@@ -72,14 +41,6 @@ float CLight::CalculateIntensity() const
         coef = mAngleAttenCoefficients.X;
 
     return coef * std::max({mColor.R, mColor.G, mColor.B});
-#if 0
-    // Get the color component with the greatest numeric value
-    float Greatest = (mColor.G >= mColor.B) ? mColor.G : mColor.B;
-    Greatest = (mColor.R >= Greatest) ? mColor.R : Greatest;
-
-    float Multiplier = (mType == ELightType::Custom) ? mAngleAttenCoefficients.X : 1.0f;
-    return Greatest * Multiplier;
-#endif
 }
 
 // As is this one... partly
