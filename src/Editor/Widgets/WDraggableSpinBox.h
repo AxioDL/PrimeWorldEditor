@@ -17,16 +17,19 @@ public:
     explicit WDraggableSpinBox(QWidget *pParent = nullptr);
     ~WDraggableSpinBox() override;
 
-    void mousePressEvent(QMouseEvent* pEvent) override;
-    void mouseReleaseEvent(QMouseEvent* pEvent) override;
-    void mouseMoveEvent(QMouseEvent* pEvent) override;
-    void wheelEvent(QWheelEvent* pEvent) override;
     bool eventFilter(QObject* pObj, QEvent* pEvent) override;
     QString textFromValue(double Val) const override;
+
     bool IsBeingDragged() const;
     void SetDefaultValue(double Value);
     void SetMinDecimals(int Dec);
     void TrimTrailingZeroes(bool Trim);
+
+protected:
+    void mousePressEvent(QMouseEvent* pEvent) override;
+    void mouseReleaseEvent(QMouseEvent* pEvent) override;
+    void mouseMoveEvent(QMouseEvent* pEvent) override;
+    void wheelEvent(QWheelEvent* pEvent) override;
 };
 
 #endif // WDRAGGABLESPINBOX_H
