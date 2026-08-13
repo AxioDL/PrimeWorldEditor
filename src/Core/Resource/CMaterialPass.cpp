@@ -230,19 +230,13 @@ void CMaterialPass::SetType(CFourCC Type)
 
 void CMaterialPass::SetColorInputs(ETevColorInput InputA, ETevColorInput InputB, ETevColorInput InputC, ETevColorInput InputD)
 {
-    mColorInputs[0] = InputA;
-    mColorInputs[1] = InputB;
-    mColorInputs[2] = InputC;
-    mColorInputs[3] = InputD;
+    mColorInputs = {InputA, InputB, InputC, InputD};
     mpParentMat->Update();
 }
 
 void CMaterialPass::SetAlphaInputs(ETevAlphaInput InputA, ETevAlphaInput InputB, ETevAlphaInput InputC, ETevAlphaInput InputD)
 {
-    mAlphaInputs[0] = InputA;
-    mAlphaInputs[1] = InputB;
-    mAlphaInputs[2] = InputC;
-    mAlphaInputs[3] = InputD;
+    mAlphaInputs = {InputA, InputB, InputC, InputD};
     mpParentMat->Update();
 }
 
