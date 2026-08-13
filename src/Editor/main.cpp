@@ -89,10 +89,10 @@ static TString LocateDataDirectory()
 
 static std::string LocateLogPath()
 {
-#ifndef Q_OS_WIN
-    return std::string(getenv("HOME")) + "/.primeworldeditor.log";
-#else
+#ifdef Q_OS_WIN
     return "primeworldeditor.log";
+#else
+    return std::string(getenv("HOME")) + "/.primeworldeditor.log";
 #endif
 }
 
