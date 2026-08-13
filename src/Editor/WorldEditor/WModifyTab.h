@@ -63,6 +63,8 @@ private slots:
     void OnLinkTableDoubleClick(const QModelIndex& Index);
 
 private:
+    bool HasSelectedScriptNode() const;
+
     std::unique_ptr<Ui::WModifyTab> ui;
 };
 

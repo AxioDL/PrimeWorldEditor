@@ -69,6 +69,11 @@ CPropertyView* WModifyTab::PropertyView() const
     return ui->PropertyView;
 }
 
+bool WModifyTab::HasSelectedScriptNode() const
+{
+    return mpSelectedNode != nullptr && mpSelectedNode->NodeType() == ENodeType::Script;
+}
+
 // ************ PUBLIC SLOTS ************
 void WModifyTab::GenerateUI()
 {
@@ -119,18 +124,17 @@ void WModifyTab::GenerateUI()
 
 void WModifyTab::OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances)
 {
-    if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
-    {
-        const auto* pInstance = static_cast<const CScriptNode*>(mpSelectedNode)->Instance();
+    if (!HasSelectedScriptNode())
+        return;
 
-        if (pInstance && rkInstances.contains(pInstance))
-        {
-            mpInLinkModel->layoutChanged();
-            mpOutLinkModel->layoutChanged();
-            ui->InLinksTableView->clearSelection();
-            ui->OutLinksTableView->clearSelection();
-        }
-    }
+    const auto* pInstance = static_cast<const CScriptNode*>(mpSelectedNode)->Instance();
+    if (!pInstance || !rkInstances.contains(pInstance))
+        return;
+
+    mpInLinkModel->layoutChanged();
+    mpOutLinkModel->layoutChanged();
+    ui->InLinksTableView->clearSelection();
+    ui->OutLinksTableView->clearSelection();
 }
 
 void WModifyTab::OnWorldSelectionTransformed()
@@ -161,7 +165,7 @@ void WModifyTab::OnLinksSelectionModified()
 
 void WModifyTab::OnAddLinkActionClicked(const QAction* pAction)
 {
-    if (!mpSelectedNode || mpSelectedNode->NodeType() != ENodeType::Script)
+    if (!HasSelectedScriptNode())
         return;
 
     mAddLinkType = (sender() == ui->AddOutgoingConnectionToolButton ? ELinkType::Outgoing : ELinkType::Incoming);
@@ -220,7 +224,7 @@ void WModifyTab::OnPickModeExit()
 
 void WModifyTab::OnDeleteLinksClicked()
 {
-    if (mpSelectedNode == nullptr || mpSelectedNode->NodeType() != ENodeType::Script)
+    if (!HasSelectedScriptNode())
         return;
 
     const ELinkType Type = (sender() == ui->DeleteOutgoingConnectionButton ? ELinkType::Outgoing : ELinkType::Incoming);
@@ -241,18 +245,18 @@ void WModifyTab::OnDeleteLinksClicked()
 
 void WModifyTab::OnEditLinkClicked()
 {
-    if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
-    {
-        ELinkType Type = (sender() == ui->EditOutgoingConnectionButton ? ELinkType::Outgoing : ELinkType::Incoming);
-        QModelIndexList SelectedIndices = (Type == ELinkType::Outgoing ? ui->OutLinksTableView->selectionModel()->selectedRows() : ui->InLinksTableView->selectionModel()->selectedRows());
+    if (!HasSelectedScriptNode())
+        return;
 
-        if (SelectedIndices.size() == 1)
-        {
-            const auto* pInst = static_cast<const CScriptNode*>(mpSelectedNode)->Instance();
-            CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
-            pDialog->EditLink(pInst->Link(Type, SelectedIndices.front().row()));
-            pDialog->show();
-        }
+    const auto Type = (sender() == ui->EditOutgoingConnectionButton ? ELinkType::Outgoing : ELinkType::Incoming);
+    const auto SelectedIndices = (Type == ELinkType::Outgoing ? ui->OutLinksTableView->selectionModel()->selectedRows() : ui->InLinksTableView->selectionModel()->selectedRows());
+
+    if (SelectedIndices.size() == 1)
+    {
+        const auto* pInst = static_cast<const CScriptNode*>(mpSelectedNode)->Instance();
+        CLinkDialog *pDialog = mpWorldEditor->LinkDialog();
+        pDialog->EditLink(pInst->Link(Type, SelectedIndices.front().row()));
+        pDialog->show();
     }
 }
 
