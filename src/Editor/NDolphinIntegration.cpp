@@ -85,7 +85,7 @@ static std::map<TString, uint32_t> LoadSymbols(const TString& mapContents) {
             auto address = line.SubString(0, separator);
             auto name = line.SubString(separator + 1, line.Length() - separator - 1).Trimmed();
 
-            result.emplace(name, static_cast<uint32_t>(address.ToInt32(16)));
+            result.emplace(std::move(name), static_cast<uint32_t>(address.ToInt32(16)));
         }
     }
 
