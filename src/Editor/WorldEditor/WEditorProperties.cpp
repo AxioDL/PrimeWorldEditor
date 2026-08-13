@@ -158,7 +158,7 @@ void WEditorProperties::OnSelectionModified()
     SetLayerComboBox();
 }
 
-void WEditorProperties::OnPropertyModified(IProperty* pProp, CScriptObject* pInstance)
+void WEditorProperties::OnPropertyModified(const IProperty* pProp, const CScriptObject* pInstance)
 {
     if (!mpInstanceNameLineEdit->hasFocus())
     {

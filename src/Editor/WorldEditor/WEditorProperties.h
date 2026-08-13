@@ -45,7 +45,7 @@ public:
 
 public slots:
     void OnSelectionModified();
-    void OnPropertyModified(IProperty* pProp, CScriptObject* pInstance);
+    void OnPropertyModified(const IProperty* pProp, const CScriptObject* pInstance);
     void OnInstancesLayerChanged(const QList<CScriptNode*>& rkNodeList);
     void OnLayersModified();
     void UpdatePropertyValues();
