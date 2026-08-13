@@ -205,7 +205,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
     const auto AlignedDolSize = Math::Align(DolData.size(), 32);
     const auto AlignedPatchSize = Math::Align(PatchData.size(), 32);
     DolData.resize(AlignedDolSize + AlignedPatchSize);
-    memcpy(&DolData[AlignedDolSize], &PatchData[0], PatchData.size());
+    memcpy(&DolData[AlignedDolSize], PatchData.data(), PatchData.size());
 
     if (!header.AddTextSection(0x80002000, AlignedDolSize, AlignedPatchSize))
     {
