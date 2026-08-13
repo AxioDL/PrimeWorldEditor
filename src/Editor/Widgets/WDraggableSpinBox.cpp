@@ -100,11 +100,9 @@ QString WDraggableSpinBox::textFromValue(double Val) const
 {
     QString Str = QString::number(Val, 'f', decimals());
     const auto DecIndex = Str.indexOf(QLatin1Char{'.'});
-    qsizetype NumDecs{};
 
-    if (DecIndex == -1)
-        NumDecs = 0;
-    else
+    qsizetype NumDecs = 0;
+    if (DecIndex != -1)
         NumDecs = Str.size() - DecIndex - 1;
 
     if (NumDecs < mMinDecimals)
