@@ -54,7 +54,7 @@ public:
     ~CMaterialPass();
 
     std::unique_ptr<CMaterialPass> Clone(CMaterial *pParent) const;
-    void HashParameters(CFNV1A& rHash);
+    void HashParameters(CFNV1A& rHash) const;
     void LoadTexture(uint32_t PassIndex);
     void SetAnimCurrent(FRenderOptions Options, size_t PassIndex);
 

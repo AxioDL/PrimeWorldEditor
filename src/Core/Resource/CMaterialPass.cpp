@@ -39,7 +39,7 @@ std::unique_ptr<CMaterialPass> CMaterialPass::Clone(CMaterial* pParent) const
     return pOut;
 }
 
-void CMaterialPass::HashParameters(CFNV1A& rHash)
+void CMaterialPass::HashParameters(CFNV1A& rHash) const
 {
     if (!mEnabled)
         return;
