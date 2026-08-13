@@ -55,7 +55,7 @@ public:
     void UnhighlightPoiModels(const QModelIndex& rkIndex);
     void HighlightModel(const QModelIndex& rkIndex, CModelNode *pNode);
     void UnhighlightModel(CModelNode *pNode);
-    bool IsImportant(const QModelIndex& rkIndex);
+    bool IsImportant(const QModelIndex& rkIndex) const;
     void RevertModelOverlay(CModelNode *pModel);
     EPickType GetRealPickType(bool AltPressed) const;
     QModelIndex GetSelectedRow() const;

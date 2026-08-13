@@ -75,7 +75,7 @@ void CPoiMapSidebar::HighlightPoiModels(const QModelIndex& rkIndex)
     // Get POI and models
     const QModelIndex SourceIndex = mModel.mapToSource(rkIndex);
     const QList<CModelNode*>& rkModels = mSourceModel.GetPoiMeshList(SourceIndex);
-    bool Important = IsImportant(SourceIndex);
+    const bool Important = IsImportant(SourceIndex);
 
     // Highlight the meshes
     for (auto& model : rkModels)
@@ -162,9 +162,9 @@ CPoiMapSidebar::EPickType CPoiMapSidebar::GetRealPickType(bool AltPressed) const
     return EPickType::AddMeshes;
 }
 
-bool CPoiMapSidebar::IsImportant(const QModelIndex& rkIndex)
+bool CPoiMapSidebar::IsImportant(const QModelIndex& rkIndex) const
 {
-    CScriptNode *pPOI = mSourceModel.PoiNodePointer(rkIndex);
+    const CScriptNode* pPOI = mSourceModel.PoiNodePointer(rkIndex);
 
     bool Important = false;
     TResPtr<CScan> pScan = static_cast<CPointOfInterestExtra*>(pPOI->Extra())->GetScan();
