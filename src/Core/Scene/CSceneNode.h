@@ -120,7 +120,7 @@ public:
     [[nodiscard]] virtual bool IsVisible() const;
     [[nodiscard]] virtual CColor TintColor(const SViewInfo& rkViewInfo) const;
     [[nodiscard]] virtual CColor WireframeColor() const;
-    [[nodiscard]] virtual CStructRef GetProperties() const { return CStructRef(); }
+    [[nodiscard]] virtual CStructRef GetProperties() const { return {}; }
     virtual void PropertyModified(IProperty* pProperty) {}
 
     void OnLoadFinished();
