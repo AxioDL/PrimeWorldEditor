@@ -15,7 +15,7 @@
 #include <QOverload>
 #include <QSettings>
 
-#ifdef __APPLE__
+#ifdef Q_OS_MACOS
 #include "Editor/MacOSExtras.h"
 #endif
 
@@ -374,7 +374,7 @@ QString GetDolphinPath()
         }
         else
         {
-#if defined(__APPLE__)
+#ifdef Q_OS_MACOS
             gDolphinPath = MacOSPathToDolphinBinary();
 #endif
         }
@@ -384,9 +384,9 @@ QString GetDolphinPath()
 }
 
 QString AskForDolphinPath(QWidget* pParentWidget) {
-#if defined(Q_OS_WIN)
+#ifdef Q_OS_WIN
     QString Path = UICommon::OpenFileDialog(pParentWidget, QCoreApplication::translate("AskForDolphinPath", "Open Dolphin"), QStringLiteral("*.exe"));
-#elif defined(Q_OS_MACOS)
+#elifdef Q_OS_MACOS
     QString Path = UICommon::OpenFileDialog(pParentWidget, QCoreApplication::translate("AskForDolphinPath", "Open Dolphin"), QStringLiteral("*.app"));
     if (Path.endsWith(QStringLiteral(".app")))
         Path += QStringLiteral("/Contents/MacOS/Dolphin");
