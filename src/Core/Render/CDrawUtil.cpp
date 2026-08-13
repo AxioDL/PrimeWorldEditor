@@ -348,9 +348,7 @@ CModel* CDrawUtil::GetCubeModel()
 }
 
 // ************ PRIVATE ************
-CDrawUtil::CDrawUtil()
-{
-}
+CDrawUtil::CDrawUtil() = default;
 
 void CDrawUtil::Init()
 {

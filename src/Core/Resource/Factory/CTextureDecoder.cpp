@@ -151,10 +151,7 @@ constexpr uint32_t CalculateMaskBitCount(uint32_t BitMask)
 }
 } // Anonymous namespace
 
-CTextureDecoder::CTextureDecoder()
-{
-}
-
+CTextureDecoder::CTextureDecoder() = default;
 CTextureDecoder::~CTextureDecoder() = default;
 
 std::unique_ptr<CTexture> CTextureDecoder::CreateTexture()
