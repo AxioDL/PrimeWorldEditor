@@ -111,9 +111,10 @@ void WModifyTab::GenerateUI()
             ui->OutLinksTableView->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
         }
     }
-
     else
+    {
         ClearUI();
+    }
 }
 
 void WModifyTab::OnInstanceLinksModified(const QList<CScriptObject*>& rkInstances)
