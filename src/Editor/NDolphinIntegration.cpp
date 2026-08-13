@@ -238,7 +238,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
 
     // We're good to go - launch the quickplay process
     gpDolphinProcess = new QProcess(pParentWidget);
-    gpDolphinProcess->start(gDolphinPath, QStringList() << TO_QSTRING(DolPath));
+    gpDolphinProcess->start(gDolphinPath, QStringList(TO_QSTRING(DolPath)));
     gpDolphinProcess->waitForStarted();
 
     if (gpDolphinProcess->state() != QProcess::Running)
@@ -317,7 +317,7 @@ bool SetDolphinPath(QWidget* pParentWidget, const QString& kDolphinPath, bool bS
 
     // Try to obtain the version from Dolphin
     QProcess DolphinProcess;
-    DolphinProcess.start(kDolphinPath, QStringList() << QStringLiteral("--version"));
+    DolphinProcess.start(kDolphinPath, QStringList(QStringLiteral("--version")));
     DolphinProcess.waitForFinished();
     QString VersionString = QString::fromUtf8(DolphinProcess.readLine().trimmed());
     
