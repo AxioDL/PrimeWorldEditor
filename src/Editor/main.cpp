@@ -139,13 +139,13 @@ public:
         SetUIRelay(&UIRelay);
 
         // Set up dark theme
-        qApp->setStyle(QStyleFactory::create(QStringLiteral("Fusion")));
-        SetupPalette();
+        QApplication::setStyle(QStyleFactory::create(QStringLiteral("Fusion")));
+        QApplication::setPalette(MakePalette());
 #ifdef __APPLE__
         MacOSSetDarkAppearance();
         MouseDragCocoaEventFilter mouseDragCocoaEventFilter;
         gpMouseDragCocoaEventFilter = &mouseDragCocoaEventFilter;
-        qApp->installNativeEventFilter(gpMouseDragCocoaEventFilter);
+        App.installNativeEventFilter(gpMouseDragCocoaEventFilter);
 #endif
 
         // Init log
@@ -190,13 +190,13 @@ public:
         NGameList::Shutdown();
     }
 
-    static void SetupPalette()
+    static QPalette MakePalette()
     {
         QPalette DarkPalette;
         ConfigureColorGroup(DarkPalette, QPalette::Active, 100);
         ConfigureColorGroup(DarkPalette, QPalette::Inactive, 100);
         ConfigureColorGroup(DarkPalette, QPalette::Disabled, 200);
-        qApp->setPalette(DarkPalette);
+        return DarkPalette;
     }
 
     static void ConfigureColorGroup(QPalette& Palette, QPalette::ColorGroup Group, int Factor)
