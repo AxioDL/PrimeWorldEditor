@@ -215,7 +215,7 @@ void CAreaLoader::ReadLightsPrime()
             else // Custom
             {
                 const float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
-                const float DistAttenB = (FalloffType == 1) ? (249.9998f / Multiplier) : 0.f;
+                const float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
                 const float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
 
                 pLight = CLight::BuildCustom(Position, Direction, LightColor,
@@ -503,7 +503,7 @@ void CAreaLoader::ReadLightsCorruption()
             else // Custom
             {
                 const float DistAttenA = (FalloffType == 0) ? (2.f / Multiplier) : 0.f;
-                const float DistAttenB = (FalloffType == 1) ? (249.9998f / Multiplier) : 0.f;
+                const float DistAttenB = (FalloffType == 1) ? (250.f / Multiplier) : 0.f;
                 const float DistAttenC = (FalloffType == 2) ? (25000.f / Multiplier) : 0.f;
 
                 pLight = CLight::BuildCustom(Position, Direction, LightColor,
