@@ -1226,7 +1226,7 @@ void CWorldEditor::OnTransformSpinBoxEdited(const CVector3f&)
     UpdateGizmoUI();
 }
 
-void CWorldEditor::OnNodeAboutToBeDeleted(CSceneNode* node)
+void CWorldEditor::OnNodeAboutToBeDeleted(const CSceneNode* node)
 {
     if (ui->MainViewport->HoverNode() == node)
         ui->MainViewport->ResetHover();

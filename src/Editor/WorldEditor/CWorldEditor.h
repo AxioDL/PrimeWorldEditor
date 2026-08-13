@@ -156,7 +156,7 @@ private slots:
     void OnTransformSpinBoxModified(const CVector3f& Value);
     void OnTransformSpinBoxEdited(const CVector3f& Value);
 
-    void OnNodeAboutToBeDeleted(CSceneNode* node);
+    void OnNodeAboutToBeDeleted(const CSceneNode* node);
 
     void SelectAllTriggered();
     void InvertSelectionTriggered();
