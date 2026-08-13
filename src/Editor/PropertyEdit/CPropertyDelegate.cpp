@@ -77,8 +77,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
         case EPropertyType::Short:
         {
             auto* pSpinBox = new WIntegralSpinBox(pParent);
-            pSpinBox->setMinimum(INT16_MIN);
-            pSpinBox->setMaximum(INT16_MAX);
+            pSpinBox->setRange(INT16_MIN, INT16_MAX);
             pSpinBox->setSuffix(TO_QSTRING(pProp->Suffix()));
             ConnectRelay(this, pSpinBox, rkIndex, &WIntegralSpinBox::valueChanged);
             pOut = pSpinBox;
@@ -88,8 +87,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
         case EPropertyType::Int:
         {
             auto* pSpinBox = new WIntegralSpinBox(pParent);
-            pSpinBox->setMinimum(INT32_MIN);
-            pSpinBox->setMaximum(INT32_MAX);
+            pSpinBox->setRange(INT32_MIN, INT32_MAX);
             pSpinBox->setSuffix(TO_QSTRING(pProp->Suffix()));
             ConnectRelay(this, pSpinBox, rkIndex, &WIntegralSpinBox::valueChanged);
             pOut = pSpinBox;
@@ -117,8 +115,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
         case EPropertyType::Sound:
         {
             auto* pSpinBox = new WIntegralSpinBox(pParent);
-            pSpinBox->setMinimum(-1);
-            pSpinBox->setMaximum(0xFFFF);
+            pSpinBox->setRange(-1, 0xFFFF);
             ConnectRelay(this, pSpinBox, rkIndex, &WIntegralSpinBox::valueChanged);
             pOut = pSpinBox;
             break;
@@ -163,8 +160,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
         {
             // No relay here, would prefer user to be sure of their change before it's reflected on the UI
             auto* pSpinBox = new WIntegralSpinBox(pParent);
-            pSpinBox->setMinimum(0);
-            pSpinBox->setMaximum(999);
+            pSpinBox->setRange(0, 999);
             pOut = pSpinBox;
             break;
         }
