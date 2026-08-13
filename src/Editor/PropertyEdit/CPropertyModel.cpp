@@ -546,11 +546,6 @@ Qt::ItemFlags CPropertyModel::flags(const QModelIndex& rkIndex) const
     return Qt::ItemIsEnabled | Qt::ItemIsEditable;
 }
 
-void CPropertyModel::NotifyPropertyModified(CScriptObject*, IProperty* pProp)
-{
-    NotifyPropertyModified(IndexForProperty(pProp));
-}
-
 void CPropertyModel::NotifyPropertyModified(const QModelIndex& rkIndex)
 {
     if (rowCount(rkIndex) != 0)

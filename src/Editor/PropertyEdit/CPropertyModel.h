@@ -61,7 +61,6 @@ public:
     CScriptObject* GetScriptObject() const { return mpObject; }
 
 public slots:
-    void NotifyPropertyModified(CScriptObject *pInst, IProperty *pProp);
     void NotifyPropertyModified(const QModelIndex& rkIndex);
 
 signals:
