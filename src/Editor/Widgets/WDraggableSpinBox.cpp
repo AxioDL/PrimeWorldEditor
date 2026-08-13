@@ -7,8 +7,7 @@
 WDraggableSpinBox::WDraggableSpinBox(QWidget *parent)
     : QDoubleSpinBox(parent)
 {
-    setMinimum(-1000000.0);
-    setMaximum(1000000.0);
+    setRange(-1000000.0, 1000000.0);
     setDecimals(6);
     lineEdit()->installEventFilter(this);
 }
