@@ -266,7 +266,7 @@ void CStringCooker::WriteNameTable(IOutputStream& STRG)
         }
     }
 
-    std::stable_sort(NameEntries.begin(), NameEntries.end(), [](const SNameEntry& kLHS, const SNameEntry& kRHS) {
+    std::ranges::stable_sort(NameEntries, [](const SNameEntry& kLHS, const SNameEntry& kRHS) {
         return kLHS.Name < kRHS.Name;
     });
 

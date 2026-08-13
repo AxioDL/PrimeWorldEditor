@@ -53,8 +53,11 @@ void CMaterialCooker::WriteMatSetPrime(IOutputStream& rOut)
     }
 
     // Sort/remove duplicates
-    std::sort(mTextureIDs.begin(), mTextureIDs.end());
-    mTextureIDs.erase(std::unique(mTextureIDs.begin(), mTextureIDs.end()), mTextureIDs.end());
+    {
+        std::ranges::sort(mTextureIDs);
+        const auto [begin, end] = std::ranges::unique(mTextureIDs);
+        mTextureIDs.erase(begin, end);
+    }
 
     // Write texture IDs
     rOut.WriteU32(static_cast<uint32_t>(mTextureIDs.size()));

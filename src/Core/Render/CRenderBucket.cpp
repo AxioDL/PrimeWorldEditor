@@ -21,17 +21,16 @@ void CRenderBucket::CSubBucket::Add(const SRenderablePtr& rkPtr)
 
 void CRenderBucket::CSubBucket::Sort(const CCamera* pkCamera, bool DebugVisualization)
 {
-    std::stable_sort(mRenderables.begin(), mRenderables.end(),
-                     [pkCamera](const auto& rkLeft, const auto& rkRight) {
-                         const CVector3f& CamPos = pkCamera->Position();
-                         const CVector3f& CamDir = pkCamera->Direction();
+    std::ranges::stable_sort(mRenderables, [pkCamera](const auto& rkLeft, const auto& rkRight) {
+        const CVector3f& CamPos = pkCamera->Position();
+        const CVector3f& CamDir = pkCamera->Direction();
 
-                         const CVector3f DistL = rkLeft.AABox.ClosestPointAlongVector(CamDir) - CamPos;
-                         const CVector3f DistR = rkRight.AABox.ClosestPointAlongVector(CamDir) - CamPos;
-                         const float DotL = DistL.Dot(CamDir);
-                         const float DotR = DistR.Dot(CamDir);
-                         return DotL > DotR;
-                     });
+        const CVector3f DistL = rkLeft.AABox.ClosestPointAlongVector(CamDir) - CamPos;
+        const CVector3f DistR = rkRight.AABox.ClosestPointAlongVector(CamDir) - CamPos;
+        const float DotL = DistL.Dot(CamDir);
+        const float DotR = DistR.Dot(CamDir);
+        return DotL > DotR;
+    });
 
     if (!DebugVisualization)
         return;

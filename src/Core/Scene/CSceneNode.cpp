@@ -131,7 +131,7 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
         CLight* pLight{};
         float Distance{};
 
-        bool operator<(const SLightEntry& rkOther) const noexcept {
+        bool SortFn(const SLightEntry& rkOther) const noexcept {
             return Distance < rkOther.Distance;
         }
     };
@@ -162,7 +162,7 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     }
 
     // Determine which lights are closest
-    std::sort(LightEntries.begin(), LightEntries.end());
+    std::ranges::sort(LightEntries, &SLightEntry::SortFn);
     mLightCount = (LightEntries.size() > 8) ? 8 : LightEntries.size();
 
     for (size_t iLight = 0; iLight < mLightCount; iLight++)
