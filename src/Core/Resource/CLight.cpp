@@ -113,20 +113,20 @@ CStructProperty* CLight::GetProperties() const
 
     if (!pProperties)
     {
-        pProperties = (CStructProperty*) IProperty::CreateIntrinsic(EPropertyType::Struct,
-                                                                    EGame::Prime,
-                                                                    0,
-                                                                    "Light");
+        pProperties = static_cast<CStructProperty*>(IProperty::CreateIntrinsic(EPropertyType::Struct,
+                                                                               EGame::Prime,
+                                                                               0,
+                                                                               "Light"));
 
         //@todo it would be really cool if the property could detect all possible values automatically from TEnumReflection
-        CChoiceProperty* pLightType = (CChoiceProperty*) IProperty::CreateIntrinsic(EPropertyType::Choice,
+        auto* pLightType = static_cast<CChoiceProperty*>(IProperty::CreateIntrinsic(EPropertyType::Choice,
                                                                                     pProperties,
                                                                                     MEMBER_OFFSET(CLight, mType),
-                                                                                    "LightType");
-        pLightType->AddValue("LocalAmbient", (uint32_t) ELightType::LocalAmbient);
-        pLightType->AddValue("Directional", (uint32_t) ELightType::Directional);
-        pLightType->AddValue("Spot", (uint32_t) ELightType::Spot);
-        pLightType->AddValue("Custom", (uint32_t) ELightType::Custom);
+                                                                                    "LightType"));
+        pLightType->AddValue("LocalAmbient", ELightType::LocalAmbient);
+        pLightType->AddValue("Directional", ELightType::Directional);
+        pLightType->AddValue("Spot", ELightType::Spot);
+        pLightType->AddValue("Custom", ELightType::Custom);
 
         IProperty::CreateIntrinsic(EPropertyType::Color,
                                    pProperties,

@@ -4,6 +4,7 @@
 #include "Core/Resource/Script/Property/IProperty.h"
 #include <cstdint>
 #include <string>
+#include <type_traits>
 
 /** There are two types of enum properties in the game data: enum and choice.
  *
@@ -104,6 +105,12 @@ public:
     void AddValue(TString ValueName, uint32_t ValueID)
     {
         mValues.emplace_back(std::move(ValueName), ValueID);
+    }
+    template <typename Enum>
+    requires(std::is_enum_v<Enum>)
+    void AddValue(TString ValueName, Enum ValueID)
+    {
+        AddValue(std::move(ValueName), static_cast<uint32_t>(ValueID));
     }
 
     size_t NumPossibleValues() const { return mValues.size(); }
