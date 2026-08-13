@@ -1,5 +1,5 @@
-#ifndef CTEMPLATELISTVIEW
-#define CTEMPLATELISTVIEW
+#ifndef CTEMPLATELISTVIEW_H
+#define CTEMPLATELISTVIEW_H
 
 #include "Editor/UICommon.h"
 #include "Editor/WorldEditor/CTemplateMimeData.h"
@@ -123,5 +123,5 @@ protected:
     }
 };
 
-#endif // CTEMPLATELISTVIEW
+#endif // CTEMPLATELISTVIEW_H
 

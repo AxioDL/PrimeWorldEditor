@@ -1,5 +1,5 @@
-#ifndef IUNDOCOMMAND
-#define IUNDOCOMMAND
+#ifndef IUNDOCOMMAND_H
+#define IUNDOCOMMAND_H
 
 #include <QUndoCommand>
 
@@ -15,5 +15,5 @@ public:
     virtual bool AffectsCleanState() const = 0;
 };
 
-#endif // IUNDOCOMMAND
+#endif // IUNDOCOMMAND_H
 

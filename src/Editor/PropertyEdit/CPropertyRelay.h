@@ -1,5 +1,5 @@
-#ifndef TWIDGETWRAPPER
-#define TWIDGETWRAPPER
+#ifndef TWIDGETWRAPPER_H
+#define TWIDGETWRAPPER_H
 
 #include <QModelIndex>
 #include <QWidget>
@@ -25,5 +25,5 @@ signals:
     void WidgetEdited(QWidget *pWidget, const QModelIndex& rkIndex);
 };
 
-#endif // TWIDGETWRAPPER
+#endif // TWIDGETWRAPPER_H
 

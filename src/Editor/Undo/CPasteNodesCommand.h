@@ -1,5 +1,5 @@
-#ifndef CPASTENODESCOMMAND
-#define CPASTENODESCOMMAND
+#ifndef CPASTENODESCOMMAND_H
+#define CPASTENODESCOMMAND_H
 
 #include <Common/Math/CVector3f.h>
 #include "Editor/Undo/IUndoCommand.h"
@@ -31,5 +31,5 @@ public:
     bool AffectsCleanState() const override { return true; }
 };
 
-#endif // CPASTENODESCOMMAND
+#endif // CPASTENODESCOMMAND_H
 

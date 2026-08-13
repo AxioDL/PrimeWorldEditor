@@ -1,5 +1,5 @@
-#ifndef CRESOURCESELECTOR
-#define CRESOURCESELECTOR
+#ifndef CRESOURCESELECTOR_H
+#define CRESOURCESELECTOR_H
 
 #include <Core/Resource/CResTypeFilter.h>
 #include <QWidget>
@@ -83,4 +83,4 @@ private slots:
     void UpdateUI();
 };
 
-#endif // CRESOURCESELECTOR
+#endif // CRESOURCESELECTOR_H

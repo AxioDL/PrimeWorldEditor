@@ -1,5 +1,5 @@
-#ifndef IEDITOR
-#define IEDITOR
+#ifndef IEDITOR_H
+#define IEDITOR_H
 
 #include <QMainWindow>
 #include <QAction>
@@ -46,5 +46,5 @@ signals:
     void Closed();
 };
 
-#endif // IEDITOR
+#endif // IEDITOR_H
 

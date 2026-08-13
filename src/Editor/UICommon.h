@@ -1,5 +1,5 @@
-#ifndef UICOMMON
-#define UICOMMON
+#ifndef UICOMMON_H
+#define UICOMMON_H
 
 #include "Editor/CEditorApplication.h"
 #include <Common/TString.h>
@@ -143,5 +143,5 @@ constexpr QColor kImportantButtonColor(36, 100, 100);
 
 } // UICommon Namespace End
 
-#endif // UICOMMON
+#endif // UICOMMON_H
 

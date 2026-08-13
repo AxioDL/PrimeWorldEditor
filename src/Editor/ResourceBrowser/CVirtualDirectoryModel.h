@@ -1,5 +1,5 @@
-#ifndef CVIRTUALDIRECTORYMODEL
-#define CVIRTUALDIRECTORYMODEL
+#ifndef CVIRTUALDIRECTORYMODEL_H
+#define CVIRTUALDIRECTORYMODEL_H
 
 #include <QAbstractItemModel>
 
@@ -52,5 +52,5 @@ private slots:
     void OnDirectoryAboutToBeDeleted(const CVirtualDirectory *pDir);
 };
 
-#endif // CVIRTUALDIRECTORYMODEL
+#endif // CVIRTUALDIRECTORYMODEL_H
 

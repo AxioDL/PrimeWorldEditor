@@ -1,5 +1,5 @@
-#ifndef OBJREFERENCES
-#define OBJREFERENCES
+#ifndef OBJREFERENCES_H
+#define OBJREFERENCES_H
 
 #include <Core/Resource/Area/CGameArea.h>
 #include <Core/Resource/Script/CLink.h>
@@ -156,5 +156,5 @@ using CNodePtrList = CObjectList<CNodePtr, CSceneNode*>;
 using CInstancePtrList = CObjectList<CInstancePtr, CScriptObject*>;
 using CLinkPtrList = CObjectList<CLinkPtr, CLink*>;
 
-#endif // OBJREFERENCES
+#endif // OBJREFERENCES_H
 

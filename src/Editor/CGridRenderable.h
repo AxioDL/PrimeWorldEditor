@@ -1,5 +1,5 @@
-#ifndef CGRIDRENDERABLE
-#define CGRIDRENDERABLE
+#ifndef CGRIDRENDERABLE_H
+#define CGRIDRENDERABLE_H
 
 #include <Common/CColor.h>
 #include <Core/Render/CDrawUtil.h>
@@ -32,5 +32,5 @@ public:
     }
 };
 
-#endif // CGRIDRENDERABLE
+#endif // CGRIDRENDERABLE_H
 

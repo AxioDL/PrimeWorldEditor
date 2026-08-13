@@ -1,5 +1,5 @@
-#ifndef CRESOURCETABLEMODEL
-#define CRESOURCETABLEMODEL
+#ifndef CRESOURCETABLEMODEL_H
+#define CRESOURCETABLEMODEL_H
 
 #include <QAbstractTableModel>
 
@@ -69,5 +69,5 @@ private slots:
     void OnDirectoryMoved(CVirtualDirectory *pDir, CVirtualDirectory *pOldDir, const TString& OldName);
 };
 
-#endif // CRESOURCELISTMODEL
+#endif // CRESOURCELISTMODEL_H
 

@@ -1,5 +1,5 @@
-#ifndef CSKELETONHIERARCHYMODEL
-#define CSKELETONHIERARCHYMODEL
+#ifndef CSKELETONHIERARCHYMODEL_H
+#define CSKELETONHIERARCHYMODEL_H
 
 #include <QAbstractItemModel>
 #include <Core/Resource/Animation/CSkeleton.h>
@@ -22,5 +22,5 @@ public:
     void SetSkeleton(const CSkeleton *pSkel);
 };
 
-#endif // CSKELETONHIERARCHYMODEL
+#endif // CSKELETONHIERARCHYMODEL_H
 

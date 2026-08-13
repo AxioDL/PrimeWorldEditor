@@ -1,5 +1,5 @@
-#ifndef CLINERENDERABLE
-#define CLINERENDERABLE
+#ifndef CLINERENDERABLE_H
+#define CLINERENDERABLE_H
 
 #include <Common/CColor.h>
 #include <Common/Math/CVector3f.h>
@@ -44,5 +44,5 @@ public:
     }
 };
 
-#endif // CLINERENDERABLE
+#endif // CLINERENDERABLE_H
 

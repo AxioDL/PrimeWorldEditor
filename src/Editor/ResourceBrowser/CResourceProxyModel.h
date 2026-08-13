@@ -1,5 +1,5 @@
-#ifndef CRESOURCEPROXYMODEL
-#define CRESOURCEPROXYMODEL
+#ifndef CRESOURCEPROXYMODEL_H
+#define CRESOURCEPROXYMODEL_H
 
 #include <Common/TString.h>
 
@@ -46,5 +46,5 @@ private:
     uint32_t mCompareBitLength = 0;
 };
 
-#endif // CRESOURCEPROXYMODEL
+#endif // CRESOURCEPROXYMODEL_H
 

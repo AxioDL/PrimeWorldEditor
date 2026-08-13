@@ -1,5 +1,5 @@
-#ifndef UNDOCOMMANDS
-#define UNDOCOMMANDS
+#ifndef UNDOCOMMANDS_H
+#define UNDOCOMMANDS_H
 
 #include "CCreateInstanceCommand.h"
 #include "CCloneSelectionCommand.h"
@@ -26,5 +26,5 @@
 
 #include "EUndoCommand.h"
 
-#endif // UNDOCOMMANDS
+#endif // UNDOCOMMANDS_H
 

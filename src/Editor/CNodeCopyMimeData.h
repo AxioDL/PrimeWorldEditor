@@ -1,5 +1,5 @@
-#ifndef CNODECOPYMIMEDATA
-#define CNODECOPYMIMEDATA
+#ifndef CNODECOPYMIMEDATA_H
+#define CNODECOPYMIMEDATA_H
 
 #include <Common/CAssetID.h>
 #include <Common/TString.h>
@@ -112,5 +112,5 @@ public:
     const QList<SCopiedNode>& CopiedNodes() const { return mCopiedNodes; }
 };
 
-#endif // CNODECOPYMIMEDATA
+#endif // CNODECOPYMIMEDATA_H
 
