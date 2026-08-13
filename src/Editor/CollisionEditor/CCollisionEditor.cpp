@@ -38,8 +38,7 @@ CCollisionEditor::CCollisionEditor(CCollisionMeshGroup* pCollisionMesh, QWidget*
     }
 
     QSlider* pOBBTreeSlider = new QSlider(this);
-    pOBBTreeSlider->setMinimum(0);
-    pOBBTreeSlider->setMaximum(MaxDepth);
+    pOBBTreeSlider->setRange(0, MaxDepth);
     pOBBTreeSlider->setOrientation(Qt::Horizontal);
     pOBBTreeSlider->setMaximumWidth(100);
 
