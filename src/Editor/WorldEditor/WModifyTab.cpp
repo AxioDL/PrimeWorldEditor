@@ -160,36 +160,35 @@ void WModifyTab::OnLinksSelectionModified()
 
 void WModifyTab::OnAddLinkActionClicked(const QAction* pAction)
 {
-    if (mpSelectedNode && mpSelectedNode->NodeType() == ENodeType::Script)
+    if (!mpSelectedNode || mpSelectedNode->NodeType() != ENodeType::Script)
+        return;
+
+    mAddLinkType = (sender() == ui->AddOutgoingConnectionToolButton ? ELinkType::Outgoing : ELinkType::Incoming);
+
+    if (pAction == mpAddFromViewportAction)
     {
-        mAddLinkType = (sender() == ui->AddOutgoingConnectionToolButton ? ELinkType::Outgoing : ELinkType::Incoming);
+        mpWorldEditor->EnterPickMode(ENodeType::Script, true, false, false);
+        connect(mpWorldEditor, &CWorldEditor::PickModeClick, this, &WModifyTab::OnPickModeClick);
+        connect(mpWorldEditor, &CWorldEditor::PickModeExited, this, &WModifyTab::OnPickModeExit);
+        mIsPicking = true;
+    }
+    else if (pAction == mpAddFromListAction)
+    {
+        if (mIsPicking)
+            mpWorldEditor->ExitPickMode();
 
-        if (pAction == mpAddFromViewportAction)
+        CSelectInstanceDialog Dialog(mpWorldEditor, this);
+        Dialog.exec();
+
+        if (CScriptObject* pTarget = Dialog.SelectedInstance())
         {
-            mpWorldEditor->EnterPickMode(ENodeType::Script, true, false, false);
-            connect(mpWorldEditor, &CWorldEditor::PickModeClick, this, &WModifyTab::OnPickModeClick);
-            connect(mpWorldEditor, &CWorldEditor::PickModeExited, this, &WModifyTab::OnPickModeExit);
-            mIsPicking = true;
-        }
-        else if (pAction == mpAddFromListAction)
-        {
-            if (mIsPicking)
-                mpWorldEditor->ExitPickMode();
+            CLinkDialog* pLinkDialog = mpWorldEditor->LinkDialog();
+            CScriptObject* pSelected = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
 
-            CSelectInstanceDialog Dialog(mpWorldEditor, this);
-            Dialog.exec();
-            CScriptObject *pTarget = Dialog.SelectedInstance();
-
-            if (pTarget)
-            {
-                CLinkDialog *pLinkDialog = mpWorldEditor->LinkDialog();
-                CScriptObject *pSelected = static_cast<CScriptNode*>(mpSelectedNode)->Instance();
-
-                CScriptObject *pSender      = (mAddLinkType == ELinkType::Outgoing ? pSelected : pTarget);
-                CScriptObject *pReceiver    = (mAddLinkType == ELinkType::Outgoing ? pTarget : pSelected);
-                pLinkDialog->NewLink(pSender, pReceiver);
-                pLinkDialog->show();
-            }
+            CScriptObject* pSender   = (mAddLinkType == ELinkType::Outgoing ? pSelected : pTarget);
+            CScriptObject* pReceiver = (mAddLinkType == ELinkType::Outgoing ? pTarget : pSelected);
+            pLinkDialog->NewLink(pSender, pReceiver);
+            pLinkDialog->show();
         }
     }
 }
