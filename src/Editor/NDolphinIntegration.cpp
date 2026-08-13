@@ -255,7 +255,7 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
 }
 
 /** Return whether quickplay is supported for the given project */
-bool IsQuickplaySupported(CGameProject* pProject)
+bool IsQuickplaySupported(const CGameProject* pProject)
 {
     // Quickplay is supported if there is a quickplay module & patch in the resources folder
     TString QuickplayDir = gDataDir + "resources/quickplay" / ::GetGameShortName(pProject->Game());
@@ -278,24 +278,24 @@ void KillQuickplay()
 }
 
 /** Clean up any quickplay related file data from the project disc files. */
-void CleanupQuickplayFiles(CGameProject* pProject)
+void CleanupQuickplayFiles(const CGameProject* pProject)
 {
-    if( pProject )
+    if (!pProject)
+        return;
+
+    TString DiscSys = pProject->DiscDir(false) / "sys";
+    TString DolPath = DiscSys / "main.dol";
+    TString BackupDolPath = DiscSys / "main.original.dol";
+
+    if (FileUtil::Exists(BackupDolPath))
     {
-        TString DiscSys = pProject->DiscDir(false) / "sys";
-        TString DolPath = DiscSys / "main.dol";
-        TString BackupDolPath = DiscSys / "main.original.dol";
-
-        if (FileUtil::Exists(BackupDolPath))
-        {
-            FileUtil::DeleteFile(DolPath);
-            FileUtil::MoveFile(BackupDolPath, DolPath);
-        }
-
-        TString FSTRoot = pProject->DiscFilesystemRoot(false);
-        FileUtil::DeleteFile(FSTRoot / gkParameterFile);
-        FileUtil::DeleteFile(FSTRoot / gkRelFileName);
+        FileUtil::DeleteFile(DolPath);
+        FileUtil::MoveFile(BackupDolPath, DolPath);
     }
+
+    TString FSTRoot = pProject->DiscFilesystemRoot(false);
+    FileUtil::DeleteFile(FSTRoot / gkParameterFile);
+    FileUtil::DeleteFile(FSTRoot / gkRelFileName);
 }
 
 /** Set the user path to Dolphin */

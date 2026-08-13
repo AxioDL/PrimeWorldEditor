@@ -102,13 +102,13 @@ EQuickplayLaunchResult LaunchQuickplay(QWidget* pParentWidget,
                                        const SQuickplayParameters& kParms);
 
 /** Return whether quickplay is supported for the given project */
-bool IsQuickplaySupported(CGameProject* pProject);
+bool IsQuickplaySupported(const CGameProject* pProject);
 
 /** Kill the current quickplay process, if it exists. */
 void KillQuickplay();
 
 /** Clean up any quickplay related file data from the project disc files. */
-void CleanupQuickplayFiles(CGameProject* pProject);
+void CleanupQuickplayFiles(const CGameProject* pProject);
 
 /** Set the user path to Dolphin. Returns true if succeeded. */
 bool SetDolphinPath(QWidget* pParentWidget,
