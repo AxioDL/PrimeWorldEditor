@@ -30,13 +30,13 @@ void CResourceTableContextMenu::InitMenu()
 
     if (mpClickedEntry)
     {
-    #ifdef WIN32
+#ifdef Q_OS_WIN
         const QString kOpenInExplorerString = tr("Show in Explorer");
-    #elif defined(__APPLE__)
+#elifdef Q_OS_MACOS
         const QString kOpenInExplorerString = tr("Show in Finder");
-    #else
+#else
         const QString kOpenInExplorerString = tr("Show in file manager");
-    #endif
+#endif
 
         addAction(tr("Open"), this, &CResourceTableContextMenu::Open);
         addAction(tr("Open in External Application"), this, &CResourceTableContextMenu::OpenInExternalApp);

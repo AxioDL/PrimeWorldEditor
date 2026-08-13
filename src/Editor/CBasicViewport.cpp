@@ -7,7 +7,7 @@
 #include <Core/Render/CGraphics.h>
 #include <Core/Resource/CMaterial.h>
 
-#ifdef __APPLE__
+#ifdef Q_OS_MACOS
 #include <Editor/MacOSExtras.h>
 #endif
 
@@ -89,7 +89,7 @@ void CBasicViewport::mousePressEvent(QMouseEvent *pEvent)
 
     if (IsMouseInputActive())
     {
-#ifdef __APPLE__
+#ifdef Q_OS_MACOS
         // This will zero out the drag accumulators
         gpMouseDragCocoaEventFilter->claimX();
         gpMouseDragCocoaEventFilter->claimY();
@@ -305,7 +305,7 @@ void CBasicViewport::ProcessInput()
     if (IsMouseInputActive())
     {
         float XMovement, YMovement;
-#ifdef __APPLE__
+#ifdef Q_OS_MACOS
         // QCursor::setPos only works on macOS when the user permits PWE
         // to control the computer via Universal Access.
         // As an alternative to relying on the delta of a warped mouse,
