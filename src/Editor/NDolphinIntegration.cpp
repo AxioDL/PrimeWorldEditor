@@ -54,7 +54,7 @@ void CQuickplayRelay::QuickplayStarted()
 void CQuickplayRelay::QuickplayFinished(int ReturnCode, QProcess::ExitStatus exitStatus)
 {
     NLog::Debug("Quickplay session finished.");
-    disconnect(gpDolphinProcess, 0, this, 0);
+    disconnect(gpDolphinProcess, nullptr, this, nullptr);
     CleanupQuickplayFiles(gpQuickplayProject);
     gpDolphinProcess->waitForFinished();
     gpDolphinProcess->deleteLater();
