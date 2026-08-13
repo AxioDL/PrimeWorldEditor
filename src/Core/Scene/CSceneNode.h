@@ -178,7 +178,7 @@ public:
     void SetVisible(bool Visible)                   { mVisible = Visible; }
 
     // Static
-    [[nodiscard]] static int NumNodes() { return smNumNodes; }
+    [[nodiscard]] static uint32_t NumNodes() { return smNumNodes; }
 
 protected:
     void DrawSelection();
