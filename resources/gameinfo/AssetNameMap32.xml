@@ -262585,7 +262585,7 @@
             <Value>
                 <Name>loRezPower_Anim_DGRP</Name>
                 <Directory />
-                <Type />
+                <Type>DGRP</Type>
                 <AutoGenName>false</AutoGenName>
                 <AutoGenDir>false</AutoGenDir>
             </Value>
