@@ -49,7 +49,7 @@ void CScriptAttachNode::AttachPropertyModified()
     MarkTransformChanged();
 }
 
-void CScriptAttachNode::ParentDisplayAssetChanged(CResource* pNewDisplayAsset)
+void CScriptAttachNode::ParentDisplayAssetChanged(const CResource* pNewDisplayAsset)
 {
     if (pNewDisplayAsset->Type() == EResourceType::AnimSet)
     {

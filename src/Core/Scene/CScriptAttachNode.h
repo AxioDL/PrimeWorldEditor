@@ -26,7 +26,7 @@ public:
     ~CScriptAttachNode() override;
 
     void AttachPropertyModified();
-    void ParentDisplayAssetChanged(CResource *pNewDisplayAsset);
+    void ParentDisplayAssetChanged(const CResource* pNewDisplayAsset);
     CModel* Model() const;
 
     ENodeType NodeType() const override { return ENodeType::ScriptAttach; }
