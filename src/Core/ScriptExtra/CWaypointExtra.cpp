@@ -85,11 +85,10 @@ void CWaypointExtra::BuildLinks()
         {
             CScriptNode *pNode = mpScene->NodeForInstanceID(link->ReceiverID());
 
-            SWaypointLink Link;
+            auto& Link = mLinks.emplace_back();
             Link.pWaypoint = pNode;
             Link.LineAABB.ExpandBounds(AbsolutePosition());
             Link.LineAABB.ExpandBounds(pNode->AbsolutePosition());
-            mLinks.push_back(Link);
         }
     }
 
