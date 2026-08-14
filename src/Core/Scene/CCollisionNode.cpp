@@ -110,7 +110,7 @@ void CCollisionNode::Draw(FRenderOptions /*Options*/, int /*ComponentIndex*/, ER
         glEnable(GL_CULL_FACE);
 
     // Draw collision bounds for area collision
-    // note: right now checking parent is the best way to check whether this node is area collision instead of actor collision
+    // note: right now checking parent is the best way to check whether this node is area collision instead of
     // actor collision will have a script node parent whereas area collision will have a root node parent
     if (rkViewInfo.CollisionSettings.DrawAreaCollisionBounds)
     {
