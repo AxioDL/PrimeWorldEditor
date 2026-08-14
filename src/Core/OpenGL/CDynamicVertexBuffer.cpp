@@ -45,19 +45,19 @@ void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pkD
 
     switch (Attrib)
     {
-    case EVertexAttribute::Position:    Index = 0;  break;
-    case EVertexAttribute::Normal:      Index = 1;  break;
-    case EVertexAttribute::Color0:      Index = 2;  break;
-    case EVertexAttribute::Color1:      Index = 3;  break;
-    case EVertexAttribute::Tex0:        Index = 4;  break;
-    case EVertexAttribute::Tex1:        Index = 5;  break;
-    case EVertexAttribute::Tex2:        Index = 6;  break;
-    case EVertexAttribute::Tex3:        Index = 7;  break;
-    case EVertexAttribute::Tex4:        Index = 8;  break;
-    case EVertexAttribute::Tex5:        Index = 9;  break;
-    case EVertexAttribute::Tex6:        Index = 10; break;
-    case EVertexAttribute::Tex7:        Index = 11; break;
-    default:                            return;
+    case EVertexAttribute::Position: Index = 0;  break;
+    case EVertexAttribute::Normal:   Index = 1;  break;
+    case EVertexAttribute::Color0:   Index = 2;  break;
+    case EVertexAttribute::Color1:   Index = 3;  break;
+    case EVertexAttribute::Tex0:     Index = 4;  break;
+    case EVertexAttribute::Tex1:     Index = 5;  break;
+    case EVertexAttribute::Tex2:     Index = 6;  break;
+    case EVertexAttribute::Tex3:     Index = 7;  break;
+    case EVertexAttribute::Tex4:     Index = 8;  break;
+    case EVertexAttribute::Tex5:     Index = 9;  break;
+    case EVertexAttribute::Tex6:     Index = 10; break;
+    case EVertexAttribute::Tex7:     Index = 11; break;
+    default:                         return;
     }
 
     glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[Index]);
