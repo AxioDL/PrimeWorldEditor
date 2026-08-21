@@ -12,7 +12,6 @@
 #include <GL/glew.h>
 
 uint64_t CMaterial::sCurrentMaterial = 0;
-CColor CMaterial::sCurrentTint = CColor::White();
 std::map<uint64_t, CMaterial::SMaterialShader> CMaterial::smShaderMap;
 
 CMaterial::CMaterial() = default;

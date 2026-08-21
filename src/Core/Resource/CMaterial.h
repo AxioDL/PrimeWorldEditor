@@ -72,7 +72,6 @@ public:
 private:
     // Statics
     static uint64_t sCurrentMaterial; // The hash for the currently bound material
-    static CColor sCurrentTint; // The tint for the currently bound material
 
     // Members
     TString mName;                                           // Name of the material
