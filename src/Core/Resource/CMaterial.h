@@ -12,8 +12,11 @@
 #include <Common/EGame.h>
 #include <Common/Flags.h>
 
+#include <array>
 #include <cstdint>
+#include <memory>
 #include <ranges>
+#include <vector>
 
 class CMaterialSet;
 
@@ -70,9 +73,6 @@ public:
     };
 
 private:
-    // Statics
-    static uint64_t sCurrentMaterial; // The hash for the currently bound material
-
     // Members
     TString mName;                                           // Name of the material
     CShader *mpShader = nullptr;                             // This material's generated shader. Created with GenerateShader().
@@ -103,14 +103,6 @@ private:
     // material head that may be conditionally used when the user wants to view bloom.
     // (only set in the head non-bloom CMaterial).
     std::unique_ptr<CMaterial> mpBloomMaterial;
-
-    // Reuse shaders between materials that have identical TEV setups
-    struct SMaterialShader
-    {
-        int NumReferences{};
-        CShader* pShader{};
-    };
-    static std::map<uint64_t, SMaterialShader> smShaderMap;
 
 public:
     CMaterial();
@@ -153,7 +145,7 @@ public:
     void SetLightingEnabled(bool Enabled)               { mLightingEnabled = Enabled; Update(); }
 
     // Static
-    static void KillCachedMaterial() { sCurrentMaterial = 0; }
+    static void KillCachedMaterial();
 };
 
 #endif // MATERIAL_H

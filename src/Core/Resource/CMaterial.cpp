@@ -10,9 +10,22 @@
 #include <Common/Hash/CFNV1A.h>
 
 #include <GL/glew.h>
+#include <map>
 
-uint64_t CMaterial::sCurrentMaterial = 0;
-std::map<uint64_t, CMaterial::SMaterialShader> CMaterial::smShaderMap;
+namespace
+{
+// Reuse shaders between materials that have identical TEV setups
+struct SMaterialShader
+{
+    int NumReferences{};
+    CShader* pShader{};
+};
+
+std::map<uint64_t, SMaterialShader> smShaderMap;
+
+// The hash for the currently bound material
+uint64_t sCurrentMaterial = 0;
+} // Anonymous namespace
 
 CMaterial::CMaterial() = default;
 
@@ -260,4 +273,9 @@ void CMaterial::SetNumPasses(size_t NumPasses)
     }
 
     mRecalcHash = true;
+}
+
+void CMaterial::KillCachedMaterial()
+{
+    sCurrentMaterial = 0;
 }
