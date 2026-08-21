@@ -17,8 +17,8 @@ namespace
 // Reuse shaders between materials that have identical TEV setups
 struct SMaterialShader
 {
-    int NumReferences{};
     CShader* pShader{};
+    int NumReferences{};
 };
 
 std::map<uint64_t, SMaterialShader> smShaderMap;
@@ -102,7 +102,10 @@ void CMaterial::GenerateShader(bool AllowRegen /*= true*/)
             else
             {
                 mShaderStatus = EShaderStatus::ShaderExists;
-                smShaderMap[mParametersHash] = SMaterialShader { 1, mpShader };
+                smShaderMap[mParametersHash] = SMaterialShader{
+                    .pShader = mpShader,
+                    .NumReferences = 1
+                };
             }
         }
     }
