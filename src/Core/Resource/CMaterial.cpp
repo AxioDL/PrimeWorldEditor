@@ -177,14 +177,14 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
         glColorMask(bColorWrite, bColorWrite, bColorWrite, bAlphaWrite);
 
         // Load uniforms
-        for (auto [idx, pass] : Utils::enumerate(mPasses))
+        for (const auto&& [idx, pass] : Utils::enumerate(mPasses))
             pass->SetAnimCurrent(Options, idx);
 
         sCurrentMaterial = HashParameters();
     }
     else // If the passes are otherwise the same, update UV anims that use the model matrix
     {
-        for (auto [idx, pass] : Utils::enumerate(mPasses))
+        for (const auto&& [idx, pass] : Utils::enumerate(mPasses))
         {
             const EUVAnimMode mode = pass->AnimMode();
 
@@ -197,7 +197,7 @@ bool CMaterial::SetCurrent(FRenderOptions Options)
     }
 
     // Set up shader uniforms
-    for (auto [idx, pass] : Utils::enumerate(mPasses))
+    for (const auto&& [idx, pass] : Utils::enumerate(mPasses))
         pass->LoadTexture(idx);
 
     CShader* pShader = CShader::CurrentShader();
