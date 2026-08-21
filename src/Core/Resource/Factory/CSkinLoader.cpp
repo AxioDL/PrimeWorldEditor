@@ -13,7 +13,7 @@ std::unique_ptr<CSkin> CSkinLoader::LoadCSKR(IInputStream& rCSKR, CResourceEntry
     auto pSkin = std::make_unique<CSkin>(pEntry);
 
     // We don't support MP3/DKCR CSKR yet
-    if (rCSKR.PeekU32() == FOURCC('SKIN'))
+    if (rCSKR.PeekFourCC() == CFourCC("SKIN"))
         return pSkin;
 
     const auto NumVertexGroups = rCSKR.ReadU32();

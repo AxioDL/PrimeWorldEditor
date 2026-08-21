@@ -49,8 +49,8 @@ static void PerformCheating(IInputStream& rFile, EGame Game, std::list<CAssetID>
 
 std::unique_ptr<CAudioMacro> CUnsupportedFormatLoader::LoadCAUD(IInputStream& rCAUD, CResourceEntry *pEntry)
 {
-    [[maybe_unused]] const auto Magic = rCAUD.ReadU32();
-    ASSERT(Magic == FOURCC('CAUD'));
+    [[maybe_unused]] const auto Magic = rCAUD.ReadFourCC();
+    ASSERT(Magic == CFourCC("CAUD"));
 
     const auto Version = rCAUD.ReadU32();
     const EGame Game = Version == 0x2 ? EGame::CorruptionProto :
@@ -111,7 +111,7 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadCSNG(IInputStrea
 std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadDUMB(IInputStream& rDUMB, CResourceEntry *pEntry)
 {
     // Check for HIER, which needs special handling
-    if (rDUMB.PeekU32() == FOURCC('HIER'))
+    if (rDUMB.PeekFourCC() == CFourCC("HIER"))
         return LoadHIER(rDUMB, pEntry);
 
     // Load other DUMB file. DUMB files don't have a set format - they're different between different files
@@ -140,17 +140,17 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFRME(IInputStrea
         for (uint32_t iWgt = 0; iWgt < NumWidgets; iWgt++)
         {
             // Widget Header
-            CFourCC WidgetType(rFRME.ReadU32());
+            const CFourCC WidgetType = rFRME.ReadFourCC();
             rFRME.ReadString();
             rFRME.ReadString();
             rFRME.Seek(0x18, SEEK_CUR);
 
             // Head Widget / Base Widget
-            if (WidgetType == FOURCC('HWIG') || WidgetType == FOURCC('BWIG'))
+            if (WidgetType == CFourCC("HWIG") || WidgetType == CFourCC("BWIG"))
             {
             }
             // Camera
-            else if (WidgetType == FOURCC('CAMR'))
+            else if (WidgetType == CFourCC("CAMR"))
             {
                 const auto ProjectionType = rFRME.ReadU32();
 
@@ -160,7 +160,7 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFRME(IInputStrea
                     rFRME.Seek(0x18, SEEK_CUR);
             }
             // Light
-            else if (WidgetType == FOURCC('LITE'))
+            else if (WidgetType == CFourCC("LITE"))
             {
                 const auto LightType = rFRME.ReadU32();
                 rFRME.Seek(0x1C, SEEK_CUR);
@@ -168,28 +168,28 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFRME(IInputStrea
                     rFRME.Seek(0x4, SEEK_CUR);
             }
             // Meter
-            else if (WidgetType == FOURCC('METR'))
+            else if (WidgetType == CFourCC("METR"))
             {
                 rFRME.Seek(0xA, SEEK_CUR);
             }
             // Group
-            else if (WidgetType == FOURCC('GRUP'))
+            else if (WidgetType == CFourCC("GRUP"))
             {
                 rFRME.Seek(0x3, SEEK_CUR);
             }
             // Table Group
-            else if (WidgetType == FOURCC('TBGP'))
+            else if (WidgetType == CFourCC("TBGP"))
             {
                 rFRME.Seek(0x23, SEEK_CUR);
             }
             // Model
-            else if (WidgetType == FOURCC('MODL'))
+            else if (WidgetType == CFourCC("MODL"))
             {
                 pGroup->AddDependency(CAssetID(rFRME, EIDLength::k32Bit)); // CMDL
                 rFRME.Seek(0x8, SEEK_CUR);
             }
             // Text Pane
-            else if (WidgetType == FOURCC('TXPN'))
+            else if (WidgetType == CFourCC("TXPN"))
             {
                 rFRME.Seek(0x14, SEEK_CUR);
                 pGroup->AddDependency(CAssetID(rFRME, EIDLength::k32Bit)); // FONT
@@ -202,7 +202,7 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFRME(IInputStrea
                 }
             }
             // Image Pane
-            else if (WidgetType == FOURCC('IMGP'))
+            else if (WidgetType == CFourCC("IMGP"))
             {
                 pGroup->AddDependency(CAssetID(rFRME, EIDLength::k32Bit)); // TXTR
                 if (rFRME.ReadU32() != 0xFFFFFFFF)
@@ -215,12 +215,12 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFRME(IInputStrea
                 rFRME.Seek(NumUVCoords * 8, SEEK_CUR);
             }
             // Energy Bar
-            else if (WidgetType == FOURCC('ENRG'))
+            else if (WidgetType == CFourCC("ENRG"))
             {
                 pGroup->AddDependency(CAssetID(rFRME, EIDLength::k32Bit)); // TXTR
             }
             // Slider Group
-            else if (WidgetType == FOURCC('SLGP'))
+            else if (WidgetType == CFourCC("SLGP"))
             {
                 rFRME.Seek(0x10, SEEK_CUR);
             }
@@ -267,8 +267,8 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFRME(IInputStrea
 
 std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFSM2(IInputStream& rFSM2, CResourceEntry *pEntry)
 {
-    [[maybe_unused]] const auto Magic = rFSM2.ReadU32();
-    ASSERT(Magic == FOURCC('FSM2'));
+    [[maybe_unused]] const auto Magic = rFSM2.ReadFourCC();
+    ASSERT(Magic == CFourCC("FSM2"));
 
     auto pOut = std::make_unique<CDependencyGroup>(pEntry);
     const auto Version = rFSM2.ReadU32();
@@ -344,8 +344,8 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFSM2(IInputStrea
 
 std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFSMC(IInputStream& rFSMC, CResourceEntry *pEntry)
 {
-    [[maybe_unused]] const CFourCC Magic(rFSMC.ReadU32());
-    ASSERT(Magic == FOURCC('FSMC'));
+    [[maybe_unused]] const auto Magic = rFSMC.ReadFourCC();
+    ASSERT(Magic == CFourCC("FSMC"));
 
     auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
 
@@ -360,7 +360,7 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadFSMC(IInputStrea
 
 std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadHIER(IInputStream& rHIER, CResourceEntry *pEntry)
 {
-    [[maybe_unused]] const CFourCC Magic(rHIER.ReadU32());
+    [[maybe_unused]] const auto Magic = rHIER.ReadFourCC();
     ASSERT(Magic == CFourCC("HIER"));
 
     const auto NumNodes = rHIER.ReadU32();
@@ -546,8 +546,8 @@ std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadMAPU(IInputStrea
 std::unique_ptr<CDependencyGroup> CUnsupportedFormatLoader::LoadRULE(IInputStream& rRULE, CResourceEntry *pEntry)
 {
     // RULE files can contain a reference to another RULE file, but has no other dependencies.
-    [[maybe_unused]] const auto Magic = rRULE.ReadU32();
-    ASSERT(Magic == FOURCC('RULE'));
+    [[maybe_unused]] const auto Magic = rRULE.ReadFourCC();
+    ASSERT(Magic == CFourCC("RULE"));
 
     auto pGroup = std::make_unique<CDependencyGroup>(pEntry);
     rRULE.Seek(0x1, SEEK_CUR);

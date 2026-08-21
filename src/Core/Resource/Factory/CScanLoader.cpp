@@ -64,7 +64,7 @@ std::unique_ptr<CScan> CScanLoader::LoadSCAN(IInputStream& SCAN, CResourceEntry 
     const auto VersionCheck = SCAN.ReadU32();
 
     // Echoes+
-    if (VersionCheck == FOURCC('SCAN'))
+    if (CFourCC(VersionCheck) == CFourCC("SCAN"))
     {
         CScanLoader Loader;
         return Loader.LoadScanMP2(SCAN, pEntry);

@@ -147,31 +147,33 @@ bool CScriptObject::HasNearVisibleActivation() const
 
     for (const auto* pLink : mInLinks)
     {
-        // Check for trigger activation
-        if (pLink->State() == FOURCC('IS04') || pLink->State() == FOURCC('IS05') || pLink->State() == FOURCC('IS06'))
-        {
-            if ((!IsRelay && pLink->Message() == FOURCC('ACTV')) ||
-                (IsRelay  && pLink->Message() == FOURCC('ACTN')))
-            {
-                CScriptObject *pObj = pLink->Sender();
+        const CFourCC State(pLink->State());
+        const CFourCC Message(pLink->Message());
 
-                if (pObj->ObjectTypeID() == FOURCC('TRGR'))
+        // Check for trigger activation
+        if (State == CFourCC("IS04") || State == CFourCC("IS05") || State == CFourCC("IS06"))
+        {
+            if ((!IsRelay && Message == CFourCC("ACTV")) ||
+                (IsRelay  && Message == CFourCC("ACTN")))
+            {
+                CScriptObject* pObj = pLink->Sender();
+
+                if (pObj->ObjectTypeID() == CFourCC("TRGR").ToU32())
                 {
                     mIsCheckingNearVisibleActivation = false;
                     return true;
                 }
             }
         }
-
         // Check for relay activation
-        else if (pLink->State() == FOURCC('RLAY'))
+        else if (State == CFourCC("RLAY"))
         {
-            if ( (!IsRelay && pLink->Message() == FOURCC('ACTV')) ||
-                 (IsRelay  && pLink->Message() == FOURCC('ACTN')) )
+            if ((!IsRelay && Message == CFourCC("ACTV")) ||
+                (IsRelay  && Message == CFourCC("ACTN")))
             {
-                CScriptObject *pObj = pLink->Sender();
+                CScriptObject* pObj = pLink->Sender();
 
-                if (pObj->ObjectTypeID() == FOURCC('SRLY'))
+                if (pObj->ObjectTypeID() == CFourCC("SRLY").ToU32())
                     Relays.push_back(pObj);
             }
         }

@@ -296,7 +296,7 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
         if (mWriteGeneratedSeparately)
         {
             // GenericCreature instances in DKCR always write to both SCLY and SCGN
-            if (mGame == EGame::DKCReturns && instance->ObjectTypeID() == FOURCC('GCTR'))
+            if (mGame == EGame::DKCReturns && instance->ObjectTypeID() == CFourCC("GCTR").ToU32())
             {
                 mGeneratedObjects.push_back(instance);
             }
@@ -306,9 +306,12 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
             {
                 for (const auto* link : instance->Links(ELinkType::Incoming))
                 {
+                    const CFourCC Message(link->Message());
+                    const CFourCC State(link->State());
+
                     if (mGame <= EGame::Echoes)
                     {
-                        if (link->State() == FOURCC('GRNT') && link->Message() == FOURCC('ACTV'))
+                        if (State == CFourCC("GRNT") && Message == CFourCC("ACTV"))
                         {
                             ShouldWrite = false;
                             break;
@@ -316,9 +319,9 @@ void CScriptCooker::WriteLayer(IOutputStream& rOut, CScriptLayer *pLayer)
                     }
                     else
                     {
-                        if (link->Message() == FOURCC('ATCH'))
+                        if (Message == CFourCC("ATCH"))
                         {
-                            if (link->State() == FOURCC('GRNT') || link->State() == FOURCC('GRN0') || link->State() == FOURCC('GRN1'))
+                            if (State == CFourCC("GRNT") || State == CFourCC("GRN0") || State == CFourCC("GRN1"))
                             {
                                 ShouldWrite = false;
                                 break;

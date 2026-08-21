@@ -81,7 +81,7 @@ std::unique_ptr<CFont> CFontLoader::LoadFONT(IInputStream& rFONT, CResourceEntry
         return nullptr;
 
     const CFourCC Magic(rFONT);
-    if (Magic != FOURCC('FONT'))
+    if (Magic != CFourCC("FONT"))
     {
         NLog::Error("{}: Invalid FONT magic: 0x{:08X}", rFONT.GetSourceString(), Magic.ToU32());
         return nullptr;

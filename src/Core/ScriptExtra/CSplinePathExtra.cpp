@@ -52,12 +52,15 @@ void CSplinePathExtra::AddWaypoints()
 
     for (const auto* link : mpInstance->Links(ELinkType::Outgoing))
     {
-        if ((link->State() == FOURCC('IS00') && link->Message() == FOURCC('ATCH')) || // InternalState00/Attach
-            (link->State() == FOURCC('MOTP') && link->Message() == FOURCC('ATCH')))   // MotionPath/Attach
+        const CFourCC State(link->State());
+        const CFourCC Message(link->Message());
+
+        if ((State == CFourCC("IS00") && Message == CFourCC("ATCH")) || // InternalState00/Attach
+            (State == CFourCC("MOTP") && Message == CFourCC("ATCH")))   // MotionPath/Attach
         {
             CScriptNode* pNode = mpScene->NodeForInstanceID(link->ReceiverID());
 
-            if (pNode && pNode->Instance()->ObjectTypeID() == FOURCC('WAYP')) // Waypoint
+            if (pNode && pNode->Instance()->ObjectTypeID() == CFourCC("WAYP").ToU32()) // Waypoint
             {
                 auto* pWaypoint = static_cast<CWaypointExtra*>(pNode->Extra());
                 FindAttachedWaypoints(CheckedWaypoints, pWaypoint);

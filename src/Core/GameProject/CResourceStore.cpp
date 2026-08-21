@@ -135,7 +135,7 @@ bool CResourceStore::LoadDatabaseCache()
         mpDatabaseRoot = std::make_unique<CVirtualDirectory>(this);
 
     // Load the resource database
-    CBasicBinaryReader Reader(Path, FOURCC('CACH'));
+    CBasicBinaryReader Reader(Path, CFourCC("CACH").ToU32());
 
     if (!Reader.IsValid() || !SerializeDatabaseCache(Reader))
     {
@@ -168,7 +168,7 @@ bool CResourceStore::SaveDatabaseCache()
     const TString Path = DatabasePath();
     NLog::Debug("Saving database cache...");
 
-    CBasicBinaryWriter Writer(Path, FOURCC('CACH'), 0, mGame);
+    CBasicBinaryWriter Writer(Path, CFourCC("CACH").ToU32(), 0, mGame);
 
     if (!Writer.IsValid())
         return false;

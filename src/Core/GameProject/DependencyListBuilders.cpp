@@ -333,7 +333,7 @@ void CPackageDependencyListBuilder::EvaluateDependencyNode(const CResourceEntry*
         if (Type == EDependencyNodeType::ScriptInstance)
         {
             const uint32_t ObjType = static_cast<const CScriptInstanceDependency*>(pNode)->ObjectType();
-            mIsPlayerActor = (ObjType == 0x4C || ObjType == FOURCC('PLAC'));
+            mIsPlayerActor = (ObjType == 0x4C || ObjType == CFourCC("PLAC").ToU32());
         }
 
         for (size_t iChild = 0; iChild < pNode->NumChildren(); iChild++)
@@ -423,7 +423,7 @@ void CAreaDependencyListBuilder::BuildDependencyList(std::list<CAssetID>& rAsset
             if (pNode->Type() == EDependencyNodeType::ScriptInstance)
             {
                 const auto* pInst = static_cast<const CScriptInstanceDependency*>(pNode);
-                mIsPlayerActor = (pInst->ObjectType() == 0x4C || pInst->ObjectType() == FOURCC('PLAC'));
+                mIsPlayerActor = (pInst->ObjectType() == 0x4C || pInst->ObjectType() == CFourCC("PLAC").ToU32());
 
                 for (size_t iDep = 0; iDep < pInst->NumChildren(); iDep++)
                 {

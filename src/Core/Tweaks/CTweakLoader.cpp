@@ -59,12 +59,12 @@ void CTweakLoader::LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakDa
 {
     // Validate file. NTWK basically embeds a bunch of tweak objects using the script layers
     // format, so it has the same version byte that script layers have.
-    const auto Magic = NTWK.ReadU32();
+    const auto Magic = NTWK.ReadFourCC();
     const auto LayerVersion = NTWK.ReadU8();
 
-    if (Magic != FOURCC('NTWK'))
+    if (Magic != CFourCC("NTWK"))
     {
-        NLog::Error("Unrecognized NTWK magic: 0x{:08X}", Magic);
+        NLog::Error("Unrecognized NTWK magic: 0x{:08X}", Magic.ToU32());
         return;
     }
 
@@ -83,32 +83,32 @@ void CTweakLoader::LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakDa
     for (uint32_t TweakIdx = 0; TweakIdx < NumTweaks; TweakIdx++)
     {
         // Find the correct template based on the tweak ID.
-        static const std::unordered_map<uint32_t, const char*> skIdToTemplateName{
-            { FOURCC('TWAC'), "TweakAdvancedControls" },
-            { FOURCC('TWAM'), "TweakAutoMapper" },
-            { FOURCC('TWBL'), "TweakBall" },
-            { FOURCC('TWC2'), "TweakPlayerControls" },
-            { FOURCC('TWCB'), "TweakCameraBob" },
-            { FOURCC('TWCC'), "TweakGamecubeControls" },
-            { FOURCC('TWCT'), "TweakControls" },
-            { FOURCC('TWEC'), "TweakExpertControls" },
-            { FOURCC('TWGM'), "TweakGame" },
-            { FOURCC('TWGT'), "TweakGraphicalTransitions" },
-            { FOURCC('TWGU'), "TweakGui" },
-            { FOURCC('TWGC'), "TweakGuiColors" },
-            { FOURCC('TWP2'), "TweakPlayer" },
-            { FOURCC('TWPC'), "TweakPlayerControls" },
-            { FOURCC('TWPG'), "TweakPlayerGun" },
-            { FOURCC('TWPL'), "TweakPlayer" },
-            { FOURCC('TWPM'), "TweakPlayerGun" },
-            { FOURCC('TWPA'), "TweakParticle" },
-            { FOURCC('TWPR'), "TweakPlayerRes" },
-            { FOURCC('TWRC'), "TweakRevolutionControls" },
-            { FOURCC('TWSS'), "TweakSlideShow" },
-            { FOURCC('TWTG'), "TweakTargeting" },
+        static const std::unordered_map<CFourCC, const char*> skIdToTemplateName{
+            {CFourCC("TWAC"), "TweakAdvancedControls"},
+            {CFourCC("TWAM"), "TweakAutoMapper"},
+            {CFourCC("TWBL"), "TweakBall"},
+            {CFourCC("TWC2"), "TweakPlayerControls"},
+            {CFourCC("TWCB"), "TweakCameraBob"},
+            {CFourCC("TWCC"), "TweakGamecubeControls"},
+            {CFourCC("TWCT"), "TweakControls"},
+            {CFourCC("TWEC"), "TweakExpertControls"},
+            {CFourCC("TWGM"), "TweakGame"},
+            {CFourCC("TWGT"), "TweakGraphicalTransitions"},
+            {CFourCC("TWGU"), "TweakGui"},
+            {CFourCC("TWGC"), "TweakGuiColors"},
+            {CFourCC("TWP2"), "TweakPlayer"},
+            {CFourCC("TWPC"), "TweakPlayerControls"},
+            {CFourCC("TWPG"), "TweakPlayerGun"},
+            {CFourCC("TWPL"), "TweakPlayer"},
+            {CFourCC("TWPM"), "TweakPlayerGun"},
+            {CFourCC("TWPA"), "TweakParticle"},
+            {CFourCC("TWPR"), "TweakPlayerRes"},
+            {CFourCC("TWRC"), "TweakRevolutionControls"},
+            {CFourCC("TWSS"), "TweakSlideShow"},
+            {CFourCC("TWTG"), "TweakTargeting"},
         };
 
-        const auto TweakID = NTWK.ReadU32();
+        const auto TweakID = NTWK.ReadFourCC();
         const auto TweakSize = NTWK.ReadU16();
         const auto NextTweak = NTWK.Tell() + TweakSize;
 
@@ -116,7 +116,7 @@ void CTweakLoader::LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakDa
 
         if (Find == skIdToTemplateName.cend())
         {
-            NLog::Error("Unrecognized tweak ID: {} (0x{:08X})", CFourCC(TweakID).ToString(), TweakID);
+            NLog::Error("Unrecognized tweak ID: {} (0x{:08X})", TweakID.ToString(), TweakID.ToU32());
             NTWK.GoTo(NextTweak);
             continue;
         }
@@ -126,7 +126,7 @@ void CTweakLoader::LoadNTWK(IInputStream& NTWK, EGame Game, std::vector<CTweakDa
 
         // Load tweak data
         NTWK.Skip(0xC);
-        auto* pTweakData = new CTweakData(pTweakTemplate, TweakID);
+        auto* pTweakData = new CTweakData(pTweakTemplate, TweakID.ToU32());
         CScriptLoader::LoadStructData(NTWK, pTweakData->TweakData(), resourceStore);
         OutTweaks.push_back(pTweakData);
 

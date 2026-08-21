@@ -249,10 +249,10 @@ void CAnimSetLoader::LoadReturnsCHAR(IInputStream& rCHAR)
 void CAnimSetLoader::LoadPASDatabase(IInputStream& rPAS4)
 {
     // For now, just parse the data; don't store it
-    [[maybe_unused]] const auto Magic = rPAS4.ReadU32();
+    [[maybe_unused]] const auto Magic = rPAS4.ReadFourCC();
     const auto AnimStateCount = rPAS4.ReadU32();
     rPAS4.Seek(0x4, SEEK_CUR); // Skipping default anim state
-    ASSERT(Magic == FOURCC('PAS4'));
+    ASSERT(Magic == CFourCC("PAS4"));
 
     for (uint32_t iState = 0; iState < AnimStateCount; iState++)
     {

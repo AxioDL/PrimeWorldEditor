@@ -275,7 +275,7 @@ static void ProcessWorlds(const CGameProject* proj, CResourceStore* store)
                 {
                     CStructProperty* pProperties = inst->Template()->Properties();
 
-                    if (inst->ObjectTypeID() == 0x42 || inst->ObjectTypeID() == FOURCC('POIN'))
+                    if (inst->ObjectTypeID() == 0x42 || inst->ObjectTypeID() == CFourCC("POIN").ToU32())
                     {
                         const TString Name = inst->InstanceName();
 
@@ -314,7 +314,7 @@ static void ProcessWorlds(const CGameProject* proj, CResourceStore* store)
                             }
                         }
                     }
-                    else if (inst->ObjectTypeID() == 0x17 || inst->ObjectTypeID() == FOURCC('MEMO'))
+                    else if (inst->ObjectTypeID() == 0x17 || inst->ObjectTypeID() == CFourCC("MEMO").ToU32())
                     {
                         const TString Name = inst->InstanceName();
 
@@ -342,8 +342,8 @@ static void ProcessWorlds(const CGameProject* proj, CResourceStore* store)
                         }
                     }
                     // Look for lightmapped models - these are going to be unique to this area
-                    else if (inst->ObjectTypeID() == 0x0 || inst->ObjectTypeID() == FOURCC('ACTR') ||
-                             inst->ObjectTypeID() == 0x8 || inst->ObjectTypeID() == FOURCC('PLAT'))
+                    else if (inst->ObjectTypeID() == 0x0 || inst->ObjectTypeID() == CFourCC("ACTR").ToU32() ||
+                             inst->ObjectTypeID() == 0x8 || inst->ObjectTypeID() == CFourCC("PLAT").ToU32())
                     {
                         const uint32_t ModelPropID = (proj->Game() <= EGame::Prime ? (inst->ObjectTypeID() == 0x0 ? 0xA : 0x6) : 0xC27FFA8F);
                         const auto* pModelProperty = TPropCast<CAssetProperty>(pProperties->ChildByID(ModelPropID));

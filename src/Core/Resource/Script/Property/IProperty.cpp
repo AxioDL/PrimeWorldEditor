@@ -566,9 +566,9 @@ bool IProperty::UsesNameMap() const
 bool IProperty::HasAccurateName()
 {
     // Exceptions for the three hardcoded 4CC property IDs, and for 0xFFFFFFFF (root properties)
-    if (mID == FOURCC('XFRM') ||
-        mID == FOURCC('INAM') ||
-        mID == FOURCC('ACTV') ||
+    if (mID == CFourCC("XFRM").ToU32() ||
+        mID == CFourCC("INAM").ToU32() ||
+        mID == CFourCC("ACTV").ToU32() ||
         mID == 0xFFFFFFFF)
     {
         return true;

@@ -270,7 +270,7 @@ void CTextureDecoder::ReadDDS(IInputStream& rDDS)
 {
     // Header
     const CFourCC Magic(rDDS);
-    if (Magic != FOURCC('DDS '))
+    if (Magic != CFourCC("DDS "))
     {
         NLog::Error("{}: Invalid DDS magic: 0x{:08X}", rDDS.GetSourceString(), Magic.ToU32());
         return;

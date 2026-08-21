@@ -111,11 +111,11 @@ bool CWaypointExtra::IsPathLink(const CLink *pLink) const
         const CFourCC Message(pLink->Message());
 
         // Arrived / Next (MP2)
-        if (State == FOURCC('ARRV') && Message == FOURCC('NEXT'))
+        if (State == CFourCC("ARRV") && Message == CFourCC("NEXT"))
             Valid = true;
 
         // Next / Attach (MP3/DKCR)
-        if (State == FOURCC('NEXT') && Message == FOURCC('ATCH'))
+        if (State == CFourCC("NEXT") && Message == CFourCC("ATCH"))
             Valid = true;
     }
 

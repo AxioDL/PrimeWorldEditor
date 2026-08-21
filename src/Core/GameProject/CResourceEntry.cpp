@@ -99,7 +99,7 @@ bool CResourceEntry::LoadMetadata()
     ASSERT(!mMetadataDirty);
 
     const TString Path = MetadataFilePath();
-    CBinaryReader MetaFile(Path, FOURCC('META'));
+    CBinaryReader MetaFile(Path, CFourCC("META").ToU32());
 
     if (MetaFile.IsValid())
     {
@@ -125,7 +125,7 @@ bool CResourceEntry::SaveMetadata(bool ForceSave /*= false*/)
         const TString Dir = Path.GetFileDirectory();
         FileUtil::MakeDirectory(Dir);
 
-        CBinaryWriter MetaFile(Path, FOURCC('META'), 0, Game());
+        CBinaryWriter MetaFile(Path, CFourCC("META").ToU32(), 0, Game());
 
         if (MetaFile.IsValid())
         {

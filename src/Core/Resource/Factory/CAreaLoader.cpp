@@ -104,7 +104,7 @@ void CAreaLoader::ReadSCLYPrime()
     mpSectionMgr->ToSection(mScriptLayerBlockNum);
 
     CFourCC SCLY(*mpMREA);
-    if (SCLY != FOURCC('SCLY'))
+    if (SCLY != CFourCC("SCLY"))
     {
         NLog::Error("{} [0x{:X}]: Invalid SCLY magic: {}", mpMREA->GetSourceString(), mpMREA->Tell() - 4, SCLY.ToString());
         return;
@@ -135,7 +135,7 @@ void CAreaLoader::ReadSCLYPrime()
         mpSectionMgr->ToSection(mScriptGeneratorBlockNum);
         const CFourCC SCGN(mpMREA->ReadFourCC());
 
-        if (SCGN != FOURCC('SCGN'))
+        if (SCGN != CFourCC("SCGN"))
         {
             NLog::Error("{} [0x{:X}]: Invalid SCGN magic: {}", mpMREA->GetSourceString(), mpMREA->Tell() - 4, SCGN.ToString());
         }
@@ -280,7 +280,7 @@ void CAreaLoader::ReadSCLYEchoes()
     for (uint32_t iLyr = 0; iLyr < mNumLayers; iLyr++)
     {
         const CFourCC SCLY(*mpMREA);
-        if (SCLY != FOURCC('SCLY'))
+        if (SCLY != CFourCC("SCLY"))
         {
             NLog::Error("{} [0x{:X}]: Layer {} - Invalid SCLY magic: {}", mpMREA->GetSourceString(), mpMREA->Tell() - 4, iLyr, SCLY.ToString());
             mpSectionMgr->ToNextSection();
@@ -294,7 +294,7 @@ void CAreaLoader::ReadSCLYEchoes()
 
     // SCGN
     const CFourCC SCGN(*mpMREA);
-    if (SCGN != FOURCC('SCGN'))
+    if (SCGN != CFourCC("SCGN"))
     {
         NLog::Error("{} [0x{:X}]: Invalid SCGN magic: {}", mpMREA->GetSourceString(), mpMREA->Tell() - 4, SCGN.ToString());
         return;
@@ -645,7 +645,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
             // Check if this is a duplicate of an existing instance (this only happens with DKCR GenericCreature as far as I'm aware)
             if (mpArea->InstanceByID(InstanceID) != nullptr)
             {
-                if (pInst->ObjectTypeID() != FOURCC('GCTR'))
+                if (pInst->ObjectTypeID() != CFourCC("GCTR").ToU32())
                 {
                     NLog::Debug("Duplicate SCGN object: [{}] {} ({:08X})",
                                 pInst->Template()->Name(), pInst->InstanceName(), pInst->InstanceID());
