@@ -47,7 +47,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
 {
     // Make sure all prerequisite data is loaded!
     ASSERT(!mIsRunning);
-    ASSERT(rkParams.TypeNames.size() > 0);
+    ASSERT(!rkParams.TypeNames.empty());
     mGeneratedNames.clear();
     mValidTypePairMap.clear();
     mIsRunning = true;
@@ -79,7 +79,7 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     Warmup();
 
     // Calculate the number of steps involved in this task.
-    const size_t kNumWords = mWords.size();
+    const auto kNumWords = static_cast<uint32_t>(mWords.size());
     const int kMaxWords = rkParams.MaxWords;
     TotalTests = 1;
 
@@ -89,15 +89,17 @@ void CPropertyNameGenerator::Generate(const SPropertyNameGenerationParameters& r
     pProgress->SetOneShotTask("Generating property names");
     pProgress->Report(0, TotalTests);
 
-    const uint32_t WordsPerThread = kNumWords / rkParams.ConcurrentTasks;
+    const uint32_t WordsPerThread = kNumWords / uint32_t(rkParams.ConcurrentTasks);
 
     {
         std::vector<std::jthread> Threads;
         for (int i = 0; i < rkParams.ConcurrentTasks; ++i)
         {
-            SPropertyNameGenerationTaskParameters Params{};
-            Params.TaskIndex = i;
-            Params.StartWord = WordsPerThread * i;
+            SPropertyNameGenerationTaskParameters Params{
+                .StartWord = WordsPerThread * uint32_t(i),
+                .EndWord = 0,
+            };
+
             if (i == rkParams.ConcurrentTasks - 1)
             {
                 // Ensure last task takes any remaining words
@@ -143,10 +145,10 @@ void CPropertyNameGenerator::GenerateTask(const SPropertyNameGenerationParameter
     SWordCache FirstWord{taskParams.StartWord - 1, CCRC32()};
     WordCache.push_back(FirstWord);
 
-    while ( true )
+    while (true)
     {
         // Increment the current word, handle wrapping back to 0, and update cached hashes as needed.
-        int RecalcIndex = WordCache.size() - 1;
+        int64_t RecalcIndex = std::ssize(WordCache) - 1;
         WordCache.back().WordIndex++;
 
         while (WordCache[RecalcIndex].WordIndex >= kNumWords ||
@@ -169,15 +171,15 @@ void CPropertyNameGenerator::GenerateTask(const SPropertyNameGenerationParameter
         }
 
         // If we've hit the word limit, break out and end the name generation system.
-        if (WordCache.size() > kMaxWords)
+        if (std::ssize(WordCache) > kMaxWords)
             break;
 
         // Now that all words are updated, calculate the new hashes.
         CCRC32 LastValidHash = (RecalcIndex > 0 ? WordCache[RecalcIndex - 1].Hash : PrefixHash);
 
-        for (; RecalcIndex < WordCache.size(); RecalcIndex++)
+        for (; RecalcIndex < std::ssize(WordCache); RecalcIndex++)
         {
-            int Index = WordCache[RecalcIndex].WordIndex;
+            const auto Index = WordCache[RecalcIndex].WordIndex;
 
             // For camelcase, hash the first letter of the first word as lowercase
             if (RecalcIndex == 0 && rkParams.Casing == ENameCasing::camelCase)

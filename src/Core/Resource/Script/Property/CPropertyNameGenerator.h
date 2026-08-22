@@ -65,9 +65,6 @@ struct SPropertyNameGenerationParameters
 
 struct SPropertyNameGenerationTaskParameters
 {
-    /** Task index */
-    uint32_t TaskIndex{};
-
     /** Base word start index */
     uint32_t StartWord{};
 
