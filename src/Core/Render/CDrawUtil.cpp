@@ -352,20 +352,20 @@ CDrawUtil::CDrawUtil() = default;
 
 void CDrawUtil::Init()
 {
-    if (!mDrawUtilInitialized)
-    {
-        NLog::Debug("Initializing CDrawUtil");
-        InitGrid();
-        InitSquare();
-        InitLine();
-        InitCube();
-        InitWireCube();
-        InitSphere();
-        InitWireSphere();
-        InitShaders();
-        InitTextures();
-        mDrawUtilInitialized = true;
-    }
+    if (mDrawUtilInitialized)
+        return;
+
+    NLog::Debug("Initializing CDrawUtil");
+    InitGrid();
+    InitSquare();
+    InitLine();
+    InitCube();
+    InitWireCube();
+    InitSphere();
+    InitWireSphere();
+    InitShaders();
+    InitTextures();
+    mDrawUtilInitialized = true;
 }
 
 void CDrawUtil::InitGrid()
