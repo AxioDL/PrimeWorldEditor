@@ -151,9 +151,9 @@ public:
     // Property Fetching
     EVolumeShape VolumeShape(CScriptObject *pObj);
     float VolumeScale(CScriptObject *pObj);
-    CResource* FindDisplayAsset(CResourceStore* resourceStore, void* pPropertyData, uint32_t& rOutCharIndex,
+    CResource* FindDisplayAsset(CResourceStore* resourceStore, const void* pPropertyData, uint32_t& rOutCharIndex,
                                 uint32_t& rOutAnimIndex, bool& rOutIsInGame);
-    CCollisionMeshGroup* FindCollision(CResourceStore* resourceStore, void* pPropertyData);
+    CCollisionMeshGroup* FindCollision(CResourceStore* resourceStore, const void* pPropertyData);
 
     // Accessors
     CGameTemplate* GameTemplate() const              { return mpGame; }

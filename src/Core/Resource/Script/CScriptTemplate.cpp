@@ -186,7 +186,7 @@ int CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
     return -1;
 }
 
-CResource* CScriptTemplate::FindDisplayAsset(CResourceStore* resourceStore, void* pPropertyData, uint32_t& rOutCharIndex,
+CResource* CScriptTemplate::FindDisplayAsset(CResourceStore* resourceStore, const void* pPropertyData, uint32_t& rOutCharIndex,
                                              uint32_t& rOutAnimIndex, bool& rOutIsInGame)
 {
     rOutCharIndex = UINT32_MAX;
@@ -244,7 +244,7 @@ CResource* CScriptTemplate::FindDisplayAsset(CResourceStore* resourceStore, void
     return nullptr;
 }
 
-CCollisionMeshGroup* CScriptTemplate::FindCollision(CResourceStore* resourceStore, void* pPropertyData)
+CCollisionMeshGroup* CScriptTemplate::FindCollision(CResourceStore* resourceStore, const void* pPropertyData)
 {
     for (const auto& asset : mAssets)
     {
