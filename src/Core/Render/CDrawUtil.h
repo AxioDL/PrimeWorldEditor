@@ -68,12 +68,12 @@ class CDrawUtil
     // Have all the above members been initialized?
     static inline bool mDrawUtilInitialized = false;
 
+    static void DrawSquare(const void* pTexCoords);
 public:
     static void DrawGrid(CColor LineColor, CColor BoldLineColor);
 
     static void DrawSquare();
     static void DrawSquare(const CVector2f& TexUL, const CVector2f& TexUR, const CVector2f& TexBR, const CVector2f& TexBL);
-    static void DrawSquare(const float *pTexCoords);
 
     static void DrawLine(const CVector3f& PointA, const CVector3f& PointB);
     static void DrawLine(const CVector2f& PointA, const CVector2f& PointB);

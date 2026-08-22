@@ -6,6 +6,8 @@
 #include <Common/Log.h>
 #include <Common/Math/CTransform4f.h>
 
+#include <array>
+
 // ************ PUBLIC ************
 void CDrawUtil::DrawGrid(CColor LineColor, CColor BoldLineColor)
 {
@@ -34,19 +36,24 @@ void CDrawUtil::DrawGrid(CColor LineColor, CColor BoldLineColor)
 void CDrawUtil::DrawSquare()
 {
     // Overload with default tex coords
-    CVector2f TexCoords[4] = { CVector2f(0.f, 1.f), CVector2f(1.f, 1.f), CVector2f(1.f, 0.f), CVector2f(0.f, 0.f) };
-    DrawSquare(&TexCoords[0].X);
+    static constexpr std::array TexCoords = {
+        CVector2f(0.f, 1.f),
+        CVector2f(1.f, 1.f),
+        CVector2f(1.f, 0.f),
+        CVector2f(0.f, 0.f),
+    };
+    DrawSquare(TexCoords.data());
 }
 
 void CDrawUtil::DrawSquare(const CVector2f& TexUL, const CVector2f& TexUR, const CVector2f& TexBR, const CVector2f& TexBL)
 {
     // Overload with tex coords specified via parameters
     // I don't think that parameters are guaranteed to be contiguous in memory, so:
-    CVector2f TexCoords[4] = { TexUL, TexUR, TexBR, TexBL };
-    DrawSquare(&TexCoords[0].X);
+    const std::array TexCoords = {TexUL, TexUR, TexBR, TexBL};
+    DrawSquare(TexCoords.data());
 }
 
-void CDrawUtil::DrawSquare(const float *pTexCoords)
+void CDrawUtil::DrawSquare(const void* pTexCoords)
 {
     Init();
 
@@ -79,8 +86,8 @@ void CDrawUtil::DrawLine(const CVector3f& PointA, const CVector3f& PointB, const
     Init();
 
     // Copy vec3s into an array to ensure they are adjacent in memory
-    CVector3f Points[2] = { PointA, PointB };
-    mLineVertices->BufferAttrib(EVertexAttribute::Position, Points);
+    const std::array Points = {PointA, PointB};
+    mLineVertices->BufferAttrib(EVertexAttribute::Position, Points.data());
 
     // Draw
     UseColorShader(LineColor);
