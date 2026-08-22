@@ -2,6 +2,7 @@
 #include "CVertexArrayManager.h"
 
 #include <array>
+#include <bit>
 
 constexpr std::array<uint32_t, 12> gskAttribSize{
     0xC, 0xC, 0x4, 0x4, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8, 0x8
@@ -41,25 +42,15 @@ void CDynamicVertexBuffer::SetActiveAttribs(FVertexDescription AttribFlags)
 
 void CDynamicVertexBuffer::BufferAttrib(EVertexAttribute Attrib, const void *pkData)
 {
-    size_t Index = 0;
+    if (Attrib < EVertexAttribute::Position || Attrib > EVertexAttribute::Tex7)
+        return;
 
-    switch (Attrib)
-    {
-    case EVertexAttribute::Position: Index = 0;  break;
-    case EVertexAttribute::Normal:   Index = 1;  break;
-    case EVertexAttribute::Color0:   Index = 2;  break;
-    case EVertexAttribute::Color1:   Index = 3;  break;
-    case EVertexAttribute::Tex0:     Index = 4;  break;
-    case EVertexAttribute::Tex1:     Index = 5;  break;
-    case EVertexAttribute::Tex2:     Index = 6;  break;
-    case EVertexAttribute::Tex3:     Index = 7;  break;
-    case EVertexAttribute::Tex4:     Index = 8;  break;
-    case EVertexAttribute::Tex5:     Index = 9;  break;
-    case EVertexAttribute::Tex6:     Index = 10; break;
-    case EVertexAttribute::Tex7:     Index = 11; break;
-    default:                         return;
-    }
-
+    // Attribute values are power of 2, so we can use a CTZ to easily get the index.
+    // e.g.
+    // Pos -> 0b0001 | CTZ -> 0
+    // Nor -> 0b0010 | CTZ -> 1
+    // and so on.
+    const auto Index = std::countr_zero(static_cast<uint32_t>(Attrib));
     glBindBuffer(GL_ARRAY_BUFFER, mAttribBuffers[Index]);
     glBufferSubData(GL_ARRAY_BUFFER, 0, gskAttribSize[Index] * mNumVertices, pkData);
 }
