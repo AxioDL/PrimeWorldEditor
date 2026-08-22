@@ -91,7 +91,7 @@ EGame CScriptTemplate::Game() const
     return mpGame->Game();
 }
 
-EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
+EVolumeShape CScriptTemplate::VolumeShape(CScriptObject* pObj) const
 {
     if (pObj->Template() != this)
     {
@@ -111,7 +111,7 @@ EVolumeShape CScriptTemplate::VolumeShape(CScriptObject *pObj)
     return mVolumeShape;
 }
 
-float CScriptTemplate::VolumeScale(CScriptObject *pObj)
+float CScriptTemplate::VolumeScale(CScriptObject* pObj) const
 {
     if (pObj->Template() != this)
     {

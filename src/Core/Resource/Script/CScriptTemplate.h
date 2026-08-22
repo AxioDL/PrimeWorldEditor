@@ -149,8 +149,8 @@ public:
     EGame Game() const;
 
     // Property Fetching
-    EVolumeShape VolumeShape(CScriptObject *pObj);
-    float VolumeScale(CScriptObject *pObj);
+    EVolumeShape VolumeShape(CScriptObject* pObj) const;
+    float VolumeScale(CScriptObject* pObj) const;
     CResource* FindDisplayAsset(CResourceStore* resourceStore, const void* pPropertyData, uint32_t& rOutCharIndex,
                                 uint32_t& rOutAnimIndex, bool& rOutIsInGame);
     CCollisionMeshGroup* FindCollision(CResourceStore* resourceStore, const void* pPropertyData);
