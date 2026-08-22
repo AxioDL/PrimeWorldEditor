@@ -151,7 +151,7 @@ SState CGameTemplate::StateByID(uint32_t StateID) const
     const auto iter = mStates.find(StateID);
 
     if (iter == mStates.cend())
-        return SState(UINT32_MAX, "Invalid");
+        return SState::MakeInvalid();
 
     return SState(iter->first, iter->second);
 }
@@ -173,7 +173,7 @@ SMessage CGameTemplate::MessageByID(uint32_t MessageID) const
     const auto iter = mMessages.find(MessageID);
 
     if (iter == mMessages.cend())
-        return SMessage(UINT32_MAX, "Invalid");
+        return SMessage::MakeInvalid();
 
     return SMessage(iter->first, iter->second);
 }

@@ -32,6 +32,11 @@ struct SState
 
         Arc << SerialParameter("Name", Name, SH_Attribute);
     }
+
+    static SState MakeInvalid()
+    {
+        return {UINT32_MAX, "Invalid"};
+    }
 };
 
 struct SMessage
@@ -58,6 +63,11 @@ struct SMessage
             Arc << SerialParameter("ID", ID_4CC, SH_Attribute);
 
         Arc << SerialParameter("Name", Name, SH_Attribute);
+    }
+
+    static SMessage MakeInvalid()
+    {
+        return {UINT32_MAX, "Invalid"};
     }
 };
 
