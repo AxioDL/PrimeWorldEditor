@@ -193,11 +193,8 @@ SMessage CGameTemplate::MessageByIndex(uint32_t Index) const
 IProperty* CGameTemplate::FindPropertyArchetype(std::string_view typeName)
 {
     const auto Iter = mPropertyTemplates.find(typeName);
-
     if (Iter == mPropertyTemplates.end())
-    {
         return nullptr;
-    }
 
     // If the template isn't loaded yet, then load it.
     // This has to be done here to allow recursion while loading other property archetypes, because some properties may
@@ -281,12 +278,8 @@ bool CGameTemplate::RenamePropertyArchetype(const TString& kTypeName, const TStr
 CScriptTemplate* CGameTemplate::FindMiscTemplate(std::string_view templateName)
 {
     const auto Iter = mMiscTemplates.find(templateName);
-
     if (Iter == mMiscTemplates.cend())
-    {
         return nullptr;
-    }
-
 
     SScriptTemplatePath& Path = Iter->second;
     return Path.pTemplate.get();
