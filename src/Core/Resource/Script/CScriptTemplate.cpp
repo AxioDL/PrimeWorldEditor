@@ -131,7 +131,7 @@ float CScriptTemplate::VolumeScale(CScriptObject *pObj)
     return mVolumeScale;
 }
 
-int CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors)
+int CScriptTemplate::CheckVolumeConditions(CScriptObject *pObj, bool LogErrors) const
 {
     // Private function
     if (mVolumeShape == EVolumeShape::ConditionalShape)
