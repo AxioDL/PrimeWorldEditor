@@ -153,7 +153,7 @@ SState CGameTemplate::StateByID(uint32_t StateID) const
     if (iter == mStates.cend())
         return SState::MakeInvalid();
 
-    return SState(iter->first, iter->second);
+    return {iter->first, iter->second};
 }
 
 SState CGameTemplate::StateByID(const CFourCC& State) const
@@ -165,7 +165,7 @@ SState CGameTemplate::StateByIndex(uint32_t Index) const
 {
     auto Iter = mStates.begin();
     Iter = std::next(Iter, Index);
-    return SState(Iter->first, Iter->second);
+    return {Iter->first, Iter->second};
 }
 
 SMessage CGameTemplate::MessageByID(uint32_t MessageID) const
@@ -175,7 +175,7 @@ SMessage CGameTemplate::MessageByID(uint32_t MessageID) const
     if (iter == mMessages.cend())
         return SMessage::MakeInvalid();
 
-    return SMessage(iter->first, iter->second);
+    return {iter->first, iter->second};
 }
 
 SMessage CGameTemplate::MessageByID(const CFourCC& MessageID) const
@@ -187,7 +187,7 @@ SMessage CGameTemplate::MessageByIndex(uint32_t Index) const
 {
     auto Iter = mMessages.begin();
     Iter = std::next(Iter, Index);
-    return SMessage(Iter->first, Iter->second);
+    return {Iter->first, Iter->second};
 }
 
 IProperty* CGameTemplate::FindPropertyArchetype(std::string_view typeName)
