@@ -221,67 +221,61 @@ TString CGameTemplate::GetPropertyArchetypeFilePath(std::string_view typeName) c
 
 bool CGameTemplate::RenamePropertyArchetype(const TString& kTypeName, const TString& kNewTypeName)
 {
-    if (kTypeName != kNewTypeName)
+    if (kTypeName == kNewTypeName)
+        return false;
+
+    // Fetch the property that we are going to be renaming.
+    // Validate type, too, because we only support renaming struct archetypes at the moment
+    const auto Iter = mPropertyTemplates.find(kTypeName);
+    if (Iter == mPropertyTemplates.cend())
+        return false;
+
+    SPropertyTemplatePath& Path = Iter->second;
+    IProperty* pArchetype = Path.pTemplate.get();
+    if (pArchetype == nullptr)
+        return false;
+
+    // Attempt to move the XML to the new location.
+    const TString OldPath = GetGameDirectory() + Path.Path;
+    const TString NewPath = OldPath.GetFileDirectory() + kNewTypeName + ".xml";
+    if (!FileUtil::MoveFile(OldPath, NewPath))
+        return false;
+
+    // Update the name in the game template's internal mapping
+    const TString RelativePath = FileUtil::MakeRelative(NewPath, GetGameDirectory());
+    auto MapNode = mPropertyTemplates.extract(Iter);
+    MapNode.key() = kNewTypeName;
+    MapNode.mapped().Path = RelativePath;
+    mPropertyTemplates.insert(std::move(MapNode));
+    mDirty = true;
+
+    // Renaming the archetype will handle updating the actual type name, and
+    // dirtying/invalidating property sub-instances.
+    const TString OldTypeName = pArchetype->HashableTypeName();
+    pArchetype->SetName(kNewTypeName);
+
+    // For MP2 and up, we also need to update the type names stored in the property map.
+    if (pArchetype->Game() >= EGame::EchoesDemo)
     {
-        // Fetch the property that we are going to be renaming.
-        // Validate type, too, because we only support renaming struct archetypes at the moment
-        const auto Iter = mPropertyTemplates.find(kTypeName);
+        NPropertyMap::ChangeTypeName(pArchetype, OldTypeName, kNewTypeName);
+    }
+    else
+    {
+        // MP1 has a lot of unnamed properties that just use the type name as their name.
+        // Update these properties so their name now refers to the updated type name.
+        std::list<IProperty*> SubInstances;
+        pArchetype->GatherAllSubInstances(SubInstances, true);
 
-        if (Iter != mPropertyTemplates.cend())
+        for (auto* property : SubInstances)
         {
-            SPropertyTemplatePath& Path = Iter->second;
-            IProperty* pArchetype = Path.pTemplate.get();
-
-            if (pArchetype)
+            if (property->Name() == kTypeName)
             {
-                // Attempt to move the XML to the new location.
-                const TString OldPath = GetGameDirectory() + Path.Path;
-                const TString NewPath = OldPath.GetFileDirectory() + kNewTypeName + ".xml";
-
-                if (FileUtil::MoveFile(OldPath, NewPath))
-                {
-                    // Update the name in the game template's internal mapping
-                    const TString RelativePath = FileUtil::MakeRelative(NewPath, GetGameDirectory());
-                    auto MapNode = mPropertyTemplates.extract(Iter);
-                    MapNode.key() = kNewTypeName;
-                    MapNode.mapped().Path = RelativePath;
-                    mPropertyTemplates.insert(std::move(MapNode));
-                    mDirty = true;
-
-                    // Renaming the archetype will handle updating the actual type name, and
-                    // dirtying/invalidating property sub-instances.
-                    const TString OldTypeName = pArchetype->HashableTypeName();
-                    pArchetype->SetName(kNewTypeName);
-
-                    // For MP2 and up, we also need to update the type names stored in the property map.
-                    if (pArchetype->Game() >= EGame::EchoesDemo)
-                    {
-                        NPropertyMap::ChangeTypeName(pArchetype, OldTypeName, kNewTypeName);
-                    }
-
-                    // MP1 has a lot of unnamed properties that just use the type name as their name.
-                    // Update these properties so their name now refers to the updated type name.
-                    else
-                    {
-                        std::list<IProperty*> SubInstances;
-                        pArchetype->GatherAllSubInstances(SubInstances, true);
-
-                        for (auto* property : SubInstances)
-                        {
-                            if (property->Name() == kTypeName)
-                            {
-                                property->SetName(kNewTypeName);
-                            }
-                        }
-                    }
-
-                    return true;
-                }
+                property->SetName(kNewTypeName);
             }
         }
     }
 
-    return false;
+    return true;
 }
 
 CScriptTemplate* CGameTemplate::FindMiscTemplate(std::string_view templateName)
