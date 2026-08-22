@@ -168,15 +168,15 @@ public:
     auto Attachments() const                         { return std::views::all(mAttachments); }
     std::span<const TString> RequiredModules() const { return mModules; }
 
-    CStringProperty* NameProperty() const                { return mpNameProperty; }
-    CVectorProperty* PositionProperty() const            { return mpPositionProperty; }
-    CVectorProperty* RotationProperty() const            { return mpRotationProperty; }
-    CVectorProperty* ScaleProperty() const               { return mpScaleProperty; }
-    CBoolProperty* ActiveProperty() const                { return mpActiveProperty; }
-    CStructProperty* LightParametersProperty() const     { return mpLightParametersProperty; }
+    CStringProperty* NameProperty() const            { return mpNameProperty; }
+    CVectorProperty* PositionProperty() const        { return mpPositionProperty; }
+    CVectorProperty* RotationProperty() const        { return mpRotationProperty; }
+    CVectorProperty* ScaleProperty() const           { return mpScaleProperty; }
+    CBoolProperty* ActiveProperty() const            { return mpActiveProperty; }
+    CStructProperty* LightParametersProperty() const { return mpLightParametersProperty; }
 
-    void SetVisible(bool Visible)    { mVisible = Visible; }
-    void MarkDirty()                 { mDirty = true; }
+    void SetVisible(bool Visible) { mVisible = Visible; }
+    void MarkDirty()              { mDirty = true; }
     bool IsDirty() const;
 
     // Object Tracking
