@@ -565,62 +565,63 @@ void CScriptNode::UpdatePreviewVolume()
 
 void CScriptNode::GeneratePosition()
 {
-    if (!mHasValidPosition)
+    if (mHasValidPosition)
+        return;
+
+    // Default to center of the active area; this is to prevent recursion issues
+    const CTransform4f& AreaTransform = mpScene->ActiveArea()->Transform();
+    mPosition = CVector3f(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
+    mHasValidPosition = true;
+    MarkTransformChanged();
+
+    // Ideal way to generate the position is to find a spot close to where it's being used.
+    // To do this I check the location of the objects that this one is linked to.
+    const size_t NumLinks = mpInstance->NumLinks(ELinkType::Incoming) + mpInstance->NumLinks(ELinkType::Outgoing);
+
+    // In the case of one link, apply an offset so the new position isn't the same place as the object it's linked to
+    if (NumLinks == 1)
     {
-        // Default to center of the active area; this is to prevent recursion issues
-        const CTransform4f& AreaTransform = mpScene->ActiveArea()->Transform();
-        mPosition = CVector3f(AreaTransform[0][3], AreaTransform[1][3], AreaTransform[2][3]);
-        mHasValidPosition = true;
-        MarkTransformChanged();
-
-        // Ideal way to generate the position is to find a spot close to where it's being used.
-        // To do this I check the location of the objects that this one is linked to.
-        const size_t NumLinks = mpInstance->NumLinks(ELinkType::Incoming) + mpInstance->NumLinks(ELinkType::Outgoing);
-
-        // In the case of one link, apply an offset so the new position isn't the same place as the object it's linked to
-        if (NumLinks == 1)
-        {
-            const auto LinkedID = (mpInstance->NumLinks(ELinkType::Incoming) > 0 ? mpInstance->Link(ELinkType::Incoming, 0)->SenderID() : mpInstance->Link(ELinkType::Outgoing, 0)->ReceiverID());
-            CScriptNode* pNode = mpScene->NodeForInstanceID(LinkedID);
-            pNode->GeneratePosition();
-            mPosition = pNode->AbsolutePosition();
-            mPosition.Z += (pNode->AABox().Size().Z / 2.f);
-            mPosition.Z += (AABox().Size().Z / 2.f);
-            mPosition.Z += 2.f;
-        }
-        // For two or more links, average out the position of the connected objects.
-        else if (NumLinks >= 2)
-        {
-            CVector3f NewPos = CVector3f::Zero();
-
-            for (const auto* link : mpInstance->Links(ELinkType::Incoming))
-            {
-                CScriptNode* pNode = mpScene->NodeForInstanceID(link->SenderID());
-
-                if (pNode != nullptr)
-                {
-                    pNode->GeneratePosition();
-                    NewPos += pNode->AABox().Center();
-                }
-            }
-
-            for (const auto* link : mpInstance->Links(ELinkType::Outgoing))
-            {
-                CScriptNode* pNode = mpScene->NodeForInstanceID(link->ReceiverID());
-
-                if (pNode != nullptr)
-                {
-                    pNode->GeneratePosition();
-                    NewPos += pNode->AABox().Center();
-                }
-            }
-
-            mPosition = NewPos / static_cast<float>(NumLinks);
-            mPosition.X += 2.f;
-        }
-
-        MarkTransformChanged();
+        const auto LinkedID = (mpInstance->NumLinks(ELinkType::Incoming) > 0 ? mpInstance->Link(ELinkType::Incoming, 0)->SenderID()
+                                                                             : mpInstance->Link(ELinkType::Outgoing, 0)->ReceiverID());
+        CScriptNode* pNode = mpScene->NodeForInstanceID(LinkedID);
+        pNode->GeneratePosition();
+        mPosition = pNode->AbsolutePosition();
+        mPosition.Z += (pNode->AABox().Size().Z / 2.f);
+        mPosition.Z += (AABox().Size().Z / 2.f);
+        mPosition.Z += 2.f;
     }
+    // For two or more links, average out the position of the connected objects.
+    else if (NumLinks >= 2)
+    {
+        CVector3f NewPos = CVector3f::Zero();
+
+        for (const auto* link : mpInstance->Links(ELinkType::Incoming))
+        {
+            CScriptNode* pNode = mpScene->NodeForInstanceID(link->SenderID());
+
+            if (pNode != nullptr)
+            {
+                pNode->GeneratePosition();
+                NewPos += pNode->AABox().Center();
+            }
+        }
+
+        for (const auto* link : mpInstance->Links(ELinkType::Outgoing))
+        {
+            CScriptNode* pNode = mpScene->NodeForInstanceID(link->ReceiverID());
+
+            if (pNode != nullptr)
+            {
+                pNode->GeneratePosition();
+                NewPos += pNode->AABox().Center();
+            }
+        }
+
+        mPosition = NewPos / static_cast<float>(NumLinks);
+        mPosition.X += 2.f;
+    }
+
+    MarkTransformChanged();
 }
 
 void CScriptNode::TestGameModeVisibility()
