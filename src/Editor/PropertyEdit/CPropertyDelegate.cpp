@@ -19,6 +19,7 @@
 #include <QComboBox>
 #include <QEvent>
 #include <QLineEdit>
+#include <QUuid>
 
 #include <concepts>
 #include <memory>
@@ -122,6 +123,7 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
         }
 
         case EPropertyType::String:
+        case EPropertyType::Guid:
         {
             auto* pLineEdit = new QLineEdit(pParent);
             ConnectRelay(this, pLineEdit, rkIndex, &QLineEdit::textEdited);
@@ -303,6 +305,18 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                     break;
                 }
 
+                case EPropertyType::Guid:
+                {
+                    auto* pLineEdit = static_cast<QLineEdit*>(pEditor);
+
+                    if (!pLineEdit->hasFocus())
+                    {
+                        pLineEdit->setText(TO_QSTRING(pProp->ValueAsString(pData)));
+                    }
+
+                    break;
+                }
+
                 case EPropertyType::Enum:
                 case EPropertyType::Choice:
                 {
@@ -473,6 +487,22 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                     auto* pLineEdit = static_cast<const QLineEdit*>(pEditor);
                     auto* pString = static_cast<CStringProperty*>(pProp);
                     pString->ValueRef(pData) = TO_TSTRING(pLineEdit->text());
+                    break;
+                }
+
+                case EPropertyType::Guid:
+                {
+                    auto* pLineEdit = static_cast<const QLineEdit*>(pEditor);
+                    auto* pGuid = static_cast<CGuidProperty*>(pProp);
+                    auto gBytes = QUuid(pLineEdit->text()).toRfc4122();
+                    // Convert from big-endian to mixed-endian
+                    pGuid->ValueRef(pData) = std::vector<char>{
+                        gBytes[3], gBytes[2], gBytes[1], gBytes[0],
+                        gBytes[5], gBytes[4],
+                        gBytes[7], gBytes[6],
+                        gBytes[8], gBytes[9],
+                        gBytes[10], gBytes[11], gBytes[12], gBytes[13], gBytes[14], gBytes[15]
+                    };
                     break;
                 }
 
