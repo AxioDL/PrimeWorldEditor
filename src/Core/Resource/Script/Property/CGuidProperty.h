@@ -29,12 +29,14 @@ public:
         {
             return fmt::format("{:02x}", static_cast<unsigned char>(c));
         };
+
+        const auto& Data = ValueRef(pData);
         return fmt::format("{}-{}-{}-{}-{}", 
-            fmt::join(std::vector<char>{Value(pData)[3], Value(pData)[2], Value(pData)[1], Value(pData)[0]} | std::views::transform(to_hex), ""),
-            fmt::join(std::vector<char>{Value(pData)[5], Value(pData)[4]} | std::views::transform(to_hex), ""),
-            fmt::join(std::vector<char>{Value(pData)[7], Value(pData)[6]} | std::views::transform(to_hex), ""),
-            fmt::join(std::vector<char>{Value(pData)[8], Value(pData)[9]} | std::views::transform(to_hex), ""),
-            fmt::join(std::vector<char>{Value(pData)[10], Value(pData)[11], Value(pData)[12], Value(pData)[13], Value(pData)[14], Value(pData)[15]} | std::views::transform(to_hex), "")
+            fmt::join(std::vector<char>{Data[3],  Data[2], Data[1], Data[0]} | std::views::transform(to_hex), ""),
+            fmt::join(std::vector<char>{Data[5],  Data[4]} | std::views::transform(to_hex), ""),
+            fmt::join(std::vector<char>{Data[7],  Data[6]} | std::views::transform(to_hex), ""),
+            fmt::join(std::vector<char>{Data[8],  Data[9]} | std::views::transform(to_hex), ""),
+            fmt::join(std::vector<char>{Data[10], Data[11], Data[12], Data[13], Data[14], Data[15]} | std::views::transform(to_hex), "")
         );
     };
 };
