@@ -5,13 +5,11 @@
 
 class CResourceBrowserDelegate : public CCustomDelegate
 {
+    Q_OBJECT
+
 public:
     static constexpr int skIconSize = 32;
 
-private:
-    bool mDisplayAssetIDs = false;
-
-public:
     explicit CResourceBrowserDelegate(QObject *pParent = nullptr)
         : CCustomDelegate(pParent)
     {}
@@ -29,6 +27,9 @@ public:
 protected:
     class CResourceEntry* GetIndexEntry(const QModelIndex& rkIndex) const;
     class CVirtualDirectory* GetIndexDirectory(const QModelIndex& rkIndex) const;
+
+private:
+    bool mDisplayAssetIDs = false;
 };
 
 #endif // CRESOURCEBROWSERDELEGATE_H
