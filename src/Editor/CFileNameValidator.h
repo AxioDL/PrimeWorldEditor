@@ -8,6 +8,8 @@
 
 class CFileNameValidator : public QValidator
 {
+    Q_OBJECT
+
     bool mIsDirectory;
 
 public:
