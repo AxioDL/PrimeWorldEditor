@@ -41,7 +41,7 @@ public:
             fmt::join(std::array{Data[8],  Data[9]} | std::views::transform(to_hex), ""),
             fmt::join(std::array{Data[10], Data[11], Data[12], Data[13], Data[14], Data[15]} | std::views::transform(to_hex), "")
         );
-    };
+    }
 };
 
 #endif // CGUIDPROPERTY_H
