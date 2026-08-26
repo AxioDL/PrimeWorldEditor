@@ -72,9 +72,6 @@ public:
     void ResetHover();
     bool IsHoveringGizmo() const;
 
-    void keyPressEvent(QKeyEvent* pEvent) override;
-    void keyReleaseEvent(QKeyEvent* pEvent) override;
-
     void SetLinkLineEnabled(bool Enable)                                     { mLinkLineEnabled = Enable; }
     void SetLinkLine(const CVector3f& rkPointA, const CVector3f& rkPointB)   { mLinkLine.SetPoints(rkPointA, rkPointB); }
 
@@ -85,19 +82,23 @@ signals:
     void CameraOrbit();
     void PlayFromHere(const CSceneNode* node, const CVector3f& position);
 
+protected:
+    void keyPressEvent(QKeyEvent* pEvent) override;
+    void keyReleaseEvent(QKeyEvent* pEvent) override;
+
+    void CheckUserInput() override;
+    void Paint() override;
+    void ContextMenu(QContextMenuEvent* pEvent) override;
+    void OnResize() override;
+    void OnMouseClick(QMouseEvent* pEvent) override;
+    void OnMouseRelease(QMouseEvent* pEvent) override;
+
 private:
     void CreateContextMenu();
     QMouseEvent CreateMouseEvent() const;
     void FindConnectedObjects(CInstanceID InstanceID, bool SearchOutgoing, bool SearchIncoming, QList<CInstanceID>& rIDList);
 
 private slots:
-    void CheckUserInput() override;
-    void Paint() override;
-    void ContextMenu(QContextMenuEvent *pEvent) override;
-    void OnResize() override;
-    void OnMouseClick(QMouseEvent *pEvent) override;
-    void OnMouseRelease(QMouseEvent *pEvent) override;
-
     // Menu Actions
     void OnToggleSelect();
     void OnSelectConnected();
