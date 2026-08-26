@@ -22,8 +22,6 @@ public:
     ~CResourceProxyModel() override;
 
     void setSourceModel(QAbstractItemModel* pSourceModel) override;
-    bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const override;
-    bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const override;
 
     void SetTypeFilter(const CResTypeInfo *pInfo, bool Allow);
     void ClearTypeFilter() { mTypeFilter.clear(); }
@@ -34,6 +32,10 @@ public:
 
 public slots:
     void SetSearchString(const TString& rkString);
+
+protected:
+    bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const override;
+    bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const override;
 
 private:
     CResourceTableModel *mpModel = nullptr;
