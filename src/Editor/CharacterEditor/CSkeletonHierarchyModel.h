@@ -6,6 +6,8 @@
 
 class CSkeletonHierarchyModel : public QAbstractItemModel
 {
+    Q_OBJECT
+
     const CSkeleton *mpSkeleton = nullptr;
 
 public:
