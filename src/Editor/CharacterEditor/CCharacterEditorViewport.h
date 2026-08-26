@@ -22,14 +22,16 @@ public:
     explicit CCharacterEditorViewport(QWidget* pParent = nullptr);
     ~CCharacterEditorViewport() override;
 
-    void SetNode(CCharacterNode *pNode);
+    void SetNode(CCharacterNode* pNode) { mpCharNode = pNode; }
+    void SetGridEnabled(bool Enable) { mGridEnabled = Enable; }
+
+    uint32_t HoverBoneID() const { return mHoverBone; }
+
+protected:
     void CheckUserInput() override;
     void Paint() override;
     void OnResize() override;
-    void OnMouseClick(QMouseEvent *pEvent) override;
-
-    uint32_t HoverBoneID() const       { return mHoverBone; }
-    void SetGridEnabled(bool Enable) { mGridEnabled = Enable; }
+    void OnMouseClick(QMouseEvent* pEvent) override;
 
 signals:
     void HoverBoneChanged(uint32_t BoneID);

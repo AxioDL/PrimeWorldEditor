@@ -19,11 +19,6 @@ CCharacterEditorViewport::CCharacterEditorViewport(QWidget *pParent)
 
 CCharacterEditorViewport::~CCharacterEditorViewport() = default;
 
-void CCharacterEditorViewport::SetNode(CCharacterNode *pNode)
-{
-    mpCharNode = pNode;
-}
-
 void CCharacterEditorViewport::CheckUserInput()
 {
     uint32_t HoverBoneID = UINT32_MAX;
