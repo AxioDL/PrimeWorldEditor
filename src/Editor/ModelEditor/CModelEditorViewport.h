@@ -12,20 +12,13 @@ class CRenderer;
 
 class CModelEditorViewport : public CBasicViewport
 {
+    Q_OBJECT
+
 public:
     enum class EDrawMode {
         DrawMesh, DrawSphere, DrawSquare,
     };
 
-private:
-    EDrawMode mMode{EDrawMode::DrawMesh};
-    CGridRenderable mGrid;
-    CModelNode *mpModelNode = nullptr;
-    CMaterial *mpActiveMaterial = nullptr;
-    std::unique_ptr<CRenderer> mpRenderer;
-    bool mGridEnabled = true;
-
-public:
     explicit CModelEditorViewport(QWidget *pParent = nullptr);
     ~CModelEditorViewport() override;
 
@@ -34,8 +27,18 @@ public:
     void SetDrawMode(EDrawMode Mode);
     void SetClearColor(const CColor& Color);
     void SetGridEnabled(bool Enable);
+
+protected:
     void Paint() override;
     void OnResize() override;
+
+private:
+    EDrawMode mMode{EDrawMode::DrawMesh};
+    CGridRenderable mGrid;
+    CModelNode* mpModelNode = nullptr;
+    CMaterial* mpActiveMaterial = nullptr;
+    std::unique_ptr<CRenderer> mpRenderer;
+    bool mGridEnabled = true;
 };
 
 #endif // CMODELEDITORVIEWPORT_H
