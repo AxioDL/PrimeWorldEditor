@@ -39,17 +39,6 @@ protected:
 public:
     explicit CBasicViewport(QWidget *pParent = nullptr);
     ~CBasicViewport() override;
-    void initializeGL() override;
-    void paintGL() override;
-    void resizeGL(int Width, int Height) override;
-    void mousePressEvent(QMouseEvent *pEvent) override;
-    void mouseReleaseEvent(QMouseEvent *pEvent) override;
-    void mouseMoveEvent(QMouseEvent *pEvent) override;
-    void wheelEvent(QWheelEvent *pEvent) override;
-    void keyPressEvent(QKeyEvent *pEvent) override;
-    void keyReleaseEvent(QKeyEvent *pEvent) override;
-    void focusOutEvent(QFocusEvent *pEvent) override;
-    void contextMenuEvent(QContextMenuEvent *pEvent) override;
 
     void SetShowFlag(EShowFlag Flag, bool Visible);
     void SetGameMode(bool Enabled);
@@ -66,6 +55,7 @@ public:
 
     SCollisionRenderSettings& CollisionRenderSettings()  { return mViewInfo.CollisionSettings; }
     const SCollisionRenderSettings& CollisionRenderSettings() const { return mViewInfo.CollisionSettings; }
+
 public slots:
     void ProcessInput();
     void Render();
@@ -77,6 +67,19 @@ protected slots:
     virtual void OnResize() {}
     virtual void OnMouseClick(QMouseEvent* /*pEvent*/) {}
     virtual void OnMouseRelease(QMouseEvent* /*pEvent*/) {}
+
+protected:
+    void initializeGL() override;
+    void paintGL() override;
+    void resizeGL(int Width, int Height) override;
+    void mousePressEvent(QMouseEvent* pEvent) override;
+    void mouseReleaseEvent(QMouseEvent* pEvent) override;
+    void mouseMoveEvent(QMouseEvent* pEvent) override;
+    void wheelEvent(QWheelEvent* pEvent) override;
+    void keyPressEvent(QKeyEvent* pEvent) override;
+    void keyReleaseEvent(QKeyEvent* pEvent) override;
+    void focusOutEvent(QFocusEvent* pEvent) override;
+    void contextMenuEvent(QContextMenuEvent* pEvent) override;
 
 private:
     void DrawAxes();
