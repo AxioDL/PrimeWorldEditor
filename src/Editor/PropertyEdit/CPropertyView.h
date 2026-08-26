@@ -30,8 +30,6 @@ public:
     ~CPropertyView() override;
 
     void setModel(QAbstractItemModel* pModel) override;
-    bool event(QEvent* pEvent) override;
-    int sizeHintForColumn(int Column) const override;
 
     void SetEditor(IEditor* pEditor);
     void ClearProperties();
@@ -40,6 +38,10 @@ public:
     void UpdateEditorProperties(const QModelIndex& rkParent);
 
     CPropertyModel* PropertyModel() const { return mpModel; }
+
+protected:
+    bool event(QEvent* pEvent) override;
+    int sizeHintForColumn(int Column) const override;
 
 private slots:
     void SetPersistentEditors(const QModelIndex& rkIndex);
