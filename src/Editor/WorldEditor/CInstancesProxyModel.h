@@ -5,6 +5,8 @@
 
 class CInstancesProxyModel : public QSortFilterProxyModel
 {
+    Q_OBJECT
+
 public:
     explicit CInstancesProxyModel(QObject *pParent = nullptr)
         : QSortFilterProxyModel(pParent)
