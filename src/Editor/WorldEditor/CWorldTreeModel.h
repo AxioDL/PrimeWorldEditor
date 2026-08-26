@@ -60,7 +60,7 @@ class CWorldTreeProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 
-public:
+protected:
     bool lessThan(const QModelIndex& rkSourceLeft, const QModelIndex& rkSourceRight) const override;
     bool filterAcceptsRow(int SourceRow, const QModelIndex& rkSourceParent) const override;
 };
