@@ -18,7 +18,6 @@ struct SRayIntersection;
 class CPoiMapSidebar : public CWorldEditorSidebar
 {
     Q_OBJECT
-    std::unique_ptr<Ui::CPoiMapSidebar> ui;
 
 public:
     enum class EHighlightMode
@@ -37,15 +36,6 @@ public:
         AddPOIs
     };
 
-private:
-    CPoiMapModel mSourceModel;
-    QSortFilterProxyModel mModel;
-    EHighlightMode mHighlightMode{EHighlightMode::HighlightSelected};
-
-    EPickType mPickType{EPickType::NotPicking};
-    CModelNode *mpHoverModel = nullptr;
-
-public:
     explicit CPoiMapSidebar(CWorldEditor *pEditor);
     ~CPoiMapSidebar() override;
 
@@ -76,6 +66,16 @@ private slots:
     void OnPoiPicked(const SRayIntersection& rkIntersect, const QMouseEvent* pEvent);
     void OnModelPicked(const SRayIntersection& rkIntersect, const QMouseEvent* pEvent);
     void OnModelHover(const SRayIntersection& rkIntersect, const QMouseEvent* pEvent);
+
+private:
+    std::unique_ptr<Ui::CPoiMapSidebar> ui;
+
+    CPoiMapModel mSourceModel;
+    QSortFilterProxyModel mModel;
+    EHighlightMode mHighlightMode{EHighlightMode::HighlightSelected};
+
+    EPickType mPickType{EPickType::NotPicking};
+    CModelNode* mpHoverModel = nullptr;
 };
 
 #endif // CPOIMAPEDITDIALOG_H
