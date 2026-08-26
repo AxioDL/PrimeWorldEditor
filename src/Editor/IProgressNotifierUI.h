@@ -8,6 +8,8 @@
 // IProgressNotifier subclass for UI classes (dialogs, etc)
 class IProgressNotifierUI : public QDialog, public IProgressNotifier
 {
+    Q_OBJECT
+
 public:
     explicit IProgressNotifierUI(QWidget *pParent = nullptr)
         : QDialog(pParent)
