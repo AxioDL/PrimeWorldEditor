@@ -9,6 +9,8 @@ class CScriptLayer;
 
 class CLayerModel : public QAbstractListModel
 {
+    Q_OBJECT
+
     TResPtr<CGameArea> mpArea;
 
 public:
