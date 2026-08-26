@@ -51,15 +51,6 @@ public:
     // Interface
     bool eventFilter(QObject *pWatched, QEvent *pEvent) override;
 
-    // Drag
-    void mousePressEvent(QMouseEvent *pEvent) override;
-    void mouseMoveEvent(QMouseEvent *pEvent) override;
-    void mouseReleaseEvent(QMouseEvent *pEvent) override;
-
-    // Drop
-    void dragEnterEvent(QDragEnterEvent *pEvent) override;
-    void dropEvent(QDropEvent *pEvent) override;
-
     // Accessors
     CResourceEntry* Entry() const            { return mpResEntry; }
     const CResTypeFilter& TypeFilter() const { return mTypeFilter; }
@@ -70,6 +61,16 @@ signals:
 
 public slots:
     void Clear();
+
+protected:
+    // Drag
+    void mousePressEvent(QMouseEvent* pEvent) override;
+    void mouseMoveEvent(QMouseEvent* pEvent) override;
+    void mouseReleaseEvent(QMouseEvent* pEvent) override;
+
+    // Drop
+    void dragEnterEvent(QDragEnterEvent* pEvent) override;
+    void dropEvent(QDropEvent* pEvent) override;
 
 private slots:
     void CreateContextMenu(const QPoint& rkPoint);
