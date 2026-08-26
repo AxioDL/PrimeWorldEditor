@@ -11,8 +11,10 @@ public:
     explicit WIntegralSpinBox(QWidget *pParent);
     ~WIntegralSpinBox() override;
 
-    void wheelEvent(QWheelEvent* pEvent) override;
     bool eventFilter(QObject* pObj, QEvent* pEvent) override;
+
+protected:
+    void wheelEvent(QWheelEvent* pEvent) override;
 };
 
 #endif // WINTEGRALSPINBOX_H
