@@ -24,10 +24,6 @@ public:
     explicit CCollisionEditorViewport(QWidget* pParent = nullptr);
     ~CCollisionEditorViewport() override;
 
-    /** CBasicViewport interface */
-    void Paint() override;
-    void OnResize() override;
-
     /** Accessors */
     void SetNode(CCollisionNode* pNode) { mpCollisionNode = pNode; }
     void SetGridEnabled(bool Enabled)   { mGridEnabled = Enabled; }
@@ -36,6 +32,11 @@ public:
         mViewInfo.CollisionSettings.DrawBoundingHierarchy = (Depth > 0);
         mViewInfo.CollisionSettings.BoundingHierarchyRenderDepth = Depth;
     }
+
+protected:
+    /** CBasicViewport interface */
+    void Paint() override;
+    void OnResize() override;
 };
 
 #endif // CCOLLISIONEDITORVIEWPORT_H
