@@ -261,16 +261,6 @@ bool CBasicViewport::IsKeyboardInputActive() const
     return mKeysPressed.HasAnyFlags(skMoveKeys);
 }
 
-CCamera& CBasicViewport::Camera()
-{
-    return mCamera;
-}
-
-const CCamera& CBasicViewport::Camera() const
-{
-    return mCamera;
-}
-
 CRay CBasicViewport::CastRay() const
 {
     CVector2f MouseCoords = MouseDeviceCoordinates();

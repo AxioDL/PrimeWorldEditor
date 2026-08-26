@@ -47,11 +47,12 @@ public:
     bool IsCursorVisible() const;
     bool IsMouseInputActive() const;
     bool IsKeyboardInputActive() const;
-    CCamera& Camera();
-    const CCamera& Camera() const;
     CRay CastRay() const;
     CVector2f MouseDeviceCoordinates() const;
     double LastRenderDuration();
+
+    CCamera& Camera() { return mCamera; }
+    const CCamera& Camera() const { return mCamera; }
 
     SCollisionRenderSettings& CollisionRenderSettings()  { return mViewInfo.CollisionSettings; }
     const SCollisionRenderSettings& CollisionRenderSettings() const { return mViewInfo.CollisionSettings; }
