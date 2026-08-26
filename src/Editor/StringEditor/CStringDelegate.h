@@ -6,6 +6,8 @@
 /** Delegate for rendering string entries in the string editor list view */
 class CStringDelegate : public CCustomDelegate
 {
+    Q_OBJECT
+
 public:
     explicit CStringDelegate(QObject* pParent = nullptr);
 
