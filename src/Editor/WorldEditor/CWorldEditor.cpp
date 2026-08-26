@@ -1,4 +1,4 @@
-#include "CWorldEditor.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
 #include "ui_CWorldEditor.h"
 
 #include "Editor/CAboutDialog.h"

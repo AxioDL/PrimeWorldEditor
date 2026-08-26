@@ -1,4 +1,4 @@
-#include "CWorldInfoSidebar.h"
+#include "Editor/WorldEditor/CWorldInfoSidebar.h"
 #include "ui_CWorldInfoSidebar.h"
 
 #include "Editor/CEditorApplication.h"

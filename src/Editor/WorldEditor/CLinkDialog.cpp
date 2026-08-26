@@ -1,9 +1,12 @@
-#include "CLinkDialog.h"
-#include "CSelectInstanceDialog.h"
-#include "CStateMessageModel.h"
-#include "CWorldEditor.h"
+#include "Editor/WorldEditor/CLinkDialog.h"
+#include "ui_CLinkDialog.h"
+
 #include "Editor/Undo/CAddLinkCommand.h"
 #include "Editor/Undo/CEditLinkCommand.h"
+#include "Editor/WorldEditor/CSelectInstanceDialog.h"
+#include "Editor/WorldEditor/CStateMessageModel.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
+
 #include <Core/Resource/Script/CScriptObject.h>
 #include <Core/SRayIntersection.h>
 
@@ -164,6 +167,16 @@ void CLinkDialog::UpdateReceiverNameLabel()
     ui->ReceiverNameLabel->setText(Elided);
 
     ui->ReceiverGroupBox->setTitle(mpReceiver ? tr("Receiver - %1").arg(TO_QSTRING(mpReceiver->Template()->Name())) : tr("Receiver"));
+}
+
+bool CLinkDialog::IsPickingSender() const
+{
+    return mIsPicking && ui->SenderPickFromViewport->isChecked();
+}
+
+bool CLinkDialog::IsPickingReceiver() const
+{
+    return mIsPicking && ui->ReceiverPickFromViewport->isChecked();
 }
 
 // ************ PUBLIC SLOTS ************

@@ -1,9 +1,12 @@
 #ifndef CLINKDIALOG_H
 #define CLINKDIALOG_H
 
-#include "CStateMessageModel.h"
-#include "ui_CLinkDialog.h"
+#include "Editor/WorldEditor/CStateMessageModel.h"
 #include <QDialog>
+
+namespace Ui {
+class CLinkDialog;
+}
 
 class CWorldEditor;
 struct SRayIntersection;
@@ -49,8 +52,8 @@ public:
     CScriptObject* Sender() const { return mpSender; }
     CScriptObject* Receiver() const { return mpReceiver; }
     bool IsPicking() const { return mIsPicking; }
-    bool IsPickingSender() const { return mIsPicking && ui->SenderPickFromViewport->isChecked(); }
-    bool IsPickingReceiver() const { return mIsPicking && ui->ReceiverPickFromViewport->isChecked(); }
+    bool IsPickingSender() const;
+    bool IsPickingReceiver() const;
 
 private slots:
     void accept() override;

@@ -1,4 +1,4 @@
-#include "WDraggableSpinBox.h"
+#include "Editor/Widgets/WDraggableSpinBox.h"
 #include <QApplication>
 #include <QLineEdit>
 #include <QMouseEvent>

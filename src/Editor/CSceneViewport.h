@@ -1,11 +1,12 @@
 #ifndef CSCENEVIEWPORT_H
 #define CSCENEVIEWPORT_H
 
-#include "Core/SRayIntersection.h"
 #include "Editor/CBasicViewport.h"
 #include "Editor/CGridRenderable.h"
 #include "Editor/CLineRenderable.h"
 #include "Editor/INodeEditor.h"
+
+#include <Core/SRayIntersection.h>
 
 class CInstanceID;
 class CRenderer;

@@ -1,4 +1,4 @@
-#include "WIntegralSpinBox.h"
+#include "Editor/Widgets/WIntegralSpinBox.h"
 #include <QLineEdit>
 #include <QWheelEvent>
 

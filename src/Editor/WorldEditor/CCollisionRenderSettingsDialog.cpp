@@ -1,4 +1,4 @@
-#include "CCollisionRenderSettingsDialog.h"
+#include "Editor/WorldEditor/CCollisionRenderSettingsDialog.h"
 #include "ui_CCollisionRenderSettingsDialog.h"
 
 #include "Editor/UICommon.h"

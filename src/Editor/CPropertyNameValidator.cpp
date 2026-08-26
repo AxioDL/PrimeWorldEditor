@@ -1,5 +1,6 @@
-#include "CPropertyNameValidator.h"
-#include "UICommon.h"
+#include "Editor/CPropertyNameValidator.h"
+#include "Editor/UICommon.h"
+
 #include <Common/Hash/CCRC32.h>
 
 CPropertyNameValidator::CPropertyNameValidator(QObject* pParent)

@@ -1,5 +1,5 @@
-#include "CWorldEditorSidebar.h"
-#include "CWorldEditor.h"
+#include "Editor/WorldEditor/CWorldEditorSidebar.h"
+#include "Editor/WorldEditor/CWorldEditor.h"
 
 CWorldEditorSidebar::CWorldEditorSidebar(CWorldEditor *pEditor)
     : QWidget(pEditor)

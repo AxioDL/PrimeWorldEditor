@@ -1,4 +1,4 @@
-#include "UICommon.h"
+#include "Editor/UICommon.h"
 #include <QCoreApplication>
 #include <QDesktopServices>
 #include <QProcess>

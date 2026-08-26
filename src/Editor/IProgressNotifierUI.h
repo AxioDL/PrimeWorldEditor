@@ -1,7 +1,7 @@
 #ifndef IPROGRESSNOTIFIERUI_H
 #define IPROGRESSNOTIFIERUI_H
 
-#include "UICommon.h"
+#include "Editor/UICommon.h"
 #include <Core/IProgressNotifier.h>
 #include <QDialog>
 

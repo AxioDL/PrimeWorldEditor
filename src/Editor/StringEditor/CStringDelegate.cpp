@@ -1,4 +1,4 @@
-#include "CStringDelegate.h"
+#include "Editor/StringEditor/CStringDelegate.h"
 #include <QPainter>
 
 /** Constants */

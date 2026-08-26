@@ -1,5 +1,7 @@
-#include "CLinkModel.h"
+#include "Editor/WorldEditor/CLinkModel.h"
+
 #include "Editor/UICommon.h"
+
 #include <Core/Resource/Area/CGameArea.h>
 #include <Core/Resource/Script/CGameTemplate.h>
 

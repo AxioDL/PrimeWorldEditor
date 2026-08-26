@@ -1,4 +1,4 @@
-#include "CTemplateEditDialog.h"
+#include "Editor/WorldEditor/CTemplateEditDialog.h"
 #include "ui_CTemplateEditDialog.h"
 
 #include "Editor/CPropertyNameValidator.h"

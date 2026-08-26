@@ -1,4 +1,4 @@
-#include "IEditor.h"
+#include "Editor/IEditor.h"
 
 #include "Editor/CEditorApplication.h"
 #include "Editor/Undo/IUndoCommand.h"
