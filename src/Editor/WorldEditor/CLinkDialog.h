@@ -32,10 +32,6 @@ public:
     explicit CLinkDialog(CWorldEditor *pEditor, QWidget *parent = nullptr);
     ~CLinkDialog() override;
 
-    void resizeEvent(QResizeEvent*) override;
-    void showEvent(QShowEvent*) override;
-    void closeEvent(QCloseEvent*) override;
-
     void NewLink(CScriptObject *pSender, CScriptObject *pReceiver);
     void EditLink(CLink *pLink);
 
@@ -55,8 +51,14 @@ public:
     bool IsPickingSender() const;
     bool IsPickingReceiver() const;
 
-private slots:
     void accept() override;
+
+protected:
+    void resizeEvent(QResizeEvent*) override;
+    void showEvent(QShowEvent*) override;
+    void closeEvent(QCloseEvent*) override;
+
+private slots:
     void OnSwapClicked();
     void OnPickFromViewportClicked();
     void OnPickModeClick(const SRayIntersection& rkHit, QMouseEvent *pEvent);
