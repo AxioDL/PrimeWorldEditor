@@ -11,6 +11,8 @@ class CStringTable;
 /** Model for listing available strings in a string table */
 class CStringListModel : public QAbstractListModel
 {
+    Q_OBJECT
+
     /** String editor that owns the model */
     CStringEditor* mpEditor;
 
