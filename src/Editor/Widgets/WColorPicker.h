@@ -13,13 +13,14 @@ class WColorPicker : public QWidget
 public:
     explicit WColorPicker(QWidget* pParent = nullptr);
 
+    const QColor& Color() const { return mColor; }
+    void SetColor(const QColor& Color);
+
+protected:
     void paintEvent(QPaintEvent*) override;
     void keyPressEvent(QKeyEvent* pEvent) override;
     void mousePressEvent(QMouseEvent*) override;
     void mouseReleaseEvent(QMouseEvent* pEvent) override;
-
-    const QColor& Color() const { return mColor; }
-    void SetColor(const QColor& Color);
 
 signals:
     void ColorChanged(const QColor& NewColor);
