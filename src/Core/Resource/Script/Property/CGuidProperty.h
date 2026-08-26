@@ -2,8 +2,11 @@
 #define CGUIDPROPERTY_H
 
 #include "Core/Resource/Script/Property/IProperty.h"
-#include <vector>
+
+#include <array>
 #include <ranges>
+#include <vector>
+
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 
@@ -32,11 +35,11 @@ public:
 
         const auto& Data = ValueRef(pData);
         return fmt::format("{}-{}-{}-{}-{}", 
-            fmt::join(std::vector<char>{Data[3],  Data[2], Data[1], Data[0]} | std::views::transform(to_hex), ""),
-            fmt::join(std::vector<char>{Data[5],  Data[4]} | std::views::transform(to_hex), ""),
-            fmt::join(std::vector<char>{Data[7],  Data[6]} | std::views::transform(to_hex), ""),
-            fmt::join(std::vector<char>{Data[8],  Data[9]} | std::views::transform(to_hex), ""),
-            fmt::join(std::vector<char>{Data[10], Data[11], Data[12], Data[13], Data[14], Data[15]} | std::views::transform(to_hex), "")
+            fmt::join(std::array{Data[3],  Data[2], Data[1], Data[0]} | std::views::transform(to_hex), ""),
+            fmt::join(std::array{Data[5],  Data[4]} | std::views::transform(to_hex), ""),
+            fmt::join(std::array{Data[7],  Data[6]} | std::views::transform(to_hex), ""),
+            fmt::join(std::array{Data[8],  Data[9]} | std::views::transform(to_hex), ""),
+            fmt::join(std::array{Data[10], Data[11], Data[12], Data[13], Data[14], Data[15]} | std::views::transform(to_hex), "")
         );
     };
 };
