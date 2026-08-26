@@ -21,6 +21,7 @@ public:
         QSortFilterProxyModel::sort(column, sortOrder);
     }
 
+protected:
     bool lessThan(const QModelIndex& rkLeft, const QModelIndex& rkRight) const override
     {
         // Don't sort from the top two levels
