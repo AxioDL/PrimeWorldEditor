@@ -38,8 +38,8 @@ CGeneratePropertyNamesDialog::CGeneratePropertyNamesDialog(QWidget* pParent)
 
     // Configure default tree view split sizes
     // I don't know why it needs to be multiplied by 1.5, it just does
-    int TreeWidth = mpUI->OutputTreeWidget->width();
-    mpUI->OutputTreeWidget->setColumnWidth(0, TreeWidth * 1.5);
+    const int TreeWidth = mpUI->OutputTreeWidget->width();
+    mpUI->OutputTreeWidget->setColumnWidth(0, TreeWidth * 1.5f);
     mpUI->OutputTreeWidget->setHeaderHidden(false);
     // Don't sort by default
     mpUI->OutputTreeWidget->header()->setSortIndicator(-1, Qt::AscendingOrder);
@@ -62,7 +62,7 @@ void CGeneratePropertyNamesDialog::AddToIDPool(IProperty* pProperty)
 
     const uint32_t ID = pProperty->ID();
     const char* pkTypeName = pProperty->HashableTypeName();
-    mIdPairs.push_back(SPropertyIdTypePair{ID, pkTypeName});
+    mIdPairs.emplace_back(ID, pkTypeName);
 
     const QString ItemText = tr("%1 [%2]").arg(TO_QSTRING(fmt::format("{:08X}", pProperty->ID()))).arg(pkTypeName);
     mpUI->IdPoolList->addItem(ItemText);
@@ -234,7 +234,7 @@ void CGeneratePropertyNamesDialog::OnTreeItemDoubleClicked(QTreeWidgetItem* pIte
     const TString TStrText = TO_TSTRING(Text);
     const TString DirPath = gDataDir + "templates/" + TStrText.GetFileDirectory();
     const TString AbsPath = FileUtil::MakeAbsolute(DirPath) + TStrText.GetFileName();
-    UICommon::OpenInExternalApplication( TO_QSTRING(AbsPath) );
+    UICommon::OpenInExternalApplication(TO_QSTRING(AbsPath));
 }
 
 /** Check all items in the output tree */
@@ -281,11 +281,8 @@ void CGeneratePropertyNamesDialog::ApplyChanges()
         tr("Are you sure you want to rename %n properties? This operation cannot be undone.", "", int(mCheckedItems.size()));
 
     const bool ReallyRename = UICommon::YesNoQuestion(this, tr("Warning"), WarningText);
-
     if (!ReallyRename)
-    {
         return;
-    }
 
     // Perform rename operation
     for (QTreeWidgetItem* pItem : mCheckedItems)
@@ -312,7 +309,7 @@ void CGeneratePropertyNamesDialog::CheckForNewResults()
     const int CurItemCount = pTreeWidget->topLevelItemCount();
 
     // Add new items to the tree
-    if (static_cast<int>(rkOutput.size()) > CurItemCount)
+    if (std::ssize(rkOutput) > CurItemCount)
     {
         auto Iter = rkOutput.cbegin();
         auto End = rkOutput.cend();
