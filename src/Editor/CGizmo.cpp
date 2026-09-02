@@ -10,6 +10,7 @@
 #include <Core/Resource/Model/CModel.h>
 #include <Core/Resource/Model/SSurface.h>
 
+#include <algorithm>
 #include <cmath>
 #include <QApplication>
 #include <QScreen>
@@ -151,8 +152,7 @@ void CGizmo::IncrementSize()
     static const float skMaxSize = powf(skIncAmount, 4);
 
     mGizmoSize *= skIncAmount;
-    if (mGizmoSize > skMaxSize)
-        mGizmoSize = skMaxSize;
+    mGizmoSize = std::min(mGizmoSize, skMaxSize);
 }
 
 void CGizmo::DecrementSize()
@@ -161,14 +161,13 @@ void CGizmo::DecrementSize()
     static const float skMinSize = powf(skDecAmount, 4);
 
     mGizmoSize *= skDecAmount;
-    if (mGizmoSize < skMinSize)
-        mGizmoSize = skMinSize;
+    mGizmoSize = std::max(mGizmoSize, skMinSize);
 }
 
 void CGizmo::UpdateForCamera(const CCamera& rkCamera)
 {
-    CVector3f CamPos = rkCamera.Position();
-    CVector3f CameraToGizmo = (mPosition - CamPos).Normalized();
+    const CVector3f CamPos = rkCamera.Position();
+    const CVector3f CameraToGizmo = (mPosition - CamPos).Normalized();
     mFlipScaleX = (mRotation.XAxis().Dot(CameraToGizmo) >= 0.f);
     mFlipScaleY = (mRotation.YAxis().Dot(CameraToGizmo) >= 0.f);
     mFlipScaleZ = (mRotation.ZAxis().Dot(CameraToGizmo) >= 0.f);
@@ -177,9 +176,9 @@ void CGizmo::UpdateForCamera(const CCamera& rkCamera)
         mCameraDist = mPosition.Distance(CamPos);
 
     // todo: make this cleaner...
-    CVector3f BillDir = (CamPos - mPosition).Normalized();
-    CVector3f Axis = CVector3f::Forward().Cross(BillDir);
-    float Angle = acosf(CVector3f::Forward().Dot(BillDir));
+    const CVector3f BillDir = (CamPos - mPosition).Normalized();
+    const CVector3f Axis = CVector3f::Forward().Cross(BillDir);
+    const float Angle = acosf(CVector3f::Forward().Dot(BillDir));
     mBillboardRotation = CQuaternion::FromAxisAngle(Angle, Axis);
 }
 
@@ -339,19 +338,19 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
         WrapCursor();
 
     // Calculate normalized cursor position
-    QPoint CursorPos = QCursor::pos();
-    QRect Geom = QApplication::screenAt(CursorPos)->geometry();
-    CVector2f MouseCoords(
-                (((2.f * CursorPos.x()) / Geom.width()) - 1.f),
-                (1.f - ((2.f * CursorPos.y()) / Geom.height()))
-            );
+    const QPoint CursorPos = QCursor::pos();
+    const QRect Geom = QApplication::screenAt(CursorPos)->geometry();
+    const CVector2f MouseCoords(
+        (((2.f * CursorPos.x()) / Geom.width()) - 1.f),
+        (1.f - ((2.f * CursorPos.y()) / Geom.height()))
+    );
 
     // Translate
     if (mMode == EGizmoMode::Translate)
     {
         // Create translate plane
         CVector3f AxisA, AxisB;
-        uint32_t NumAxes = NumSelectedAxes();
+        const uint32_t NumAxes = NumSelectedAxes();
 
         if (NumAxes == 1)
         {
@@ -362,7 +361,7 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
             else
                 AxisB = mRotation.ZAxis();
 
-            CVector3f GizmoToCamera = (mPosition - rCamera.Position()).Normalized();
+            const CVector3f GizmoToCamera = (mPosition - rCamera.Position()).Normalized();
             AxisA = AxisB.Cross(GizmoToCamera);
         }
         else if (NumAxes == 2)
@@ -371,16 +370,15 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
             AxisB = mSelectedAxes & EAxis::Z ? mRotation.ZAxis() : mRotation.YAxis();
         }
 
-        CVector3f PlaneNormal = AxisA.Cross(AxisB);
+        const CVector3f PlaneNormal = AxisA.Cross(AxisB);
         mTranslatePlane.Redefine(PlaneNormal, mPosition);
 
         // Do translate
-        std::pair<bool,float> Result = Math::RayPlaneIntersection(rkRay, mTranslatePlane);
-
-        if (Result.first)
+        const auto [Intersects, Distance] = Math::RayPlaneIntersection(rkRay, mTranslatePlane);
+        if (Intersects)
         {
-            CVector3f Hit = rkRay.PointOnRay(Result.second);
-            CVector3f LocalDelta = mRotation.Inverse() * (Hit - mPosition);
+            const CVector3f Hit = rkRay.PointOnRay(Distance);
+            const CVector3f LocalDelta = mRotation.Inverse() * (Hit - mPosition);
 
             // Calculate new position
             CVector3f NewPos = mPosition;
@@ -393,8 +391,8 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
 
             // Check relativity of new pos to camera to reduce issue where the gizmo might
             // go flying off into the distance if newPosToCamera is parallel to the plane
-            CVector3f NewPosToCamera = (NewPos - rCamera.Position()).Normalized();
-            float Dot = std::abs(PlaneNormal.Dot(NewPosToCamera));
+            const CVector3f NewPosToCamera = (NewPos - rCamera.Position()).Normalized();
+            const float Dot = std::abs(PlaneNormal.Dot(NewPosToCamera));
             if (Dot < 0.02f)
                 return false;
 
@@ -446,9 +444,9 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
 
         // Convert hit point + move direction into a line in screen space
         // Clockwise direction is set in StartTransform(). Is there a cleaner way to calculate the direction?
-        CMatrix4f VP = rCamera.ViewMatrix().Transpose() * rCamera.ProjectionMatrix().Transpose();
-        CVector2f LineOrigin = (mHitPoint * VP).XY();
-        CVector2f LineDir = (((mHitPoint + mMoveDir) * VP).XY() - LineOrigin).Normalized();
+        const CMatrix4f VP = rCamera.ViewMatrix().Transpose() * rCamera.ProjectionMatrix().Transpose();
+        const CVector2f LineOrigin = (mHitPoint * VP).XY();
+        const CVector2f LineDir = (((mHitPoint + mMoveDir) * VP).XY() - LineOrigin).Normalized();
         float RotAmount = LineDir.Dot(MouseCoords + mWrapOffset - LineOrigin) * 180.f;
 
         // Set offset
@@ -462,7 +460,7 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
 
         // Apply rotation
         RotAmount += mRotateOffset;
-        CQuaternion OldRot = mCurrentRotation;
+        const CQuaternion OldRot = mCurrentRotation;
         mCurrentRotation = CQuaternion::FromAxisAngle(Math::DegreesToRadians(RotAmount), Axis);
         mDeltaRotation = mCurrentRotation * OldRot.Inverse();
 
@@ -487,15 +485,15 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
     if (mMode == EGizmoMode::Scale)
     {
         // Create a line in screen space. First step: line origin
-        CMatrix4f VP = rCamera.ViewMatrix().Transpose() * rCamera.ProjectionMatrix().Transpose();
-        CVector2f LineOrigin = (mPosition * VP).XY();
+        const CMatrix4f VP = rCamera.ViewMatrix().Transpose() * rCamera.ProjectionMatrix().Transpose();
+        const CVector2f LineOrigin = (mPosition * VP).XY();
 
         // Next step: determine the appropriate world space direction using the selected axes and then convert to screen space
         // Since the axes can be flipped while the gizmo is transforming, this has to be done every frame rather than
         // pre-saving the world space direction like the rotate gizmo does.
-        CVector3f DirX = (mFlipScaleX ? -mRotation.XAxis() : mRotation.XAxis());
-        CVector3f DirY = (mFlipScaleY ? -mRotation.YAxis() : mRotation.YAxis());
-        CVector3f DirZ = (mFlipScaleZ ? -mRotation.ZAxis() : mRotation.ZAxis());
+        const CVector3f DirX = (mFlipScaleX ? -mRotation.XAxis() : mRotation.XAxis());
+        const CVector3f DirY = (mFlipScaleY ? -mRotation.YAxis() : mRotation.YAxis());
+        const CVector3f DirZ = (mFlipScaleZ ? -mRotation.ZAxis() : mRotation.ZAxis());
         CVector2f LineDir;
 
         // One axis - world space direction is just the selected axis
@@ -513,10 +511,10 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
         // Two axes - take the two selected axes and convert them to world space, then average them for the line direction
         else if (NumSelectedAxes() == 2)
         {
-            CVector3f AxisA = (mSelectedAxes & EAxis::X ? DirX : DirY);
-            CVector3f AxisB = (mSelectedAxes & EAxis::Z ? DirZ : DirY);
-            CVector2f ScreenA = (((mPosition + AxisA) * VP).XY() - LineOrigin).Normalized();
-            CVector2f ScreenB = (((mPosition + AxisB) * VP).XY() - LineOrigin).Normalized();
+            const CVector3f AxisA = (mSelectedAxes & EAxis::X ? DirX : DirY);
+            const CVector3f AxisB = (mSelectedAxes & EAxis::Z ? DirZ : DirY);
+            const CVector2f ScreenA = (((mPosition + AxisA) * VP).XY() - LineOrigin).Normalized();
+            const CVector2f ScreenB = (((mPosition + AxisB) * VP).XY() - LineOrigin).Normalized();
             LineDir = ((ScreenA + ScreenB) / 2.f).Normalized();
         }
         else // Three axes - use straight up
@@ -541,7 +539,7 @@ bool CGizmo::TransformFromInput(const CRay& rkRay, const CCamera& rCamera)
         if (ScaleAmount < 1.f)
             ScaleAmount = 1.f / (-(ScaleAmount - 1.f) + 1.f);
 
-        CVector3f OldScale = mTotalScale;
+        const CVector3f OldScale = mTotalScale;
 
         mTotalScale = CVector3f::One();
         if (mSelectedAxes & EAxis::X)
