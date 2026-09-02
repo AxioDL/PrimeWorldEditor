@@ -758,9 +758,9 @@ bool CResourceBrowser::Delete(QList<CResourceEntry*> Resources, QList<CVirtualDi
     // Allow the user to confirm before proceeding.
     QString ConfirmMsg = tr("Are you sure you want to permanently delete the following?\n");
 
-    if (Resources.size() > 0)
+    if (!Resources.empty())
         ConfirmMsg += tr("\n%n resource(s)", "", int(Resources.size()));
-    if (Directories.size() > 0)
+    if (!Directories.empty())
         ConfirmMsg += tr("\n%n directories", "", int(Directories.size()));
 
     if (UICommon::YesNoQuestion(this, tr("Warning"), ConfirmMsg))
