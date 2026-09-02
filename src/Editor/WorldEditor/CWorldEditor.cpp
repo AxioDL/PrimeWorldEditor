@@ -869,9 +869,9 @@ void CWorldEditor::UpdateSelectionUI()
     // Update selection info text
     QString SelectionText;
 
-    if (mpSelection->Size() == 1)
+    if (mpSelection->SingleNodeSelected())
         SelectionText = TO_QSTRING(mpSelection->Front()->Name());
-    else if (mpSelection->Size() > 1)
+    else if (mpSelection->MultipleNodesSelected())
         SelectionText = tr("%n objects selected", "", int(mpSelection->Size()));
 
     const QFontMetrics Metrics(ui->SelectionInfoLabel->font());

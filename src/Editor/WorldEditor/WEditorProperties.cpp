@@ -113,9 +113,9 @@ void WEditorProperties::SetLayerComboBox()
 void WEditorProperties::OnSelectionModified()
 {
     const CNodeSelection* pSelection = mpEditor->Selection();
-    mpDisplayNode = (pSelection->Size() == 1 ? pSelection->Front() : nullptr);
+    mpDisplayNode = (pSelection->SingleNodeSelected() ? pSelection->Front() : nullptr);
 
-    if (pSelection->IsEmpty() || pSelection->Size() != 1 || mpDisplayNode->NodeType() != ENodeType::Script)
+    if (pSelection->IsEmpty() || pSelection->MultipleNodesSelected() || mpDisplayNode->NodeType() != ENodeType::Script)
     {
         mpActiveCheckBox->setChecked(false);
         mpActiveCheckBox->setEnabled(false);

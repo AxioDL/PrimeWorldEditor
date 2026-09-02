@@ -86,7 +86,7 @@ public:
         emit Modified();
     }
 
-    CAABox Bounds() const
+    [[nodiscard]] CAABox Bounds() const
     {
         if (mBoundsDirty)
         {
@@ -111,19 +111,22 @@ public:
         return mCachedBounds;
     }
 
-    std::span<CSceneNode*> Nodes()                     { return mSelectedNodes; }
-    std::span<CSceneNode* const> Nodes() const         { return mSelectedNodes; }
+    [[nodiscard]] std::span<CSceneNode*> Nodes()             { return mSelectedNodes; }
+    [[nodiscard]] std::span<CSceneNode* const> Nodes() const { return mSelectedNodes; }
 
-    uint32_t Size() const                              { return mSelectedNodes.size(); }
-    bool IsEmpty() const                               { return Size() == 0; }
-    CSceneNode* Front() const                          { return mSelectedNodes.front(); }
-    CSceneNode* Back() const                           { return mSelectedNodes.back(); }
+    [[nodiscard]] uint32_t Size() const              { return mSelectedNodes.size(); }
+    [[nodiscard]] bool IsEmpty() const               { return Size() == 0; }
+    [[nodiscard]] bool SingleNodeSelected() const    { return Size() == 1; }
+    [[nodiscard]] bool MultipleNodesSelected() const { return Size() >= 2; }
+    [[nodiscard]] CSceneNode* Front() const          { return mSelectedNodes.front(); }
+    [[nodiscard]] CSceneNode* Back() const           { return mSelectedNodes.back(); }
 
-    void UpdateBounds()                                { mBoundsDirty = true; }
-    void SetAllowedNodeTypes(FNodeFlags Types)         { mAllowedNodes = Types; }
-    bool IsAllowedType(ENodeType Type) const           { return mAllowedNodes.HasFlag(Type); }
-    bool IsAllowedType(const CSceneNode *pNode) const  { return mAllowedNodes.HasFlag(pNode->NodeType()); }
-    const QList<CSceneNode*>& SelectedNodeList() const { return mSelectedNodes; }
+    void UpdateBounds()                        { mBoundsDirty = true; }
+    void SetAllowedNodeTypes(FNodeFlags Types) { mAllowedNodes = Types; }
+
+    [[nodiscard]] bool IsAllowedType(ENodeType Type) const           { return mAllowedNodes.HasFlag(Type); }
+    [[nodiscard]] bool IsAllowedType(const CSceneNode *pNode) const  { return mAllowedNodes.HasFlag(pNode->NodeType()); }
+    [[nodiscard]] const QList<CSceneNode*>& SelectedNodeList() const { return mSelectedNodes; }
 
 signals:
     void Modified();

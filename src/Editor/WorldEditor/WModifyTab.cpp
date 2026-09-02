@@ -80,7 +80,7 @@ void WModifyTab::GenerateUI()
     if (mIsPicking)
         mpWorldEditor->ExitPickMode();
 
-    if (mpWorldEditor->Selection()->Size() == 1)
+    if (mpWorldEditor->Selection()->SingleNodeSelected())
     {
         if (mpSelectedNode != mpWorldEditor->Selection()->Front())
         {

@@ -193,7 +193,7 @@ void INodeEditor::ClearAndSelectNode(CSceneNode *pNode)
     {
         mUndoStack.push(new CSelectNodeCommand(mpSelection.get(), pNode));
     }
-    else if ((mpSelection->Size() == 1) && (mpSelection->Front() == pNode))
+    else if (mpSelection->SingleNodeSelected() && mpSelection->Front() == pNode)
     {
         return;
     }
