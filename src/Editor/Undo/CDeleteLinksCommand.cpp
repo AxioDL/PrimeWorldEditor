@@ -25,8 +25,7 @@ CDeleteLinksCommand::CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *p
 
     for (const auto index : indices)
     {
-        const CLink *pLink = pObject->Link(Type, index);
-
+        const CLink* pLink = pObject->Link(Type, index);
         mLinks.push_back({
             .State = pLink->State(),
             .Message = pLink->Message(),
@@ -35,18 +34,11 @@ CDeleteLinksCommand::CDeleteLinksCommand(CWorldEditor *pEditor, CScriptObject *p
             .SenderIndex = pLink->SenderIndex(),
             .ReceiverIndex = pLink->ReceiverIndex(),
         });
-        const auto& DelLink = mLinks.back();
 
-        if (Type == ELinkType::Outgoing)
-        {
-            if (!mAffectedInstances.contains(DelLink.pReceiver))
-                mAffectedInstances.push_back(DelLink.pReceiver);
-        }
-        else
-        {
-            if (!mAffectedInstances.contains(DelLink.pSender))
-                mAffectedInstances.push_back(DelLink.pSender);
-        }
+        const auto& DelLink = mLinks.back();
+        const auto& Instance = Type == ELinkType::Outgoing ? DelLink.pReceiver : DelLink.pSender;
+        if (!mAffectedInstances.contains(Instance))
+            mAffectedInstances.push_back(Instance);
     }
 }
 
