@@ -141,22 +141,24 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     const size_t NumLights = pArea->NumLights(Index);
     if (NumLights == 0)
         mAmbientColor = CColor::TransparentWhite();
-
-    for (auto& light : pArea->Lights(Index))
+    else // This else ensures we don't call pArea->Lights on an out-of-bounds index
     {
-        // Ambient lights should only be present one per layer; need to check how the game deals with multiple ambients
-        if (light.Type() == ELightType::LocalAmbient)
+        for (auto& light : pArea->Lights(Index))
         {
-            mAmbientColor = light.Color();
-        }
-        else // Other lights will be used depending which are closest to the node
-        {
-            const bool IsInRange = AABox().IntersectsSphere(light.Position(), light.GetRadius());
-
-            if (IsInRange)
+            // Ambient lights should only be present one per layer; need to check how the game deals with multiple ambients
+            if (light.Type() == ELightType::LocalAmbient)
             {
-                const float Dist = mPosition.Distance(light.Position());
-                LightEntries.emplace_back(&light, Dist);
+                mAmbientColor = light.Color();
+            }
+            else // Other lights will be used depending which are closest to the node
+            {
+                const bool IsInRange = AABox().IntersectsSphere(light.Position(), light.GetRadius());
+
+                if (IsInRange)
+                {
+                    const float Dist = mPosition.Distance(light.Position());
+                    LightEntries.emplace_back(&light, Dist);
+                }
             }
         }
     }
