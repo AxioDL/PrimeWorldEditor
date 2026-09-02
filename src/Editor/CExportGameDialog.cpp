@@ -59,11 +59,11 @@ void CExportGameDialog::InitUI(QString ExportDir)
 
     TString DefaultNameMapPath = CAssetNameMap::DefaultNameMapPath(mGame);
     if (!FileUtil::Exists(DefaultNameMapPath))
-        DefaultNameMapPath = "";
+        DefaultNameMapPath.clear();
 
     TString DefaultGameInfoPath = CGameInfo::GetDefaultGameInfoPath(mGame);
     if (!FileUtil::Exists(DefaultGameInfoPath))
-        DefaultGameInfoPath = "";
+        DefaultGameInfoPath.clear();
 
     mpUI->OutputDirectoryLineEdit->setText(ExportDir);
     mpUI->AssetNameMapLineEdit->setText(TO_QSTRING(DefaultNameMapPath));
