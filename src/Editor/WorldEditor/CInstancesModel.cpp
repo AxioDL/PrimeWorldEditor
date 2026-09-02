@@ -82,7 +82,7 @@ QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkPar
     if (Type == EIndexType::Root)
     {
         if (Row < mBaseItems.count())
-            return createIndex(Row, Column, quint64(0));
+            return createIndex(Row, Column, quint64{0});
         
         return {};
     }
@@ -111,7 +111,7 @@ QModelIndex CInstancesModel::index(int Row, int Column, const QModelIndex& rkPar
             if (mModelType == EInstanceModelType::Types)
             {
                 const std::list<CScriptObject*>& list = mTemplateList[rkParent.row()]->ObjectList();
-                if (size_t(Row) >= list.size())
+                if (Row >= std::ssize(list))
                     return {};
 
                 const auto it = std::next(list.begin(), Row);
@@ -137,7 +137,7 @@ QModelIndex CInstancesModel::parent(const QModelIndex& rkChild) const
     if (Type == EIndexType::ObjectType)
     {
         const uint32_t NodeTypeRow = (rkChild.internalId() & TYPES_NODE_TYPE_MASK) >> TYPES_NODE_TYPE_SHIFT;
-        return createIndex(NodeTypeRow, 0, quint64(0));
+        return createIndex(NodeTypeRow, 0, quint64{0});
     }
 
     // Object type parent
