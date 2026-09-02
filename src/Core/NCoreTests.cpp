@@ -114,8 +114,8 @@ static bool ValidateCooker(EResourceType ResourceType, bool DumpInvalidFileConte
         const size_t kAlignment         = (resource->Game() >= EGame::Corruption ? 64 : 32);
         const auto kAlignedOriginalSize = Math::Align(OriginalData.size(), kAlignment);
         const auto kAlignedNewSize      = Math::Align(NewData.size(), kAlignment);
-        std::string InvalidReason       = "";
-        bool IsValid                    = false;
+        std::string InvalidReason;
+        bool IsValid = false;
 
         if (kAlignedOriginalSize == kAlignedNewSize &&
             OriginalData.size() >= NewData.size())

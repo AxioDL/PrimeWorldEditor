@@ -174,8 +174,8 @@ void Shutdown()
 {
     for (size_t GameIdx = 0; GameIdx < GamesMinusMP1R; GameIdx++)
     {
-        gGameList[GameIdx].Name = "";
-        gGameList[GameIdx].TemplatePath = "";
+        gGameList[GameIdx].Name.clear();
+        gGameList[GameIdx].TemplatePath.clear();
         gGameList[GameIdx].pTemplate = nullptr;
     }
     gLoadedGameList = false;

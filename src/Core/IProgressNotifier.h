@@ -18,7 +18,7 @@ public:
 
     void SetNumTasks(int NumTasks)
     {
-        mTaskName = "";
+        mTaskName.clear();
         mTaskIndex = 0;
         mTaskCount = NumTasks;
     }
