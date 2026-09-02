@@ -98,12 +98,12 @@ void CExportGameDialog::InitUI(QString ExportDir)
 
 bool CExportGameDialog::ValidateGame()
 {
-    if (!mpDisc) return false;
+    if (!mpDisc)
+        return false;
 
     const nod::Header& rkHeader = mpDisc->getHeader();
     mGameTitle = rkHeader.m_gameTitle;
-    mGameID = TString(6, 0);
-    memcpy(&mGameID[0], rkHeader.m_gameID, 6);
+    mGameID = TString(rkHeader.m_gameID, std::size(rkHeader.m_gameID));
 
     // The MP2 ISO doesn't have a colon in the game name and it kinda annoys me
     if (mGameTitle == "Metroid Prime 2 Echoes")
@@ -130,7 +130,7 @@ bool CExportGameDialog::ValidateGame()
 
     // Set region byte to X so we don't need to compare every regional variant of the ID
     // Then figure out what game this is
-    CFourCC GameID(&mGameID[0]);
+    CFourCC GameID(mGameID);
     GameID[3] = 'X';
 
     switch (GameID.ToU32())
