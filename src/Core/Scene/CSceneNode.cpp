@@ -140,7 +140,9 @@ void CSceneNode::BuildLightList(CGameArea *pArea)
     // Default ambient color to white if there are no lights on the selected layer
     const size_t NumLights = pArea->NumLights(Index);
     if (NumLights == 0)
+    {
         mAmbientColor = CColor::TransparentWhite();
+    }
     else // This else ensures we don't call pArea->Lights on an out-of-bounds index
     {
         for (auto& light : pArea->Lights(Index))
