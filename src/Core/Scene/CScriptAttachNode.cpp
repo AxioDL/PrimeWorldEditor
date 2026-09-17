@@ -51,7 +51,7 @@ void CScriptAttachNode::AttachPropertyModified()
 
 void CScriptAttachNode::ParentDisplayAssetChanged(const CResource* pNewDisplayAsset)
 {
-    if (pNewDisplayAsset->Type() == EResourceType::AnimSet)
+    if (pNewDisplayAsset && pNewDisplayAsset->Type() == EResourceType::AnimSet)
     {
         const CSkeleton* pSkel = mpScriptNode->ActiveSkeleton();
         mpLocator = pSkel->BoneByName(mLocatorName);
