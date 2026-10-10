@@ -47,6 +47,11 @@ class CScene
     TResPtr<CWorld> mpWorld;
     std::unique_ptr<CRootNode> mpAreaRootNode;
 
+    std::vector<std::unique_ptr<CGameArea>> mNeighborAreas;
+    std::unique_ptr<CRootNode> mpNeighborRootNode;
+    std::vector<CSceneNode*> mNeighborNodes;
+    bool mNeighborsRanPostLoad = false;
+
     // Environment
     std::vector<CAreaAttributes> mAreaAttributesObjects;
 
@@ -69,6 +74,8 @@ public:
     CLightNode* CreateLightNode(CLight *pLight, uint32_t NodeID = UINT32_MAX);
     void DeleteNode(CSceneNode *pNode);
     void SetActiveArea(CWorld *pWorld, CGameArea *pArea);
+    void LoadNeighborAreas(CWorld *pWorld, uint32_t AreaIndex);
+    void ClearNeighborAreas();
     void PostLoad();
     void ClearScene();
     void AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInfo);
