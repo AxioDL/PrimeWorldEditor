@@ -327,6 +327,7 @@
     <addaction name="ActionDrawObjectCollision"/>
     <addaction name="ActionDrawLights"/>
     <addaction name="ActionDrawSky"/>
+    <addaction name="ActionDrawNeighbors"/>
     <addaction name="separator"/>
     <addaction name="menuLighting"/>
     <addaction name="menuBloom"/>
@@ -483,6 +484,17 @@
    </property>
    <property name="shortcut">
     <string>6</string>
+   </property>
+  </action>
+  <action name="ActionDrawNeighbors">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Neighbors</string>
+   </property>
+   <property name="shortcut">
+    <string>7</string>
    </property>
   </action>
   <action name="ActionNoLighting">
