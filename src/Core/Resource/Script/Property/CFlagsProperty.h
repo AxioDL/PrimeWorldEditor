@@ -53,6 +53,7 @@ public:
     void Serialize(IArchive& rArc) override;
     void PostInitialize() override;
     void SerializeValue(void* pData, IArchive& rArc) override;
+    const char* HashableTypeName() const override;
     void InitFromArchetype(IProperty* pOther) override;
     TString ValueAsString(const void* pData) const override;
 
