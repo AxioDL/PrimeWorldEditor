@@ -212,7 +212,7 @@ void CScriptLoader::ReadProperty(IProperty *pProp, uint32_t Size, IInputStream& 
 
     case EPropertyType::Guid:
     {
-        ASSERT(Size == 16);
+        ASSERT(Size == 16 || pProp->IsAtomic());
         CGuidProperty* pGuid = TPropCast<CGuidProperty>(pProp);
         pGuid->ValueRef(pData).resize(16);
         rSCLY.ReadBytes(pGuid->ValueRef(pData).data(), 16);
