@@ -30,6 +30,22 @@ void CFlagsProperty::SerializeValue(void* pData, IArchive& rArc)
     rArc.SerializePrimitive(ValueRef(pData), SH_HexDisplay);
 }
 
+const char* CFlagsProperty::HashableTypeName() const
+{
+    if (mpArchetype)
+    {
+        return mpArchetype->HashableTypeName();
+    }
+    else if (IsArchetype() && IsRootParent() && !mName.IsEmpty())
+    {
+        return mName.CString();
+    }
+    else
+    {
+        return "Flags";
+    }
+}
+
 void CFlagsProperty::InitFromArchetype(IProperty* pOther)
 {
     TSerializeableTypedProperty::InitFromArchetype(pOther);

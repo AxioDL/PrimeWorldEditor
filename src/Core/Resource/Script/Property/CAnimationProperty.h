@@ -21,7 +21,15 @@ public:
 
     TString ValueAsString(const void* pData) const override
     {
-        return fmt::format("0x{:08X}", Value(pData));
+        return fmt::format("0x{:X}", Value(pData));
+    }
+
+    const char* HashableTypeName() const override
+    {
+        if (Game() < EGame::CorruptionProto)
+            return "animation";
+        else
+            return "characteranimation";
     }
 };
 

@@ -95,6 +95,18 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
             break;
         }
 
+        case EPropertyType::Animation:
+        {
+            auto* pSpinBox = new WIntegralSpinBox(pParent);
+            const TString pref = "0x";
+            pSpinBox->setPrefix(TO_QSTRING(pref));
+            pSpinBox->setDisplayIntegerBase(16);
+            pSpinBox->setRange(0, INT32_MAX);
+            ConnectRelay(this, pSpinBox, rkIndex, &WIntegralSpinBox::valueChanged);
+            pOut = pSpinBox;
+            break;
+        }
+
         case EPropertyType::Float:
         {
             auto* pSpinBox = new WDraggableSpinBox(pParent);
@@ -243,6 +255,7 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 }
 
                 case EPropertyType::Int:
+                case EPropertyType::Animation:
                 {
                     auto* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
 
@@ -448,6 +461,7 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                 }
 
                 case EPropertyType::Int:
+                case EPropertyType::Animation:
                 {
                     // Ints use static_cast since sometimes we treat other property types as ints
                     auto* pSpinBox = static_cast<const WIntegralSpinBox*>(pEditor);
