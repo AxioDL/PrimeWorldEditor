@@ -21,7 +21,17 @@ public:
 
     TString ValueAsString(const void* pData) const override
     {
-        return fmt::format("0x{:X}", Value(pData));
+        // Animations in DKCR are an ID hash, in every other game they're an index
+        if (Game() != EGame::DKCReturns)
+        {
+            if (Value(pData) == UINT32_MAX)
+                return "-1";
+            return fmt::format("{:d}", Value(pData));
+        }
+        else
+        {
+            return fmt::format("0x{:08X}", Value(pData));
+        }
     }
 
     const char* HashableTypeName() const override
