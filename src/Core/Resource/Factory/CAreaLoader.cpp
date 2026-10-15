@@ -702,7 +702,7 @@ void CAreaLoader::SetUpObjects(CScriptLayer *pGenLayer)
 }
 
 // ************ STATIC ************
-std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry)
+std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEntry *pEntry, bool GeometryOnly)
 {
     CAreaLoader Loader;
 
@@ -731,6 +731,8 @@ std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEn
         case EGame::Prime:
             Loader.ReadHeaderPrime();
             Loader.ReadGeometryPrime();
+            if (GeometryOnly)
+                break;
             Loader.ReadSCLYPrime();
             Loader.ReadCollision();
             Loader.ReadLightsPrime();
@@ -739,6 +741,8 @@ std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEn
         case EGame::EchoesDemo:
             Loader.ReadHeaderEchoes();
             Loader.ReadGeometryPrime();
+            if (GeometryOnly)
+                break;
             Loader.ReadSCLYPrime();
             Loader.ReadCollision();
             Loader.ReadLightsPrime();
@@ -749,6 +753,8 @@ std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEn
         case EGame::Echoes:
             Loader.ReadHeaderEchoes();
             Loader.ReadGeometryPrime();
+            if (GeometryOnly)
+                break;
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
             Loader.ReadLightsPrime();
@@ -759,6 +765,8 @@ std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEn
         case EGame::CorruptionProto:
             Loader.ReadHeaderCorruption();
             Loader.ReadGeometryPrime();
+            if (GeometryOnly)
+                break;
             Loader.ReadDependenciesCorruption();
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
@@ -771,6 +779,8 @@ std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEn
         case EGame::DKCReturns:
             Loader.ReadHeaderCorruption();
             Loader.ReadGeometryCorruption();
+            if (GeometryOnly)
+                break;
             Loader.ReadDependenciesCorruption();
             Loader.ReadSCLYEchoes();
             Loader.ReadCollision();
@@ -787,6 +797,10 @@ std::unique_ptr<CGameArea> CAreaLoader::LoadMREA(IInputStream& MREA, CResourceEn
             Loader.mpArea.Delete();
             return nullptr;
     }
+
+    // Geometry-only loads skip script, lighting and pathing data, but still need collision
+    if (GeometryOnly)
+        Loader.ReadCollision();
 
     return ptr;
 }

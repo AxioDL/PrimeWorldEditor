@@ -213,6 +213,7 @@ CWorldEditor::CWorldEditor(QWidget *parent)
     connect(ui->ActionDrawObjectCollision, &QAction::triggered, this, &CWorldEditor::ToggleDrawObjectCollision);
     connect(ui->ActionDrawLights, &QAction::triggered, this, &CWorldEditor::ToggleDrawLights);
     connect(ui->ActionDrawSky, &QAction::triggered, this, &CWorldEditor::ToggleDrawSky);
+    connect(ui->ActionDrawNeighbors, &QAction::triggered, this, &CWorldEditor::ToggleDrawNeighbors);
     connect(ui->ActionGameMode, &QAction::triggered, this, &CWorldEditor::ToggleGameMode);
     connect(ui->ActionDisableAlpha, &QAction::triggered, this, &CWorldEditor::ToggleDisableAlpha);
     connect(ui->ActionShowLog, &QAction::triggered, this, &CWorldEditor::OnShowLogClicked);
@@ -305,6 +306,9 @@ bool CWorldEditor::SetArea(CWorld *pWorld, int AreaIndex)
     ASSERT(mpArea);
     mpWorld->SetAreaLayerInfo(mpArea);
     mScene.SetActiveArea(mpWorld, mpArea);
+
+    if (ui->ActionDrawNeighbors->isChecked())
+        mScene.LoadNeighborAreas(mpWorld, AreaIndex);
 
     // Snap camera to new area
     CCamera *pCamera = &ui->MainViewport->Camera();
@@ -1274,6 +1278,16 @@ void CWorldEditor::ToggleDrawLights()
 void CWorldEditor::ToggleDrawSky()
 {
     ui->MainViewport->SetShowFlag(EShowFlag::Sky, ui->ActionDrawSky->isChecked());
+}
+
+void CWorldEditor::ToggleDrawNeighbors()
+{
+    const bool ShowNeighbors = ui->ActionDrawNeighbors->isChecked();
+    ui->MainViewport->SetShowFlag(EShowFlag::Neighbors, ShowNeighbors);
+
+    // Neighbors are loaded on demand; once loaded they stay around until the area changes
+    if (ShowNeighbors && mpWorld && mpArea)
+        mScene.LoadNeighborAreas(mpWorld, mpArea->WorldIndex());
 }
 
 void CWorldEditor::ToggleGameMode()

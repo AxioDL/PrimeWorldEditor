@@ -16,6 +16,7 @@ enum class EShowFlag : uint32_t
     Lights              = 0x20,
     Sky                 = 0x40,
     Skeletons           = 0x80,
+    Neighbors           = 0x100,
     All                 = 0xFFFFFFFF
 };
 AXIO_DECLARE_FLAGS_ENUMCLASS(EShowFlag, FShowFlags)
