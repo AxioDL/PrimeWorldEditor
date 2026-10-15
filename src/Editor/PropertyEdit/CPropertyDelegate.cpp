@@ -19,6 +19,7 @@
 #include <QComboBox>
 #include <QEvent>
 #include <QLineEdit>
+#include <QString>
 #include <QUuid>
 
 #include <concepts>
@@ -97,13 +98,20 @@ QWidget* CPropertyDelegate::createEditor(QWidget* pParent, const QStyleOptionVie
 
         case EPropertyType::Animation:
         {
-            auto* pSpinBox = new WIntegralSpinBox(pParent);
-            const TString pref = "0x";
-            pSpinBox->setPrefix(TO_QSTRING(pref));
-            pSpinBox->setDisplayIntegerBase(16);
-            pSpinBox->setRange(0, INT32_MAX);
-            ConnectRelay(this, pSpinBox, rkIndex, &WIntegralSpinBox::valueChanged);
-            pOut = pSpinBox;
+            // Animations in DKCR are an ID hash, in every other game they're an index
+            if (pProp->Game() != EGame::DKCReturns)
+            {
+                auto* pSpinBox = new WIntegralSpinBox(pParent);
+                pSpinBox->setRange(-1, INT32_MAX);
+                ConnectRelay(this, pSpinBox, rkIndex, &WIntegralSpinBox::valueChanged);
+                pOut = pSpinBox;
+            }
+            else
+            {
+                auto* pLineEdit = new QLineEdit(pParent);
+                ConnectRelay(this, pLineEdit, rkIndex, &QLineEdit::textEdited);
+                pOut = pLineEdit;
+            }
             break;
         }
 
@@ -255,7 +263,6 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
                 }
 
                 case EPropertyType::Int:
-                case EPropertyType::Animation:
                 {
                     auto* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
 
@@ -268,6 +275,30 @@ void CPropertyDelegate::setEditorData(QWidget *pEditor, const QModelIndex &rkInd
 
                     break;
                 }
+
+                case EPropertyType::Animation:
+                    // Animations in DKCR are an ID hash, in every other game they're an index
+                    if (pProp->Game() != EGame::DKCReturns)
+                    {
+                        auto* pSpinBox = static_cast<WIntegralSpinBox*>(pEditor);
+
+                        if (!pSpinBox->hasFocus())
+                        {
+                            const auto* pInt = static_cast<CIntProperty*>(pProp);
+                            pSpinBox->setValue(pInt->Value(pData));
+                        }
+                    }
+                    else
+                    {
+                        auto* pLineEdit = static_cast<QLineEdit*>(pEditor);
+
+                        if (!pLineEdit->hasFocus())
+                        {
+                            pLineEdit->setText(TO_QSTRING(pProp->ValueAsString(pData)));
+                        }
+                    }
+
+                    break;
 
                 case EPropertyType::Sound:
                 {
@@ -461,12 +492,35 @@ void CPropertyDelegate::setModelData(QWidget *pEditor, QAbstractItemModel* /*pMo
                 }
 
                 case EPropertyType::Int:
-                case EPropertyType::Animation:
                 {
                     // Ints use static_cast since sometimes we treat other property types as ints
                     auto* pSpinBox = static_cast<const WIntegralSpinBox*>(pEditor);
                     auto* pInt = static_cast<CIntProperty*>(pProp);
                     pInt->ValueRef(pData) = pSpinBox->value();
+                    break;
+                }
+
+                case EPropertyType::Animation:
+                {
+                    // Animations in DKCR are an ID hash, in every other game they're an index
+                    if (pProp->Game() != EGame::DKCReturns)
+                    {
+                        auto* pSpinBox = static_cast<const WIntegralSpinBox*>(pEditor);
+                        auto* pInt = static_cast<CIntProperty*>(pProp);
+                        pInt->ValueRef(pData) = pSpinBox->value();
+                    }
+                    else
+                    {
+                        auto* pLineEdit = static_cast<const QLineEdit*>(pEditor);
+                        auto* pAnimation = static_cast<CAnimationProperty*>(pProp);
+                        auto val = pLineEdit->text();
+                        if (val.startsWith(QStringLiteral("0x"), Qt::CaseInsensitive))
+                            val.slice(2);
+                        bool ok;
+                        pAnimation->ValueRef(pData) = val.toUInt(&ok, 16);
+                        if (!ok)
+                            pAnimation->ValueRef(pData) = UINT32_MAX;
+                    }
                     break;
                 }
 
