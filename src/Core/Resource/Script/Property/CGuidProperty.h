@@ -17,7 +17,9 @@ class CGuidProperty : public TTypedProperty<std::vector<char>, EPropertyType::Gu
 protected:
     explicit CGuidProperty(EGame Game)
         : TTypedProperty(Game)
-    {}
+    {
+        mDefaultValue = std::vector<char>(16);
+    }
 
 public:
     void SerializeValue(void* pData, IArchive& Arc) override
