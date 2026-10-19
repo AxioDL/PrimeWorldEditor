@@ -4,10 +4,13 @@
 #include "Core/CRayCollisionTester.h"
 #include "Core/NRangeUtils.h"
 #include "Core/SRayIntersection.h"
+#include "Core/GameProject/CResourceEntry.h"
+#include "Core/GameProject/CResourceStore.h"
 #include "Core/Render/CGraphics.h"
 #include "Core/Resource/CPoiToWorld.h"
 #include "Core/Resource/CWorld.h"
 #include "Core/Resource/Area/CGameArea.h"
+#include "Core/Resource/Factory/CAreaLoader.h"
 #include "Core/Resource/Script/CScriptLayer.h"
 #include "Core/Render/CRenderer.h"
 #include "Core/Render/SViewInfo.h"
@@ -21,6 +24,7 @@
 
 #include <Common/Log.h>
 #include <Common/TString.h>
+#include <Common/FileIO/CFileInStream.h>
 
 #include <algorithm>
 #include <list>
@@ -237,6 +241,74 @@ void CScene::SetActiveArea(CWorld *pWorld, CGameArea *pArea)
     NLog::Debug("{} nodes", CSceneNode::NumNodes());
 }
 
+void CScene::LoadNeighborAreas(CWorld *pWorld, uint32_t AreaIndex)
+{
+    // Already loaded
+    if (mpNeighborRootNode)
+        return;
+
+    mpNeighborRootNode = std::make_unique<CRootNode>(this, UINT32_MAX, nullptr);
+    mNeighborsRanPostLoad = false;
+
+    // Neighbors are loaded as standalone geometry + collision only
+    for (uint32_t AttachedIdx = 0; AttachedIdx < pWorld->AreaAttachedCount(AreaIndex); AttachedIdx++)
+    {
+        const uint32_t NeighborIndex = pWorld->AreaAttachedID(AreaIndex, AttachedIdx);
+        const CAssetID& NeighborID = pWorld->AreaResourceID(NeighborIndex);
+        CResourceEntry *pEntry = pWorld->Entry()->ResourceStore()->FindEntry(NeighborID);
+
+        if (pEntry == nullptr || !pEntry->HasCookedVersion())
+        {
+            NLog::Error("Failed to find neighbor area {}", NeighborIndex);
+            continue;
+        }
+
+        CFileInStream File(pEntry->CookedAssetPath(), std::endian::big);
+
+        if (!File.IsValid())
+        {
+            NLog::Error("Failed to open neighbor area: {}", pEntry->CookedAssetPath(true));
+            continue;
+        }
+        
+        CResourceStore *pOldStore = gpResourceStore;
+        gpResourceStore = pEntry->ResourceStore();
+        auto pArea = CAreaLoader::LoadMREA(File, pEntry, true);
+        gpResourceStore = pOldStore;
+
+        if (!pArea)
+            continue;
+
+        for (auto* model : pArea->StaticModels())
+        {
+            auto *pNode = new CStaticNode(this, UINT32_MAX, mpNeighborRootNode.get(), model);
+            mNeighborNodes.push_back(pNode);
+        }
+
+        for (auto* model : pArea->TerrainModels())
+        {
+            auto *pNode = new CModelNode(this, UINT32_MAX, mpNeighborRootNode.get(), model);
+            pNode->SetWorldModel(true);
+            mNeighborNodes.push_back(pNode);
+        }
+
+        if (pArea->Collision() != nullptr)
+            mNeighborNodes.push_back(new CCollisionNode(this, UINT32_MAX, mpNeighborRootNode.get(), pArea->Collision()));
+
+        mNeighborAreas.push_back(std::move(pArea));
+    }
+
+    NLog::Debug("Loaded {} neighbor areas", mNeighborAreas.size());
+}
+
+void CScene::ClearNeighborAreas()
+{
+    mpNeighborRootNode.reset();
+    mNeighborNodes.clear();
+    mNeighborAreas.clear();
+    mNeighborsRanPostLoad = false;
+}
+
 void CScene::PostLoad()
 {
     mpSceneRootNode->OnLoadFinished();
@@ -245,6 +317,8 @@ void CScene::PostLoad()
 
 void CScene::ClearScene()
 {
+    ClearNeighborAreas();
+
     if (mpAreaRootNode)
     {
         mpAreaRootNode->Unparent();
@@ -273,6 +347,21 @@ void CScene::AddSceneToRenderer(CRenderer *pRenderer, const SViewInfo& rkViewInf
 
     for (auto* node : MakeNodeView(NodeFlags))
         node->AddToRenderer(pRenderer, rkViewInfo);
+    
+    if (mpNeighborRootNode && ShowFlags.HasFlag(EShowFlag::Neighbors))
+    {
+        if (!mNeighborsRanPostLoad)
+        {
+            mpNeighborRootNode->OnLoadFinished();
+            mNeighborsRanPostLoad = true;
+        }
+
+        for (auto* node : mNeighborNodes)
+        {
+            if (NodeFlags.HasFlag(node->NodeType()) && node->IsVisible())
+                node->AddToRenderer(pRenderer, rkViewInfo);
+        }
+    }
 }
 
 SRayIntersection CScene::SceneRayCast(const CRay& rkRay, const SViewInfo& rkViewInfo)

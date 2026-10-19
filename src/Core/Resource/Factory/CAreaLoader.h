@@ -91,7 +91,7 @@ class CAreaLoader
     void SetUpObjects(CScriptLayer *pGenLayer);
 
 public:
-    static std::unique_ptr<CGameArea> LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry);
+    static std::unique_ptr<CGameArea> LoadMREA(IInputStream& rMREA, CResourceEntry *pEntry, bool GeometryOnly = false);
     static EGame GetFormatVersion(uint32_t Version);
 };
 

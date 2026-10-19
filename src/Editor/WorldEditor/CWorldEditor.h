@@ -166,6 +166,7 @@ private slots:
     void ToggleDrawObjectCollision();
     void ToggleDrawLights();
     void ToggleDrawSky();
+    void ToggleDrawNeighbors();
     void ToggleGameMode();
     void ToggleDisableAlpha();
     void SetNoLighting();
