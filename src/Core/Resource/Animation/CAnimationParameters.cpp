@@ -183,10 +183,10 @@ uint32_t CAnimationParameters::Unknown(uint32_t Index) const
 
 void CAnimationParameters::SetResource(const CResourceEntry* entry)
 {
-    if (mCharacterID == entry->ID())
+    if (entry != nullptr && mCharacterID == entry->ID())
         return;
 
-    mCharacterID = entry->ID();
+    mCharacterID = entry != nullptr ? entry->ID() : CAssetID::skInvalidID32;
     mCharIndex = 0;
     mAnimIndex = 0;
     mUnknown2 = 0;
