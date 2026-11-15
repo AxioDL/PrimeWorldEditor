@@ -93,13 +93,13 @@ inline const char* PropEnumToHashableTypeName(EPropertyType Type)
     case EPropertyType::Sound:      return "sound";
     case EPropertyType::Spline:     return "spline";
     case EPropertyType::Guid:       return "guid";
-    // unknown hashable types - used in hashes but these names are inaccurate
     case EPropertyType::Animation:  return "animation";
+    case EPropertyType::Array:      return "timeline";
+    // unknown hashable types - used in hashes but these names are inaccurate
     case EPropertyType::Sequence:   return "sequence";
     // non hashable types - not used in ID hashes but still displayed on the UI
     case EPropertyType::Byte:       return "byte";
     case EPropertyType::Short:      return "short";
-    case EPropertyType::Array:      return "array";
     // fallback
     default:                        return "";
     }
